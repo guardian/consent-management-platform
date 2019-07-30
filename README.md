@@ -1,2 +1,2 @@
-# cmp
-~~Cat~~ Consent Management Platform library
+# ~~Cat~~ Consent Management Platform
+Consent Management Platform
