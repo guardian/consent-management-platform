@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "yarn lint --fix",
     "lint": "tslint -p tsconfig.json",
     "prepare" : "yarn build",
     "prepublishOnly" : "yarn test && yarn lint",
@@ -25,7 +25,9 @@
     "prettier": "^1.18.2",
     "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
+    "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.5.3"
   },
   "files": [
