@@ -3,5 +3,5 @@ export const Greeter = (name: string) => {
 };
 
 export const GreeterPlus = (name: string) => {
-  return `${Greeter(name)}!`;
+  return `${Greeter(name)}!`
 };
