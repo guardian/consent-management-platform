@@ -17,7 +17,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn test && yarn lint"
+      "pre-push": "yarn lint && yarn test"
     }
   },
   "repository": "https://github.com/guardian/consent-management-platform.git",
