@@ -8,6 +8,8 @@
           "tsConfigFile": "tsconfig.json"
       }
   },
-  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+  "testMatch": [
+      "**/*.test.+(ts|tsx|js)"
+  ],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
 }
