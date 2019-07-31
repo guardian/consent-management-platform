@@ -1,7 +1,7 @@
 export const Greeter = (name: string) => {
-  return `Hello ${name}`;
+    return `Hello ${name}`;
 };
 
 export const GreeterPlus = (name: string) => {
-  return `${Greeter(name)}!`;
+    return `${Greeter(name)}!`;
 };
