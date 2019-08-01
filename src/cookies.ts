@@ -2,9 +2,7 @@
 const isValidCookieValue = (name: string): boolean =>
     !/[()<>@,;"\\/[\]?={} \t]/g.test(name);
 
-const getShortDomain = ({
-    isCrossSubdomain = false,
-}: { isCrossSubdomain: boolean } = {}): string => {
+const getShortDomain = (isCrossSubdomain: boolean = false): string => {
     const domain = document.domain || '';
 
     if (domain === 'localhost') {
@@ -19,10 +17,8 @@ const getShortDomain = ({
     return domain.replace(/^(www|m\.code|dev|m)\./, '.');
 };
 
-const getDomainAttribute = ({
-    isCrossSubdomain = false,
-}: { isCrossSubdomain: boolean } = {}): string => {
-    const shortDomain = getShortDomain({ isCrossSubdomain });
+const getDomainAttribute = (isCrossSubdomain: boolean = false): string => {
+    const shortDomain = getShortDomain(isCrossSubdomain);
     return shortDomain === 'localhost' ? '' : ` domain=${shortDomain};`;
 };
 
@@ -46,9 +42,7 @@ const addCookie = (
     }
 
     document.cookie = `${name}=${value}; path=/; expires=${expires.toUTCString()};${getDomainAttribute(
-        {
-            isCrossSubdomain,
-        },
+        isCrossSubdomain,
     )}`;
 };
 
@@ -56,7 +50,7 @@ const getCookieValues = (name: string): string[] => {
     const nameEq = `${name}=`;
     const cookies = document.cookie.split(';');
 
-    return cookies.reduce((acc, cookie) => {
+    return cookies.reduce((acc: string[], cookie: string) => {
         const cookieTrimmed = cookie.trim();
 
         if (cookieTrimmed.indexOf(nameEq) === 0) {
