@@ -2,7 +2,7 @@
 const isValidCookieValue = (name: string): boolean =>
     !/[()<>@,;"\\/[\]?={} \t]/g.test(name);
 
-const getShortDomain = (isCrossSubdomain: boolean = false): string => {
+const getShortDomain = (): string => {
     const domain = document.domain || '';
 
     if (domain === 'localhost') {
@@ -10,24 +10,15 @@ const getShortDomain = (isCrossSubdomain: boolean = false): string => {
     }
 
     // Trim any possible subdomain (will be shared with supporter, identity, etc)
-    if (isCrossSubdomain) {
-        return ['', ...domain.split('.').slice(-2)].join('.');
-    }
-    // Trim subdomains for prod (www.theguardian), code (m.code.dev-theguardian) and dev (dev.theguardian, m.thegulocal)
-    return domain.replace(/^(www|m\.code|dev|m)\./, '.');
+    return ['', ...domain.split('.').slice(-2)].join('.');
 };
 
-const getDomainAttribute = (isCrossSubdomain: boolean = false): string => {
-    const shortDomain = getShortDomain(isCrossSubdomain);
+const getDomainAttribute = (): string => {
+    const shortDomain = getShortDomain();
     return shortDomain === 'localhost' ? '' : ` domain=${shortDomain};`;
 };
 
-const addCookie = (
-    name: string,
-    value: string,
-    daysToLive?: number,
-    isCrossSubdomain: boolean = true,
-): void => {
+const addCookie = (name: string, value: string, daysToLive?: number): void => {
     const expires = new Date();
 
     if (!isValidCookieValue(name) || !isValidCookieValue(value)) {
@@ -41,9 +32,7 @@ const addCookie = (
         expires.setDate(1);
     }
 
-    document.cookie = `${name}=${value}; path=/; expires=${expires.toUTCString()};${getDomainAttribute(
-        isCrossSubdomain,
-    )}`;
+    document.cookie = `${name}=${value}; path=/; expires=${expires.toUTCString()};${getDomainAttribute()}`;
 };
 
 const getCookieValues = (name: string): string[] => {
