@@ -1,42 +1,46 @@
 {
-  "name": "consent-management-platform",
-  "version": "1.0.0-alpha.1",
-  "description": "Library of useful utilities for managing consent state across *.theguardian.com",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "scripts": {
-    "test": "jest --config jestconfig.json",
-    "build": "tsc",
-    "format": "yarn lint --fix",
-    "lint": "tslint -p tsconfig.json",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn test && yarn lint",
-    "preversion": "yarn lint",
-    "version": "yarn format && git add -A src",
-    "postversion": "git push && git push --tags"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint && yarn test"
-    }
-  },
-  "repository": "https://github.com/guardian/consent-management-platform.git",
-  "homepage": "https://github.com/guardian/consent-management-platform.git",
-  "author": "George Haberis <george.haberis@guardian.co.uk>",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "@types/jest": "^24.0.16",
-    "husky": "^3.0.2",
-    "jest": "^24.8.0",
-    "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0",
-    "tslint-config-airbnb": "^5.11.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.5.3"
-  },
-  "files": [
-    "lib/**/*"
-  ]
+    "name": "consent-management-platform",
+    "version": "1.0.0-alpha.1",
+    "description": "Library of useful utilities for managing consent state across *.theguardian.com",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "test": "jest --config jestconfig.json",
+        "build": "tsc",
+        "format": "yarn lint --fix",
+        "lint": "eslint src/**/*.ts",
+        "prepare": "yarn build",
+        "prepublishOnly": "yarn test && yarn lint",
+        "preversion": "yarn lint",
+        "version": "yarn format && git add -A src",
+        "postversion": "git push && git push --tags"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "yarn lint && yarn test"
+        }
+    },
+    "repository": "https://github.com/guardian/consent-management-platform.git",
+    "homepage": "https://github.com/guardian/consent-management-platform.git",
+    "author": "George Haberis <george.haberis@guardian.co.uk>",
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "@types/jest": "^24.0.16",
+        "@typescript-eslint/eslint-plugin": "^1.13.0",
+        "@typescript-eslint/parser": "^1.13.0",
+        "eslint": "^6.1.0",
+        "eslint-config-airbnb-typescript": "^4.0.1",
+        "eslint-config-prettier": "^6.0.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-jest": "^22.14.1",
+        "eslint-plugin-prettier": "^3.1.0",
+        "husky": "^3.0.2",
+        "jest": "^24.8.0",
+        "prettier": "^1.18.2",
+        "ts-jest": "^24.0.2",
+        "typescript": "^3.5.3"
+    },
+    "files": [
+        "lib/**/*"
+    ]
 }

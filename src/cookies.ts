@@ -50,7 +50,7 @@ const getCookieValues = (name: string): string[] => {
     const nameEq = `${name}=`;
     const cookies = document.cookie.split(';');
 
-    return cookies.reduce((acc: string[], cookie: string) => {
+    return cookies.reduce((acc: string[], cookie: string): string[] => {
         const cookieTrimmed = cookie.trim();
 
         if (cookieTrimmed.indexOf(nameEq) === 0) {
