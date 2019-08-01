@@ -10,7 +10,7 @@
         "format": "yarn validate --fix",
         "validate": "tsc --noEmit && eslint src/**/*.ts",
         "prepare": "yarn build",
-        "prepublishOnly": "yarn test && yarn validate",
+        "prepublishOnly": " yarn validate && yarn test",
         "preversion": "yarn validate",
         "version": "yarn format && git add -A src",
         "postversion": "git push && git push --tags"
@@ -23,6 +23,9 @@
     "repository": "https://github.com/guardian/consent-management-platform.git",
     "homepage": "https://github.com/guardian/consent-management-platform.git",
     "author": "George Haberis <george.haberis@guardian.co.uk>",
+    "contributors": [
+        "Ricardo Costa <ricardo.costa@guardian.co.uk>"
+    ],
     "license": "Apache-2.0",
     "devDependencies": {
         "@types/jest": "^24.0.16",
