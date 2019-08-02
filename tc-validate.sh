@@ -19,9 +19,8 @@ export PATH="$PATH:$YARN_LOCATION/yarn-v$YARN_VERSION/bin"
 yarn -h
 
 # Install dependencies
-# npm install --save-dev yarn
-# yarn
+yarn install
 
-# Validate src
-# yarn validate
-# yarn test
+# Validate and test
+yarn validate
+yarn test
