@@ -4,7 +4,7 @@ set -e
 
 # Installing yarn
 
-YARN_VERSION="1.7.0"
+YARN_VERSION="1.17.3"
 YARN_LOCATION="$(pwd)/tools/${YARN_VERSION}"
 
 if [ ! -d "$YARN_LOCATION" ]; then
@@ -15,8 +15,6 @@ if [ ! -d "$YARN_LOCATION" ]; then
 fi
 
 export PATH="$PATH:$YARN_LOCATION/yarn-v$YARN_VERSION/bin"
-
-yarn -h
 
 # Install dependencies
 yarn install
