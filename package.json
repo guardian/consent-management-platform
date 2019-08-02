@@ -10,7 +10,7 @@
         "format": "yarn validate --fix",
         "validate": "tsc --noEmit && eslint src/**/*.ts",
         "prepare": "yarn build",
-        "prepublishOnly": " yarn validate && yarn test",
+        "prepublishOnly": "yarn validate && yarn test",
         "preversion": "yarn validate",
         "version": "yarn format && git add -A src",
         "postversion": "git push && git push --tags"
