@@ -21,4 +21,3 @@ yarn install
 
 # Validate and test
 yarn validate
-yarn test
