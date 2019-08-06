@@ -5,19 +5,16 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
-        "test": "jest --config jestconfig.json",
         "build": "tsc",
-        "format": "yarn validate --fix",
-        "validate": "tsc --noEmit && eslint src/**/*.ts",
-        "prepare": "yarn build",
-        "prepublishOnly": "yarn validate && yarn test",
-        "preversion": "yarn validate",
-        "version": "yarn format && git add -A src",
-        "postversion": "git push && git push --tags"
+        "test": "jest --config jestconfig.json",
+        "lint": "eslint src/**/*.ts",
+        "tsc": "tsc --noEmit",
+        "validate": "yarn tsc && yarn lint && yarn test",
+        "fix": "yarn validate --fix"
     },
     "husky": {
         "hooks": {
-            "pre-push": "yarn validate && yarn test"
+            "pre-push": "yarn validate"
         }
     },
     "repository": "https://github.com/guardian/consent-management-platform.git",
