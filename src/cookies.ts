@@ -1,6 +1,4 @@
-// subset of https://github.com/guzzle/guzzle/pull/1131
-const isValidCookieValue = (name: string): boolean =>
-    !/[()<>@,;"\\/[\]?={} \t]/g.test(name);
+import * as Cookies from 'js-cookie';
 
 const getShortDomain = (): string => {
     const domain = document.domain || '';
@@ -15,56 +13,25 @@ const getShortDomain = (): string => {
 
 const getDomainAttribute = (): string => {
     const shortDomain = getShortDomain();
-    return shortDomain === 'localhost' ? '' : ` domain=${shortDomain};`;
+
+    return shortDomain === 'localhost' ? '' : shortDomain;
 };
 
 const addCookie = (name: string, value: string, daysToLive?: number): void => {
-    const expires = new Date();
-
-    if (!isValidCookieValue(name) || !isValidCookieValue(value)) {
-        return;
-    }
+    const options: {
+        domain: string;
+        expires?: number;
+    } = {
+        domain: getDomainAttribute(),
+    };
 
     if (daysToLive) {
-        expires.setDate(expires.getDate() + daysToLive);
-    } else {
-        expires.setMonth(expires.getMonth() + 5);
-        expires.setDate(1);
+        options.expires = daysToLive;
     }
 
-    document.cookie = `${name}=${value}; path=/; expires=${expires.toUTCString()};${getDomainAttribute()}`;
+    Cookies.set(name, value, options);
 };
 
-const getCookieValues = (name: string): string[] => {
-    const nameEq = `${name}=`;
-    const cookies = document.cookie.split(';');
-
-    return cookies.reduce((acc: string[], cookie: string): string[] => {
-        const cookieTrimmed = cookie.trim();
-
-        if (cookieTrimmed.indexOf(nameEq) === 0) {
-            acc.push(
-                cookieTrimmed.substring(nameEq.length, cookieTrimmed.length),
-            );
-        }
-
-        return acc;
-    }, []);
-};
-
-const getCookie = (name: string): string | null => {
-    const cookieVal = getCookieValues(name);
-
-    if (cookieVal.length > 0) {
-        return cookieVal[0];
-    }
-
-    return null;
-};
+const getCookie = (name: string): string | void => Cookies.get(name);
 
 export { addCookie, getCookie };
-
-// Export for testing purposes
-export const _ = {
-    isValidCookieValue,
-};
