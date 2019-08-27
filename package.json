@@ -5,10 +5,10 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
-        "build": "tsc --esModuleInterop",
+        "build": "tsc",
         "test": "jest --config jestconfig.json",
         "lint": "eslint src/**/*.ts",
-        "tsc": "tsc --esModuleInterop --noEmit",
+        "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
         "fix": "yarn validate --fix"
     },
