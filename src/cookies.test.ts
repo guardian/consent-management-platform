@@ -43,17 +43,27 @@ describe('Cookies', () => {
     });
 
     it('should be able to set a cookie', () => {
-        addCookie('cookie-1-name', 'cookie-1-value');
+        addCookie('cookie-1-name', {
+            foo: 'bar',
+            bar: 'foo',
+        });
         expect(document.cookie).toMatch(
-            'cookie-1-name=cookie-1-value; path=/; domain=.theguardian.com',
+            'cookie-1-name={%22foo%22:%22bar%22%2C%22bar%22:%22foo%22}; path=/; domain=.theguardian.com',
         );
     });
 
     it('should be able to set a cookie for a specific number of days', () => {
-        addCookie('cookie-1-name', 'cookie-1-value', 1);
+        addCookie(
+            'cookie-1-name',
+            {
+                foo: 'bar',
+                bar: 'foo',
+            },
+            1,
+        );
 
         expect(document.cookie).toMatch(
-            'cookie-1-name=cookie-1-value; path=/; domain=.theguardian.com; expires=Thu, 01 Jan 1970 00:00:00 GMT',
+            'cookie-1-name={%22foo%22:%22bar%22%2C%22bar%22:%22foo%22}; path=/; domain=.theguardian.com; expires=Thu, 01 Jan 1970 00:00:00 GMT',
         );
     });
 
