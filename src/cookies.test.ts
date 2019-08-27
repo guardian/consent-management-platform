@@ -14,10 +14,11 @@ const { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } = _;
 jest.mock('js-cookie', () => ({
     set: jest.fn(),
     get: jest.fn(),
+    getJSON: jest.fn(),
 }));
 
 describe('Cookies', () => {
-    const consentState = {
+    const guConsentState = {
         foo: true,
         bar: false,
     };
@@ -25,6 +26,7 @@ describe('Cookies', () => {
         domain: '.theguardian.com',
         expires: COOKIE_MAX_AGE,
     };
+    const iabConsentString = 'heL10W0rLd';
 
     beforeAll(() => {
         Object.defineProperty(document, 'domain', {
@@ -37,38 +39,64 @@ describe('Cookies', () => {
     });
 
     it('should be able to set the GU cookie', () => {
-        writeGuCookie(consentState);
+        writeGuCookie(guConsentState);
 
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
             GU_COOKIE_NAME,
-            consentState,
+            guConsentState,
             cookieOptions,
         );
     });
 
     it('should be able to set the IAB cookie', () => {
-        writeIabCookie(consentState);
+        writeIabCookie(iabConsentString);
 
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
             IAB_COOKIE_NAME,
-            consentState,
+            iabConsentString,
             cookieOptions,
         );
     });
 
     it('should be able to read the GU cookie', () => {
-        readGuCookie();
+        Cookies.getJSON.mockImplementation(() => guConsentState);
 
-        expect(Cookies.get).toHaveBeenCalledTimes(1);
-        expect(Cookies.get).toHaveBeenCalledWith(GU_COOKIE_NAME);
+        const guCookie = readGuCookie();
+
+        expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
+        expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
+        expect(guCookie).toBe(guConsentState);
     });
 
     it('should be able to read the IAB cookie', () => {
-        readIabCookie();
+        Cookies.get.mockImplementation(() => iabConsentString);
+
+        const iabCookie = readIabCookie();
 
         expect(Cookies.get).toHaveBeenCalledTimes(1);
         expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
+        expect(iabCookie).toBe(iabConsentString);
+    });
+
+    it('returns null if no GU cookie', () => {
+        Cookies.getJSON.mockImplementation(() => undefined);
+
+        const guCookie = readGuCookie();
+
+        expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
+        expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
+        expect(guCookie).toBeNull();
+    });
+
+    it('returns null if no IAB cookie', () => {
+        Cookies.get.mockImplementation(() => undefined);
+
+        const iabCookie = readIabCookie();
+
+        expect(Cookies.get).toHaveBeenCalledTimes(1);
+        expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
+        expect(iabCookie).toBeNull();
     });
 });

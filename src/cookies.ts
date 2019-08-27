@@ -33,26 +33,18 @@ const addCookie = (name: string, value: string | GuPurposeState): void => {
     Cookies.set(name, value, options);
 };
 
-const getCookie = (name: string): string | undefined => Cookies.get(name);
+// const getCookie = (name: string): string | undefined => Cookies.get(name);
 
 const readGuCookie = (): GuPurposeState | null => {
-    const cookie = getCookie(GU_COOKIE_NAME);
+    const cookie = Cookies.getJSON(GU_COOKIE_NAME);
 
-    if (!cookie) {
-        return null;
-    }
-
-    return JSON.parse(cookie);
+    return cookie || null;
 };
 
 const readIabCookie = (): string | null => {
-    const cookie = getCookie(IAB_COOKIE_NAME);
+    const cookie = Cookies.get(IAB_COOKIE_NAME);
 
-    if (!cookie) {
-        return null;
-    }
-
-    return cookie;
+    return cookie || null;
 };
 
 const writeGuCookie = (guState: GuPurposeState): void =>
