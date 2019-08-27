@@ -1,4 +1,4 @@
-import { addCookie, getCookie, _ } from './cookies';
+import { addCookie, getCookie } from './cookies';
 
 // Mock the Date constructor to always return the beginning of time
 const OriginalDate = global.Date;
@@ -32,6 +32,7 @@ describe('Cookies', () => {
 
     afterAll(() => {
         global.Date = OriginalDate;
+
         expect(new Date().toString()).not.toMatch(
             new RegExp('Thu Jan 01 1970'),
         );
@@ -41,35 +42,18 @@ describe('Cookies', () => {
         cookieValue = '';
     });
 
-    describe('isValidCookieValue', () => {
-        const { isValidCookieValue } = _;
-        it('should be able to detect malformed cookies', () => {
-            expect(isValidCookieValue('bad,cookie')).toBeFalsy();
-            expect(isValidCookieValue('bad;cookie')).toBeFalsy();
-            expect(isValidCookieValue('bad cookie')).toBeFalsy();
-            expect(isValidCookieValue('bad  cookie')).toBeFalsy();
-            expect(isValidCookieValue('bad=cookie')).toBeFalsy();
-        });
-
-        it('should be able to detect good cookies', () => {
-            expect(isValidCookieValue('good-cookie')).toBeTruthy();
-            expect(isValidCookieValue('cool.cookie')).toBeTruthy();
-        });
-    });
-
     it('should be able to set a cookie', () => {
         addCookie('cookie-1-name', 'cookie-1-value');
         expect(document.cookie).toMatch(
-            new RegExp(
-                'cookie-1-name=cookie-1-value; path=/; expires=Mon, 01 Jun 1970 00:00:00 GMT; domain=.theguardian.com',
-            ),
+            'cookie-1-name=cookie-1-value; path=/; domain=.theguardian.com',
         );
     });
 
     it('should be able to set a cookie for a specific number of days', () => {
-        addCookie('cookie-1-name', 'cookie-1-value', 7);
-        expect(document.cookie).toEqual(
-            'cookie-1-name=cookie-1-value; path=/; expires=Thu, 08 Jan 1970 00:00:00 GMT; domain=.theguardian.com',
+        addCookie('cookie-1-name', 'cookie-1-value', 1);
+
+        expect(document.cookie).toMatch(
+            'cookie-1-name=cookie-1-value; path=/; domain=.theguardian.com; expires=Thu, 01 Jan 1970 00:00:00 GMT',
         );
     });
 

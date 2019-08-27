@@ -5,10 +5,10 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --esModuleInterop",
         "test": "jest --config jestconfig.json",
         "lint": "eslint src/**/*.ts",
-        "tsc": "tsc --noEmit",
+        "tsc": "tsc --esModuleInterop --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
         "fix": "yarn validate --fix"
     },
@@ -24,7 +24,11 @@
         "Ricardo Costa <ricardo.costa@guardian.co.uk>"
     ],
     "license": "Apache-2.0",
+    "dependencies": {
+        "js-cookie": "^2.2.1"
+    },
     "devDependencies": {
+        "@types/js-cookie": "^2.2.2",
         "@types/jest": "^24.0.16",
         "@typescript-eslint/eslint-plugin": "^1.13.0",
         "@typescript-eslint/parser": "^1.13.0",
