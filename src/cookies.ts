@@ -33,8 +33,6 @@ const addCookie = (name: string, value: string | GuPurposeState): void => {
     Cookies.set(name, value, options);
 };
 
-// const getCookie = (name: string): string | undefined => Cookies.get(name);
-
 const readGuCookie = (): GuPurposeState | null => {
     const cookie = Cookies.getJSON(GU_COOKIE_NAME);
 
