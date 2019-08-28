@@ -17,7 +17,7 @@ The `cmp` module also listens for subsequent changes to the user's consent state
 #### cmp example
 
 ```js
-import { onConsentNotification } from 'consent-management-platform';
+import { onConsentNotification } from '@guardian/consent-management-platform';
 
 onConsentNotification('functional', functionalConsentState => {
     console.log(functionalConsentState); // true || false || null
