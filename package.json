@@ -1,5 +1,5 @@
 {
-    "name": "consent-management-platform",
+    "name": "@guardian/consent-management-platform",
     "version": "1.0.0-alpha.1",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
     "main": "lib/index.js",
@@ -10,7 +10,8 @@
         "lint": "eslint src/**/*.ts",
         "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
-        "fix": "yarn validate --fix"
+        "fix": "yarn validate --fix",
+        "prepublishOnly": "yarn validate && yarn build"
     },
     "husky": {
         "hooks": {
