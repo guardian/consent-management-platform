@@ -2,56 +2,28 @@
 
 Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com.
 
-## Development prerequisites
+## What useful utilities does this offer?
 
-### Node.js
+### cmp
 
-Make sure you have installed [Node.js](https://nodejs.org). Our reccommended version is `10.15.3`.
+If you need to conditionally run some code based on a user's consent state you can use the `cmp` module.
 
-We recommend using [nvm](https://github.com/creationix/nvm) (especially combined with [this handy gist](https://gist.github.com/sndrs/5940e9e8a3f506b287233ed65365befb)). It is great at managing multiple versions of Node.js on one machine.
+This module exposes a function `onConsentNotification`. This function takes 2 arguments, the first is the purpose name (a `string`) that is relevant to the code your running eg. "functional", "performance" or "advertisement", and the second is a callback (a `function`).
 
-### Yarn
+When `onConsentNotification` is called it will execute the callback immediately, passing it a single argument (a `boolean` or `null`) which inidicates the users consent state at that time for the given purpose name.
 
-We use [Yarn](https://yarnpkg.com/en/) for managing our dependencies. Our reccommended version is `1.17.3`.
+The `cmp` module also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument (a `boolean` or `null`) which inidicates the user's updated consent state for the given purpose name.
 
-## Running instructions
+#### cmp example
 
-```
-$ git clone git@github.com:guardian/consent-management-platform.git
-$ cd consent-management-platform
-$ yarn
-```
+```js
+import { onConsentNotification } from 'consent-management-platform';
 
-## Code Quality
-
-You can ensure your code passes code quality tests by running:
-
-```
-$ yarn validate
+onConsentNotification('functional', functionalConsentState => {
+    console.log(functionalConsentState); // true || false || null
+});
 ```
 
-This runs our linting tool, the TypeScript compiler and our tests.
+## Developer instructions
 
-You can also run these tasks individually:
-
-```
-$ yarn lint
-$ yarn tsc
-$ yarn test
-```
-
-If you get lint errors, you can attempt to automatically fix them with:
-
-```
-$ yarn fix
-```
-
-## IDE setup
-
-We recommend using [VSCode](https://code.visualstudio.com/).
-
-### Extensions
-
-VSCode should prompt you to install our recommended extensions when you open the project.
-
-You can also find these extensions by searching for `@recommended` in the extensions pane.
+If you're looking to develop on the `consent-management-platform` please read our [development instructions](docs/01-development-instructions.md) document.

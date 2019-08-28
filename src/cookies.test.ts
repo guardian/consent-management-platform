@@ -4,12 +4,10 @@ import {
     readIabCookie,
     writeGuCookie,
     writeIabCookie,
-    _,
 } from './cookies';
+import { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } from './config';
 
 const Cookies = _Cookies;
-
-const { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } = _;
 
 jest.mock('js-cookie', () => ({
     set: jest.fn(),
