@@ -1,8 +1,5 @@
 import * as Cookies from 'js-cookie';
-
-const GU_COOKIE_NAME = 'guconsent';
-const IAB_COOKIE_NAME = 'euconsent';
-const COOKIE_MAX_AGE = 395; // 13 months
+import { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } from './config';
 
 const getShortDomain = (): string => {
     const domain = document.domain || '';
@@ -52,10 +49,3 @@ const writeIabCookie = (iabString: string): void =>
     addCookie(IAB_COOKIE_NAME, iabString);
 
 export { readGuCookie, readIabCookie, writeGuCookie, writeIabCookie };
-
-// exposed for testing purpose
-export const _ = {
-    GU_COOKIE_NAME,
-    IAB_COOKIE_NAME,
-    COOKIE_MAX_AGE,
-};

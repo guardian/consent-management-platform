@@ -1,8 +1,5 @@
 import * as Cookies from 'js-cookie';
-
-const CMP_DOMAIN = 'https://manage.theguardian.com';
-const CMP_SAVED_MSG = 'savedCmp';
-const GU_AD_CONSENT_COOKIE = 'GU_TK';
+import { CMP_DOMAIN, CMP_SAVED_MSG, GU_AD_CONSENT_COOKIE } from './config';
 
 let cmpIsReady = false;
 
