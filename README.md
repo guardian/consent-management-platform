@@ -10,7 +10,7 @@ If you need to conditionally run some code based on a user's consent state you c
 
 This module exposes a function `onConsentNotification`. This function takes 2 arguments, the first is the purpose name (a `string`) that is relevant to the code your running eg. "functional", "performance" or "advertisement", and the second is a callback (a `function`).
 
-When `onConsentNotification` is called it will execute the callback immediately, passing it a single argument (a `boolean` or `null`) which inidicates the users consent state at that time for the given purpose name.
+When `onConsentNotification` is called it will execute the callback immediately, passing it a single argument (a `boolean` or `null`) which indicates the users consent state at that time for the given purpose name.
 
 The `cmp` module also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument (a `boolean` or `null`) which inidicates the user's updated consent state for the given purpose name.
 
