@@ -1,6 +1,6 @@
 {
     "name": "@guardian/consent-management-platform",
-    "version": "1.0.0-alpha.1",
+    "version": "0.1.0-alpha.1",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
     "main": "lib/cmp.js",
     "types": "lib/cmp.d.ts",
