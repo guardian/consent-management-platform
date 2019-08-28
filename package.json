@@ -2,8 +2,8 @@
     "name": "@guardian/consent-management-platform",
     "version": "1.0.0-alpha.1",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "main": "lib/cmp.js",
+    "types": "lib/cmp.d.ts",
     "scripts": {
         "build": "tsc",
         "test": "jest --config jestconfig.json",
