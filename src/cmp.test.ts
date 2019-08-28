@@ -4,9 +4,7 @@ import { onConsentNotification, _ } from './cmp';
 const Cookies = _Cookies;
 
 jest.mock('js-cookie', () => ({
-    set: jest.fn(),
     get: jest.fn(),
-    getJSON: jest.fn(),
 }));
 
 describe('cmp', () => {
