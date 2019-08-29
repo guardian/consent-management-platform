@@ -4,12 +4,9 @@ import { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } from './config';
 const getShortDomain = (): string => {
     const domain = document.domain || '';
 
-    if (domain === 'localhost') {
-        return domain;
-    }
-
-    // Trim any possible subdomain (will be shared with supporter, identity, etc)
-    return ['', ...domain.split('.').slice(-2)].join('.');
+    return domain === 'localhost'
+        ? domain
+        : ['', ...domain.split('.').slice(-2)].join('.');
 };
 
 const getDomainAttribute = (): string => {
