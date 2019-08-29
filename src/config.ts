@@ -12,3 +12,52 @@ export const IAB_CONSENT_LANGUAGE = 'en';
 export const CMP_READY_MSG = 'readyCmp';
 export const CMP_SAVED_MSG = 'savedCmp';
 export const CMP_CLOSE_MSG = 'closeCmp';
+export const GU_PURPOSE_LIST: GuPurposeList = {
+    purposes: [
+        {
+            id: 0,
+            name: 'Essential',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            integrations: [
+                {
+                    name: 'Ophan',
+                    policyUrl: 'https://www.theguardian.com/info/privacy',
+                },
+                {
+                    name: 'Confiant',
+                    policyUrl: 'https://www.confiant.com/privacy',
+                },
+            ],
+            hideRadio: true,
+        },
+        {
+            id: 1,
+            name: 'Functional',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis malesuada ante.',
+            integrations: [
+                {
+                    name: 'Pinterest',
+                    policyUrl: 'https://policy.pinterest.com/',
+                },
+            ],
+        },
+        {
+            id: 2,
+            name: 'Performance',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis malesuada ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+            integrations: [
+                {
+                    name: 'Sentry',
+                    policyUrl: 'https://sentry.io/privacy/',
+                },
+                {
+                    name: 'Google Analytics',
+                    policyUrl: 'https://policies.google.com/privacy?hl=en-US',
+                },
+            ],
+        },
+    ],
+};
