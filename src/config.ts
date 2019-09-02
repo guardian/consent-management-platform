@@ -1,4 +1,20 @@
-export const CMP_DOMAIN = 'https://manage.theguardian.com';
+const cmpDomain = (): string => {
+    const domain = document.domain || '';
+    const shortDomain = domain
+        .split('.')
+        .slice(-2)
+        .join('.');
+
+    if (shortDomain === 'localhost' || shortDomain === 'thegulocal.com') {
+        return 'https://manage.thegulocal.com';
+    }
+    if (shortDomain === 'dev-theguardian.com') {
+        return 'http://manage.code.dev-theguardian.com';
+    }
+    return 'https://manage.theguardian.com';
+};
+
+export const CMP_DOMAIN = cmpDomain();
 export const COOKIE_MAX_AGE = 395; // 13 months
 export const GU_AD_CONSENT_COOKIE = 'GU_TK';
 export const GU_COOKIE_NAME = 'guconsent';
