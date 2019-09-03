@@ -19,7 +19,7 @@ export const COOKIE_MAX_AGE = 395; // 13 months
 export const GU_AD_CONSENT_COOKIE = 'GU_TK';
 export const GU_COOKIE_NAME = 'guconsent';
 export const IAB_VENDOR_LIST_URL =
-    'https://assets.guim.co.uk/data/vendor/4f4a6324c7fe376c17ceb2288a84a076/cmp_vendorlist.json';
+    'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 export const IAB_COOKIE_NAME = 'euconsent';
 export const IAB_CMP_ID = 112;
 export const IAB_CMP_VERSION = 1;
