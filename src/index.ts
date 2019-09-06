@@ -18,7 +18,6 @@ import * as cookie from './cookies';
 
 export * from './cmp';
 export const cmpCookie = cookie;
-
 export const cmpConfig = {
     CMP_DOMAIN,
     COOKIE_MAX_AGE,

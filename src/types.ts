@@ -1,21 +1,21 @@
-type PurposeEvent = 'functional' | 'performance' | 'advertisement';
+export type PurposeEvent = 'functional' | 'performance' | 'advertisement';
 
-type PurposeCallback = (state: boolean | null) => void;
+export type PurposeCallback = (state: boolean | null) => void;
 
-interface Purpose {
+export interface Purpose {
     state: boolean | null;
     callbacks: PurposeCallback[];
 }
 
-interface GuPurposeState {
+export interface GuPurposeState {
     [key: string]: boolean | null;
 }
 
-interface GuPurposeList {
+export interface GuPurposeList {
     purposes: GuPurpose[];
 }
 
-interface GuPurpose {
+export interface GuPurpose {
     id: number;
     name: string;
     description: string;
@@ -23,28 +23,28 @@ interface GuPurpose {
     hideRadio?: boolean;
 }
 
-interface GuIntegration {
+export interface GuIntegration {
     name: string;
     policyUrl: string;
 }
 
-interface IabPurposeState {
+export interface IabPurposeState {
     [key: number]: boolean | null;
 }
 
-interface IabPurpose {
+export interface IabPurpose {
     id: number;
     name: string;
     description: string;
 }
 
-interface IabFeature {
+export interface IabFeature {
     id: number;
     name: string;
     description: string;
 }
 
-interface IabVendor {
+export interface IabVendor {
     id: number;
     name: string;
     policyUrl: string;
@@ -53,7 +53,7 @@ interface IabVendor {
     featureIds: number[];
 }
 
-interface IabVendorList {
+export interface IabVendorList {
     vendorListVersion: number;
     lastUpdated: string;
     purposes: IabPurpose[];

@@ -1,12 +1,12 @@
 {
     "name": "@guardian/consent-management-platform",
-    "version": "0.1.0-alpha.3",
+    "version": "0.1.0",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
-        "build": "tsc",
-        "clean": "rm lib/*",
+        "build": "yarn clean && tsc",
+        "clean": "rm -f lib/*",
         "test": "jest --config jestconfig.json",
         "lint": "eslint src/**/*.ts",
         "tsc": "tsc --noEmit",
