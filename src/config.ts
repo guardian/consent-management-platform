@@ -1,6 +1,10 @@
 import { GuPurposeList } from './types';
 
 const cmpDomain = (): string => {
+    if (typeof document === 'undefined') {
+        return '';
+    }
+
     const domain = document.domain || '';
     const shortDomain = domain
         .split('.')
