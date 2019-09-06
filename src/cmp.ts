@@ -1,5 +1,5 @@
 import * as Cookies from 'js-cookie';
-import { Purpose, PurposeCallback, PurposeEvent } from './types';
+import { Purpose, PurposeCallback, PurposeEvent, ItemState } from './types';
 import { CMP_DOMAIN, CMP_SAVED_MSG, GU_AD_CONSENT_COOKIE } from './config';
 
 let cmpIsReady = false;
@@ -37,7 +37,7 @@ const receiveMessage = (event: MessageEvent): void => {
     }
 };
 
-const getAdConsentState = (): boolean | null => {
+const getAdConsentState = (): ItemState => {
     const cookie = Cookies.get(GU_AD_CONSENT_COOKIE);
 
     if (!cookie) {

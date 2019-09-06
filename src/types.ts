@@ -1,14 +1,16 @@
+export type ItemState = boolean | null;
+
 export type PurposeEvent = 'functional' | 'performance' | 'advertisement';
 
-export type PurposeCallback = (state: boolean | null) => void;
+export type PurposeCallback = (state: ItemState) => void;
 
 export interface Purpose {
-    state: boolean | null;
+    state: ItemState;
     callbacks: PurposeCallback[];
 }
 
 export interface GuPurposeState {
-    [key: string]: boolean | null;
+    [key: string]: ItemState;
 }
 
 export interface GuPurposeList {
@@ -29,7 +31,7 @@ export interface GuIntegration {
 }
 
 export interface IabPurposeState {
-    [key: number]: boolean | null;
+    [key: number]: ItemState;
 }
 
 export interface IabPurpose {
