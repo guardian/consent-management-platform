@@ -1,4 +1,5 @@
 import * as Cookies from 'js-cookie';
+import { GuPurposeState } from './types';
 import { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } from './config';
 
 const getShortDomain = (): string => {

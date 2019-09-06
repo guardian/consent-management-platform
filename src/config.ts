@@ -1,3 +1,5 @@
+import { GuPurposeList } from './types';
+
 const cmpDomain = (): string => {
     const domain = document.domain || '';
     const shortDomain = domain
