@@ -5,8 +5,8 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
-        "build": "tsc && cp src/types.d.ts lib/",
-        "clean": "rm lib/*",
+        "build": "yarn clean && tsc",
+        "clean": "rm -f lib/*",
         "test": "jest --config jestconfig.json",
         "lint": "eslint src/**/*.ts",
         "tsc": "tsc --noEmit",
