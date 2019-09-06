@@ -1,23 +1,46 @@
 import * as Cookies from 'js-cookie';
-import { Purpose, PurposeCallback, PurposeEvent, ItemState } from './types';
-import { CMP_DOMAIN, CMP_SAVED_MSG, GU_AD_CONSENT_COOKIE } from './config';
+import { Purpose, PurposeCallback, PurposeEvent, GuPurpose } from './types';
+import {
+    CMP_DOMAIN,
+    CMP_SAVED_MSG,
+    GU_AD_CONSENT_COOKIE,
+    GU_PURPOSE_LIST,
+} from './config';
 
 let cmpIsReady = false;
 
-const purposes: { [key in PurposeEvent]: Purpose } = {
-    functional: {
-        state: null,
-        callbacks: [],
-    },
-    performance: {
-        state: null,
-        callbacks: [],
-    },
-    advertisement: {
-        state: null,
-        callbacks: [],
-    },
+type PurposeRegister = {
+    [key in PurposeEvent]: Purpose;
 };
+
+const buildPurposeRegister = (): PurposeRegister => {
+    const { purposes } = GU_PURPOSE_LIST;
+
+    const purposeRegister = purposes.reduce((register, purpose: GuPurpose) => {
+        if (purpose.alwaysEnabled) {
+            return register;
+        }
+
+        return {
+            ...register,
+            [purpose.eventId]: {
+                state: null,
+                callbacks: [],
+            },
+        };
+    }, {});
+
+    return ({
+        ...purposeRegister,
+        // temporarily include an advertisement purpose
+        advertisement: {
+            state: null,
+            callbacks: [],
+        },
+    } as unknown) as PurposeRegister;
+};
+
+const purposes: PurposeRegister = buildPurposeRegister();
 
 const triggerConsentNotification = (): void => {
     Object.keys(purposes).forEach((key: string): void => {
@@ -37,7 +60,7 @@ const receiveMessage = (event: MessageEvent): void => {
     }
 };
 
-const getAdConsentState = (): ItemState => {
+const getAdConsentState = (): IabPurposeState => {
     const cookie = Cookies.get(GU_AD_CONSENT_COOKIE);
 
     if (!cookie) {

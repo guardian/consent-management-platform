@@ -25,9 +25,10 @@ export interface GuPurposeList {
 export interface GuPurpose {
     id: number;
     name: string;
+    eventId: PurposeEvent | 'essential';
     description: string;
     integrations: GuIntegration[];
-    hideRadio?: boolean;
+    alwaysEnabled?: boolean;
 }
 
 export interface GuIntegration {
