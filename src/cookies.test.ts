@@ -5,7 +5,12 @@ import {
     writeGuCookie,
     writeIabCookie,
 } from './cookies';
-import { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } from './config';
+import {
+    GU_COOKIE_NAME,
+    GU_COOKIE_VERSION,
+    IAB_COOKIE_NAME,
+    COOKIE_MAX_AGE,
+} from './config';
 
 const Cookies = _Cookies;
 
@@ -19,6 +24,10 @@ describe('Cookies', () => {
     const guConsentState = {
         foo: true,
         bar: false,
+    };
+    const guCookie = {
+        version: GU_COOKIE_VERSION,
+        state: guConsentState,
     };
     const cookieOptions = {
         domain: '.theguardian.com',
@@ -42,7 +51,7 @@ describe('Cookies', () => {
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
             GU_COOKIE_NAME,
-            guConsentState,
+            guCookie,
             cookieOptions,
         );
     });
@@ -59,42 +68,42 @@ describe('Cookies', () => {
     });
 
     it('should be able to read the GU cookie', () => {
-        Cookies.getJSON.mockImplementation(() => guConsentState);
+        Cookies.getJSON.mockImplementation(() => guCookie);
 
-        const guCookie = readGuCookie();
+        const readCookie = readGuCookie();
 
         expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
         expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
-        expect(guCookie).toBe(guConsentState);
+        expect(readCookie).toBe(guConsentState);
     });
 
     it('should be able to read the IAB cookie', () => {
         Cookies.get.mockImplementation(() => iabConsentString);
 
-        const iabCookie = readIabCookie();
+        const readCookie = readIabCookie();
 
         expect(Cookies.get).toHaveBeenCalledTimes(1);
         expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
-        expect(iabCookie).toBe(iabConsentString);
+        expect(readCookie).toBe(iabConsentString);
     });
 
     it('returns null if no GU cookie', () => {
         Cookies.getJSON.mockImplementation(() => undefined);
 
-        const guCookie = readGuCookie();
+        const readCookie = readGuCookie();
 
         expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
         expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
-        expect(guCookie).toBeNull();
+        expect(readCookie).toBeNull();
     });
 
     it('returns null if no IAB cookie', () => {
         Cookies.get.mockImplementation(() => undefined);
 
-        const iabCookie = readIabCookie();
+        const readCookie = readIabCookie();
 
         expect(Cookies.get).toHaveBeenCalledTimes(1);
         expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
-        expect(iabCookie).toBeNull();
+        expect(readCookie).toBeNull();
     });
 });

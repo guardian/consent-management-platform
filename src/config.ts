@@ -24,6 +24,7 @@ export const CMP_DOMAIN = cmpDomain();
 export const COOKIE_MAX_AGE = 395; // 13 months
 export const GU_AD_CONSENT_COOKIE = 'GU_TK';
 export const GU_COOKIE_NAME = 'guconsent';
+export const GU_COOKIE_VERSION = 1;
 export const IAB_VENDOR_LIST_URL =
     'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 export const IAB_COOKIE_NAME = 'euconsent';
