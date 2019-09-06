@@ -15,12 +15,9 @@ import {
     GU_PURPOSE_LIST,
 } from './config';
 import * as cookie from './cookies';
-import * as types from './types';
 
 export * from './cmp';
 export const cmpCookie = cookie;
-export const CmpType = types;
-
 export const cmpConfig = {
     CMP_DOMAIN,
     COOKIE_MAX_AGE,
