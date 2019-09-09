@@ -1,5 +1,13 @@
 import * as Cookies from 'js-cookie';
-import { Purpose, PurposeCallback, PurposeEvent, GuPurpose } from './types';
+import {
+    GuPurposeCallback,
+    GuPurposeEvent,
+    GuPurpose,
+    GuPurposeRegister,
+    IabPurposeCallback,
+    IabPurposeRegister,
+    IabPurposeState,
+} from './types';
 import {
     CMP_DOMAIN,
     CMP_SAVED_MSG,
@@ -9,11 +17,7 @@ import {
 
 let cmpIsReady = false;
 
-type PurposeRegister = {
-    [key in PurposeEvent]: Purpose;
-};
-
-const buildPurposeRegister = (): PurposeRegister => {
+const buildGuPurposeRegister = (): GuPurposeRegister => {
     const { purposes } = GU_PURPOSE_LIST;
 
     const purposeRegister = purposes.reduce((register, purpose: GuPurpose) => {
@@ -30,24 +34,33 @@ const buildPurposeRegister = (): PurposeRegister => {
         };
     }, {});
 
-    return ({
-        ...purposeRegister,
-        // temporarily include an advertisement purpose
-        advertisement: {
-            state: null,
-            callbacks: [],
-        },
-    } as unknown) as PurposeRegister;
+    return purposeRegister as GuPurposeRegister;
 };
 
-const purposes: PurposeRegister = buildPurposeRegister();
+const guPurposeRegister: GuPurposeRegister = buildGuPurposeRegister();
+
+const iabPurposeRegister: IabPurposeRegister = {
+    state: {
+        1: null,
+        2: null,
+        3: null,
+        4: null,
+        5: null,
+    },
+    callbacks: [],
+};
 
 const triggerConsentNotification = (): void => {
-    Object.keys(purposes).forEach((key: string): void => {
-        const purpose = purposes[key as PurposeEvent];
-        purpose.callbacks.forEach((callback: PurposeCallback): void =>
-            callback(purpose.state),
+    // Iterate over guPurposeRegister callbacks
+    Object.keys(guPurposeRegister).forEach((key: string): void => {
+        const guPurpose = guPurposeRegister[key as GuPurposeEvent];
+        guPurpose.callbacks.forEach((callback: GuPurposeCallback): void =>
+            callback(guPurpose.state),
         );
+    });
+    // Iterate over iabPurposeRegister callbacks
+    iabPurposeRegister.callbacks.forEach(callback => {
+        callback(iabPurposeRegister.state);
     });
 };
 
@@ -62,22 +75,28 @@ const receiveMessage = (event: MessageEvent): void => {
 
 const getAdConsentState = (): IabPurposeState => {
     const cookie = Cookies.get(GU_AD_CONSENT_COOKIE);
+    const state = {
+        ...iabPurposeRegister.state,
+    };
+    let adConsentState: null | boolean = null;
 
-    if (!cookie) {
-        return null;
+    if (cookie) {
+        const cookieParsed = cookie.split('.')[0];
+
+        if (cookieParsed === '1') {
+            adConsentState = true;
+        }
+
+        if (cookieParsed === '0') {
+            adConsentState = false;
+        }
     }
 
-    const cookieParsed = cookie.split('.')[0];
+    Object.keys(state).forEach((key: string): void => {
+        state[parseInt(key, 10)] = adConsentState;
+    });
 
-    if (cookieParsed === '1') {
-        return true;
-    }
-
-    if (cookieParsed === '0') {
-        return false;
-    }
-
-    return null;
+    return state;
 };
 
 const checkCmpReady = (): void => {
@@ -90,9 +109,9 @@ const checkCmpReady = (): void => {
      * and will eventually be replaced by values
      * read from the CMP cookie.
      * */
-    purposes.functional.state = true;
-    purposes.performance.state = true;
-    purposes.advertisement.state = getAdConsentState();
+    guPurposeRegister.functional.state = true;
+    guPurposeRegister.performance.state = true;
+    iabPurposeRegister.state = getAdConsentState();
 
     // listen for postMessage events from CMP UI
     window.addEventListener('message', receiveMessage, false);
@@ -100,28 +119,51 @@ const checkCmpReady = (): void => {
     cmpIsReady = true;
 };
 
-export const onConsentNotification = (
-    purposeName: PurposeEvent,
-    callback: PurposeCallback,
+export const onIabConsentNotification = (
+    callback: IabPurposeCallback,
 ): void => {
     checkCmpReady();
 
-    const purpose = purposes[purposeName];
+    callback(iabPurposeRegister.state);
 
-    callback(purpose.state);
-
-    purpose.callbacks.push(callback);
+    iabPurposeRegister.callbacks.push(callback);
 };
 
-// Exposed for testing purposes
+export const onGuConsentNotification = (
+    purposeName: GuPurposeEvent,
+    callback: GuPurposeCallback,
+): void => {
+    checkCmpReady();
+
+    const guPurpose = guPurposeRegister[purposeName];
+
+    if (guPurpose) {
+        callback(guPurpose.state);
+
+        guPurpose.callbacks.push(callback);
+    }
+};
+
+// Exposed for testing
 export const _ = {
     triggerConsentNotification,
     resetCmp: (): void => {
         cmpIsReady = false;
-        Object.keys(purposes).forEach((key: string): void => {
-            const purpose = purposes[key as PurposeEvent];
-            purpose.state = null;
-            purpose.callbacks = [];
+        // reset guPurposeRegister
+        Object.keys(guPurposeRegister).forEach((key: string): void => {
+            const guPurpose = guPurposeRegister[key as GuPurposeEvent];
+
+            guPurpose.state = null;
+            guPurpose.callbacks = [];
         });
+        // reset iabPurposeRegister
+        iabPurposeRegister.state = {
+            1: null,
+            2: null,
+            3: null,
+            4: null,
+            5: null,
+        };
+        iabPurposeRegister.callbacks = [];
     },
 };

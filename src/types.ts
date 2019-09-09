@@ -1,12 +1,23 @@
-export type ItemState = boolean | null;
+export type GuPurposeEvent = 'essential' | 'functional' | 'performance';
 
-export type PurposeEvent = 'functional' | 'performance' | 'advertisement';
+export type AdPurposeEvent = 'advertisement';
 
-export type PurposeCallback = (state: ItemState) => void;
+export type GuPurposeCallback = (state: boolean | null) => void;
 
-export interface Purpose {
-    state: ItemState;
-    callbacks: PurposeCallback[];
+export type IabPurposeCallback = (state: IabPurposeState) => void;
+
+export type GuPurposeRegister = {
+    [key in GuPurposeEvent]: GuPurposeRegisterItem;
+};
+
+export interface IabPurposeRegister {
+    state: IabPurposeState;
+    callbacks: IabPurposeCallback[];
+}
+
+export interface GuPurposeRegisterItem {
+    state: boolean | null;
+    callbacks: GuPurposeCallback[];
 }
 
 export interface GuCookie {
@@ -25,7 +36,7 @@ export interface GuPurposeList {
 export interface GuPurpose {
     id: number;
     name: string;
-    eventId: PurposeEvent | 'essential';
+    eventId: GuPurposeEvent;
     description: string;
     integrations: GuIntegration[];
     alwaysEnabled?: boolean;
