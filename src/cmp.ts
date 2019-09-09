@@ -1,7 +1,7 @@
 import * as Cookies from 'js-cookie';
 import {
     GuPurposeCallback,
-    GuPurposeResponsiveEvent,
+    GuResponsivePurposeEventId,
     GuPurpose,
     GuPurposeRegister,
     IabPurposeCallback,
@@ -53,7 +53,7 @@ const iabPurposeRegister: IabPurposeRegister = {
 const triggerConsentNotification = (): void => {
     // Iterate over guPurposeRegister callbacks
     Object.keys(guPurposeRegister).forEach((key: string): void => {
-        const guPurpose = guPurposeRegister[key as GuPurposeResponsiveEvent];
+        const guPurpose = guPurposeRegister[key as GuResponsivePurposeEventId];
         guPurpose.callbacks.forEach((callback: GuPurposeCallback): void =>
             callback(guPurpose.state),
         );
@@ -130,7 +130,7 @@ export const onIabConsentNotification = (
 };
 
 export const onGuConsentNotification = (
-    purposeName: GuPurposeResponsiveEvent,
+    purposeName: GuResponsivePurposeEventId,
     callback: GuPurposeCallback,
 ): void => {
     checkCmpReady();
@@ -152,7 +152,7 @@ export const _ = {
         // reset guPurposeRegister
         Object.keys(guPurposeRegister).forEach((key: string): void => {
             const guPurpose =
-                guPurposeRegister[key as GuPurposeResponsiveEvent];
+                guPurposeRegister[key as GuResponsivePurposeEventId];
 
             guPurpose.state = null;
             guPurpose.callbacks = [];

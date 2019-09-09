@@ -1,6 +1,6 @@
-export type GuPurposeResponsiveEvent = 'functional' | 'performance';
+export type GuResponsivePurposeEventId = 'functional' | 'performance';
 
-export type GuPurposeEvent = 'essential' | GuPurposeResponsiveEvent;
+export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
 
 export type AdPurposeEvent = 'advertisement';
 
@@ -9,7 +9,7 @@ export type GuPurposeCallback = (state: boolean | null) => void;
 export type IabPurposeCallback = (state: IabPurposeState) => void;
 
 export type GuPurposeRegister = {
-    [key in GuPurposeEvent]: GuPurposeRegisterItem;
+    [key in GuPurposeEventId]: GuPurposeRegisterItem;
 };
 
 export interface IabPurposeRegister {
@@ -38,7 +38,7 @@ export interface GuPurposeList {
 export interface GuPurpose {
     id: number;
     name: string;
-    eventId: GuPurposeEvent;
+    eventId: GuPurposeEventId;
     description: string;
     integrations: GuIntegration[];
     alwaysEnabled?: boolean;
