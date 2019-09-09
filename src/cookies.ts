@@ -1,6 +1,11 @@
 import * as Cookies from 'js-cookie';
-import { GuPurposeState } from './types';
-import { GU_COOKIE_NAME, IAB_COOKIE_NAME, COOKIE_MAX_AGE } from './config';
+import { GuCookie, GuPurposeState } from './types';
+import {
+    GU_COOKIE_NAME,
+    GU_COOKIE_VERSION,
+    IAB_COOKIE_NAME,
+    COOKIE_MAX_AGE,
+} from './config';
 
 const getShortDomain = (): string => {
     const domain = document.domain || '';
@@ -16,7 +21,7 @@ const getDomainAttribute = (): string => {
     return shortDomain === 'localhost' ? '' : shortDomain;
 };
 
-const addCookie = (name: string, value: string | GuPurposeState): void => {
+const addCookie = (name: string, value: string | GuCookie): void => {
     const options: {
         domain: string;
         expires: number;
@@ -31,7 +36,13 @@ const addCookie = (name: string, value: string | GuPurposeState): void => {
 const readGuCookie = (): GuPurposeState | null => {
     const cookie = Cookies.getJSON(GU_COOKIE_NAME);
 
-    return cookie || null;
+    if (cookie) {
+        if (cookie.version === 1) {
+            return cookie.state || null;
+        }
+    }
+
+    return null;
 };
 
 const readIabCookie = (): string | null => {
@@ -41,7 +52,7 @@ const readIabCookie = (): string | null => {
 };
 
 const writeGuCookie = (guState: GuPurposeState): void =>
-    addCookie(GU_COOKIE_NAME, guState);
+    addCookie(GU_COOKIE_NAME, { version: GU_COOKIE_VERSION, state: guState });
 
 const writeIabCookie = (iabString: string): void =>
     addCookie(IAB_COOKIE_NAME, iabString);

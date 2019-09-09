@@ -9,6 +9,11 @@ export interface Purpose {
     callbacks: PurposeCallback[];
 }
 
+export interface GuCookie {
+    version: number;
+    state: GuPurposeState;
+}
+
 export interface GuPurposeState {
     [key: string]: ItemState;
 }
