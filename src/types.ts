@@ -1,4 +1,6 @@
-export type GuPurposeEvent = 'essential' | 'functional' | 'performance';
+export type GuPurposeResponsiveEvent = 'functional' | 'performance';
+
+export type GuPurposeEvent = 'essential' | GuPurposeResponsiveEvent;
 
 export type AdPurposeEvent = 'advertisement';
 
