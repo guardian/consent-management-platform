@@ -21,6 +21,7 @@ const cmpDomain = (): string => {
 };
 
 export const CMP_DOMAIN = cmpDomain();
+export const CMP_URL = `${CMP_DOMAIN}/consent`;
 export const COOKIE_MAX_AGE = 395; // 13 months
 export const GU_AD_CONSENT_COOKIE = 'GU_TK';
 export const GU_COOKIE_NAME = 'guconsent';
