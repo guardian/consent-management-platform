@@ -4,7 +4,9 @@ export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
 
 export type AdPurposeEvent = 'advertisement';
 
-export type GuPurposeCallback = (state: boolean | null) => void;
+export type ItemState = boolean | null;
+
+export type GuPurposeCallback = (state: ItemState) => void;
 
 export type IabPurposeCallback = (state: IabPurposeState) => void;
 
@@ -18,7 +20,7 @@ export interface IabPurposeRegister {
 }
 
 export interface GuPurposeRegisterItem {
-    state: boolean | null;
+    state: ItemState;
     callbacks: GuPurposeCallback[];
 }
 

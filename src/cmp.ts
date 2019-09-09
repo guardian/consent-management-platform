@@ -7,6 +7,7 @@ import {
     IabPurposeCallback,
     IabPurposeRegister,
     IabPurposeState,
+    ItemState,
 } from './types';
 import {
     CMP_DOMAIN,
@@ -78,7 +79,7 @@ const getAdConsentState = (): IabPurposeState => {
     const state = {
         ...iabPurposeRegister.state,
     };
-    let adConsentState: null | boolean = null;
+    let adConsentState: ItemState = null;
 
     if (cookie) {
         const cookieParsed = cookie.split('.')[0];
