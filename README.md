@@ -56,7 +56,7 @@ onIabConsentNotification(iabConsentState => {
 
 ### cmpConfig
 
-The file `cmpConfig` exposes some useful config variables realted to the CMP.
+The file `cmpConfig` exposes some useful config variables related to the CMP.
 
 ##### example:
 
