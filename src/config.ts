@@ -41,6 +41,7 @@ export const GU_PURPOSE_LIST: GuPurposeList = {
         {
             id: 0,
             name: 'Essential',
+            eventId: 'essential',
             description:
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             integrations: [
@@ -53,11 +54,12 @@ export const GU_PURPOSE_LIST: GuPurposeList = {
                     policyUrl: 'https://www.confiant.com/privacy',
                 },
             ],
-            hideRadio: true,
+            alwaysEnabled: true,
         },
         {
             id: 1,
             name: 'Functional',
+            eventId: 'functional',
             description:
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis malesuada ante.',
             integrations: [
@@ -70,6 +72,7 @@ export const GU_PURPOSE_LIST: GuPurposeList = {
         {
             id: 2,
             name: 'Performance',
+            eventId: 'performance',
             description:
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis malesuada ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
             integrations: [

@@ -1,12 +1,27 @@
+export type GuResponsivePurposeEventId = 'functional' | 'performance';
+
+export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
+
+export type AdPurposeEvent = 'advertisement';
+
 export type ItemState = boolean | null;
 
-export type PurposeEvent = 'functional' | 'performance' | 'advertisement';
+export type GuPurposeCallback = (state: ItemState) => void;
 
-export type PurposeCallback = (state: ItemState) => void;
+export type IabPurposeCallback = (state: IabPurposeState) => void;
 
-export interface Purpose {
+export type GuPurposeRegister = {
+    [key in GuPurposeEventId]: GuPurposeRegisterItem;
+};
+
+export interface IabPurposeRegister {
+    state: IabPurposeState;
+    callbacks: IabPurposeCallback[];
+}
+
+export interface GuPurposeRegisterItem {
     state: ItemState;
-    callbacks: PurposeCallback[];
+    callbacks: GuPurposeCallback[];
 }
 
 export interface GuCookie {
@@ -25,9 +40,10 @@ export interface GuPurposeList {
 export interface GuPurpose {
     id: number;
     name: string;
+    eventId: GuPurposeEventId;
     description: string;
     integrations: GuIntegration[];
-    hideRadio?: boolean;
+    alwaysEnabled?: boolean;
 }
 
 export interface GuIntegration {
