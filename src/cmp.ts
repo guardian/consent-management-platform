@@ -21,19 +21,22 @@ let cmpIsReady = false;
 const buildGuPurposeRegister = (): GuPurposeRegister => {
     const { purposes } = GU_PURPOSE_LIST;
 
-    const purposeRegister = purposes.reduce((register, purpose: GuPurpose) => {
-        if (purpose.alwaysEnabled) {
-            return register;
-        }
+    const purposeRegister = purposes.reduce(
+        (register, purpose: GuPurpose): {} => {
+            if (purpose.alwaysEnabled) {
+                return register;
+            }
 
-        return {
-            ...register,
-            [purpose.eventId]: {
-                state: null,
-                callbacks: [],
-            },
-        };
-    }, {});
+            return {
+                ...register,
+                [purpose.eventId]: {
+                    state: null,
+                    callbacks: [],
+                },
+            };
+        },
+        {},
+    );
 
     return purposeRegister as GuPurposeRegister;
 };
@@ -60,9 +63,11 @@ const triggerConsentNotification = (): void => {
         );
     });
     // Iterate over iabPurposeRegister callbacks
-    iabPurposeRegister.callbacks.forEach(callback => {
-        callback(iabPurposeRegister.state);
-    });
+    iabPurposeRegister.callbacks.forEach(
+        (callback: IabPurposeCallback): void => {
+            callback(iabPurposeRegister.state);
+        },
+    );
 };
 
 const receiveMessage = (event: MessageEvent): void => {
