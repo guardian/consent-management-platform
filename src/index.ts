@@ -4,6 +4,11 @@ import {
     CMP_SAVED_MSG,
     CMP_CLOSE_MSG,
     GU_PURPOSE_LIST,
+    IAB_VENDOR_LIST_URL,
+    IAB_CMP_ID,
+    IAB_CMP_VERSION,
+    IAB_CONSENT_SCREEN,
+    IAB_CONSENT_LANGUAGE,
 } from './config';
 import * as cookie from './cookies';
 
@@ -15,4 +20,9 @@ export const cmpConfig = {
     CMP_SAVED_MSG,
     CMP_CLOSE_MSG,
     GU_PURPOSE_LIST,
+    IAB_VENDOR_LIST_URL,
+    IAB_CMP_ID,
+    IAB_CMP_VERSION,
+    IAB_CONSENT_SCREEN,
+    IAB_CONSENT_LANGUAGE,
 };
