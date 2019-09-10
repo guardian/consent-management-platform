@@ -1,6 +1,6 @@
 {
     "name": "@guardian/consent-management-platform",
-    "version": "0.1.1",
+    "version": "0.2.0-rc.1",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -30,8 +30,8 @@
         "js-cookie": "^2.2.1"
     },
     "devDependencies": {
-        "@types/js-cookie": "^2.2.2",
         "@types/jest": "^24.0.16",
+        "@types/js-cookie": "^2.2.2",
         "@typescript-eslint/eslint-plugin": "^2.1.0",
         "@typescript-eslint/parser": "^1.13.0",
         "eslint": "^6.3.0",
