@@ -2,8 +2,6 @@ export type GuResponsivePurposeEventId = 'functional' | 'performance';
 
 export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
 
-export type AdPurposeEvent = 'advertisement';
-
 export type ItemState = boolean | null;
 
 export type GuPurposeCallback = (state: ItemState) => void;
