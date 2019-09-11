@@ -1,8 +1,12 @@
-import * as Cookies from 'js-cookie';
+import * as _Cookies from 'js-cookie';
 import { setupMessageHandlers, canShow } from './cmp-ui';
 import { CMP_DOMAIN, CMP_READY_MSG, CMP_CLOSE_MSG } from './config';
 
-jest.mock('js-cookie');
+const Cookies = _Cookies;
+
+jest.mock('js-cookie', () => ({
+    get: jest.fn(),
+}));
 
 describe('cmp-ui', () => {
     afterEach(() => {
@@ -103,12 +107,12 @@ describe('cmp-ui', () => {
 
     describe('canShow', () => {
         it('canShow returns false if no cookie with IAB_COOKIE_NAME exists', () => {
-            Cookies.get.mockReturnValueOnce(undefined);
+            Cookies.get.mockReturnValue(undefined);
             expect(canShow()).toBe(false);
         });
 
         it('canShow returns true if  cookie with IAB_COOKIE_NAME exists', () => {
-            Cookies.get.mockReturnValueOnce('foo');
+            Cookies.get.mockReturnValue('foo');
             expect(canShow()).toBe(true);
         });
     });
