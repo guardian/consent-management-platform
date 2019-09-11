@@ -93,6 +93,7 @@ const onCloseCmp = () => {
 
 cmpUi.setupMessageHandlers(onReadyCmp, onCloseCmp);
 
+// IMPORTANT: Always add iframe to page after calling setupMessageHandlers
 document.body.appendChild(iframe);
 ```
 
