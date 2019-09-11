@@ -54,6 +54,48 @@ onIabConsentNotification(iabConsentState => {
 });
 ```
 
+### cmpUi
+
+The cmpUi exports useful utilities for users who want to load the CMP UI on their site via an `iframe`.
+
+#### cmpUi.canShow
+
+The `cmpUi.canShow` function returns a boolean to indicate whether the user has already saved their consent state. Users should use this when deciding whether or not to present the CMP UI.
+
+**Example:**
+
+```js
+import { cmpUi } from '@guardian/consent-management-platform';
+
+console.log(cmpUi.canShow()); // true | false
+```
+
+#### cmpUi.setupMessageHandlers
+
+Users loading the CMP UI on their site via an `iframe` can pass 2 callback functions to `cmpUi.setupMessageHandlers` that will be executed when messages are emitted from the CMP UI `iframe`. The 1st argument (`onReadyCmp`) will be executed when the CMP UI emits a ready message to indicate it has loaded and is ready to be shown. And the 2nd argumememnt (`onCloseCmp`) will be executed when the CMP UI emits a close message to indicate the user has saved their consent or clicked the close button.
+
+**Example:**
+
+```js
+import { cmpUi, cmpConfig } from '@guardian/consent-management-platform';
+
+const iframe = document.createElement('iframe');
+iframe.src = cmpConfig.CMP_URL;
+iframe.style.display = 'none';
+
+const onReadyCmp = () => {
+    iframe.style.display = 'block';
+};
+
+const onCloseCmp = () => {
+    iframe.remove();
+};
+
+cmpUi.setupMessageHandlers(onReadyCmp, onCloseCmp);
+
+document.body.appendChild(iframe);
+```
+
 ### cmpConfig
 
 The file `cmpConfig` exposes some useful config variables related to the CMP.

@@ -11,6 +11,7 @@ import {
     IAB_CONSENT_LANGUAGE,
 } from './config';
 import * as cookie from './cookies';
+import { setupMessageHandlers, canShow } from './cmp-ui';
 
 export * from './cmp';
 export const cmpCookie = cookie;
@@ -25,4 +26,8 @@ export const cmpConfig = {
     IAB_CMP_VERSION,
     IAB_CONSENT_SCREEN,
     IAB_CONSENT_LANGUAGE,
+};
+export const cmpUi = {
+    setupMessageHandlers,
+    canShow,
 };
