@@ -34,8 +34,4 @@ export const setupMessageHandlers = (
     window.addEventListener('message', receiveMessage, false);
 };
 
-export const canShow = (): boolean => {
-    const cookie = Cookies.get(IAB_COOKIE_NAME);
-
-    return !!(!cookie || cookie === undefined);
-};
+export const canShow = (): boolean => !Cookies.get(IAB_COOKIE_NAME);
