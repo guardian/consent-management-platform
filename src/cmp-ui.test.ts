@@ -106,14 +106,19 @@ describe('cmp-ui', () => {
     });
 
     describe('canShow', () => {
-        it('canShow returns false if no cookie with IAB_COOKIE_NAME exists', () => {
+        it('canShow returns true if no cookie with IAB_COOKIE_NAME exists', () => {
             Cookies.get.mockReturnValue(undefined);
-            expect(canShow()).toBe(false);
+            expect(canShow()).toBe(true);
         });
 
-        it('canShow returns true if  cookie with IAB_COOKIE_NAME exists', () => {
-            Cookies.get.mockReturnValue('foo');
+        it('canShow returns true if cookie with IAB_COOKIE_NAME exists but value is empty string', () => {
+            Cookies.get.mockReturnValue('');
             expect(canShow()).toBe(true);
+        });
+
+        it('canShow returns false if  cookie with IAB_COOKIE_NAME exists', () => {
+            Cookies.get.mockReturnValue('foo');
+            expect(canShow()).toBe(false);
         });
     });
 });
