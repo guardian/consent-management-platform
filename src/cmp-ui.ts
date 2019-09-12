@@ -1,10 +1,5 @@
 import { readGuCookie, readIabCookie } from './cookies';
-import {
-    CMP_DOMAIN,
-    CMP_READY_MSG,
-    CMP_CLOSE_MSG,
-    IAB_COOKIE_NAME,
-} from './config';
+import { CMP_DOMAIN, CMP_READY_MSG, CMP_CLOSE_MSG } from './config';
 
 type Callback = () => void;
 
