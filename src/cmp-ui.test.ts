@@ -1,11 +1,16 @@
-import * as _Cookies from 'js-cookie';
 import { setupMessageHandlers, canShow } from './cmp-ui';
 import { CMP_DOMAIN, CMP_READY_MSG, CMP_CLOSE_MSG } from './config';
+import {
+    readGuCookie as _readGuCookie,
+    readIabCookie as _readIabCookie,
+} from './cookies';
 
-const Cookies = _Cookies;
+const readGuCookie = _readGuCookie;
+const readIabCookie = _readIabCookie;
 
-jest.mock('js-cookie', () => ({
-    get: jest.fn(),
+jest.mock('./cookies', () => ({
+    readGuCookie: jest.fn(),
+    readIabCookie: jest.fn(),
 }));
 
 describe('cmp-ui', () => {
@@ -106,18 +111,26 @@ describe('cmp-ui', () => {
     });
 
     describe('canShow', () => {
-        it('canShow returns true if no cookie with IAB_COOKIE_NAME exists', () => {
-            Cookies.get.mockReturnValue(undefined);
+        it('canShow returns true if readGuCookie returns null', () => {
+            readIabCookie.mockReturnValue('foo');
+            readGuCookie.mockReturnValue(null);
             expect(canShow()).toBe(true);
         });
 
-        it('canShow returns true if cookie with IAB_COOKIE_NAME exists but value is empty string', () => {
-            Cookies.get.mockReturnValue('');
+        it('canShow returns true if readIabCookie returns null', () => {
+            readIabCookie.mockReturnValue(null);
+            readGuCookie.mockReturnValue('foo');
+            expect(canShow()).toBe(true);
+        });
+        it('canShow returns true if readIabCookie and readGuCookie return null', () => {
+            readIabCookie.mockReturnValue(null);
+            readGuCookie.mockReturnValue(null);
             expect(canShow()).toBe(true);
         });
 
-        it('canShow returns false if  cookie with IAB_COOKIE_NAME exists', () => {
-            Cookies.get.mockReturnValue('foo');
+        it('canShow returns false if readIabCookie and readGuCookie return truthy values', () => {
+            readIabCookie.mockReturnValue('foo');
+            readGuCookie.mockReturnValue('bar');
             expect(canShow()).toBe(false);
         });
     });

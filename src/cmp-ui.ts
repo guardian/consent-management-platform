@@ -1,4 +1,4 @@
-import * as Cookies from 'js-cookie';
+import { readGuCookie, readIabCookie } from './cookies';
 import {
     CMP_DOMAIN,
     CMP_READY_MSG,
@@ -34,4 +34,4 @@ export const setupMessageHandlers = (
     window.addEventListener('message', receiveMessage, false);
 };
 
-export const canShow = (): boolean => !Cookies.get(IAB_COOKIE_NAME);
+export const canShow = (): boolean => !readGuCookie() || !readIabCookie();
