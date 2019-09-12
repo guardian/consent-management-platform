@@ -1,8 +1,8 @@
 import { GuPurposeList } from './types';
 
-const cmpDomain = (): string => {
+const isRunningOnCode = (): boolean => {
     if (typeof document === 'undefined') {
-        return '';
+        return false;
     }
 
     const domain = document.domain || '';
@@ -11,14 +11,20 @@ const cmpDomain = (): string => {
         .slice(-2)
         .join('.');
 
-    if (shortDomain === 'localhost' || shortDomain === 'thegulocal.com') {
-        return 'https://manage.thegulocal.com';
-    }
-    if (shortDomain === 'dev-theguardian.com') {
-        return 'http://manage.code.dev-theguardian.com';
-    }
-    return 'https://manage.theguardian.com';
+    return shortDomain === 'dev-theguardian.com';
 };
+
+const isOnCode = isRunningOnCode();
+
+const cmpDomain = (): string =>
+    isOnCode
+        ? 'http://manage.code.dev-theguardian.com'
+        : 'https://manage.theguardian.com';
+
+const iabVendorListUrl = (): string =>
+    isOnCode
+        ? 'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json'
+        : 'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 
 export const CMP_DOMAIN = cmpDomain();
 export const CMP_URL = `${CMP_DOMAIN}/consent`;
@@ -26,8 +32,7 @@ export const COOKIE_MAX_AGE = 395; // 13 months
 export const GU_AD_CONSENT_COOKIE = 'GU_TK';
 export const GU_COOKIE_NAME = 'guconsent';
 export const GU_COOKIE_VERSION = 1;
-export const IAB_VENDOR_LIST_URL =
-    'https://www.theguardian.com/commercial/cmp/vendorlist.json';
+export const IAB_VENDOR_LIST_URL = iabVendorListUrl();
 export const IAB_COOKIE_NAME = 'euconsent';
 export const IAB_CMP_ID = 112;
 export const IAB_CMP_VERSION = 1;
