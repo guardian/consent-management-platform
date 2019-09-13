@@ -1,6 +1,6 @@
 import { GuPurposeList } from './types';
 
-const isRunningOnCode = (): boolean => {
+const isRunningOnProd = (): boolean => {
     if (typeof document === 'undefined') {
         return false;
     }
@@ -11,20 +11,20 @@ const isRunningOnCode = (): boolean => {
         .slice(-2)
         .join('.');
 
-    return shortDomain === 'dev-theguardian.com';
+    return shortDomain === 'theguardian.com';
 };
 
-const isOnCode = isRunningOnCode();
+const isProd = isRunningOnProd();
 
 const cmpDomain = (): string =>
-    isOnCode
-        ? 'http://manage.code.dev-theguardian.com'
-        : 'https://manage.theguardian.com';
+    isProd
+        ? 'https://manage.theguardian.com'
+        : 'https://manage.code.dev-theguardian.com';
 
 const iabVendorListUrl = (): string =>
-    isOnCode
-        ? 'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json'
-        : 'https://www.theguardian.com/commercial/cmp/vendorlist.json';
+    isProd
+        ? 'https://www.theguardian.com/commercial/cmp/vendorlist.json'
+        : 'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
 
 export const CMP_DOMAIN = cmpDomain();
 export const CMP_URL = `${CMP_DOMAIN}/consent`;
