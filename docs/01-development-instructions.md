@@ -53,3 +53,15 @@ We recommend using [VSCode](https://code.visualstudio.com/).
 VSCode should prompt you to install our recommended extensions when you open the project.
 
 You can also find these extensions by searching for `@recommended` in the extensions pane.
+
+## Publishing to NPM
+
+The `consent-management-platform` is available to import from [NPM](https://www.npmjs.com/package/@guardian/consent-management-platform), You must be a member of the `guardian` organisation on NPM to publish new versions of this package.
+
+Once you are ready to publish a new release please follow these steps:
+
+-   Make sure all the changes you want to release have been merged into `master`.
+-   On `master` bump the version number appropriately, we use [semantic versioning](https://docs.npmjs.com/about-semantic-versioning) when bumping the version.
+-   Once the version number has been bumped create a new [release](https://github.com/guardian/consent-management-platform/releases) using Github. Make sure to label correctly and add a list of links to PRs merged since the last release.
+-   You can now publish to NPM from your local machine. To do this pull `master`, and then run the following command: `yarn publish --access public --new-version [new version number as stated in package.json]`. This command will validate the code and if it passes validation it will build and publish to NPM.
+-   Now check https://www.npmjs.com/package/@guardian/consent-management-platform
