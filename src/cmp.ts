@@ -136,7 +136,7 @@ const setStateFromCookies = (): void => {
 const receiveMessage = (event: MessageEvent): void => {
     const { origin, data } = event;
 
-    // triggerConsentNotification when CMP_SAVED_MSG emitted from CMP_DOMAIN
+    // setStateFromCookies when CMP_SAVED_MSG emitted from CMP_DOMAIN
     if (origin === CMP_DOMAIN && data === CMP_SAVED_MSG) {
         setStateFromCookies();
     }
@@ -182,7 +182,7 @@ export const onGuConsentNotification = (
 
 // Exposed for testing
 export const _ = {
-    triggerConsentNotification,
+    setStateFromCookies,
     resetCmp: (): void => {
         cmpIsReady = false;
         // reset guPurposeRegister
