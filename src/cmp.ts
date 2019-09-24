@@ -1,4 +1,5 @@
 import * as Cookies from 'js-cookie';
+import { ConsentString } from 'consent-string';
 import {
     GuPurposeCallback,
     GuResponsivePurposeEventId,
@@ -15,6 +16,7 @@ import {
     GU_AD_CONSENT_COOKIE,
     GU_PURPOSE_LIST,
 } from './config';
+import { readIabCookie } from './cookies';
 
 let cmpIsReady = false;
 
@@ -70,18 +72,30 @@ const triggerConsentNotification = (): void => {
     );
 };
 
-const receiveMessage = (event: MessageEvent): void => {
-    const { origin, data } = event;
+const getIabStateFromCookie = (): IabPurposeState | null => {
+    const cookie = readIabCookie();
 
-    // triggerConsentNotification when CMP_SAVED_MSG emitted from CMP_DOMAIN
-    if (origin === CMP_DOMAIN && data === CMP_SAVED_MSG) {
-        triggerConsentNotification();
+    if (!cookie) {
+        return null;
     }
+
+    const iabState = {
+        ...iabPurposeRegister.state,
+    };
+
+    const iabData = new ConsentString(cookie);
+
+    Object.keys(iabState).forEach((key: string): void => {
+        const purposeId = parseInt(key, 10);
+        iabState[purposeId] = iabData.isPurposeAllowed(purposeId);
+    });
+
+    return iabState;
 };
 
-const getAdConsentState = (): IabPurposeState => {
+const getGuTkStateFromCookie = (): IabPurposeState => {
     const cookie = Cookies.get(GU_AD_CONSENT_COOKIE);
-    const state = {
+    const iabState = {
         ...iabPurposeRegister.state,
     };
     let adConsentState: ItemState = null;
@@ -98,18 +112,14 @@ const getAdConsentState = (): IabPurposeState => {
         }
     }
 
-    Object.keys(state).forEach((key: string): void => {
-        state[parseInt(key, 10)] = adConsentState;
+    Object.keys(iabState).forEach((key: string): void => {
+        iabState[parseInt(key, 10)] = adConsentState;
     });
 
-    return state;
+    return iabState;
 };
 
-const checkCmpReady = (): void => {
-    if (cmpIsReady) {
-        return;
-    }
-
+const setStateFromCookies = (): void => {
     /**
      * These state assignments are temporary
      * and will eventually be replaced by values
@@ -117,7 +127,27 @@ const checkCmpReady = (): void => {
      * */
     guPurposeRegister.functional.state = true;
     guPurposeRegister.performance.state = true;
-    iabPurposeRegister.state = getAdConsentState();
+    iabPurposeRegister.state =
+        getIabStateFromCookie() || getGuTkStateFromCookie();
+
+    triggerConsentNotification();
+};
+
+const receiveMessage = (event: MessageEvent): void => {
+    const { origin, data } = event;
+
+    // setStateFromCookies when CMP_SAVED_MSG emitted from CMP_DOMAIN
+    if (origin === CMP_DOMAIN && data === CMP_SAVED_MSG) {
+        setStateFromCookies();
+    }
+};
+
+const checkCmpReady = (): void => {
+    if (cmpIsReady) {
+        return;
+    }
+
+    setStateFromCookies();
 
     // listen for postMessage events from CMP UI
     window.addEventListener('message', receiveMessage, false);
@@ -152,7 +182,7 @@ export const onGuConsentNotification = (
 
 // Exposed for testing
 export const _ = {
-    triggerConsentNotification,
+    setStateFromCookies,
     resetCmp: (): void => {
         cmpIsReady = false;
         // reset guPurposeRegister
