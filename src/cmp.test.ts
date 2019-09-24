@@ -6,6 +6,27 @@ import { readIabCookie as _readIabCookie } from './cookies';
 
 const Cookies = _Cookies;
 const readIabCookie = _readIabCookie;
+const iabTrueState = {
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+};
+const iabFalseState = {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+};
+const iabNullState = {
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+};
 
 jest.mock('js-cookie', () => ({
     get: jest.fn(),
@@ -62,13 +83,7 @@ describe('cmp', () => {
 
                 onIabConsentNotification(myCallBack);
 
-                expect(myCallBack).toBeCalledWith({
-                    1: true,
-                    2: true,
-                    3: true,
-                    4: true,
-                    5: true,
-                });
+                expect(myCallBack).toBeCalledWith(iabTrueState);
             });
 
             it('executes advertisement callback with false state if GU_TK cookie is false', () => {
@@ -78,13 +93,7 @@ describe('cmp', () => {
 
                 onIabConsentNotification(myCallBack);
 
-                expect(myCallBack).toBeCalledWith({
-                    1: false,
-                    2: false,
-                    3: false,
-                    4: false,
-                    5: false,
-                });
+                expect(myCallBack).toBeCalledWith(iabFalseState);
             });
 
             it('executes advertisement callback with null state if GU_TK cookie is null', () => {
@@ -94,13 +103,7 @@ describe('cmp', () => {
 
                 onIabConsentNotification(myCallBack);
 
-                expect(myCallBack).toBeCalledWith({
-                    1: null,
-                    2: null,
-                    3: null,
-                    4: null,
-                    5: null,
-                });
+                expect(myCallBack).toBeCalledWith(iabNullState);
             });
 
             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
@@ -109,17 +112,7 @@ describe('cmp', () => {
                     .mockReturnValueOnce(undefined); // first call
 
                 const myCallBack = jest.fn();
-                const expectedArguments = [
-                    [
-                        {
-                            1: null,
-                            2: null,
-                            3: null,
-                            4: null,
-                            5: null,
-                        },
-                    ],
-                ];
+                const expectedArguments = [[iabNullState]];
 
                 onIabConsentNotification(myCallBack);
 
@@ -135,15 +128,7 @@ describe('cmp', () => {
                  */
                 for (let i = 0; i < triggerCount; i += 1) {
                     _.setStateFromCookies();
-                    expectedArguments.push([
-                        {
-                            1: true,
-                            2: true,
-                            3: true,
-                            4: true,
-                            5: true,
-                        },
-                    ]);
+                    expectedArguments.push([iabTrueState]);
                 }
 
                 expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
@@ -171,13 +156,7 @@ describe('cmp', () => {
 
                 expect(ConsentString).toHaveBeenCalledTimes(1);
                 expect(ConsentString).toHaveBeenCalledWith(fakeIabCookie);
-                expect(myCallBack).toBeCalledWith({
-                    1: true,
-                    2: true,
-                    3: true,
-                    4: true,
-                    5: true,
-                });
+                expect(myCallBack).toBeCalledWith(iabTrueState);
             });
 
             it('executes advertisement callback with false state if IAB cookie is available', () => {
@@ -193,13 +172,7 @@ describe('cmp', () => {
 
                 expect(ConsentString).toHaveBeenCalledTimes(1);
                 expect(ConsentString).toHaveBeenCalledWith(fakeIabCookie);
-                expect(myCallBack).toBeCalledWith({
-                    1: false,
-                    2: false,
-                    3: false,
-                    4: false,
-                    5: false,
-                });
+                expect(myCallBack).toBeCalledWith(iabFalseState);
             });
 
             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
@@ -210,17 +183,7 @@ describe('cmp', () => {
                 });
 
                 const myCallBack = jest.fn();
-                const expectedArguments = [
-                    [
-                        {
-                            1: false,
-                            2: false,
-                            3: false,
-                            4: false,
-                            5: false,
-                        },
-                    ],
-                ];
+                const expectedArguments = [[iabFalseState]];
 
                 onIabConsentNotification(myCallBack);
 
@@ -242,15 +205,7 @@ describe('cmp', () => {
                  */
                 for (let i = 0; i < triggerCount; i += 1) {
                     _.setStateFromCookies();
-                    expectedArguments.push([
-                        {
-                            1: true,
-                            2: true,
-                            3: true,
-                            4: true,
-                            5: true,
-                        },
-                    ]);
+                    expectedArguments.push([iabTrueState]);
                 }
 
                 expect(ConsentString).toHaveBeenCalledTimes(triggerCount + 1);
