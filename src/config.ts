@@ -21,6 +21,11 @@ const cmpDomain = (): string =>
         ? 'https://manage.theguardian.com'
         : 'https://manage.code.dev-theguardian.com';
 
+const cmpLogsUrl = (): string =>
+    isProd
+        ? 'https://consent-logs.guardianapis.com/report'
+        : 'https://consent-logs.code.dev-guardianapis.com/report';
+
 const iabVendorListUrl = (): string =>
     isProd
         ? 'https://www.theguardian.com/commercial/cmp/vendorlist.json'
@@ -28,6 +33,7 @@ const iabVendorListUrl = (): string =>
 
 export const CMP_DOMAIN = cmpDomain();
 export const CMP_URL = `${CMP_DOMAIN}/consent`;
+export const CMP_LOGS_URL = cmpLogsUrl();
 export const COOKIE_MAX_AGE = 395; // 13 months
 export const GU_AD_CONSENT_COOKIE = 'GU_TK';
 export const GU_COOKIE_NAME = 'guconsent';
