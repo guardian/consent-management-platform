@@ -137,7 +137,12 @@ const receiveMessage = (event: MessageEvent): void => {
     const { origin, data } = event;
 
     // setStateFromCookies when CMP_SAVED_MSG emitted from CMP_DOMAIN
-    if (origin === CMP_DOMAIN && data === CMP_SAVED_MSG) {
+    if (
+        origin === CMP_DOMAIN &&
+        data &&
+        data.msgType &&
+        data.msgType === CMP_SAVED_MSG
+    ) {
         setStateFromCookies();
     }
 };
