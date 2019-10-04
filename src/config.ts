@@ -16,7 +16,10 @@ const isRunningOnProd = (): boolean => {
 
 const isProd = isRunningOnProd();
 
-const cmpDomain = (): string => 'https://manage.thegulocal.com';
+const cmpDomain = (): string =>
+    isProd
+        ? 'https://manage.theguardian.com'
+        : 'https://manage.code.dev-theguardian.com';
 
 const cmpLogsUrl = (): string =>
     isProd
