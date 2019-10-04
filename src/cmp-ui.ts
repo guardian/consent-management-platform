@@ -1,4 +1,4 @@
-import { readGuCookie, readIabCookie } from './cookies';
+import { readIabCookie } from './cookies';
 import { logConsent } from './consent-logs';
 import {
     CMP_DOMAIN,
@@ -59,4 +59,4 @@ export const setupMessageHandlers = (
     window.addEventListener('message', receiveMessage, false);
 };
 
-export const canShow = (): boolean => !readGuCookie() || !readIabCookie();
+export const canShow = (): boolean => !readIabCookie(); // TODO: Check readGuCookie once we start saving GU cookie
