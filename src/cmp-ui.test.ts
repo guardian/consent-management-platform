@@ -119,27 +119,36 @@ describe('cmp-ui', () => {
     });
 
     describe('canShow', () => {
-        it('canShow returns true if readGuCookie returns null', () => {
-            readIabCookie.mockReturnValue('foo');
-            // readGuCookie.mockReturnValue(null);
-            expect(canShow()).toBe(true);
-        });
-
         it('canShow returns true if readIabCookie returns null', () => {
             readIabCookie.mockReturnValue(null);
-            // readGuCookie.mockReturnValue('foo');
-            expect(canShow()).toBe(true);
-        });
-        it('canShow returns true if readIabCookie and readGuCookie return null', () => {
-            readIabCookie.mockReturnValue(null);
-            // readGuCookie.mockReturnValue(null);
             expect(canShow()).toBe(true);
         });
 
-        it('canShow returns false if readIabCookie and readGuCookie return truthy values', () => {
+        it('canShow returns false if readIabCookie returns truthy value', () => {
             readIabCookie.mockReturnValue('foo');
-            // readGuCookie.mockReturnValue('bar');
             expect(canShow()).toBe(false);
         });
+        // it('canShow returns true if readGuCookie returns null', () => {
+        //     readIabCookie.mockReturnValue('foo');
+        //     readGuCookie.mockReturnValue(null);
+        //     expect(canShow()).toBe(true);
+        // });
+
+        // it('canShow returns true if readIabCookie returns null', () => {
+        //     readIabCookie.mockReturnValue(null);
+        //     readGuCookie.mockReturnValue('foo');
+        //     expect(canShow()).toBe(true);
+        // });
+        // it('canShow returns true if readIabCookie and readGuCookie return null', () => {
+        //     readIabCookie.mockReturnValue(null);
+        //     readGuCookie.mockReturnValue(null);
+        //     expect(canShow()).toBe(true);
+        // });
+
+        // it('canShow returns false if readIabCookie and readGuCookie return truthy values', () => {
+        //     readIabCookie.mockReturnValue('foo');
+        //     readGuCookie.mockReturnValue('bar');
+        //     expect(canShow()).toBe(false);
+        // });
     });
 });
