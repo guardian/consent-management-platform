@@ -36,7 +36,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: CMP_DOMAIN,
-                data: CMP_READY_MSG,
+                data: {
+                    msgType: CMP_READY_MSG,
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -49,7 +51,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: CMP_DOMAIN,
-                data: 'foo',
+                data: {
+                    msgType: 'foo',
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -62,7 +66,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: 'foo',
-                data: CMP_READY_MSG,
+                data: {
+                    msgType: CMP_READY_MSG,
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -75,7 +81,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: CMP_DOMAIN,
-                data: CMP_CLOSE_MSG,
+                data: {
+                    msgType: CMP_CLOSE_MSG,
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -87,7 +95,7 @@ describe('cmp-ui', () => {
             setupMessageHandlers(onReadyCmp, onCloseCmp);
 
             const fakeEvent = {
-                origin: CMP_DOMAIN,
+                origin: { msgType: CMP_DOMAIN },
                 data: 'foo',
             };
 
@@ -101,7 +109,7 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: 'foo',
-                data: CMP_CLOSE_MSG,
+                data: { msgType: CMP_CLOSE_MSG },
             };
 
             fakeMessage(fakeEvent);
