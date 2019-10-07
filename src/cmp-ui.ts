@@ -59,4 +59,4 @@ export const setupMessageHandlers = (
     window.addEventListener('message', receiveMessage, false);
 };
 
-export const canShow = (): boolean => !readIabCookie(); // TODO: Check readGuCookie once we start saving GU cookie
+export const canShow = (): boolean => !readIabCookie(); // TODO: Restore readGuCookie check once we start saving GU cookie
