@@ -15,7 +15,7 @@ export const setupMessageHandlers = (
     onErrorCmp: Callback,
 ): void => {
     const receiveMessage = (event: MessageEvent): void => {
-        const withError = (callback: Callback): void => {
+        const withErrorHandling = (callback: Callback): void => {
             try {
                 callback();
             } catch (e) {
@@ -33,10 +33,10 @@ export const setupMessageHandlers = (
 
         switch (msgType) {
             case CMP_READY_MSG:
-                withError(onReadyCmp);
+                withErrorHandling(onReadyCmp);
                 break;
             case CMP_CLOSE_MSG:
-                withError(onCloseCmp);
+                withErrorHandling(onCloseCmp);
                 break;
             case CMP_SAVED_MSG:
                 logConsent(msgData)
