@@ -106,36 +106,6 @@ describe('cmp', () => {
                 expect(myCallBack).toBeCalledWith(iabNullState);
             });
 
-            //     it('executes advertisement callback each time consent nofication triggered with updated state', () => {
-            //         Cookies.get
-            //             .mockReturnValue('1.54321') // default
-            //             .mockReturnValueOnce(undefined); // first call
-
-            //         const myCallBack = jest.fn();
-            //         const expectedArguments = [[iabNullState]];
-
-            //         onIabConsentNotification(myCallBack);
-
-            //         const triggerCount = 5;
-
-            //         /**
-            //          * TODO: Once the module under test handles
-            //          * updates to state we should update this test
-            //          * to handle 5 updates to state (with differing values)
-            //          * rather than triggering consent notifications manually
-            //          * so we can test the callback is receiving the correct
-            //          * latest state.
-            //          */
-            //         for (let i = 0; i < triggerCount; i += 1) {
-            //             _.setStateFromCookies();
-            //             expectedArguments.push([iabTrueState]);
-            //         }
-
-            //         expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
-            //         expect(myCallBack.mock.calls).toEqual(expectedArguments);
-            //     });
-            // });
-
             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
                 Cookies.get.mockReturnValue(undefined); // first call
 
