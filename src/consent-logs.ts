@@ -42,18 +42,18 @@ export const logConsent = ({
 
     writeIabCookie(consentStr);
 
-    const latestIabState = {
-        '1': consentData.isPurposeAllowed(1),
-        '2': consentData.isPurposeAllowed(2),
-        '3': consentData.isPurposeAllowed(3),
-        '4': consentData.isPurposeAllowed(4),
-        '5': consentData.isPurposeAllowed(5),
+    const latestIabState: IabPurposeState = {
+        1: consentData.isPurposeAllowed(1),
+        2: consentData.isPurposeAllowed(2),
+        3: consentData.isPurposeAllowed(3),
+        4: consentData.isPurposeAllowed(4),
+        5: consentData.isPurposeAllowed(5),
     };
 
     updateStateOnSave(latestIabState);
 
     const pAdvertising = Object.keys(latestIabState).every(
-        id => latestIabState[id] === true,
+        id => latestIabState[parseInt(id, 10)] === true,
     );
 
     const browserID = Cookies.get('bwid') || DUMMY_BROWSER_ID;
