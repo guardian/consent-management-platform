@@ -107,9 +107,7 @@ describe('cmp', () => {
             });
 
             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
-                Cookies.get
-                    .mockReturnValue('1.54321') // default
-                    .mockReturnValueOnce(undefined); // first call
+                Cookies.get.mockReturnValue(undefined); // first call
 
                 const myCallBack = jest.fn();
                 const expectedArguments = [[iabNullState]];
@@ -127,7 +125,7 @@ describe('cmp', () => {
                  * latest state.
                  */
                 for (let i = 0; i < triggerCount; i += 1) {
-                    _.setStateFromCookies();
+                    _.updateStateOnSave(iabTrueState);
                     expectedArguments.push([iabTrueState]);
                 }
 
@@ -187,12 +185,6 @@ describe('cmp', () => {
 
                 onIabConsentNotification(myCallBack);
 
-                ConsentString.mockImplementation(() => {
-                    return {
-                        isPurposeAllowed: jest.fn(() => true),
-                    };
-                });
-
                 const triggerCount = 5;
 
                 /**
@@ -204,11 +196,11 @@ describe('cmp', () => {
                  * latest state.
                  */
                 for (let i = 0; i < triggerCount; i += 1) {
-                    _.setStateFromCookies();
+                    _.updateStateOnSave(iabTrueState);
                     expectedArguments.push([iabTrueState]);
                 }
 
-                expect(ConsentString).toHaveBeenCalledTimes(triggerCount + 1);
+                expect(ConsentString).toHaveBeenCalledTimes(1);
                 expect(ConsentString).toHaveBeenCalledWith(fakeIabCookie);
                 expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
                 expect(myCallBack.mock.calls).toEqual(expectedArguments);

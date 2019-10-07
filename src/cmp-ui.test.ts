@@ -1,15 +1,15 @@
 import { setupMessageHandlers, canShow } from './cmp-ui';
 import { CMP_DOMAIN, CMP_READY_MSG, CMP_CLOSE_MSG } from './config';
 import {
-    readGuCookie as _readGuCookie,
+    // readGuCookie as _readGuCookie,
     readIabCookie as _readIabCookie,
 } from './cookies';
 
-const readGuCookie = _readGuCookie;
+// const readGuCookie = _readGuCookie;
 const readIabCookie = _readIabCookie;
 
 jest.mock('./cookies', () => ({
-    readGuCookie: jest.fn(),
+    // readGuCookie: jest.fn(),
     readIabCookie: jest.fn(),
 }));
 
@@ -36,7 +36,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: CMP_DOMAIN,
-                data: CMP_READY_MSG,
+                data: {
+                    msgType: CMP_READY_MSG,
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -49,7 +51,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: CMP_DOMAIN,
-                data: 'foo',
+                data: {
+                    msgType: 'foo',
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -62,7 +66,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: 'foo',
-                data: CMP_READY_MSG,
+                data: {
+                    msgType: CMP_READY_MSG,
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -75,7 +81,9 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: CMP_DOMAIN,
-                data: CMP_CLOSE_MSG,
+                data: {
+                    msgType: CMP_CLOSE_MSG,
+                },
             };
 
             fakeMessage(fakeEvent);
@@ -87,7 +95,7 @@ describe('cmp-ui', () => {
             setupMessageHandlers(onReadyCmp, onCloseCmp);
 
             const fakeEvent = {
-                origin: CMP_DOMAIN,
+                origin: { msgType: CMP_DOMAIN },
                 data: 'foo',
             };
 
@@ -101,7 +109,7 @@ describe('cmp-ui', () => {
 
             const fakeEvent = {
                 origin: 'foo',
-                data: CMP_CLOSE_MSG,
+                data: { msgType: CMP_CLOSE_MSG },
             };
 
             fakeMessage(fakeEvent);
@@ -111,27 +119,36 @@ describe('cmp-ui', () => {
     });
 
     describe('canShow', () => {
-        it('canShow returns true if readGuCookie returns null', () => {
-            readIabCookie.mockReturnValue('foo');
-            readGuCookie.mockReturnValue(null);
-            expect(canShow()).toBe(true);
-        });
-
         it('canShow returns true if readIabCookie returns null', () => {
             readIabCookie.mockReturnValue(null);
-            readGuCookie.mockReturnValue('foo');
-            expect(canShow()).toBe(true);
-        });
-        it('canShow returns true if readIabCookie and readGuCookie return null', () => {
-            readIabCookie.mockReturnValue(null);
-            readGuCookie.mockReturnValue(null);
             expect(canShow()).toBe(true);
         });
 
-        it('canShow returns false if readIabCookie and readGuCookie return truthy values', () => {
+        it('canShow returns false if readIabCookie returns truthy value', () => {
             readIabCookie.mockReturnValue('foo');
-            readGuCookie.mockReturnValue('bar');
             expect(canShow()).toBe(false);
         });
+
+        // TODO: Restore tests below once we start saving GU cookie
+        // it('canShow returns true if readGuCookie returns null', () => {
+        //     readIabCookie.mockReturnValue('foo');
+        //     readGuCookie.mockReturnValue(null);
+        //     expect(canShow()).toBe(true);
+        // });
+        // it('canShow returns true if readIabCookie returns null', () => {
+        //     readIabCookie.mockReturnValue(null);
+        //     readGuCookie.mockReturnValue('foo');
+        //     expect(canShow()).toBe(true);
+        // });
+        // it('canShow returns true if readIabCookie and readGuCookie return null', () => {
+        //     readIabCookie.mockReturnValue(null);
+        //     readGuCookie.mockReturnValue(null);
+        //     expect(canShow()).toBe(true);
+        // });
+        // it('canShow returns false if readIabCookie and readGuCookie return truthy values', () => {
+        //     readIabCookie.mockReturnValue('foo');
+        //     readGuCookie.mockReturnValue('bar');
+        //     expect(canShow()).toBe(false);
+        // });
     });
 });

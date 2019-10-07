@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es5", // compile to es5 since to build a package with browser compatibility.
         "module": "commonjs",
-        "lib": ["es6", "dom"],
+        "lib": ["dom", "es7"],
         "declaration": true, // should export typescript definitions.
         "outDir": "./lib",
         "strict": true
