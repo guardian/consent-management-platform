@@ -10,12 +10,7 @@ import {
     IabPurposeState,
     ItemState,
 } from './types';
-import {
-    CMP_DOMAIN,
-    CMP_SAVED_MSG,
-    GU_AD_CONSENT_COOKIE,
-    GU_PURPOSE_LIST,
-} from './config';
+import { GU_AD_CONSENT_COOKIE, GU_PURPOSE_LIST } from './config';
 import { readIabCookie } from './cookies';
 
 let cmpIsReady = false;
@@ -133,20 +128,6 @@ const setStateFromCookies = (): void => {
     triggerConsentNotification();
 };
 
-const receiveMessage = (event: MessageEvent): void => {
-    const { origin, data } = event;
-
-    // setStateFromCookies when CMP_SAVED_MSG emitted from CMP_DOMAIN
-    if (
-        origin === CMP_DOMAIN &&
-        data &&
-        data.msgType &&
-        data.msgType === CMP_SAVED_MSG
-    ) {
-        setStateFromCookies();
-    }
-};
-
 const checkCmpReady = (): void => {
     if (cmpIsReady) {
         return;
@@ -154,10 +135,13 @@ const checkCmpReady = (): void => {
 
     setStateFromCookies();
 
-    // listen for postMessage events from CMP UI
-    window.addEventListener('message', receiveMessage, false);
-
     cmpIsReady = true;
+};
+
+export const updateStateOnSave = (latestIabState: IabPurposeState): void => {
+    iabPurposeRegister.state = latestIabState;
+
+    triggerConsentNotification();
 };
 
 export const onIabConsentNotification = (

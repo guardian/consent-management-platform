@@ -6,8 +6,9 @@ import {
     IAB_CONSENT_SCREEN,
     IAB_CONSENT_LANGUAGE,
 } from './config';
-
 import { writeIabCookie } from './cookies';
+import { updateStateOnSave } from './cmp';
+import { IabPurposeState } from './types';
 
 const DUMMY_BROWSER_ID = `No bwid available`;
 
@@ -40,6 +41,17 @@ export const logConsent = ({
     const consentStr = consentData.getConsentString();
 
     writeIabCookie(consentStr);
+
+    const iabPurposeIds: number[] = [0, 1, 2, 3, 4];
+
+    const latestIabState: IabPurposeState = iabPurposeIds.reduce((acc, id) => {
+        return {
+            ...acc,
+            [id]: allowedPurposes.includes(id),
+        };
+    }, {});
+
+    updateStateOnSave(latestIabState);
 
     const pAdvertising =
         consentData.isPurposeAllowed(1) &&
