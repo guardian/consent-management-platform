@@ -47,7 +47,6 @@ export const IAB_CONSENT_LANGUAGE = 'en';
 export const CMP_READY_MSG = 'readyCmp';
 export const CMP_SAVED_MSG = 'savedCmp';
 export const CMP_CLOSE_MSG = 'closeCmp';
-export const CMP_HIDE_MSG = 'hideCmp';
 export const GU_PURPOSE_LIST: GuPurposeList = {
     purposes: [
         {
