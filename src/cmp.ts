@@ -171,7 +171,7 @@ export const onGuConsentNotification = (
 
 // Exposed for testing
 export const _ = {
-    setStateFromCookies,
+    updateStateOnSave,
     resetCmp: (): void => {
         cmpIsReady = false;
         // reset guPurposeRegister
