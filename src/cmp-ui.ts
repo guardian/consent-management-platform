@@ -1,5 +1,5 @@
 import { readIabCookie } from './cookies';
-import { logConsent } from './consent-logs';
+import { save } from './consent-store';
 import {
     CMP_DOMAIN,
     CMP_READY_MSG,
@@ -39,7 +39,7 @@ export const setupMessageHandlers = (
                 withErrorHandling(onCloseCmp);
                 break;
             case CMP_SAVED_MSG:
-                logConsent(msgData)
+                save(msgData)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(

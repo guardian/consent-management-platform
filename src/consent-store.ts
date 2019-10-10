@@ -5,6 +5,8 @@ import {
     IAB_CMP_VERSION,
     IAB_CONSENT_SCREEN,
     IAB_CONSENT_LANGUAGE,
+    CMP_LOGS_URL,
+    isProd,
 } from './config';
 import { writeIabCookie } from './cookies';
 import { updateStateOnSave } from './cmp';
@@ -16,19 +18,13 @@ type MsgData = {
     iabVendorList: VendorList;
     allowedPurposes: number[];
     allowedVendors: number[];
-    isProd: boolean;
 };
 
-export const logConsent = ({
+export const save = ({
     iabVendorList,
     allowedPurposes,
     allowedVendors,
-    isProd,
 }: MsgData): Promise<Response> => {
-    const consentLogsURL = isProd
-        ? 'https://consent-logs.guardianapis.com/report'
-        : 'https://consent-logs.code.dev-guardianapis.com/report';
-
     const consentData = new ConsentString();
     consentData.setGlobalVendorList(iabVendorList);
     consentData.setCmpId(IAB_CMP_ID);
@@ -42,7 +38,7 @@ export const logConsent = ({
 
     writeIabCookie(consentStr);
 
-    const latestIabState: IabPurposeState = {
+    const newIabState: IabPurposeState = {
         1: consentData.isPurposeAllowed(1),
         2: consentData.isPurposeAllowed(2),
         3: consentData.isPurposeAllowed(3),
@@ -50,10 +46,10 @@ export const logConsent = ({
         5: consentData.isPurposeAllowed(5),
     };
 
-    updateStateOnSave(latestIabState);
+    updateStateOnSave(newIabState);
 
-    const pAdvertising = Object.keys(latestIabState).every(
-        id => latestIabState[parseInt(id, 10)] === true,
+    const pAdvertising = Object.keys(newIabState).every(
+        id => newIabState[parseInt(id, 10)] === true,
     );
 
     const browserID = Cookies.get('bwid') || DUMMY_BROWSER_ID;
@@ -73,7 +69,7 @@ export const logConsent = ({
         variant: 'CmpUiIab-variant',
     };
 
-    return fetch(consentLogsURL, {
+    return fetch(CMP_LOGS_URL, {
         method: 'POST',
         mode: 'cors',
         headers: {

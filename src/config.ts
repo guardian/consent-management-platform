@@ -14,7 +14,7 @@ const isRunningOnProd = (): boolean => {
     return shortDomain === 'theguardian.com';
 };
 
-const isProd = isRunningOnProd();
+export const isProd = isRunningOnProd();
 
 const cmpDomain = (): string =>
     isProd
