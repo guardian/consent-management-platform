@@ -1,5 +1,5 @@
 import { readIabCookie } from './cookies';
-import { save } from './consent-store';
+import { save } from './consent-storage';
 import {
     CMP_DOMAIN,
     CMP_READY_MSG,

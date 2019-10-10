@@ -1,5 +1,5 @@
 export type CmpMsgData = {
-    iabVendorList: VendorList;
+    iabVendorList: IabVendorList;
     allowedPurposes: number[];
     allowedVendors: number[];
 };

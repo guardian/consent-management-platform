@@ -8,7 +8,7 @@ import {
     CMP_LOGS_URL,
     isProd,
 } from './config';
-import { writeIabCookie } from './cookies';
+import { writeIabCookie, writeLegacyCookie } from './cookies';
 import { updateStateOnSave } from './cmp';
 import { IabPurposeState, CmpMsgData } from './types';
 
@@ -45,6 +45,8 @@ export const save = ({
     const pAdvertising = Object.keys(newIabState).every(
         id => newIabState[parseInt(id, 10)] === true,
     );
+
+    writeLegacyCookie(pAdvertising);
 
     const browserID = Cookies.get('bwid') || DUMMY_BROWSER_ID;
 
