@@ -5,6 +5,7 @@ import {
     GU_COOKIE_VERSION,
     IAB_COOKIE_NAME,
     COOKIE_MAX_AGE,
+    LEGACY_COOKIE_NAME,
 } from './config';
 
 const getShortDomain = (): string => {
@@ -57,4 +58,13 @@ const writeGuCookie = (guState: GuPurposeState): void =>
 const writeIabCookie = (iabString: string): void =>
     addCookie(IAB_COOKIE_NAME, iabString);
 
-export { readGuCookie, readIabCookie, writeGuCookie, writeIabCookie };
+const writeLegacyCookie = (state: boolean): void =>
+    addCookie(LEGACY_COOKIE_NAME, [state ? '1' : '0', Date.now()].join('.'));
+
+export {
+    readGuCookie,
+    readIabCookie,
+    writeGuCookie,
+    writeIabCookie,
+    writeLegacyCookie,
+};

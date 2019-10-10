@@ -14,7 +14,7 @@ const isRunningOnProd = (): boolean => {
     return shortDomain === 'theguardian.com';
 };
 
-const isProd = isRunningOnProd();
+export const isProd = isRunningOnProd();
 
 const cmpDomain = (): string =>
     isProd
@@ -47,6 +47,7 @@ export const IAB_CONSENT_LANGUAGE = 'en';
 export const CMP_READY_MSG = 'readyCmp';
 export const CMP_SAVED_MSG = 'savedCmp';
 export const CMP_CLOSE_MSG = 'closeCmp';
+export const LEGACY_COOKIE_NAME = 'GU_TK';
 export const GU_PURPOSE_LIST: GuPurposeList = {
     purposes: [
         {
