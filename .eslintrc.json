@@ -1,9 +1,12 @@
 {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": "./tsconfig.json"
+        "project": "./tsconfig.json",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
-    "plugins": ["@typescript-eslint", "jest"],
+    "plugins": ["@typescript-eslint", "jest", "react", "prettier"],
     "extends": [
         "plugin:@typescript-eslint/recommended",
         "airbnb-typescript/base",
@@ -11,7 +14,8 @@
         "plugin:prettier/recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
-        "plugin:import/typescript"
+        "plugin:import/typescript",
+        "plugin:react/recommended"
     ],
     "env": {
         "jest/globals": true,
@@ -25,7 +29,11 @@
         "@typescript-eslint/consistent-type-definitions": 0,
         "import-name": 0,
         "object-literal-sort-keys": 0,
-        "interface-name": 0
+        "interface-name": 0,
+        "import/no-unresolved": [
+            "error",
+            { "ignore": ["react", "@emotion/core"] }
+        ]
     },
     "overrides": [
         {
@@ -34,5 +42,10 @@
                 "@typescript-eslint/explicit-function-return-type": 0
             }
         }
-    ]
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
 }
