@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 
-const extensions = ['.ts', '.tsx'];
+const extensions = ['.tsx'];
 
 module.exports = {
     input: 'src/component/Cmp-Ui-Component.tsx',
@@ -12,6 +12,6 @@ module.exports = {
             format: 'cjs',
         },
     ],
-    external: ['react', '@emotion/core', '@emotion/css'],
+    external: ['react', '@emotion/core'],
     plugins: [babel({ extensions }), resolve({ extensions }), commonjs()],
 };
