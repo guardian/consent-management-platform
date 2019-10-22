@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 
-const CMP = (): React.FC => (
+const CMP: React.FC = () => (
     <div
         css={css`
             color: red;

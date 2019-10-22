@@ -5,8 +5,10 @@
         "lib": ["dom", "es7"],
         "declaration": true, // should export typescript definitions.
         "outDir": "./lib",
-        "strict": true
+        "strict": true,
+        "jsx": "preserve",
+        "esModuleInterop": true
     },
-    "include": ["src"],
-    "exclude": ["node_modules", "src/**/*.test.ts", "src/component"]
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "exclude": ["node_modules", "src/**/*.test.ts"]
 }
