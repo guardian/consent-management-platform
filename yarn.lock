@@ -918,6 +918,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.4.tgz#622a72bebd1e3f48d921563b4b60a762295a81fc"
   integrity sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
 
+"@guardian/src-foundations@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-0.2.3.tgz#9b2f0b1a39f606c03ea321938140e58465dafa48"
+  integrity sha512-U35I1jcPgvPJWg+/2HMwlhL0elYvLDP3KwF3kyLLFP4u8EdQuY0/Y3QK9dvcl+t8P+JwoxAqylazMdH/dkmv6w==
+
 "@jest/console@^24.7.1":
   version "24.7.1"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.7.1.tgz#32a9e42535a97aedfe037e725bd67e954b459545"
