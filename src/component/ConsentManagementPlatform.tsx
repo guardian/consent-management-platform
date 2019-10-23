@@ -29,7 +29,7 @@ interface State {
     cmpVisible: boolean;
 }
 
-class CMP extends Component<{}, State> {
+class ConsentManagementPlatform extends Component<{}, State> {
     constructor(props: {}) {
         super(props);
 
@@ -52,4 +52,4 @@ class CMP extends Component<{}, State> {
     }
 }
 
-export { CMP };
+export { ConsentManagementPlatform };

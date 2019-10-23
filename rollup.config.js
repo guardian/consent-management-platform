@@ -5,10 +5,10 @@ import commonjs from 'rollup-plugin-commonjs';
 const extensions = ['.tsx'];
 
 module.exports = {
-    input: 'src/component/Cmp-Ui-Component.tsx',
+    input: 'src/component/ConsentManagementPlatform.tsx',
     output: [
         {
-            file: 'lib/Cmp-Ui-Component.js',
+            file: 'lib/ConsentManagementPlatform.js',
             format: 'cjs',
         },
     ],
