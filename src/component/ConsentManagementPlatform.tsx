@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { mobileLandscape, palette, space } from '@guardian/src-foundations';
 import { Logo } from './Logo';
+import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 
 const overlayStyles = css`
     position: fixed;
@@ -119,7 +120,7 @@ class ConsentManagementPlatform extends Component<{}, State> {
         super(props);
 
         this.state = {
-            cmpVisible: true,
+            cmpVisible: false,
         };
     }
 
@@ -144,7 +145,15 @@ class ConsentManagementPlatform extends Component<{}, State> {
                             <Logo css={logoStyles} />
                         </div>
                     </div>
-                    <div css={contentStyles}></div>
+                    <div css={contentStyles}>
+                        <ConsentPreferencesDashboard
+                            toggleCmpVisibility={() => {
+                                this.setState(prevState => ({
+                                    cmpVisible: !prevState.cmpVisible,
+                                }));
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         );

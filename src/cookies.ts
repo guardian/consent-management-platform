@@ -1,4 +1,5 @@
-import * as Cookies from 'js-cookie';
+// import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import { GuCookie, GuPurposeState } from './types';
 import {
     GU_COOKIE_NAME,
