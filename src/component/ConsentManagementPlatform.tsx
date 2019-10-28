@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { mobileLandscape, palette, space } from '@guardian/src-foundations';
-import { Logo } from './Logo';
+import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 
 const overlayStyles = css`

@@ -11,7 +11,11 @@ import {
 import { IAB_VENDOR_LIST_URL } from '../config';
 import { readIabCookie } from '../cookies';
 import { ConsentString } from 'consent-string';
+import { CmpListItem } from './CmpListItem';
+import { Vendors } from './Vendors';
+import { Features } from './Features';
 
+const PURPOSES_ID = 'cmpPurposes';
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
 const cookiePolicyURL = 'https://www.theguardian.com/info/cookies';
 const smallSpace = space[2]; // 12px
@@ -72,22 +76,40 @@ const formStyles = css`
     }
 `;
 
+const purposesContainerStyles = css`
+    margin-left: -${smallSpace}px;
+    margin-right: -${smallSpace}px;
+
+    ${mobileLandscape} {
+        margin-left: -${mediumSpace}px;
+        margin-right: -${mediumSpace}px;
+    }
+`;
+
+const cmpListStyles = css`
+    margin: 0;
+    list-style: none;
+`;
+
 interface ParsedIabVendorList extends IabVendorList {
     vendors: ParsedIabVendor[];
 }
 
-interface ParsedIabVendor extends IabVendor {
+export interface ParsedIabVendor extends IabVendor {
     description: React.ReactNode;
 }
 
 interface State {
     iabPurposes: IabPurposeState;
+    iabNullResponses?: number[];
 }
 interface Props {
     toggleCmpVisibility: () => void;
 }
 
 export class ConsentPreferencesDashboard extends Component<Props, State> {
+    private iabVendorList?: ParsedIabVendorList;
+
     constructor(props: Props) {
         super(props);
 
@@ -119,6 +141,13 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
+        const iabPurposesList = this.renderIabPurposeItems() as React.ReactNodeArray;
+        const firstIabPurposeList = iabPurposesList.slice(0, 3);
+        const secondIabPurposeList = iabPurposesList.slice(3);
+        const { iabNullResponses } = this.state;
+
+        console.log('***', firstIabPurposeList, secondIabPurposeList);
+
         return (
             <>
                 <img
@@ -152,15 +181,37 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
                         </a>{' '}
                         policies
                     </p>
+                    <div css={purposesContainerStyles} id={PURPOSES_ID}>
+                        <ul css={cmpListStyles}>{firstIabPurposeList}</ul>
+                        {/*
+                            renderIabPurposeItems,
+                            renderVendorItems and renderFeatureItems
+                            should be in single <ul> once renderGuPurposeItems
+                            is restored.
+                        */}
+                        <div>
+                            <ul css={cmpListStyles}>{secondIabPurposeList}</ul>
+                            {this.iabVendorList && (
+                                <Vendors vendors={this.iabVendorList.vendors} />
+                            )}
+                            {this.iabVendorList && (
+                                <Features
+                                    features={this.iabVendorList.features}
+                                />
+                            )}
+                        </div>
+                    </div>
                 </form>
             </>
         );
     }
 
     private buildState(iabVendorList: ParsedIabVendorList): Promise<void> {
+        this.iabVendorList = iabVendorList;
         const iabStr = readIabCookie();
-
         let iabPurposes = {};
+
+        this.iabVendorList;
 
         if (iabStr) {
             const iabData = new ConsentString(iabStr);
@@ -179,6 +230,49 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
         return new Promise(resolve =>
             this.setState({ iabPurposes }, () => resolve()),
         );
+    }
+
+    private renderIabPurposeItems(): React.ReactNode {
+        if (!this.iabVendorList || !this.iabVendorList.purposes) {
+            return '';
+        }
+
+        return this.iabVendorList.purposes.map(
+            (purpose: IabPurpose): React.ReactNode => {
+                const { id, name, description } = purpose;
+                const { iabPurposes, iabNullResponses } = this.state;
+
+                return (
+                    <CmpListItem
+                        name={name}
+                        value={iabPurposes[id]}
+                        updateItem={(updatedValue: boolean) => {
+                            this.updateIabPurpose(id, updatedValue);
+                        }}
+                        key={`purpose-${id}`}
+                        showError={
+                            iabNullResponses && iabNullResponses.includes(id)
+                        }
+                    >
+                        <p>{description}</p>
+                    </CmpListItem>
+                );
+            },
+        );
+    }
+
+    private updateIabPurpose(purposeId: number, value: boolean): void {
+        this.setState((prevState, props) => ({
+            iabPurposes: {
+                ...prevState.iabPurposes,
+                [purposeId]: value,
+            },
+            iabNullResponses: prevState.iabNullResponses
+                ? prevState.iabNullResponses.filter(
+                      iabNullResponse => iabNullResponse !== purposeId,
+                  )
+                : [],
+        }));
     }
 }
 
