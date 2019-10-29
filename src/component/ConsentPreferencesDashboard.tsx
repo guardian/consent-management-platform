@@ -9,20 +9,21 @@ import {
     space,
     transitions,
 } from '@guardian/src-foundations';
+import { ConsentString } from 'consent-string';
+import { CmpListItem } from './CmpListItem';
+import { Vendors } from './Vendors';
+import { Features } from './Features';
+import { ArrowIcon } from './svgs/ArrowIcon';
+import { IAB_VENDOR_LIST_URL } from '../config';
+import { readIabCookie } from '../cookies';
 import {
     IabFeature,
     IabPurpose,
     IabPurposeState,
     IabVendor,
     IabVendorList,
+    ParsedIabVendorList,
 } from '../types';
-import { IAB_VENDOR_LIST_URL } from '../config';
-import { readIabCookie } from '../cookies';
-import { ConsentString } from 'consent-string';
-import { CmpListItem } from './CmpListItem';
-import { Vendors } from './Vendors';
-import { Features } from './Features';
-import { ArrowIcon } from './svgs/ArrowIcon';
 
 const PURPOSES_ID = 'cmpPurposes';
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
@@ -223,14 +224,6 @@ const validationErrorStyles = css`
     }
 `;
 
-interface ParsedIabVendorList extends IabVendorList {
-    vendors: ParsedIabVendor[];
-}
-
-export interface ParsedIabVendor extends IabVendor {
-    description: React.ReactNode;
-}
-
 interface State {
     iabPurposes: IabPurposeState;
     iabNullResponses?: number[];
@@ -253,11 +246,8 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             .then(response => {
                 if (response.ok) {
                     return response.json();
-                } else {
-                    throw new Error(
-                        `${response.status} | ${response.statusText}`,
-                    );
                 }
+                throw new Error(`${response.status} | ${response.statusText}`);
             })
             .then(remoteVendorList => {
                 return this.buildState(parseIabVendorList(remoteVendorList));
@@ -269,6 +259,8 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             })
             .catch(error => {
                 // TODO: ERROR HANDLING
+                // eslint-disable-next-line no-console
+                console.log('Error', error);
             });
     }
 
@@ -277,8 +269,6 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
         const firstIabPurposeList = iabPurposesList.slice(0, 3);
         const secondIabPurposeList = iabPurposesList.slice(3);
         const { iabNullResponses } = this.state;
-
-        console.log('***', firstIabPurposeList, secondIabPurposeList);
 
         return (
             <>
@@ -294,21 +284,29 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
                         below.
                     </h1>
                     <p>
-                        When you visit this site, we'd like to use cookies and
-                        identifiers to understand things like which pages you've
-                        visited and how long you've spent with us. It helps us
-                        improve our service to you.{' '}
+                        When you visit this site, we&apos;d like to use cookies
+                        and identifiers to understand things like which pages
+                        you&apos;ve visited and how long you&apos;ve spent with
+                        us. It helps us improve our service to you.{' '}
                     </p>
                     <p>
                         Our advertising partners would like to do the same – so
                         the adverts are more relevant, and we make more money to
                         invest in Guardian journalism. By using this site, you
                         agree to our{' '}
-                        <a href={privacyPolicyURL} target="_blank">
+                        <a
+                            href={privacyPolicyURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             privacy
                         </a>{' '}
                         and{' '}
-                        <a href={cookiePolicyURL} target="_blank">
+                        <a
+                            href={cookiePolicyURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             cookie
                         </a>{' '}
                         policies
@@ -385,7 +383,11 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
                                 <p>
                                     You can change the above settings for this
                                     browser at any time by accessing our{' '}
-                                    <a href={privacyPolicyURL} target="_blank">
+                                    <a
+                                        href={privacyPolicyURL}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         privacy policy
                                     </a>
                                     .
@@ -427,8 +429,6 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
         this.iabVendorList = iabVendorList;
         const iabStr = readIabCookie();
         let iabPurposes = {};
-
-        this.iabVendorList;
 
         if (iabStr) {
             const iabData = new ConsentString(iabStr);
@@ -479,7 +479,7 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     private updateIabPurpose(purposeId: number, value: boolean): void {
-        this.setState((prevState, props) => ({
+        this.setState(prevState => ({
             iabPurposes: {
                 ...prevState.iabPurposes,
                 [purposeId]: value,
@@ -513,9 +513,9 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             .map(key => parseInt(key, 10));
 
         if (iabNullResponses.length > 0) {
-            this.setState((prevState, props) => ({
+            this.setState({
                 iabNullResponses,
-            }));
+            });
 
             return false;
         }
@@ -582,8 +582,8 @@ const getVendorDescription = (
     return (
         <>
             <p>
-                <a href={policyUrl} target="_blank">
-                    {name}'s Privacy policy
+                <a href={policyUrl} target="_blank" rel="noopener noreferrer">
+                    {name}&apos;s Privacy policy
                 </a>
             </p>
             <p>
@@ -616,11 +616,7 @@ const getIabPurposesDescriptions = (
             const purpose = purposes.find(item => item.id === id);
             str = purpose ? purpose.name : '';
 
-            if (str.length) {
-                return acc + str + ' | ';
-            } else {
-                return acc;
-            }
+            return str.length ? `${acc}${str} | ` : acc;
         }, '')
         .slice(0, -3);
 
@@ -638,11 +634,7 @@ const getFeaturesDescriptions = (
             const feature = features.find(item => item.id === id);
             str = feature ? feature.name : '';
 
-            if (str.length) {
-                return acc + str + ' | ';
-            } else {
-                return acc;
-            }
+            return str.length ? `${acc}${str} | ` : acc;
         }, '')
         .slice(0, -3);
 

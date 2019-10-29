@@ -1,5 +1,4 @@
 import { css } from '@emotion/core';
-import { ItemState } from '../types';
 import {
     focusHalo,
     palette,
@@ -8,8 +7,9 @@ import {
     transitions,
 } from '@guardian/src-foundations';
 import React, { Component } from 'react';
+import { ItemState } from '../types';
 
-let idCounter: number = 0;
+let idCounter = 0;
 
 const radioContainerStyles = css`
     cursor: default;
@@ -116,7 +116,7 @@ export class OnOffRadio extends Component<Props, {}> {
         const id = `radio-${this.myIdCounter}`;
         const onId = `${id}-on`;
         const offId = `${id}-off`;
-        const disabled: boolean = !onChangeHandler;
+        const disabled = !onChangeHandler;
         const validationProps = showError
             ? {
                   'aria-invalid': true,
@@ -169,8 +169,6 @@ export class OnOffRadio extends Component<Props, {}> {
                 </label>
             </div>
         );
-
-        return '';
     }
 
     public shouldComponentUpdate = (nextProps: Props) =>

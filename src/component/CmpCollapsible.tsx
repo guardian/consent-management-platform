@@ -1,9 +1,9 @@
 import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import React, { Component } from 'react';
-import { ItemState } from '../types';
 import { CollapseItemButton } from './CollapseItemButton';
 import { OnOffRadio } from './OnOffRadio';
+import { ItemState } from '../types';
 
 const titleTabStyles = css`
     display: flex;
@@ -91,7 +91,7 @@ export class CmpCollapsible extends Component<Props, State> {
     }
 
     private toggleCollapsed(): void {
-        this.setState((state, props) => ({
+        this.setState(state => ({
             collapsed: !state.collapsed,
         }));
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { ParsedIabVendor } from './ConsentPreferencesDashboard';
 import { CmpListItem } from './CmpListItem';
+import { ParsedIabVendor } from '../types';
 
 interface Props {
     vendors: ParsedIabVendor[];
@@ -17,10 +17,7 @@ export const Vendors = (props: Props) => (
         <CmpListItem name="Vendors" key={`vendorsCollapsible`}>
             <ul css={cmpListStyles}>
                 {props.vendors.map(
-                    (
-                        vendor: ParsedIabVendor,
-                        index: number,
-                    ): React.ReactNode => {
+                    (vendor: ParsedIabVendor): React.ReactNode => {
                         const { id, name, description } = vendor;
 
                         return (

@@ -1,8 +1,8 @@
 import { css } from '@emotion/core';
-import { ItemState } from '../types';
 import { palette, space, mobileLandscape } from '@guardian/src-foundations';
 import React, { Component } from 'react';
 import { CmpCollapsible } from './CmpCollapsible';
+import { ItemState } from '../types';
 
 const smallSpace = space[2]; // 12px
 const mediumSpace = smallSpace + smallSpace / 3; // 16px
@@ -28,10 +28,6 @@ interface Props {
 }
 
 export class CmpListItem extends Component<Props, {}> {
-    constructor(props: Props) {
-        super(props);
-    }
-
     public render(): React.ReactNode {
         const { name, value, updateItem, isNested, showError } = this.props;
 
@@ -50,6 +46,6 @@ export class CmpListItem extends Component<Props, {}> {
     }
 
     public shouldComponentUpdate(): boolean {
-        return this.props.updateItem ? true : false;
+        return !!this.props.updateItem;
     }
 }
