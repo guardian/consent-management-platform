@@ -61,18 +61,22 @@ const contentWidthStyles = css`
 `;
 
 const headerStyles = css`
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
     background-color: ${palette.brand.main};
+    z-index: 200;
     ${contentWidthStyles};
+    border-bottom: 1px solid ${palette.brand.pastel};
+    ${mobileLandscape} {
+        border-right: 1px solid ${palette.brand.main};
+    }
 `;
 
 const logoContainer = css`
     padding: 6px 0 12px 0;
     height: 100%;
     width: 100%;
-    border-bottom: 1px solid ${palette.brand.pastel};
     display: flex;
     ::before {
         content: '';
@@ -105,10 +109,6 @@ const contentStyles = css`
     ${mobileLandscape} {
         border-right: 1px solid ${palette.brand.pastel};
         box-sizing: content-box;
-    }
-    margin-top: 73px;
-    ${mobileLandscape} {
-        margin-top: 108px;
     }
 `;
 
