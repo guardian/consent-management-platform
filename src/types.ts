@@ -1,9 +1,3 @@
-export type CmpMsgData = {
-    iabVendorList: IabVendorList;
-    allowedPurposes: number[];
-    allowedVendors: number[];
-};
-
 export type GuResponsivePurposeEventId = 'functional' | 'performance';
 
 export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
