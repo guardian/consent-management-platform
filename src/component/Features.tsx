@@ -17,7 +17,7 @@ export const Features = (props: Props) => (
         <CmpListItem name="Features" key={`featuresCollapsible`}>
             <ul css={cmpListStyles}>
                 {props.features.map(
-                    (feature: IabFeature, index: number): React.ReactNode => {
+                    (feature: IabFeature): React.ReactNode => {
                         const { id, name, description } = feature;
                         return (
                             <CmpListItem

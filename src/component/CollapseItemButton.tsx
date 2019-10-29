@@ -32,8 +32,10 @@ const collapseItemButtonStyles = (collapsed: boolean) => css`
     }
 `;
 
-export const CollapseItemButton: React.FC<{
+interface Props {
     collapsed: boolean;
-}> = ({ collapsed }) => {
+}
+
+export const CollapseItemButton: React.FC<Props> = ({ collapsed }: Props) => {
     return <button type="button" css={collapseItemButtonStyles(collapsed)} />;
 };

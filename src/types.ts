@@ -87,3 +87,11 @@ export interface IabVendorList {
     features: IabFeature[];
     vendors: IabVendor[];
 }
+
+export interface ParsedIabVendorList extends IabVendorList {
+    vendors: ParsedIabVendor[];
+}
+
+export interface ParsedIabVendor extends IabVendor {
+    description: React.ReactNode;
+}
