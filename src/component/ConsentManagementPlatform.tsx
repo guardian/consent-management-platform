@@ -16,7 +16,8 @@ const overlayStyles = css`
     background-color: transparent;
     ${mobileLandscape} {
         transition: background-color;
-        transition-delay: 0.6s;
+        transition-delay: 0.5s;
+        transition-duration: 0.5s;
         will-change: background-color;
     }
 `;
@@ -41,7 +42,7 @@ const containerStyles = css`
         min-width: 480px;
     }
     transform: translateX(0);
-    transition: transform 0.6s ease-in;
+    transition: transform 1s ease-in-out;
     will-change: transform;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
