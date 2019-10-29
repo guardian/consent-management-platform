@@ -1,4 +1,4 @@
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import { ConsentString } from 'consent-string';
 import {
     IAB_CMP_ID,
@@ -10,16 +10,15 @@ import {
 } from './config';
 import { writeIabCookie, writeLegacyCookie } from './cookies';
 import { updateStateOnSave } from './cmp';
-import { IabPurposeState, CmpMsgData } from './types';
+import { IabPurposeState, ParsedIabVendorList } from './types';
 
 const DUMMY_BROWSER_ID = `No bwid available`;
 
-export const save = ({
-    iabVendorList,
-    allowedPurposes,
-    allowedVendors,
-    abTestVariant,
-}: CmpMsgData): Promise<Response> => {
+export const save = (
+    iabVendorList: ParsedIabVendorList,
+    allowedPurposes: number[],
+    allowedVendors: number[],
+): Promise<Response> => {
     const consentData = new ConsentString();
     consentData.setGlobalVendorList(iabVendorList);
     consentData.setCmpId(IAB_CMP_ID);

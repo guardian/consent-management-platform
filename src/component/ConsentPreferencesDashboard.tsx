@@ -24,6 +24,7 @@ import {
     IabVendorList,
     ParsedIabVendorList,
 } from '../types';
+import { save } from '../consent-storage';
 
 const PURPOSES_ID = 'cmpPurposes';
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
@@ -508,6 +509,10 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     private saveSettings(stateToSave: State): boolean {
+        if (!this.iabVendorList) {
+            return false;
+        }
+
         const iabNullResponses: number[] = Object.keys(stateToSave.iabPurposes)
             .filter(key => stateToSave.iabPurposes[parseInt(key, 10)] === null)
             .map(key => parseInt(key, 10));
@@ -520,28 +525,15 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             return false;
         }
 
-        // const allowedPurposes = Object.keys(stateToSave.iabPurposes)
-        //     .filter(key => stateToSave.iabPurposes[parseInt(key, 10)])
-        //     .map(purpose => parseInt(purpose, 10));
+        const allowedPurposes = Object.keys(stateToSave.iabPurposes)
+            .filter(key => stateToSave.iabPurposes[parseInt(key, 10)])
+            .map(purpose => parseInt(purpose, 10));
 
-        // const allowedVendors = this.iabVendorList.vendors.map(
-        //     vendor => vendor.id,
-        // );
+        const allowedVendors = this.iabVendorList.vendors.map(
+            vendor => vendor.id,
+        );
 
-        // const msgData: CmpMsgData = {
-        //     allowedPurposes,
-        //     allowedVendors,
-        //     iabVendorList: this.rawVendorList,
-        // };
-
-        // // Notify parent that consent has been saved
-        // window.parent.postMessage(
-        //     {
-        //         msgType: cmpConfig.CMP_SAVED_MSG,
-        //         msgData,
-        //     },
-        //     '*',
-        // );
+        save(this.iabVendorList, allowedPurposes, allowedVendors);
 
         return true;
     }
