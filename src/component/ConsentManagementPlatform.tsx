@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 import { mobileLandscape, palette, space } from '@guardian/src-foundations';
 import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
+import { SCROLLABLE_ID, CONTENT_ID } from '../config';
 
 const overlayStyles = css`
     position: fixed;
@@ -140,13 +141,14 @@ class ConsentManagementPlatform extends Component<{}, State> {
                         ${containerStyles};
                         ${cmpVisible ? showContainerStyles : ''};
                     `}
+                    id={SCROLLABLE_ID}
                 >
                     <div css={headerStyles}>
                         <div css={logoContainer}>
                             <Logo css={logoStyles} />
                         </div>
                     </div>
-                    <div css={contentStyles}>
+                    <div css={contentStyles} id={CONTENT_ID}>
                         <ConsentPreferencesDashboard
                             toggleCmpVisibility={() => {
                                 this.setState(prevState => ({

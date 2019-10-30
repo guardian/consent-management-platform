@@ -25,8 +25,8 @@ import {
     ParsedIabVendorList,
 } from '../types';
 import { save } from '../consent-storage';
+import { SCROLLABLE_ID, CONTENT_ID, PURPOSES_ID } from '../config';
 
-const PURPOSES_ID = 'cmpPurposes';
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
 const cookiePolicyURL = 'https://www.theguardian.com/info/cookies';
 const smallSpace = space[2]; // 12px
@@ -634,59 +634,57 @@ const getFeaturesDescriptions = (
 };
 
 const scrollToPurposes = (): void => {
-    // const purposeElem: HTMLElement | null = document.getElementById(
-    //     PURPOSES_ID,
-    // );
-    // const scrollableElem: HTMLElement | null = document.getElementById(
-    //     SCROLLABLE_ID,
-    // );
-    // const containerElem: HTMLElement | null = document.getElementById(
-    //     CONTAINER_ID,
-    // );
-    // if (!purposeElem || !scrollableElem || !containerElem) {
-    //     return;
-    // }
-    // const purposeElemOffsetTop = purposeElem.offsetTop;
-    // const scrollableElemOffsetTop = scrollableElem.offsetTop;
-    // const containerElemOffsetTop = containerElem.offsetTop;
-    // // scrollTop can return subpixel on hidpi resolutions so round up to integer
-    // const initDistanceScrolled = Math.ceil(scrollableElem.scrollTop);
-    // const scrollLength =
-    //     purposeElemOffsetTop -
-    //     scrollableElemOffsetTop -
-    //     containerElemOffsetTop -
-    //     initDistanceScrolled;
-    // const duration: number = 750;
-    // const startTime: number =
-    //     'now' in window.performance ? performance.now() : new Date().getTime();
-    // const scroll = (): void => {
-    //     const now: number =
-    //         'now' in window.performance
-    //             ? performance.now()
-    //             : new Date().getTime();
-    //     const time: number = Math.min(1, (now - startTime) / duration);
-    //     const easing: number =
-    //         time < 0.5
-    //             ? 4 * time * time * time
-    //             : (time - 1) * (2 * time - 2) * (2 * time - 2) + 1; // easeInOutCubic
-    //     const newScrollTop =
-    //         Math.ceil(easing * scrollLength) + initDistanceScrolled;
-    //     // tslint:disable-next-line: no-object-mutation
-    //     scrollableElem.scrollTop = newScrollTop;
-    //     // scrollTop can return subpixel on hidpi resolutions so round up to integer
-    //     const intScrollTop = Math.ceil(scrollableElem.scrollTop);
-    //     if (
-    //         intScrollTop === scrollLength + initDistanceScrolled ||
-    //         newScrollTop !== intScrollTop
-    //     ) {
-    //         return;
-    //     }
-    //     requestAnimationFrame(scroll);
-    // };
-    // if ('requestAnimationFrame' in window === false) {
-    //     // tslint:disable-next-line: no-object-mutation
-    //     scrollableElem.scrollTop = scrollLength;
-    //     return;
-    // }
-    // scroll();
+    const purposeElem: HTMLElement | null = document.getElementById(
+        PURPOSES_ID,
+    );
+    const scrollableElem: HTMLElement | null = document.getElementById(
+        SCROLLABLE_ID,
+    );
+    const contentElem: HTMLElement | null = document.getElementById(CONTENT_ID);
+    if (!purposeElem || !scrollableElem || !contentElem) {
+        return;
+    }
+    const purposeElemOffsetTop = purposeElem.offsetTop;
+    const scrollableElemOffsetTop = scrollableElem.offsetTop - 1; // minus 1px border top
+    const contentElemOffsetTop = contentElem.offsetTop;
+    // scrollTop can return subpixel on hidpi resolutions so round up to integer
+    const initDistanceScrolled = Math.ceil(scrollableElem.scrollTop);
+    const scrollLength =
+        purposeElemOffsetTop -
+        scrollableElemOffsetTop -
+        contentElemOffsetTop -
+        initDistanceScrolled;
+    const duration = 750;
+    const startTime: number =
+        'now' in window.performance ? performance.now() : new Date().getTime();
+    const scroll = (): void => {
+        const now: number =
+            'now' in window.performance
+                ? performance.now()
+                : new Date().getTime();
+        const time: number = Math.min(1, (now - startTime) / duration);
+        const easing: number =
+            time < 0.5
+                ? 4 * time * time * time
+                : (time - 1) * (2 * time - 2) * (2 * time - 2) + 1; // easeInOutCubic
+        const newScrollTop =
+            Math.ceil(easing * scrollLength) + initDistanceScrolled;
+        // tslint:disable-next-line: no-object-mutation
+        scrollableElem.scrollTop = newScrollTop;
+        // scrollTop can return subpixel on hidpi resolutions so round up to integer
+        const intScrollTop = Math.ceil(scrollableElem.scrollTop);
+        if (
+            intScrollTop === scrollLength + initDistanceScrolled ||
+            newScrollTop !== intScrollTop
+        ) {
+            return;
+        }
+        requestAnimationFrame(scroll);
+    };
+    if ('requestAnimationFrame' in window === false) {
+        // tslint:disable-next-line: no-object-mutation
+        scrollableElem.scrollTop = scrollLength;
+        return;
+    }
+    scroll();
 };
