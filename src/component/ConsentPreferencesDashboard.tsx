@@ -14,7 +14,12 @@ import { CmpListItem } from './CmpListItem';
 import { Vendors } from './Vendors';
 import { Features } from './Features';
 import { ArrowIcon } from './svgs/ArrowIcon';
-import { IAB_VENDOR_LIST_URL } from '../config';
+import {
+    IAB_VENDOR_LIST_URL,
+    SCROLLABLE_ID,
+    CONTENT_ID,
+    PURPOSES_ID,
+} from '../config';
 import { readIabCookie } from '../cookies';
 import {
     IabFeature,
@@ -25,7 +30,6 @@ import {
     ParsedIabVendorList,
 } from '../types';
 import { save } from '../consent-storage';
-import { SCROLLABLE_ID, CONTENT_ID, PURPOSES_ID } from '../config';
 
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
 const cookiePolicyURL = 'https://www.theguardian.com/info/cookies';
