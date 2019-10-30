@@ -234,7 +234,8 @@ interface State {
     iabNullResponses?: number[];
 }
 interface Props {
-    toggleCmpVisibility: () => void;
+    showCmp: () => void;
+    hideCmp: () => void;
 }
 
 export class ConsentPreferencesDashboard extends Component<Props, State> {
@@ -258,9 +259,9 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
                 return this.buildState(parseIabVendorList(remoteVendorList));
             })
             .then(() => {
-                const { toggleCmpVisibility } = this.props;
+                const { showCmp } = this.props;
 
-                toggleCmpVisibility();
+                showCmp();
             })
             .catch(error => {
                 // TODO: ERROR HANDLING
@@ -543,9 +544,9 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     private close = () => {
-        const { toggleCmpVisibility } = this.props;
+        const { hideCmp } = this.props;
 
-        toggleCmpVisibility();
+        hideCmp();
     };
 }
 

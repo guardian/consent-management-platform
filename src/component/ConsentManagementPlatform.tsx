@@ -5,6 +5,8 @@ import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 import { SCROLLABLE_ID, CONTENT_ID } from '../config';
 
+const TRANSITION_TIME = 1000;
+
 const overlayStyles = css`
     position: fixed;
     top: 0;
@@ -15,12 +17,17 @@ const overlayStyles = css`
     margin: 0;
     z-index: 9999;
     background-color: transparent;
+    display: none;
     ${mobileLandscape} {
         transition: background-color;
-        transition-delay: 0.5s;
-        transition-duration: 0.5s;
+        transition-delay: ${TRANSITION_TIME / 2}ms;
+        transition-duration: ${TRANSITION_TIME / 2}ms;
         will-change: background-color;
     }
+`;
+
+const activeOverlayStyles = css`
+    display: block;
 `;
 
 const showOverlayStyles = css`
@@ -29,7 +36,7 @@ const showOverlayStyles = css`
     }
 `;
 
-const containerStyles = css`
+const scrollableStyles = css`
     background-color: ${palette.brand.main};
     border: 0;
     height: 100%;
@@ -49,7 +56,7 @@ const containerStyles = css`
     -webkit-overflow-scrolling: touch;
 `;
 
-const showContainerStyles = (scrollbarWidth: number) => css`
+const showScrollableStyles = (scrollbarWidth: number) => css`
     transform: translateX(calc(-100% + ${scrollbarWidth}px));
 `;
 
@@ -114,7 +121,8 @@ const contentStyles = css`
 `;
 
 interface State {
-    cmpVisible: boolean;
+    active: boolean;
+    visible: boolean;
 }
 
 class ConsentManagementPlatform extends Component<{}, State> {
@@ -126,13 +134,14 @@ class ConsentManagementPlatform extends Component<{}, State> {
         this.scrollableRef = React.createRef();
 
         this.state = {
-            cmpVisible: false,
+            active: false,
+            visible: false,
         };
     }
 
     public render(): React.ReactNode {
         let scrollbarWidth = 0;
-        const { cmpVisible } = this.state;
+        const { visible, active } = this.state;
         const scrollableElem = this.scrollableRef.current;
 
         if (scrollableElem) {
@@ -144,15 +153,14 @@ class ConsentManagementPlatform extends Component<{}, State> {
             <div
                 css={css`
                     ${overlayStyles};
-                    ${cmpVisible ? showOverlayStyles : ''};
+                    ${active ? activeOverlayStyles : ''};
+                    ${visible ? showOverlayStyles : ''};
                 `}
             >
                 <div
                     css={css`
-                        ${containerStyles};
-                        ${cmpVisible
-                            ? showContainerStyles(scrollbarWidth)
-                            : ''};
+                        ${scrollableStyles};
+                        ${visible ? showScrollableStyles(scrollbarWidth) : ''};
                     `}
                     id={SCROLLABLE_ID}
                     ref={this.scrollableRef}
@@ -164,10 +172,37 @@ class ConsentManagementPlatform extends Component<{}, State> {
                     </div>
                     <div css={contentStyles} id={CONTENT_ID}>
                         <ConsentPreferencesDashboard
-                            toggleCmpVisibility={() => {
-                                this.setState(prevState => ({
-                                    cmpVisible: !prevState.cmpVisible,
-                                }));
+                            // toggleCmpVisibility={() => {
+                            // this.setState(prevState => ({
+                            //     cmpVisible: !prevState.cmpVisible,
+                            // }));
+                            // }}
+                            showCmp={() => {
+                                this.setState(
+                                    {
+                                        active: true,
+                                    },
+                                    () => {
+                                        this.setState({
+                                            visible: true,
+                                        });
+                                    },
+                                );
+                            }}
+                            hideCmp={() => {
+                                this.setState(
+                                    {
+                                        visible: false,
+                                    },
+                                    () => {
+                                        // delay by TRANSITION_TIME before deactivating
+                                        setTimeout(() => {
+                                            this.setState({
+                                                active: false,
+                                            });
+                                        }, TRANSITION_TIME);
+                                    },
+                                );
                             }}
                         />
                     </div>
