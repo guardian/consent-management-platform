@@ -49,8 +49,8 @@ const containerStyles = css`
     -webkit-overflow-scrolling: touch;
 `;
 
-const showContainerStyles = css`
-    transform: translateX(-100%);
+const showContainerStyles = (scrollbarWidth: number) => css`
+    transform: translateX(calc(-100% + ${scrollbarWidth}px));
 `;
 
 const contentWidthStyles = css`
@@ -118,8 +118,12 @@ interface State {
 }
 
 class ConsentManagementPlatform extends Component<{}, State> {
+    scrollableRef: React.RefObject<HTMLDivElement>;
+
     constructor(props: {}) {
         super(props);
+
+        this.scrollableRef = React.createRef();
 
         this.state = {
             cmpVisible: false,
@@ -127,7 +131,14 @@ class ConsentManagementPlatform extends Component<{}, State> {
     }
 
     public render(): React.ReactNode {
+        let scrollbarWidth = 0;
         const { cmpVisible } = this.state;
+        const scrollableElem = this.scrollableRef.current;
+
+        if (scrollableElem) {
+            scrollbarWidth =
+                scrollableElem.offsetWidth - scrollableElem.clientWidth;
+        }
 
         return (
             <div
@@ -139,9 +150,12 @@ class ConsentManagementPlatform extends Component<{}, State> {
                 <div
                     css={css`
                         ${containerStyles};
-                        ${cmpVisible ? showContainerStyles : ''};
+                        ${cmpVisible
+                            ? showContainerStyles(scrollbarWidth)
+                            : ''};
                     `}
                     id={SCROLLABLE_ID}
+                    ref={this.scrollableRef}
                 >
                     <div css={headerStyles}>
                         <div css={logoContainer}>
