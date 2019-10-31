@@ -125,10 +125,14 @@ interface State {
     visible: boolean;
 }
 
-class ConsentManagementPlatform extends Component<{}, State> {
+interface Props {
+    onClose: () => void;
+}
+
+class ConsentManagementPlatform extends Component<Props, State> {
     scrollableRef: React.RefObject<HTMLDivElement>;
 
-    constructor(props: {}) {
+    constructor(props: Props) {
         super(props);
 
         this.scrollableRef = React.createRef();
@@ -197,9 +201,14 @@ class ConsentManagementPlatform extends Component<{}, State> {
                                     () => {
                                         // delay by TRANSITION_TIME before deactivating
                                         setTimeout(() => {
-                                            this.setState({
-                                                active: false,
-                                            });
+                                            this.setState(
+                                                {
+                                                    active: false,
+                                                },
+                                                () => {
+                                                    this.props.onClose();
+                                                },
+                                            );
                                         }, TRANSITION_TIME);
                                     },
                                 );
