@@ -56,8 +56,8 @@ const scrollableStyles = css`
     -webkit-overflow-scrolling: touch;
 `;
 
-const showScrollableStyles = (scrollbarWidth: number) => css`
-    transform: translateX(calc(-100% + ${scrollbarWidth}px));
+const showScrollableStyles = (scrollableWidth: number) => css`
+    transform: translateX(-${scrollableWidth}px);
 `;
 
 const contentWidthStyles = css`
@@ -144,13 +144,12 @@ class ConsentManagementPlatform extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        let scrollbarWidth = 0;
+        let scrollableWidth = 0;
         const { visible, active } = this.state;
         const scrollableElem = this.scrollableRef.current;
 
         if (scrollableElem) {
-            scrollbarWidth =
-                scrollableElem.offsetWidth - scrollableElem.clientWidth;
+            scrollableWidth = scrollableElem.clientWidth;
         }
 
         return (
@@ -164,7 +163,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
                 <div
                     css={css`
                         ${scrollableStyles};
-                        ${visible ? showScrollableStyles(scrollbarWidth) : ''};
+                        ${visible ? showScrollableStyles(scrollableWidth) : ''};
                     `}
                     id={SCROLLABLE_ID}
                     ref={this.scrollableRef}
@@ -176,11 +175,6 @@ class ConsentManagementPlatform extends Component<Props, State> {
                     </div>
                     <div css={contentStyles} id={CONTENT_ID}>
                         <ConsentPreferencesDashboard
-                            // toggleCmpVisibility={() => {
-                            // this.setState(prevState => ({
-                            //     cmpVisible: !prevState.cmpVisible,
-                            // }));
-                            // }}
                             showCmp={() => {
                                 this.setState(
                                     {
