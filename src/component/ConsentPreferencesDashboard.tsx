@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import { css } from '@emotion/core';
 import React, { Component } from 'react';
 import {
