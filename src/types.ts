@@ -1,9 +1,3 @@
-export type CmpMsgData = {
-    iabVendorList: IabVendorList;
-    allowedPurposes: number[];
-    allowedVendors: number[];
-};
-
 export type GuResponsivePurposeEventId = 'functional' | 'performance';
 
 export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
@@ -86,4 +80,12 @@ export interface IabVendorList {
     purposes: IabPurpose[];
     features: IabFeature[];
     vendors: IabVendor[];
+}
+
+export interface ParsedIabVendorList extends IabVendorList {
+    vendors: ParsedIabVendor[];
+}
+
+export interface ParsedIabVendor extends IabVendor {
+    description: React.ReactNode;
 }
