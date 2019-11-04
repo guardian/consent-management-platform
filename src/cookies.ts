@@ -53,6 +53,12 @@ const readIabCookie = (): string | null => {
     return cookie || null;
 };
 
+const readLegacyCookie = (): string | null => {
+    const cookie = Cookies.get(LEGACY_COOKIE_NAME);
+
+    return cookie || null;
+};
+
 const writeGuCookie = (guState: GuPurposeState): void =>
     addCookie(GU_COOKIE_NAME, { version: GU_COOKIE_VERSION, state: guState });
 
@@ -65,6 +71,7 @@ const writeLegacyCookie = (state: boolean): void =>
 export {
     readGuCookie,
     readIabCookie,
+    readLegacyCookie,
     writeGuCookie,
     writeIabCookie,
     writeLegacyCookie,

@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { ConsentString } from 'consent-string';
 import {
     GuPurposeCallback,
@@ -10,8 +9,8 @@ import {
     IabPurposeState,
     ItemState,
 } from './types';
-import { GU_AD_CONSENT_COOKIE, GU_PURPOSE_LIST } from './config';
-import { readIabCookie } from './cookies';
+import { GU_PURPOSE_LIST } from './config';
+import { readIabCookie, readLegacyCookie } from './cookies';
 
 let cmpIsReady = false;
 
@@ -88,8 +87,8 @@ const getIabStateFromCookie = (): IabPurposeState | null => {
     return iabState;
 };
 
-const getGuTkStateFromCookie = (): IabPurposeState => {
-    const cookie = Cookies.get(GU_AD_CONSENT_COOKIE);
+const getLegacyStateFromCookie = (): IabPurposeState => {
+    const cookie = readLegacyCookie();
     const iabState = {
         ...iabPurposeRegister.state,
     };
@@ -123,7 +122,7 @@ const setStateFromCookies = (): void => {
     guPurposeRegister.functional.state = true;
     guPurposeRegister.performance.state = true;
     iabPurposeRegister.state =
-        getIabStateFromCookie() || getGuTkStateFromCookie();
+        getIabStateFromCookie() || getLegacyStateFromCookie();
 
     triggerConsentNotification();
 };
