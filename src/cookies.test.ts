@@ -17,7 +17,7 @@ import {
 
 const Cookies = _Cookies;
 
-const OriginalDate = global.Date; // Mock the Date constructor to always return the beginning of time
+const OriginalDate = global.Date;
 
 jest.mock('js-cookie', () => ({
     set: jest.fn(),
@@ -39,10 +39,11 @@ describe('Cookies', () => {
         expires: COOKIE_MAX_AGE,
     };
     const iabConsentString = 'heL10W0rLd';
+    const fakeNow = '12345';
 
     beforeAll(() => {
         global.Date = {
-            now: () => '12345',
+            now: () => fakeNow,
         };
         Object.defineProperty(document, 'domain', {
             value: 'www.theguardian.com',
@@ -51,9 +52,7 @@ describe('Cookies', () => {
 
     afterAll(() => {
         global.Date = OriginalDate;
-        expect(new Date().toString()).not.toMatch(
-            new RegExp('Thu Jan 01 1970'),
-        );
+        expect(Date.now()).not.toMatch(fakeNow);
     });
 
     afterEach(() => {
@@ -88,7 +87,7 @@ describe('Cookies', () => {
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
             LEGACY_COOKIE_NAME,
-            '1.12345',
+            `1.${fakeNow}`,
             cookieOptions,
         );
     });
@@ -99,7 +98,7 @@ describe('Cookies', () => {
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
             LEGACY_COOKIE_NAME,
-            '0.12345',
+            `0.${fakeNow}`,
             cookieOptions,
         );
     });
