@@ -14,11 +14,13 @@ let onStateChange: onStateChangeFn;
 let initialised = false;
 
 const init = (callback?: onStateChangeFn): void => {
-    initialised = true;
-    if (callback) {
-        onStateChange = callback;
+    if (!initialised) {
+        if (callback) {
+            onStateChange = callback;
+        }
+        setConsentState(getGuStateFromCookie(), getIabStateFromCookie());
+        initialised = true;
     }
-    setConsentState(getGuStateFromCookie(), getIabStateFromCookie());
 };
 
 const getConsentState = (): {

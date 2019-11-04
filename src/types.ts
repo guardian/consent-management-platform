@@ -9,18 +9,8 @@ export type GuPurposeCallback = (state: ItemState) => void;
 export type IabPurposeCallback = (state: IabPurposeState) => void;
 
 export type GuPurposeRegister = {
-    [key in GuPurposeEventId]: GuPurposeRegisterItem;
+    [key in GuResponsivePurposeEventId]: GuPurposeCallback[];
 };
-
-export interface IabPurposeRegister {
-    state: IabPurposeState;
-    callbacks: IabPurposeCallback[];
-}
-
-export interface GuPurposeRegisterItem {
-    state: ItemState;
-    callbacks: GuPurposeCallback[];
-}
 
 export interface GuCookie {
     version: number;
