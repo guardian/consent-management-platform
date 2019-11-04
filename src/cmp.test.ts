@@ -1,11 +1,13 @@
-import * as _Cookies from 'js-cookie';
 import { ConsentString } from 'consent-string';
 import { onGuConsentNotification, onIabConsentNotification, _ } from './cmp';
 import { GU_PURPOSE_LIST } from './config';
-import { readIabCookie as _readIabCookie } from './cookies';
+import {
+    readIabCookie as _readIabCookie,
+    readLegacyCookie as _readLegacyCookie,
+} from './cookies';
 
-const Cookies = _Cookies;
 const readIabCookie = _readIabCookie;
+const readLegacyCookie = _readLegacyCookie;
 const iabTrueState = {
     1: true,
     2: true,
@@ -28,12 +30,9 @@ const iabNullState = {
     5: null,
 };
 
-jest.mock('js-cookie', () => ({
-    get: jest.fn(),
-}));
-
 jest.mock('./cookies', () => ({
     readIabCookie: jest.fn(),
+    readLegacyCookie: jest.fn(),
 }));
 
 jest.mock('consent-string');
@@ -77,7 +76,7 @@ describe('cmp', () => {
             });
 
             it('executes advertisement callback with true state if GU_TK cookie is true', () => {
-                Cookies.get.mockReturnValue('1.54321');
+                readLegacyCookie.mockReturnValue('1.54321');
 
                 const myCallBack = jest.fn();
 
@@ -87,7 +86,7 @@ describe('cmp', () => {
             });
 
             it('executes advertisement callback with false state if GU_TK cookie is false', () => {
-                Cookies.get.mockReturnValue('0.54321');
+                readLegacyCookie.mockReturnValue('0.54321');
 
                 const myCallBack = jest.fn();
 
@@ -97,7 +96,7 @@ describe('cmp', () => {
             });
 
             it('executes advertisement callback with null state if GU_TK cookie is null', () => {
-                Cookies.get.mockReturnValue(undefined);
+                readLegacyCookie.mockReturnValue(null);
 
                 const myCallBack = jest.fn();
 
@@ -107,7 +106,7 @@ describe('cmp', () => {
             });
 
             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
-                Cookies.get.mockReturnValue(undefined); // first call
+                readLegacyCookie.mockReturnValue(null); // first call
 
                 const myCallBack = jest.fn();
                 const expectedArguments = [[iabNullState]];
