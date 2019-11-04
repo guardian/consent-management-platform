@@ -51,7 +51,7 @@ const getGuStateFromCookie = (): GuPurposeState => {
 
 const getIabStateFromCookie = (): IabPurposeState => {
     const iabCookie = readIabCookie();
-    let newIabState;
+    const newIabState: IabPurposeState = {};
 
     if (iabCookie) {
         const iabData = new ConsentString(iabCookie);

@@ -1,6 +1,7 @@
 import { init as initStore, getConsentState } from './store';
 import {
     GuPurposeCallback,
+    GuPurposeState,
     GuResponsivePurposeEventId,
     GuPurpose,
     GuPurposeRegister,
@@ -10,6 +11,26 @@ import {
 import { GU_PURPOSE_LIST } from './config';
 
 let initialised = false;
+
+const buildGuRegister = (): GuPurposeRegister => {
+    const { purposes } = GU_PURPOSE_LIST;
+
+    const purposeRegister = purposes.reduce(
+        (register, purpose: GuPurpose): {} => {
+            if (purpose.alwaysEnabled) {
+                return register;
+            }
+
+            return {
+                ...register,
+                [purpose.eventId]: [],
+            };
+        },
+        {},
+    );
+
+    return purposeRegister as GuPurposeRegister;
+};
 
 const guPurposeRegister: GuPurposeRegister = buildGuRegister();
 const iabPurposeRegister: IabPurposeCallback[] = [];
@@ -37,26 +58,6 @@ const onStateChange = (
     iabPurposeRegister.forEach((callback: IabPurposeCallback): void => {
         callback(iabState);
     });
-};
-
-const buildGuRegister = (): GuPurposeRegister => {
-    const { purposes } = GU_PURPOSE_LIST;
-
-    const purposeRegister = purposes.reduce(
-        (register, purpose: GuPurpose): {} => {
-            if (purpose.alwaysEnabled) {
-                return register;
-            }
-
-            return {
-                ...register,
-                [purpose.eventId]: [],
-            };
-        },
-        {},
-    );
-
-    return purposeRegister as GuPurposeRegister;
 };
 
 const onIabConsentNotification = (callback: IabPurposeCallback): void => {
