@@ -9,7 +9,7 @@ import {
     isProd,
 } from './config';
 import { writeIabCookie, writeLegacyCookie } from './cookies';
-import { updateStateOnSave } from './cmp';
+import { updateStateOnSave } from './core';
 import { IabPurposeState, ParsedIabVendorList } from './types';
 
 const DUMMY_BROWSER_ID = `No bwid available`;
