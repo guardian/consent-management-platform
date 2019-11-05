@@ -10,7 +10,7 @@ type onStateChangeFn = (
 let guState: GuPurposeState = { functional: null, performance: null };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 
-let onStateChange: onStateChangeFn[];
+const onStateChange: onStateChangeFn[] = [];
 let initialised = false;
 
 const init = (): void => {
@@ -21,7 +21,7 @@ const init = (): void => {
     }
 };
 
-const registerOnStateChangeHandler = (callback: onStateChangeFn): void => {
+const registerStateChangeHandler = (callback: onStateChangeFn): void => {
     init();
     onStateChange.push(callback);
     callback(guState, iabState);
@@ -89,4 +89,4 @@ const getIabStateFromCookie = (): IabPurposeState => {
     return newIabState;
 };
 
-export { getConsentState, setConsentState, registerOnStateChangeHandler };
+export { getConsentState, setConsentState, registerStateChangeHandler };
