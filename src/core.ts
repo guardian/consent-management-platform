@@ -1,14 +1,19 @@
 import { init as initStore, getConsentState } from './store';
 import {
-    GuPurposeCallback,
     GuPurposeState,
-    GuResponsivePurposeEventId,
     GuPurpose,
-    GuPurposeRegister,
-    IabPurposeCallback,
+    GuResponsivePurposeEventId,
     IabPurposeState,
+    ItemState,
 } from './types';
 import { GU_PURPOSE_LIST } from './config';
+
+type GuPurposeCallback = (state: ItemState) => void;
+type IabPurposeCallback = (state: IabPurposeState) => void;
+
+type GuPurposeRegister = {
+    [key in GuResponsivePurposeEventId]: GuPurposeCallback[];
+};
 
 let initialised = false;
 

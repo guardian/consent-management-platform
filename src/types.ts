@@ -4,14 +4,6 @@ export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
 
 export type ItemState = boolean | null;
 
-export type GuPurposeCallback = (state: ItemState) => void;
-
-export type IabPurposeCallback = (state: IabPurposeState) => void;
-
-export type GuPurposeRegister = {
-    [key in GuResponsivePurposeEventId]: GuPurposeCallback[];
-};
-
 export interface GuCookie {
     version: number;
     state: GuPurposeState;
