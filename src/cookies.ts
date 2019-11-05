@@ -71,10 +71,9 @@ const writeLegacyCookie = (state: boolean): void =>
 const writeStateCookies = (
     guState: GuPurposeState,
     iabString: string,
-    legacyState: boolean,
-    saveLegacyCookie: boolean,
+    legacyState?: boolean,
 ): void => {
-    if (saveLegacyCookie) {
+    if (typeof legacyState !== 'undefined') {
         writeLegacyCookie(legacyState);
     }
     if (Object.keys(guState).length > 0) {
