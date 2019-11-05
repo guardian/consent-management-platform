@@ -68,10 +68,28 @@ const writeIabCookie = (iabString: string): void =>
 const writeLegacyCookie = (state: boolean): void =>
     addCookie(LEGACY_COOKIE_NAME, [state ? '1' : '0', Date.now()].join('.'));
 
+const writeStateCookies = (
+    guState: GuPurposeState,
+    iabString: string,
+    legacyState: boolean,
+    saveLegacyCookie: boolean,
+): void => {
+    if (saveLegacyCookie) {
+        writeLegacyCookie(legacyState);
+    }
+    if (Object.keys(guState).length > 0) {
+        writeGuCookie(guState);
+    }
+    writeIabCookie(iabString);
+
+    // TODO: trigger logging here
+};
+
 export {
     readGuCookie,
     readIabCookie,
     readLegacyCookie,
+    writeStateCookies,
     writeGuCookie,
     writeIabCookie,
     writeLegacyCookie,
