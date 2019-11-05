@@ -18,7 +18,8 @@ const init = (callback?: onStateChangeFn): void => {
         if (callback) {
             onStateChange = callback;
         }
-        setConsentState(getGuStateFromCookie(), getIabStateFromCookie());
+        guState = getGuStateFromCookie();
+        iabState = getIabStateFromCookie();
         initialised = true;
     }
 };
@@ -39,6 +40,8 @@ const setConsentState = (
 ): void => {
     guState = newGuState;
     iabState = newIabState;
+
+    // TODO: Call writeStateCookies here
 
     if (onStateChange) {
         onStateChange(guState, iabState);
