@@ -10,27 +10,28 @@ type onStateChangeFn = (
 let guState: GuPurposeState = { functional: null, performance: null };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 
-let onStateChange: onStateChangeFn;
+let onStateChange: onStateChangeFn[];
 let initialised = false;
 
-const init = (callback?: onStateChangeFn): void => {
+const init = (): void => {
     if (!initialised) {
-        if (callback) {
-            onStateChange = callback;
-        }
         guState = getGuStateFromCookie();
         iabState = getIabStateFromCookie();
         initialised = true;
     }
 };
 
+const registerOnStateChangeHandler = (callback: onStateChangeFn): void => {
+    init();
+    onStateChange.push(callback);
+    callback(guState, iabState);
+};
+
 const getConsentState = (): {
     guState: GuPurposeState;
     iabState: IabPurposeState;
 } => {
-    if (!initialised) {
-        init();
-    }
+    init();
     return { guState, iabState };
 };
 
@@ -43,9 +44,9 @@ const setConsentState = (
 
     // TODO: Call writeStateCookies here
 
-    if (onStateChange) {
-        onStateChange(guState, iabState);
-    }
+    onStateChange.forEach((callback: onStateChangeFn): void => {
+        callback(guState, iabState);
+    });
 };
 
 const getGuStateFromCookie = (): GuPurposeState => {
@@ -88,4 +89,4 @@ const getIabStateFromCookie = (): IabPurposeState => {
     return newIabState;
 };
 
-export { init, getConsentState, setConsentState };
+export { getConsentState, setConsentState, registerOnStateChangeHandler };
