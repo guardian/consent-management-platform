@@ -47,11 +47,10 @@ const init = (): void => {
     }
 };
 
-const onStateChange = (latestState: {
-    guState: GuPurposeState;
-    iabState: IabPurposeState;
-}): void => {
-    const { guState, iabState } = latestState;
+const onStateChange = (
+    guState: GuPurposeState,
+    iabState: IabPurposeState,
+): void => {
     // Iterate over guPurposeRegister callbacks
     Object.keys(guPurposeRegister).forEach((key: string): void => {
         const guCallbacks =

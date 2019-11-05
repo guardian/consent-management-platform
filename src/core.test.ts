@@ -182,9 +182,7 @@ describe('core', () => {
             onIabConsentNotification(myCallBack);
 
             for (let i = 0; i < triggerCount; i += 1) {
-                _.onStateChange({
-                    iabState: iabTrueState,
-                });
+                _.onStateChange({}, iabTrueState);
                 expectedArguments.push([iabTrueState]);
             }
 
