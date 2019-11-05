@@ -1,209 +1,195 @@
 // import { ConsentString } from 'consent-string';
-// import { onGuConsentNotification, onIabConsentNotification, _ } from './cmp';
-// import { GU_PURPOSE_LIST } from './config';
-// import {
-//     readIabCookie as _readIabCookie,
-//     readLegacyCookie as _readLegacyCookie,
-// } from './cookies';
+import {
+    init,
+    onGuConsentNotification,
+    onIabConsentNotification,
+    _,
+} from './core';
+import { GU_PURPOSE_LIST } from './config';
+import {
+    getConsentState as _getConsentState,
+    registerStateChangeHandler as _registerStateChangeHandler,
+} from './store';
 
-// const readIabCookie = _readIabCookie;
-// const readLegacyCookie = _readLegacyCookie;
-// const iabTrueState = {
-//     1: true,
-//     2: true,
-//     3: true,
-//     4: true,
-//     5: true,
-// };
-// const iabFalseState = {
-//     1: false,
-//     2: false,
-//     3: false,
-//     4: false,
-//     5: false,
-// };
-// const iabNullState = {
-//     1: null,
-//     2: null,
-//     3: null,
-//     4: null,
-//     5: null,
-// };
+const registerStateChangeHandler = _registerStateChangeHandler;
+const getConsentState = _getConsentState;
 
-// jest.mock('./cookies', () => ({
-//     readIabCookie: jest.fn(),
-//     readLegacyCookie: jest.fn(),
-// }));
+const iabTrueState = {
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+};
+const iabFalseState = {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+};
+const iabNullState = {
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+};
 
-// jest.mock('consent-string');
+jest.mock('./store', () => ({
+    registerStateChangeHandler: jest.fn(),
+    getConsentState: jest.fn(),
+}));
 
-// describe('cmp', () => {
-//     beforeEach(() => {
-//         _.resetCmp();
-//         jest.resetAllMocks();
-//     });
+describe('core', () => {
+    beforeEach(() => {
+        _.reset();
+        jest.resetAllMocks();
+    });
 
-//     describe('onGuConsentNotification', () => {
-//         const { purposes } = GU_PURPOSE_LIST;
+    describe('init', () => {
+        it(`registers onStateChange callback with store`, () => {
+            init();
 
-//         purposes.forEach(purpose => {
-//             const { eventId, alwaysEnabled } = purpose;
+            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+        });
 
-//             if (!alwaysEnabled) {
-//                 it(`executes ${eventId} callback immediately`, () => {
-//                     const myCallBack = jest.fn();
+        it(`only registers onStateChange callback with store once if init called more than once`, () => {
+            init();
+            init();
 
-//                     onGuConsentNotification(eventId, myCallBack);
+            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+        });
+    });
 
-//                     expect(myCallBack).toHaveBeenCalledTimes(1);
-//                 });
+    describe('onGuConsentNotification', () => {
+        const { purposes } = GU_PURPOSE_LIST;
+        const enabledPurposes = purposes.filter(
+            purpose => !purpose.alwaysEnabled,
+        );
+        const fakeGuState = enabledPurposes.reduce((state, purpose) => {
+            return {
+                ...state,
+                [purpose.eventId]: true,
+            };
+        }, {});
 
-//                 it(`executes ${eventId} callback with initial functional state`, () => {
-//                     const myCallBack = jest.fn();
+        beforeEach(() => {
+            getConsentState.mockReturnValue({
+                guState: fakeGuState,
+            });
+        });
 
-//                     onGuConsentNotification(eventId, myCallBack);
+        enabledPurposes.forEach(purpose => {
+            const { eventId } = purpose;
 
-//                     expect(myCallBack).toBeCalledWith(true);
-//                 });
-//             }
-//         });
-//     });
+            it(`executes ${eventId} callback immediately`, () => {
+                const myCallBack = jest.fn();
 
-//     describe('onIabConsentNotification', () => {
-//         describe('if no IAB cookie available', () => {
-//             beforeEach(() => {
-//                 readIabCookie.mockReturnValue(null);
-//             });
+                onGuConsentNotification(eventId, myCallBack);
 
-//             it('executes advertisement callback with true state if GU_TK cookie is true', () => {
-//                 readLegacyCookie.mockReturnValue('1.54321');
+                expect(myCallBack).toHaveBeenCalledTimes(1);
+            });
 
-//                 const myCallBack = jest.fn();
+            it(`executes ${eventId} callback with initial ${eventId} state`, () => {
+                const myCallBack = jest.fn();
 
-//                 onIabConsentNotification(myCallBack);
+                onGuConsentNotification(eventId, myCallBack);
 
-//                 expect(myCallBack).toBeCalledWith(iabTrueState);
-//             });
+                expect(myCallBack).toBeCalledWith(true);
+            });
 
-//             it('executes advertisement callback with false state if GU_TK cookie is false', () => {
-//                 readLegacyCookie.mockReturnValue('0.54321');
+            it(`registers onStateChange callback with store`, () => {
+                const myCallBack = jest.fn();
 
-//                 const myCallBack = jest.fn();
+                onGuConsentNotification(eventId, myCallBack);
 
-//                 onIabConsentNotification(myCallBack);
+                expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
 
-//                 expect(myCallBack).toBeCalledWith(iabFalseState);
-//             });
+    describe('onIabConsentNotification', () => {
+        it(`executes advertisment callback immediately`, () => {
+            getConsentState.mockReturnValue({
+                iabState: iabTrueState,
+            });
 
-//             it('executes advertisement callback with null state if GU_TK cookie is null', () => {
-//                 readLegacyCookie.mockReturnValue(null);
+            const myCallBack = jest.fn();
 
-//                 const myCallBack = jest.fn();
+            onIabConsentNotification(myCallBack);
 
-//                 onIabConsentNotification(myCallBack);
+            expect(myCallBack).toHaveBeenCalledTimes(1);
+        });
 
-//                 expect(myCallBack).toBeCalledWith(iabNullState);
-//             });
+        it(`registers onStateChange callback with store`, () => {
+            getConsentState.mockReturnValue({
+                iabState: iabTrueState,
+            });
 
-//             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
-//                 readLegacyCookie.mockReturnValue(null); // first call
+            const myCallBack = jest.fn();
 
-//                 const myCallBack = jest.fn();
-//                 const expectedArguments = [[iabNullState]];
+            onIabConsentNotification(myCallBack);
 
-//                 onIabConsentNotification(myCallBack);
+            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+        });
 
-//                 const triggerCount = 5;
+        it('executes advertisement callback with true state', () => {
+            getConsentState.mockReturnValue({
+                iabState: iabTrueState,
+            });
 
-//                 /**
-//                  * TODO: Once the module under test handles
-//                  * updates to state we should update this test
-//                  * to handle 5 updates to state (with differing values)
-//                  * rather than triggering consent notifications manually
-//                  * so we can test the callback is receiving the correct
-//                  * latest state.
-//                  */
-//                 for (let i = 0; i < triggerCount; i += 1) {
-//                     _.updateStateOnSave(iabTrueState);
-//                     expectedArguments.push([iabTrueState]);
-//                 }
+            const myCallBack = jest.fn();
 
-//                 expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
-//                 expect(myCallBack.mock.calls).toEqual(expectedArguments);
-//             });
-//         });
+            onIabConsentNotification(myCallBack);
 
-//         describe('if IAB cookie available', () => {
-//             const fakeIabCookie = 'foo';
+            expect(myCallBack).toBeCalledWith(iabTrueState);
+        });
 
-//             beforeEach(() => {
-//                 readIabCookie.mockReturnValue(fakeIabCookie);
-//             });
+        it('executes advertisement callback with false state', () => {
+            getConsentState.mockReturnValue({
+                iabState: iabFalseState,
+            });
 
-//             it('executes advertisement callback with true state if IAB cookie is available', () => {
-//                 ConsentString.mockImplementation(() => {
-//                     return {
-//                         isPurposeAllowed: jest.fn(() => true),
-//                     };
-//                 });
+            const myCallBack = jest.fn();
 
-//                 const myCallBack = jest.fn();
+            onIabConsentNotification(myCallBack);
 
-//                 onIabConsentNotification(myCallBack);
+            expect(myCallBack).toBeCalledWith(iabFalseState);
+        });
 
-//                 expect(ConsentString).toHaveBeenCalledTimes(1);
-//                 expect(ConsentString).toHaveBeenCalledWith(fakeIabCookie);
-//                 expect(myCallBack).toBeCalledWith(iabTrueState);
-//             });
+        it('executes advertisement callback with null state', () => {
+            getConsentState.mockReturnValue({
+                iabState: iabNullState,
+            });
 
-//             it('executes advertisement callback with false state if IAB cookie is available', () => {
-//                 ConsentString.mockImplementation(() => {
-//                     return {
-//                         isPurposeAllowed: jest.fn(() => false),
-//                     };
-//                 });
+            const myCallBack = jest.fn();
 
-//                 const myCallBack = jest.fn();
+            onIabConsentNotification(myCallBack);
 
-//                 onIabConsentNotification(myCallBack);
+            expect(myCallBack).toBeCalledWith(iabNullState);
+        });
 
-//                 expect(ConsentString).toHaveBeenCalledTimes(1);
-//                 expect(ConsentString).toHaveBeenCalledWith(fakeIabCookie);
-//                 expect(myCallBack).toBeCalledWith(iabFalseState);
-//             });
+        it('executes advertisement callback each time consent nofication triggered with updated state', () => {
+            getConsentState.mockReturnValue({
+                iabState: iabNullState,
+            }); // first call
 
-//             it('executes advertisement callback each time consent nofication triggered with updated state', () => {
-//                 ConsentString.mockImplementation(() => {
-//                     return {
-//                         isPurposeAllowed: jest.fn(() => false),
-//                     };
-//                 });
+            const myCallBack = jest.fn();
+            const expectedArguments = [[iabNullState]];
+            const triggerCount = 5;
 
-//                 const myCallBack = jest.fn();
-//                 const expectedArguments = [[iabFalseState]];
+            onIabConsentNotification(myCallBack);
 
-//                 onIabConsentNotification(myCallBack);
+            for (let i = 0; i < triggerCount; i += 1) {
+                _.onStateChange({
+                    iabState: iabTrueState,
+                });
+                expectedArguments.push([iabTrueState]);
+            }
 
-//                 const triggerCount = 5;
-
-//                 /**
-//                  * TODO: Once the module under test handles
-//                  * updates to state we should update this test
-//                  * to handle 5 updates to state (with differing values)
-//                  * rather than triggering consent notifications manually
-//                  * so we can test the callback is receiving the correct
-//                  * latest state.
-//                  */
-//                 for (let i = 0; i < triggerCount; i += 1) {
-//                     _.updateStateOnSave(iabTrueState);
-//                     expectedArguments.push([iabTrueState]);
-//                 }
-
-//                 expect(ConsentString).toHaveBeenCalledTimes(1);
-//                 expect(ConsentString).toHaveBeenCalledWith(fakeIabCookie);
-//                 expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
-//                 expect(myCallBack.mock.calls).toEqual(expectedArguments);
-//             });
-//         });
-//     });
-// });
+            expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
+            expect(myCallBack.mock.calls).toEqual(expectedArguments);
+        });
+    });
+});
