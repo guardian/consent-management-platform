@@ -7,7 +7,8 @@ type onStateChangeFn = (
     iabState: IabPurposeState,
 ) => void;
 
-let guState: GuPurposeState = { functional: null, performance: null };
+// TODO: These defaults should be switched to null once the PECR purposes are activated
+let guState: GuPurposeState = { functional: true, performance: true };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 
 const onStateChange: onStateChangeFn[] = [];
@@ -24,7 +25,6 @@ const init = (): void => {
 const registerStateChangeHandler = (callback: onStateChangeFn): void => {
     init();
     onStateChange.push(callback);
-    callback(guState, iabState);
 };
 
 const getConsentState = (): {
@@ -39,6 +39,7 @@ const setConsentState = (
     newGuState: GuPurposeState,
     newIabState: IabPurposeState,
 ): void => {
+    init();
     guState = newGuState;
     iabState = newIabState;
 
@@ -50,6 +51,7 @@ const setConsentState = (
 };
 
 const getGuStateFromCookie = (): GuPurposeState => {
+    // TODO: Friendly reminder to update the getConsentState() unit tests after PECR is introduced
     return { functional: true, performance: true };
 };
 
@@ -89,4 +91,15 @@ const getIabStateFromCookie = (): IabPurposeState => {
     return newIabState;
 };
 
+const resetModule = () => {
+    guState = { functional: true, performance: true };
+    iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
+    onStateChange.length = 0;
+    initialised = false;
+};
+
 export { getConsentState, setConsentState, registerStateChangeHandler };
+
+export const _ = {
+    resetModule,
+};

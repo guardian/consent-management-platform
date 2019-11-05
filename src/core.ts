@@ -1,4 +1,4 @@
-import { getConsentState, registerOnStateChangeHandler } from './store';
+import { getConsentState, registerStateChangeHandler } from './store';
 import {
     GuPurposeState,
     GuPurpose,
@@ -42,7 +42,7 @@ const iabPurposeRegister: IabPurposeCallback[] = [];
 
 const init = (): void => {
     if (!initialised) {
-        registerOnStateChangeHandler(onStateChange);
+        registerStateChangeHandler(onStateChange);
         initialised = true;
     }
 };
