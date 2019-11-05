@@ -2,10 +2,10 @@ import { ConsentString } from 'consent-string';
 import { GuPurposeState, IabPurposeState } from './types';
 import { readIabCookie, readLegacyCookie } from './cookies';
 
-type onStateChangeFn = (
-    guState: GuPurposeState,
-    iabState: IabPurposeState,
-) => void;
+type onStateChangeFn = (latestState: {
+    guState: GuPurposeState;
+    iabState: IabPurposeState;
+}) => void;
 
 // TODO: These defaults should be switched to null once the PECR purposes are activated
 let guState: GuPurposeState = { functional: true, performance: true };
@@ -46,7 +46,7 @@ const setConsentState = (
     // TODO: Call writeStateCookies here
 
     onStateChange.forEach((callback: onStateChangeFn): void => {
-        callback(guState, iabState);
+        callback({ guState, iabState });
     });
 };
 
