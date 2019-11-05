@@ -1,5 +1,10 @@
 // import { ConsentString } from 'consent-string';
-import { onGuConsentNotification, onIabConsentNotification, _ } from './core';
+import {
+    init,
+    onGuConsentNotification,
+    onIabConsentNotification,
+    _,
+} from './core';
 import { GU_PURPOSE_LIST } from './config';
 import {
     getConsentState as _getConsentState,
@@ -40,6 +45,21 @@ describe('core', () => {
     beforeEach(() => {
         _.reset();
         jest.resetAllMocks();
+    });
+
+    describe('init', () => {
+        it(`registers onStateChange callback with store`, () => {
+            init();
+
+            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+        });
+
+        it(`only registers onStateChange callback with store once if init called more than once`, () => {
+            init();
+            init();
+
+            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+        });
     });
 
     describe('onGuConsentNotification', () => {
