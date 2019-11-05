@@ -1,4 +1,4 @@
-import { getConsentState, registerOnStateChangeHandler } from './store';
+import { getConsentState, registerStateChangeHandler } from './store';
 import {
     GuPurposeState,
     GuPurpose,
@@ -42,15 +42,16 @@ const iabPurposeRegister: IabPurposeCallback[] = [];
 
 const init = (): void => {
     if (!initialised) {
-        registerOnStateChangeHandler(onStateChange);
+        registerStateChangeHandler(onStateChange);
         initialised = true;
     }
 };
 
-const onStateChange = (
-    guState: GuPurposeState,
-    iabState: IabPurposeState,
-): void => {
+const onStateChange = (latestState: {
+    guState: GuPurposeState;
+    iabState: IabPurposeState;
+}): void => {
+    const { guState, iabState } = latestState;
     // Iterate over guPurposeRegister callbacks
     Object.keys(guPurposeRegister).forEach((key: string): void => {
         const guCallbacks =
@@ -69,6 +70,7 @@ const onIabConsentNotification = (callback: IabPurposeCallback): void => {
     init();
 
     const { iabState } = getConsentState();
+
     callback(iabState);
 
     iabPurposeRegister.push(callback);
@@ -82,33 +84,24 @@ const onGuConsentNotification = (
 
     const { guState } = getConsentState();
     const purposeState = guState[purposeName];
+
     callback(purposeState);
 
     guPurposeRegister[purposeName].push(callback);
 };
 
 export { init, onGuConsentNotification, onIabConsentNotification };
-// Exposed for testing
-// export const _ = {
-//     updateStateOnSave,
-//     resetCmp: (): void => {
-//         cmpIsReady = false;
-//         // reset guPurposeRegister
-//         Object.keys(guPurposeRegister).forEach((key: string): void => {
-//             const guPurpose =
-//                 guPurposeRegister[key as GuResponsivePurposeEventId];
 
-//             guPurpose.state = null;
-//             guPurpose.callbacks = [];
-//         });
-//         // reset iabPurposeRegister
-//         iabPurposeRegister.state = {
-//             1: null,
-//             2: null,
-//             3: null,
-//             4: null,
-//             5: null,
-//         };
-//         iabPurposeRegister.callbacks = [];
-//     },
-// };
+// Exposed for testing
+export const _ = {
+    onStateChange,
+    reset: (): void => {
+        initialised = false;
+        // reset guPurposeRegister
+        Object.keys(guPurposeRegister).forEach((key: string): void => {
+            guPurposeRegister[key as GuResponsivePurposeEventId] = [];
+        });
+        // reset iabPurposeRegister
+        iabPurposeRegister.length = 0;
+    },
+};

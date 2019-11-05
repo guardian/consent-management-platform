@@ -2,10 +2,10 @@ import { ConsentString } from 'consent-string';
 import { GuPurposeState, IabPurposeState } from './types';
 import { readIabCookie, readLegacyCookie } from './cookies';
 
-type onStateChangeFn = (
-    guState: GuPurposeState,
-    iabState: IabPurposeState,
-) => void;
+type onStateChangeFn = (latestState: {
+    guState: GuPurposeState;
+    iabState: IabPurposeState;
+}) => void;
 
 let guState: GuPurposeState = { functional: null, performance: null };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
@@ -24,7 +24,6 @@ const init = (): void => {
 const registerStateChangeHandler = (callback: onStateChangeFn): void => {
     init();
     onStateChange.push(callback);
-    callback(guState, iabState);
 };
 
 const getConsentState = (): {
@@ -45,7 +44,7 @@ const setConsentState = (
     // TODO: Call writeStateCookies here
 
     onStateChange.forEach((callback: onStateChangeFn): void => {
-        callback(guState, iabState);
+        callback({ guState, iabState });
     });
 };
 
