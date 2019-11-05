@@ -3,6 +3,7 @@ import {
     readGuCookie,
     readIabCookie,
     readLegacyCookie,
+    writeStateCookies,
     writeGuCookie,
     writeIabCookie,
     writeLegacyCookie,
@@ -162,5 +163,51 @@ describe('Cookies', () => {
         expect(Cookies.get).toHaveBeenCalledTimes(1);
         expect(Cookies.get).toHaveBeenCalledWith(LEGACY_COOKIE_NAME);
         expect(readCookie).toBeNull();
+    });
+
+    it('are saved correctly based on available states', () => {
+        Cookies.set.mockImplementation(() => undefined);
+
+        writeStateCookies(guConsentState, iabConsentString, true, true);
+        writeStateCookies(guConsentState, iabConsentString, true, false);
+        writeStateCookies({}, iabConsentString, true, false);
+        expect(Cookies.set).toHaveBeenCalledTimes(6);
+        expect(Cookies.set).toHaveBeenNthCalledWith(
+            1,
+            LEGACY_COOKIE_NAME,
+            `1.${fakeNow}`,
+            cookieOptions,
+        );
+        expect(Cookies.set).toHaveBeenNthCalledWith(
+            2,
+            GU_COOKIE_NAME,
+            guCookie,
+            cookieOptions,
+        );
+
+        expect(Cookies.set).toHaveBeenNthCalledWith(
+            3,
+            IAB_COOKIE_NAME,
+            iabConsentString,
+            cookieOptions,
+        );
+        expect(Cookies.set).toHaveBeenNthCalledWith(
+            4,
+            GU_COOKIE_NAME,
+            guCookie,
+            cookieOptions,
+        );
+        expect(Cookies.set).toHaveBeenNthCalledWith(
+            5,
+            IAB_COOKIE_NAME,
+            iabConsentString,
+            cookieOptions,
+        );
+        expect(Cookies.set).toHaveBeenNthCalledWith(
+            6,
+            IAB_COOKIE_NAME,
+            iabConsentString,
+            cookieOptions,
+        );
     });
 });
