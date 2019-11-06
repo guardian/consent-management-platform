@@ -45,6 +45,7 @@ export const postConsentState = (
 
 export const _ = {
     CMP_LOGS_URL,
+    DUMMY_BROWSER_ID,
     LOGS_VERSION,
 };
 
