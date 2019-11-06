@@ -23,11 +23,7 @@ describe('Logs', () => {
     };
 
     beforeEach(() => {
-        global.fetch = jest.fn();
-        dataToPost.body = '';
-        // global.fetch = jest.fn().mockImplementation(() => {
-        //     console.log('****');
-        // });
+        global.fetch = jest.fn().mockImplementation(() => Promise.resolve());
     });
 
     afterEach(() => {
@@ -43,54 +39,54 @@ describe('Logs', () => {
 
             readBwidCookie.mockReturnValue(fakeBwid);
 
-            postConsentState(
+            return postConsentState(
                 guState,
                 iabString,
                 pAdvertisingState,
                 source,
                 variant,
-            );
-
-            expect(global.fetch).toHaveBeenCalledTimes(1);
-            expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
-                ...dataToPost,
-                body: JSON.stringify({
-                    version: LOGS_VERSION,
-                    iab: iabString,
-                    source,
-                    purposes: {
-                        personalisedAdvertising: pAdvertisingState,
-                    },
-                    browserId: fakeBwid,
-                    variant,
-                }),
+            ).then(() => {
+                expect(global.fetch).toHaveBeenCalledTimes(1);
+                expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
+                    ...dataToPost,
+                    body: JSON.stringify({
+                        version: LOGS_VERSION,
+                        iab: iabString,
+                        source,
+                        purposes: {
+                            personalisedAdvertising: pAdvertisingState,
+                        },
+                        browserId: fakeBwid,
+                        variant,
+                    }),
+                });
             });
         });
 
         it('when bwid cookie is not available', () => {
             readBwidCookie.mockReturnValue(null);
 
-            postConsentState(
+            return postConsentState(
                 guState,
                 iabString,
                 pAdvertisingState,
                 source,
                 variant,
-            );
-
-            expect(global.fetch).toHaveBeenCalledTimes(1);
-            expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
-                ...dataToPost,
-                body: JSON.stringify({
-                    version: LOGS_VERSION,
-                    iab: iabString,
-                    source,
-                    purposes: {
-                        personalisedAdvertising: pAdvertisingState,
-                    },
-                    browserId: DUMMY_BROWSER_ID,
-                    variant,
-                }),
+            ).then(() => {
+                expect(global.fetch).toHaveBeenCalledTimes(1);
+                expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
+                    ...dataToPost,
+                    body: JSON.stringify({
+                        version: LOGS_VERSION,
+                        iab: iabString,
+                        source,
+                        purposes: {
+                            personalisedAdvertising: pAdvertisingState,
+                        },
+                        browserId: DUMMY_BROWSER_ID,
+                        variant,
+                    }),
+                });
             });
         });
     });
