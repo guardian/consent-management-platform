@@ -13,7 +13,7 @@ import {
 import * as cookie from './cookies';
 import { canShow } from './cmp-ui';
 
-export * from './cmp';
+export * from './core';
 export const cmpCookie = cookie;
 export const cmpConfig = {
     CMP_URL,

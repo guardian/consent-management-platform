@@ -1,8 +1,9 @@
-import * as _Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 import {
     readGuCookie,
     readIabCookie,
     readLegacyCookie,
+    writeStateCookies,
     writeGuCookie,
     writeIabCookie,
     writeLegacyCookie,
@@ -14,8 +15,6 @@ import {
     COOKIE_MAX_AGE,
     LEGACY_COOKIE_NAME,
 } from './config';
-
-const Cookies = _Cookies;
 
 const OriginalDate = global.Date;
 
@@ -162,5 +161,62 @@ describe('Cookies', () => {
         expect(Cookies.get).toHaveBeenCalledTimes(1);
         expect(Cookies.get).toHaveBeenCalledWith(LEGACY_COOKIE_NAME);
         expect(readCookie).toBeNull();
+    });
+
+    describe(' should trigger the saving correctly if', () => {
+        beforeAll(() => {
+            Cookies.set.mockImplementation(() => undefined);
+        });
+        afterEach(() => {
+            jest.resetAllMocks();
+        });
+        it('all states provided', () => {
+            writeStateCookies(guConsentState, iabConsentString, true);
+
+            expect(Cookies.set).toHaveBeenCalledTimes(3);
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                LEGACY_COOKIE_NAME,
+                `1.${fakeNow}`,
+                cookieOptions,
+            );
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                2,
+                GU_COOKIE_NAME,
+                guCookie,
+                cookieOptions,
+            );
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
+        it('legacyState is not provided', () => {
+            writeStateCookies(guConsentState, iabConsentString);
+
+            expect(Cookies.set).toHaveBeenCalledTimes(2);
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                GU_COOKIE_NAME,
+                guCookie,
+                cookieOptions,
+            );
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
+        it('guState is not provided', () => {
+            writeStateCookies({}, iabConsentString);
+
+            expect(Cookies.set).toHaveBeenCalledTimes(1);
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
     });
 });

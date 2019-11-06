@@ -9,7 +9,7 @@ import {
     isProd,
 } from './config';
 import { writeIabCookie, writeLegacyCookie } from './cookies';
-import { updateStateOnSave } from './cmp';
+// import { updateStateOnSave } from './core';
 import { IabPurposeState, ParsedIabVendorList } from './types';
 
 const DUMMY_BROWSER_ID = `No bwid available`;
@@ -40,7 +40,7 @@ export const save = (
         5: consentData.isPurposeAllowed(5),
     };
 
-    updateStateOnSave(newIabState);
+    // updateStateOnSave(newIabState);
 
     const pAdvertising = Object.keys(newIabState).every(
         id => newIabState[parseInt(id, 10)] === true,
