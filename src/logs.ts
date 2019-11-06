@@ -6,6 +6,7 @@ const CMP_LOGS_URL = isProd
     ? 'https://consent-logs.guardianapis.com/report'
     : 'https://consent-logs.code.dev-guardianapis.com/report';
 
+const LOGS_VERSION = '1';
 const DUMMY_BROWSER_ID = `No bwid available`;
 
 export const postConsentState = (
@@ -22,7 +23,7 @@ export const postConsentState = (
     }
 
     const logInfo = {
-        version: '1',
+        version: LOGS_VERSION,
         iab: iabString,
         source,
         purposes: {
