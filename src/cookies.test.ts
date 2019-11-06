@@ -1,4 +1,4 @@
-import * as _Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 import {
     readGuCookie,
     readIabCookie,
@@ -15,8 +15,6 @@ import {
     COOKIE_MAX_AGE,
     LEGACY_COOKIE_NAME,
 } from './config';
-
-const Cookies = _Cookies;
 
 const OriginalDate = global.Date;
 
