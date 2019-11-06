@@ -1,6 +1,10 @@
 import { ConsentString } from 'consent-string';
 import { GuPurposeState, IabPurposeState } from './types';
-import { readIabCookie, readLegacyCookie } from './cookies';
+import {
+    readIabCookie,
+    readLegacyCookie /* , writeStateCookies */,
+} from './cookies';
+// import { postConsentState } from './logs';
 
 type onStateChangeFn = (
     guState: GuPurposeState,
@@ -61,8 +65,8 @@ const setConsentState = (
     // const iabStr = consentData.getConsentString();
     // const pAdvertisingState = allowedPurposes.length === 5
 
-    // TODO: Call writeStateCookies here
-    // TODO: Call postConsentState here
+    // writeStateCookies(guState, iabString, pAdvertisingState);
+    // postConsentState(guState, iabStr, pAdvertisingState, 'www');
 
     onStateChange.forEach((callback: onStateChangeFn): void => {
         callback(guState, iabState);
