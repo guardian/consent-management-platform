@@ -1,10 +1,20 @@
 import { postConsentState, _ } from './logs';
 import { readBwidCookie } from './cookies';
+import { isProd } from './config';
 
-const { CMP_LOGS_URL, DUMMY_BROWSER_ID, LOGS_VERSION } = _;
+const {
+    CMP_LOGS_PROD_URL,
+    CMP_LOGS_NOT_PROD_URL,
+    DUMMY_BROWSER_ID,
+    LOGS_VERSION,
+} = _;
 
 jest.mock('./cookies', () => ({
     readBwidCookie: jest.fn(),
+}));
+
+jest.mock('./config', () => ({
+    isProd: jest.fn(),
 }));
 
 describe('Logs', () => {
@@ -19,11 +29,11 @@ describe('Logs', () => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: '',
     };
 
     beforeEach(() => {
         global.fetch = jest.fn().mockImplementation(() => Promise.resolve());
+        isProd.mockReturnValue(false);
     });
 
     afterEach(() => {
@@ -31,13 +41,12 @@ describe('Logs', () => {
         delete global.fetch;
     });
 
-    it('throws error if in PROD and bwid cookies is not present', () => {});
+    describe('sets log parameters correctly', () => {
+        const fakeBwid = 'foo';
 
-    describe('posts correct browser ID', () => {
-        it('when bwid cookie is available.', () => {
-            const fakeBwid = 'foo';
-
+        it('when on PROD and bwid cookie is available', () => {
             readBwidCookie.mockReturnValue(fakeBwid);
+            isProd.mockReturnValue(true);
 
             return postConsentState(
                 guState,
@@ -47,7 +56,7 @@ describe('Logs', () => {
                 variant,
             ).then(() => {
                 expect(global.fetch).toHaveBeenCalledTimes(1);
-                expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
+                expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_PROD_URL, {
                     ...dataToPost,
                     body: JSON.stringify({
                         version: LOGS_VERSION,
@@ -63,7 +72,37 @@ describe('Logs', () => {
             });
         });
 
-        it('when bwid cookie is not available', () => {
+        it('when not on PROD and bwid cookie is available.', () => {
+            readBwidCookie.mockReturnValue(fakeBwid);
+
+            return postConsentState(
+                guState,
+                iabString,
+                pAdvertisingState,
+                source,
+                variant,
+            ).then(() => {
+                expect(global.fetch).toHaveBeenCalledTimes(1);
+                expect(global.fetch).toHaveBeenCalledWith(
+                    CMP_LOGS_NOT_PROD_URL,
+                    {
+                        ...dataToPost,
+                        body: JSON.stringify({
+                            version: LOGS_VERSION,
+                            iab: iabString,
+                            source,
+                            purposes: {
+                                personalisedAdvertising: pAdvertisingState,
+                            },
+                            browserId: fakeBwid,
+                            variant,
+                        }),
+                    },
+                );
+            });
+        });
+
+        it('when not on PROD and bwid cookie is not available', () => {
             readBwidCookie.mockReturnValue(null);
 
             return postConsentState(
@@ -74,20 +113,38 @@ describe('Logs', () => {
                 variant,
             ).then(() => {
                 expect(global.fetch).toHaveBeenCalledTimes(1);
-                expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
-                    ...dataToPost,
-                    body: JSON.stringify({
-                        version: LOGS_VERSION,
-                        iab: iabString,
-                        source,
-                        purposes: {
-                            personalisedAdvertising: pAdvertisingState,
-                        },
-                        browserId: DUMMY_BROWSER_ID,
-                        variant,
-                    }),
-                });
+                expect(global.fetch).toHaveBeenCalledWith(
+                    CMP_LOGS_NOT_PROD_URL,
+                    {
+                        ...dataToPost,
+                        body: JSON.stringify({
+                            version: LOGS_VERSION,
+                            iab: iabString,
+                            source,
+                            purposes: {
+                                personalisedAdvertising: pAdvertisingState,
+                            },
+                            browserId: DUMMY_BROWSER_ID,
+                            variant,
+                        }),
+                    },
+                );
             });
         });
+    });
+    describe('throws an error', () => {
+        it('when on PROD and bwid cookies is not available', () => {
+            isProd.mockReturnValue(true);
+            expect(() => {
+                postConsentState(
+                    guState,
+                    iabString,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                );
+            }).toThrowError();
+        });
+        it('when fetch fails', () => {});
     });
 });
