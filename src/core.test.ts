@@ -8,6 +8,14 @@ import {
 import { GU_PURPOSE_LIST } from './config';
 import { getConsentState, registerStateChangeHandler } from './store';
 
+const guNullState = {
+    functional: null,
+    performance: null,
+};
+const guTrueState = {
+    functional: true,
+    performance: true,
+};
 const iabTrueState = {
     1: true,
     2: true,
@@ -163,25 +171,46 @@ describe('core', () => {
 
             expect(myCallBack).toBeCalledWith(iabNullState);
         });
+    });
+    it('Callbacks are executed each time consent nofication is triggered with updated state', () => {
+        getConsentState.mockReturnValue({
+            guState: guNullState,
+            iabState: iabNullState,
+        }); // first call
 
-        it('executes advertisement callback each time consent nofication triggered with updated state', () => {
-            getConsentState.mockReturnValue({
-                iabState: iabNullState,
-            }); // first call
+        const myIabCallback = jest.fn();
+        const myGuFunctionalCallback = jest.fn();
+        const myGuPerformanceCallback = jest.fn();
+        const expectedGuArguments = [guNullState];
+        const expectedIabArguments = [iabNullState];
+        const triggerCount = 5;
 
-            const myCallBack = jest.fn();
-            const expectedArguments = [[iabNullState]];
-            const triggerCount = 5;
+        onGuConsentNotification('functional', myGuFunctionalCallback);
+        onGuConsentNotification('performance', myGuPerformanceCallback);
+        onIabConsentNotification(myIabCallback);
 
-            onIabConsentNotification(myCallBack);
+        for (let i = 0; i < triggerCount; i += 1) {
+            _.onStateChange(guTrueState, iabTrueState);
+            expectedGuArguments.push(guTrueState);
+            expectedIabArguments.push(iabTrueState);
+        }
 
-            for (let i = 0; i < triggerCount; i += 1) {
-                _.onStateChange({}, iabTrueState);
-                expectedArguments.push([iabTrueState]);
-            }
+        expect(myIabCallback).toHaveBeenCalledTimes(triggerCount + 1);
+        for (let i = 0; i < triggerCount; i += 1) {
+            expect(myGuFunctionalCallback).toHaveBeenNthCalledWith(
+                i + 1,
+                expectedGuArguments[i].functional,
+            );
+            expect(myGuPerformanceCallback).toHaveBeenNthCalledWith(
+                i + 1,
+                expectedGuArguments[i].performance,
+            );
+            expect(myIabCallback).toHaveBeenNthCalledWith(
+                i + 1,
+                expectedIabArguments[i],
+            );
+        }
 
-            expect(myCallBack).toHaveBeenCalledTimes(triggerCount + 1);
-            expect(myCallBack.mock.calls).toEqual(expectedArguments);
-        });
+        // expect(myCallBack.mock.calls).toEqual(expectedArguments);
     });
 });
