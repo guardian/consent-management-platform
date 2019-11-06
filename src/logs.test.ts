@@ -1,7 +1,7 @@
 import { postConsentState, _ } from './logs';
 import { readBwidCookie } from './cookies';
 
-const { CMP_LOGS_URL, LOGS_VERSION } = _;
+const { CMP_LOGS_URL, DUMMY_BROWSER_ID, LOGS_VERSION } = _;
 
 jest.mock('./cookies', () => ({
     readBwidCookie: jest.fn(),
@@ -25,7 +25,8 @@ describe('Logs', () => {
         delete global.fetch;
     });
 
-    // it('throws error if in PROD and bwid cookies is not present'), () => {});
+    it('throws error if in PROD and bwid cookies is not present'), () => {});
+
     describe('posts correct browser ID', () => {
         it('when bwid cookie is available.', () => {
             const fakeBwid = 'foo';
@@ -59,8 +60,35 @@ describe('Logs', () => {
                 }),
             });
         });
-        // it('when bwid cookie is not present', () => {
-        //     readBwidCookie.mockReturnValue(null);
-        // });
+        it('when bwid cookie is not present', () => {
+            readBwidCookie.mockReturnValue(null);
+
+            postConsentState(
+                guState,
+                iabString,
+                pAdvertisingState,
+                source,
+                variant,
+            );
+
+            expect(global.fetch).toHaveBeenCalledTimes(1);
+            expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    version: LOGS_VERSION,
+                    iab: iabString,
+                    source,
+                    purposes: {
+                        personalisedAdvertising: pAdvertisingState,
+                    },
+                    browserId: DUMMY_BROWSER_ID,
+                    variant,
+                }),
+            });
+        });
     });
 });
