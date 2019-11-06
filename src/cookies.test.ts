@@ -1,5 +1,6 @@
 import * as Cookies from 'js-cookie';
 import {
+    readBwidCookie,
     readGuCookie,
     readIabCookie,
     readLegacyCookie,
@@ -7,14 +8,17 @@ import {
     writeGuCookie,
     writeIabCookie,
     writeLegacyCookie,
+    _,
 } from './cookies';
-import {
+
+const {
+    BWID_COOKIE_NAME,
     GU_COOKIE_NAME,
     GU_COOKIE_VERSION,
     IAB_COOKIE_NAME,
     COOKIE_MAX_AGE,
     LEGACY_COOKIE_NAME,
-} from './config';
+} = _;
 
 const OriginalDate = global.Date;
 
@@ -100,6 +104,17 @@ describe('Cookies', () => {
             `0.${fakeNow}`,
             cookieOptions,
         );
+    });
+
+    it('should be able to read the bwid cookie', () => {
+        const fakeBwid = 'foo';
+        Cookies.get.mockImplementation(() => fakeBwid);
+
+        const readCookie = readBwidCookie();
+
+        expect(Cookies.get).toHaveBeenCalledTimes(1);
+        expect(Cookies.get).toHaveBeenCalledWith(BWID_COOKIE_NAME);
+        expect(readCookie).toBe(fakeBwid);
     });
 
     it('should be able to read the GU cookie', () => {
