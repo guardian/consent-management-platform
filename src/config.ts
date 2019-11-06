@@ -1,6 +1,6 @@
 import { GuPurposeList } from './types';
 
-const isRunningOnProd = (): boolean => {
+export const isProd = (): boolean => {
     if (typeof document === 'undefined') {
         return false;
     }
@@ -14,15 +14,13 @@ const isRunningOnProd = (): boolean => {
     return shortDomain === 'theguardian.com';
 };
 
-export const isProd = isRunningOnProd();
-
 const cmpDomain = (): string =>
-    isProd
+    isProd()
         ? 'https://manage.theguardian.com'
         : 'https://manage.code.dev-theguardian.com';
 
 const iabVendorListUrl = (): string =>
-    isProd
+    isProd()
         ? 'https://www.theguardian.com/commercial/cmp/vendorlist.json'
         : 'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
 
