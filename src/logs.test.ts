@@ -67,7 +67,7 @@ describe('Logs', () => {
             });
         });
 
-        it('when bwid cookie is not present', () => {
+        it('when bwid cookie is not available', () => {
             readBwidCookie.mockReturnValue(null);
 
             postConsentState(
