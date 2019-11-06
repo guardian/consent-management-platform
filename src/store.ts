@@ -43,7 +43,26 @@ const setConsentState = (
     guState = newGuState;
     iabState = newIabState;
 
+    // const allowedPurposes = Object.keys(iabState)
+    //     .filter(key => iabState[parseInt(key, 10)])
+    //     .map(purpose => parseInt(purpose, 10));
+
+    // const allowedVendors = iabVendorList.vendors.map(vendor => vendor.id);
+
+    // const consentData = new ConsentString();
+    // consentData.setGlobalVendorList(iabVendorList);
+    // consentData.setCmpId(IAB_CMP_ID);
+    // consentData.setCmpVersion(IAB_CMP_VERSION);
+    // consentData.setConsentScreen(IAB_CONSENT_SCREEN);
+    // consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
+    // consentData.setPurposesAllowed(allowedPurposes);
+    // consentData.setVendorsAllowed(allowedVendors);
+
+    // const iabStr = consentData.getConsentString();
+    // const pAdvertisingState = allowedPurposes.length === 5
+
     // TODO: Call writeStateCookies here
+    // TODO: Call postConsentState here
 
     onStateChange.forEach((callback: onStateChangeFn): void => {
         callback(guState, iabState);
