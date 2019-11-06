@@ -24,14 +24,18 @@ const legacyTrueCookie = '1.54321';
 const iabTrueState = { 1: true, 2: true, 3: true, 4: true, 5: true };
 
 describe('Store', () => {
-    beforeAll(() => {});
+    beforeEach(() => {
+        readIabCookie.mockImplementation(() => null);
+        readLegacyCookie.mockImplementation(() => null);
+    });
+
     afterEach(() => {
         jest.resetAllMocks();
         _.resetModule();
     });
 
-    describe('sets the state correctly', () => {
-        it('when no cookie is available', () => {
+    describe('getConsentState returns correct state', () => {
+        it('when no consent cookies are available', () => {
             expect(getConsentState()).toMatchObject({
                 guState: guDefaultState,
                 iabState: iabDefaultState,
@@ -46,7 +50,7 @@ describe('Store', () => {
                 iabState: iabMixedState,
             });
         });
-        it('when the GU_TK cookie is available', () => {
+        it('falls back to legacy GU_TK cookie if available when euconsents cookie is unavailable', () => {
             readLegacyCookie.mockImplementation(() => legacyTrueCookie);
 
             expect(getConsentState()).toMatchObject({
@@ -55,6 +59,11 @@ describe('Store', () => {
             });
         });
         it('after a state change', () => {
+            expect(getConsentState()).toMatchObject({
+                guState: guDefaultState,
+                iabState: iabDefaultState,
+            });
+
             setConsentState(guMixedState, iabMixedState);
 
             expect(getConsentState()).toMatchObject({

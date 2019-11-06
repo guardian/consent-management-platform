@@ -6,13 +6,7 @@ import {
     _,
 } from './core';
 import { GU_PURPOSE_LIST } from './config';
-import {
-    getConsentState as _getConsentState,
-    registerStateChangeHandler as _registerStateChangeHandler,
-} from './store';
-
-const registerStateChangeHandler = _registerStateChangeHandler;
-const getConsentState = _getConsentState;
+import { getConsentState, registerStateChangeHandler } from './store';
 
 const iabTrueState = {
     1: true,
