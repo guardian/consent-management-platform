@@ -40,6 +40,10 @@ export const postConsentState = (
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(logInfo),
+    }).catch(error => {
+        // TODO: ERROR HANDLING
+        // eslint-disable-next-line no-console
+        console.log('Error', error);
     });
 };
 
