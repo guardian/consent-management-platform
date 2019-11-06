@@ -1,4 +1,3 @@
-// import { ConsentString } from 'consent-string';
 import {
     init,
     onGuConsentNotification,
@@ -196,6 +195,7 @@ describe('core', () => {
         }
 
         expect(myIabCallback).toHaveBeenCalledTimes(triggerCount + 1);
+
         for (let i = 0; i < triggerCount; i += 1) {
             expect(myGuFunctionalCallback).toHaveBeenNthCalledWith(
                 i + 1,
@@ -210,7 +210,5 @@ describe('core', () => {
                 expectedIabArguments[i],
             );
         }
-
-        // expect(myCallBack.mock.calls).toEqual(expectedArguments);
     });
 });
