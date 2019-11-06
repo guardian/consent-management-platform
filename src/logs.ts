@@ -43,6 +43,11 @@ export const postConsentState = (
     });
 };
 
+export const _ = {
+    CMP_LOGS_URL,
+    LOGS_VERSION,
+};
+
 // import Cookies from 'js-cookie';
 // import { ConsentString } from 'consent-string';
 // import {
