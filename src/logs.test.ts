@@ -13,11 +13,21 @@ describe('Logs', () => {
     const pAdvertisingState = true;
     const source = 'www';
     const variant = 'testVariant';
+    const dataToPost = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: '',
+    };
 
     beforeEach(() => {
-        global.fetch = jest.fn().mockImplementation(() => {
-            console.log('****');
-        });
+        global.fetch = jest.fn();
+        dataToPost.body = '';
+        // global.fetch = jest.fn().mockImplementation(() => {
+        //     console.log('****');
+        // });
     });
 
     afterEach(() => {
@@ -25,7 +35,7 @@ describe('Logs', () => {
         delete global.fetch;
     });
 
-    // it('throws error if in PROD and bwid cookies is not present'), () => {});
+    it('throws error if in PROD and bwid cookies is not present', () => {});
 
     describe('posts correct browser ID', () => {
         it('when bwid cookie is available.', () => {
@@ -43,11 +53,7 @@ describe('Logs', () => {
 
             expect(global.fetch).toHaveBeenCalledTimes(1);
             expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                ...dataToPost,
                 body: JSON.stringify({
                     version: LOGS_VERSION,
                     iab: iabString,
@@ -60,6 +66,7 @@ describe('Logs', () => {
                 }),
             });
         });
+
         it('when bwid cookie is not present', () => {
             readBwidCookie.mockReturnValue(null);
 
@@ -73,11 +80,7 @@ describe('Logs', () => {
 
             expect(global.fetch).toHaveBeenCalledTimes(1);
             expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_URL, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                ...dataToPost,
                 body: JSON.stringify({
                     version: LOGS_VERSION,
                     iab: iabString,
