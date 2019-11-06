@@ -72,7 +72,7 @@ console.log(cmpUi.canShow()); // true | false
 
 #### cmpUi.setupMessageHandlers
 
-Users loading the CMP UI on their site via an `iframe` can pass 2 callback functions to `cmpUi.setupMessageHandlers` that will be executed when messages are emitted from the CMP UI `iframe`. The 1st argument (`onReadyCmp`) will be executed when the CMP UI emits a ready message to indicate it has loaded and is ready to be shown. And the 2nd argumememnt (`onCloseCmp`) will be executed when the CMP UI emits a close message to indicate the user has saved their consent or clicked the close button.
+Users loading the CMP UI on their site via an `iframe` can pass 2 callback functions to `cmpUi.setupMessageHandlers` that will be executed when messages are emitted from the CMP UI `iframe`. The 1st argument (`onReadyCmp`) will be executed when the CMP UI emits a ready message to indicate it has loaded and is ready to be shown. And the 2nd argument (`onCloseCmp`) will be executed when the CMP UI emits a close message to indicate the user has saved their consent or clicked the close button.
 
 **Example:**
 
