@@ -1,13 +1,13 @@
 // import * as Cookies from 'js-cookie';
 import Cookies from 'js-cookie';
 import { GuCookie, GuPurposeState } from './types';
-import {
-    GU_COOKIE_NAME,
-    GU_COOKIE_VERSION,
-    IAB_COOKIE_NAME,
-    COOKIE_MAX_AGE,
-    LEGACY_COOKIE_NAME,
-} from './config';
+
+const GU_COOKIE_NAME = 'guconsent';
+const IAB_COOKIE_NAME = 'euconsent';
+const LEGACY_COOKIE_NAME = 'GU_TK';
+const BWID_COOKIE_NAME = 'bwid';
+const GU_COOKIE_VERSION = 1;
+const COOKIE_MAX_AGE = 395; // 13 months
 
 const getShortDomain = (): string => {
     const domain = document.domain || '';
@@ -33,6 +33,12 @@ const addCookie = (name: string, value: string | GuCookie): void => {
     };
 
     Cookies.set(name, value, options);
+};
+
+const readBwidCookie = (): string | null => {
+    const cookie = Cookies.get(BWID_COOKIE_NAME);
+
+    return cookie || null;
 };
 
 const readGuCookie = (): GuPurposeState | null => {
@@ -85,6 +91,7 @@ const writeStateCookies = (
 };
 
 export {
+    readBwidCookie,
     readGuCookie,
     readIabCookie,
     readLegacyCookie,
@@ -92,4 +99,13 @@ export {
     writeGuCookie,
     writeIabCookie,
     writeLegacyCookie,
+};
+
+export const _ = {
+    BWID_COOKIE_NAME,
+    GU_COOKIE_NAME,
+    GU_COOKIE_VERSION,
+    IAB_COOKIE_NAME,
+    COOKIE_MAX_AGE,
+    LEGACY_COOKIE_NAME,
 };
