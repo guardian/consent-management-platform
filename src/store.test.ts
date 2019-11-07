@@ -13,6 +13,10 @@ jest.mock('./cookies', () => ({
 }));
 
 const myCallBack = jest.fn();
+const okResponse = {
+    ok: true,
+    json: jest.fn(),
+};
 
 const guDefaultState = { functional: true, performance: true };
 const iabDefaultState = { 1: null, 2: null, 3: null, 4: null, 5: null };
@@ -25,11 +29,16 @@ const iabTrueState = { 1: true, 2: true, 3: true, 4: true, 5: true };
 
 describe('Store', () => {
     beforeEach(() => {
+        global.fetch = jest
+            .fn()
+            .mockImplementation(() => Promise.resolve(okResponse));
         readIabCookie.mockImplementation(() => null);
         readLegacyCookie.mockImplementation(() => null);
     });
 
     afterEach(() => {
+        global.fetch.mockClear();
+        delete global.fetch;
         jest.resetAllMocks();
         _.reset();
     });
