@@ -114,15 +114,13 @@ const getIabStateFromCookie = (): IabPurposeState => {
     return newIabState;
 };
 
-const resetModule = () => {
-    guState = { functional: true, performance: true };
-    iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
-    onStateChange.length = 0;
-    initialised = false;
-};
-
 export { getConsentState, setConsentState, registerStateChangeHandler };
 
 export const _ = {
-    resetModule,
+    reset: (): void => {
+        guState = { functional: true, performance: true };
+        iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
+        onStateChange.length = 0;
+        initialised = false;
+    },
 };
