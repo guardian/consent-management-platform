@@ -1,10 +1,13 @@
 import {
     registerStateChangeHandler,
+    getVendorList,
+    getGuPurposeList,
     getConsentState,
     setConsentState,
     _,
 } from './store';
 import { readIabCookie, readLegacyCookie } from './cookies';
+import { isProd, GU_PURPOSE_LIST } from './config';
 
 jest.mock('./cookies', () => ({
     readGuCookie: jest.fn(),
@@ -12,10 +15,26 @@ jest.mock('./cookies', () => ({
     readLegacyCookie: jest.fn(),
 }));
 
+jest.mock('./config', () => ({
+    isProd: jest.fn(),
+    GU_PURPOSE_LIST: {
+        purposes: [
+            { id: 0, name: 'Essential' },
+            { id: 1, name: 'Functional' },
+            { id: 2, name: 'Performance' },
+        ],
+    },
+}));
+
 const myCallBack = jest.fn();
 const okResponse = {
     ok: true,
-    json: jest.fn(),
+    json: () => 'foo',
+};
+const notOkResponse = {
+    ok: false,
+    status: 500,
+    statusText: 'failed',
 };
 
 const guDefaultState = { functional: true, performance: true };
@@ -34,6 +53,7 @@ describe('Store', () => {
             .mockImplementation(() => Promise.resolve(okResponse));
         readIabCookie.mockImplementation(() => null);
         readLegacyCookie.mockImplementation(() => null);
+        isProd.mockReturnValue(false);
     });
 
     afterEach(() => {
@@ -82,35 +102,32 @@ describe('Store', () => {
         });
     });
 
-    describe('reads cookies exactly once', () => {
+    describe('reads cookies and fetch vendor list exactly once', () => {
+        afterEach(() => {
+            expect(readIabCookie).toHaveBeenCalledTimes(1);
+            expect(readLegacyCookie).toHaveBeenCalledTimes(1);
+            expect(global.fetch).toHaveBeenCalledTimes(1);
+        });
+
         it('when registerStateChangeHandler is called first', () => {
             registerStateChangeHandler(myCallBack);
-            getConsentState();
-            setConsentState(iabMixedState, iabMixedState);
             registerStateChangeHandler(myCallBack);
-
-            expect(readIabCookie).toHaveBeenCalledTimes(1);
-            expect(readLegacyCookie).toHaveBeenCalledTimes(1);
         });
-
+        it('when getVendorList is called first', () => {
+            getVendorList();
+            getVendorList();
+        });
+        it('when getGuPurposeList is called first', () => {
+            getGuPurposeList();
+            getGuPurposeList();
+        });
         it('when getConsentState is called first', () => {
             getConsentState();
-            setConsentState(iabMixedState, iabMixedState);
-            registerStateChangeHandler(myCallBack);
             getConsentState();
-
-            expect(readIabCookie).toHaveBeenCalledTimes(1);
-            expect(readLegacyCookie).toHaveBeenCalledTimes(1);
         });
-
         it('when setConsentState is called first', () => {
             setConsentState(iabMixedState, iabMixedState);
-            registerStateChangeHandler(myCallBack);
-            getConsentState();
             setConsentState(iabMixedState, iabMixedState);
-
-            expect(readIabCookie).toHaveBeenCalledTimes(1);
-            expect(readLegacyCookie).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -131,5 +148,40 @@ describe('Store', () => {
                 iabMixedState,
             );
         });
+    });
+
+    describe('getVendorList', () => {
+        it('fetches the vendor list from the correct URL when not in PROD', () => {
+            return getVendorList().then(result => {
+                expect(result).toEqual('foo');
+                expect(global.fetch).toHaveBeenCalledWith(
+                    _.IAB_VENDOR_LIST_NOT_PROD_URL,
+                );
+            });
+        });
+        it('fetches the vendor list from the correct URL when in PROD', () => {
+            isProd.mockReturnValue(true);
+            return getVendorList().then(result => {
+                expect(result).toEqual('foo');
+                expect(global.fetch).toHaveBeenCalledWith(
+                    _.IAB_VENDOR_LIST_PROD_URL,
+                );
+            });
+        });
+        it('reports an error when the reply from fetch is an error code ', () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() => Promise.resolve(notOkResponse));
+
+            return getVendorList().catch(error => {
+                expect(error).toEqual(
+                    `${notOkResponse.status} | ${notOkResponse.statusText}`,
+                );
+            });
+        });
+    });
+
+    it('getGuPurposeList returns the correct purpose list', () => {
+        expect(getGuPurposeList()).toMatchObject(GU_PURPOSE_LIST);
     });
 });
