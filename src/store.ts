@@ -1,9 +1,10 @@
 import { ConsentString } from 'consent-string';
-import { GuPurposeState, IabPurposeState } from './types';
+import { GuPurposeState, IabPurposeState, IabVendorList } from './types';
 import {
     readIabCookie,
     readLegacyCookie /* , writeStateCookies */,
 } from './cookies';
+import { IAB_VENDOR_LIST_URL } from './config';
 // import { postConsentState } from './logs';
 
 type onStateChangeFn = (
@@ -16,14 +17,31 @@ let guState: GuPurposeState = { functional: true, performance: true };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 
 const onStateChange: onStateChangeFn[] = [];
+let vendorListPromise: Promise<IabVendorList>;
 let initialised = false;
 
 const init = (): void => {
     if (!initialised) {
+        vendorListPromise = fetch(IAB_VENDOR_LIST_URL)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error(`${response.status} | ${response.statusText}`);
+            })
+            .catch(error => {
+                // eslint-disable-next-line no-console
+                console.log('Error fetching vendor list: ', error);
+            });
         guState = getGuStateFromCookie();
         iabState = getIabStateFromCookie();
         initialised = true;
     }
+};
+
+const getVendorList = (): Promise<IabVendorList> => {
+    init();
+    return vendorListPromise;
 };
 
 const registerStateChangeHandler = (callback: onStateChangeFn): void => {
@@ -114,7 +132,12 @@ const getIabStateFromCookie = (): IabPurposeState => {
     return newIabState;
 };
 
-export { getConsentState, setConsentState, registerStateChangeHandler };
+export {
+    getVendorList,
+    getConsentState,
+    setConsentState,
+    registerStateChangeHandler,
+};
 
 export const _ = {
     reset: (): void => {
