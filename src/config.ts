@@ -19,14 +19,8 @@ const cmpDomain = (): string =>
         ? 'https://manage.theguardian.com'
         : 'https://manage.code.dev-theguardian.com';
 
-const iabVendorListUrl = (): string =>
-    isProd()
-        ? 'https://www.theguardian.com/commercial/cmp/vendorlist.json'
-        : 'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
-
 export const CMP_DOMAIN = cmpDomain();
 export const CMP_URL = `${CMP_DOMAIN}/consent`;
-export const IAB_VENDOR_LIST_URL = iabVendorListUrl();
 export const IAB_CMP_ID = 112;
 export const IAB_CMP_VERSION = 1;
 export const IAB_CONSENT_SCREEN = 0;
