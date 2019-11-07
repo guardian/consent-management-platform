@@ -1,10 +1,15 @@
 import { ConsentString } from 'consent-string';
-import { GuPurposeState, IabPurposeState, IabVendorList } from './types';
+import {
+    GuPurposeState,
+    IabPurposeState,
+    IabVendorList,
+    GuPurposeList,
+} from './types';
 import {
     readIabCookie,
     readLegacyCookie /* , writeStateCookies */,
 } from './cookies';
-import { IAB_VENDOR_LIST_URL } from './config';
+import { GU_PURPOSE_LIST, isProd } from './config';
 // import { postConsentState } from './logs';
 
 type onStateChangeFn = (
@@ -12,16 +17,25 @@ type onStateChangeFn = (
     iabState: IabPurposeState,
 ) => void;
 
+const onStateChange: onStateChangeFn[] = [];
+const IAB_VENDOR_LIST_PROD_URL =
+    'https://www.theguardian.com/commercial/cmp/vendorlist.json';
+const IAB_VENDOR_LIST_NOT_PROD_URL =
+    'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
+
 // TODO: These defaults should be switched to null once the PECR purposes are activated
 let guState: GuPurposeState = { functional: true, performance: true };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 
-const onStateChange: onStateChangeFn[] = [];
 let vendorListPromise: Promise<IabVendorList>;
 let initialised = false;
 
 const init = (): void => {
     if (!initialised) {
+        const IAB_VENDOR_LIST_URL = isProd()
+            ? IAB_VENDOR_LIST_PROD_URL
+            : IAB_VENDOR_LIST_NOT_PROD_URL;
+
         vendorListPromise = fetch(IAB_VENDOR_LIST_URL)
             .then(response => {
                 if (response.ok) {
@@ -42,6 +56,11 @@ const init = (): void => {
 const getVendorList = (): Promise<IabVendorList> => {
     init();
     return vendorListPromise;
+};
+
+const getGuPurposeList = (): GuPurposeList => {
+    init();
+    return GU_PURPOSE_LIST;
 };
 
 const registerStateChangeHandler = (callback: onStateChangeFn): void => {
@@ -134,6 +153,7 @@ const getIabStateFromCookie = (): IabPurposeState => {
 
 export {
     getVendorList,
+    getGuPurposeList,
     getConsentState,
     setConsentState,
     registerStateChangeHandler,
