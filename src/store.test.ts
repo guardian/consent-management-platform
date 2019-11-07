@@ -31,7 +31,7 @@ describe('Store', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
-        _.resetModule();
+        _.reset();
     });
 
     describe('getConsentState returns correct state', () => {
