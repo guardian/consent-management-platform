@@ -10,18 +10,17 @@ import {
     space,
     transitions,
 } from '@guardian/src-foundations';
-import { ConsentString } from 'consent-string';
 import { CmpListItem } from './CmpListItem';
 import { Vendors } from './Vendors';
 import { Features } from './Features';
 import { ArrowIcon } from './svgs/ArrowIcon';
+import { getConsentState, setConsentState } from '../store';
 import {
     IAB_VENDOR_LIST_URL,
     SCROLLABLE_ID,
     CONTENT_ID,
     PURPOSES_ID,
 } from '../config';
-import { readIabCookie } from '../cookies';
 import {
     IabFeature,
     IabPurpose,
@@ -30,7 +29,6 @@ import {
     IabVendorList,
     ParsedIabVendorList,
 } from '../types';
-import { save } from '../consent-storage';
 
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
 const cookiePolicyURL = 'https://www.theguardian.com/info/cookies';
@@ -434,22 +432,8 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
 
     private buildState(iabVendorList: ParsedIabVendorList): Promise<void> {
         this.iabVendorList = iabVendorList;
-        const iabStr = readIabCookie();
-        let iabPurposes = {};
-
-        if (iabStr) {
-            const iabData = new ConsentString(iabStr);
-            iabPurposes = iabVendorList.purposes.reduce((acc, purpose) => {
-                return {
-                    ...acc,
-                    [purpose.id]: iabData.isPurposeAllowed(purpose.id),
-                };
-            }, {});
-        } else {
-            iabPurposes = iabVendorList.purposes.reduce((acc, purpose) => {
-                return { ...acc, [purpose.id]: null };
-            }, {});
-        }
+        const { iabState } = getConsentState();
+        const iabPurposes = iabState;
 
         return new Promise(resolve =>
             this.setState({ iabPurposes }, () => resolve()),
@@ -515,10 +499,6 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     private saveSettings(stateToSave: State): boolean {
-        if (!this.iabVendorList) {
-            return false;
-        }
-
         const iabNullResponses: number[] = Object.keys(stateToSave.iabPurposes)
             .filter(key => stateToSave.iabPurposes[parseInt(key, 10)] === null)
             .map(key => parseInt(key, 10));
@@ -531,15 +511,7 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             return false;
         }
 
-        const allowedPurposes = Object.keys(stateToSave.iabPurposes)
-            .filter(key => stateToSave.iabPurposes[parseInt(key, 10)])
-            .map(purpose => parseInt(purpose, 10));
-
-        const allowedVendors = this.iabVendorList.vendors.map(
-            vendor => vendor.id,
-        );
-
-        save(this.iabVendorList, allowedPurposes, allowedVendors);
+        setConsentState({}, this.state.iabPurposes);
 
         return true;
     }

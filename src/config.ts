@@ -1,6 +1,6 @@
 import { GuPurposeList } from './types';
 
-const isRunningOnProd = (): boolean => {
+export const isProd = (): boolean => {
     if (typeof document === 'undefined') {
         return false;
     }
@@ -14,31 +14,19 @@ const isRunningOnProd = (): boolean => {
     return shortDomain === 'theguardian.com';
 };
 
-export const isProd = isRunningOnProd();
-
 const cmpDomain = (): string =>
-    isProd
+    isProd()
         ? 'https://manage.theguardian.com'
         : 'https://manage.code.dev-theguardian.com';
 
-const cmpLogsUrl = (): string =>
-    isProd
-        ? 'https://consent-logs.guardianapis.com/report'
-        : 'https://consent-logs.code.dev-guardianapis.com/report';
-
 const iabVendorListUrl = (): string =>
-    isProd
+    isProd()
         ? 'https://www.theguardian.com/commercial/cmp/vendorlist.json'
         : 'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
 
 export const CMP_DOMAIN = cmpDomain();
 export const CMP_URL = `${CMP_DOMAIN}/consent`;
-export const CMP_LOGS_URL = cmpLogsUrl();
-export const COOKIE_MAX_AGE = 395; // 13 months
-export const GU_COOKIE_NAME = 'guconsent';
-export const GU_COOKIE_VERSION = 1;
 export const IAB_VENDOR_LIST_URL = iabVendorListUrl();
-export const IAB_COOKIE_NAME = 'euconsent';
 export const IAB_CMP_ID = 112;
 export const IAB_CMP_VERSION = 1;
 export const IAB_CONSENT_SCREEN = 0;
@@ -46,7 +34,6 @@ export const IAB_CONSENT_LANGUAGE = 'en';
 export const CMP_READY_MSG = 'readyCmp';
 export const CMP_SAVED_MSG = 'savedCmp';
 export const CMP_CLOSE_MSG = 'closeCmp';
-export const LEGACY_COOKIE_NAME = 'GU_TK';
 export const GU_PURPOSE_LIST: GuPurposeList = {
     purposes: [
         {
