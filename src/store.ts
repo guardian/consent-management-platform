@@ -47,6 +47,7 @@ const init = (): void => {
                 // eslint-disable-next-line no-console
                 console.log('Error fetching vendor list: ', error);
             });
+
         guState = getGuStateFromCookie();
         iabState = getIabStateFromCookie();
         initialised = true;
@@ -160,6 +161,8 @@ export {
 };
 
 export const _ = {
+    IAB_VENDOR_LIST_PROD_URL,
+    IAB_VENDOR_LIST_NOT_PROD_URL,
     reset: (): void => {
         guState = { functional: true, performance: true };
         iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
