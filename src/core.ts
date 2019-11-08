@@ -89,7 +89,7 @@ const onGuConsentNotification = (
     guPurposeRegister[purposeName].push(callback);
 };
 
-export { init, onGuConsentNotification, onIabConsentNotification };
+export { onGuConsentNotification, onIabConsentNotification };
 
 // Exposed for testing
 export const _ = {
