@@ -81,37 +81,44 @@ const getConsentState = (): {
 const setConsentState = (
     newGuState: GuPurposeState,
     newIabState: IabPurposeState,
-): void => {
+): Promise<void> => {
     init();
     guState = newGuState;
     iabState = newIabState;
 
-    getVendorList().then(iabVendorList => {
-        const allowedPurposes = Object.keys(iabState)
-            .filter(key => iabState[parseInt(key, 10)])
-            .map(purpose => parseInt(purpose, 10));
+    return getVendorList()
+        .then(iabVendorList => {
+            const allowedPurposes = Object.keys(iabState)
+                .filter(key => iabState[parseInt(key, 10)])
+                .map(purpose => parseInt(purpose, 10));
 
-        const allowedVendors = iabVendorList.vendors.map(vendor => vendor.id);
+            const allowedVendors = iabVendorList.vendors.map(
+                vendor => vendor.id,
+            );
 
-        const consentData = new ConsentString();
-        consentData.setGlobalVendorList(iabVendorList);
-        consentData.setCmpId(IAB_CMP_ID);
-        consentData.setCmpVersion(IAB_CMP_VERSION);
-        consentData.setConsentScreen(IAB_CONSENT_SCREEN);
-        consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
-        consentData.setPurposesAllowed(allowedPurposes);
-        consentData.setVendorsAllowed(allowedVendors);
+            const consentData = new ConsentString();
 
-        const iabStr = consentData.getConsentString();
-        const pAdvertisingState = allowedPurposes.length === 5;
+            consentData.setGlobalVendorList(iabVendorList);
+            consentData.setCmpId(IAB_CMP_ID);
+            consentData.setCmpVersion(IAB_CMP_VERSION);
+            consentData.setConsentScreen(IAB_CONSENT_SCREEN);
+            consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
+            consentData.setPurposesAllowed(allowedPurposes);
+            consentData.setVendorsAllowed(allowedVendors);
 
-        writeStateCookies(guState, iabStr, pAdvertisingState);
-        postConsentState(guState, iabStr, pAdvertisingState, 'www');
+            const iabStr = consentData.getConsentString();
+            const pAdvertisingState = allowedPurposes.length === 5;
 
-        onStateChange.forEach((callback: onStateChangeFn): void => {
-            callback(guState, iabState);
+            writeStateCookies(guState, iabStr, pAdvertisingState);
+            postConsentState(guState, iabStr, pAdvertisingState, 'www');
+        })
+        .finally(() => {
+            onStateChange.forEach((callback: onStateChangeFn): void => {
+                callback(guState, iabState);
+            });
+
+            return Promise.resolve();
         });
-    });
 };
 
 const getGuStateFromCookie = (): GuPurposeState => {
