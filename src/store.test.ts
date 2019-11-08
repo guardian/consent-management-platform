@@ -1,3 +1,4 @@
+import { ConsentString } from 'consent-string';
 import {
     registerStateChangeHandler,
     getVendorList,
@@ -6,13 +7,23 @@ import {
     setConsentState,
     _,
 } from './store';
-import { readIabCookie, readLegacyCookie } from './cookies';
+import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
+import { postConsentState } from './logs';
 import { isProd, GU_PURPOSE_LIST } from './config';
+
+jest.mock('consent-string', () => ({
+    ConsentString: class {},
+}));
 
 jest.mock('./cookies', () => ({
     readGuCookie: jest.fn(),
     readIabCookie: jest.fn(),
     readLegacyCookie: jest.fn(),
+    writeStateCookies: jest.fn(),
+}));
+
+jest.mock('./logs', () => ({
+    postConsentState: jest.fn(),
 }));
 
 jest.mock('./config', () => ({
@@ -25,12 +36,45 @@ jest.mock('./config', () => ({
         ],
     },
 }));
+const fakeVendorList = {
+    vendorListVersion: 173,
+    lastUpdated: '2019-10-31T16:00:20Z',
+    purposes: [
+        {
+            id: 1,
+        },
+        {
+            id: 2,
+        },
+        {
+            id: 3,
+        },
+        {
+            id: 4,
+        },
+        {
+            id: 5,
+        },
+    ],
+    vendors: [
+        {
+            id: 1,
+        },
+        {
+            id: 2,
+        },
+        {
+            id: 3,
+        },
+    ],
+};
 
 const myCallBack = jest.fn();
 const okResponse = {
     ok: true,
-    json: () => 'foo',
+    json: () => fakeVendorList,
 };
+
 const notOkResponse = {
     ok: false,
     status: 500,
@@ -40,11 +84,9 @@ const notOkResponse = {
 const guDefaultState = { functional: true, performance: true };
 const iabDefaultState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 const guMixedState = { functional: true, performance: false };
-const iabMixedState = { 1: true, 2: false, 3: false, 4: true, 5: true };
-const iabMixedString =
-    'BOpj_ITOpj_ITBwABAENCtmAAAAsJ7_______9______9uz_Ov_v_f__33e8__9v_l_7_-___u_-3zd4u_1vf99yfm1-7etr3tp_87ues2_Xur__79__3z3_9phP78k89r7337Ew-v-3o8bzBAI';
-const legacyTrueCookie = '1.54321';
 const iabTrueState = { 1: true, 2: true, 3: true, 4: true, 5: true };
+const legacyTrueCookie = '1.54321';
+const fakeIabString = 'UH IH OH HA HA';
 
 describe('Store', () => {
     beforeEach(() => {
@@ -54,6 +96,15 @@ describe('Store', () => {
         readIabCookie.mockImplementation(() => null);
         readLegacyCookie.mockImplementation(() => null);
         isProd.mockReturnValue(false);
+        ConsentString.prototype.isPurposeAllowed = () => true;
+        ConsentString.prototype.setGlobalVendorList = jest.fn();
+        ConsentString.prototype.setCmpId = jest.fn();
+        ConsentString.prototype.setCmpVersion = jest.fn();
+        ConsentString.prototype.setConsentScreen = jest.fn();
+        ConsentString.prototype.setConsentLanguage = jest.fn();
+        ConsentString.prototype.setPurposesAllowed = jest.fn();
+        ConsentString.prototype.setVendorsAllowed = jest.fn();
+        ConsentString.prototype.getConsentString = () => fakeIabString;
     });
 
     afterEach(() => {
@@ -71,12 +122,12 @@ describe('Store', () => {
             });
         });
         it('when the euconsents cookie is available', () => {
-            readIabCookie.mockImplementation(() => iabMixedString);
+            readIabCookie.mockImplementation(() => 'foo');
             readLegacyCookie.mockImplementation(() => legacyTrueCookie);
 
             expect(getConsentState()).toMatchObject({
                 guState: guDefaultState,
-                iabState: iabMixedState,
+                iabState: iabTrueState,
             });
         });
         it('falls back to legacy GU_TK cookie if available when euconsents cookie is unavailable', () => {
@@ -93,16 +144,16 @@ describe('Store', () => {
                 iabState: iabDefaultState,
             });
 
-            setConsentState(guMixedState, iabMixedState);
+            setConsentState(guMixedState, iabTrueState);
 
             expect(getConsentState()).toMatchObject({
                 guState: guMixedState,
-                iabState: iabMixedState,
+                iabState: iabTrueState,
             });
         });
     });
 
-    describe('reads cookies and fetch vendor list exactly once', () => {
+    describe('reads cookies and fetches vendor list exactly once', () => {
         afterEach(() => {
             expect(readIabCookie).toHaveBeenCalledTimes(1);
             expect(readLegacyCookie).toHaveBeenCalledTimes(1);
@@ -126,34 +177,89 @@ describe('Store', () => {
             getConsentState();
         });
         it('when setConsentState is called first', () => {
-            setConsentState(iabMixedState, iabMixedState);
-            setConsentState(iabMixedState, iabMixedState);
+            setConsentState(guMixedState, iabTrueState);
+            setConsentState(guMixedState, iabTrueState);
         });
     });
 
-    describe('triggers StateChange handlers correctly', () => {
-        it('when state changes', () => {
+    describe('setConsentState', () => {
+        it('triggers StateChange handlers correctly', () => {
             registerStateChangeHandler(myCallBack);
-            setConsentState(guDefaultState, iabDefaultState);
-            setConsentState(guMixedState, iabMixedState);
 
-            expect(myCallBack).toHaveBeenCalledTimes(2);
-            expect(myCallBack).toHaveBeenNthCalledWith(
-                1,
-                guDefaultState,
-                iabDefaultState,
+            return setConsentState(guDefaultState, iabDefaultState)
+                .then(() => {
+                    return setConsentState(guMixedState, iabTrueState);
+                })
+                .then(() => {
+                    expect(myCallBack).toHaveBeenCalledTimes(2);
+                    expect(myCallBack).toHaveBeenNthCalledWith(
+                        1,
+                        guDefaultState,
+                        iabDefaultState,
+                    );
+                    expect(myCallBack).toHaveBeenLastCalledWith(
+                        guMixedState,
+                        iabTrueState,
+                    );
+                });
+        });
+
+        it('calls setPurposesAllowed correctly', () => {
+            const allowedPurposes = Object.keys(iabTrueState).map(purposeId => {
+                return parseInt(purposeId, 10);
+            });
+
+            return setConsentState(guMixedState, iabTrueState).then(() => {
+                expect(
+                    ConsentString.prototype.setPurposesAllowed,
+                ).toHaveBeenCalledTimes(1);
+                expect(
+                    ConsentString.prototype.setPurposesAllowed,
+                ).toHaveBeenCalledWith(allowedPurposes);
+            });
+        });
+        it('calls setVendorsAllowed correctly', () => {
+            const allowedVendors = fakeVendorList.vendors.map(
+                vendor => vendor.id,
             );
-            expect(myCallBack).toHaveBeenLastCalledWith(
-                guMixedState,
-                iabMixedState,
-            );
+
+            return setConsentState(guMixedState, iabTrueState).then(() => {
+                expect(
+                    ConsentString.prototype.setVendorsAllowed,
+                ).toHaveBeenCalledTimes(1);
+                expect(
+                    ConsentString.prototype.setVendorsAllowed,
+                ).toHaveBeenCalledWith(allowedVendors);
+            });
+        });
+        it('calls writeStateCookies correctly', () => {
+            return setConsentState(guMixedState, iabTrueState).then(() => {
+                expect(writeStateCookies).toHaveBeenCalledTimes(1);
+                expect(writeStateCookies).toHaveBeenLastCalledWith(
+                    guMixedState,
+                    fakeIabString,
+                    true,
+                );
+            });
+        });
+
+        it('calls postConsentState', () => {
+            return setConsentState(guMixedState, iabTrueState).then(() => {
+                expect(postConsentState).toHaveBeenCalledTimes(1);
+                expect(postConsentState).toHaveBeenLastCalledWith(
+                    guMixedState,
+                    fakeIabString,
+                    true,
+                    'www',
+                );
+            });
         });
     });
 
     describe('getVendorList', () => {
         it('fetches the vendor list from the correct URL when not in PROD', () => {
             return getVendorList().then(result => {
-                expect(result).toEqual('foo');
+                expect(result).toMatchObject(fakeVendorList);
                 expect(global.fetch).toHaveBeenCalledWith(
                     _.IAB_VENDOR_LIST_NOT_PROD_URL,
                 );
@@ -162,7 +268,7 @@ describe('Store', () => {
         it('fetches the vendor list from the correct URL when in PROD', () => {
             isProd.mockReturnValue(true);
             return getVendorList().then(result => {
-                expect(result).toEqual('foo');
+                expect(result).toMatchObject(fakeVendorList);
                 expect(global.fetch).toHaveBeenCalledWith(
                     _.IAB_VENDOR_LIST_PROD_URL,
                 );
