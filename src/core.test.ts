@@ -1,9 +1,4 @@
-import {
-    init,
-    onGuConsentNotification,
-    onIabConsentNotification,
-    _,
-} from './core';
+import { onGuConsentNotification, onIabConsentNotification, _ } from './core';
 import { GU_PURPOSE_LIST } from './config';
 import { getConsentState, registerStateChangeHandler } from './store';
 
@@ -48,21 +43,6 @@ describe('core', () => {
         jest.resetAllMocks();
     });
 
-    describe('init', () => {
-        it(`registers onStateChange callback with store`, () => {
-            init();
-
-            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
-        });
-
-        it(`only registers onStateChange callback with store once if init called more than once`, () => {
-            init();
-            init();
-
-            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
-        });
-    });
-
     describe('onGuConsentNotification', () => {
         const { purposes } = GU_PURPOSE_LIST;
         const enabledPurposes = purposes.filter(
@@ -84,6 +64,12 @@ describe('core', () => {
         enabledPurposes.forEach(purpose => {
             const { eventId } = purpose;
 
+            it('runs init exactly once on multiple calls', () => {
+                onGuConsentNotification('functional', () => {});
+                onGuConsentNotification('functional', () => {});
+
+                expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+            });
             it(`executes ${eventId} callback immediately`, () => {
                 const myCallBack = jest.fn();
 
@@ -111,37 +97,33 @@ describe('core', () => {
     });
 
     describe('onIabConsentNotification', () => {
-        it(`executes advertisment callback immediately`, () => {
+        let myCallBack;
+
+        beforeEach(() => {
             getConsentState.mockReturnValue({
                 iabState: iabTrueState,
             });
+            myCallBack = jest.fn();
+        });
+        it('runs init exactly once on multiple calls', () => {
+            onIabConsentNotification(() => {});
+            onIabConsentNotification(() => {});
 
-            const myCallBack = jest.fn();
-
+            expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
+        });
+        it(`executes advertisment callback immediately`, () => {
             onIabConsentNotification(myCallBack);
 
             expect(myCallBack).toHaveBeenCalledTimes(1);
         });
 
         it(`registers onStateChange callback with store`, () => {
-            getConsentState.mockReturnValue({
-                iabState: iabTrueState,
-            });
-
-            const myCallBack = jest.fn();
-
             onIabConsentNotification(myCallBack);
 
             expect(registerStateChangeHandler).toHaveBeenCalledTimes(1);
         });
 
         it('executes advertisement callback with true state', () => {
-            getConsentState.mockReturnValue({
-                iabState: iabTrueState,
-            });
-
-            const myCallBack = jest.fn();
-
             onIabConsentNotification(myCallBack);
 
             expect(myCallBack).toBeCalledWith(iabTrueState);
@@ -151,9 +133,6 @@ describe('core', () => {
             getConsentState.mockReturnValue({
                 iabState: iabFalseState,
             });
-
-            const myCallBack = jest.fn();
-
             onIabConsentNotification(myCallBack);
 
             expect(myCallBack).toBeCalledWith(iabFalseState);
@@ -163,9 +142,6 @@ describe('core', () => {
             getConsentState.mockReturnValue({
                 iabState: iabNullState,
             });
-
-            const myCallBack = jest.fn();
-
             onIabConsentNotification(myCallBack);
 
             expect(myCallBack).toBeCalledWith(iabNullState);
