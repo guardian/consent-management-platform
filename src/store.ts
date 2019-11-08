@@ -17,11 +17,15 @@ type onStateChangeFn = (
     iabState: IabPurposeState,
 ) => void;
 
-const onStateChange: onStateChangeFn[] = [];
+// const IAB_CMP_ID = 112;
+// const IAB_CMP_VERSION = 1;
+// const IAB_CONSENT_SCREEN = 0;
+// const IAB_CONSENT_LANGUAGE = 'en';
 const IAB_VENDOR_LIST_PROD_URL =
     'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 const IAB_VENDOR_LIST_NOT_PROD_URL =
     'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
+const onStateChange: onStateChangeFn[] = [];
 
 // TODO: These defaults should be switched to null once the PECR purposes are activated
 let guState: GuPurposeState = { functional: true, performance: true };

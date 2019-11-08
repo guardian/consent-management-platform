@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import { mobileLandscape, palette, space } from '@guardian/src-foundations';
 import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
-import { SCROLLABLE_ID, CONTENT_ID } from '../config';
+import { SCROLLABLE_ID, CONTENT_ID } from './utils/config';
 
 const TRANSITION_TIME = 1000;
 
