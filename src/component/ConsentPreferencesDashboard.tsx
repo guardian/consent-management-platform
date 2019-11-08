@@ -15,12 +15,7 @@ import { Vendors } from './Vendors';
 import { Features } from './Features';
 import { ArrowIcon } from './svgs/ArrowIcon';
 import { getConsentState, setConsentState, getVendorList } from '../store';
-import {
-    IAB_VENDOR_LIST_URL,
-    SCROLLABLE_ID,
-    CONTENT_ID,
-    PURPOSES_ID,
-} from '../config';
+import { SCROLLABLE_ID, CONTENT_ID, PURPOSES_ID } from './utils/config';
 import {
     IabFeature,
     IabPurpose,

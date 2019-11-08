@@ -14,20 +14,6 @@ export const isProd = (): boolean => {
     return shortDomain === 'theguardian.com';
 };
 
-const cmpDomain = (): string =>
-    isProd()
-        ? 'https://manage.theguardian.com'
-        : 'https://manage.code.dev-theguardian.com';
-
-export const CMP_DOMAIN = cmpDomain();
-export const CMP_URL = `${CMP_DOMAIN}/consent`;
-export const IAB_CMP_ID = 112;
-export const IAB_CMP_VERSION = 1;
-export const IAB_CONSENT_SCREEN = 0;
-export const IAB_CONSENT_LANGUAGE = 'en';
-export const CMP_READY_MSG = 'readyCmp';
-export const CMP_SAVED_MSG = 'savedCmp';
-export const CMP_CLOSE_MSG = 'closeCmp';
 export const GU_PURPOSE_LIST: GuPurposeList = {
     purposes: [
         {
@@ -80,6 +66,3 @@ export const GU_PURPOSE_LIST: GuPurposeList = {
         },
     ],
 };
-export const SCROLLABLE_ID = 'cmpScrollable';
-export const CONTENT_ID = 'cmpContent';
-export const PURPOSES_ID = 'cmpPurposes';
