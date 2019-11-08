@@ -5,22 +5,19 @@ import {
     IabVendorList,
     GuPurposeList,
 } from './types';
-import {
-    readIabCookie,
-    readLegacyCookie /* , writeStateCookies */,
-} from './cookies';
+import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
 import { GU_PURPOSE_LIST, isProd } from './config';
-// import { postConsentState } from './logs';
+import { postConsentState } from './logs';
 
 type onStateChangeFn = (
     guState: GuPurposeState,
     iabState: IabPurposeState,
 ) => void;
 
-// const IAB_CMP_ID = 112;
-// const IAB_CMP_VERSION = 1;
-// const IAB_CONSENT_SCREEN = 0;
-// const IAB_CONSENT_LANGUAGE = 'en';
+const IAB_CMP_ID = 112;
+const IAB_CMP_VERSION = 1;
+const IAB_CONSENT_SCREEN = 0;
+const IAB_CONSENT_LANGUAGE = 'en';
 const IAB_VENDOR_LIST_PROD_URL =
     'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 const IAB_VENDOR_LIST_NOT_PROD_URL =
@@ -89,29 +86,31 @@ const setConsentState = (
     guState = newGuState;
     iabState = newIabState;
 
-    // const allowedPurposes = Object.keys(iabState)
-    //     .filter(key => iabState[parseInt(key, 10)])
-    //     .map(purpose => parseInt(purpose, 10));
+    getVendorList().then(iabVendorList => {
+        const allowedPurposes = Object.keys(iabState)
+            .filter(key => iabState[parseInt(key, 10)])
+            .map(purpose => parseInt(purpose, 10));
 
-    // const allowedVendors = iabVendorList.vendors.map(vendor => vendor.id);
+        const allowedVendors = iabVendorList.vendors.map(vendor => vendor.id);
 
-    // const consentData = new ConsentString();
-    // consentData.setGlobalVendorList(iabVendorList);
-    // consentData.setCmpId(IAB_CMP_ID);
-    // consentData.setCmpVersion(IAB_CMP_VERSION);
-    // consentData.setConsentScreen(IAB_CONSENT_SCREEN);
-    // consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
-    // consentData.setPurposesAllowed(allowedPurposes);
-    // consentData.setVendorsAllowed(allowedVendors);
+        const consentData = new ConsentString();
+        consentData.setGlobalVendorList(iabVendorList);
+        consentData.setCmpId(IAB_CMP_ID);
+        consentData.setCmpVersion(IAB_CMP_VERSION);
+        consentData.setConsentScreen(IAB_CONSENT_SCREEN);
+        consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
+        consentData.setPurposesAllowed(allowedPurposes);
+        consentData.setVendorsAllowed(allowedVendors);
 
-    // const iabStr = consentData.getConsentString();
-    // const pAdvertisingState = allowedPurposes.length === 5
+        const iabStr = consentData.getConsentString();
+        const pAdvertisingState = allowedPurposes.length === 5;
 
-    // writeStateCookies(guState, iabString, pAdvertisingState);
-    // postConsentState(guState, iabStr, pAdvertisingState, 'www');
+        writeStateCookies(guState, iabStr, pAdvertisingState);
+        postConsentState(guState, iabStr, pAdvertisingState, 'www');
 
-    onStateChange.forEach((callback: onStateChangeFn): void => {
-        callback(guState, iabState);
+        onStateChange.forEach((callback: onStateChangeFn): void => {
+            callback(guState, iabState);
+        });
     });
 };
 
