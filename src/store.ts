@@ -22,14 +22,14 @@ const IAB_VENDOR_LIST_PROD_URL =
     'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 const IAB_VENDOR_LIST_NOT_PROD_URL =
     'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
+
+let initialised = false;
+let vendorListPromise: Promise<IabVendorList>;
 const onStateChange: onStateChangeFn[] = [];
 
 // TODO: These defaults should be switched to null once the PECR purposes are activated
 let guState: GuPurposeState = { functional: true, performance: true };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
-
-let vendorListPromise: Promise<IabVendorList>;
-let initialised = false;
 
 const init = (): void => {
     if (!initialised) {
@@ -55,9 +55,9 @@ const init = (): void => {
     }
 };
 
-const getVendorList = (): Promise<IabVendorList> => {
+const registerStateChangeHandler = (callback: onStateChangeFn): void => {
     init();
-    return vendorListPromise;
+    onStateChange.push(callback);
 };
 
 const getGuPurposeList = (): GuPurposeList => {
@@ -65,9 +65,9 @@ const getGuPurposeList = (): GuPurposeList => {
     return GU_PURPOSE_LIST;
 };
 
-const registerStateChangeHandler = (callback: onStateChangeFn): void => {
+const getVendorList = (): Promise<IabVendorList> => {
     init();
-    onStateChange.push(callback);
+    return vendorListPromise;
 };
 
 const getConsentState = (): {
@@ -76,6 +76,47 @@ const getConsentState = (): {
 } => {
     init();
     return { guState, iabState };
+};
+
+const getGuStateFromCookie = (): GuPurposeState => {
+    // TODO: Friendly reminder to update the getConsentState() unit tests after PECR is introduced
+    return { functional: true, performance: true };
+};
+
+const getIabStateFromCookie = (): IabPurposeState => {
+    const iabCookie = readIabCookie();
+    const newIabState: IabPurposeState = {};
+
+    if (iabCookie) {
+        const iabData = new ConsentString(iabCookie);
+
+        Object.keys(iabState).forEach((key: string): void => {
+            const purposeId = parseInt(key, 10);
+            newIabState[purposeId] = iabData.isPurposeAllowed(purposeId);
+        });
+
+        return newIabState;
+    }
+
+    const legacyCookie = readLegacyCookie();
+
+    if (legacyCookie) {
+        const legacyConsentState: boolean = legacyCookie.split('.')[0] === '1';
+
+        Object.keys(iabState).forEach((key: string): void => {
+            const purposeId = parseInt(key, 10);
+            newIabState[purposeId] = legacyConsentState;
+        });
+
+        return newIabState;
+    }
+
+    Object.keys(iabState).forEach((key: string): void => {
+        const purposeId = parseInt(key, 10);
+        newIabState[purposeId] = null;
+    });
+
+    return newIabState;
 };
 
 const setConsentState = (
@@ -121,53 +162,12 @@ const setConsentState = (
         });
 };
 
-const getGuStateFromCookie = (): GuPurposeState => {
-    // TODO: Friendly reminder to update the getConsentState() unit tests after PECR is introduced
-    return { functional: true, performance: true };
-};
-
-const getIabStateFromCookie = (): IabPurposeState => {
-    const iabCookie = readIabCookie();
-    const newIabState: IabPurposeState = {};
-
-    if (iabCookie) {
-        const iabData = new ConsentString(iabCookie);
-
-        Object.keys(iabState).forEach((key: string): void => {
-            const purposeId = parseInt(key, 10);
-            newIabState[purposeId] = iabData.isPurposeAllowed(purposeId);
-        });
-
-        return newIabState;
-    }
-
-    const legacyCookie = readLegacyCookie();
-
-    if (legacyCookie) {
-        const legacyConsentState: boolean = legacyCookie.split('.')[0] === '1';
-
-        Object.keys(iabState).forEach((key: string): void => {
-            const purposeId = parseInt(key, 10);
-            newIabState[purposeId] = legacyConsentState;
-        });
-
-        return newIabState;
-    }
-
-    Object.keys(iabState).forEach((key: string): void => {
-        const purposeId = parseInt(key, 10);
-        newIabState[purposeId] = null;
-    });
-
-    return newIabState;
-};
-
 export {
-    getVendorList,
+    registerStateChangeHandler,
     getGuPurposeList,
+    getVendorList,
     getConsentState,
     setConsentState,
-    registerStateChangeHandler,
 };
 
 export const _ = {
