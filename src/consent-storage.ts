@@ -18,6 +18,7 @@ export const save = ({
     iabVendorList,
     allowedPurposes,
     allowedVendors,
+    abTestVariant,
 }: CmpMsgData): Promise<Response> => {
     const consentData = new ConsentString();
     consentData.setGlobalVendorList(iabVendorList);
@@ -62,7 +63,7 @@ export const save = ({
             personalisedAdvertising: pAdvertising,
         },
         browserId: browserID,
-        variant: 'CmpUiIab-variant',
+        variant: abTestVariant,
     };
 
     return fetch(CMP_LOGS_URL, {
