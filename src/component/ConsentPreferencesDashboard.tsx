@@ -14,13 +14,8 @@ import { CmpListItem } from './CmpListItem';
 import { Vendors } from './Vendors';
 import { Features } from './Features';
 import { ArrowIcon } from './svgs/ArrowIcon';
-import { getConsentState, setConsentState } from '../store';
-import {
-    IAB_VENDOR_LIST_URL,
-    SCROLLABLE_ID,
-    CONTENT_ID,
-    PURPOSES_ID,
-} from '../config';
+import { getConsentState, setConsentState, getVendorList } from '../store';
+import { SCROLLABLE_ID, CONTENT_ID, PURPOSES_ID } from './utils/config';
 import {
     IabFeature,
     IabPurpose,
@@ -247,13 +242,7 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     public componentDidMount(): void {
-        fetch(IAB_VENDOR_LIST_URL)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error(`${response.status} | ${response.statusText}`);
-            })
+        getVendorList()
             .then(remoteVendorList => {
                 return this.buildState(parseIabVendorList(remoteVendorList));
             })
