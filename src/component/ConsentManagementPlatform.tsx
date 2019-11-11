@@ -4,6 +4,7 @@ import { mobileLandscape, palette, space } from '@guardian/src-foundations';
 import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 import { SCROLLABLE_ID, CONTENT_ID } from './utils/config';
+import { setSource } from '../store';
 
 const TRANSITION_TIME = 1000;
 
@@ -127,6 +128,8 @@ interface State {
 
 interface Props {
     onClose: () => void;
+    source?: string;
+    variant?: string;
 }
 
 class ConsentManagementPlatform extends Component<Props, State> {
@@ -141,6 +144,14 @@ class ConsentManagementPlatform extends Component<Props, State> {
             active: false,
             visible: false,
         };
+
+        if (props.source) {
+            setSource(props.source);
+        }
+
+        if (props.variant) {
+            setSource(props.variant);
+        }
     }
 
     public render(): React.ReactNode {
