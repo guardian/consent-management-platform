@@ -26,7 +26,7 @@ const IAB_VENDOR_LIST_NOT_PROD_URL =
 
 let initialised = false;
 let source = DEFAULT_SOURCE;
-let variant: string;
+let variant: string | null = null;
 let vendorListPromise: Promise<IabVendorList>;
 const onStateChange: onStateChangeFn[] = [];
 
@@ -79,6 +79,10 @@ const getConsentState = (): {
 } => {
     init();
     return { guState, iabState };
+};
+
+const getVariant = (): string | null => {
+    return variant;
 };
 
 const getGuStateFromCookie = (): GuPurposeState => {
@@ -188,6 +192,7 @@ export {
     getGuPurposeList,
     getVendorList,
     getConsentState,
+    getVariant,
     setConsentState,
     setSource,
     setVariant,
@@ -201,7 +206,7 @@ export const _ = {
         guState = { functional: true, performance: true };
         iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
         onStateChange.length = 0;
-        variant = '';
+        variant = null;
         source = DEFAULT_SOURCE;
         initialised = false;
     },
