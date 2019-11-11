@@ -24,7 +24,7 @@ const IAB_VENDOR_LIST_NOT_PROD_URL =
     'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
 
 let initialised = false;
-let variant = 'www';
+let variant: string;
 let vendorListPromise: Promise<IabVendorList>;
 const onStateChange: onStateChangeFn[] = [];
 
@@ -152,7 +152,17 @@ const setConsentState = (
             const pAdvertisingState = allowedPurposes.length === 5;
 
             writeStateCookies(guState, iabStr, pAdvertisingState);
-            postConsentState(guState, iabStr, pAdvertisingState, variant);
+            if (variant) {
+                postConsentState(
+                    guState,
+                    iabStr,
+                    pAdvertisingState,
+                    'www',
+                    variant,
+                );
+            } else {
+                postConsentState(guState, iabStr, pAdvertisingState, 'www');
+            }
         })
         .finally(() => {
             onStateChange.forEach((callback: onStateChangeFn): void => {

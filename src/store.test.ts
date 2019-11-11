@@ -6,6 +6,7 @@ import {
     getConsentState,
     setConsentState,
     _,
+    setVariant,
 } from './store';
 import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
 import { postConsentState } from './logs';
@@ -243,15 +244,31 @@ describe('Store', () => {
             });
         });
 
-        it('calls postConsentState', () => {
-            return setConsentState(guMixedState, iabTrueState).then(() => {
-                expect(postConsentState).toHaveBeenCalledTimes(1);
-                expect(postConsentState).toHaveBeenLastCalledWith(
-                    guMixedState,
-                    fakeIabString,
-                    true,
-                    'www',
-                );
+        describe('calls postConsentState correctly', () => {
+            it('with default variant', () => {
+                return setConsentState(guMixedState, iabTrueState).then(() => {
+                    expect(postConsentState).toHaveBeenCalledTimes(1);
+                    expect(postConsentState).toHaveBeenLastCalledWith(
+                        guMixedState,
+                        fakeIabString,
+                        true,
+                        'www',
+                    );
+                });
+            });
+            it('after setting variant', () => {
+                const variantStr = 'test variant';
+                setVariant(variantStr);
+                return setConsentState(guMixedState, iabTrueState).then(() => {
+                    expect(postConsentState).toHaveBeenCalledTimes(1);
+                    expect(postConsentState).toHaveBeenLastCalledWith(
+                        guMixedState,
+                        fakeIabString,
+                        true,
+                        'www',
+                        variantStr,
+                    );
+                });
             });
         });
     });
