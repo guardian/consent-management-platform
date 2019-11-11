@@ -14,6 +14,7 @@ type onStateChangeFn = (
     iabState: IabPurposeState,
 ) => void;
 
+const DEFAULT_SOURCE = 'www';
 const IAB_CMP_ID = 112;
 const IAB_CMP_VERSION = 1;
 const IAB_CONSENT_SCREEN = 0;
@@ -24,6 +25,7 @@ const IAB_VENDOR_LIST_NOT_PROD_URL =
     'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
 
 let initialised = false;
+let source = DEFAULT_SOURCE;
 let variant: string;
 let vendorListPromise: Promise<IabVendorList>;
 const onStateChange: onStateChangeFn[] = [];
@@ -157,11 +159,11 @@ const setConsentState = (
                     guState,
                     iabStr,
                     pAdvertisingState,
-                    'www',
+                    source,
                     variant,
                 );
             } else {
-                postConsentState(guState, iabStr, pAdvertisingState, 'www');
+                postConsentState(guState, iabStr, pAdvertisingState, source);
             }
         })
         .finally(() => {
@@ -171,6 +173,10 @@ const setConsentState = (
 
             return Promise.resolve();
         });
+};
+
+const setSource = (newSource: string) => {
+    source = newSource;
 };
 
 const setVariant = (newVariant: string) => {
@@ -183,16 +189,20 @@ export {
     getVendorList,
     getConsentState,
     setConsentState,
+    setSource,
     setVariant,
 };
 
 export const _ = {
+    DEFAULT_SOURCE,
     IAB_VENDOR_LIST_PROD_URL,
     IAB_VENDOR_LIST_NOT_PROD_URL,
     reset: (): void => {
         guState = { functional: true, performance: true };
         iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
         onStateChange.length = 0;
+        variant = '';
+        source = DEFAULT_SOURCE;
         initialised = false;
     },
 };
