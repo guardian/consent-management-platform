@@ -8,6 +8,7 @@ import {
     _,
     setVariant,
     setSource,
+    getVariant,
 } from './store';
 import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
 import { postConsentState } from './logs';
@@ -329,6 +330,18 @@ describe('Store', () => {
                     `${notOkResponse.status} | ${notOkResponse.statusText}`,
                 );
             });
+        });
+    });
+
+    describe('getVariant', () => {
+        it('returns null when no variant has been set ', () => {
+            expect(getVariant()).toBeNull();
+        });
+
+        it('returns the correct variant when one has been set ', () => {
+            const variantString = 'test variant';
+            setVariant(variantString);
+            expect(getVariant()).toBe(variantString);
         });
     });
 
