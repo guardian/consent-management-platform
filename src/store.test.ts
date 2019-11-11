@@ -7,6 +7,7 @@ import {
     setConsentState,
     _,
     setVariant,
+    setSource,
 } from './store';
 import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
 import { postConsentState } from './logs';
@@ -122,6 +123,7 @@ describe('Store', () => {
                 iabState: iabDefaultState,
             });
         });
+
         it('when the euconsents cookie is available', () => {
             readIabCookie.mockImplementation(() => 'foo');
             readLegacyCookie.mockImplementation(() => legacyTrueCookie);
@@ -131,6 +133,7 @@ describe('Store', () => {
                 iabState: iabTrueState,
             });
         });
+
         it('falls back to legacy GU_TK cookie if available when euconsents cookie is unavailable', () => {
             readLegacyCookie.mockImplementation(() => legacyTrueCookie);
 
@@ -139,6 +142,7 @@ describe('Store', () => {
                 iabState: iabTrueState,
             });
         });
+
         it('after a state change', () => {
             expect(getConsentState()).toMatchObject({
                 guState: guDefaultState,
@@ -165,18 +169,22 @@ describe('Store', () => {
             registerStateChangeHandler(myCallBack);
             registerStateChangeHandler(myCallBack);
         });
+
         it('when getVendorList is called first', () => {
             getVendorList();
             getVendorList();
         });
+
         it('when getGuPurposeList is called first', () => {
             getGuPurposeList();
             getGuPurposeList();
         });
+
         it('when getConsentState is called first', () => {
             getConsentState();
             getConsentState();
         });
+
         it('when setConsentState is called first', () => {
             setConsentState(guMixedState, iabTrueState);
             setConsentState(guMixedState, iabTrueState);
@@ -219,6 +227,7 @@ describe('Store', () => {
                 ).toHaveBeenCalledWith(allowedPurposes);
             });
         });
+
         it('calls setVendorsAllowed correctly', () => {
             const allowedVendors = fakeVendorList.vendors.map(
                 vendor => vendor.id,
@@ -233,6 +242,7 @@ describe('Store', () => {
                 ).toHaveBeenCalledWith(allowedVendors);
             });
         });
+
         it('calls writeStateCookies correctly', () => {
             return setConsentState(guMixedState, iabTrueState).then(() => {
                 expect(writeStateCookies).toHaveBeenCalledTimes(1);
@@ -252,10 +262,26 @@ describe('Store', () => {
                         guMixedState,
                         fakeIabString,
                         true,
-                        'www',
+                        _.DEFAULT_SOURCE,
                     );
                 });
             });
+
+            it('after setting source', () => {
+                const sourceStr = 'test source';
+                setSource(sourceStr);
+
+                return setConsentState(guMixedState, iabTrueState).then(() => {
+                    expect(postConsentState).toHaveBeenCalledTimes(1);
+                    expect(postConsentState).toHaveBeenLastCalledWith(
+                        guMixedState,
+                        fakeIabString,
+                        true,
+                        sourceStr,
+                    );
+                });
+            });
+
             it('after setting variant', () => {
                 const variantStr = 'test variant';
                 setVariant(variantStr);
@@ -265,7 +291,7 @@ describe('Store', () => {
                         guMixedState,
                         fakeIabString,
                         true,
-                        'www',
+                        _.DEFAULT_SOURCE,
                         variantStr,
                     );
                 });
@@ -282,6 +308,7 @@ describe('Store', () => {
                 );
             });
         });
+
         it('fetches the vendor list from the correct URL when in PROD', () => {
             isProd.mockReturnValue(true);
             return getVendorList().then(result => {
@@ -291,6 +318,7 @@ describe('Store', () => {
                 );
             });
         });
+
         it('reports an error when the reply from fetch is an error code ', () => {
             global.fetch = jest
                 .fn()
