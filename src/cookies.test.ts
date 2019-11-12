@@ -5,9 +5,6 @@ import {
     readIabCookie,
     readLegacyCookie,
     writeStateCookies,
-    writeGuCookie,
-    writeIabCookie,
-    writeLegacyCookie,
     _,
 } from './cookies';
 
@@ -63,7 +60,7 @@ describe('Cookies', () => {
     });
 
     it('should be able to set the GU cookie', () => {
-        writeGuCookie(guConsentState);
+        _.writeGuCookie(guConsentState);
 
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
@@ -74,7 +71,7 @@ describe('Cookies', () => {
     });
 
     it('should be able to set the IAB cookie', () => {
-        writeIabCookie(iabConsentString);
+        _.writeIabCookie(iabConsentString);
 
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
@@ -85,7 +82,7 @@ describe('Cookies', () => {
     });
 
     it('should be able to set the legacy cookie to true', () => {
-        writeLegacyCookie(true);
+        _.writeLegacyCookie(true);
 
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
@@ -96,7 +93,7 @@ describe('Cookies', () => {
     });
 
     it('should be able to set the legacy cookie to true', () => {
-        writeLegacyCookie(false);
+        _.writeLegacyCookie(false);
 
         expect(Cookies.set).toHaveBeenCalledTimes(1);
         expect(Cookies.set).toHaveBeenCalledWith(
