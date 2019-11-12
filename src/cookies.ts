@@ -105,7 +105,4 @@ export const _ = {
     IAB_COOKIE_NAME,
     COOKIE_MAX_AGE,
     LEGACY_COOKIE_NAME,
-    writeGuCookie,
-    writeIabCookie,
-    writeLegacyCookie,
 };
