@@ -96,9 +96,6 @@ export {
     readIabCookie,
     readLegacyCookie,
     writeStateCookies,
-    writeGuCookie,
-    writeIabCookie,
-    writeLegacyCookie,
 };
 
 export const _ = {
