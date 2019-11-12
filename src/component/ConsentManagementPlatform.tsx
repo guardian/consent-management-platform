@@ -4,7 +4,7 @@ import { mobileLandscape, palette, space } from '@guardian/src-foundations';
 import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 import { SCROLLABLE_ID, CONTENT_ID } from './utils/config';
-import { setSource } from '../store';
+import { setSource, setVariant } from '../store';
 
 const TRANSITION_TIME = 1000;
 
@@ -150,7 +150,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
         }
 
         if (props.variant) {
-            setSource(props.variant);
+            setVariant(props.variant);
         }
     }
 
