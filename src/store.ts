@@ -179,11 +179,11 @@ const setConsentState = (
         });
 };
 
-const setSource = (newSource: string) => {
+const setSource = (newSource: string): void => {
     source = newSource;
 };
 
-const setVariant = (newVariant: string) => {
+const setVariant = (newVariant: string): void => {
     variant = newVariant;
 };
 
