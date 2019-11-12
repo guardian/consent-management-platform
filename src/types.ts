@@ -2,6 +2,7 @@ export type CmpMsgData = {
     iabVendorList: IabVendorList;
     allowedPurposes: number[];
     allowedVendors: number[];
+    abTestVariant: string;
 };
 
 export type GuResponsivePurposeEventId = 'functional' | 'performance';
