@@ -14,6 +14,7 @@ type onStateChangeFn = (
     iabState: IabPurposeState,
 ) => void;
 
+const DEFAULT_SOURCE = 'www';
 const IAB_CMP_ID = 112;
 const IAB_CMP_VERSION = 1;
 const IAB_CONSENT_SCREEN = 0;
@@ -22,14 +23,16 @@ const IAB_VENDOR_LIST_PROD_URL =
     'https://www.theguardian.com/commercial/cmp/vendorlist.json';
 const IAB_VENDOR_LIST_NOT_PROD_URL =
     'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
+
+let initialised = false;
+let source = DEFAULT_SOURCE;
+let variant: string | null = null;
+let vendorListPromise: Promise<IabVendorList>;
 const onStateChange: onStateChangeFn[] = [];
 
 // TODO: These defaults should be switched to null once the PECR purposes are activated
 let guState: GuPurposeState = { functional: true, performance: true };
 let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
-
-let vendorListPromise: Promise<IabVendorList>;
-let initialised = false;
 
 const init = (): void => {
     if (!initialised) {
@@ -55,9 +58,9 @@ const init = (): void => {
     }
 };
 
-const getVendorList = (): Promise<IabVendorList> => {
+const registerStateChangeHandler = (callback: onStateChangeFn): void => {
     init();
-    return vendorListPromise;
+    onStateChange.push(callback);
 };
 
 const getGuPurposeList = (): GuPurposeList => {
@@ -65,9 +68,9 @@ const getGuPurposeList = (): GuPurposeList => {
     return GU_PURPOSE_LIST;
 };
 
-const registerStateChangeHandler = (callback: onStateChangeFn): void => {
+const getVendorList = (): Promise<IabVendorList> => {
     init();
-    onStateChange.push(callback);
+    return vendorListPromise;
 };
 
 const getConsentState = (): {
@@ -78,47 +81,8 @@ const getConsentState = (): {
     return { guState, iabState };
 };
 
-const setConsentState = (
-    newGuState: GuPurposeState,
-    newIabState: IabPurposeState,
-): Promise<void> => {
-    init();
-    guState = newGuState;
-    iabState = newIabState;
-
-    return getVendorList()
-        .then(iabVendorList => {
-            const allowedPurposes = Object.keys(iabState)
-                .filter(key => iabState[parseInt(key, 10)])
-                .map(purpose => parseInt(purpose, 10));
-
-            const allowedVendors = iabVendorList.vendors.map(
-                vendor => vendor.id,
-            );
-
-            const consentData = new ConsentString();
-
-            consentData.setGlobalVendorList(iabVendorList);
-            consentData.setCmpId(IAB_CMP_ID);
-            consentData.setCmpVersion(IAB_CMP_VERSION);
-            consentData.setConsentScreen(IAB_CONSENT_SCREEN);
-            consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
-            consentData.setPurposesAllowed(allowedPurposes);
-            consentData.setVendorsAllowed(allowedVendors);
-
-            const iabStr = consentData.getConsentString();
-            const pAdvertisingState = allowedPurposes.length === 5;
-
-            writeStateCookies(guState, iabStr, pAdvertisingState);
-            postConsentState(guState, iabStr, pAdvertisingState, 'www');
-        })
-        .finally(() => {
-            onStateChange.forEach((callback: onStateChangeFn): void => {
-                callback(guState, iabState);
-            });
-
-            return Promise.resolve();
-        });
+const getVariant = (): string | null => {
+    return variant;
 };
 
 const getGuStateFromCookie = (): GuPurposeState => {
@@ -162,21 +126,88 @@ const getIabStateFromCookie = (): IabPurposeState => {
     return newIabState;
 };
 
+const setConsentState = (
+    newGuState: GuPurposeState,
+    newIabState: IabPurposeState,
+): Promise<void> => {
+    init();
+    guState = newGuState;
+    iabState = newIabState;
+
+    return getVendorList()
+        .then(iabVendorList => {
+            const allowedPurposes = Object.keys(iabState)
+                .filter(key => iabState[parseInt(key, 10)])
+                .map(purpose => parseInt(purpose, 10));
+
+            const allowedVendors = iabVendorList.vendors.map(
+                vendor => vendor.id,
+            );
+
+            const consentData = new ConsentString();
+
+            consentData.setGlobalVendorList(iabVendorList);
+            consentData.setCmpId(IAB_CMP_ID);
+            consentData.setCmpVersion(IAB_CMP_VERSION);
+            consentData.setConsentScreen(IAB_CONSENT_SCREEN);
+            consentData.setConsentLanguage(IAB_CONSENT_LANGUAGE);
+            consentData.setPurposesAllowed(allowedPurposes);
+            consentData.setVendorsAllowed(allowedVendors);
+
+            const iabStr = consentData.getConsentString();
+            const pAdvertisingState = allowedPurposes.length === 5;
+
+            writeStateCookies(guState, iabStr, pAdvertisingState);
+            if (variant) {
+                postConsentState(
+                    guState,
+                    iabStr,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                );
+            } else {
+                postConsentState(guState, iabStr, pAdvertisingState, source);
+            }
+        })
+        .finally(() => {
+            onStateChange.forEach((callback: onStateChangeFn): void => {
+                callback(guState, iabState);
+            });
+
+            return Promise.resolve();
+        });
+};
+
+const setSource = (newSource: string): void => {
+    source = newSource;
+};
+
+const setVariant = (newVariant: string): void => {
+    variant = newVariant;
+};
+
 export {
-    getVendorList,
-    getGuPurposeList,
-    getConsentState,
-    setConsentState,
     registerStateChangeHandler,
+    getGuPurposeList,
+    getVendorList,
+    getConsentState,
+    getVariant,
+    setConsentState,
+    setSource,
+    setVariant,
 };
 
 export const _ = {
+    DEFAULT_SOURCE,
     IAB_VENDOR_LIST_PROD_URL,
     IAB_VENDOR_LIST_NOT_PROD_URL,
     reset: (): void => {
         guState = { functional: true, performance: true };
         iabState = { 1: null, 2: null, 3: null, 4: null, 5: null };
         onStateChange.length = 0;
+        variant = null;
+        source = DEFAULT_SOURCE;
         initialised = false;
     },
 };

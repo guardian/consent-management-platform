@@ -2,8 +2,17 @@ import { GuPurposeState } from './types';
 import { readBwidCookie } from './cookies';
 import { isProd } from './config';
 
+interface LogsPaylod {
+    version: string;
+    iab: string;
+    source: string;
+    purposes: { personalisedAdvertising: boolean };
+    browserId: string;
+    variant?: string;
+}
+
 const LOGS_VERSION = '1';
-const DUMMY_BROWSER_ID = `No bwid available`;
+const DUMMY_BROWSER_ID = 'No bwid available';
 
 const CMP_LOGS_PROD_URL = 'https://consent-logs.guardianapis.com/report';
 const CMP_LOGS_NOT_PROD_URL =
@@ -24,7 +33,7 @@ export const postConsentState = (
         throw new Error(`Error getting browserID in PROD`);
     }
 
-    const logInfo = {
+    const logInfo: LogsPaylod = {
         version: LOGS_VERSION,
         iab: iabString,
         source,
@@ -32,8 +41,11 @@ export const postConsentState = (
             personalisedAdvertising: pAdvertisingState,
         },
         browserId: browserID,
-        variant: variant || '',
     };
+
+    if (variant) {
+        logInfo.variant = variant;
+    }
 
     return fetch(CMP_LOGS_URL, {
         method: 'POST',
