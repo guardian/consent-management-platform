@@ -10,12 +10,24 @@ import {
     setSource,
     getVariant,
 } from './store';
+import { isProd, GU_PURPOSE_LIST } from './config';
 import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
 import { postConsentState } from './logs';
-import { isProd, GU_PURPOSE_LIST } from './config';
+import { handleError } from './error';
 
 jest.mock('consent-string', () => ({
     ConsentString: class {},
+}));
+
+jest.mock('./config', () => ({
+    isProd: jest.fn(),
+    GU_PURPOSE_LIST: {
+        purposes: [
+            { id: 0, name: 'Essential' },
+            { id: 1, name: 'Functional' },
+            { id: 2, name: 'Performance' },
+        ],
+    },
 }));
 
 jest.mock('./cookies', () => ({
@@ -29,16 +41,10 @@ jest.mock('./logs', () => ({
     postConsentState: jest.fn(),
 }));
 
-jest.mock('./config', () => ({
-    isProd: jest.fn(),
-    GU_PURPOSE_LIST: {
-        purposes: [
-            { id: 0, name: 'Essential' },
-            { id: 1, name: 'Functional' },
-            { id: 2, name: 'Performance' },
-        ],
-    },
+jest.mock('./error', () => ({
+    handleError: jest.fn(),
 }));
+
 const fakeVendorList = {
     vendorListVersion: 173,
     lastUpdated: '2019-10-31T16:00:20Z',
@@ -325,9 +331,10 @@ describe('Store', () => {
                 .fn()
                 .mockImplementation(() => Promise.resolve(notOkResponse));
 
-            return getVendorList().catch(error => {
-                expect(error).toEqual(
-                    `${notOkResponse.status} | ${notOkResponse.statusText}`,
+            return getVendorList().then(() => {
+                expect(handleError).toHaveBeenCalledTimes(1);
+                expect(handleError).toHaveBeenCalledWith(
+                    `Error fetching vendor list: Error: ${notOkResponse.status} | ${notOkResponse.statusText}`,
                 );
             });
         });

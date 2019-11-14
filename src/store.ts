@@ -8,6 +8,7 @@ import {
 import { readIabCookie, readLegacyCookie, writeStateCookies } from './cookies';
 import { GU_PURPOSE_LIST, isProd } from './config';
 import { postConsentState } from './logs';
+import { handleError } from './error';
 
 type onStateChangeFn = (
     guState: GuPurposeState,
@@ -48,8 +49,7 @@ const init = (): void => {
                 throw new Error(`${response.status} | ${response.statusText}`);
             })
             .catch(error => {
-                // eslint-disable-next-line no-console
-                console.log('Error fetching vendor list: ', error);
+                handleError(`Error fetching vendor list: ${error}`);
             });
 
         guState = getGuStateFromCookie();
