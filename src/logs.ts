@@ -1,6 +1,7 @@
 import { GuPurposeState } from './types';
 import { readBwidCookie } from './cookies';
 import { isProd } from './config';
+import { handleError } from './error';
 
 interface LogsPaylod {
     version: string;
@@ -30,7 +31,8 @@ export const postConsentState = (
     const browserID = readBwidCookie() || DUMMY_BROWSER_ID;
 
     if (isProd() && browserID === DUMMY_BROWSER_ID) {
-        throw new Error(`Error getting browserID in PROD`);
+        handleError('Error getting browserID in PROD');
+        return Promise.reject();
     }
 
     const logInfo: LogsPaylod = {
@@ -54,11 +56,16 @@ export const postConsentState = (
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(logInfo),
-    }).catch(error => {
-        // TODO: ERROR HANDLING
-        // eslint-disable-next-line no-console
-        console.log('Error', error);
-    });
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`${response.status} | ${response.statusText}`);
+            }
+        })
+        .catch(error => {
+            handleError(`Error posting to logs: ${error}`);
+            return Promise.reject();
+        });
 };
 
 export const _ = {

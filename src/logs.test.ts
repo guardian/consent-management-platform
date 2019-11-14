@@ -1,21 +1,22 @@
 import { postConsentState, _ } from './logs';
-import { readBwidCookie } from './cookies';
 import { isProd } from './config';
+import { readBwidCookie } from './cookies';
+import { handleError } from './error';
 
-const {
-    CMP_LOGS_PROD_URL,
-    CMP_LOGS_NOT_PROD_URL,
-    DUMMY_BROWSER_ID,
-    LOGS_VERSION,
-} = _;
+jest.mock('./config', () => ({
+    isProd: jest.fn(),
+}));
 
 jest.mock('./cookies', () => ({
     readBwidCookie: jest.fn(),
 }));
 
-jest.mock('./config', () => ({
-    isProd: jest.fn(),
+jest.mock('./error', () => ({
+    handleError: jest.fn(),
 }));
+
+const mockThenBlock = jest.fn();
+const mockCatchBlock = jest.fn();
 
 describe('Logs', () => {
     const guState = {};
@@ -23,6 +24,7 @@ describe('Logs', () => {
     const pAdvertisingState = true;
     const source = 'www';
     const variant = 'testVariant';
+    const fakeBwid = 'foo';
     const dataToPost = {
         method: 'POST',
         mode: 'cors',
@@ -30,20 +32,24 @@ describe('Logs', () => {
             'Content-Type': 'application/json',
         },
     };
+    const okResponse = {
+        ok: true,
+    };
 
     beforeEach(() => {
-        global.fetch = jest.fn().mockImplementation(() => Promise.resolve());
+        global.fetch = jest
+            .fn()
+            .mockImplementation(() => Promise.resolve(okResponse));
         isProd.mockReturnValue(false);
     });
 
     afterEach(() => {
         global.fetch.mockClear();
         delete global.fetch;
+        jest.resetAllMocks();
     });
 
     describe('sets log parameters correctly', () => {
-        const fakeBwid = 'foo';
-
         it('when on PROD and bwid cookie is available', () => {
             readBwidCookie.mockReturnValue(fakeBwid);
             isProd.mockReturnValue(true);
@@ -54,22 +60,28 @@ describe('Logs', () => {
                 pAdvertisingState,
                 source,
                 variant,
-            ).then(() => {
-                expect(global.fetch).toHaveBeenCalledTimes(1);
-                expect(global.fetch).toHaveBeenCalledWith(CMP_LOGS_PROD_URL, {
-                    ...dataToPost,
-                    body: JSON.stringify({
-                        version: LOGS_VERSION,
-                        iab: iabString,
-                        source,
-                        purposes: {
-                            personalisedAdvertising: pAdvertisingState,
+            )
+                .catch(mockCatchBlock)
+                .finally(() => {
+                    expect(mockCatchBlock).not.toBeCalled();
+                    expect(global.fetch).toHaveBeenCalledTimes(1);
+                    expect(global.fetch).toHaveBeenCalledWith(
+                        _.CMP_LOGS_PROD_URL,
+                        {
+                            ...dataToPost,
+                            body: JSON.stringify({
+                                version: _.LOGS_VERSION,
+                                iab: iabString,
+                                source,
+                                purposes: {
+                                    personalisedAdvertising: pAdvertisingState,
+                                },
+                                browserId: fakeBwid,
+                                variant,
+                            }),
                         },
-                        browserId: fakeBwid,
-                        variant,
-                    }),
+                    );
                 });
-            });
         });
 
         it('when not on PROD and bwid cookie is available.', () => {
@@ -81,25 +93,28 @@ describe('Logs', () => {
                 pAdvertisingState,
                 source,
                 variant,
-            ).then(() => {
-                expect(global.fetch).toHaveBeenCalledTimes(1);
-                expect(global.fetch).toHaveBeenCalledWith(
-                    CMP_LOGS_NOT_PROD_URL,
-                    {
-                        ...dataToPost,
-                        body: JSON.stringify({
-                            version: LOGS_VERSION,
-                            iab: iabString,
-                            source,
-                            purposes: {
-                                personalisedAdvertising: pAdvertisingState,
-                            },
-                            browserId: fakeBwid,
-                            variant,
-                        }),
-                    },
-                );
-            });
+            )
+                .catch(mockCatchBlock)
+                .finally(() => {
+                    expect(mockCatchBlock).not.toBeCalled();
+                    expect(global.fetch).toHaveBeenCalledTimes(1);
+                    expect(global.fetch).toHaveBeenCalledWith(
+                        _.CMP_LOGS_NOT_PROD_URL,
+                        {
+                            ...dataToPost,
+                            body: JSON.stringify({
+                                version: _.LOGS_VERSION,
+                                iab: iabString,
+                                source,
+                                purposes: {
+                                    personalisedAdvertising: pAdvertisingState,
+                                },
+                                browserId: fakeBwid,
+                                variant,
+                            }),
+                        },
+                    );
+                });
         });
 
         it('when not on PROD and bwid cookie is not available', () => {
@@ -111,40 +126,82 @@ describe('Logs', () => {
                 pAdvertisingState,
                 source,
                 variant,
-            ).then(() => {
-                expect(global.fetch).toHaveBeenCalledTimes(1);
-                expect(global.fetch).toHaveBeenCalledWith(
-                    CMP_LOGS_NOT_PROD_URL,
-                    {
-                        ...dataToPost,
-                        body: JSON.stringify({
-                            version: LOGS_VERSION,
-                            iab: iabString,
-                            source,
-                            purposes: {
-                                personalisedAdvertising: pAdvertisingState,
-                            },
-                            browserId: DUMMY_BROWSER_ID,
-                            variant,
-                        }),
-                    },
-                );
-            });
+            )
+                .catch(mockCatchBlock)
+                .finally(() => {
+                    expect(mockCatchBlock).not.toBeCalled();
+                    expect(global.fetch).toHaveBeenCalledTimes(1);
+                    expect(global.fetch).toHaveBeenCalledWith(
+                        _.CMP_LOGS_NOT_PROD_URL,
+                        {
+                            ...dataToPost,
+                            body: JSON.stringify({
+                                version: _.LOGS_VERSION,
+                                iab: iabString,
+                                source,
+                                purposes: {
+                                    personalisedAdvertising: pAdvertisingState,
+                                },
+                                browserId: _.DUMMY_BROWSER_ID,
+                                variant,
+                            }),
+                        },
+                    );
+                });
         });
     });
-    describe('throws an error', () => {
+
+    describe('throws an error and returns a rejected Promise', () => {
         it('when on PROD and bwid cookies is not available', () => {
             isProd.mockReturnValue(true);
-            expect(() => {
-                postConsentState(
-                    guState,
-                    iabString,
-                    pAdvertisingState,
-                    source,
-                    variant,
-                );
-            }).toThrowError();
+            return postConsentState(
+                guState,
+                iabString,
+                pAdvertisingState,
+                source,
+                variant,
+            )
+                .then(mockThenBlock)
+                .catch(() => {
+                    expect.anything();
+                })
+                .finally(() => {
+                    expect(mockThenBlock).not.toBeCalled();
+                    expect(handleError).toHaveBeenCalledTimes(1);
+                    expect(handleError).toHaveBeenCalledWith(
+                        'Error getting browserID in PROD',
+                    );
+                });
         });
-        it('when fetch fails', () => {});
+
+        it('when fetch fails', () => {
+            const notOkResponse = {
+                ok: false,
+                status: 500,
+                statusText: 'failed',
+            };
+
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() => Promise.resolve(notOkResponse));
+
+            return postConsentState(
+                guState,
+                iabString,
+                pAdvertisingState,
+                source,
+                variant,
+            )
+                .then(mockThenBlock)
+                .catch(() => {})
+                .finally(() => {
+                    expect(mockThenBlock).not.toBeCalled();
+                    expect(global.fetch).toHaveBeenCalledTimes(1);
+                    expect(handleError).toHaveBeenCalledTimes(1);
+                    expect(handleError).toHaveBeenCalledWith(
+                        `Error posting to logs: Error: ${notOkResponse.status} | ${notOkResponse.statusText}`,
+                    );
+                });
+        });
     });
 });
