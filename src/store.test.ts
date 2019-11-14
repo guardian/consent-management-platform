@@ -83,7 +83,6 @@ const okResponse = {
     ok: true,
     json: () => fakeVendorList,
 };
-
 const notOkResponse = {
     ok: false,
     status: 500,

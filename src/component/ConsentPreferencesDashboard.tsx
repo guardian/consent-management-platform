@@ -252,7 +252,7 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
                 showCmp();
             })
             .catch(error => {
-                // TODO: ERROR HANDLING
+                // TODO: Handle error by removing the component
                 // eslint-disable-next-line no-console
                 console.log('Error', error);
             });
