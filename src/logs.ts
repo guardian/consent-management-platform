@@ -25,7 +25,7 @@ export const postConsentState = (
     pAdvertisingState: boolean,
     source: string,
     variant?: string,
-) => {
+): Promise<void> => {
     const CMP_LOGS_URL = isProd() ? CMP_LOGS_PROD_URL : CMP_LOGS_NOT_PROD_URL;
 
     const browserID = readBwidCookie() || DUMMY_BROWSER_ID;
