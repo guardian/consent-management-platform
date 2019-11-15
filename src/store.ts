@@ -50,6 +50,7 @@ const init = (): void => {
             })
             .catch(error => {
                 handleError(`Error fetching vendor list: ${error}`);
+                return Promise.reject();
             });
 
         guState = getGuStateFromCookie();
