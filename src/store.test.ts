@@ -201,7 +201,8 @@ describe('Store', () => {
         it('triggers StateChange handlers correctly', () => {
             registerStateChangeHandler(myCallBack);
 
-            return setConsentState(guDefaultState, iabDefaultState)
+            return expect(setConsentState(guDefaultState, iabDefaultState))
+                .resolves.toBeUndefined()
                 .then(() => {
                     return setConsentState(guMixedState, iabTrueState);
                 })
@@ -224,14 +225,16 @@ describe('Store', () => {
                 return parseInt(purposeId, 10);
             });
 
-            return setConsentState(guMixedState, iabTrueState).then(() => {
-                expect(
-                    ConsentString.prototype.setPurposesAllowed,
-                ).toHaveBeenCalledTimes(1);
-                expect(
-                    ConsentString.prototype.setPurposesAllowed,
-                ).toHaveBeenCalledWith(allowedPurposes);
-            });
+            return expect(setConsentState(guMixedState, iabTrueState))
+                .resolves.toBeUndefined()
+                .then(() => {
+                    expect(
+                        ConsentString.prototype.setPurposesAllowed,
+                    ).toHaveBeenCalledTimes(1);
+                    expect(
+                        ConsentString.prototype.setPurposesAllowed,
+                    ).toHaveBeenCalledWith(allowedPurposes);
+                });
         });
 
         it('calls setVendorsAllowed correctly', () => {
@@ -239,90 +242,102 @@ describe('Store', () => {
                 vendor => vendor.id,
             );
 
-            return setConsentState(guMixedState, iabTrueState).then(() => {
-                expect(
-                    ConsentString.prototype.setVendorsAllowed,
-                ).toHaveBeenCalledTimes(1);
-                expect(
-                    ConsentString.prototype.setVendorsAllowed,
-                ).toHaveBeenCalledWith(allowedVendors);
-            });
+            return expect(setConsentState(guMixedState, iabTrueState))
+                .resolves.toBeUndefined()
+                .then(() => {
+                    expect(
+                        ConsentString.prototype.setVendorsAllowed,
+                    ).toHaveBeenCalledTimes(1);
+                    expect(
+                        ConsentString.prototype.setVendorsAllowed,
+                    ).toHaveBeenCalledWith(allowedVendors);
+                });
         });
 
         it('calls writeStateCookies correctly', () => {
-            return setConsentState(guMixedState, iabTrueState).then(() => {
-                expect(writeStateCookies).toHaveBeenCalledTimes(1);
-                expect(writeStateCookies).toHaveBeenLastCalledWith(
-                    guMixedState,
-                    fakeIabString,
-                    true,
-                );
-            });
+            return expect(setConsentState(guMixedState, iabTrueState))
+                .resolves.toBeUndefined()
+                .then(() => {
+                    expect(writeStateCookies).toHaveBeenCalledTimes(1);
+                    expect(writeStateCookies).toHaveBeenLastCalledWith(
+                        guMixedState,
+                        fakeIabString,
+                        true,
+                    );
+                });
         });
 
         describe('calls postConsentState correctly', () => {
             it('with default variant', () => {
-                return setConsentState(guMixedState, iabTrueState).then(() => {
-                    expect(postConsentState).toHaveBeenCalledTimes(1);
-                    expect(postConsentState).toHaveBeenLastCalledWith(
-                        guMixedState,
-                        fakeIabString,
-                        true,
-                        _.DEFAULT_SOURCE,
-                    );
-                });
+                return expect(setConsentState(guMixedState, iabTrueState))
+                    .resolves.toBeUndefined()
+                    .then(() => {
+                        expect(postConsentState).toHaveBeenCalledTimes(1);
+                        expect(postConsentState).toHaveBeenLastCalledWith(
+                            guMixedState,
+                            fakeIabString,
+                            true,
+                            _.DEFAULT_SOURCE,
+                        );
+                    });
             });
 
             it('after setting source', () => {
                 const sourceStr = 'test source';
                 setSource(sourceStr);
 
-                return setConsentState(guMixedState, iabTrueState).then(() => {
-                    expect(postConsentState).toHaveBeenCalledTimes(1);
-                    expect(postConsentState).toHaveBeenLastCalledWith(
-                        guMixedState,
-                        fakeIabString,
-                        true,
-                        sourceStr,
-                    );
-                });
+                return expect(setConsentState(guMixedState, iabTrueState))
+                    .resolves.toBeUndefined()
+                    .then(() => {
+                        expect(postConsentState).toHaveBeenCalledTimes(1);
+                        expect(postConsentState).toHaveBeenLastCalledWith(
+                            guMixedState,
+                            fakeIabString,
+                            true,
+                            sourceStr,
+                        );
+                    });
             });
 
             it('after setting variant', () => {
                 const variantStr = 'test variant';
                 setVariant(variantStr);
-                return setConsentState(guMixedState, iabTrueState).then(() => {
-                    expect(postConsentState).toHaveBeenCalledTimes(1);
-                    expect(postConsentState).toHaveBeenLastCalledWith(
-                        guMixedState,
-                        fakeIabString,
-                        true,
-                        _.DEFAULT_SOURCE,
-                        variantStr,
-                    );
-                });
+                return expect(setConsentState(guMixedState, iabTrueState))
+                    .resolves.toBeUndefined()
+                    .then(() => {
+                        expect(postConsentState).toHaveBeenCalledTimes(1);
+                        expect(postConsentState).toHaveBeenLastCalledWith(
+                            guMixedState,
+                            fakeIabString,
+                            true,
+                            _.DEFAULT_SOURCE,
+                            variantStr,
+                        );
+                    });
             });
         });
     });
 
     describe('getVendorList', () => {
         it('fetches the vendor list from the correct URL when not in PROD', () => {
-            return getVendorList().then(result => {
-                expect(result).toMatchObject(fakeVendorList);
-                expect(global.fetch).toHaveBeenCalledWith(
-                    _.IAB_VENDOR_LIST_NOT_PROD_URL,
-                );
-            });
+            return expect(getVendorList())
+                .resolves.toMatchObject(fakeVendorList)
+                .then(() => {
+                    expect(global.fetch).toHaveBeenCalledWith(
+                        _.IAB_VENDOR_LIST_NOT_PROD_URL,
+                    );
+                });
         });
 
         it('fetches the vendor list from the correct URL when in PROD', () => {
             isProd.mockReturnValue(true);
-            return getVendorList().then(result => {
-                expect(result).toMatchObject(fakeVendorList);
-                expect(global.fetch).toHaveBeenCalledWith(
-                    _.IAB_VENDOR_LIST_PROD_URL,
-                );
-            });
+            return expect(getVendorList())
+                .resolves.toMatchObject(fakeVendorList)
+                .then(() => {
+                    expect(global.fetch).toHaveBeenCalledWith(
+                        _.IAB_VENDOR_LIST_PROD_URL,
+                    );
+                });
         });
 
         it('reports an error when the reply from fetch is an error code ', () => {
@@ -330,12 +345,14 @@ describe('Store', () => {
                 .fn()
                 .mockImplementation(() => Promise.resolve(notOkResponse));
 
-            return getVendorList().then(() => {
-                expect(handleError).toHaveBeenCalledTimes(1);
-                expect(handleError).toHaveBeenCalledWith(
-                    `Error fetching vendor list: Error: ${notOkResponse.status} | ${notOkResponse.statusText}`,
-                );
-            });
+            return expect(getVendorList())
+                .resolves.toBeUndefined()
+                .then(() => {
+                    expect(handleError).toHaveBeenCalledTimes(1);
+                    expect(handleError).toHaveBeenCalledWith(
+                        `Error fetching vendor list: Error: ${notOkResponse.status} | ${notOkResponse.statusText}`,
+                    );
+                });
         });
     });
 

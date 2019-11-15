@@ -15,9 +15,6 @@ jest.mock('./error', () => ({
     handleError: jest.fn(),
 }));
 
-const mockThenBlock = jest.fn();
-const mockCatchBlock = jest.fn();
-
 describe('Logs', () => {
     const guState = {};
     const iabString = 'g0BbleDyg0_0k!';
@@ -54,16 +51,17 @@ describe('Logs', () => {
             readBwidCookie.mockReturnValue(fakeBwid);
             isProd.mockReturnValue(true);
 
-            return postConsentState(
-                guState,
-                iabString,
-                pAdvertisingState,
-                source,
-                variant,
+            return expect(
+                postConsentState(
+                    guState,
+                    iabString,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                ),
             )
-                .catch(mockCatchBlock)
-                .finally(() => {
-                    expect(mockCatchBlock).not.toBeCalled();
+                .resolves.toBeUndefined()
+                .then(() => {
                     expect(global.fetch).toHaveBeenCalledTimes(1);
                     expect(global.fetch).toHaveBeenCalledWith(
                         _.CMP_LOGS_PROD_URL,
@@ -87,16 +85,17 @@ describe('Logs', () => {
         it('when not on PROD and bwid cookie is available.', () => {
             readBwidCookie.mockReturnValue(fakeBwid);
 
-            return postConsentState(
-                guState,
-                iabString,
-                pAdvertisingState,
-                source,
-                variant,
+            return expect(
+                postConsentState(
+                    guState,
+                    iabString,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                ),
             )
-                .catch(mockCatchBlock)
-                .finally(() => {
-                    expect(mockCatchBlock).not.toBeCalled();
+                .resolves.toBeUndefined()
+                .then(() => {
                     expect(global.fetch).toHaveBeenCalledTimes(1);
                     expect(global.fetch).toHaveBeenCalledWith(
                         _.CMP_LOGS_NOT_PROD_URL,
@@ -120,16 +119,17 @@ describe('Logs', () => {
         it('when not on PROD and bwid cookie is not available', () => {
             readBwidCookie.mockReturnValue(null);
 
-            return postConsentState(
-                guState,
-                iabString,
-                pAdvertisingState,
-                source,
-                variant,
+            return expect(
+                postConsentState(
+                    guState,
+                    iabString,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                ),
             )
-                .catch(mockCatchBlock)
-                .finally(() => {
-                    expect(mockCatchBlock).not.toBeCalled();
+                .resolves.toBeUndefined()
+                .then(() => {
                     expect(global.fetch).toHaveBeenCalledTimes(1);
                     expect(global.fetch).toHaveBeenCalledWith(
                         _.CMP_LOGS_NOT_PROD_URL,
@@ -154,19 +154,17 @@ describe('Logs', () => {
     describe('throws an error and returns a rejected Promise', () => {
         it('when on PROD and bwid cookies is not available', () => {
             isProd.mockReturnValue(true);
-            return postConsentState(
-                guState,
-                iabString,
-                pAdvertisingState,
-                source,
-                variant,
+            return expect(
+                postConsentState(
+                    guState,
+                    iabString,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                ),
             )
-                .then(mockThenBlock)
-                .catch(() => {
-                    expect.anything();
-                })
-                .finally(() => {
-                    expect(mockThenBlock).not.toBeCalled();
+                .rejects.toBeUndefined()
+                .then(() => {
                     expect(handleError).toHaveBeenCalledTimes(1);
                     expect(handleError).toHaveBeenCalledWith(
                         'Error getting browserID in PROD',
@@ -185,17 +183,17 @@ describe('Logs', () => {
                 .fn()
                 .mockImplementation(() => Promise.resolve(notOkResponse));
 
-            return postConsentState(
-                guState,
-                iabString,
-                pAdvertisingState,
-                source,
-                variant,
+            return expect(
+                postConsentState(
+                    guState,
+                    iabString,
+                    pAdvertisingState,
+                    source,
+                    variant,
+                ),
             )
-                .then(mockThenBlock)
-                .catch(() => {})
-                .finally(() => {
-                    expect(mockThenBlock).not.toBeCalled();
+                .rejects.toBeUndefined()
+                .then(() => {
                     expect(global.fetch).toHaveBeenCalledTimes(1);
                     expect(handleError).toHaveBeenCalledTimes(1);
                     expect(handleError).toHaveBeenCalledWith(
