@@ -346,7 +346,7 @@ describe('Store', () => {
                 .mockImplementation(() => Promise.resolve(notOkResponse));
 
             return expect(getVendorList())
-                .resolves.toBeUndefined()
+                .rejects.toBeUndefined()
                 .then(() => {
                     expect(handleError).toHaveBeenCalledTimes(1);
                     expect(handleError).toHaveBeenCalledWith(
