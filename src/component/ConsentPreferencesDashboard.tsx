@@ -14,7 +14,12 @@ import { CmpListItem } from './CmpListItem';
 import { Vendors } from './Vendors';
 import { Features } from './Features';
 import { ArrowIcon } from './svgs/ArrowIcon';
-import { getConsentState, setConsentState, getVendorList } from '../store';
+import {
+    getConsentState,
+    setConsentState,
+    getVendorList,
+    getVariant,
+} from '../store';
 import { SCROLLABLE_ID, CONTENT_ID, PURPOSES_ID } from './utils/config';
 import {
     IabFeature,
@@ -23,14 +28,16 @@ import {
     IabVendor,
     IabVendorList,
     ParsedIabVendorList,
+    FontsContextInterface,
 } from '../types';
+import { FontsContext } from './FontsContext';
 
 const privacyPolicyURL = 'https://www.theguardian.com/info/privacy';
 const cookiePolicyURL = 'https://www.theguardian.com/info/cookies';
 const smallSpace = space[2]; // 12px
 const mediumSpace = smallSpace + smallSpace / 3; // 16px
 
-const formStyles = css`
+const formStyles = (headlineSerif: string, bodySerif: string) => css`
     color: ${palette.neutral[100]};
     padding: ${smallSpace}px ${smallSpace}px 0 ${smallSpace}px;
 
@@ -42,7 +49,7 @@ const formStyles = css`
         font-size: 20px;
         line-height: 24px;
         font-weight: 700;
-        font-family: 'Guardian Egyptian Web', Georgia, serif;
+        font-family: ${headlineSerif};
         margin-bottom: 12px;
     }
 
@@ -50,7 +57,7 @@ const formStyles = css`
         margin-bottom: 16px;
         font-size: 17px;
         line-height: 24px;
-        font-family: 'Guardian Text Egyptian Web', Georgia, serif;
+        font-family: ${bodySerif};
     }
 
     a,
@@ -120,7 +127,7 @@ const topButtonContainerStyles = css`
     }
 `;
 
-const buttonStyles = css`
+const buttonStyles = (bodySans: string) => css`
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
@@ -128,8 +135,7 @@ const buttonStyles = css`
     text-decoration: none;
     font-size: 16px;
     line-height: 22px;
-    font-family: 'Guardian Text Sans Web', Helvetica Neue, Helvetica, Arial,
-        Lucida Grande, sans-serif;
+    font-family: ${bodySans};
     font-weight: 700;
     box-sizing: border-box;
     border: none;
@@ -187,7 +193,7 @@ const blueButtonStyles = css`
     }
 `;
 
-const bottomButtonContainerStyles = css`
+const bottomButtonContainerStyles = (bodySerif: string) => css`
     padding: ${smallSpace / 2}px ${smallSpace}px ${smallSpace}px ${smallSpace}px;
     margin-bottom: 12px;
     ${mobileLandscape} {
@@ -197,12 +203,12 @@ const bottomButtonContainerStyles = css`
     p {
         font-size: 15px;
         line-height: 20px;
-        font-family: 'Guardian Text Egyptian Web', Georgia, serif;
+        font-family: ${bodySerif};
         font-weight: 700;
     }
 `;
 
-const validationErrorStyles = css`
+const validationErrorStyles = (bodySerif: string) => css`
     display: block;
     background-color: ${palette.news.bright};
     padding: ${smallSpace / 2}px ${smallSpace}px;
@@ -217,7 +223,7 @@ const validationErrorStyles = css`
     p {
         font-size: 15px;
         line-height: 20px;
-        font-family: 'Guardian Text Egyptian Web', Georgia, serif;
+        font-family: ${bodySerif};
         font-weight: 700;
         margin: 0;
     }
@@ -263,159 +269,185 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
         const firstIabPurposeList = iabPurposesList.slice(0, 3);
         const secondIabPurposeList = iabPurposesList.slice(3);
         const { iabNullResponses } = this.state;
+        const showCancel = getVariant() !== 'CmpUiNonDismissable-variant';
 
         return (
-            <>
-                <img
-                    src="https://manage.theguardian.com/static/images/consent-graphic.png"
-                    css={css`
-                        width: 100%;
-                    `}
-                />
-                <form css={formStyles}>
-                    <h1>
-                        Please review and manage your data and privacy settings
-                        below.
-                    </h1>
-                    <p>
-                        When you visit this site, we&apos;d like to use cookies
-                        and identifiers to understand things like which pages
-                        you&apos;ve visited and how long you&apos;ve spent with
-                        us. It helps us improve our service to you.{' '}
-                    </p>
-                    <p>
-                        Our advertising partners would like to do the same – so
-                        the adverts are more relevant, and we make more money to
-                        invest in Guardian journalism. By using this site, you
-                        agree to our{' '}
-                        <a
-                            href={privacyPolicyURL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            privacy
-                        </a>{' '}
-                        and{' '}
-                        <a
-                            href={cookiePolicyURL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            cookie
-                        </a>{' '}
-                        policies
-                    </p>
-                    <div
-                        css={css`
-                            ${buttonContainerStyles};
-                            ${topButtonContainerStyles};
-                        `}
-                    >
-                        <button
-                            type="button"
-                            onClick={() => {
-                                scrollToPurposes();
-                            }}
+            <FontsContext.Consumer>
+                {({
+                    headlineSerif,
+                    bodySerif,
+                    bodySans,
+                }: FontsContextInterface) => (
+                    <>
+                        <img
+                            src="https://manage.theguardian.com/static/images/consent-graphic.png"
                             css={css`
-                                ${buttonStyles};
-                                ${blueButtonStyles};
+                                width: 100%;
                             `}
-                        >
-                            Options
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                this.enableAllAndClose();
-                            }}
-                            css={css`
-                                ${buttonStyles};
-                                ${yellowButtonStyles};
-                            `}
-                        >
-                            Enable all and close
-                            <ArrowIcon />
-                        </button>
-                    </div>
-                    <div css={purposesContainerStyles} id={PURPOSES_ID}>
-                        <ul css={cmpListStyles}>{firstIabPurposeList}</ul>
-                        {/*
+                        />
+                        <form css={formStyles(headlineSerif, bodySerif)}>
+                            <h1>
+                                Please review and manage your data and privacy
+                                settings below.
+                            </h1>
+                            <p>
+                                When you visit this site, we&apos;d like to use
+                                cookies and identifiers to understand things
+                                like which pages you&apos;ve visited and how
+                                long you&apos;ve spent with us. It helps us
+                                improve our service to you.{' '}
+                            </p>
+                            <p>
+                                Our advertising partners would like to do the
+                                same – so the adverts are more relevant, and we
+                                make more money to invest in Guardian
+                                journalism. By using this site, you agree to our{' '}
+                                <a
+                                    href={privacyPolicyURL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    privacy
+                                </a>{' '}
+                                and{' '}
+                                <a
+                                    href={cookiePolicyURL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    cookie
+                                </a>{' '}
+                                policies
+                            </p>
+                            <div
+                                css={css`
+                                    ${buttonContainerStyles};
+                                    ${topButtonContainerStyles};
+                                `}
+                            >
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        scrollToPurposes();
+                                    }}
+                                    css={css`
+                                        ${buttonStyles(bodySans)};
+                                        ${blueButtonStyles};
+                                    `}
+                                >
+                                    Options
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        this.enableAllAndClose();
+                                    }}
+                                    css={css`
+                                        ${buttonStyles(bodySans)};
+                                        ${yellowButtonStyles};
+                                    `}
+                                >
+                                    Enable all and close
+                                    <ArrowIcon />
+                                </button>
+                            </div>
+                            <div css={purposesContainerStyles} id={PURPOSES_ID}>
+                                <ul css={cmpListStyles}>
+                                    {firstIabPurposeList}
+                                </ul>
+                                {/*
                             renderIabPurposeItems,
                             renderVendorItems and renderFeatureItems
                             should be in single <ul> once renderGuPurposeItems
                             is restored.
                         */}
-                        <div>
-                            <ul css={cmpListStyles}>{secondIabPurposeList}</ul>
-                            {this.iabVendorList && (
-                                <Vendors vendors={this.iabVendorList.vendors} />
-                            )}
-                            {this.iabVendorList && (
-                                <Features
-                                    features={this.iabVendorList.features}
-                                />
-                            )}
-                            <div
-                                css={css`
-                                    ${buttonContainerStyles};
-                                    ${bottomButtonContainerStyles};
-                                `}
-                            >
-                                {!!(
-                                    iabNullResponses && iabNullResponses.length
-                                ) && (
+                                <div>
+                                    <ul css={cmpListStyles}>
+                                        {secondIabPurposeList}
+                                    </ul>
+                                    {this.iabVendorList && (
+                                        <Vendors
+                                            vendors={this.iabVendorList.vendors}
+                                        />
+                                    )}
+                                    {this.iabVendorList && (
+                                        <Features
+                                            features={
+                                                this.iabVendorList.features
+                                            }
+                                        />
+                                    )}
                                     <div
-                                        role="alert"
-                                        css={validationErrorStyles}
+                                        css={css`
+                                            ${buttonContainerStyles};
+                                            ${bottomButtonContainerStyles(
+                                                bodySerif,
+                                            )};
+                                        `}
                                     >
+                                        {!!(
+                                            iabNullResponses &&
+                                            iabNullResponses.length
+                                        ) && (
+                                            <div
+                                                role="alert"
+                                                css={validationErrorStyles(
+                                                    bodySerif,
+                                                )}
+                                            >
+                                                <p>
+                                                    Please set all privacy
+                                                    options to continue.
+                                                </p>
+                                            </div>
+                                        )}
                                         <p>
-                                            Please set all privacy options to
-                                            continue.
+                                            You can change the above settings
+                                            for this browser at any time by
+                                            accessing our{' '}
+                                            <a
+                                                href={privacyPolicyURL}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                privacy policy
+                                            </a>
+                                            .
                                         </p>
+                                        {showCancel && (
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    this.close();
+                                                }}
+                                                css={css`
+                                                    ${buttonStyles(bodySans)};
+                                                    ${blueButtonStyles};
+                                                `}
+                                            >
+                                                Cancel
+                                            </button>
+                                        )}
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                this.saveAndClose();
+                                            }}
+                                            css={css`
+                                                ${buttonStyles(bodySans)};
+                                                ${yellowButtonStyles};
+                                            `}
+                                        >
+                                            <span>Save and continue</span>
+                                            <ArrowIcon />
+                                        </button>
                                     </div>
-                                )}
-                                <p>
-                                    You can change the above settings for this
-                                    browser at any time by accessing our{' '}
-                                    <a
-                                        href={privacyPolicyURL}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        privacy policy
-                                    </a>
-                                    .
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        this.close();
-                                    }}
-                                    css={css`
-                                        ${buttonStyles};
-                                        ${blueButtonStyles};
-                                    `}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        this.saveAndClose();
-                                    }}
-                                    css={css`
-                                        ${buttonStyles};
-                                        ${yellowButtonStyles};
-                                    `}
-                                >
-                                    <span>Save and continue</span>
-                                    <ArrowIcon />
-                                </button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </form>
-            </>
+                        </form>
+                    </>
+                )}
+            </FontsContext.Consumer>
         );
     }
 

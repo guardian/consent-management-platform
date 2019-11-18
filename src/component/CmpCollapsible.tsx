@@ -3,7 +3,8 @@ import { palette } from '@guardian/src-foundations';
 import React, { Component } from 'react';
 import { CollapseItemButton } from './CollapseItemButton';
 import { OnOffRadio } from './OnOffRadio';
-import { ItemState } from '../types';
+import { ItemState, FontsContextInterface } from '../types';
+import { FontsContext } from './FontsContext';
 
 const titleTabStyles = css`
     display: flex;
@@ -15,22 +16,20 @@ const titleContainerStyles = css`
     flex: 1;
 `;
 
-const titleStyles = (collapsed: boolean) => css`
-    font-family: 'Guardian Text Sans Web', Helvetica Neue, Helvetica, Arial,
-        Lucida Grande, sans-serif;
+const titleStyles = (collapsed: boolean, bodySans: string) => css`
+    font-family: ${bodySans};
     font-size: 20px;
     line-height: 22px;
     font-weight: 700;
     color: ${collapsed ? palette.yellow.dark : palette.neutral[100]};
 `;
 
-const panelStyles = (collapsed: boolean) => css`
+const panelStyles = (collapsed: boolean, bodySans: string) => css`
     display: ${collapsed ? 'block' : 'none'};
     padding-left: 20px;
 
     p {
-        font-family: 'Guardian Text Sans Web', Helvetica Neue, Helvetica, Arial,
-            Lucida Grande, sans-serif;
+        font-family: ${bodySans};
         fontsize: 17px;
         lineheight: 24px;
     }
@@ -61,32 +60,40 @@ export class CmpCollapsible extends Component<Props, State> {
         const { title, value, children, updateItem, showError } = this.props;
 
         return (
-            <>
-                <div css={titleTabStyles}>
-                    <div
-                        css={css`
-                            flex-grow: 1;
-                            display: flex;
-                        `}
-                        onClick={() => {
-                            this.toggleCollapsed();
-                        }}
-                    >
-                        <CollapseItemButton collapsed={collapsed} />
-                        <div css={titleContainerStyles}>
-                            <div css={titleStyles(collapsed)}>{title}</div>
+            <FontsContext.Consumer>
+                {({ bodySans }: FontsContextInterface) => (
+                    <>
+                        <div css={titleTabStyles}>
+                            <div
+                                css={css`
+                                    flex-grow: 1;
+                                    display: flex;
+                                `}
+                                onClick={() => {
+                                    this.toggleCollapsed();
+                                }}
+                            >
+                                <CollapseItemButton collapsed={collapsed} />
+                                <div css={titleContainerStyles}>
+                                    <div css={titleStyles(collapsed, bodySans)}>
+                                        {title}
+                                    </div>
+                                </div>
+                            </div>
+                            {value !== undefined && (
+                                <OnOffRadio
+                                    selectedValue={value}
+                                    onChangeHandler={updateItem}
+                                    showError={showError}
+                                />
+                            )}
                         </div>
-                    </div>
-                    {value !== undefined && (
-                        <OnOffRadio
-                            selectedValue={value}
-                            onChangeHandler={updateItem}
-                            showError={showError}
-                        />
-                    )}
-                </div>
-                <div css={panelStyles(collapsed)}>{children}</div>
-            </>
+                        <div css={panelStyles(collapsed, bodySans)}>
+                            {children}
+                        </div>
+                    </>
+                )}
+            </FontsContext.Consumer>
         );
     }
 

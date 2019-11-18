@@ -71,3 +71,9 @@ export interface ParsedIabVendorList extends IabVendorList {
 export interface ParsedIabVendor extends IabVendor {
     description: React.ReactNode;
 }
+
+export interface FontsContextInterface {
+    headlineSerif: string;
+    bodySerif: string;
+    bodySans: string;
+}
