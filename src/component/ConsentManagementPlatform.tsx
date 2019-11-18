@@ -3,8 +3,14 @@ import { css } from '@emotion/core';
 import { mobileLandscape, palette, space } from '@guardian/src-foundations';
 import { Logo } from './svgs/Logo';
 import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
-import { SCROLLABLE_ID, CONTENT_ID } from './utils/config';
+import { FontsContext } from './FontsContext';
+import {
+    SCROLLABLE_ID,
+    CONTENT_ID,
+    DEFAULT_FONT_FAMILIES,
+} from './utils/config';
 import { setSource, setVariant } from '../store';
+import { FontsContextInterface } from '../types';
 
 const TRANSITION_TIME = 1000;
 
@@ -130,8 +136,8 @@ interface Props {
     onClose: () => void;
     source?: string;
     variant?: string;
+    fontFamilies?: FontsContextInterface;
 }
-
 class ConsentManagementPlatform extends Component<Props, State> {
     scrollableRef: React.RefObject<HTMLDivElement>;
 
@@ -164,64 +170,70 @@ class ConsentManagementPlatform extends Component<Props, State> {
         }
 
         return (
-            <div
-                css={css`
-                    ${overlayStyles};
-                    ${active ? activeOverlayStyles : ''};
-                    ${visible ? showOverlayStyles : ''};
-                `}
+            <FontsContext.Provider
+                value={this.props.fontFamilies || DEFAULT_FONT_FAMILIES}
             >
                 <div
                     css={css`
-                        ${scrollableStyles};
-                        ${visible ? showScrollableStyles(scrollableWidth) : ''};
+                        ${overlayStyles};
+                        ${active ? activeOverlayStyles : ''};
+                        ${visible ? showOverlayStyles : ''};
                     `}
-                    id={SCROLLABLE_ID}
-                    ref={this.scrollableRef}
                 >
-                    <div css={headerStyles}>
-                        <div css={logoContainer}>
-                            <Logo css={logoStyles} />
+                    <div
+                        css={css`
+                            ${scrollableStyles};
+                            ${visible
+                                ? showScrollableStyles(scrollableWidth)
+                                : ''};
+                        `}
+                        id={SCROLLABLE_ID}
+                        ref={this.scrollableRef}
+                    >
+                        <div css={headerStyles}>
+                            <div css={logoContainer}>
+                                <Logo css={logoStyles} />
+                            </div>
+                        </div>
+                        <div css={contentStyles} id={CONTENT_ID}>
+                            <ConsentPreferencesDashboard
+                                showCmp={() => {
+                                    this.setState(
+                                        {
+                                            active: true,
+                                        },
+                                        () => {
+                                            this.setState({
+                                                visible: true,
+                                            });
+                                        },
+                                    );
+                                }}
+                                hideCmp={() => {
+                                    this.setState(
+                                        {
+                                            visible: false,
+                                        },
+                                        () => {
+                                            // delay by TRANSITION_TIME before deactivating
+                                            setTimeout(() => {
+                                                this.setState(
+                                                    {
+                                                        active: false,
+                                                    },
+                                                    () => {
+                                                        this.props.onClose();
+                                                    },
+                                                );
+                                            }, TRANSITION_TIME);
+                                        },
+                                    );
+                                }}
+                            />
                         </div>
                     </div>
-                    <div css={contentStyles} id={CONTENT_ID}>
-                        <ConsentPreferencesDashboard
-                            showCmp={() => {
-                                this.setState(
-                                    {
-                                        active: true,
-                                    },
-                                    () => {
-                                        this.setState({
-                                            visible: true,
-                                        });
-                                    },
-                                );
-                            }}
-                            hideCmp={() => {
-                                this.setState(
-                                    {
-                                        visible: false,
-                                    },
-                                    () => {
-                                        // delay by TRANSITION_TIME before deactivating
-                                        setTimeout(() => {
-                                            this.setState(
-                                                {
-                                                    active: false,
-                                                },
-                                                () => {
-                                                    this.props.onClose();
-                                                },
-                                            );
-                                        }, TRANSITION_TIME);
-                                    },
-                                );
-                            }}
-                        />
-                    </div>
                 </div>
-            </div>
+            </FontsContext.Provider>
         );
     }
 }

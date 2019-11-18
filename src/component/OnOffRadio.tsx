@@ -7,7 +7,8 @@ import {
     transitions,
 } from '@guardian/src-foundations';
 import React, { Component } from 'react';
-import { ItemState } from '../types';
+import { ItemState, FontsContextInterface } from '../types';
+import { FontsContext } from './FontsContext';
 
 let idCounter = 0;
 
@@ -90,10 +91,9 @@ const radioLabelStyles = (disabled: boolean) => css`
         }
     }
 `;
-const radioLabelTextStyles = (disabled: boolean) => css`
+const radioLabelTextStyles = (disabled: boolean, bodySans: string) => css`
     position: relative;
-    font-family: 'Guardian Text Sans Web', Helvetica Neue, Helvetica, Arial,
-        Lucida Grande, sans-serif;
+    font-family: ${bodySans};
     font-size: 17px;
     color: ${disabled ? palette.brand.pastel : palette.neutral[100]};
 `;
@@ -124,50 +124,62 @@ export class OnOffRadio extends Component<Props, {}> {
             : {};
 
         return (
-            <div css={radioContainerStyles}>
-                <label css={radioLabelStyles(disabled)}>
-                    <input
-                        id={offId}
-                        name={id}
-                        type="radio"
-                        value="off"
-                        onChange={(
-                            evt: React.ChangeEvent<HTMLInputElement>,
-                        ) => {
-                            this.updateValue(evt);
-                        }}
-                        defaultChecked={selectedValue === false}
-                        css={css`
-                            ${radioInputStyles};
-                            ${showError ? errorStyles : ''};
-                        `}
-                        disabled={disabled}
-                        {...validationProps}
-                    />
-                    <span css={radioLabelTextStyles(disabled)}>Off</span>
-                </label>
-                <label css={radioLabelStyles(disabled)}>
-                    <input
-                        id={onId}
-                        name={id}
-                        type="radio"
-                        value="on"
-                        onChange={(
-                            evt: React.ChangeEvent<HTMLInputElement>,
-                        ) => {
-                            this.updateValue(evt);
-                        }}
-                        defaultChecked={selectedValue === true}
-                        css={css`
-                            ${radioInputStyles};
-                            ${showError ? errorStyles : ''};
-                        `}
-                        disabled={disabled}
-                        {...validationProps}
-                    />
-                    <span css={radioLabelTextStyles(disabled)}>On</span>
-                </label>
-            </div>
+            <FontsContext.Consumer>
+                {({ bodySans }: FontsContextInterface) => (
+                    <div css={radioContainerStyles}>
+                        <label css={radioLabelStyles(disabled)}>
+                            <input
+                                id={offId}
+                                name={id}
+                                type="radio"
+                                value="off"
+                                onChange={(
+                                    evt: React.ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                    this.updateValue(evt);
+                                }}
+                                defaultChecked={selectedValue === false}
+                                css={css`
+                                    ${radioInputStyles};
+                                    ${showError ? errorStyles : ''};
+                                `}
+                                disabled={disabled}
+                                {...validationProps}
+                            />
+                            <span
+                                css={radioLabelTextStyles(disabled, bodySans)}
+                            >
+                                Off
+                            </span>
+                        </label>
+                        <label css={radioLabelStyles(disabled)}>
+                            <input
+                                id={onId}
+                                name={id}
+                                type="radio"
+                                value="on"
+                                onChange={(
+                                    evt: React.ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                    this.updateValue(evt);
+                                }}
+                                defaultChecked={selectedValue === true}
+                                css={css`
+                                    ${radioInputStyles};
+                                    ${showError ? errorStyles : ''};
+                                `}
+                                disabled={disabled}
+                                {...validationProps}
+                            />
+                            <span
+                                css={radioLabelTextStyles(disabled, bodySans)}
+                            >
+                                On
+                            </span>
+                        </label>
+                    </div>
+                )}
+            </FontsContext.Consumer>
         );
     }
 
