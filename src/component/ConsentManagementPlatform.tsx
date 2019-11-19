@@ -31,6 +31,13 @@ const overlayStyles = css`
         transition-duration: ${TRANSITION_TIME / 2}ms;
         will-change: background-color;
     }
+    box-sizing: border-box;
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
 `;
 
 const activeOverlayStyles = css`
