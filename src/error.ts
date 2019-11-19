@@ -1,6 +1,7 @@
 type onErrorFn = (error: string) => void;
 
-let onError: onErrorFn;
+// eslint-disable-next-line no-console
+let onError: onErrorFn = error => console.error(error);
 
 const setErrorHandler = (newHandler: onErrorFn) => {
     onError = newHandler;
