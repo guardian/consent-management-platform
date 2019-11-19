@@ -242,19 +242,17 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
     }
 
     public componentDidMount(): void {
+        const { showCmp, hideCmp } = this.props;
+
         getVendorList()
             .then(remoteVendorList => {
                 return this.buildState(parseIabVendorList(remoteVendorList));
             })
             .then(() => {
-                const { showCmp } = this.props;
-
                 showCmp();
             })
-            .catch(error => {
-                // TODO: Handle error by removing the component
-                // eslint-disable-next-line no-console
-                console.log('Error', error);
+            .catch(() => {
+                hideCmp();
             });
     }
 
