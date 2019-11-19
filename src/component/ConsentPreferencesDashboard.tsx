@@ -248,12 +248,8 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             .then(remoteVendorList => {
                 return this.buildState(parseIabVendorList(remoteVendorList));
             })
-            .then(() => {
-                showCmp();
-            })
-            .catch(() => {
-                hideCmp();
-            });
+            .then(showCmp)
+            .catch(hideCmp);
     }
 
     public render(): React.ReactNode {
