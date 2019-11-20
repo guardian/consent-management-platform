@@ -90,8 +90,8 @@ const notOkResponse = {
 };
 
 const guDefaultState = { functional: true, performance: true };
-const iabDefaultState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 const guMixedState = { functional: true, performance: false };
+const iabDefaultState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 const iabTrueState = { 1: true, 2: true, 3: true, 4: true, 5: true };
 const legacyTrueCookie = '1.54321';
 const fakeIabString = 'UH IH OH HA HA';
@@ -198,24 +198,35 @@ describe('Store', () => {
     });
 
     describe('setConsentState', () => {
-        it('triggers StateChange handlers correctly', () => {
+        it('does not trigger StateChange handlers when the consent state is the same', () => {
             registerStateChangeHandler(myCallBack);
 
             return expect(setConsentState(guDefaultState, iabDefaultState))
                 .resolves.toBeUndefined()
                 .then(() => {
-                    return setConsentState(guMixedState, iabTrueState);
+                    expect(myCallBack).not.toHaveBeenCalled();
+                });
+        });
+
+        it('triggers StateChange handlers correctly when the new consent state is not the same', () => {
+            registerStateChangeHandler(myCallBack);
+
+            return expect(setConsentState(guMixedState, iabTrueState))
+                .resolves.toBeUndefined()
+                .then(() => {
+                    return setConsentState(guDefaultState, iabDefaultState);
                 })
                 .then(() => {
                     expect(myCallBack).toHaveBeenCalledTimes(2);
+
                     expect(myCallBack).toHaveBeenNthCalledWith(
                         1,
-                        guDefaultState,
-                        iabDefaultState,
-                    );
-                    expect(myCallBack).toHaveBeenLastCalledWith(
                         guMixedState,
                         iabTrueState,
+                    );
+                    expect(myCallBack).toHaveBeenLastCalledWith(
+                        guDefaultState,
+                        iabDefaultState,
                     );
                 });
         });
