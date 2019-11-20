@@ -13,7 +13,9 @@ describe('Error', () => {
 
         handleError(errorMsg);
 
+        // eslint-disable-next-line no-console
         expect(console.error).toHaveBeenCalledTimes(1);
+        // eslint-disable-next-line no-console
         expect(console.error).toHaveBeenCalledWith(errorMsg);
 
         global.console.error.mockClear();
