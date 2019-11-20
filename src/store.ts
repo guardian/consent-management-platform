@@ -132,6 +132,11 @@ const setConsentState = (
     newIabState: IabPurposeState,
 ): Promise<void> => {
     init();
+
+    const stateChanged =
+        JSON.stringify(guState) !== JSON.stringify(newGuState) ||
+        JSON.stringify(iabState) !== JSON.stringify(newIabState);
+
     guState = newGuState;
     iabState = newIabState;
 
@@ -172,9 +177,11 @@ const setConsentState = (
             }
         })
         .finally(() => {
-            onStateChange.forEach((callback: onStateChangeFn): void => {
-                callback(guState, iabState);
-            });
+            if (stateChanged) {
+                onStateChange.forEach((callback: onStateChangeFn): void => {
+                    callback(guState, iabState);
+                });
+            }
 
             return Promise.resolve();
         });
