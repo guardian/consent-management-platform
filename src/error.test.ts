@@ -9,14 +9,15 @@ describe('Error', () => {
     });
 
     it('runs the default error handler correctly if no handler has been set', () => {
-        /* eslint-disable no-console */
-        console.error = jest.fn();
+        global.console = { error: jest.fn() };
 
         handleError(errorMsg);
 
         expect(console.error).toHaveBeenCalledTimes(1);
         expect(console.error).toHaveBeenCalledWith(errorMsg);
-        /* eslint-enable no-console */
+
+        global.console.error.mockClear();
+        delete global.console;
     });
 
     it('runs the error handler correctly after one has been set', () => {
