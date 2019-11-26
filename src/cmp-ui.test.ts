@@ -1,4 +1,4 @@
-import { canShow } from './cmp-ui';
+import { shouldShow } from './cmp-ui';
 import {
     // readGuCookie as _readGuCookie,
     readIabCookie as _readIabCookie,
@@ -17,37 +17,37 @@ describe('cmp-ui', () => {
         jest.resetAllMocks();
     });
 
-    describe('canShow', () => {
-        it('canShow returns true if readIabCookie returns null', () => {
+    describe('shouldShow', () => {
+        it('shouldShow returns true if readIabCookie returns null', () => {
             readIabCookie.mockReturnValue(null);
-            expect(canShow()).toBe(true);
+            expect(shouldShow()).toBe(true);
         });
 
-        it('canShow returns false if readIabCookie returns truthy value', () => {
+        it('shouldShow returns false if readIabCookie returns truthy value', () => {
             readIabCookie.mockReturnValue('foo');
-            expect(canShow()).toBe(false);
+            expect(shouldShow()).toBe(false);
         });
 
         // TODO: Restore tests below once we start saving GU cookie
-        // it('canShow returns true if readGuCookie returns null', () => {
+        // it('shouldShow returns true if readGuCookie returns null', () => {
         //     readIabCookie.mockReturnValue('foo');
         //     readGuCookie.mockReturnValue(null);
-        //     expect(canShow()).toBe(true);
+        //     expect(shouldShow()).toBe(true);
         // });
-        // it('canShow returns true if readIabCookie returns null', () => {
+        // it('shouldShow returns true if readIabCookie returns null', () => {
         //     readIabCookie.mockReturnValue(null);
         //     readGuCookie.mockReturnValue('foo');
-        //     expect(canShow()).toBe(true);
+        //     expect(shouldShow()).toBe(true);
         // });
-        // it('canShow returns true if readIabCookie and readGuCookie return null', () => {
+        // it('shouldShow returns true if readIabCookie and readGuCookie return null', () => {
         //     readIabCookie.mockReturnValue(null);
         //     readGuCookie.mockReturnValue(null);
-        //     expect(canShow()).toBe(true);
+        //     expect(shouldShow()).toBe(true);
         // });
-        // it('canShow returns false if readIabCookie and readGuCookie return truthy values', () => {
+        // it('shouldShow returns false if readIabCookie and readGuCookie return truthy values', () => {
         //     readIabCookie.mockReturnValue('foo');
         //     readGuCookie.mockReturnValue('bar');
-        //     expect(canShow()).toBe(false);
+        //     expect(shouldShow()).toBe(false);
         // });
     });
 });
