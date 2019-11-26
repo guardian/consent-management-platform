@@ -526,7 +526,7 @@ export class ConsentPreferencesDashboard extends Component<Props, State> {
             return false;
         }
 
-        setConsentState({}, this.state.iabPurposes);
+        setConsentState({}, stateToSave.iabPurposes);
 
         return true;
     }
