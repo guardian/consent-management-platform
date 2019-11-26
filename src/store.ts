@@ -133,9 +133,7 @@ const setConsentState = (
 ): Promise<void> => {
     init();
 
-    const stateChanged =
-        JSON.stringify(guState) !== JSON.stringify(newGuState) ||
-        JSON.stringify(iabState) !== JSON.stringify(newIabState);
+    const triggerCallbacks = stateChanged(newGuState, newIabState);
 
     guState = newGuState;
     iabState = newIabState;
@@ -177,7 +175,7 @@ const setConsentState = (
             }
         })
         .finally(() => {
-            if (stateChanged) {
+            if (triggerCallbacks) {
                 onStateChange.forEach((callback: onStateChangeFn): void => {
                     callback(guState, iabState);
                 });
@@ -193,6 +191,32 @@ const setSource = (newSource: string): void => {
 
 const setVariant = (newVariant: string): void => {
     variant = newVariant;
+};
+
+const stateChanged = (
+    guNew: GuPurposeState,
+    iabNew: IabPurposeState,
+): boolean => {
+    if (
+        Object.keys(guNew).length !== Object.keys(guState).length ||
+        Object.keys(iabNew).length !== Object.keys(iabState).length
+    ) {
+        return true;
+    }
+
+    return (
+        Object.keys(guNew).reduce(
+            (acc, key) => acc || guNew[key] !== guState[key],
+            false as boolean,
+        ) ||
+        Object.keys(iabNew).reduce(
+            (acc, key) => {
+                const keyAsNum = parseInt(key, 10);
+                return acc || iabNew[keyAsNum] !== iabState[keyAsNum];
+            },
+            false as boolean,
+        )
+    );
 };
 
 export {
