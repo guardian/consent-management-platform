@@ -197,18 +197,19 @@ const stateChanged = (
     guNew: GuPurposeState,
     iabNew: IabPurposeState,
 ): boolean => {
+    // There commented lines should be uncommented when the PECR purposes are reintroduced
     if (
-        Object.keys(guNew).length !== Object.keys(guState).length ||
+        // Object.keys(guNew).length !== Object.keys(guState).length ||
         Object.keys(iabNew).length !== Object.keys(iabState).length
     ) {
         return true;
     }
 
     return (
-        Object.keys(guNew).reduce(
-            (acc, key) => acc || guNew[key] !== guState[key],
-            false as boolean,
-        ) ||
+        // Object.keys(guNew).reduce(
+        //     (acc, key) => acc || guNew[key] !== guState[key],
+        //     false as boolean,
+        // ) ||
         Object.keys(iabNew).reduce(
             (acc, key) => {
                 const keyAsNum = parseInt(key, 10);
