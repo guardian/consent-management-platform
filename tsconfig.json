@@ -3,8 +3,17 @@
         // "declaration": true, // should export typescript definitions.
         "strict": true,
         "jsx": "preserve",
-        "noImplicitAny": true,
         "esModuleInterop": true
+
+        // "target": "es5", // compile to es5 since to build a package with browser compatibility.
+        // "module": "commonjs",
+        // "lib": ["dom", "es7"],
+        // "declaration": true, // should export typescript definitions.
+        // "outDir": "./lib",
+        // "strict": true,
+        // "jsx": "preserve"
+
+        // -t es5 -m commonjs --lib "dom, es7" -d --outDir ./lib  --strict true --jsx "preserve"
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["node_modules", "src/**/*.test.ts"]
