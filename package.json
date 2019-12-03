@@ -8,13 +8,13 @@
         "build": "yarn validate && yarn build-only",
         "build-only": "yarn clean && rollup --config && yarn declaration",
         "clean": "rm -rf lib/*",
-        "test": "jest --config jestconfig.json",
-        "lint": "eslint src/**/*.ts src/**/*.tsx",
-        "tsc": "tsc --noEmit",
-        "validate": "yarn tsc && yarn lint && yarn test",
-        "fix": "yarn validate --fix",
         "declaration": "tsc --emitDeclarationOnly -d -m commonjs && mv ./lib/component/ConsentManagementPlatform.d.ts ./lib && sed -i '' 's/\\.\\././g' ./lib/ConsentManagementPlatform.d.ts && rm -rf ./lib/component",
-        "prepublishOnly": "yarn build"
+        "fix": "yarn validate --fix",
+        "lint": "eslint src/**/*.ts src/**/*.tsx",
+        "prepublishOnly": "yarn build",
+        "test": "jest --config jestconfig.json",
+        "tsc": "tsc --noEmit",
+        "validate": "yarn tsc && yarn lint && yarn test"
     },
     "husky": {
         "hooks": {
