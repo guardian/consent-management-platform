@@ -1,18 +1,23 @@
-import * as _Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 import {
+    readBwidCookie,
     readGuCookie,
     readIabCookie,
-    writeGuCookie,
-    writeIabCookie,
+    readLegacyCookie,
+    writeStateCookies,
+    _,
 } from './cookies';
-import {
+
+const {
+    BWID_COOKIE_NAME,
     GU_COOKIE_NAME,
     GU_COOKIE_VERSION,
     IAB_COOKIE_NAME,
     COOKIE_MAX_AGE,
-} from './config';
+    LEGACY_COOKIE_NAME,
+} = _;
 
-const Cookies = _Cookies;
+const OriginalDate = global.Date;
 
 jest.mock('js-cookie', () => ({
     set: jest.fn(),
@@ -34,76 +39,202 @@ describe('Cookies', () => {
         expires: COOKIE_MAX_AGE,
     };
     const iabConsentString = 'heL10W0rLd';
+    const fakeNow = '12345';
 
     beforeAll(() => {
+        global.Date = {
+            now: () => fakeNow,
+        };
         Object.defineProperty(document, 'domain', {
             value: 'www.theguardian.com',
         });
+    });
+
+    afterAll(() => {
+        global.Date = OriginalDate;
+        expect(Date.now()).not.toMatch(fakeNow);
     });
 
     afterEach(() => {
         jest.resetAllMocks();
     });
 
-    it('should be able to set the GU cookie', () => {
-        writeGuCookie(guConsentState);
+    describe('should trigger the saving correctly if', () => {
+        beforeAll(() => {
+            Cookies.set.mockImplementation(() => undefined);
+        });
+        afterEach(() => {
+            jest.resetAllMocks();
+        });
+        it('all states provided', () => {
+            writeStateCookies(guConsentState, iabConsentString, true);
 
-        expect(Cookies.set).toHaveBeenCalledTimes(1);
-        expect(Cookies.set).toHaveBeenCalledWith(
-            GU_COOKIE_NAME,
-            guCookie,
-            cookieOptions,
-        );
+            expect(Cookies.set).toHaveBeenCalledTimes(3);
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                LEGACY_COOKIE_NAME,
+                `1.${fakeNow}`,
+                cookieOptions,
+            );
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                2,
+                GU_COOKIE_NAME,
+                guCookie,
+                cookieOptions,
+            );
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
+        it('legacyState is not provided', () => {
+            writeStateCookies(guConsentState, iabConsentString);
+
+            expect(Cookies.set).toHaveBeenCalledTimes(2);
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                GU_COOKIE_NAME,
+                guCookie,
+                cookieOptions,
+            );
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
+        it('guState is not provided', () => {
+            writeStateCookies({}, iabConsentString);
+
+            expect(Cookies.set).toHaveBeenCalledTimes(1);
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
     });
 
-    it('should be able to set the IAB cookie', () => {
-        writeIabCookie(iabConsentString);
+    describe('should be able to set', () => {
+        it('the GU cookie', () => {
+            writeStateCookies(guConsentState, iabConsentString);
 
-        expect(Cookies.set).toHaveBeenCalledTimes(1);
-        expect(Cookies.set).toHaveBeenCalledWith(
-            IAB_COOKIE_NAME,
-            iabConsentString,
-            cookieOptions,
-        );
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                GU_COOKIE_NAME,
+                guCookie,
+                cookieOptions,
+            );
+        });
+
+        it('the IAB cookie', () => {
+            writeStateCookies(guConsentState, iabConsentString);
+
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                2,
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                cookieOptions,
+            );
+        });
+
+        it('legacy cookie to true', () => {
+            writeStateCookies(guConsentState, iabConsentString, true);
+
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                LEGACY_COOKIE_NAME,
+                `1.${fakeNow}`,
+                cookieOptions,
+            );
+        });
+
+        it('legacy cookie to false', () => {
+            writeStateCookies(guConsentState, iabConsentString, false);
+
+            expect(Cookies.set).toHaveBeenNthCalledWith(
+                1,
+                LEGACY_COOKIE_NAME,
+                `0.${fakeNow}`,
+                cookieOptions,
+            );
+        });
     });
 
-    it('should be able to read the GU cookie', () => {
-        Cookies.getJSON.mockImplementation(() => guCookie);
+    describe('should be able to read', () => {
+        it('the bwid cookie', () => {
+            const fakeBwid = 'foo';
+            Cookies.get.mockImplementation(() => fakeBwid);
 
-        const readCookie = readGuCookie();
+            const readCookie = readBwidCookie();
 
-        expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
-        expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
-        expect(readCookie).toBe(guConsentState);
-    });
+            expect(Cookies.get).toHaveBeenCalledTimes(1);
+            expect(Cookies.get).toHaveBeenCalledWith(BWID_COOKIE_NAME);
+            expect(readCookie).toBe(fakeBwid);
+        });
 
-    it('should be able to read the IAB cookie', () => {
-        Cookies.get.mockImplementation(() => iabConsentString);
+        it('the GU cookie', () => {
+            Cookies.getJSON.mockImplementation(() => guCookie);
 
-        const readCookie = readIabCookie();
+            const readCookie = readGuCookie();
+
+            expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
+            expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
+            expect(readCookie).toBe(guConsentState);
+        });
+
+        it('the IAB cookie', () => {
+            Cookies.get.mockImplementation(() => iabConsentString);
+
+            const readCookie = readIabCookie();
+
+            expect(Cookies.get).toHaveBeenCalledTimes(1);
+            expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
+            expect(readCookie).toBe(iabConsentString);
+        });
+
+        it('the legacy cookie', () => {});
+
+        const fakeCookieValue = 'foo';
+        Cookies.get.mockImplementation(() => fakeCookieValue);
+
+        const readCookie = readLegacyCookie();
 
         expect(Cookies.get).toHaveBeenCalledTimes(1);
-        expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
-        expect(readCookie).toBe(iabConsentString);
+        expect(Cookies.get).toHaveBeenCalledWith(LEGACY_COOKIE_NAME);
+        expect(readCookie).toBe(fakeCookieValue);
     });
 
-    it('returns null if no GU cookie', () => {
-        Cookies.getJSON.mockImplementation(() => undefined);
+    describe('returns null when reading cookies', () => {
+        it('if no GU cookie exists', () => {
+            Cookies.getJSON.mockImplementation(() => undefined);
 
-        const readCookie = readGuCookie();
+            const readCookie = readGuCookie();
 
-        expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
-        expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
-        expect(readCookie).toBeNull();
-    });
+            expect(Cookies.getJSON).toHaveBeenCalledTimes(1);
+            expect(Cookies.getJSON).toHaveBeenCalledWith(GU_COOKIE_NAME);
+            expect(readCookie).toBeNull();
+        });
 
-    it('returns null if no IAB cookie', () => {
-        Cookies.get.mockImplementation(() => undefined);
+        it('if no IAB cookie exists', () => {
+            Cookies.get.mockImplementation(() => undefined);
 
-        const readCookie = readIabCookie();
+            const readCookie = readIabCookie();
 
-        expect(Cookies.get).toHaveBeenCalledTimes(1);
-        expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
-        expect(readCookie).toBeNull();
+            expect(Cookies.get).toHaveBeenCalledTimes(1);
+            expect(Cookies.get).toHaveBeenCalledWith(IAB_COOKIE_NAME);
+            expect(readCookie).toBeNull();
+        });
+
+        it('if no legacy cookie exists', () => {
+            Cookies.get.mockImplementation(() => undefined);
+
+            const readCookie = readLegacyCookie();
+
+            expect(Cookies.get).toHaveBeenCalledTimes(1);
+            expect(Cookies.get).toHaveBeenCalledWith(LEGACY_COOKIE_NAME);
+            expect(readCookie).toBeNull();
+        });
     });
 });

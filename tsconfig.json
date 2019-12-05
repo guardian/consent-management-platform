@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "target": "es5", // compile to es5 since to build a package with browser compatibility.
-        "module": "commonjs",
         "lib": ["dom", "es7"],
-        "declaration": true, // should export typescript definitions.
         "outDir": "./lib",
-        "strict": true
+        "strict": true,
+        "jsx": "preserve",
+        "esModuleInterop": true
     },
-    "include": ["src"],
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["node_modules", "src/**/*.test.ts"]
 }

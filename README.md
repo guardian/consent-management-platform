@@ -58,16 +58,16 @@ onIabConsentNotification(iabConsentState => {
 
 The cmpUi exports useful utilities for users who want to load the CMP UI on their site via an `iframe`.
 
-#### cmpUi.canShow
+#### cmpUi.shouldShow
 
-The `cmpUi.canShow` function returns a boolean to indicate whether the user has already saved their consent state. Users should use this when deciding whether or not to present the CMP UI.
+The `cmpUi.shouldShow` function returns a boolean to indicate whether the user has already saved their consent state. Users should use this when deciding whether or not to present the CMP UI.
 
 **Example:**
 
 ```js
 import { cmpUi } from '@guardian/consent-management-platform';
 
-console.log(cmpUi.canShow()); // true | false
+console.log(cmpUi.shouldShow()); // true | false
 ```
 
 #### cmpUi.setupMessageHandlers

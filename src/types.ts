@@ -1,33 +1,8 @@
-export type CmpMsgData = {
-    iabVendorList: IabVendorList;
-    allowedPurposes: number[];
-    allowedVendors: number[];
-    abTestVariant: string;
-};
-
 export type GuResponsivePurposeEventId = 'functional' | 'performance';
 
 export type GuPurposeEventId = 'essential' | GuResponsivePurposeEventId;
 
 export type ItemState = boolean | null;
-
-export type GuPurposeCallback = (state: ItemState) => void;
-
-export type IabPurposeCallback = (state: IabPurposeState) => void;
-
-export type GuPurposeRegister = {
-    [key in GuPurposeEventId]: GuPurposeRegisterItem;
-};
-
-export interface IabPurposeRegister {
-    state: IabPurposeState;
-    callbacks: IabPurposeCallback[];
-}
-
-export interface GuPurposeRegisterItem {
-    state: ItemState;
-    callbacks: GuPurposeCallback[];
-}
 
 export interface GuCookie {
     version: number;
@@ -87,4 +62,18 @@ export interface IabVendorList {
     purposes: IabPurpose[];
     features: IabFeature[];
     vendors: IabVendor[];
+}
+
+export interface ParsedIabVendorList extends IabVendorList {
+    vendors: ParsedIabVendor[];
+}
+
+export interface ParsedIabVendor extends IabVendor {
+    description: React.ReactNode;
+}
+
+export interface FontsContextInterface {
+    headlineSerif: string;
+    bodySerif: string;
+    bodySans: string;
 }
