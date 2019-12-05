@@ -1,142 +1,35 @@
 import React, { Component } from 'react';
-import { css } from '@emotion/core';
-import { mobileLandscape, palette, space } from '@guardian/src-foundations';
-import { Logo } from './svgs/Logo';
-import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
+// import { css } from '@emotion/core';
+// import { mobileLandscape, palette, space } from '@guardian/src-foundations';
+// import { Logo } from './svgs/Logo';
+// import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 import { FontsContext } from './FontsContext';
 import {
-    SCROLLABLE_ID,
-    CONTENT_ID,
+    // SCROLLABLE_ID,
+    // CONTENT_ID,
     DEFAULT_FONT_FAMILIES,
 } from './utils/config';
-import { setSource, setVariant } from '../store';
-import { FontsContextInterface } from '../types';
-
-const TRANSITION_TIME = 1000;
-
-const overlayStyles = css`
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    padding: 0;
-    margin: 0;
-    z-index: 9999;
-    background-color: transparent;
-    display: none;
-    ${mobileLandscape} {
-        transition: background-color;
-        transition-delay: ${TRANSITION_TIME / 2}ms;
-        transition-duration: ${TRANSITION_TIME / 2}ms;
-        will-change: background-color;
-    }
-    box-sizing: border-box;
-
-    *,
-    *:before,
-    *:after {
-        box-sizing: inherit;
-    }
-`;
-
-const activeOverlayStyles = css`
-    display: block;
-`;
-
-const showOverlayStyles = css`
-    ${mobileLandscape} {
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-`;
-
-const scrollableStyles = css`
-    background-color: ${palette.brand.main};
-    border: 0;
-    height: 100%;
-    width: 100%;
-    max-width: 576px;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    ${mobileLandscape} {
-        width: 30%;
-        min-width: 480px;
-    }
-    transform: translateX(0);
-    transition: transform 1s ease-in-out;
-    will-change: transform;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-`;
-
-const showScrollableStyles = (scrollableWidth: number) => css`
-    transform: translateX(-${scrollableWidth}px);
-`;
-
-const contentWidthStyles = css`
-    width: 100%;
-    ${mobileLandscape} {
-        width: 95%;
-        max-width: 450px;
-    }
-`;
-
-const headerStyles = css`
-    position: sticky;
-    top: 0;
-    left: 0;
-    background-color: ${palette.brand.main};
-    z-index: 200;
-    ${contentWidthStyles};
-    border-bottom: 1px solid ${palette.brand.pastel};
-    ${mobileLandscape} {
-        border-right: 1px solid ${palette.brand.main};
-    }
-`;
-
-const logoContainer = css`
-    padding: 6px 0 12px 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    ::before {
-        content: '';
-        display: block;
-        flex: 1;
-        height: 100%;
-    }
-`;
-
-const logoStyles = css`
-    margin-right: ${space[2]}px;
-    height: 55px;
-
-    ${mobileLandscape} {
-        margin-right: 0;
-        height: 90px;
-    }
-
-    path {
-        fill: ${palette.neutral[100]};
-    }
-`;
-
-const contentStyles = css`
-    min-height: 100%;
-    box-sizing: border-box;
-    background-color: ${palette.brand.dark};
-    border-right: 0;
-    ${contentWidthStyles};
-    ${mobileLandscape} {
-        border-right: 1px solid ${palette.brand.pastel};
-        box-sizing: content-box;
-    }
-`;
+import {
+    IabFeature,
+    IabPurpose,
+    // IabPurposeState,
+    IabVendor,
+    IabVendorList,
+    FontsContextInterface,
+    ParsedIabVendorList,
+} from '../types';
+import {
+    setSource,
+    setVariant,
+    // getConsentState,
+    // setConsentState,
+    getVendorList,
+    // getVariant,
+} from '../store';
 
 interface State {
-    active: boolean;
-    visible: boolean;
+    parsedIabVendorList?: ParsedIabVendorList;
+    mode: 'banner' | 'modal';
 }
 
 interface Props {
@@ -146,16 +39,11 @@ interface Props {
     fontFamilies?: FontsContextInterface;
 }
 class ConsentManagementPlatform extends Component<Props, State> {
-    scrollableRef: React.RefObject<HTMLDivElement>;
-
     constructor(props: Props) {
         super(props);
 
-        this.scrollableRef = React.createRef();
-
         this.state = {
-            active: false,
-            visible: false,
+            mode: 'banner',
         };
 
         if (props.source) {
@@ -167,82 +55,118 @@ class ConsentManagementPlatform extends Component<Props, State> {
         }
     }
 
+    public componentDidMount(): void {
+        const { onClose } = this.props;
+        getVendorList()
+            .then(remoteVendorList => {
+                const parsedIabVendorList = parseIabVendorList(
+                    remoteVendorList,
+                );
+
+                this.setState({
+                    parsedIabVendorList,
+                });
+            })
+            .catch(onClose);
+    }
+
     public render(): React.ReactNode {
-        let scrollableWidth = 0;
-        const { visible, active } = this.state;
-        const scrollableElem = this.scrollableRef.current;
-
-        if (scrollableElem) {
-            scrollableWidth = scrollableElem.clientWidth;
-        }
-
         return (
             <FontsContext.Provider
                 value={this.props.fontFamilies || DEFAULT_FONT_FAMILIES}
             >
-                <div
-                    css={css`
-                        ${overlayStyles};
-                        ${active ? activeOverlayStyles : ''};
-                        ${visible ? showOverlayStyles : ''};
-                    `}
-                >
-                    <div
-                        css={css`
-                            ${scrollableStyles};
-                            ${visible
-                                ? showScrollableStyles(scrollableWidth)
-                                : ''};
-                        `}
-                        id={SCROLLABLE_ID}
-                        ref={this.scrollableRef}
-                    >
-                        <div css={headerStyles}>
-                            <div css={logoContainer}>
-                                <Logo css={logoStyles} />
-                            </div>
-                        </div>
-                        <div css={contentStyles} id={CONTENT_ID}>
-                            <ConsentPreferencesDashboard
-                                showCmp={() => {
-                                    this.setState(
-                                        {
-                                            active: true,
-                                        },
-                                        () => {
-                                            this.setState({
-                                                visible: true,
-                                            });
-                                        },
-                                    );
-                                }}
-                                hideCmp={() => {
-                                    this.setState(
-                                        {
-                                            visible: false,
-                                        },
-                                        () => {
-                                            // delay by TRANSITION_TIME before deactivating
-                                            setTimeout(() => {
-                                                this.setState(
-                                                    {
-                                                        active: false,
-                                                    },
-                                                    () => {
-                                                        this.props.onClose();
-                                                    },
-                                                );
-                                            }, TRANSITION_TIME);
-                                        },
-                                    );
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
+                {this.state.parsedIabVendorList && <h1>HELLO WORLD</h1>}
             </FontsContext.Provider>
         );
     }
 }
+
+const parseIabVendorList = (
+    iabVendorList: IabVendorList,
+): ParsedIabVendorList => {
+    const vendors = iabVendorList.vendors.map(vendor => ({
+        ...vendor,
+        description: getVendorDescription(vendor, iabVendorList),
+    }));
+
+    return {
+        ...iabVendorList,
+        vendors,
+    };
+};
+
+const getVendorDescription = (
+    vendor: IabVendor,
+    iabVendorList: IabVendorList,
+): React.ReactNode => {
+    const {
+        name,
+        policyUrl,
+        purposeIds,
+        legIntPurposeIds,
+        featureIds,
+    } = vendor;
+
+    return (
+        <>
+            <p>
+                <a href={policyUrl} target="_blank" rel="noopener noreferrer">
+                    {name}&apos;s Privacy policy
+                </a>
+            </p>
+            <p>
+                Consent purpose(s):{' '}
+                {getIabPurposesDescriptions(purposeIds, iabVendorList.purposes)}
+            </p>
+            <p>
+                Legitimate interest purpose(s):{' '}
+                {getIabPurposesDescriptions(
+                    legIntPurposeIds,
+                    iabVendorList.purposes,
+                )}
+            </p>
+            <p>
+                Feature(s):{' '}
+                {getFeaturesDescriptions(featureIds, iabVendorList.features)}
+            </p>
+        </>
+    );
+};
+
+const getIabPurposesDescriptions = (
+    ids: number[],
+    purposes: IabPurpose[],
+): string => {
+    const result = ids
+        .reduce((acc, id) => {
+            let str = '';
+
+            const purpose = purposes.find(item => item.id === id);
+            str = purpose ? purpose.name : '';
+
+            return str.length ? `${acc}${str} | ` : acc;
+        }, '')
+        .slice(0, -3);
+
+    return result.length ? result : 'None';
+};
+
+const getFeaturesDescriptions = (
+    ids: number[],
+    features: IabFeature[],
+): string => {
+    const result = ids
+        .reduce((acc, id) => {
+            let str = '';
+
+            const feature = features.find(item => item.id === id);
+            str = feature ? feature.name : '';
+
+            return str.length ? `${acc}${str} | ` : acc;
+        }, '')
+        .slice(0, -3);
+
+    return result.length ? result : 'None';
+};
 
 export { ConsentManagementPlatform };
