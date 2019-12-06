@@ -12,8 +12,10 @@ import {
 const gutterWidth = 20;
 const columnWidth = 60;
 
-const containerWidth = (columns: number): number =>
-    columns * columnWidth + gutterWidth * (columns - 1) + gutterWidth * 2;
+const gridWidth = (columns: number, gutterMultiple: number): number =>
+    columns * columnWidth +
+    gutterWidth * (columns - 1) +
+    gutterWidth * gutterMultiple;
 
 const bannerStyles = css`
     height: 100px;
@@ -35,19 +37,32 @@ const outerContainerStyles = css`
     margin: 0 auto;
 
     ${from.tablet} {
-        max-width: ${containerWidth(9)}px;
+        max-width: ${gridWidth(9, 2)}px;
     }
 
     ${from.desktop} {
-        max-width: ${containerWidth(12)}px;
+        max-width: ${gridWidth(12, 2)}px;
     }
 
     ${from.leftCol} {
-        max-width: ${containerWidth(14)}px;
+        max-width: ${gridWidth(14, 2)}px;
     }
 
     ${from.wide} {
-        max-width: ${containerWidth(16)}px;
+        max-width: ${gridWidth(16, 2)}px;
+    }
+`;
+
+const contentContainerStyles = css`
+    display: block;
+    margin: 0 ${gutterWidth / 2}px;
+
+    ${from.leftCol} {
+        padding-left: ${gridWidth(2, 1.5)}px;
+    }
+
+    ${from.wide} {
+        padding-left: ${gridWidth(3, 1.5)}px;
     }
 `;
 
@@ -85,9 +100,10 @@ class Banner extends Component<Props, State> {
         return (
             <div css={bannerStyles}>
                 <div css={outerContainerStyles}>
-                    {/* <div className="roundel"></div>
-                    <div className="centeredarea">
-                        <div className="title">Your privacy</div>
+                    {/* <div className="roundel"></div> */}
+                    <div css={contentContainerStyles}>
+                        <p>Hello world</p>
+                        {/* <div className="title">Your privacy</div>
                         <div className="copy">
                             <p>
                                 We use cookies to improve your experience on our
@@ -157,8 +173,8 @@ class Banner extends Component<Props, State> {
                                     {this.renderPurposeList()}
                                 </ul>
                             </div>
-                        </div>
-                    </div> */}
+                        </div> */}
+                    </div>
                 </div>
             </div>
         );
