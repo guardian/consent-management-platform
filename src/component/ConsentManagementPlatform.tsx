@@ -26,6 +26,7 @@ import {
     getVendorList,
     // getVariant,
 } from '../store';
+import { Banner } from './Banner';
 
 interface State {
     parsedIabVendorList?: ParsedIabVendorList;
@@ -71,11 +72,28 @@ class ConsentManagementPlatform extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
+        const { parsedIabVendorList } = this.state;
+        const { fontFamilies } = this.props;
+        // const { mode } = this.state;
+
+        // const bannerMode = mode === 'banner';
+
         return (
             <FontsContext.Provider
-                value={this.props.fontFamilies || DEFAULT_FONT_FAMILIES}
+                value={fontFamilies || DEFAULT_FONT_FAMILIES}
             >
-                {this.state.parsedIabVendorList && <h1>HELLO WORLD</h1>}
+                {parsedIabVendorList && (
+                    <Banner
+                        guPurposes={[]}
+                        iabPurposes={parsedIabVendorList.purposes}
+                        onSave={(guState, iabState) => {
+                            console.log('Saved', guState, iabState);
+                        }}
+                        onOptionsClick={() => {
+                            console.log('Options clicked');
+                        }}
+                    />
+                )}
             </FontsContext.Provider>
         );
     }
