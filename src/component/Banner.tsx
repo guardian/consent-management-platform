@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
+import { headlineSizes, body } from '@guardian/src-foundations/typography';
 import {
+    FontsContextInterface,
     GuPurpose,
     GuPurposeState,
     IabPurpose,
     IabPurposeState,
 } from '../types';
+import { FontsContext } from './FontsContext';
 
 const gutterWidth = 20;
 const columnWidth = 60;
@@ -18,7 +21,6 @@ const gridWidth = (columns: number, gutterMultiple: number): number =>
     gutterWidth * gutterMultiple;
 
 const bannerStyles = css`
-    height: 100px;
     background-color: ${palette.neutral[20]};
     color: ${palette.neutral[100]};
     position: fixed;
@@ -31,8 +33,6 @@ const bannerStyles = css`
 
 const outerContainerStyles = css`
     height: 100%;
-    border: 1px solid red;
-
     position: relative;
     margin: 0 auto;
 
@@ -53,17 +53,100 @@ const outerContainerStyles = css`
     }
 `;
 
-const contentContainerStyles = css`
+const contentContainerStyles = (bodySerif: string) => css`
     display: block;
     margin: 0 ${gutterWidth / 2}px;
+    max-width: ${gridWidth(9, 0)}px;
+
+    ${from.mobileLandscape} {
+        padding: 0 ${gutterWidth / 2}px;
+    }
 
     ${from.leftCol} {
         padding-left: ${gridWidth(2, 1.5)}px;
+        padding-right: 0;
     }
 
     ${from.wide} {
         padding-left: ${gridWidth(3, 1.5)}px;
     }
+
+    p {
+        ${body.medium()};
+        font-family: ${bodySerif};
+    }
+
+    a {
+        color: ${palette.neutral[100]};
+        text-decoration: none;
+        border-bottom: 0.0625rem solid ${palette.neutral[60]};
+        transition: border-color 0.15s ease-out;
+    }
+
+    a:hover {
+        border-color: ${palette.neutral[100]};
+    }
+`;
+
+const headlineStyles = (headlineSerif: string) => css`
+    font-size: ${headlineSizes.small}rem;
+
+    ${from.leftCol} {
+        font-size: ${headlineSizes.medium}rem;
+    }
+
+    ${headlineSerif};
+`;
+
+const collapsibleButtonStyles = (show: boolean) => css`
+    border: 0;
+    color: currentColor;
+    background-color: transparent;
+    padding: 0;
+    position: relative;
+    padding-left: 24px;
+    margin-left: -4px;
+    margin-bottom: ${show ? '8px' : 0};
+
+    &:focus {
+        outline: none;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: ${show ? '10px' : '6px'};
+        left: 6px;
+        border: 2px solid ${palette.brandYellow.main};
+        border-top: 0;
+        border-left: 0;
+        display: inline-block;
+        transform: ${show ? 'rotate(-135deg)' : 'rotate(45deg)'};
+        height: 6px;
+        width: 6px;
+    }
+`;
+
+const collapsibleListStyles = (show: boolean) => css`
+    margin: 0;
+    margin-bottom: ${show ? '8px' : 0};
+    max-height: ${show ? '500px' : 0};
+    transition: ${show
+        ? 'max-height 0.25s ease-in'
+        : 'max-height 0.15s ease-out'};
+    overflow-y: hidden;
+    padding-left: 36px;
+    list-style-position: outside;
+
+    // &::after {
+    //     content: '';
+    //     height: 8px;
+    //     display: block;
+    // }
+
+    // li {
+    //     padding-top: 4px;
+    // }
 `;
 
 interface State {
@@ -93,54 +176,52 @@ class Banner extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        const { onSave, onOptionsClick } = this.props;
-
-        console.log(onSave, onOptionsClick);
+        const { showInfo, showPurposes } = this.state;
+        const { onSave, onOptionsClick, iabPurposes } = this.props;
 
         return (
-            <div css={bannerStyles}>
-                <div css={outerContainerStyles}>
-                    {/* <div className="roundel"></div> */}
-                    <div css={contentContainerStyles}>
-                        <p>Hello world</p>
-                        {/* <div className="title">Your privacy</div>
-                        <div className="copy">
-                            <p>
-                                We use cookies to improve your experience on our
-                                site and to show you personalised advertising.
-                            </p>
-                            <p>
-                                To find out more, read our{' '}
-                                <a
-                                    className="u-underline"
-                                    data-link-name="first-pv-consent : to-privacy"
-                                    href="https://www.theguardian.com/help/privacy-policy"
-                                >
-                                    privacy policy
-                                </a>{' '}
-                                and{' '}
-                                <a
-                                    className="u-underline"
-                                    data-link-name="first-pv-consent : to-cookies"
-                                    href="https://www.theguardian.com/info/cookies"
-                                >
-                                    cookie policy
-                                </a>
-                                .
-                            </p>
-                        </div>
-                        <div className="iab-elements">
-                            <div
-                                className="cmp-list-container"
-                                id="cmp-info-list"
-                            >
+            <FontsContext.Consumer>
+                {({ headlineSerif, bodySerif }: FontsContextInterface) => (
+                    <div css={bannerStyles}>
+                        <div css={outerContainerStyles}>
+                            {/* <div className="roundel"></div> */}
+                            <div css={contentContainerStyles(bodySerif)}>
+                                <h2 css={headlineStyles(headlineSerif)}>
+                                    Your privacy
+                                </h2>
+                                <p>
+                                    We use cookies to improve your experience on
+                                    our site and to show you personalised
+                                    advertising.
+                                </p>
+                                <p>
+                                    To find out more, read our{' '}
+                                    <a
+                                        data-link-name="first-pv-consent : to-privacy"
+                                        href="https://www.theguardian.com/help/privacy-policy"
+                                    >
+                                        privacy policy
+                                    </a>{' '}
+                                    and{' '}
+                                    <a
+                                        data-link-name="first-pv-consent : to-cookies"
+                                        href="https://www.theguardian.com/info/cookies"
+                                    >
+                                        cookie policy
+                                    </a>
+                                    .
+                                </p>
                                 <button
-                                    className="cmp-button"
-                                    id="cmp-info-list-button"
+                                    css={collapsibleButtonStyles(showInfo)}
+                                    onClick={() => {
+                                        this.setState({
+                                            showInfo: !showInfo,
+                                        });
+                                    }}
                                 >
                                     Information that may be used
                                 </button>
-                                <ul className="cmp-list">
+                                <ul css={collapsibleListStyles(showInfo)}>
                                     <li>Type of browser and its settings</li>
                                     <li>Cookie information</li>
                                     <li>
@@ -158,25 +239,73 @@ class Banner extends Component<Props, State> {
                                         a website or mobile application
                                     </li>
                                 </ul>
-                            </div>
-                            <div
-                                className="cmp-list-container"
-                                id="cmp-purpose-button"
-                            >
                                 <button
-                                    className="cmp-button"
-                                    id="cmp-purpose-list-button"
+                                    css={collapsibleButtonStyles(showPurposes)}
+                                    onClick={() => {
+                                        this.setState({
+                                            showPurposes: !showPurposes,
+                                        });
+                                    }}
                                 >
-                                    Purposes for storing information
+                                    Purposes
                                 </button>
-                                <ul className="cmp-list">
+                                <ul css={collapsibleListStyles(showPurposes)}>
                                     {this.renderPurposeList()}
                                 </ul>
+                                {/* <div className="iab-elements">
+                                    <div
+                                        className="cmp-list-container"
+                                        id="cmp-info-list"
+                                    >
+                                        <button
+                                            className="cmp-button"
+                                            id="cmp-info-list-button"
+                                        >
+                                            Information that may be used
+                                        </button>
+                                        <ul className="cmp-list">
+                                            <li>
+                                                Type of browser and its settings
+                                            </li>
+                                            <li>Cookie information</li>
+                                            <li>
+                                                Information about other
+                                                identifiers assigned to the
+                                                device
+                                            </li>
+                                            <li>
+                                                The IP address from which the
+                                                device accesses a client&apos;s
+                                                website or mobile application
+                                            </li>
+                                            <li>
+                                                Information about the geographic
+                                                location of the device when it
+                                                accesses a website or mobile
+                                                application
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div
+                                        className="cmp-list-container"
+                                        id="cmp-purpose-button"
+                                    >
+                                        <button
+                                            className="cmp-button"
+                                            id="cmp-purpose-list-button"
+                                        >
+                                            Purposes for storing information
+                                        </button>
+                                        <ul className="cmp-list">
+                                            {this.renderPurposeList()}
+                                        </ul>
+                                    </div>
+                                </div> */}
                             </div>
-                        </div> */}
+                        </div>
                     </div>
-                </div>
-            </div>
+                )}
+            </FontsContext.Consumer>
         );
     }
 
