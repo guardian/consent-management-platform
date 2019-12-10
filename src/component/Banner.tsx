@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
+import { Button } from '@guardian/src-button';
+// import { SvgCheckmark } from '@guardian/src-svgs';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes, body } from '@guardian/src-foundations/typography';
 import {
@@ -252,55 +254,28 @@ class Banner extends Component<Props, State> {
                                 <ul css={collapsibleListStyles(showPurposes)}>
                                     {this.renderPurposeList()}
                                 </ul>
-                                {/* <div className="iab-elements">
-                                    <div
-                                        className="cmp-list-container"
-                                        id="cmp-info-list"
+                                <div>
+                                    {/* <Button
+                                        priority="primary"
+                                        size="default"
+                                        // icon={<SvgCheckmark />}
+                                        // iconSide="left"
+                                        onClick={() => {
+                                            alert('Thanks for clicking');
+                                        }}
                                     >
-                                        <button
-                                            className="cmp-button"
-                                            id="cmp-info-list-button"
-                                        >
-                                            Information that may be used
-                                        </button>
-                                        <ul className="cmp-list">
-                                            <li>
-                                                Type of browser and its settings
-                                            </li>
-                                            <li>Cookie information</li>
-                                            <li>
-                                                Information about other
-                                                identifiers assigned to the
-                                                device
-                                            </li>
-                                            <li>
-                                                The IP address from which the
-                                                device accesses a client&apos;s
-                                                website or mobile application
-                                            </li>
-                                            <li>
-                                                Information about the geographic
-                                                location of the device when it
-                                                accesses a website or mobile
-                                                application
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div
-                                        className="cmp-list-container"
-                                        id="cmp-purpose-button"
+                                        I`&apos;`m OK with that
+                                    </Button> */}
+                                    <Button
+                                        priority="secondary"
+                                        size="default"
+                                        onClick={() => {
+                                            alert('Thanks for clicking');
+                                        }}
                                     >
-                                        <button
-                                            className="cmp-button"
-                                            id="cmp-purpose-list-button"
-                                        >
-                                            Purposes for storing information
-                                        </button>
-                                        <ul className="cmp-list">
-                                            {this.renderPurposeList()}
-                                        </ul>
-                                    </div>
-                                </div> */}
+                                        Options
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -926,10 +926,20 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.4.tgz#622a72bebd1e3f48d921563b4b60a762295a81fc"
   integrity sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
 
+"@guardian/src-button@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-0.5.0.tgz#68d92b8bfec4fd7f3b964f757b4940ac2ef2c384"
+  integrity sha512-zucSvXOm9we8BEoObZ5uTwQzbVjXOYWcN/nkvPdObsTtqqHqoVka6d7R96uc+7R1Gez3WQxF3hITR3Uoembshw==
+
 "@guardian/src-foundations@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-0.8.0.tgz#c8d422324522540c502070845318dad183a336bc"
   integrity sha512-n0E8BV5wpdZomH6vXesh2gfHbrlTlIUTcGfLuur+xN3WJ//nangJsI1jckf9X6y+XnUiQeFUclrQEgNYFPPIrw==
+
+"@guardian/src-svgs@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@guardian/src-svgs/-/src-svgs-0.0.6.tgz#f8ec43935c5df3860f69cc356b9574a7a72c28e0"
+  integrity sha512-qlHe80XVEyTeiolgNjLsrq7z+19acIa0XIfMByAjo8zDw85S58Fjp/b0XYsYc0V7G8XamZRnMgjFNdF++FUZEw==
 
 "@jest/console@^24.7.1":
   version "24.7.1"
