@@ -926,10 +926,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.4.tgz#622a72bebd1e3f48d921563b4b60a762295a81fc"
   integrity sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
 
-"@guardian/src-button@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-0.5.0.tgz#68d92b8bfec4fd7f3b964f757b4940ac2ef2c384"
-  integrity sha512-zucSvXOm9we8BEoObZ5uTwQzbVjXOYWcN/nkvPdObsTtqqHqoVka6d7R96uc+7R1Gez3WQxF3hITR3Uoembshw==
+"@guardian/src-button@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-0.5.1.tgz#b107a5a075e2ad41c59f3d52429a614273f247de"
+  integrity sha512-4i4o+qCd6o/W0Xi5IKcLz0aS+NUBNdBien5pmPlbcRIq/0TBVt7XAKxK4avrf7BiCWAAAtg/0ejq8AWx0wlPjw==
 
 "@guardian/src-foundations@^0.8.0":
   version "0.8.0"

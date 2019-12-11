@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
-import { Button } from '@guardian/src-button';
+// import { Button } from '@guardian/src-button/';
 // import { SvgCheckmark } from '@guardian/src-svgs';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes, body } from '@guardian/src-foundations/typography';
@@ -13,6 +13,7 @@ import {
     IabPurposeState,
 } from '../types';
 import { FontsContext } from './FontsContext';
+import { CmpButton } from './CmpButton';
 
 const gutterWidth = 20;
 const columnWidth = 60;
@@ -57,16 +58,19 @@ const outerContainerStyles = css`
 
 const contentContainerStyles = (bodySerif: string) => css`
     display: block;
+    padding-bottom: 12px;
     margin: 0 ${gutterWidth / 2}px;
     max-width: ${gridWidth(9, 0)}px;
 
     ${from.mobileLandscape} {
-        padding: 0 ${gutterWidth / 2}px;
+        padding-left: ${gutterWidth / 2}px;
+        padding-right: ${gutterWidth / 2}px;
     }
 
     ${from.leftCol} {
         padding-left: ${gridWidth(2, 1.5)}px;
         padding-right: 0;
+        padding-bottom: 24px;
     }
 
     ${from.wide} {
@@ -151,6 +155,23 @@ const collapsibleListStyles = (show: boolean) => css`
     // }
 `;
 
+const buttonContainerStyles = css`
+    margin-top: 20px;
+`;
+
+// const buttonStyles = css`
+//     border: 1px solid red;
+//     /* &:focus { // This rule gets overwridden when the focus attribute is applied
+//         outline: none;
+//         box-shadow: 0;
+//     } */
+// `;
+
+// const buttonWithMarginStyles = css`
+//     ${buttonStyles};
+//     margin-left: 12px;
+// `;
+
 interface State {
     showInfo: boolean;
     showPurposes: boolean;
@@ -179,7 +200,7 @@ class Banner extends Component<Props, State> {
 
     public render(): React.ReactNode {
         const { showInfo, showPurposes } = this.state;
-        const { onSave, onOptionsClick, iabPurposes } = this.props;
+        const { onOptionsClick } = this.props;
 
         return (
             <FontsContext.Consumer>
@@ -254,27 +275,43 @@ class Banner extends Component<Props, State> {
                                 <ul css={collapsibleListStyles(showPurposes)}>
                                     {this.renderPurposeList()}
                                 </ul>
-                                <div>
+                                <div css={buttonContainerStyles}>
+                                    <CmpButton
+                                        priority="primary"
+                                        onClick={() => {
+                                            this.enableAll();
+                                        }}
+                                    >
+                                        I&apos;m OK with that
+                                    </CmpButton>
+                                    <CmpButton
+                                        priority="secondary"
+                                        onClick={onOptionsClick}
+                                    >
+                                        Options
+                                    </CmpButton>
                                     {/* <Button
                                         priority="primary"
                                         size="default"
-                                        // icon={<SvgCheckmark />}
-                                        // iconSide="left"
+                                        icon={<SvgCheckmark />}
+                                        iconSide="left"
+                                        css={buttonStyles}
                                         onClick={() => {
-                                            alert('Thanks for clicking');
+                                            this.enableAll();
                                         }}
                                     >
-                                        I`&apos;`m OK with that
-                                    </Button> */}
+                                        I&apos;m OK with that
+                                    </Button>
                                     <Button
                                         priority="secondary"
                                         size="default"
+                                        css={buttonWithMarginStyles}
                                         onClick={() => {
-                                            alert('Thanks for clicking');
+                                            onOptionsClick();
                                         }}
                                     >
                                         Options
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         </div>

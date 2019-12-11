@@ -24,6 +24,7 @@ import {
     // getConsentState,
     // setConsentState,
     getVendorList,
+    setConsentState,
     // getVariant,
 } from '../store';
 import { Banner } from './Banner';
@@ -39,6 +40,7 @@ interface Props {
     variant?: string;
     fontFamilies?: FontsContextInterface;
 }
+
 class ConsentManagementPlatform extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -72,26 +74,24 @@ class ConsentManagementPlatform extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        const { parsedIabVendorList } = this.state;
-        const { fontFamilies } = this.props;
-        // const { mode } = this.state;
+        const { mode, parsedIabVendorList } = this.state;
+        const { onClose, fontFamilies } = this.props;
 
-        // const bannerMode = mode === 'banner';
+        const bannerMode = mode === 'banner';
 
         return (
             <FontsContext.Provider
                 value={fontFamilies || DEFAULT_FONT_FAMILIES}
             >
-                {parsedIabVendorList && (
+                {parsedIabVendorList && bannerMode && (
                     <Banner
                         guPurposes={[]}
                         iabPurposes={parsedIabVendorList.purposes}
                         onSave={(guState, iabState) => {
-                            console.log('Saved', guState, iabState);
+                            setConsentState(guState, iabState);
+                            onClose();
                         }}
-                        onOptionsClick={() => {
-                            console.log('Options clicked');
-                        }}
+                        onOptionsClick={() => this.setState({ mode: 'modal' })}
                     />
                 )}
             </FontsContext.Provider>
