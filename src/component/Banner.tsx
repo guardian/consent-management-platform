@@ -185,10 +185,6 @@ interface Props {
 }
 
 class Banner extends Component<Props, State> {
-    private guPurposesAllEnable?: GuPurposeState;
-
-    private iabPurposesAllEnable?: IabPurposeState;
-
     constructor(props: Props) {
         super(props);
 
@@ -209,9 +205,9 @@ class Banner extends Component<Props, State> {
                         <div css={outerContainerStyles}>
                             {/* <div className="roundel"></div> */}
                             <div css={contentContainerStyles(bodySerif)}>
-                                <h2 css={headlineStyles(headlineSerif)}>
+                                <h1 css={headlineStyles(headlineSerif)}>
                                     Your privacy
-                                </h2>
+                                </h1>
                                 <p>
                                     We use cookies to improve your experience on
                                     our site and to show you personalised

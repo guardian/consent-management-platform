@@ -28,6 +28,7 @@ import {
     // getVariant,
 } from '../store';
 import { Banner } from './Banner';
+import { Modal } from './Modal';
 
 interface State {
     parsedIabVendorList?: ParsedIabVendorList;
@@ -92,6 +93,17 @@ class ConsentManagementPlatform extends Component<Props, State> {
                             onClose();
                         }}
                         onOptionsClick={() => this.setState({ mode: 'modal' })}
+                    />
+                )}
+                {parsedIabVendorList && !bannerMode && (
+                    <Modal
+                        guPurposes={[]}
+                        parsedVendorList={parsedIabVendorList}
+                        onSave={(guState, iabState) => {
+                            setConsentState(guState, iabState);
+                            onClose();
+                        }}
+                        onCancel={() => this.setState({ mode: 'banner' })}
                     />
                 )}
             </FontsContext.Provider>

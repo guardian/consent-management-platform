@@ -12,8 +12,8 @@ const collapseItemButtonStyles = (collapsed: boolean) => css`
     position: relative;
     width: 20px;
     height: 20px;
-    margin-top: 3px;
     margin-right: 3px;
+    margin-left: -3px;
     > * {
         pointer-events: none;
     }
@@ -21,7 +21,7 @@ const collapseItemButtonStyles = (collapsed: boolean) => css`
         position: absolute;
         top: ${collapsed ? '7px' : '5px'};
         left: 6px;
-        border: 2px solid ${palette.yellow.dark};
+        border: 2px solid ${palette.brandYellow.main};
         border-top: 0;
         border-left: 0;
         content: '';
