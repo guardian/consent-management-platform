@@ -20,6 +20,7 @@ import { IabPurposes } from './IabPurposes';
 const SCROLLABLE_ID = 'scrollable';
 const smallSpace = space[2]; // 12px
 const mediumSpace = smallSpace + smallSpace / 3; // 16px
+const headerHeight = 55;
 
 const overlayContainerStyles = css`
     position: fixed;
@@ -38,28 +39,55 @@ const modalStyles = css`
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
+    color: ${palette.neutral[100]};
+    background-color: ${palette.neutral[20]};
+    overflow: hidden;
     height: 95%;
     max-height: 600px;
     width: 95%;
     max-width: 620px;
-
-    color: ${palette.neutral[100]};
-    background-color: ${palette.neutral[20]};
-    overflow: hidden;
-
+    display: flex;
+    flex-direction: column;
     ${from.mobileLandscape} {
         max-height: 450px;
     }
 `;
 
-const headlineStyles = (headlineSerif: string) => css`
+const headerStyles = css`
+    padding: 8px 8px 12px 8px;
+    ${from.mobileLandscape} {
+        padding: 8px 10px 12px 10px;
+    }
+    background-color: ${palette.neutral[20]};
+    width: 100%;
+    border-bottom: 1px solid ${palette.neutral[60]};
+`;
+
+const primaryHeadlineStyles = (headlineSerif: string) => css`
     font-size: ${headlineSizes.small}rem;
 
     ${from.leftCol} {
         font-size: ${headlineSizes.medium}rem;
     }
 
-    ${headlineSerif};
+    font-family: ${headlineSerif};
+`;
+
+const copyContainerStyles = (bodySerif: string) => css`
+    padding: 8px 8px 12px 8px;
+    ${from.mobileLandscape} {
+        padding: 8px 10px 12px 10px;
+    }
+    font-family: ${bodySerif};
+
+    h2 {
+        font-size: ${headlineSizes.xxxsmall}rem;
+        line-height: 1.35rem;
+
+        ${from.leftCol} {
+            font-size: ${headlineSizes.xxsmall}rem;
+        }
+    }
 `;
 
 const scrollableAreaStyles = (scrollbarWidth: number) => css`
@@ -74,26 +102,26 @@ const formStyles = (scrollbarWidth: number) => css`
     margin-right: -${scrollbarWidth}px;
 `;
 
-const listStyles = css`
-    margin: 0;
-    list-style: none;
-`;
+// const listStyles = css`
+//     margin: 0;
+//     list-style: none;
+// `;
 
-const buttonContainerStyles = css`
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    float: right;
-    background-color: ${palette.neutral[20]};
-    padding: 12px;
+// const buttonContainerStyles = css`
+//     position: sticky;
+//     bottom: 0;
+//     width: 100%;
+//     float: right;
+//     background-color: ${palette.neutral[20]};
+//     padding: 12px;
 
-    padding: ${smallSpace / 2}px ${smallSpace}px ${smallSpace}px ${smallSpace}px;
+//     padding: ${smallSpace / 2}px ${smallSpace}px ${smallSpace}px ${smallSpace}px;
 
-    ${from.mobileLandscape} {
-        padding: ${smallSpace / 2}px ${mediumSpace}px ${smallSpace}px
-            ${mediumSpace}px;
-    }
-`;
+//     ${from.mobileLandscape} {
+//         padding: ${smallSpace / 2}px ${mediumSpace}px ${smallSpace}px
+//             ${mediumSpace}px;
+//     }
+// `;
 
 interface State {
     guState: GuPurposeState;
@@ -134,17 +162,25 @@ class Modal extends Component<Props, State> {
 
         return (
             <FontsContext.Consumer>
-                {({ headlineSerif }: FontsContextInterface) => (
+                {({ headlineSerif, bodySerif }: FontsContextInterface) => (
                     <>
                         <div css={overlayContainerStyles}></div>
                         <div css={modalStyles}>
+                            <div css={headerStyles}>
+                                <h1 css={primaryHeadlineStyles(headlineSerif)}>
+                                    Your privacy options
+                                </h1>
+                            </div>
                             <div
                                 id={SCROLLABLE_ID}
                                 css={scrollableAreaStyles(scrollbarWidth)}
                             >
-                                <h1 css={headlineStyles(headlineSerif)}>
-                                    Your privacy options
-                                </h1>
+                                <div css={copyContainerStyles(bodySerif)}>
+                                    <h2>
+                                        Please review and manage your data and
+                                        privacy settings below.
+                                    </h2>
+                                </div>
                                 <form css={formStyles(scrollbarWidth)}>
                                     <IabPurposes
                                         iabPurposes={parsedVendorList.purposes}
@@ -168,7 +204,7 @@ class Modal extends Component<Props, State> {
                                     <Vendors
                                         vendors={parsedVendorList.vendors}
                                     />
-                                    <div css={buttonContainerStyles}>
+                                    {/* <div css={buttonContainerStyles}>
                                         <CmpButton
                                             priority="primary"
                                             onClick={() => {
@@ -189,7 +225,7 @@ class Modal extends Component<Props, State> {
                                         >
                                             Save and continue
                                         </CmpButton>
-                                    </div>
+                                    </div> */}
                                 </form>
                             </div>
                         </div>

@@ -105,7 +105,7 @@ const headlineStyles = (headlineSerif: string) => css`
         font-size: ${headlineSizes.medium}rem;
     }
 
-    ${headlineSerif};
+    font-family: ${headlineSerif};
 `;
 
 const collapsibleButtonStyles = (show: boolean) => css`

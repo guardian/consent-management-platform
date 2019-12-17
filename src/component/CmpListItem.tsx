@@ -10,7 +10,7 @@ const mediumSpace = smallSpace + smallSpace / 3; // 16px
 
 const itemContainerStyles = (isNested: boolean) => css`
     margin-top: 6px;
-    border-top: ${isNested ? '0' : `1px solid ${palette.brand.pastel}`};
+    border-top: ${isNested ? '0' : `1px solid ${palette.neutral[60]}`};
     padding: ${isNested ? '0' : `10px ${smallSpace}px 6px ${smallSpace}px`};
     ${from.mobileLandscape} {
         padding: ${isNested
