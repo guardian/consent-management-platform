@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
-// import { Button } from '@guardian/src-button/';
-// import { SvgCheckmark } from '@guardian/src-svgs';
+import { Button } from '@guardian/src-button/';
+import { SvgCheckmark } from '@guardian/src-svgs';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes, body } from '@guardian/src-foundations/typography';
+import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import {
     FontsContextInterface,
     GuPurpose,
@@ -13,7 +14,10 @@ import {
     IabPurposeState,
 } from '../types';
 import { FontsContext } from './FontsContext';
-import { CmpButton } from './CmpButton';
+import { Roundel } from './svgs/Roundel';
+
+const INFO_LIST_ID = 'cmpInfoList';
+const PURPOSE_LIST_ID = 'cmpPurposeList';
 
 const gutterWidth = 20;
 const columnWidth = 60;
@@ -143,35 +147,57 @@ const collapsibleListStyles = (show: boolean) => css`
     overflow-y: hidden;
     padding-left: 36px;
     list-style-position: outside;
-
-    // &::after {
-    //     content: '';
-    //     height: 8px;
-    //     display: block;
-    // }
-
-    // li {
-    //     padding-top: 4px;
-    // }
 `;
 
 const buttonContainerStyles = css`
     margin-top: 20px;
 `;
 
-// const buttonStyles = css`
-//     border: 1px solid red;
-//     /* &:focus { // This rule gets overwridden when the focus attribute is applied
-//         outline: none;
-//         box-shadow: 0;
-//     } */
-// `;
+const primaryButtonStyles = css`
+    color: ${palette.neutral[7]};
+    background-color: ${palette.brandYellow.main};
 
-// const buttonWithMarginStyles = css`
-//     ${buttonStyles};
-//     margin-left: 12px;
-// `;
+    :hover {
+        background-color: ${palette.brandYellow.main};
+    }
+`;
 
+const secondaryButtonStyles = css`
+    color: ${palette.neutral[100]};
+    background-color: ${palette.neutral[46]};
+
+    :hover {
+        background-color: ${palette.neutral[46]};
+    }
+
+    margin-left: 12px;
+`;
+
+const roundelContainerStyles = css`
+    position: absolute;
+    padding: 0;
+    width: auto;
+    height: auto;
+    display: none;
+
+    svg {
+        width: 36px;
+        height: 36px;
+        display: block;
+    }
+
+    ${from.leftCol} {
+        top: 12px;
+        left: ${gutterWidth}px;
+        right: auto;
+        bottom: auto;
+        display: block;
+    }
+`;
+
+const visuallyHiddenStyles = css`
+    ${visuallyHidden};
+`;
 interface State {
     showInfo: boolean;
     showPurposes: boolean;
@@ -203,7 +229,9 @@ class Banner extends Component<Props, State> {
                 {({ headlineSerif, bodySerif }: FontsContextInterface) => (
                     <div css={bannerStyles}>
                         <div css={outerContainerStyles}>
-                            {/* <div className="roundel"></div> */}
+                            <div css={roundelContainerStyles}>
+                                <Roundel />
+                            </div>
                             <div css={contentContainerStyles(bodySerif)}>
                                 <h1 css={headlineStyles(headlineSerif)}>
                                     Your privacy
@@ -237,10 +265,16 @@ class Banner extends Component<Props, State> {
                                             showInfo: !showInfo,
                                         });
                                     }}
+                                    aria-expanded={showInfo}
+                                    aria-controls={INFO_LIST_ID}
                                 >
+                                    <span css={visuallyHiddenStyles}>Show</span>{' '}
                                     Information that may be used
                                 </button>
-                                <ul css={collapsibleListStyles(showInfo)}>
+                                <ul
+                                    id={INFO_LIST_ID}
+                                    css={collapsibleListStyles(showInfo)}
+                                >
                                     <li>Type of browser and its settings</li>
                                     <li>Cookie information</li>
                                     <li>
@@ -265,33 +299,25 @@ class Banner extends Component<Props, State> {
                                             showPurposes: !showPurposes,
                                         });
                                     }}
+                                    aria-expanded={showPurposes}
+                                    aria-controls={PURPOSE_LIST_ID}
                                 >
+                                    <span css={visuallyHiddenStyles}>Show</span>{' '}
                                     Purposes
                                 </button>
-                                <ul css={collapsibleListStyles(showPurposes)}>
+                                <ul
+                                    id={PURPOSE_LIST_ID}
+                                    css={collapsibleListStyles(showPurposes)}
+                                >
                                     {this.renderPurposeList()}
                                 </ul>
                                 <div css={buttonContainerStyles}>
-                                    <CmpButton
-                                        priority="primary"
-                                        onClick={() => {
-                                            this.enableAll();
-                                        }}
-                                    >
-                                        I&apos;m OK with that
-                                    </CmpButton>
-                                    <CmpButton
-                                        priority="secondary"
-                                        onClick={onOptionsClick}
-                                    >
-                                        Options
-                                    </CmpButton>
-                                    {/* <Button
+                                    <Button
                                         priority="primary"
                                         size="default"
                                         icon={<SvgCheckmark />}
                                         iconSide="left"
-                                        css={buttonStyles}
+                                        css={primaryButtonStyles}
                                         onClick={() => {
                                             this.enableAll();
                                         }}
@@ -301,13 +327,13 @@ class Banner extends Component<Props, State> {
                                     <Button
                                         priority="secondary"
                                         size="default"
-                                        css={buttonWithMarginStyles}
+                                        css={secondaryButtonStyles}
                                         onClick={() => {
                                             onOptionsClick();
                                         }}
                                     >
                                         Options
-                                    </Button> */}
+                                    </Button>
                                 </div>
                             </div>
                         </div>
