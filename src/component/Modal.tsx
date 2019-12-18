@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { css } from '@emotion/core';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { headlineSizes } from '@guardian/src-foundations/typography';
+import { headlineSizes, bodySizes } from '@guardian/src-foundations/typography';
+import { Button } from '@guardian/src-button/';
+import { SvgArrowRightStraight } from '@guardian/src-svgs';
 import { Features } from './Features';
 import { Vendors } from './Vendors';
 import { FontsContext } from './FontsContext';
-import { CmpButton } from './CmpButton';
 import { getConsentState } from '../store';
 import {
-    GuPurpose,
     GuPurposeState,
     ParsedIabVendorList,
     IabPurposeState,
@@ -20,7 +20,6 @@ import { IabPurposes } from './IabPurposes';
 const SCROLLABLE_ID = 'scrollable';
 const smallSpace = space[2]; // 12px
 const mediumSpace = smallSpace + smallSpace / 3; // 16px
-const headerHeight = 55;
 
 const overlayContainerStyles = css`
     position: fixed;
@@ -51,6 +50,12 @@ const modalStyles = css`
     ${from.mobileLandscape} {
         max-height: 450px;
     }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+        color: ${palette.neutral[100]};
+    }
 `;
 
 const headerStyles = css`
@@ -73,18 +78,20 @@ const primaryHeadlineStyles = (headlineSerif: string) => css`
     font-family: ${headlineSerif};
 `;
 
-const copyContainerStyles = (bodySerif: string) => css`
+const copyContainerStyles = (headlineSerif: string) => css`
     padding: 8px 8px 12px 8px;
+
     ${from.mobileLandscape} {
         padding: 8px 10px 12px 10px;
     }
-    font-family: ${bodySerif};
+
+    font-family: ${headlineSerif};
 
     h2 {
         font-size: ${headlineSizes.xxxsmall}rem;
         line-height: 1.35rem;
 
-        ${from.leftCol} {
+        ${from.phablet} {
             font-size: ${headlineSizes.xxsmall}rem;
         }
     }
@@ -102,26 +109,59 @@ const formStyles = (scrollbarWidth: number) => css`
     margin-right: -${scrollbarWidth}px;
 `;
 
-// const listStyles = css`
-//     margin: 0;
-//     list-style: none;
-// `;
+const buttonContainerStyles = (bodySerif: string) => css`
+    position: sticky;
+    bottom: 0;
+    padding: 8px 8px 12px 8px;
+    border-top: 1px solid ${palette.neutral[60]};
+    z-index: 100;
 
-// const buttonContainerStyles = css`
-//     position: sticky;
-//     bottom: 0;
-//     width: 100%;
-//     float: right;
-//     background-color: ${palette.neutral[20]};
-//     padding: 12px;
+    ${from.mobileLandscape} {
+        padding: 8px 10px 12px 10px;
+    }
 
-//     padding: ${smallSpace / 2}px ${smallSpace}px ${smallSpace}px ${smallSpace}px;
+    p {
+        font-family: ${bodySerif};
+        font-size: ${bodySizes.small}rem;
+        line-height: 1.35rem;
+        font-weight: 700;
+    }
 
-//     ${from.mobileLandscape} {
-//         padding: ${smallSpace / 2}px ${mediumSpace}px ${smallSpace}px
-//             ${mediumSpace}px;
-//     }
-// `;
+    ::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0.95;
+        background-color: ${palette.neutral[20]};
+        z-index: -1;
+    }
+`;
+
+const primaryButtonStyles = css`
+    color: ${palette.neutral[7]};
+    background-color: ${palette.brandYellow.main};
+
+    :hover {
+        background-color: ${palette.brandYellow.main};
+    }
+`;
+
+const validationErrorStyles = css`
+    display: block;
+    background-color: ${palette.news.bright};
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    padding: 4px 8px 6px 8px;
+
+    ${from.mobileLandscape} {
+        padding: 4px 10px 6px 10px;
+    }
+`;
 
 interface State {
     guState: GuPurposeState;
@@ -131,10 +171,11 @@ interface State {
 }
 
 interface Props {
-    guPurposes: GuPurpose[];
+    privacyPolicyUrl: string;
     parsedVendorList: ParsedIabVendorList;
-    onSave: (guState: GuPurposeState, iabState: IabPurposeState) => void;
-    onCancel: () => void;
+    onSaveAndCloseClick: (iabState: IabPurposeState) => void;
+    onEnableAllAndCloseClick: () => void;
+    onCancelClick: () => void;
 }
 
 class Modal extends Component<Props, State> {
@@ -157,7 +198,7 @@ class Modal extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        const { parsedVendorList } = this.props;
+        const { parsedVendorList, privacyPolicyUrl } = this.props;
         const { iabState, iabNullResponses, scrollbarWidth } = this.state;
 
         return (
@@ -175,7 +216,7 @@ class Modal extends Component<Props, State> {
                                 id={SCROLLABLE_ID}
                                 css={scrollableAreaStyles(scrollbarWidth)}
                             >
-                                <div css={copyContainerStyles(bodySerif)}>
+                                <div css={copyContainerStyles(headlineSerif)}>
                                     <h2>
                                         Please review and manage your data and
                                         privacy settings below.
@@ -204,28 +245,73 @@ class Modal extends Component<Props, State> {
                                     <Vendors
                                         vendors={parsedVendorList.vendors}
                                     />
-                                    {/* <div css={buttonContainerStyles}>
-                                        <CmpButton
-                                            priority="primary"
-                                            onClick={() => {
-                                                console.log(
-                                                    '***** enabled all',
-                                                );
-                                                // this.enableAll();
-                                            }}
+                                    <div css={buttonContainerStyles(bodySerif)}>
+                                        {!!(
+                                            iabNullResponses &&
+                                            iabNullResponses.length
+                                        ) && (
+                                            <div
+                                                role="alert"
+                                                css={validationErrorStyles}
+                                            >
+                                                <p>
+                                                    Please set all privacy
+                                                    options to continue.
+                                                </p>
+                                            </div>
+                                        )}
+                                        <p>
+                                            You can change the above settings
+                                            for this browser at any time by
+                                            accessing our{' '}
+                                            <a
+                                                href={privacyPolicyUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                privacy policy
+                                            </a>
+                                            .
+                                        </p>
+                                        <div
+                                            css={css`
+                                                display: flex;
+                                                justify-content: flex-end;
+                                            `}
                                         >
-                                            Enable all and close
-                                        </CmpButton>
-                                        <CmpButton
-                                            priority="primary"
-                                            onClick={() => {
-                                                console.log('***** save');
-                                                // this.save();
-                                            }}
-                                        >
-                                            Save and continue
-                                        </CmpButton>
-                                    </div> */}
+                                            <Button
+                                                priority="primary"
+                                                size="default"
+                                                icon={<SvgArrowRightStraight />}
+                                                iconSide="right"
+                                                css={primaryButtonStyles}
+                                                onClick={() => {
+                                                    const {
+                                                        onEnableAllAndCloseClick,
+                                                    } = this.props;
+
+                                                    onEnableAllAndCloseClick();
+                                                }}
+                                            >
+                                                Enable all
+                                            </Button>
+                                            <Button
+                                                priority="primary"
+                                                size="default"
+                                                icon={<SvgArrowRightStraight />}
+                                                iconSide="right"
+                                                css={css`
+                                                    margin-left: 12px;
+                                                    ${primaryButtonStyles};
+                                                `}
+                                                onClick={() => {
+                                                    this.saveAndCloseClick();
+                                                }}
+                                            >
+                                                Save
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -233,6 +319,23 @@ class Modal extends Component<Props, State> {
                 )}
             </FontsContext.Consumer>
         );
+    }
+
+    private saveAndCloseClick(): void {
+        const { onSaveAndCloseClick } = this.props;
+        const { iabState } = this.state;
+
+        const iabNullResponses: number[] = Object.keys(iabState)
+            .filter(key => iabState[parseInt(key, 10)] === null)
+            .map(key => parseInt(key, 10));
+
+        if (iabNullResponses.length > 0) {
+            this.setState({
+                iabNullResponses,
+            });
+        } else {
+            onSaveAndCloseClick(iabState);
+        }
     }
 
     private updateIabState(purposeId: number, value: boolean): void {

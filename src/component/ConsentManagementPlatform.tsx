@@ -10,9 +10,10 @@ import {
     DEFAULT_FONT_FAMILIES,
 } from './utils/config';
 import {
+    GuPurposeList,
     IabFeature,
     IabPurpose,
-    // IabPurposeState,
+    IabPurposeState,
     IabVendor,
     IabVendorList,
     FontsContextInterface,
@@ -24,13 +25,17 @@ import {
     // getConsentState,
     // setConsentState,
     getVendorList,
+    getGuPurposeList,
     setConsentState,
     // getVariant,
 } from '../store';
 import { Banner } from './Banner';
 import { Modal } from './Modal';
 
+const privacyPolicyUrl = 'https://www.theguardian.com/help/privacy-policy';
+const cookiePolicyUrl = 'https://www.theguardian.com/info/cookies';
 interface State {
+    guPurposeList: GuPurposeList;
     parsedIabVendorList?: ParsedIabVendorList;
     mode: 'banner' | 'modal';
 }
@@ -48,6 +53,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
 
         this.state = {
             mode: 'banner',
+            guPurposeList: getGuPurposeList(),
         };
 
         if (props.source) {
@@ -76,7 +82,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
 
     public render(): React.ReactNode {
         const { mode, parsedIabVendorList } = this.state;
-        const { onClose, fontFamilies } = this.props;
+        const { fontFamilies } = this.props;
 
         const bannerMode = mode === 'banner';
 
@@ -86,28 +92,74 @@ class ConsentManagementPlatform extends Component<Props, State> {
             >
                 {parsedIabVendorList && bannerMode && (
                     <Banner
-                        guPurposes={[]}
+                        privacyPolicyUrl={privacyPolicyUrl}
+                        cookiePolicyUrl={cookiePolicyUrl}
                         iabPurposes={parsedIabVendorList.purposes}
-                        onSave={(guState, iabState) => {
-                            setConsentState(guState, iabState);
-                            onClose();
+                        onEnableAllAndCloseClick={() => {
+                            this.enableAllAndClose();
                         }}
                         onOptionsClick={() => this.setState({ mode: 'modal' })}
                     />
                 )}
                 {parsedIabVendorList && !bannerMode && (
                     <Modal
-                        guPurposes={[]}
+                        privacyPolicyUrl={privacyPolicyUrl}
                         parsedVendorList={parsedIabVendorList}
-                        onSave={(guState, iabState) => {
-                            setConsentState(guState, iabState);
-                            onClose();
+                        onSaveAndCloseClick={(iabState: IabPurposeState) => {
+                            this.saveAndCloseClick(iabState);
                         }}
-                        onCancel={() => this.setState({ mode: 'banner' })}
+                        onEnableAllAndCloseClick={() => {
+                            this.enableAllAndClose();
+                        }}
+                        onCancelClick={() => this.setState({ mode: 'banner' })}
                     />
                 )}
             </FontsContext.Provider>
         );
+    }
+
+    private saveAndCloseClick(iabState: IabPurposeState): void {
+        const { onClose } = this.props;
+        const { guPurposeList } = this.state;
+
+        /**
+         * TODO: Once PECR  Purposes introduced to UI
+         * remove this guPurposesAllEnable and use actual choices
+         * made by user as we do with iabState.
+         * */
+        const guPurposesAllEnable = guPurposeList.purposes.reduce(
+            (acc, guPurpose) => ({
+                ...acc,
+                [guPurpose.id]: true,
+            }),
+            {},
+        );
+
+        setConsentState(guPurposesAllEnable, iabState);
+
+        onClose();
+    }
+
+    private enableAllAndClose(): void {
+        const { onClose } = this.props;
+        const { parsedIabVendorList, guPurposeList } = this.state;
+
+        if (!parsedIabVendorList) {
+            return;
+        }
+
+        const guPurposesAllEnable = guPurposeList.purposes.reduce(
+            (acc, guPurpose) => ({ ...acc, [guPurpose.id]: true }),
+            {},
+        );
+
+        const iabPurposesAllEnable = Object.keys(
+            parsedIabVendorList.purposes,
+        ).reduce((acc, key) => ({ ...acc, [key]: true }), {});
+
+        setConsentState(guPurposesAllEnable, iabPurposesAllEnable);
+
+        onClose();
     }
 }
 

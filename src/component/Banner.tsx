@@ -6,13 +6,7 @@ import { SvgCheckmark } from '@guardian/src-svgs';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes, body } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
-import {
-    FontsContextInterface,
-    GuPurpose,
-    GuPurposeState,
-    IabPurpose,
-    IabPurposeState,
-} from '../types';
+import { FontsContextInterface, IabPurpose } from '../types';
 import { FontsContext } from './FontsContext';
 import { Roundel } from './svgs/Roundel';
 
@@ -204,9 +198,10 @@ interface State {
 }
 
 interface Props {
-    guPurposes: GuPurpose[];
+    privacyPolicyUrl: string;
+    cookiePolicyUrl: string;
     iabPurposes: IabPurpose[];
-    onSave: (guState: GuPurposeState, iabState: IabPurposeState) => void;
+    onEnableAllAndCloseClick: () => void;
     onOptionsClick: () => void;
 }
 
@@ -222,7 +217,11 @@ class Banner extends Component<Props, State> {
 
     public render(): React.ReactNode {
         const { showInfo, showPurposes } = this.state;
-        const { onOptionsClick } = this.props;
+        const {
+            onOptionsClick,
+            privacyPolicyUrl,
+            cookiePolicyUrl,
+        } = this.props;
 
         return (
             <FontsContext.Consumer>
@@ -245,14 +244,14 @@ class Banner extends Component<Props, State> {
                                     To find out more, read our{' '}
                                     <a
                                         data-link-name="first-pv-consent : to-privacy"
-                                        href="https://www.theguardian.com/help/privacy-policy"
+                                        href={privacyPolicyUrl}
                                     >
                                         privacy policy
                                     </a>{' '}
                                     and{' '}
                                     <a
                                         data-link-name="first-pv-consent : to-cookies"
-                                        href="https://www.theguardian.com/info/cookies"
+                                        href={cookiePolicyUrl}
                                     >
                                         cookie policy
                                     </a>
@@ -319,7 +318,11 @@ class Banner extends Component<Props, State> {
                                         iconSide="left"
                                         css={primaryButtonStyles}
                                         onClick={() => {
-                                            this.enableAll();
+                                            const {
+                                                onEnableAllAndCloseClick,
+                                            } = this.props;
+
+                                            onEnableAllAndCloseClick();
                                         }}
                                     >
                                         I&apos;m OK with that
@@ -351,22 +354,6 @@ class Banner extends Component<Props, State> {
                 return <li key={`iabPurpose${purpose.id}`}>{purpose.name}</li>;
             },
         );
-    }
-
-    private enableAll() {
-        const { onSave } = this.props;
-
-        const guPurposesAllEnable = Object.keys(this.props.guPurposes).reduce(
-            (acc, key) => ({ ...acc, [key]: true }),
-            {},
-        );
-
-        const iabPurposesAllEnable = Object.keys(this.props.iabPurposes).reduce(
-            (acc, key) => ({ ...acc, [key]: true }),
-            {},
-        );
-
-        onSave(guPurposesAllEnable, iabPurposesAllEnable);
     }
 }
 
