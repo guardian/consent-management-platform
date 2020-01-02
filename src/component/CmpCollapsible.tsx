@@ -95,7 +95,7 @@ export class CmpCollapsible extends Component<Props, State> {
                             )}
                         </div>
                         <div css={panelStyles(collapsed, bodySans)}>
-                            {children}
+                            {collapsed && children}
                         </div>
                     </>
                 )}

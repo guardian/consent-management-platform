@@ -18,8 +18,6 @@ import {
 import { IabPurposes } from './IabPurposes';
 
 const SCROLLABLE_ID = 'scrollable';
-const smallSpace = space[2]; // 12px
-const mediumSpace = smallSpace + smallSpace / 3; // 16px
 
 const overlayContainerStyles = css`
     position: fixed;
@@ -59,10 +57,12 @@ const modalStyles = css`
 `;
 
 const headerStyles = css`
-    padding: 8px 8px 12px 8px;
+    padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
+
     ${from.mobileLandscape} {
-        padding: 8px 10px 12px 10px;
+        padding: ${space[2]}px 10px ${space[3]}px 10px;
     }
+
     background-color: ${palette.neutral[20]};
     width: 100%;
     border-bottom: 1px solid ${palette.neutral[60]};
@@ -79,10 +79,10 @@ const primaryHeadlineStyles = (headlineSerif: string) => css`
 `;
 
 const copyContainerStyles = (headlineSerif: string) => css`
-    padding: 8px 8px 12px 8px;
+    padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
 
     ${from.mobileLandscape} {
-        padding: 8px 10px 12px 10px;
+        padding: ${space[2]}px 10px ${space[3]}px 10px;
     }
 
     font-family: ${headlineSerif};
@@ -112,12 +112,12 @@ const formStyles = (scrollbarWidth: number) => css`
 const buttonContainerStyles = (bodySerif: string) => css`
     position: sticky;
     bottom: 0;
-    padding: 8px 8px 12px 8px;
     border-top: 1px solid ${palette.neutral[60]};
     z-index: 100;
+    padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
 
     ${from.mobileLandscape} {
-        padding: 8px 10px 12px 10px;
+        padding: ${space[2]}px 10px ${space[3]}px 10px;
     }
 
     p {
@@ -156,10 +156,10 @@ const validationErrorStyles = css`
     left: 0;
     right: 0;
     bottom: 100%;
-    padding: 4px 8px 6px 8px;
+    padding: ${space[1]}px ${space[2]}px ${space[1]}px ${space[2]}px;
 
     ${from.mobileLandscape} {
-        padding: 4px 10px 6px 10px;
+        padding: ${space[1]}px 10px ${space[1]}px 10px;
     }
 `;
 
