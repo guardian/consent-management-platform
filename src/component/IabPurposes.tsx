@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import { palette } from '@guardian/src-foundations';
 import { CmpListItem } from './CmpListItem';
 import { IabPurpose, IabPurposeState } from '../types';
 
@@ -13,6 +14,7 @@ interface Props {
 const cmpListStyles = css`
     margin: 0;
     list-style: none;
+    background-color: ${palette.neutral[86]};
 `;
 
 export const IabPurposes = (props: Props) => {

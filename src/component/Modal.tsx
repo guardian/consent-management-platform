@@ -36,8 +36,8 @@ const modalStyles = css`
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    color: ${palette.neutral[100]};
-    background-color: ${palette.neutral[20]};
+    color: ${palette.neutral[7]};
+    background-color: ${palette.neutral[100]};
     overflow: hidden;
     height: 95%;
     max-height: 600px;
@@ -52,20 +52,21 @@ const modalStyles = css`
     a,
     a:visited {
         text-decoration: underline;
-        color: ${palette.neutral[100]};
+        color: ${palette.neutral[7]};
     }
 `;
 
 const headerStyles = css`
+    color: ${palette.neutral[100]};
+    background-color: ${palette.neutral[20]};
+    width: 100%;
+    border-bottom: 1px solid ${palette.neutral[60]};
     padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
+    box-sizing: border-box;
 
     ${from.mobileLandscape} {
         padding: ${space[2]}px 10px ${space[3]}px 10px;
     }
-
-    background-color: ${palette.neutral[20]};
-    width: 100%;
-    border-bottom: 1px solid ${palette.neutral[60]};
 `;
 
 const primaryHeadlineStyles = (headlineSerif: string) => css`
@@ -115,6 +116,13 @@ const buttonContainerStyles = (bodySerif: string) => css`
     border-top: 1px solid ${palette.neutral[60]};
     z-index: 100;
     padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
+    color: ${palette.neutral[100]};
+    box-sizing: border-box;
+
+    a,
+    a:visited {
+        color: ${palette.neutral[100]};
+    }
 
     ${from.mobileLandscape} {
         padding: ${space[2]}px 10px ${space[3]}px 10px;

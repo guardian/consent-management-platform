@@ -26,23 +26,21 @@ const errorStyles = css`
 `;
 
 const radioInputStyles = css`
-    color: ${palette.brand.pastel};
     @supports (appearance: none) {
         appearance: none;
         outline: 0;
-        color: inherit;
         box-sizing: border-box;
         display: inline-block;
         width: ${size.small}px;
         height: ${size.small}px;
         margin: 0 ${space[1]}px 0 0;
-        border: 2px solid currentColor;
+        border: 2px solid ${palette.neutral[60]};
         border-radius: 50%;
         position: relative;
         transition: box-shadow ${transitions.short};
         transition-delay: 0.08s;
         :after {
-            background: currentColor;
+            background-color: ${palette.neutral[60]};
             position: absolute;
             content: '';
             top: 0;
@@ -55,15 +53,15 @@ const radioInputStyles = css`
             transition: transform ${transitions.short};
         }
         :checked {
-            color: ${palette.neutral[100]};
             &:after {
                 transform: scale(0.6);
             }
         }
         :disabled {
-            color: ${palette.brand.pastel};
             &:checked {
-                color: ${palette.brand.pastel};
+                :after {
+                    background-color: ${palette.brand.pastel};
+                }
             }
             border-color: ${palette.brand.pastel};
         }
@@ -81,10 +79,9 @@ const radioLabelStyles = (disabled: boolean) => css`
         margin-bottom: 0;
     }
     height: fit-content;
-
     :hover {
         input:not([disabled]) {
-            border-color: ${palette.neutral[100]};
+            color: ${palette.neutral[60]}; // TODO: should this change color?
         }
     }
 `;
@@ -92,7 +89,7 @@ const radioLabelTextStyles = (disabled: boolean, bodySans: string) => css`
     position: relative;
     font-family: ${bodySans};
     font-size: 17px;
-    color: ${disabled ? palette.brand.pastel : palette.neutral[100]};
+    color: ${disabled ? palette.brand.pastel : palette.neutral[7]};
 `;
 
 interface Props {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/core';
-import { palette } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
-import { headlineSizes, bodySizes } from '@guardian/src-foundations/typography';
+import { bodySizes } from '@guardian/src-foundations/typography';
 import { CollapseItemButton } from './CollapseItemButton';
 import { OnOffRadio } from './OnOffRadio';
 import { FontsContext } from './FontsContext';
@@ -12,22 +10,6 @@ const titleTabStyles = css`
     display: flex;
     cursor: pointer;
     margin-bottom: 18px;
-`;
-
-const titleContainerStyles = css`
-    flex: 1;
-`;
-
-const titleStyles = (collapsed: boolean, bodySans: string) => css`
-    font-family: ${bodySans};
-    font-size: ${headlineSizes.xxxsmall}rem;
-    line-height: 1.15rem;
-    font-weight: 700;
-    color: ${collapsed ? palette.brandYellow.main : palette.neutral[100]};
-
-    ${from.mobileLandscape} {
-        font-size: ${headlineSizes.xxsmall}rem;
-    }
 `;
 
 const panelStyles = (collapsed: boolean, bodySans: string) => css`
@@ -79,12 +61,10 @@ export class CmpCollapsible extends Component<Props, State> {
                                     this.toggleCollapsed();
                                 }}
                             >
-                                <CollapseItemButton collapsed={collapsed} />
-                                <div css={titleContainerStyles}>
-                                    <div css={titleStyles(collapsed, bodySans)}>
-                                        {title}
-                                    </div>
-                                </div>
+                                <CollapseItemButton
+                                    collapsed={collapsed}
+                                    title={title}
+                                />
                             </div>
                             {value !== undefined && (
                                 <OnOffRadio
