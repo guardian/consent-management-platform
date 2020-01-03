@@ -58,9 +58,8 @@ const modalStyles = css`
 
 const headerStyles = css`
     color: ${palette.neutral[100]};
-    background-color: ${palette.neutral[20]};
+    background-color: ${palette.brand.main};
     width: 100%;
-    border-bottom: 1px solid ${palette.neutral[60]};
     padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
     box-sizing: border-box;
 
@@ -106,17 +105,15 @@ const scrollableAreaStyles = (scrollbarWidth: number) => css`
     box-sizing: content-box;
 `;
 
-const formStyles = (scrollbarWidth: number) => css`
+const scrollableContainerStyles = (scrollbarWidth: number) => css`
     margin-right: -${scrollbarWidth}px;
+    overflow: hidden;
 `;
 
 const buttonContainerStyles = (bodySerif: string) => css`
-    position: sticky;
-    bottom: 0;
-    border-top: 1px solid ${palette.neutral[60]};
-    z-index: 100;
     padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
     color: ${palette.neutral[100]};
+    background-color: ${palette.brand.main};
     box-sizing: border-box;
 
     a,
@@ -133,18 +130,6 @@ const buttonContainerStyles = (bodySerif: string) => css`
         font-size: ${bodySizes.small}rem;
         line-height: 1.35rem;
         font-weight: 700;
-    }
-
-    ::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        opacity: 0.95;
-        background-color: ${palette.neutral[20]};
-        z-index: -1;
     }
 `;
 
@@ -221,16 +206,21 @@ class Modal extends Component<Props, State> {
                                 </h1>
                             </div>
                             <div
-                                id={SCROLLABLE_ID}
-                                css={scrollableAreaStyles(scrollbarWidth)}
+                                css={scrollableContainerStyles(scrollbarWidth)}
                             >
-                                <div css={copyContainerStyles(headlineSerif)}>
-                                    <h2>
-                                        Please review and manage your data and
-                                        privacy settings below.
-                                    </h2>
-                                </div>
-                                <form css={formStyles(scrollbarWidth)}>
+                                <div
+                                    id={SCROLLABLE_ID}
+                                    css={scrollableAreaStyles(scrollbarWidth)}
+                                >
+                                    <div
+                                        css={copyContainerStyles(headlineSerif)}
+                                    >
+                                        <h2>
+                                            Please review and manage your data
+                                            and privacy settings below.
+                                        </h2>
+                                    </div>
+
                                     <IabPurposes
                                         iabPurposes={parsedVendorList.purposes}
                                         iabState={iabState}
@@ -253,74 +243,72 @@ class Modal extends Component<Props, State> {
                                     <Vendors
                                         vendors={parsedVendorList.vendors}
                                     />
-                                    <div css={buttonContainerStyles(bodySerif)}>
-                                        {!!(
-                                            iabNullResponses &&
-                                            iabNullResponses.length
-                                        ) && (
-                                            <div
-                                                role="alert"
-                                                css={validationErrorStyles}
-                                            >
-                                                <p>
-                                                    Please set all privacy
-                                                    options to continue.
-                                                </p>
-                                            </div>
-                                        )}
+                                </div>
+                            </div>
+                            <div css={buttonContainerStyles(bodySerif)}>
+                                {!!(
+                                    iabNullResponses && iabNullResponses.length
+                                ) && (
+                                    <div
+                                        role="alert"
+                                        css={validationErrorStyles}
+                                    >
                                         <p>
-                                            You can change the above settings
-                                            for this browser at any time by
-                                            accessing our{' '}
-                                            <a
-                                                href={privacyPolicyUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                privacy policy
-                                            </a>
-                                            .
+                                            Please set all privacy options to
+                                            continue.
                                         </p>
-                                        <div
-                                            css={css`
-                                                display: flex;
-                                                justify-content: flex-end;
-                                            `}
-                                        >
-                                            <Button
-                                                priority="primary"
-                                                size="default"
-                                                icon={<SvgArrowRightStraight />}
-                                                iconSide="right"
-                                                css={primaryButtonStyles}
-                                                onClick={() => {
-                                                    const {
-                                                        onEnableAllAndCloseClick,
-                                                    } = this.props;
-
-                                                    onEnableAllAndCloseClick();
-                                                }}
-                                            >
-                                                Enable all
-                                            </Button>
-                                            <Button
-                                                priority="primary"
-                                                size="default"
-                                                icon={<SvgArrowRightStraight />}
-                                                iconSide="right"
-                                                css={css`
-                                                    margin-left: 12px;
-                                                    ${primaryButtonStyles};
-                                                `}
-                                                onClick={() => {
-                                                    this.saveAndCloseClick();
-                                                }}
-                                            >
-                                                Save
-                                            </Button>
-                                        </div>
                                     </div>
-                                </form>
+                                )}
+                                <p>
+                                    You can change the above settings for this
+                                    browser at any time by accessing our{' '}
+                                    <a
+                                        href={privacyPolicyUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        privacy policy
+                                    </a>
+                                    .
+                                </p>
+                                <div
+                                    css={css`
+                                        display: flex;
+                                        justify-content: flex-end;
+                                    `}
+                                >
+                                    <Button
+                                        priority="primary"
+                                        size="default"
+                                        icon={<SvgArrowRightStraight />}
+                                        iconSide="right"
+                                        css={primaryButtonStyles}
+                                        onClick={() => {
+                                            const {
+                                                onEnableAllAndCloseClick,
+                                            } = this.props;
+
+                                            onEnableAllAndCloseClick();
+                                        }}
+                                    >
+                                        Enable all
+                                    </Button>
+                                    <Button
+                                        priority="primary"
+                                        size="default"
+                                        icon={<SvgArrowRightStraight />}
+                                        iconSide="right"
+                                        css={css`
+                                            margin-left: 12px;
+                                            ${primaryButtonStyles};
+                                        `}
+                                        onClick={() => {
+                                            this.saveAndCloseClick();
+                                        }}
+                                    >
+                                        Save
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </>
