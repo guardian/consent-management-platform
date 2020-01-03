@@ -30,7 +30,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "@guardian/src-button": "^0.5.1",
-        "@guardian/src-foundations": "^0.8.0",
+        "@guardian/src-foundations": "^0.10.0",
         "@guardian/src-svgs": "^0.0.6",
         "consent-string": "^1.5.1",
         "js-cookie": "^2.2.1",
@@ -38,6 +38,7 @@
     },
     "peerDependencies": {
         "@emotion/core": "^10.0.21",
+        "emotion-theming": "^10.0.27",
         "react": "^16.10.2"
     },
     "devDependencies": {
@@ -53,6 +54,7 @@
         "@types/react": "^16.9.9",
         "@typescript-eslint/eslint-plugin": "^2.1.0",
         "@typescript-eslint/parser": "^1.13.0",
+        "emotion-theming": "^10.0.27",
         "eslint": "^6.3.0",
         "eslint-config-airbnb-typescript": "^4.0.1",
         "eslint-config-prettier": "^6.0.0",

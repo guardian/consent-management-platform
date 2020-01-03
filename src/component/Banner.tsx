@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { ThemeProvider } from 'emotion-theming';
 import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
-import { Button } from '@guardian/src-button/';
+import { Button, buttonBrand } from '@guardian/src-button/';
 import { SvgCheckmark } from '@guardian/src-svgs';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes, body } from '@guardian/src-foundations/typography';
@@ -22,7 +23,7 @@ const gridWidth = (columns: number, gutterMultiple: number): number =>
     gutterWidth * gutterMultiple;
 
 const bannerStyles = css`
-    background-color: ${palette.neutral[20]};
+    background-color: ${palette.brand.main};
     color: ${palette.neutral[100]};
     position: fixed;
     width: 100%;
@@ -104,7 +105,7 @@ const headlineStyles = (headlineSerif: string) => css`
 
 const collapsibleButtonStyles = (show: boolean) => css`
     border: 0;
-    color: currentColor;
+    color: ${palette.neutral[100]};
     background-color: transparent;
     padding: 0;
     position: relative;
@@ -121,13 +122,21 @@ const collapsibleButtonStyles = (show: boolean) => css`
         position: absolute;
         top: ${show ? '10px' : '6px'};
         left: 6px;
-        border: 2px solid ${palette.brandYellow.main};
+        border: 2px solid ${palette.neutral[100]};
         border-top: 0;
         border-left: 0;
         display: inline-block;
         transform: ${show ? 'rotate(-135deg)' : 'rotate(45deg)'};
         height: 6px;
         width: 6px;
+    }
+
+    &:hover {
+        color: ${palette.brandYellow.main};
+
+        &::before {
+            border-color: ${palette.brandYellow.main};
+        }
     }
 `;
 
@@ -141,30 +150,30 @@ const collapsibleListStyles = (show: boolean) => css`
     overflow-y: hidden;
     padding-left: 36px;
     list-style-position: outside;
+    list-style: none;
+
+    li {
+        padding-left: 4px;
+    }
+
+    li:before {
+        display: inline-block;
+        content: '';
+        border-radius: 6px;
+        height: 12px;
+        width: 12px;
+        margin-right: 8px;
+        margin-left: -20px;
+        background-color: ${palette.brand.pastel};
+    }
 `;
 
 const buttonContainerStyles = css`
     margin-top: 20px;
-`;
 
-const primaryButtonStyles = css`
-    color: ${palette.neutral[7]};
-    background-color: ${palette.brandYellow.main};
-
-    :hover {
-        background-color: ${palette.brandYellow.main};
+    button + button {
+        margin-left: 12px;
     }
-`;
-
-const secondaryButtonStyles = css`
-    color: ${palette.neutral[100]};
-    background-color: ${palette.neutral[46]};
-
-    :hover {
-        background-color: ${palette.neutral[46]};
-    }
-
-    margin-left: 12px;
 `;
 
 const roundelContainerStyles = css`
@@ -310,34 +319,35 @@ class Banner extends Component<Props, State> {
                                 >
                                     {this.renderPurposeList()}
                                 </ul>
-                                <div css={buttonContainerStyles}>
-                                    <Button
-                                        priority="primary"
-                                        size="default"
-                                        icon={<SvgCheckmark />}
-                                        iconSide="left"
-                                        css={primaryButtonStyles}
-                                        onClick={() => {
-                                            const {
-                                                onEnableAllAndCloseClick,
-                                            } = this.props;
 
-                                            onEnableAllAndCloseClick();
-                                        }}
-                                    >
-                                        I&apos;m OK with that
-                                    </Button>
-                                    <Button
-                                        priority="secondary"
-                                        size="default"
-                                        css={secondaryButtonStyles}
-                                        onClick={() => {
-                                            onOptionsClick();
-                                        }}
-                                    >
-                                        Options
-                                    </Button>
-                                </div>
+                                <ThemeProvider theme={buttonBrand}>
+                                    <div css={buttonContainerStyles}>
+                                        <Button
+                                            priority="primary"
+                                            size="default"
+                                            icon={<SvgCheckmark />}
+                                            iconSide="left"
+                                            onClick={() => {
+                                                const {
+                                                    onEnableAllAndCloseClick,
+                                                } = this.props;
+
+                                                onEnableAllAndCloseClick();
+                                            }}
+                                        >
+                                            I&apos;m OK with that
+                                        </Button>
+                                        <Button
+                                            priority="secondary"
+                                            size="default"
+                                            onClick={() => {
+                                                onOptionsClick();
+                                            }}
+                                        >
+                                            Options
+                                        </Button>
+                                    </div>
+                                </ThemeProvider>
                             </div>
                         </div>
                     </div>

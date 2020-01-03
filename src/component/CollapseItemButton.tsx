@@ -26,7 +26,6 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
     font-weight: 700;
     color: ${collapsed ? palette.news.main : palette.neutral[7]};
     text-align: left;
-    min-height: 24px;
 
     ${from.mobileLandscape} {
         font-size: ${headlineSizes.xxsmall}rem;
