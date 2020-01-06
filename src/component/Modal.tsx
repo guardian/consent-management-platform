@@ -16,6 +16,7 @@ import {
     FontsContextInterface,
 } from '../types';
 import { IabPurposes } from './IabPurposes';
+import { Roundel } from './svgs/Roundel';
 
 const SCROLLABLE_ID = 'scrollable';
 
@@ -69,10 +70,10 @@ const headerStyles = css`
 `;
 
 const primaryHeadlineStyles = (headlineSerif: string) => css`
-    font-size: ${headlineSizes.small}rem;
+    font-size: ${headlineSizes.xsmall}rem;
 
     ${from.leftCol} {
-        font-size: ${headlineSizes.medium}rem;
+        font-size: ${headlineSizes.small}rem;
     }
 
     font-family: ${headlineSerif};
@@ -154,6 +155,19 @@ const validationErrorStyles = css`
     }
 `;
 
+const roundelContainerStyles = css`
+    position: absolute;
+    padding: 0;
+    width: auto;
+    height: auto;
+    top: 8px;
+    right: 8px;
+
+    svg {
+        width: 36px;
+        height: 36px;
+    }
+`;
 interface State {
     guState: GuPurposeState;
     iabState: IabPurposeState;
@@ -202,6 +216,9 @@ class Modal extends Component<Props, State> {
                                 <h1 css={primaryHeadlineStyles(headlineSerif)}>
                                     Your privacy options
                                 </h1>
+                                <div css={roundelContainerStyles}>
+                                    <Roundel />
+                                </div>
                             </div>
                             <div
                                 css={scrollableContainerStyles(scrollbarWidth)}
