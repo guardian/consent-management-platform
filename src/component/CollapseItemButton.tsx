@@ -42,6 +42,7 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
         height: 6px;
         width: 6px;
     }
+    :focus,
     :hover {
         color: ${palette.brand.bright};
 

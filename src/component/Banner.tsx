@@ -123,11 +123,11 @@ const collapsibleButtonStyles = (show: boolean) => css`
     margin-left: -4px;
     margin-bottom: ${show ? '8px' : 0};
 
-    &:focus {
+    :focus {
         outline: none;
     }
 
-    &::before {
+    ::before {
         content: '';
         position: absolute;
         top: ${show ? '10px' : '6px'};
@@ -141,10 +141,11 @@ const collapsibleButtonStyles = (show: boolean) => css`
         width: 6px;
     }
 
-    &:hover {
+    :focus,
+    :hover {
         color: ${palette.brandYellow.main};
 
-        &::before {
+        ::before {
             border-color: ${palette.brandYellow.main};
         }
     }

@@ -51,13 +51,13 @@ const radioInputStyles = css`
             transition: transform ${transitions.short};
         }
         :checked {
-            &:after {
+            :after {
                 transform: scale(0.6);
             }
             border-color: ${palette.brand.bright};
         }
         :disabled {
-            &:checked {
+            :checked {
                 :after {
                     background-color: ${palette.brand.pastel};
                 }
@@ -74,7 +74,7 @@ const radioLabelStyles = (disabled: boolean) => css`
     cursor: ${disabled ? 'default' : 'pointer'};
     display: flex;
     align-items: center;
-    &:last-of-type {
+    :last-of-type {
         margin-bottom: 0;
     }
     height: fit-content;

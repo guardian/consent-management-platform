@@ -37,7 +37,7 @@ const modalStyles = css`
     transform: translate(-50%, -50%);
     z-index: 9999;
     color: ${palette.neutral[7]};
-    background-color: ${palette.neutral[100]};
+    border-radius: 12px;
     overflow: hidden;
     height: 95%;
     max-height: 600px;
@@ -106,6 +106,7 @@ const scrollableAreaStyles = (scrollbarWidth: number) => css`
 `;
 
 const scrollableContainerStyles = (scrollbarWidth: number) => css`
+    background-color: ${palette.neutral[100]};
     margin-right: -${scrollbarWidth}px;
     overflow: hidden;
 `;
@@ -196,7 +197,7 @@ class Modal extends Component<Props, State> {
                 {({ headlineSerif, bodySerif }: FontsContextInterface) => (
                     <>
                         <div css={overlayContainerStyles}></div>
-                        <div css={modalStyles}>
+                        <form css={modalStyles}>
                             <div css={headerStyles}>
                                 <h1 css={primaryHeadlineStyles(headlineSerif)}>
                                     Your privacy options
@@ -301,7 +302,7 @@ class Modal extends Component<Props, State> {
                                     </div>
                                 </ThemeProvider>
                             </div>
-                        </div>
+                        </form>
                     </>
                 )}
             </FontsContext.Consumer>
