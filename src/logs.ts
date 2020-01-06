@@ -49,8 +49,6 @@ export const postConsentState = (
         logInfo.variant = variant;
     }
 
-    console.log('*** postConsentState ***', CMP_LOGS_URL);
-
     return fetch(CMP_LOGS_URL, {
         method: 'POST',
         mode: 'cors',
