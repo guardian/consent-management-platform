@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes } from '@guardian/src-foundations/typography';
+import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { FontsContext } from './FontsContext';
 import { FontsContextInterface } from '../types';
 
@@ -52,14 +53,20 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
     }
 `;
 
+const visuallyHiddenStyles = css`
+    ${visuallyHidden};
+`;
+
 interface Props {
     collapsed: boolean;
     title: string;
+    panelId: string;
 }
 
 export const CollapseItemButton: React.FC<Props> = ({
     collapsed,
     title,
+    panelId,
 }: Props) => {
     return (
         <FontsContext.Consumer>
@@ -67,8 +74,10 @@ export const CollapseItemButton: React.FC<Props> = ({
                 <button
                     type="button"
                     css={collapseItemButtonStyles(collapsed, bodySans)}
+                    aria-expanded={collapsed}
+                    aria-controls={panelId}
                 >
-                    {title}
+                    <span css={visuallyHiddenStyles}>Show</span> {title}
                 </button>
             )}
         </FontsContext.Consumer>

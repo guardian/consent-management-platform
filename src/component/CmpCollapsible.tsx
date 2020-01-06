@@ -46,6 +46,12 @@ export class CmpCollapsible extends Component<Props, State> {
     public render(): React.ReactNode {
         const { collapsed } = this.state;
         const { title, value, children, updateItem, showError } = this.props;
+        const id = title
+            .replace(',', '')
+            .split(' ')
+            .join('-')
+            .toLowerCase();
+        const panelId = `${id}-panel`;
 
         return (
             <FontsContext.Consumer>
@@ -64,6 +70,7 @@ export class CmpCollapsible extends Component<Props, State> {
                                 <CollapseItemButton
                                     collapsed={collapsed}
                                     title={title}
+                                    panelId={panelId}
                                 />
                             </div>
                             {value !== undefined && (
@@ -74,7 +81,10 @@ export class CmpCollapsible extends Component<Props, State> {
                                 />
                             )}
                         </div>
-                        <div css={panelStyles(collapsed, bodySans)}>
+                        <div
+                            css={panelStyles(collapsed, bodySans)}
+                            id={panelId}
+                        >
                             {collapsed && children}
                         </div>
                     </>
