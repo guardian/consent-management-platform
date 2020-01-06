@@ -22,20 +22,18 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
     }
     font-family: ${bodySans};
     font-size: ${headlineSizes.xxxsmall}rem;
-    line-height: 1.15rem;
-    font-weight: 700;
-    color: ${collapsed ? palette.news.main : palette.neutral[7]};
-    text-align: left;
-
     ${from.mobileLandscape} {
         font-size: ${headlineSizes.xxsmall}rem;
     }
-
+    line-height: 1.15rem;
+    font-weight: 700;
+    color: ${palette.neutral[7]};
+    text-align: left;
     ::before {
         position: absolute;
         top: ${collapsed ? '9px' : '7px'};
         left: 6px;
-        border: 2px solid ${collapsed ? palette.news.main : palette.neutral[7]};
+        border: 2px solid ${palette.neutral[7]};
         border-top: 0;
         border-left: 0;
         content: '';
@@ -43,6 +41,13 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
         transform: ${collapsed ? 'rotate(-135deg)' : 'rotate(45deg)'};
         height: 6px;
         width: 6px;
+    }
+    :hover {
+        color: ${palette.brand.bright};
+
+        ::before {
+            border-color: ${palette.brand.bright};
+        }
     }
 `;
 
