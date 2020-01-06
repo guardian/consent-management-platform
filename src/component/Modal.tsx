@@ -3,8 +3,8 @@ import { css } from '@emotion/core';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headlineSizes, bodySizes } from '@guardian/src-foundations/typography';
-import { Button } from '@guardian/src-button/';
-import { SvgArrowRightStraight } from '@guardian/src-svgs';
+import { Button, buttonBrand } from '@guardian/src-button/';
+import { ThemeProvider } from 'emotion-theming';
 import { Features } from './Features';
 import { Vendors } from './Vendors';
 import { FontsContext } from './FontsContext';
@@ -115,6 +115,8 @@ const buttonContainerStyles = (bodySerif: string) => css`
     color: ${palette.neutral[100]};
     background-color: ${palette.brand.main};
     box-sizing: border-box;
+    position: relative;
+    z-index: 100;
 
     a,
     a:visited {
@@ -131,14 +133,9 @@ const buttonContainerStyles = (bodySerif: string) => css`
         line-height: 1.35rem;
         font-weight: 700;
     }
-`;
 
-const primaryButtonStyles = css`
-    color: ${palette.neutral[7]};
-    background-color: ${palette.brandYellow.main};
-
-    :hover {
-        background-color: ${palette.brandYellow.main};
+    button + button {
+        margin-left: 12px;
     }
 `;
 
@@ -271,44 +268,38 @@ class Modal extends Component<Props, State> {
                                     </a>
                                     .
                                 </p>
-                                <div
-                                    css={css`
-                                        display: flex;
-                                        justify-content: flex-end;
-                                    `}
-                                >
-                                    <Button
-                                        priority="primary"
-                                        size="default"
-                                        icon={<SvgArrowRightStraight />}
-                                        iconSide="right"
-                                        css={primaryButtonStyles}
-                                        onClick={() => {
-                                            const {
-                                                onEnableAllAndCloseClick,
-                                            } = this.props;
-
-                                            onEnableAllAndCloseClick();
-                                        }}
-                                    >
-                                        Enable all
-                                    </Button>
-                                    <Button
-                                        priority="primary"
-                                        size="default"
-                                        icon={<SvgArrowRightStraight />}
-                                        iconSide="right"
+                                <ThemeProvider theme={buttonBrand}>
+                                    <div
                                         css={css`
-                                            margin-left: 12px;
-                                            ${primaryButtonStyles};
+                                            display: flex;
+                                            justify-content: flex-start;
                                         `}
-                                        onClick={() => {
-                                            this.saveAndCloseClick();
-                                        }}
                                     >
-                                        Save
-                                    </Button>
-                                </div>
+                                        <Button
+                                            priority="primary"
+                                            size="default"
+                                            iconSide="left"
+                                            onClick={() => {
+                                                this.saveAndCloseClick();
+                                            }}
+                                        >
+                                            Save and close
+                                        </Button>
+                                        <Button
+                                            priority="secondary"
+                                            size="default"
+                                            onClick={() => {
+                                                const {
+                                                    onCancelClick,
+                                                } = this.props;
+
+                                                onCancelClick();
+                                            }}
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </div>
+                                </ThemeProvider>
                             </div>
                         </div>
                     </>
