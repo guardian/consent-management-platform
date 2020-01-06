@@ -1,11 +1,6 @@
 import { css } from '@emotion/core';
-import {
-    // focusHalo,
-    palette,
-    size,
-    space,
-    transitions,
-} from '@guardian/src-foundations';
+import { palette, size, space, transitions } from '@guardian/src-foundations';
+import { focusHalo } from '@guardian/src-foundations/accessibility';
 import React, { Component } from 'react';
 import { ItemState, FontsContextInterface } from '../types';
 import { FontsContext } from './FontsContext';
@@ -33,14 +28,17 @@ const radioInputStyles = css`
         display: inline-block;
         width: ${size.small}px;
         height: ${size.small}px;
-        margin: 0 ${space[1]}px 0 0;
+        margin: 0 ${space[2]}px 0 0;
         border: 2px solid ${palette.neutral[60]};
         border-radius: 50%;
         position: relative;
         transition: box-shadow ${transitions.short};
         transition-delay: 0.08s;
+        :focus {
+            ${focusHalo};
+        }
         :after {
-            background-color: ${palette.neutral[60]};
+            background-color: ${palette.brand.bright};
             position: absolute;
             content: '';
             top: 0;
@@ -56,6 +54,7 @@ const radioInputStyles = css`
             &:after {
                 transform: scale(0.6);
             }
+            border-color: ${palette.brand.bright};
         }
         :disabled {
             &:checked {
@@ -81,7 +80,7 @@ const radioLabelStyles = (disabled: boolean) => css`
     height: fit-content;
     :hover {
         input:not([disabled]) {
-            color: ${palette.neutral[60]}; // TODO: should this change color?
+            border-color: ${palette.brand.bright};
         }
     }
 `;
