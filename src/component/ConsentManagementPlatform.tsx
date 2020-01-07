@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-// import { css } from '@emotion/core';
-// import { mobileLandscape, palette, space } from '@guardian/src-foundations';
-// import { Logo } from './svgs/Logo';
-// import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 import { FontsContext } from './FontsContext';
-import {
-    // SCROLLABLE_ID,
-    // CONTENT_ID,
-    DEFAULT_FONT_FAMILIES,
-} from './utils/config';
+import { DEFAULT_FONT_FAMILIES } from './utils/config';
 import {
     GuPurposeList,
     IabFeature,
@@ -22,12 +14,9 @@ import {
 import {
     setSource,
     setVariant,
-    // getConsentState,
-    // setConsentState,
     getVendorList,
     getGuPurposeList,
     setConsentState,
-    // getVariant,
 } from '../store';
 import { Banner } from './Banner';
 import { Modal } from './Modal';
@@ -45,14 +34,17 @@ interface Props {
     source?: string;
     variant?: string;
     fontFamilies?: FontsContextInterface;
+    forceModal?: boolean;
 }
 
 class ConsentManagementPlatform extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        const { forceModal } = props;
+
         this.state = {
-            mode: 'banner',
+            mode: forceModal ? 'modal' : 'banner',
             guPurposeList: getGuPurposeList(),
         };
 
@@ -111,7 +103,15 @@ class ConsentManagementPlatform extends Component<Props, State> {
                         onEnableAllAndCloseClick={() => {
                             this.enableAllAndClose();
                         }}
-                        onCancelClick={() => this.setState({ mode: 'banner' })}
+                        onCancelClick={() => {
+                            const { forceModal, onClose } = this.props;
+
+                            if (forceModal) {
+                                onClose();
+                            } else {
+                                this.setState({ mode: 'banner' });
+                            }
+                        }}
                     />
                 )}
             </FontsContext.Provider>
