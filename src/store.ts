@@ -74,11 +74,21 @@ const getVendorList = (): Promise<IabVendorList> => {
     return vendorListPromise;
 };
 
-const getConsentState = (): {
+const getConsentState = (
+    ignoreLegacyCookie?: boolean,
+): {
     guState: GuPurposeState;
     iabState: IabPurposeState;
 } => {
     init();
+
+    if (ignoreLegacyCookie) {
+        return {
+            guState,
+            iabState: getIabStateFromCookie(ignoreLegacyCookie),
+        };
+    }
+
     return { guState, iabState };
 };
 
@@ -91,7 +101,9 @@ const getGuStateFromCookie = (): GuPurposeState => {
     return { functional: true, performance: true };
 };
 
-const getIabStateFromCookie = (): IabPurposeState => {
+const getIabStateFromCookie = (
+    ignoreLegacyCookie?: boolean,
+): IabPurposeState => {
     const iabCookie = readIabCookie();
     const newIabState: IabPurposeState = {};
 
@@ -106,17 +118,20 @@ const getIabStateFromCookie = (): IabPurposeState => {
         return newIabState;
     }
 
-    const legacyCookie = readLegacyCookie();
+    if (!ignoreLegacyCookie) {
+        const legacyCookie = readLegacyCookie();
 
-    if (legacyCookie) {
-        const legacyConsentState: boolean = legacyCookie.split('.')[0] === '1';
+        if (legacyCookie) {
+            const legacyConsentState: boolean =
+                legacyCookie.split('.')[0] === '1';
 
-        Object.keys(iabState).forEach((key: string): void => {
-            const purposeId = parseInt(key, 10);
-            newIabState[purposeId] = legacyConsentState;
-        });
+            Object.keys(iabState).forEach((key: string): void => {
+                const purposeId = parseInt(key, 10);
+                newIabState[purposeId] = legacyConsentState;
+            });
 
-        return newIabState;
+            return newIabState;
+        }
     }
 
     Object.keys(iabState).forEach((key: string): void => {

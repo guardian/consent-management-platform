@@ -188,7 +188,7 @@ class Modal extends Component<Props, State> {
         super(props);
 
         this.state = {
-            ...getConsentState(),
+            ...getConsentState(true),
             iabNullResponses: [],
             scrollbarWidth: 0,
         };
