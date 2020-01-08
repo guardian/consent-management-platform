@@ -14,7 +14,7 @@ interface Props {
 const cmpListStyles = css`
     margin: 0;
     list-style: none;
-    background-color: ${palette.neutral[86]};
+    background-color: ${palette.neutral[97]};
 `;
 
 export const IabPurposes = (props: Props) => {

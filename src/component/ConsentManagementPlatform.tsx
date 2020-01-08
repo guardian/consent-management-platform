@@ -155,7 +155,11 @@ class ConsentManagementPlatform extends Component<Props, State> {
 
         const iabPurposesAllEnable = Object.keys(
             parsedIabVendorList.purposes,
-        ).reduce((acc, key) => ({ ...acc, [key]: true }), {});
+        ).reduce((acc, key) => {
+            const { id } = parsedIabVendorList.purposes[parseInt(key, 10)];
+
+            return { ...acc, [id]: true };
+        }, {});
 
         setConsentState(guPurposesAllEnable, iabPurposesAllEnable);
 
