@@ -13,8 +13,7 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
     box-sizing: border-box;
     cursor: pointer;
     outline: none;
-    padding: 0;
-    padding-left: 20px;
+    padding: 0 0 4px 20px;
     position: relative;
     margin-right: 3px;
     margin-left: -3px;

@@ -9,7 +9,7 @@ import { ItemState, FontsContextInterface } from '../types';
 const titleTabStyles = css`
     display: flex;
     cursor: pointer;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 `;
 
 const panelStyles = (collapsed: boolean, bodySans: string) => css`

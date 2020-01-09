@@ -102,6 +102,7 @@ const scrollableAreaStyles = (scrollbarWidth: number) => css`
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     padding-right: ${scrollbarWidth}px; /* Increase/decrease this value for cross-browser compatibility */
     box-sizing: content-box;
 `;
@@ -110,6 +111,8 @@ const scrollableContainerStyles = (scrollbarWidth: number) => css`
     background-color: ${palette.neutral[100]};
     margin-right: -${scrollbarWidth}px;
     overflow: hidden;
+    max-height: 100%; /* For scrolling purposes */
+    height: 450px; /* For scrolling purposes */
 `;
 
 const buttonContainerStyles = (bodySerif: string) => css`

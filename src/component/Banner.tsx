@@ -234,6 +234,7 @@ const roundelContainerStyles = css`
 
 const mobileScrollable = css`
     ${until.mobileLandscape} {
+        padding-bottom: 12px;
         height: 100%;
         overflow-y: scroll;
     }
