@@ -65,8 +65,11 @@ const readLegacyCookie = (): string | null => {
     return cookie || null;
 };
 
-const writeGuCookie = (guState: GuPurposeState): void =>
-    addCookie(GU_COOKIE_NAME, { version: GU_COOKIE_VERSION, state: guState });
+// eslint-disable-next-line
+const writeGuCookie = (guState: GuPurposeState): void => {
+    // TODO: enable saving on GU Cookie when PECR purposes introduced
+    // addCookie(GU_COOKIE_NAME, { version: GU_COOKIE_VERSION, state: guState });
+};
 
 const writeIabCookie = (iabString: string): void =>
     addCookie(IAB_COOKIE_NAME, iabString);

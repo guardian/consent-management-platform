@@ -1,6 +1,7 @@
-import { css } from '@emotion/core';
-import { palette, space, mobileLandscape } from '@guardian/src-foundations';
 import React, { Component } from 'react';
+import { css } from '@emotion/core';
+import { palette, space } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 import { CmpCollapsible } from './CmpCollapsible';
 import { ItemState } from '../types';
 
@@ -8,13 +9,12 @@ const smallSpace = space[2]; // 12px
 const mediumSpace = smallSpace + smallSpace / 3; // 16px
 
 const itemContainerStyles = (isNested: boolean) => css`
-    margin-top: 6px;
-    border-top: ${isNested ? '0' : `1px solid ${palette.brand.pastel}`};
+    border-top: ${isNested ? '0' : `1px solid ${palette.neutral[60]}`};
     padding: ${isNested ? '0' : `10px ${smallSpace}px 6px ${smallSpace}px`};
-    ${mobileLandscape} {
+    ${from.mobileLandscape} {
         padding: ${isNested
             ? '0'
-            : `10px ${mediumSpace}px 6px ${mediumSpace}px`};
+            : `10px ${mediumSpace}px 12px ${mediumSpace}px`};
     }
     position: relative;
 `;

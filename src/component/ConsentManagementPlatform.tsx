@@ -1,142 +1,32 @@
 import React, { Component } from 'react';
-import { css } from '@emotion/core';
-import { mobileLandscape, palette, space } from '@guardian/src-foundations';
-import { Logo } from './svgs/Logo';
-import { ConsentPreferencesDashboard } from './ConsentPreferencesDashboard';
 import { FontsContext } from './FontsContext';
+import { DEFAULT_FONT_FAMILIES } from './utils/config';
 import {
-    SCROLLABLE_ID,
-    CONTENT_ID,
-    DEFAULT_FONT_FAMILIES,
-} from './utils/config';
-import { setSource, setVariant } from '../store';
-import { FontsContextInterface } from '../types';
+    GuPurposeList,
+    IabFeature,
+    IabPurpose,
+    IabPurposeState,
+    IabVendor,
+    IabVendorList,
+    FontsContextInterface,
+    ParsedIabVendorList,
+} from '../types';
+import {
+    setSource,
+    setVariant,
+    getVendorList,
+    getGuPurposeList,
+    setConsentState,
+} from '../store';
+import { Banner } from './Banner';
+import { Modal } from './Modal';
 
-const TRANSITION_TIME = 1000;
-
-const overlayStyles = css`
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    padding: 0;
-    margin: 0;
-    z-index: 9999;
-    background-color: transparent;
-    display: none;
-    ${mobileLandscape} {
-        transition: background-color;
-        transition-delay: ${TRANSITION_TIME / 2}ms;
-        transition-duration: ${TRANSITION_TIME / 2}ms;
-        will-change: background-color;
-    }
-    box-sizing: border-box;
-
-    *,
-    *:before,
-    *:after {
-        box-sizing: inherit;
-    }
-`;
-
-const activeOverlayStyles = css`
-    display: block;
-`;
-
-const showOverlayStyles = css`
-    ${mobileLandscape} {
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-`;
-
-const scrollableStyles = css`
-    background-color: ${palette.brand.main};
-    border: 0;
-    height: 100%;
-    width: 100%;
-    max-width: 576px;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    ${mobileLandscape} {
-        width: 30%;
-        min-width: 480px;
-    }
-    transform: translateX(0);
-    transition: transform 1s ease-in-out;
-    will-change: transform;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-`;
-
-const showScrollableStyles = (scrollableWidth: number) => css`
-    transform: translateX(-${scrollableWidth}px);
-`;
-
-const contentWidthStyles = css`
-    width: 100%;
-    ${mobileLandscape} {
-        width: 95%;
-        max-width: 450px;
-    }
-`;
-
-const headerStyles = css`
-    position: sticky;
-    top: 0;
-    left: 0;
-    background-color: ${palette.brand.main};
-    z-index: 200;
-    ${contentWidthStyles};
-    border-bottom: 1px solid ${palette.brand.pastel};
-    ${mobileLandscape} {
-        border-right: 1px solid ${palette.brand.main};
-    }
-`;
-
-const logoContainer = css`
-    padding: 6px 0 12px 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    ::before {
-        content: '';
-        display: block;
-        flex: 1;
-        height: 100%;
-    }
-`;
-
-const logoStyles = css`
-    margin-right: ${space[2]}px;
-    height: 55px;
-
-    ${mobileLandscape} {
-        margin-right: 0;
-        height: 90px;
-    }
-
-    path {
-        fill: ${palette.neutral[100]};
-    }
-`;
-
-const contentStyles = css`
-    min-height: 100%;
-    box-sizing: border-box;
-    background-color: ${palette.brand.dark};
-    border-right: 0;
-    ${contentWidthStyles};
-    ${mobileLandscape} {
-        border-right: 1px solid ${palette.brand.pastel};
-        box-sizing: content-box;
-    }
-`;
-
+const privacyPolicyUrl = 'https://www.theguardian.com/help/privacy-policy';
+const cookiePolicyUrl = 'https://www.theguardian.com/info/cookies';
 interface State {
-    active: boolean;
-    visible: boolean;
+    guPurposeList: GuPurposeList;
+    parsedIabVendorList?: ParsedIabVendorList;
+    mode: 'banner' | 'modal';
 }
 
 interface Props {
@@ -144,18 +34,18 @@ interface Props {
     source?: string;
     variant?: string;
     fontFamilies?: FontsContextInterface;
+    forceModal?: boolean;
 }
-class ConsentManagementPlatform extends Component<Props, State> {
-    scrollableRef: React.RefObject<HTMLDivElement>;
 
+class ConsentManagementPlatform extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.scrollableRef = React.createRef();
+        const { forceModal } = props;
 
         this.state = {
-            active: false,
-            visible: false,
+            mode: forceModal ? 'modal' : 'banner',
+            guPurposeList: getGuPurposeList(),
         };
 
         if (props.source) {
@@ -167,82 +57,202 @@ class ConsentManagementPlatform extends Component<Props, State> {
         }
     }
 
-    public render(): React.ReactNode {
-        let scrollableWidth = 0;
-        const { visible, active } = this.state;
-        const scrollableElem = this.scrollableRef.current;
+    public componentDidMount(): void {
+        const { onClose } = this.props;
+        getVendorList()
+            .then(remoteVendorList => {
+                const parsedIabVendorList = parseIabVendorList(
+                    remoteVendorList,
+                );
 
-        if (scrollableElem) {
-            scrollableWidth = scrollableElem.clientWidth;
-        }
+                this.setState({
+                    parsedIabVendorList,
+                });
+            })
+            .catch(onClose);
+    }
+
+    public render(): React.ReactNode {
+        const { mode, parsedIabVendorList } = this.state;
+        const { fontFamilies } = this.props;
+
+        const bannerMode = mode === 'banner';
 
         return (
             <FontsContext.Provider
-                value={this.props.fontFamilies || DEFAULT_FONT_FAMILIES}
+                value={fontFamilies || DEFAULT_FONT_FAMILIES}
             >
-                <div
-                    css={css`
-                        ${overlayStyles};
-                        ${active ? activeOverlayStyles : ''};
-                        ${visible ? showOverlayStyles : ''};
-                    `}
-                >
-                    <div
-                        css={css`
-                            ${scrollableStyles};
-                            ${visible
-                                ? showScrollableStyles(scrollableWidth)
-                                : ''};
-                        `}
-                        id={SCROLLABLE_ID}
-                        ref={this.scrollableRef}
-                    >
-                        <div css={headerStyles}>
-                            <div css={logoContainer}>
-                                <Logo css={logoStyles} />
-                            </div>
-                        </div>
-                        <div css={contentStyles} id={CONTENT_ID}>
-                            <ConsentPreferencesDashboard
-                                showCmp={() => {
-                                    this.setState(
-                                        {
-                                            active: true,
-                                        },
-                                        () => {
-                                            this.setState({
-                                                visible: true,
-                                            });
-                                        },
-                                    );
-                                }}
-                                hideCmp={() => {
-                                    this.setState(
-                                        {
-                                            visible: false,
-                                        },
-                                        () => {
-                                            // delay by TRANSITION_TIME before deactivating
-                                            setTimeout(() => {
-                                                this.setState(
-                                                    {
-                                                        active: false,
-                                                    },
-                                                    () => {
-                                                        this.props.onClose();
-                                                    },
-                                                );
-                                            }, TRANSITION_TIME);
-                                        },
-                                    );
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
+                {parsedIabVendorList && bannerMode && (
+                    <Banner
+                        privacyPolicyUrl={privacyPolicyUrl}
+                        cookiePolicyUrl={cookiePolicyUrl}
+                        iabPurposes={parsedIabVendorList.purposes}
+                        onEnableAllAndCloseClick={() => {
+                            this.enableAllAndClose();
+                        }}
+                        onOptionsClick={() => this.setState({ mode: 'modal' })}
+                    />
+                )}
+                {parsedIabVendorList && !bannerMode && (
+                    <Modal
+                        privacyPolicyUrl={privacyPolicyUrl}
+                        parsedVendorList={parsedIabVendorList}
+                        onSaveAndCloseClick={(iabState: IabPurposeState) => {
+                            this.saveAndCloseClick(iabState);
+                        }}
+                        onEnableAllAndCloseClick={() => {
+                            this.enableAllAndClose();
+                        }}
+                        onCancelClick={() => {
+                            const { forceModal, onClose } = this.props;
+
+                            if (forceModal) {
+                                onClose();
+                            } else {
+                                this.setState({ mode: 'banner' });
+                            }
+                        }}
+                    />
+                )}
             </FontsContext.Provider>
         );
     }
+
+    private saveAndCloseClick(iabState: IabPurposeState): void {
+        const { onClose } = this.props;
+        const { guPurposeList } = this.state;
+
+        /**
+         * TODO: Once PECR  Purposes introduced to UI
+         * remove this guPurposesAllEnable and use actual choices
+         * made by user as we do with iabState.
+         * */
+        const guPurposesAllEnable = guPurposeList.purposes.reduce(
+            (acc, guPurpose) => ({
+                ...acc,
+                [guPurpose.id]: true,
+            }),
+            {},
+        );
+
+        setConsentState(guPurposesAllEnable, iabState);
+
+        onClose();
+    }
+
+    private enableAllAndClose(): void {
+        const { onClose } = this.props;
+        const { parsedIabVendorList, guPurposeList } = this.state;
+
+        if (!parsedIabVendorList) {
+            return;
+        }
+
+        const guPurposesAllEnable = guPurposeList.purposes.reduce(
+            (acc, guPurpose) => ({ ...acc, [guPurpose.id]: true }),
+            {},
+        );
+
+        const iabPurposesAllEnable = Object.keys(
+            parsedIabVendorList.purposes,
+        ).reduce((acc, key) => {
+            const { id } = parsedIabVendorList.purposes[parseInt(key, 10)];
+
+            return { ...acc, [id]: true };
+        }, {});
+
+        setConsentState(guPurposesAllEnable, iabPurposesAllEnable);
+
+        onClose();
+    }
 }
+
+const parseIabVendorList = (
+    iabVendorList: IabVendorList,
+): ParsedIabVendorList => {
+    const vendors = iabVendorList.vendors.map(vendor => ({
+        ...vendor,
+        description: getVendorDescription(vendor, iabVendorList),
+    }));
+
+    return {
+        ...iabVendorList,
+        vendors,
+    };
+};
+
+const getVendorDescription = (
+    vendor: IabVendor,
+    iabVendorList: IabVendorList,
+): React.ReactNode => {
+    const {
+        name,
+        policyUrl,
+        purposeIds,
+        legIntPurposeIds,
+        featureIds,
+    } = vendor;
+
+    return (
+        <>
+            <p>
+                <a href={policyUrl} target="_blank" rel="noopener noreferrer">
+                    {name}&apos;s Privacy policy
+                </a>
+            </p>
+            <p>
+                Consent purpose(s):{' '}
+                {getIabPurposesDescriptions(purposeIds, iabVendorList.purposes)}
+            </p>
+            <p>
+                Legitimate interest purpose(s):{' '}
+                {getIabPurposesDescriptions(
+                    legIntPurposeIds,
+                    iabVendorList.purposes,
+                )}
+            </p>
+            <p>
+                Feature(s):{' '}
+                {getFeaturesDescriptions(featureIds, iabVendorList.features)}
+            </p>
+        </>
+    );
+};
+
+const getIabPurposesDescriptions = (
+    ids: number[],
+    purposes: IabPurpose[],
+): string => {
+    const result = ids
+        .reduce((acc, id) => {
+            let str = '';
+
+            const purpose = purposes.find(item => item.id === id);
+            str = purpose ? purpose.name : '';
+
+            return str.length ? `${acc}${str} | ` : acc;
+        }, '')
+        .slice(0, -3);
+
+    return result.length ? result : 'None';
+};
+
+const getFeaturesDescriptions = (
+    ids: number[],
+    features: IabFeature[],
+): string => {
+    const result = ids
+        .reduce((acc, id) => {
+            let str = '';
+
+            const feature = features.find(item => item.id === id);
+            str = feature ? feature.name : '';
+
+            return str.length ? `${acc}${str} | ` : acc;
+        }, '')
+        .slice(0, -3);
+
+    return result.length ? result : 'None';
+};
 
 export { ConsentManagementPlatform };

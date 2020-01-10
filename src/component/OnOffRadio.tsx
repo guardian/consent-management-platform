@@ -1,11 +1,6 @@
 import { css } from '@emotion/core';
-import {
-    focusHalo,
-    palette,
-    size,
-    space,
-    transitions,
-} from '@guardian/src-foundations';
+import { palette, size, space, transitions } from '@guardian/src-foundations';
+import { focusHalo } from '@guardian/src-foundations/accessibility';
 import React, { Component } from 'react';
 import { ItemState, FontsContextInterface } from '../types';
 import { FontsContext } from './FontsContext';
@@ -26,17 +21,15 @@ const errorStyles = css`
 `;
 
 const radioInputStyles = css`
-    color: ${palette.brand.pastel};
     @supports (appearance: none) {
         appearance: none;
         outline: 0;
-        color: inherit;
         box-sizing: border-box;
         display: inline-block;
         width: ${size.small}px;
         height: ${size.small}px;
-        margin: 0 ${space[1]}px 0 0;
-        border: 2px solid currentColor;
+        margin: 0 ${space[2]}px 0 0;
+        border: 2px solid ${palette.neutral[60]};
         border-radius: 50%;
         position: relative;
         transition: box-shadow ${transitions.short};
@@ -45,7 +38,7 @@ const radioInputStyles = css`
             ${focusHalo};
         }
         :after {
-            background: currentColor;
+            background-color: ${palette.brand.bright};
             position: absolute;
             content: '';
             top: 0;
@@ -58,15 +51,16 @@ const radioInputStyles = css`
             transition: transform ${transitions.short};
         }
         :checked {
-            color: ${palette.neutral[100]};
-            &:after {
+            :after {
                 transform: scale(0.6);
             }
+            border-color: ${palette.brand.bright};
         }
         :disabled {
-            color: ${palette.brand.pastel};
-            &:checked {
-                color: ${palette.brand.pastel};
+            :checked {
+                :after {
+                    background-color: ${palette.brand.pastel};
+                }
             }
             border-color: ${palette.brand.pastel};
         }
@@ -80,14 +74,13 @@ const radioLabelStyles = (disabled: boolean) => css`
     cursor: ${disabled ? 'default' : 'pointer'};
     display: flex;
     align-items: center;
-    &:last-of-type {
+    :last-of-type {
         margin-bottom: 0;
     }
     height: fit-content;
-
     :hover {
         input:not([disabled]) {
-            border-color: ${palette.neutral[100]};
+            border-color: ${palette.brand.bright};
         }
     }
 `;
@@ -95,7 +88,7 @@ const radioLabelTextStyles = (disabled: boolean, bodySans: string) => css`
     position: relative;
     font-family: ${bodySans};
     font-size: 17px;
-    color: ${disabled ? palette.brand.pastel : palette.neutral[100]};
+    color: ${disabled ? palette.brand.pastel : palette.neutral[7]};
 `;
 
 interface Props {
@@ -129,31 +122,6 @@ export class OnOffRadio extends Component<Props, {}> {
                     <div css={radioContainerStyles}>
                         <label css={radioLabelStyles(disabled)}>
                             <input
-                                id={offId}
-                                name={id}
-                                type="radio"
-                                value="off"
-                                onChange={(
-                                    evt: React.ChangeEvent<HTMLInputElement>,
-                                ) => {
-                                    this.updateValue(evt);
-                                }}
-                                defaultChecked={selectedValue === false}
-                                css={css`
-                                    ${radioInputStyles};
-                                    ${showError ? errorStyles : ''};
-                                `}
-                                disabled={disabled}
-                                {...validationProps}
-                            />
-                            <span
-                                css={radioLabelTextStyles(disabled, bodySans)}
-                            >
-                                Off
-                            </span>
-                        </label>
-                        <label css={radioLabelStyles(disabled)}>
-                            <input
                                 id={onId}
                                 name={id}
                                 type="radio"
@@ -175,6 +143,31 @@ export class OnOffRadio extends Component<Props, {}> {
                                 css={radioLabelTextStyles(disabled, bodySans)}
                             >
                                 On
+                            </span>
+                        </label>
+                        <label css={radioLabelStyles(disabled)}>
+                            <input
+                                id={offId}
+                                name={id}
+                                type="radio"
+                                value="off"
+                                onChange={(
+                                    evt: React.ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                    this.updateValue(evt);
+                                }}
+                                defaultChecked={selectedValue === false}
+                                css={css`
+                                    ${radioInputStyles};
+                                    ${showError ? errorStyles : ''};
+                                `}
+                                disabled={disabled}
+                                {...validationProps}
+                            />
+                            <span
+                                css={radioLabelTextStyles(disabled, bodySans)}
+                            >
+                                Off
                             </span>
                         </label>
                     </div>

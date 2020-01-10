@@ -1,27 +1,15 @@
-import { css } from '@emotion/core';
-import { palette } from '@guardian/src-foundations';
 import React, { Component } from 'react';
+import { css } from '@emotion/core';
+import { bodySizes } from '@guardian/src-foundations/typography';
 import { CollapseItemButton } from './CollapseItemButton';
 import { OnOffRadio } from './OnOffRadio';
-import { ItemState, FontsContextInterface } from '../types';
 import { FontsContext } from './FontsContext';
+import { ItemState, FontsContextInterface } from '../types';
 
 const titleTabStyles = css`
     display: flex;
     cursor: pointer;
-    margin-bottom: 18px;
-`;
-
-const titleContainerStyles = css`
-    flex: 1;
-`;
-
-const titleStyles = (collapsed: boolean, bodySans: string) => css`
-    font-family: ${bodySans};
-    font-size: 20px;
-    line-height: 22px;
-    font-weight: 700;
-    color: ${collapsed ? palette.yellow.dark : palette.neutral[100]};
+    margin-bottom: 14px;
 `;
 
 const panelStyles = (collapsed: boolean, bodySans: string) => css`
@@ -30,8 +18,8 @@ const panelStyles = (collapsed: boolean, bodySans: string) => css`
 
     p {
         font-family: ${bodySans};
-        fontsize: 17px;
-        lineheight: 24px;
+        fontsize: ${bodySizes.medium}rem;
+        lineheight: 1.5rem;
     }
 `;
 
@@ -58,6 +46,12 @@ export class CmpCollapsible extends Component<Props, State> {
     public render(): React.ReactNode {
         const { collapsed } = this.state;
         const { title, value, children, updateItem, showError } = this.props;
+        const id = title
+            .replace(',', '')
+            .split(' ')
+            .join('-')
+            .toLowerCase();
+        const panelId = `${id}-panel`;
 
         return (
             <FontsContext.Consumer>
@@ -73,12 +67,11 @@ export class CmpCollapsible extends Component<Props, State> {
                                     this.toggleCollapsed();
                                 }}
                             >
-                                <CollapseItemButton collapsed={collapsed} />
-                                <div css={titleContainerStyles}>
-                                    <div css={titleStyles(collapsed, bodySans)}>
-                                        {title}
-                                    </div>
-                                </div>
+                                <CollapseItemButton
+                                    collapsed={collapsed}
+                                    title={title}
+                                    panelId={panelId}
+                                />
                             </div>
                             {value !== undefined && (
                                 <OnOffRadio
@@ -88,8 +81,11 @@ export class CmpCollapsible extends Component<Props, State> {
                                 />
                             )}
                         </div>
-                        <div css={panelStyles(collapsed, bodySans)}>
-                            {children}
+                        <div
+                            css={panelStyles(collapsed, bodySans)}
+                            id={panelId}
+                        >
+                            {collapsed && children}
                         </div>
                     </>
                 )}

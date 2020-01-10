@@ -66,38 +66,43 @@ describe('Cookies', () => {
         afterEach(() => {
             jest.resetAllMocks();
         });
+        // TODO: update test when PECR purposes introduced
         it('all states provided', () => {
             writeStateCookies(guConsentState, iabConsentString, true);
 
-            expect(Cookies.set).toHaveBeenCalledTimes(3);
+            // expect(Cookies.set).toHaveBeenCalledTimes(3);
+            expect(Cookies.set).toHaveBeenCalledTimes(2);
             expect(Cookies.set).toHaveBeenNthCalledWith(
                 1,
                 LEGACY_COOKIE_NAME,
                 `1.${fakeNow}`,
                 cookieOptions,
             );
-            expect(Cookies.set).toHaveBeenNthCalledWith(
-                2,
-                GU_COOKIE_NAME,
-                guCookie,
-                cookieOptions,
-            );
+            // expect(Cookies.set).toHaveBeenNthCalledWith(
+            //     2,
+            //     GU_COOKIE_NAME,
+            //     guCookie,
+            //     cookieOptions,
+            // );
             expect(Cookies.set).toHaveBeenLastCalledWith(
                 IAB_COOKIE_NAME,
                 iabConsentString,
                 cookieOptions,
             );
         });
+
+        // TODO: update test when PECR purposes introduced
         it('legacyState is not provided', () => {
             writeStateCookies(guConsentState, iabConsentString);
 
-            expect(Cookies.set).toHaveBeenCalledTimes(2);
-            expect(Cookies.set).toHaveBeenNthCalledWith(
-                1,
-                GU_COOKIE_NAME,
-                guCookie,
-                cookieOptions,
-            );
+            // expect(Cookies.set).toHaveBeenCalledTimes(2);
+            expect(Cookies.set).toHaveBeenCalledTimes(1);
+            // expect(Cookies.set).toHaveBeenNthCalledWith(
+            //     1,
+            //     GU_COOKIE_NAME,
+            //     guCookie,
+            //     cookieOptions,
+            // );
             expect(Cookies.set).toHaveBeenLastCalledWith(
                 IAB_COOKIE_NAME,
                 iabConsentString,
@@ -117,22 +122,24 @@ describe('Cookies', () => {
     });
 
     describe('should be able to set', () => {
+        // TODO: update test when PECR purposes introduced
         it('the GU cookie', () => {
             writeStateCookies(guConsentState, iabConsentString);
 
-            expect(Cookies.set).toHaveBeenNthCalledWith(
-                1,
-                GU_COOKIE_NAME,
-                guCookie,
-                cookieOptions,
-            );
+            // expect(Cookies.set).toHaveBeenNthCalledWith(
+            //     1,
+            //     GU_COOKIE_NAME,
+            //     guCookie,
+            //     cookieOptions,
+            // );
         });
 
+        // TODO: update test when PECR purposes introduced
         it('the IAB cookie', () => {
             writeStateCookies(guConsentState, iabConsentString);
 
             expect(Cookies.set).toHaveBeenNthCalledWith(
-                2,
+                1,
                 IAB_COOKIE_NAME,
                 iabConsentString,
                 cookieOptions,

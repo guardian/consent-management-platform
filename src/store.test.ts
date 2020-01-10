@@ -149,6 +149,15 @@ describe('Store', () => {
             });
         });
 
+        it('returns default iab state when euconsents cookie is unavailable and ignoreLegacyCookie is true', () => {
+            readLegacyCookie.mockImplementation(() => legacyTrueCookie);
+
+            expect(getConsentState(true)).toMatchObject({
+                guState: guDefaultState,
+                iabState: iabDefaultState,
+            });
+        });
+
         it('after a state change', () => {
             expect(getConsentState()).toMatchObject({
                 guState: guDefaultState,
