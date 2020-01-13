@@ -23,7 +23,7 @@ const IAB_CONSENT_LANGUAGE = 'en';
 const IAB_VENDOR_LIST_PROD_URL =
     'https://api.nextgen.guardianapps.co.uk/commercial/cmp/vendorlist.json';
 const IAB_VENDOR_LIST_NOT_PROD_URL =
-    'https://code.dev-theguardian.com/commercial/cmp/vendorlist.json';
+    'https://code.api.nextgen.guardianapps.co.uk/commercial/cmp/vendorlist.json';
 
 let initialised = false;
 let source = DEFAULT_SOURCE;
