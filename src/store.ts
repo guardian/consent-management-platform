@@ -20,15 +20,20 @@ const IAB_CMP_ID = 112;
 const IAB_CMP_VERSION = 1;
 const IAB_CONSENT_SCREEN = 0;
 const IAB_CONSENT_LANGUAGE = 'en';
+// const IAB_VENDOR_LIST_PROD_URL =
+//     'https://api.nextgen.guardianapps.co.uk/commercial/cmp/vendorlist.json';
+// const IAB_VENDOR_LIST_NOT_PROD_URL =
+//     'https://code.api.nextgen.guardianapps.co.uk/commercial/cmp/vendorlist.json';
+// TODO: Switch back to internal vendorlist once caching issue resolved
 const IAB_VENDOR_LIST_PROD_URL =
-    'https://api.nextgen.guardianapps.co.uk/commercial/cmp/vendorlist.json';
+    'https://vendorlist.consensu.org/vendorlist.json';
 const IAB_VENDOR_LIST_NOT_PROD_URL =
-    'https://code.api.nextgen.guardianapps.co.uk/commercial/cmp/vendorlist.json';
+    'https://vendorlist.consensu.org/vendorlist.json';
 
 let initialised = false;
 let source = DEFAULT_SOURCE;
 let variant: string | null = null;
-let vendorListPromise: Promise<IabVendorList>;
+let vendorListPromise: Promise<IabVendorList> | null;
 const onStateChange: onStateChangeFn[] = [];
 
 // TODO: These defaults should be switched to null once the PECR purposes are activated
@@ -37,22 +42,6 @@ let iabState: IabPurposeState = { 1: null, 2: null, 3: null, 4: null, 5: null };
 
 const init = (): void => {
     if (!initialised) {
-        const IAB_VENDOR_LIST_URL = isProd()
-            ? IAB_VENDOR_LIST_PROD_URL
-            : IAB_VENDOR_LIST_NOT_PROD_URL;
-
-        vendorListPromise = fetch(IAB_VENDOR_LIST_URL)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error(`${response.status} | ${response.statusText}`);
-            })
-            .catch(error => {
-                handleError(`Error fetching vendor list: ${error}`);
-                return Promise.reject();
-            });
-
         guState = getGuStateFromCookie();
         iabState = getIabStateFromCookie();
         initialised = true;
@@ -71,6 +60,25 @@ const getGuPurposeList = (): GuPurposeList => {
 
 const getVendorList = (): Promise<IabVendorList> => {
     init();
+
+    if (!vendorListPromise) {
+        const IAB_VENDOR_LIST_URL = isProd()
+            ? IAB_VENDOR_LIST_PROD_URL
+            : IAB_VENDOR_LIST_NOT_PROD_URL;
+
+        vendorListPromise = fetch(IAB_VENDOR_LIST_URL)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error(`${response.status} | ${response.statusText}`);
+            })
+            .catch(error => {
+                handleError(`Error fetching vendor list: ${error}`);
+                return Promise.reject();
+            });
+    }
+
     return vendorListPromise;
 };
 
@@ -257,5 +265,6 @@ export const _ = {
         variant = null;
         source = DEFAULT_SOURCE;
         initialised = false;
+        vendorListPromise = null;
     },
 };
