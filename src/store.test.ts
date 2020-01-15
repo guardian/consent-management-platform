@@ -173,11 +173,10 @@ describe('Store', () => {
         });
     });
 
-    describe('reads cookies and fetches vendor list exactly once', () => {
+    describe('reads cookies exactly once', () => {
         afterEach(() => {
             expect(readIabCookie).toHaveBeenCalledTimes(1);
             expect(readLegacyCookie).toHaveBeenCalledTimes(1);
-            expect(global.fetch).toHaveBeenCalledTimes(1);
         });
 
         it('when registerStateChangeHandler is called first', () => {
@@ -372,6 +371,16 @@ describe('Store', () => {
                     expect(handleError).toHaveBeenCalledWith(
                         `Error fetching vendor list: Error: ${notOkResponse.status} | ${notOkResponse.statusText}`,
                     );
+                });
+        });
+
+        it('fetches vendor list exactly once', () => {
+            return expect(getVendorList())
+                .resolves.toMatchObject(fakeVendorList)
+                .then(() => {
+                    return getVendorList().then(() => {
+                        expect(global.fetch).toHaveBeenCalledTimes(1);
+                    });
                 });
         });
     });
