@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import React, { Component } from 'react';
 import { FontsContext } from './FontsContext';
 import { DEFAULT_FONT_FAMILIES } from './utils/config';
