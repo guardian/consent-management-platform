@@ -40,8 +40,6 @@ interface Props {
 
 class ConsentManagementPlatform extends Component<Props, State> {
     constructor(props: Props) {
-        console.log('***');
-
         super(props);
 
         const { forceModal } = props;
