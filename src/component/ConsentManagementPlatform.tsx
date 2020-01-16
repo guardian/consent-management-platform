@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import React, { Component } from 'react';
 import { FontsContext } from './FontsContext';
 import { DEFAULT_FONT_FAMILIES } from './utils/config';
@@ -39,6 +40,8 @@ interface Props {
 
 class ConsentManagementPlatform extends Component<Props, State> {
     constructor(props: Props) {
+        console.log('***');
+
         super(props);
 
         const { forceModal } = props;
