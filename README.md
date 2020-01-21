@@ -1,14 +1,12 @@
 # Consent Management Platform
 
-Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com.
+Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com. All exports include Typescript definitions.
 
 ## What useful utilities does this offer?
 
-### cmp
+### Consent notifications
 
-If you need to conditionally run some code based on a user's consent state you can use the `cmp` module.
-
-This module exposes two functions `onGuConsentNotification` and `onIabConsentNotification`.
+If you need to conditionally run some code based on a user's consent state you can use the two functions `onGuConsentNotification` and `onIabConsentNotification`.
 
 #### onGuConsentNotification
 
@@ -54,57 +52,86 @@ onIabConsentNotification(iabConsentState => {
 });
 ```
 
-### cmpUi
+### CMP UI
 
-The cmpUi exports useful utilities for users who want to load the CMP UI on their site via an `iframe`.
+The library exports The Guardian's CMP as a React component that can easily be imported into your React applications as well as a `shouldShow` function that indicated whether the user should be presented with the CMP.
 
-#### cmpUi.shouldShow
+#### shouldShow
 
-The `cmpUi.shouldShow` function returns a boolean to indicate whether the user has already saved their consent state. Users should use this when deciding whether or not to present the CMP UI.
-
-**Example:**
-
-```js
-import { cmpUi } from '@guardian/consent-management-platform';
-
-console.log(cmpUi.shouldShow()); // true | false
-```
-
-#### cmpUi.setupMessageHandlers
-
-Users loading the CMP UI on their site via an `iframe` can pass 2 callback functions to `cmpUi.setupMessageHandlers` that will be executed when messages are emitted from the CMP UI `iframe`. The 1st argument (`onReadyCmp`) will be executed when the CMP UI emits a ready message to indicate it has loaded and is ready to be shown. And the 2nd argument (`onCloseCmp`) will be executed when the CMP UI emits a close message to indicate the user has saved their consent or clicked the close button.
+This function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do.
 
 **Example:**
 
 ```js
-import { cmpUi, cmpConfig } from '@guardian/consent-management-platform';
+import { shouldShow } from '@guardian/consent-management-platform';
 
-const iframe = document.createElement('iframe');
-iframe.src = cmpConfig.CMP_URL;
-iframe.style.display = 'none';
-
-const onReadyCmp = () => {
-    iframe.style.display = 'block';
-};
-
-const onCloseCmp = () => {
-    iframe.remove();
-};
-
-cmpUi.setupMessageHandlers(onReadyCmp, onCloseCmp);
-
-// IMPORTANT: Always add iframe to page after calling setupMessageHandlers
-document.body.appendChild(iframe);
+shouldShow(); // true || false
 ```
 
-### cmpConfig
+#### ConsentManagementPlatform React Component
 
-The file `cmpConfig` exposes some useful config variables related to the CMP.
+The properties the `` component takes are listed below alongwith their Typescript definitions:
 
-##### example:
+##### onClose: () => void
+
+The `onClose` property accepts a function, this will be executed once the user has submitted their consent, either via the clicking "I'm OK with that" button in the banner, or opening the options modal selecting their choices and clicking the "Save and close" button. You can add whatever logic you want in this function. Because the `ConsentManagementPlatform` component doesn't close itself a typical example of the logic that would be included in this function might be the updating of state to hide the `ConsentManagementPlatform` component.
+
+##### source?: string
+
+The `source` property accepts an optional string. The value passed to this will be sent to the consent logs once a user has submitted their consent. The value should indicate the site on which the CMP has been seen: eg. 'manage' for 'manage.theguardian.com'. The default value passed to the logs will be 'www'.
+
+##### variant?: string
+
+The `variant` property accepts an optional string. If a value is passed to this it will be sent to the consent logs to indicate whether the user is within an a/b test related to the CMP. Typically the format for this string should follow: `${testName}-${variantName}`. We can also use the value of this property if we want to a/b test different layouts.
+
+##### fontFamilies?: { headlineSerif: string; bodySerif: string; bodySans: string; }
+
+The `fontFamilies` property accepts an optional object. If passed this object must match the definition used above. The values of `headlineSerif`, `bodySerif` and `bodySans` should be strings that match the `font-family` value in your sites `@font-face` definitions for The Guardian's custom webfonts.
+
+##### forceModal?: boolean
+
+The `forceModal` property accepts an optional boolean. If the value passed is `true` then the component will render the modal without the banner. This should be used when resurfacing the user's consent selections.
+
+**Example**
 
 ```js
-import { cmpConfig } from '@guardian/consent-management-platform';
+import { shouldShow } from '@guardian/consent-management-platform';
+import { ConsentManagementPlatform } from '@guardian/consent-management-platform/lib/ConsentManagementPlatform';
+
+export class App {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showCmp: false,
+        };
+    }
+
+    public componentDidMount() {
+        if (shouldShow()) {
+            this.setState({ showCmp: true });
+        }
+    }
+
+    public render() {
+        const { showCmp } = this.state;
+
+        const props = {
+            source: 'manage',
+            onClose: () => {
+                this.setState({ showCmp: false });
+            },
+            fontFamilies: {
+                headlineSerif: 'GH Guardian Headline, Georgia, serif',
+                bodySerif: 'GuardianTextEgyptian, Georgia, serif',
+                bodySans:
+                    'GuardianTextSans, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif',
+            },
+        };
+
+        return (<>{showCmp && <ConsentManagementPlatform {...props} />}</>);
+    }
+}
 ```
 
 ## Developer instructions
