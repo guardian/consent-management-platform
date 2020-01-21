@@ -70,7 +70,7 @@ shouldShow(); // true || false
 
 #### ConsentManagementPlatform React Component
 
-The properties the `` component takes are listed below alongwith their Typescript definitions:
+The properties the `ConsentManagementPlatform` component takes are listed below alongwith their Typescript definitions:
 
 ##### onClose: () => void
 
