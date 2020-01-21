@@ -54,7 +54,7 @@ onIabConsentNotification(iabConsentState => {
 
 ### CMP UI
 
-The library exports The Guardian's CMP as a React component that can easily be imported into your React applications as well as a `shouldShow` function that indicats whether the user should be shown the CMP.
+The library exports The Guardian's CMP as a React component that can easily be imported into your React applications as well as a `shouldShow` function that indicates whether the user should be shown the CMP.
 
 #### shouldShow
 
