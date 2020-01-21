@@ -54,11 +54,11 @@ onIabConsentNotification(iabConsentState => {
 
 ### CMP UI
 
-The library exports The Guardian's CMP as a React component that can easily be imported into your React applications as well as a `shouldShow` function that indicated whether the user should be presented with the CMP.
+The library exports The Guardian's CMP as a React component that can easily be imported into your React applications as well as a `shouldShow` function that indicats whether the user should be shown the CMP.
 
 #### shouldShow
 
-This function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do.
+The `shouldShow` function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do.
 
 **Example:**
 
