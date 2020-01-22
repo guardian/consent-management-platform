@@ -60,17 +60,17 @@ class ConsentManagementPlatform extends Component<Props, State> {
 
     public componentDidMount(): void {
         const { onClose } = this.props;
-        getVendorList()
-            .then(remoteVendorList => {
-                const parsedIabVendorList = parseIabVendorList(
-                    remoteVendorList,
-                );
+        getVendorList().then(iabVendorList => {
+            if (iabVendorList) {
+                const parsedIabVendorList = parseIabVendorList(iabVendorList);
 
                 this.setState({
                     parsedIabVendorList,
                 });
-            })
-            .catch(onClose);
+            } else {
+                onClose();
+            }
+        });
     }
 
     public render(): React.ReactNode {
