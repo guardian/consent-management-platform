@@ -58,7 +58,7 @@ const getGuPurposeList = (): GuPurposeList => {
     return GU_PURPOSE_LIST;
 };
 
-const getVendorList = (): Promise<IabVendorList> => {
+const getVendorList = (): Promise<IabVendorList?> => {
     init();
 
     if (!vendorListPromise) {
@@ -75,7 +75,7 @@ const getVendorList = (): Promise<IabVendorList> => {
             })
             .catch(error => {
                 handleError(`Error fetching vendor list: ${error}`);
-                return Promise.reject();
+                return Promise.resolve();
             });
     }
 
@@ -161,8 +161,9 @@ const setConsentState = (
     guState = newGuState;
     iabState = newIabState;
 
-    return getVendorList()
-        .then(iabVendorList => {
+    return getVendorList().then(iabVendorList => {
+        // The IAB vendorlist is needed to encode the IAB string and save the cookie
+        if (iabVendorList) {
             const allowedPurposes = Object.keys(iabState)
                 .filter(key => iabState[parseInt(key, 10)])
                 .map(purpose => parseInt(purpose, 10));
@@ -196,16 +197,16 @@ const setConsentState = (
             } else {
                 postConsentState(guState, iabStr, pAdvertisingState, source);
             }
-        })
-        .finally(() => {
-            if (triggerCallbacks) {
-                onStateChange.forEach((callback: onStateChangeFn): void => {
-                    callback(guState, iabState);
-                });
-            }
+        }
 
-            return Promise.resolve();
-        });
+        if (triggerCallbacks) {
+            onStateChange.forEach((callback: onStateChangeFn): void => {
+                callback(guState, iabState);
+            });
+        }
+
+        return Promise.resolve();
+    });
 };
 
 const setSource = (newSource: string): void => {
