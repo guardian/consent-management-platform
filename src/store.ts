@@ -185,7 +185,7 @@ const setConsentState = (
             const iabStr = consentData.getConsentString();
             const pAdvertisingState = allowedPurposes.length === 5;
 
-            writeStateCookies(guState, iabStr, pAdvertisingState);
+            writeStateCookies(guState, iabStr);
             if (variant) {
                 postConsentState(
                     guState,
