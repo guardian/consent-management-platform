@@ -58,7 +58,7 @@ const getGuPurposeList = (): GuPurposeList => {
     return GU_PURPOSE_LIST;
 };
 
-const getVendorList = (): Promise<IabVendorList?> => {
+const getVendorList = (): Promise<IabVendorList | null> => {
     init();
 
     if (!vendorListPromise) {
@@ -75,7 +75,7 @@ const getVendorList = (): Promise<IabVendorList?> => {
             })
             .catch(error => {
                 handleError(`Error fetching vendor list: ${error}`);
-                return Promise.resolve();
+                return Promise.resolve(null);
             });
     }
 
