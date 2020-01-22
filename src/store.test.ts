@@ -281,7 +281,6 @@ describe('Store', () => {
                     expect(writeStateCookies).toHaveBeenLastCalledWith(
                         guMixedState,
                         fakeIabString,
-                        true,
                     );
                 });
         });
