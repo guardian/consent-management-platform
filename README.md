@@ -58,7 +58,7 @@ The library exports The Guardian's CMP as a React component that can easily be i
 
 #### shouldShow
 
-The `shouldShow` function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do.
+The `shouldShow` function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do. It takes an optional boolean `shouldRepermission`. If this is set to true it will only check for the existence of the IAB cookie, otherwise it will check for both IAB and GU_TK cookies.
 
 **Example:**
 

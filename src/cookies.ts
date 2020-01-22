@@ -74,17 +74,10 @@ const writeGuCookie = (guState: GuPurposeState): void => {
 const writeIabCookie = (iabString: string): void =>
     addCookie(IAB_COOKIE_NAME, iabString);
 
-const writeLegacyCookie = (state: boolean): void =>
-    addCookie(LEGACY_COOKIE_NAME, [state ? '1' : '0', Date.now()].join('.'));
-
 const writeStateCookies = (
     guState: GuPurposeState,
     iabString: string,
-    legacyState?: boolean,
 ): void => {
-    if (typeof legacyState !== 'undefined') {
-        writeLegacyCookie(legacyState);
-    }
     if (Object.keys(guState).length > 0) {
         writeGuCookie(guState);
     }

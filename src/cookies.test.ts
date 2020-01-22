@@ -68,31 +68,6 @@ describe('Cookies', () => {
         });
         // TODO: update test when PECR purposes introduced
         it('all states provided', () => {
-            writeStateCookies(guConsentState, iabConsentString, true);
-
-            // expect(Cookies.set).toHaveBeenCalledTimes(3);
-            expect(Cookies.set).toHaveBeenCalledTimes(2);
-            expect(Cookies.set).toHaveBeenNthCalledWith(
-                1,
-                LEGACY_COOKIE_NAME,
-                `1.${fakeNow}`,
-                cookieOptions,
-            );
-            // expect(Cookies.set).toHaveBeenNthCalledWith(
-            //     2,
-            //     GU_COOKIE_NAME,
-            //     guCookie,
-            //     cookieOptions,
-            // );
-            expect(Cookies.set).toHaveBeenLastCalledWith(
-                IAB_COOKIE_NAME,
-                iabConsentString,
-                cookieOptions,
-            );
-        });
-
-        // TODO: update test when PECR purposes introduced
-        it('legacyState is not provided', () => {
             writeStateCookies(guConsentState, iabConsentString);
 
             // expect(Cookies.set).toHaveBeenCalledTimes(2);
@@ -109,6 +84,7 @@ describe('Cookies', () => {
                 cookieOptions,
             );
         });
+
         it('guState is not provided', () => {
             writeStateCookies({}, iabConsentString);
 
@@ -142,28 +118,6 @@ describe('Cookies', () => {
                 1,
                 IAB_COOKIE_NAME,
                 iabConsentString,
-                cookieOptions,
-            );
-        });
-
-        it('legacy cookie to true', () => {
-            writeStateCookies(guConsentState, iabConsentString, true);
-
-            expect(Cookies.set).toHaveBeenNthCalledWith(
-                1,
-                LEGACY_COOKIE_NAME,
-                `1.${fakeNow}`,
-                cookieOptions,
-            );
-        });
-
-        it('legacy cookie to false', () => {
-            writeStateCookies(guConsentState, iabConsentString, false);
-
-            expect(Cookies.set).toHaveBeenNthCalledWith(
-                1,
-                LEGACY_COOKIE_NAME,
-                `0.${fakeNow}`,
                 cookieOptions,
             );
         });
