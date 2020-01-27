@@ -38,6 +38,11 @@ describe('Cookies', () => {
         domain: '.theguardian.com',
         expires: COOKIE_MAX_AGE,
     };
+    const previewCookieOptions = {
+        domain: '.gutools.co.uk',
+        expires: COOKIE_MAX_AGE,
+    };
+
     const iabConsentString = 'heL10W0rLd';
     const fakeNow = '12345';
 
@@ -45,14 +50,21 @@ describe('Cookies', () => {
         global.Date = {
             now: () => fakeNow,
         };
-        Object.defineProperty(document, 'domain', {
-            value: 'www.theguardian.com',
-        });
     });
 
     afterAll(() => {
         global.Date = OriginalDate;
         expect(Date.now()).not.toMatch(fakeNow);
+    });
+
+    beforeEach(() => {
+        global.guardian = {
+            config: { page: { isPreview: false } },
+        };
+        Object.defineProperty(document, 'domain', {
+            value: 'www.theguardian.com',
+            configurable: true,
+        });
     });
 
     afterEach(() => {
@@ -63,9 +75,7 @@ describe('Cookies', () => {
         beforeAll(() => {
             Cookies.set.mockImplementation(() => undefined);
         });
-        afterEach(() => {
-            jest.resetAllMocks();
-        });
+
         // TODO: update test when PECR purposes introduced
         it('all states provided', () => {
             writeStateCookies(guConsentState, iabConsentString);
@@ -93,6 +103,33 @@ describe('Cookies', () => {
                 IAB_COOKIE_NAME,
                 iabConsentString,
                 cookieOptions,
+            );
+        });
+
+        // TODO: update test when PECR purposes introduced
+        it('is in preview', () => {
+            Object.defineProperty(document, 'domain', {
+                value: 'viewer.gutools.co.uk',
+                configurable: true,
+            });
+            global.guardian = {
+                config: { page: { isPreview: true } },
+            };
+
+            writeStateCookies(guConsentState, iabConsentString);
+
+            // expect(Cookies.set).toHaveBeenCalledTimes(2);
+            expect(Cookies.set).toHaveBeenCalledTimes(1);
+            // expect(Cookies.set).toHaveBeenNthCalledWith(
+            //     1,
+            //     GU_COOKIE_NAME,
+            //     guCookie,
+            //     previewCookieOptions,
+            // );
+            expect(Cookies.set).toHaveBeenLastCalledWith(
+                IAB_COOKIE_NAME,
+                iabConsentString,
+                previewCookieOptions,
             );
         });
     });

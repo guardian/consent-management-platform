@@ -2,6 +2,12 @@
 import Cookies from 'js-cookie';
 import { GuCookie, GuPurposeState } from './types';
 
+declare global {
+    interface Window {
+        guardian?: { config?: { page?: { isPreview?: boolean } } };
+    }
+}
+
 const GU_COOKIE_NAME = 'guconsent';
 const IAB_COOKIE_NAME = 'euconsent';
 const LEGACY_COOKIE_NAME = 'GU_TK';
@@ -12,9 +18,11 @@ const COOKIE_MAX_AGE = 395; // 13 months
 const getShortDomain = (): string => {
     const domain = document.domain || '';
 
+    const slice = domain.endsWith('co.uk') ? -3 : -2;
+
     return domain === 'localhost'
         ? domain
-        : ['', ...domain.split('.').slice(-2)].join('.');
+        : ['', ...domain.split('.').slice(slice)].join('.');
 };
 
 const getDomainAttribute = (): string => {
