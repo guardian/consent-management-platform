@@ -12,9 +12,11 @@ const COOKIE_MAX_AGE = 395; // 13 months
 const getShortDomain = (): string => {
     const domain = document.domain || '';
 
+    const slice = domain.endsWith('co.uk') ? -3 : -2;
+
     return domain === 'localhost'
         ? domain
-        : ['', ...domain.split('.').slice(-2)].join('.');
+        : ['', ...domain.split('.').slice(slice)].join('.');
 };
 
 const getDomainAttribute = (): string => {
