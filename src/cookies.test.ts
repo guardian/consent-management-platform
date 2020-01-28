@@ -58,9 +58,6 @@ describe('Cookies', () => {
     });
 
     beforeEach(() => {
-        global.guardian = {
-            config: { page: { isPreview: false } },
-        };
         Object.defineProperty(document, 'domain', {
             value: 'www.theguardian.com',
             configurable: true,
@@ -112,9 +109,6 @@ describe('Cookies', () => {
                 value: 'viewer.gutools.co.uk',
                 configurable: true,
             });
-            global.guardian = {
-                config: { page: { isPreview: true } },
-            };
 
             writeStateCookies(guConsentState, iabConsentString);
 

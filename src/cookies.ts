@@ -2,12 +2,6 @@
 import Cookies from 'js-cookie';
 import { GuCookie, GuPurposeState } from './types';
 
-declare global {
-    interface Window {
-        guardian?: { config?: { page?: { isPreview?: boolean } } };
-    }
-}
-
 const GU_COOKIE_NAME = 'guconsent';
 const IAB_COOKIE_NAME = 'euconsent';
 const LEGACY_COOKIE_NAME = 'GU_TK';
