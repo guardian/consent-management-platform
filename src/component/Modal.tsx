@@ -203,6 +203,13 @@ class Modal extends Component<Props, State> {
         window.addEventListener('resize', () => {
             this.hideScrollbar();
         });
+
+        // This enables scrolling the modal using arrow keys as well
+        // as tabing through the items as soon as the modal is shown
+        const scrollableElem = document.getElementById(SCROLLABLE_ID);
+        if (scrollableElem) {
+            (scrollableElem as HTMLElement).focus();
+        }
     }
 
     public render(): React.ReactNode {
@@ -229,6 +236,7 @@ class Modal extends Component<Props, State> {
                                 <div
                                     id={SCROLLABLE_ID}
                                     css={scrollableAreaStyles(scrollbarWidth)}
+                                    tabIndex={-1}
                                 >
                                     <div
                                         css={copyContainerStyles(headlineSerif)}
