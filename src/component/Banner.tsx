@@ -65,6 +65,7 @@ const contentContainerStyles = (bodySerif: string) => css`
     margin: 0 ${gutterWidth / 2}px;
     max-width: ${gridWidth(9, 0)}px;
     height: 100%;
+    box-sizing: content-box;
 
     ${until.mobileLandscape} {
         display: flex;
@@ -105,6 +106,8 @@ const contentContainerStyles = (bodySerif: string) => css`
 
 const headlineStyles = (headlineSerif: string) => css`
     font-size: ${headlineSizes.small}rem;
+    font-weight: 700;
+    line-height: 1.5;
 
     ${from.leftCol} {
         font-size: ${headlineSizes.medium}rem;
@@ -113,7 +116,7 @@ const headlineStyles = (headlineSerif: string) => css`
     font-family: ${headlineSerif};
 `;
 
-const collapsibleButtonStyles = (show: boolean) => css`
+const collapsibleButtonStyles = (show: boolean, bodySerif: string) => css`
     border: 0;
     color: ${palette.neutral[100]};
     background-color: transparent;
@@ -122,6 +125,12 @@ const collapsibleButtonStyles = (show: boolean) => css`
     padding-left: 24px;
     margin-left: -4px;
     margin-bottom: ${show ? '8px' : 0};
+    ${body.medium()};
+    font-family: ${bodySerif};
+
+    :hover {
+        cursor: pointer;
+    }
 
     :focus {
         outline: none;
@@ -151,7 +160,7 @@ const collapsibleButtonStyles = (show: boolean) => css`
     }
 `;
 
-const collapsibleListStyles = (show: boolean) => css`
+const collapsibleListStyles = (show: boolean, bodySerif: string) => css`
     margin: 0;
     margin-bottom: ${show ? '8px' : 0};
     max-height: ${show ? '500px' : 0};
@@ -165,6 +174,8 @@ const collapsibleListStyles = (show: boolean) => css`
 
     li {
         padding-left: 4px;
+        ${body.medium()};
+        font-family: ${bodySerif};
     }
 
     li:before {
@@ -199,7 +210,9 @@ const buttonContainerStyles = css`
     }
 `;
 
-const mobileButtonStyles = css`
+const buttonStyles = (bodySans: string) => css`
+    font-family: ${bodySans};
+
     ${until.mobileMedium} {
         padding: 0 14px;
 
@@ -237,6 +250,10 @@ const mobileScrollable = css`
         padding-bottom: 12px;
         height: 100%;
         overflow-y: scroll;
+    }
+
+    p {
+        margin-bottom: 8px;
     }
 `;
 
@@ -276,7 +293,11 @@ class Banner extends Component<Props, State> {
 
         return (
             <FontsContext.Consumer>
-                {({ headlineSerif, bodySerif }: FontsContextInterface) => (
+                {({
+                    headlineSerif,
+                    bodySerif,
+                    bodySans,
+                }: FontsContextInterface) => (
                     <div css={bannerStyles}>
                         <div css={outerContainerStyles}>
                             <div css={roundelContainerStyles}>
@@ -312,7 +333,10 @@ class Banner extends Component<Props, State> {
                                         .
                                     </p>
                                     <button
-                                        css={collapsibleButtonStyles(showInfo)}
+                                        css={collapsibleButtonStyles(
+                                            showInfo,
+                                            bodySerif,
+                                        )}
                                         onClick={() => {
                                             this.setState({
                                                 showInfo: !showInfo,
@@ -328,7 +352,10 @@ class Banner extends Component<Props, State> {
                                     </button>
                                     <ul
                                         id={INFO_LIST_ID}
-                                        css={collapsibleListStyles(showInfo)}
+                                        css={collapsibleListStyles(
+                                            showInfo,
+                                            bodySerif,
+                                        )}
                                     >
                                         <li>
                                             Type of browser and its settings
@@ -353,6 +380,7 @@ class Banner extends Component<Props, State> {
                                     <button
                                         css={collapsibleButtonStyles(
                                             showPurposes,
+                                            bodySerif,
                                         )}
                                         onClick={() => {
                                             this.setState({
@@ -371,6 +399,7 @@ class Banner extends Component<Props, State> {
                                         id={PURPOSE_LIST_ID}
                                         css={collapsibleListStyles(
                                             showPurposes,
+                                            bodySerif,
                                         )}
                                     >
                                         {this.renderPurposeList()}
@@ -383,7 +412,7 @@ class Banner extends Component<Props, State> {
                                             size="default"
                                             icon={<SvgCheckmark />}
                                             iconSide="left"
-                                            css={mobileButtonStyles}
+                                            css={buttonStyles(bodySans)}
                                             onClick={() => {
                                                 const {
                                                     onEnableAllAndCloseClick,
@@ -397,7 +426,7 @@ class Banner extends Component<Props, State> {
                                         <Button
                                             priority="secondary"
                                             size="default"
-                                            css={mobileButtonStyles}
+                                            css={buttonStyles(bodySans)}
                                             onClick={() => {
                                                 onOptionsClick();
                                             }}
