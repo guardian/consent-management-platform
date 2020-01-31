@@ -100,7 +100,6 @@ const copyContainerStyles = (headlineSerif: string) => css`
 
 const scrollableAreaStyles = (scrollbarWidth: number) => css`
     width: 100%;
-    height: 100%;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     padding-right: ${scrollbarWidth}px; /* Increase/decrease this value for cross-browser compatibility */
@@ -111,8 +110,8 @@ const scrollableContainerStyles = (scrollbarWidth: number) => css`
     background-color: ${palette.neutral[100]};
     margin-right: -${scrollbarWidth}px;
     overflow: hidden;
-    max-height: 100%; /* For scrolling purposes */
-    height: 450px; /* For scrolling purposes */
+    display: flex;
+    flex-direction: column;
 `;
 
 const buttonContainerStyles = (bodySerif: string) => css`
