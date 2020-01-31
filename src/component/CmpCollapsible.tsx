@@ -62,6 +62,7 @@ export class CmpCollapsible extends Component<Props, State> {
                                 css={css`
                                     flex-grow: 1;
                                     display: flex;
+                                    min-height: 25px;
                                 `}
                                 onClick={() => {
                                     this.toggleCollapsed();
