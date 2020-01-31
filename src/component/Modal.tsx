@@ -70,13 +70,14 @@ const headerStyles = css`
 `;
 
 const primaryHeadlineStyles = (headlineSerif: string) => css`
+    font-family: ${headlineSerif};
     font-size: ${headlineSizes.xsmall}rem;
+    font-weight: 700;
+    line-height: 1.5;
 
     ${from.leftCol} {
         font-size: ${headlineSizes.small}rem;
     }
-
-    font-family: ${headlineSerif};
 `;
 
 const copyContainerStyles = (headlineSerif: string) => css`
@@ -136,6 +137,7 @@ const buttonContainerStyles = (bodySerif: string) => css`
         font-size: ${bodySizes.small}rem;
         line-height: 1.35rem;
         font-weight: 700;
+        margin-bottom: 8px;
     }
 
     button + button {
@@ -217,7 +219,11 @@ class Modal extends Component<Props, State> {
 
         return (
             <FontsContext.Consumer>
-                {({ headlineSerif, bodySerif }: FontsContextInterface) => (
+                {({
+                    headlineSerif,
+                    bodySerif,
+                    bodySans,
+                }: FontsContextInterface) => (
                     <>
                         <div css={overlayContainerStyles}></div>
                         <form css={modalStyles}>
@@ -240,7 +246,11 @@ class Modal extends Component<Props, State> {
                                     <div
                                         css={copyContainerStyles(headlineSerif)}
                                     >
-                                        <h2>
+                                        <h2
+                                            css={css`
+                                                font-weight: 700;
+                                            `}
+                                        >
                                             Please review and manage your data
                                             and privacy settings below.
                                         </h2>
@@ -310,6 +320,9 @@ class Modal extends Component<Props, State> {
                                             onClick={() => {
                                                 this.saveAndCloseClick();
                                             }}
+                                            css={css`
+                                                font-family: ${bodySans};
+                                            `}
                                         >
                                             Save and close
                                         </Button>
@@ -323,6 +336,9 @@ class Modal extends Component<Props, State> {
 
                                                 onCancelClick();
                                             }}
+                                            css={css`
+                                                font-family: ${bodySans};
+                                            `}
                                         >
                                             Cancel
                                         </Button>
