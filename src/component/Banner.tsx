@@ -31,6 +31,7 @@ const bannerStyles = css`
     bottom: -1px;
     right: 0;
     z-index: 9999;
+    border-top: 1px solid ${palette.brand.pastel};
 
     ${until.mobileLandscape} {
         height: 320px;
