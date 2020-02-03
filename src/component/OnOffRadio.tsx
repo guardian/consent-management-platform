@@ -89,6 +89,7 @@ const radioLabelTextStyles = (disabled: boolean, bodySans: string) => css`
     font-family: ${bodySans};
     font-size: 17px;
     color: ${disabled ? palette.brand.pastel : palette.neutral[7]};
+    line-height: 1.5;
 `;
 
 interface Props {

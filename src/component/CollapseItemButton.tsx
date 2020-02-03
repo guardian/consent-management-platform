@@ -41,6 +41,7 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
         transform: ${collapsed ? 'rotate(-135deg)' : 'rotate(45deg)'};
         height: 6px;
         width: 6px;
+        box-sizing: content-box;
     }
     :focus,
     :hover {
