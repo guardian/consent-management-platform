@@ -96,7 +96,6 @@ class ConsentManagementPlatform extends Component<Props, State> {
                 )}
                 {parsedIabVendorList && !bannerMode && (
                     <Modal
-                        privacyPolicyUrl={privacyPolicyUrl}
                         parsedVendorList={parsedIabVendorList}
                         onSaveAndCloseClick={(iabState: IabPurposeState) => {
                             this.saveAndCloseClick(iabState);

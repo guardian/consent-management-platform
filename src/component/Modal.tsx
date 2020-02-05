@@ -180,7 +180,6 @@ interface State {
 }
 
 interface Props {
-    privacyPolicyUrl: string;
     parsedVendorList: ParsedIabVendorList;
     onSaveAndCloseClick: (iabState: IabPurposeState) => void;
     onEnableAllAndCloseClick: () => void;
@@ -214,7 +213,7 @@ class Modal extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        const { parsedVendorList, privacyPolicyUrl } = this.props;
+        const { parsedVendorList } = this.props;
         const { iabState, iabNullResponses, scrollbarWidth } = this.state;
 
         return (
@@ -296,15 +295,8 @@ class Modal extends Component<Props, State> {
                                 )}
                                 <p>
                                     You can change the above settings for this
-                                    browser at any time by accessing our{' '}
-                                    <a
-                                        href={privacyPolicyUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        privacy policy
-                                    </a>
-                                    .
+                                    browser at any time by clicking the privacy
+                                    settings link in the footer of the page.
                                 </p>
                                 <ThemeProvider theme={buttonBrand}>
                                     <div
