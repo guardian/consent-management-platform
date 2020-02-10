@@ -290,8 +290,10 @@ class Banner extends Component<Props, State> {
     }
 
     public componentDidMount(): void {
-        // This enables scrolling the modal using arrow keys as well
-        // as tabing through the items as soon as the modal is shown
+        /**
+         * Move focus onto the banner so users
+         * who navgate with the keyboard can interact with it
+         * */
         const bannerElem = document.getElementById(BANNER_ID);
 
         if (bannerElem) {

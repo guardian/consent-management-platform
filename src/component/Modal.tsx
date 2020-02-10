@@ -204,8 +204,10 @@ class Modal extends Component<Props, State> {
             this.hideScrollbar();
         });
 
-        // This enables scrolling the modal using arrow keys as well
-        // as tabing through the items as soon as the modal is shown
+        /**
+         * This enables scrolling the modal using arrow keys as well
+         * as tabing through the items as soon as the modal is shown
+         * */
         const scrollableElem = document.getElementById(SCROLLABLE_ID);
         if (scrollableElem) {
             (scrollableElem as HTMLElement).focus();
