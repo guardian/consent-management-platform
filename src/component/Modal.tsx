@@ -18,7 +18,7 @@ import {
 import { IabPurposes } from './IabPurposes';
 import { Roundel } from './svgs/Roundel';
 
-const SCROLLABLE_ID = 'scrollable';
+const SCROLLABLE_ID = 'cmpScrollable';
 
 const overlayContainerStyles = css`
     position: fixed;

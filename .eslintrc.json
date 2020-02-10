@@ -37,7 +37,13 @@
         "no-plusplus": 0,
         "no-use-before-define": 0,
         "object-literal-sort-keys": 0,
-        "prettier/prettier": 2
+        "prettier/prettier": 2,
+        "class-methods-use-this": [
+            2,
+            {
+                "exceptMethods": ["componentDidMount"]
+            }
+        ]
     },
     "overrides": [
         {

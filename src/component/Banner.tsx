@@ -11,6 +11,7 @@ import { FontsContextInterface, IabPurpose } from '../types';
 import { FontsContext } from './FontsContext';
 import { Roundel } from './svgs/Roundel';
 
+const BANNER_ID = 'cmpBanner';
 const INFO_LIST_ID = 'cmpInfoList';
 const PURPOSE_LIST_ID = 'cmpPurposeList';
 
@@ -35,6 +36,10 @@ const bannerStyles = css`
 
     ${until.mobileLandscape} {
         height: 320px;
+    }
+
+    :focus {
+        outline: none;
     }
 `;
 
@@ -284,6 +289,16 @@ class Banner extends Component<Props, State> {
         };
     }
 
+    public componentDidMount(): void {
+        // This enables scrolling the modal using arrow keys as well
+        // as tabing through the items as soon as the modal is shown
+        const bannerElem = document.getElementById(BANNER_ID);
+
+        if (bannerElem) {
+            (bannerElem as HTMLElement).focus();
+        }
+    }
+
     public render(): React.ReactNode {
         const { showInfo, showPurposes } = this.state;
         const {
@@ -299,7 +314,7 @@ class Banner extends Component<Props, State> {
                     bodySerif,
                     bodySans,
                 }: FontsContextInterface) => (
-                    <div css={bannerStyles}>
+                    <div css={bannerStyles} id={BANNER_ID} tabIndex={-1}>
                         <div css={outerContainerStyles}>
                             <div css={roundelContainerStyles}>
                                 <Roundel />
