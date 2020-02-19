@@ -345,6 +345,7 @@ class Banner extends Component<Props, State> {
                                         }}
                                         aria-expanded={showInfo}
                                         aria-controls={INFO_LIST_ID}
+                                        tabIndex={1}
                                     >
                                         <span css={visuallyHiddenStyles}>
                                             Show
@@ -390,6 +391,7 @@ class Banner extends Component<Props, State> {
                                         }}
                                         aria-expanded={showPurposes}
                                         aria-controls={PURPOSE_LIST_ID}
+                                        tabIndex={2}
                                     >
                                         <span css={visuallyHiddenStyles}>
                                             Show
@@ -421,6 +423,7 @@ class Banner extends Component<Props, State> {
 
                                                 onEnableAllAndCloseClick();
                                             }}
+                                            tabIndex={3}
                                         >
                                             I&apos;m OK with that
                                         </Button>
@@ -431,6 +434,7 @@ class Banner extends Component<Props, State> {
                                             onClick={() => {
                                                 onOptionsClick();
                                             }}
+                                            tabIndex={4}
                                         >
                                             Options
                                         </Button>

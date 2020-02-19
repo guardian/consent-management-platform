@@ -1,6 +1,6 @@
 {
     "name": "@guardian/consent-management-platform",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -29,9 +29,9 @@
     ],
     "license": "Apache-2.0",
     "dependencies": {
-        "@guardian/src-button": "^0.5.1",
-        "@guardian/src-foundations": "^0.10.0",
-        "@guardian/src-svgs": "^0.0.6",
+        "@guardian/src-button": "^0.13.0",
+        "@guardian/src-foundations": "^0.13.0",
+        "@guardian/src-svgs": "^0.13.0",
         "consent-string": "^1.5.1",
         "js-cookie": "^2.2.1",
         "whatwg-fetch": "^3.0.0"
