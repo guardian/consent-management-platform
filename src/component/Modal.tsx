@@ -99,17 +99,15 @@ const copyContainerStyles = (headlineSerif: string) => css`
     }
 `;
 
-const scrollableAreaStyles = (scrollbarWidth: number) => css`
+const scrollableAreaStyles = css`
     width: 100%;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    padding-right: ${scrollbarWidth}px; /* Increase/decrease this value for cross-browser compatibility */
     box-sizing: content-box;
 `;
 
-const scrollableContainerStyles = (scrollbarWidth: number) => css`
+const scrollableContainerStyles = css`
     background-color: ${palette.neutral[100]};
-    margin-right: -${scrollbarWidth}px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -176,7 +174,6 @@ interface State {
     guState: GuPurposeState;
     iabState: IabPurposeState;
     iabNullResponses: number[];
-    scrollbarWidth: number;
 }
 
 interface Props {
@@ -193,17 +190,10 @@ class Modal extends Component<Props, State> {
         this.state = {
             ...getConsentState(true),
             iabNullResponses: [],
-            scrollbarWidth: 0,
         };
     }
 
     public componentDidMount(): void {
-        this.hideScrollbar();
-
-        window.addEventListener('resize', () => {
-            this.hideScrollbar();
-        });
-
         // This enables scrolling the modal using arrow keys as well
         // as tabing through the items as soon as the modal is shown
         const scrollableElem = document.getElementById(SCROLLABLE_ID);
@@ -214,7 +204,7 @@ class Modal extends Component<Props, State> {
 
     public render(): React.ReactNode {
         const { parsedVendorList } = this.props;
-        const { iabState, iabNullResponses, scrollbarWidth } = this.state;
+        const { iabState, iabNullResponses } = this.state;
 
         return (
             <FontsContext.Consumer>
@@ -234,12 +224,10 @@ class Modal extends Component<Props, State> {
                                     <Roundel />
                                 </div>
                             </div>
-                            <div
-                                css={scrollableContainerStyles(scrollbarWidth)}
-                            >
+                            <div css={scrollableContainerStyles}>
                                 <div
                                     id={SCROLLABLE_ID}
-                                    css={scrollableAreaStyles(scrollbarWidth)}
+                                    css={scrollableAreaStyles}
                                     tabIndex={-1}
                                 >
                                     <div
@@ -373,21 +361,6 @@ class Modal extends Component<Props, State> {
                   )
                 : [],
         }));
-    }
-
-    private hideScrollbar(): void {
-        const scrollableElem = document.getElementById(SCROLLABLE_ID);
-
-        if (!scrollableElem) {
-            return;
-        }
-
-        const scrollbarWidth =
-            scrollableElem.offsetWidth - scrollableElem.clientWidth;
-
-        this.setState({
-            scrollbarWidth,
-        });
     }
 }
 
