@@ -224,6 +224,16 @@ const buttonStyles = (bodySans: string) => css`
     }
 `;
 
+const buttonAsLinkStyles = css`
+    background: transparent;
+    padding: 0px;
+    border: 0px;
+    color: ${palette.neutral[100]};
+    text-decoration: none;
+    border-bottom: 0.0625rem solid ${palette.neutral[60]};
+    transition: border-color 0.15s ease-out;
+`;
+
 const roundelContainerStyles = css`
     position: absolute;
     padding: 0;
@@ -312,9 +322,24 @@ class Banner extends Component<Props, State> {
                                 </div>
                                 <div css={mobileScrollable}>
                                     <p>
-                                        We use cookies to improve your
-                                        experience on our site and to show you
-                                        personalised advertising.
+                                        We use your information - collected
+                                        through cookies and similar technologies
+                                        - to improve your experience on our
+                                        site, analyse how you use it, and show
+                                        you personalised advertising. We may
+                                        also share that information with{' '}
+                                        <button
+                                            css={buttonAsLinkStyles}
+                                            onClick={() => {
+                                                onOptionsClick();
+                                            }}
+                                            tabIndex={1}
+                                        >
+                                            advertising partners
+                                        </button>{' '}
+                                        or allow them to access it. We may also
+                                        use geolocation data, and device linking
+                                        to help improve our services to you.
                                     </p>
                                     <p>
                                         To find out more, read our{' '}
@@ -345,7 +370,7 @@ class Banner extends Component<Props, State> {
                                         }}
                                         aria-expanded={showInfo}
                                         aria-controls={INFO_LIST_ID}
-                                        tabIndex={1}
+                                        tabIndex={2}
                                     >
                                         <span css={visuallyHiddenStyles}>
                                             Show
@@ -391,7 +416,7 @@ class Banner extends Component<Props, State> {
                                         }}
                                         aria-expanded={showPurposes}
                                         aria-controls={PURPOSE_LIST_ID}
-                                        tabIndex={2}
+                                        tabIndex={3}
                                     >
                                         <span css={visuallyHiddenStyles}>
                                             Show
@@ -407,6 +432,12 @@ class Banner extends Component<Props, State> {
                                     >
                                         {this.renderPurposeList()}
                                     </ul>
+                                    <p>
+                                        You can change the settings for this
+                                        browser at any time by clicking the
+                                        privacy settings in the footer of the
+                                        page.
+                                    </p>
                                 </div>
                                 <ThemeProvider theme={buttonBrand}>
                                     <div css={buttonContainerStyles}>
@@ -423,7 +454,7 @@ class Banner extends Component<Props, State> {
 
                                                 onEnableAllAndCloseClick();
                                             }}
-                                            tabIndex={3}
+                                            tabIndex={4}
                                         >
                                             I&apos;m OK with that
                                         </Button>
@@ -434,7 +465,7 @@ class Banner extends Component<Props, State> {
                                             onClick={() => {
                                                 onOptionsClick();
                                             }}
-                                            tabIndex={4}
+                                            tabIndex={5}
                                         >
                                             Options
                                         </Button>
