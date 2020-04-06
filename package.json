@@ -29,15 +29,15 @@
     ],
     "license": "Apache-2.0",
     "dependencies": {
-        "@guardian/src-button": "^0.13.0",
-        "@guardian/src-foundations": "^0.13.0",
-        "@guardian/src-svgs": "^0.13.0",
         "consent-string": "^1.5.1",
         "js-cookie": "^2.2.1",
         "whatwg-fetch": "^3.0.0"
     },
     "peerDependencies": {
         "@emotion/core": "^10.0.21",
+        "@guardian/src-button": "^0.16.1",
+        "@guardian/src-foundations": "^0.16.1",
+        "@guardian/src-svgs": "0.16.1",
         "emotion-theming": "^10.0.27",
         "react": "^16.10.2"
     },
@@ -49,6 +49,9 @@
         "@babel/preset-typescript": "^7.6.0",
         "@emotion/babel-preset-css-prop": "^10.0.17",
         "@emotion/core": "^10.0.21",
+        "@guardian/src-button": "^0.16.1",
+        "@guardian/src-foundations": "^0.16.1",
+        "@guardian/src-svgs": "0.16.1",
         "@types/jest": "^24.0.16",
         "@types/js-cookie": "^2.2.2",
         "@types/react": "^16.9.9",
