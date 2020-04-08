@@ -16,6 +16,12 @@ module.exports = {
             format: 'cjs',
         },
     ],
-    external: ['react', '@emotion/core'],
+    external: [
+        'react',
+        '@emotion/core',
+        '@guardian/src-button',
+        '@guardian/src-foundations',
+        '@guardian/src-svgs',
+    ],
     plugins: [babel({ extensions }), resolve({ extensions }), commonjs()],
 };
