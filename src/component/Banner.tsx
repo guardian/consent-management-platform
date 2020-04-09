@@ -106,12 +106,12 @@ const contentContainerStyles = (bodySerif: string) => css`
 `;
 
 const headlineStyles = (headlineSerif: string) => css`
-    font-size: ${headlineSizes.small}rem;
+    font-size: ${headlineSizes.small}px;
     font-weight: 700;
     line-height: 1.5;
 
     ${from.leftCol} {
-        font-size: ${headlineSizes.medium}rem;
+        font-size: ${headlineSizes.medium}px;
     }
 
     font-family: ${headlineSerif};
