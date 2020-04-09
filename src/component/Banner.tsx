@@ -232,6 +232,7 @@ const buttonAsLinkStyles = css`
     text-decoration: none;
     border-bottom: 0.0625rem solid ${palette.neutral[60]};
     transition: border-color 0.15s ease-out;
+    font: inherit;
 `;
 
 const roundelContainerStyles = css`
@@ -322,12 +323,12 @@ class Banner extends Component<Props, State> {
                                 </div>
                                 <div css={mobileScrollable}>
                                     <p>
-                                        We use your information - collected
+                                        We use your information – collected
                                         through cookies and similar technologies
-                                        - to improve your experience on our
-                                        site, analyse how you use it, and show
-                                        you personalised advertising. We may
-                                        also share that information with{' '}
+                                        – to improve your experience on our
+                                        site, analyse how you use it, show you
+                                        personalised advertising and share that
+                                        information with{' '}
                                         <button
                                             css={buttonAsLinkStyles}
                                             onClick={() => {
@@ -336,10 +337,10 @@ class Banner extends Component<Props, State> {
                                             tabIndex={1}
                                         >
                                             advertising partners
-                                        </button>{' '}
-                                        or allow them to access it. We may also
-                                        use geolocation data, and device linking
-                                        to help improve our services to you.
+                                        </button>
+                                        . We also use geolocation data and
+                                        device linking to help improve our
+                                        services to you.
                                     </p>
                                     <p>
                                         To find out more, read our{' '}
@@ -357,6 +358,12 @@ class Banner extends Component<Props, State> {
                                             cookie policy
                                         </a>
                                         .
+                                    </p>
+                                    <p>
+                                        You can change the settings for this
+                                        browser at any time by clicking the
+                                        privacy settings in the footer of the
+                                        page.
                                     </p>
                                     <button
                                         css={collapsibleButtonStyles(
@@ -432,12 +439,6 @@ class Banner extends Component<Props, State> {
                                     >
                                         {this.renderPurposeList()}
                                     </ul>
-                                    <p>
-                                        You can change the settings for this
-                                        browser at any time by clicking the
-                                        privacy settings in the footer of the
-                                        page.
-                                    </p>
                                 </div>
                                 <ThemeProvider theme={buttonBrand}>
                                     <div css={buttonContainerStyles}>
