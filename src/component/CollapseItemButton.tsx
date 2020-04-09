@@ -21,9 +21,9 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
         pointer-events: none;
     }
     font-family: ${bodySans};
-    font-size: ${headlineSizes.xxxsmall}px;
+    font-size: ${headlineSizes.xxxsmall}rem;
     ${from.mobileLandscape} {
-        font-size: ${headlineSizes.xxsmall}px;
+        font-size: ${headlineSizes.xxsmall}rem;
     }
     line-height: 1.15rem;
     font-weight: 700;

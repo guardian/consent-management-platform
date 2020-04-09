@@ -71,12 +71,12 @@ const headerStyles = css`
 
 const primaryHeadlineStyles = (headlineSerif: string) => css`
     font-family: ${headlineSerif};
-    font-size: ${headlineSizes.xsmall}px;
+    font-size: ${headlineSizes.xsmall}rem;
     font-weight: 700;
     line-height: 1.5;
 
     ${from.leftCol} {
-        font-size: ${headlineSizes.small}px;
+        font-size: ${headlineSizes.small}rem;
     }
 `;
 
@@ -90,11 +90,11 @@ const copyContainerStyles = (headlineSerif: string) => css`
     font-family: ${headlineSerif};
 
     h2 {
-        font-size: ${headlineSizes.xxxsmall}px;
+        font-size: ${headlineSizes.xxxsmall}rem;
         line-height: 1.35rem;
 
         ${from.phablet} {
-            font-size: ${headlineSizes.xxsmall}px;
+            font-size: ${headlineSizes.xxsmall}rem;
         }
     }
 `;
@@ -132,7 +132,7 @@ const buttonContainerStyles = (bodySerif: string) => css`
 
     p {
         font-family: ${bodySerif};
-        font-size: ${bodySizes.small}px;
+        font-size: ${bodySizes.small}rem;
         line-height: 1.35rem;
         font-weight: 700;
         margin-bottom: 8px;
