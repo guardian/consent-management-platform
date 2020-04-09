@@ -193,13 +193,18 @@ const collapsibleListStyles = (show: boolean, bodySerif: string) => css`
 
 const buttonContainerStyles = css`
     ${until.mobileLandscape} {
-        margin-left: ${-gutterWidth / 2}px;
-        margin-right: ${-gutterWidth / 2}px;
         padding-left: ${gutterWidth / 2}px;
         padding-right: ${gutterWidth / 2}px;
         padding-top: ${space[2]}px;
         padding-bottom: ${space[3]}px;
         border-top: 1px solid ${palette.brand.pastel};
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /* TODO - un-hardcode this colour cc @SiAdcock */
+        background: rgba(5, 41, 98, 0.4);
+        backdrop-filter: blur(6px);
     }
 
     ${from.mobileLandscape} {
@@ -259,7 +264,7 @@ const roundelContainerStyles = css`
 
 const mobileScrollable = css`
     ${until.mobileLandscape} {
-        padding-bottom: 12px;
+        padding-bottom: 77px;
         height: 100%;
         overflow-y: scroll;
     }
