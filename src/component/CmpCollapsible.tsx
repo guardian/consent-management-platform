@@ -18,7 +18,7 @@ const panelStyles = (collapsed: boolean, bodySans: string) => css`
 
     p {
         font-family: ${bodySans};
-        font-size: ${bodySizes.medium}rem;
+        font-size: ${bodySizes.medium}px;
         line-height: 1.5rem;
         margin-bottom: 8px;
     }
