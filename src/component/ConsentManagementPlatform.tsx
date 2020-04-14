@@ -92,6 +92,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
                             this.enableAllAndClose();
                         }}
                         onOptionsClick={() => this.setState({ mode: 'modal' })}
+                        variant={this.props.variant}
                     />
                 )}
                 {parsedIabVendorList && !bannerMode && (

@@ -288,6 +288,7 @@ interface Props {
     iabPurposes: IabPurpose[];
     onEnableAllAndCloseClick: () => void;
     onOptionsClick: () => void;
+    variant?: string;
 }
 
 class Banner extends Component<Props, State> {
@@ -327,49 +328,83 @@ class Banner extends Component<Props, State> {
                                     </h1>
                                 </div>
                                 <div css={mobileScrollable}>
-                                    <p>
-                                        We use your information – collected
-                                        through cookies and similar technologies
-                                        – to improve your experience on our
-                                        site, analyse how you use it, show you
-                                        personalised advertising and share that
-                                        information with{' '}
-                                        <button
-                                            css={buttonAsLinkStyles}
-                                            onClick={() => {
-                                                onOptionsClick();
-                                            }}
-                                            tabIndex={1}
-                                        >
-                                            advertising partners
-                                        </button>
-                                        . We also use geolocation data and
-                                        device linking to help improve our
-                                        services to you.
-                                    </p>
-                                    <p>
-                                        To find out more, read our{' '}
-                                        <a
-                                            data-link-name="first-pv-consent : to-privacy"
-                                            href={privacyPolicyUrl}
-                                        >
-                                            privacy policy
-                                        </a>{' '}
-                                        and{' '}
-                                        <a
-                                            data-link-name="first-pv-consent : to-cookies"
-                                            href={cookiePolicyUrl}
-                                        >
-                                            cookie policy
-                                        </a>
-                                        .
-                                    </p>
-                                    <p>
-                                        You can change the settings for this
-                                        browser at any time by clicking the
-                                        privacy settings in the footer of the
-                                        page.
-                                    </p>
+                                    {this.props.variant ===
+                                    'commercialCmpCopy-variant' ? (
+                                        <>
+                                            <p>
+                                                We use your information –
+                                                collected through cookies and
+                                                similar technologies – to
+                                                improve your experience on our
+                                                site, analyse how you use it,
+                                                show you personalised
+                                                advertising and share that
+                                                information with{' '}
+                                                <button
+                                                    css={buttonAsLinkStyles}
+                                                    onClick={() => {
+                                                        onOptionsClick();
+                                                    }}
+                                                    tabIndex={1}
+                                                >
+                                                    advertising partners
+                                                </button>
+                                                . We also use geolocation data
+                                                and device linking to help
+                                                improve our services to you.
+                                            </p>
+                                            <p>
+                                                To find out more, read our{' '}
+                                                <a
+                                                    data-link-name="first-pv-consent : to-privacy"
+                                                    href={privacyPolicyUrl}
+                                                >
+                                                    privacy policy
+                                                </a>{' '}
+                                                and{' '}
+                                                <a
+                                                    data-link-name="first-pv-consent : to-cookies"
+                                                    href={cookiePolicyUrl}
+                                                >
+                                                    cookie policy
+                                                </a>
+                                                .
+                                            </p>
+                                            <p>
+                                                You can change the settings for
+                                                this this browser at any time by
+                                                clicking the privacy settings in
+                                                the footer of the
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p>
+                                                We use cookies to improve your
+                                                experience on our site and to
+                                                show you personalised
+                                                advertising.
+                                            </p>
+                                            <p>
+                                                To find out more, read our{' '}
+                                                <a
+                                                    data-link-name="first-pv-consent : to-privacy"
+                                                    href={privacyPolicyUrl}
+                                                >
+                                                    privacy policy
+                                                </a>{' '}
+                                                and{' '}
+                                                <a
+                                                    data-link-name="first-pv-consent : to-cookies"
+                                                    href={cookiePolicyUrl}
+                                                >
+                                                    cookie policy
+                                                </a>
+                                                .
+                                            </p>
+                                        </>
+                                    )}
+
                                     <button
                                         css={collapsibleButtonStyles(
                                             showInfo,
