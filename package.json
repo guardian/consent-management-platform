@@ -14,7 +14,8 @@
         "prepublishOnly": "yarn build",
         "test": "jest --config jestconfig.json",
         "tsc": "tsc --noEmit",
-        "validate": "yarn tsc && yarn lint && yarn test"
+        "validate": "yarn tsc && yarn lint && yarn test",
+        "dev": "rollup --config -w"
     },
     "husky": {
         "hooks": {
@@ -69,8 +70,8 @@
         "jest": "^24.8.0",
         "prettier": "^1.18.2",
         "react": "^16.10.2",
-        "rollup": "^1.24.0",
-        "rollup-plugin-babel": "^4.3.3",
+        "rollup": "^2.6.1",
+        "rollup-plugin-babel": "^4.4.0",
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-node-resolve": "^5.2.0",
         "ts-jest": "^24.0.2",
