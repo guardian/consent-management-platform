@@ -60,7 +60,6 @@
         "@types/react": "^16.9.9",
         "@typescript-eslint/eslint-plugin": "^2.1.0",
         "@typescript-eslint/parser": "^1.13.0",
-        "deepmerge": "^4.2.2",
         "emotion-theming": "^10.0.27",
         "eslint": "^6.3.0",
         "eslint-config-airbnb-typescript": "^4.0.1",
