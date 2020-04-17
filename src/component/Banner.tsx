@@ -349,9 +349,7 @@ class Banner extends Component<Props, State> {
                                                 >
                                                     advertising partners
                                                 </button>
-                                                . We also use geolocation data
-                                                and device linking to help
-                                                improve our services to you.
+                                                .
                                             </p>
                                             <p>
                                                 To find out more, read our{' '}
