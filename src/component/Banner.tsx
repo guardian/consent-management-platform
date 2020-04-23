@@ -346,7 +346,7 @@ class Banner extends Component<Props, State> {
                                                 through cookies and similar
                                                 technologies – to improve your
                                                 experience on our site, analyse
-                                                how you use it, show you
+                                                how you use it and show you
                                                 personalised advertising.
                                             </p>
                                             <p>
