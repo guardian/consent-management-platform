@@ -350,7 +350,7 @@ class Banner extends Component<Props, State> {
                                                 personalised advertising.
                                             </p>
                                             <p>
-                                                You can find out more in our
+                                                You can find out more in our{' '}
                                                 <a
                                                     data-link-name="first-pv-consent : to-privacy"
                                                     href={privacyPolicyUrl}
