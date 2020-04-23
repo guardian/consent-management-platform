@@ -8,6 +8,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { Features } from './Features';
 import { Vendors } from './Vendors';
 import { FontsContext } from './FontsContext';
+import { VENDORS_ID } from './utils/config';
 import { getConsentState } from '../store';
 import {
     GuPurposeState,
@@ -18,7 +19,7 @@ import {
 import { IabPurposes } from './IabPurposes';
 import { Roundel } from './svgs/Roundel';
 
-const SCROLLABLE_ID = 'scrollable';
+const SCROLLABLE_ID = 'cmp-scrollable';
 
 const overlayContainerStyles = css`
     position: fixed;
@@ -177,6 +178,7 @@ interface State {
 }
 
 interface Props {
+    focusVendors: boolean;
     parsedVendorList: ParsedIabVendorList;
     onSaveAndCloseClick: (iabState: IabPurposeState) => void;
     onEnableAllAndCloseClick: () => void;
@@ -200,10 +202,17 @@ class Modal extends Component<Props, State> {
         if (scrollableElem) {
             (scrollableElem as HTMLElement).focus();
         }
+
+        if (this.props.focusVendors) {
+            const vendorsElem = window.document.getElementById(VENDORS_ID);
+            if (vendorsElem) {
+                vendorsElem.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     }
 
     public render(): React.ReactNode {
-        const { parsedVendorList } = this.props;
+        const { focusVendors, parsedVendorList } = this.props;
         const { iabState, iabNullResponses } = this.state;
 
         return (
@@ -264,6 +273,7 @@ class Modal extends Component<Props, State> {
                                     />
                                     <Vendors
                                         vendors={parsedVendorList.vendors}
+                                        expandedByDefault={focusVendors}
                                     />
                                 </div>
                             </div>

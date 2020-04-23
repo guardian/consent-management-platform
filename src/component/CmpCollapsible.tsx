@@ -29,6 +29,7 @@ interface Props {
     value?: ItemState;
     updateItem?: (updatedValue: boolean) => void;
     showError?: boolean;
+    expandedByDefault?: boolean;
 }
 
 interface State {
@@ -40,7 +41,7 @@ export class CmpCollapsible extends Component<Props, State> {
         super(props);
 
         this.state = {
-            collapsed: false,
+            collapsed: !!props.expandedByDefault, // TODO: collapsed has the wrong meaning. Should be the opposite.
         };
     }
 
