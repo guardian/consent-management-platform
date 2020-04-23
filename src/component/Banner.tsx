@@ -350,7 +350,7 @@ class Banner extends Component<Props, State> {
                                                 personalised advertising.
                                             </p>
                                             <p>
-                                                To find out more, read our{' '}
+                                                You can find out more in our
                                                 <a
                                                     data-link-name="first-pv-consent : to-privacy"
                                                     href={privacyPolicyUrl}
@@ -364,13 +364,10 @@ class Banner extends Component<Props, State> {
                                                 >
                                                     cookie policy
                                                 </a>
-                                                .
-                                            </p>
-                                            <p>
-                                                You can change the settings for
-                                                this browser at any time by
-                                                clicking the privacy settings in
-                                                the footer of the page.
+                                                , and manage your consent at any
+                                                time by going to ‘Privacy
+                                                settings’ at the bottom of any
+                                                page.
                                             </p>
                                         </>
                                     ) : (
