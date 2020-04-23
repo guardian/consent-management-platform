@@ -287,7 +287,7 @@ interface Props {
     cookiePolicyUrl: string;
     iabPurposes: IabPurpose[];
     onEnableAllAndCloseClick: () => void;
-    onOptionsClick: () => void;
+    onOptionsClick: (shouldFocusVendors: boolean) => void;
     variant?: string;
 }
 
@@ -336,7 +336,7 @@ class Banner extends Component<Props, State> {
                                                 <button
                                                     css={buttonAsLinkStyles}
                                                     onClick={() => {
-                                                        onOptionsClick();
+                                                        onOptionsClick(true);
                                                     }}
                                                     tabIndex={1}
                                                 >
@@ -500,7 +500,7 @@ class Banner extends Component<Props, State> {
                                             size="default"
                                             css={buttonStyles(bodySans)}
                                             onClick={() => {
-                                                onOptionsClick();
+                                                onOptionsClick(false);
                                             }}
                                             tabIndex={5}
                                         >

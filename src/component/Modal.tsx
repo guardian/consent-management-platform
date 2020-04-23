@@ -177,6 +177,7 @@ interface State {
 }
 
 interface Props {
+    focusVendors: boolean;
     parsedVendorList: ParsedIabVendorList;
     onSaveAndCloseClick: (iabState: IabPurposeState) => void;
     onEnableAllAndCloseClick: () => void;
@@ -203,9 +204,10 @@ class Modal extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        const { parsedVendorList } = this.props;
+        const { focusVendors, parsedVendorList } = this.props;
         const { iabState, iabNullResponses } = this.state;
-
+        // eslint-disable-next-line no-console
+        console.log('focusVendor', focusVendors);
         return (
             <FontsContext.Consumer>
                 {({
