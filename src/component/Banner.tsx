@@ -332,14 +332,7 @@ class Banner extends Component<Props, State> {
                                     'commercialCmpCopy-variant' ? (
                                         <>
                                             <p>
-                                                We use your information –
-                                                collected through cookies and
-                                                similar technologies – to
-                                                improve your experience on our
-                                                site, analyse how you use it,
-                                                show you personalised
-                                                advertising and share that
-                                                information with{' '}
+                                                We and our{' '}
                                                 <button
                                                     css={buttonAsLinkStyles}
                                                     onClick={() => {
@@ -347,9 +340,14 @@ class Banner extends Component<Props, State> {
                                                     }}
                                                     tabIndex={1}
                                                 >
-                                                    advertising partners
-                                                </button>
-                                                .
+                                                    partners
+                                                </button>{' '}
+                                                use your information – collected
+                                                through cookies and similar
+                                                technologies – to improve your
+                                                experience on our site, analyse
+                                                how you use it, show you
+                                                personalised advertising. .
                                             </p>
                                             <p>
                                                 To find out more, read our{' '}
@@ -370,9 +368,9 @@ class Banner extends Component<Props, State> {
                                             </p>
                                             <p>
                                                 You can change the settings for
-                                                this this browser at any time by
+                                                this browser at any time by
                                                 clicking the privacy settings in
-                                                the footer of the
+                                                the footer of the page
                                             </p>
                                         </>
                                     ) : (
