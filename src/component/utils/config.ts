@@ -1,5 +1,6 @@
 import { FontsContextInterface } from '../../types';
 
+export const VENDORS_ID = 'cmp-vendors';
 export const SCROLLABLE_ID = 'cmpScrollable';
 export const CONTENT_ID = 'cmpContent';
 export const PURPOSES_ID = 'cmpPurposes';

@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { CmpListItem } from './CmpListItem';
 import { ParsedIabVendor } from '../types';
+import { VENDORS_ID } from './utils/config';
 
 interface Props {
     vendors: ParsedIabVendor[];
@@ -14,7 +15,7 @@ const cmpListStyles = css`
 `;
 
 export const Vendors = (props: Props) => (
-    <ul css={cmpListStyles}>
+    <ul id={VENDORS_ID} css={cmpListStyles}>
         <CmpListItem
             name="Vendors"
             expandedByDefault={props.expandedByDefault}

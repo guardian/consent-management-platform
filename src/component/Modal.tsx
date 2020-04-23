@@ -8,6 +8,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { Features } from './Features';
 import { Vendors } from './Vendors';
 import { FontsContext } from './FontsContext';
+import { VENDORS_ID } from './utils/config';
 import { getConsentState } from '../store';
 import {
     GuPurposeState,
@@ -200,6 +201,13 @@ class Modal extends Component<Props, State> {
         const scrollableElem = document.getElementById(SCROLLABLE_ID);
         if (scrollableElem) {
             (scrollableElem as HTMLElement).focus();
+        }
+
+        if (this.props.focusVendors) {
+            const vendorsElem = window.document.getElementById(VENDORS_ID);
+            if (vendorsElem) {
+                vendorsElem.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     }
 
