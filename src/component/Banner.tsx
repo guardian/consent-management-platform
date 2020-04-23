@@ -370,7 +370,7 @@ class Banner extends Component<Props, State> {
                                                 You can change the settings for
                                                 this browser at any time by
                                                 clicking the privacy settings in
-                                                the footer of the page
+                                                the footer of the page.
                                             </p>
                                         </>
                                     ) : (
