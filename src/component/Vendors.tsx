@@ -5,6 +5,7 @@ import { ParsedIabVendor } from '../types';
 
 interface Props {
     vendors: ParsedIabVendor[];
+    expandedByDefault?: boolean;
 }
 
 const cmpListStyles = css`
@@ -14,7 +15,11 @@ const cmpListStyles = css`
 
 export const Vendors = (props: Props) => (
     <ul css={cmpListStyles}>
-        <CmpListItem name="Vendors" key={`vendorsCollapsible`}>
+        <CmpListItem
+            name="Vendors"
+            expandedByDefault={props.expandedByDefault}
+            key={`vendorsCollapsible`}
+        >
             <ul css={cmpListStyles}>
                 {props.vendors.map(
                     (vendor: ParsedIabVendor): React.ReactNode => {

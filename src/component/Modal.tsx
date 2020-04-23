@@ -206,8 +206,7 @@ class Modal extends Component<Props, State> {
     public render(): React.ReactNode {
         const { focusVendors, parsedVendorList } = this.props;
         const { iabState, iabNullResponses } = this.state;
-        // eslint-disable-next-line no-console
-        console.log('focusVendor', focusVendors);
+
         return (
             <FontsContext.Consumer>
                 {({
@@ -266,6 +265,7 @@ class Modal extends Component<Props, State> {
                                     />
                                     <Vendors
                                         vendors={parsedVendorList.vendors}
+                                        expandedByDefault={focusVendors}
                                     />
                                 </div>
                             </div>
