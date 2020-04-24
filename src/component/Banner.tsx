@@ -328,76 +328,42 @@ class Banner extends Component<Props, State> {
                                     </h1>
                                 </div>
                                 <div css={mobileScrollable}>
-                                    {this.props.variant ===
-                                    'commercialCmpCopy-variant' ? (
-                                        <>
-                                            <p>
-                                                We and our{' '}
-                                                <button
-                                                    css={buttonAsLinkStyles}
-                                                    onClick={() => {
-                                                        onOptionsClick(true);
-                                                    }}
-                                                    tabIndex={1}
-                                                >
-                                                    partners
-                                                </button>{' '}
-                                                use your information – collected
-                                                through cookies and similar
-                                                technologies – to improve your
-                                                experience on our site, analyse
-                                                how you use it and show you
-                                                personalised advertising.
-                                            </p>
-                                            <p>
-                                                You can find out more in our{' '}
-                                                <a
-                                                    data-link-name="first-pv-consent : to-privacy"
-                                                    href={privacyPolicyUrl}
-                                                >
-                                                    privacy policy
-                                                </a>{' '}
-                                                and{' '}
-                                                <a
-                                                    data-link-name="first-pv-consent : to-cookies"
-                                                    href={cookiePolicyUrl}
-                                                >
-                                                    cookie policy
-                                                </a>
-                                                , and manage your consent at any
-                                                time by going to ‘Privacy
-                                                settings’ at the bottom of any
-                                                page.
-                                            </p>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p>
-                                                We use cookies to improve your
-                                                experience on our site and to
-                                                show you personalised
-                                                advertising.
-                                            </p>
-                                            <p>
-                                                To find out more, read our{' '}
-                                                <a
-                                                    data-link-name="first-pv-consent : to-privacy"
-                                                    href={privacyPolicyUrl}
-                                                >
-                                                    privacy policy
-                                                </a>{' '}
-                                                and{' '}
-                                                <a
-                                                    data-link-name="first-pv-consent : to-cookies"
-                                                    href={cookiePolicyUrl}
-                                                >
-                                                    cookie policy
-                                                </a>
-                                                .
-                                            </p>
-                                        </>
-                                    )}
-
+                                    <p>
+                                        We and our{' '}
+                                        <button
+                                            css={buttonAsLinkStyles}
+                                            onClick={() => {
+                                                onOptionsClick(true);
+                                            }}
+                                            tabIndex={1}
+                                        >
+                                            partners
+                                        </button>{' '}
+                                        use your information – collected through
+                                        cookies and similar technologies – to
+                                        improve your experience on our site,
+                                        analyse how you use it and show you
+                                        personalised advertising.
+                                    </p>
+                                    <p>
+                                        You can find out more in our{' '}
+                                        <a
+                                            data-link-name="first-pv-consent : to-privacy"
+                                            href={privacyPolicyUrl}
+                                        >
+                                            privacy policy
+                                        </a>{' '}
+                                        and{' '}
+                                        <a
+                                            data-link-name="first-pv-consent : to-cookies"
+                                            href={cookiePolicyUrl}
+                                        >
+                                            cookie policy
+                                        </a>
+                                        , and manage your consent at any time by
+                                        going to ‘Privacy settings’ at the
+                                        bottom of any page.
+                                    </p>
                                     <button
                                         css={collapsibleButtonStyles(
                                             showInfo,
