@@ -11,8 +11,7 @@ const extensions = ['.js', '.ts', '.tsx'];
 
 const dist = '.dev';
 
-// eslint-disable-next-line import/no-default-export
-export default () => ({
+export default {
     input: path.resolve(__dirname, 'app.tsx'),
     output: {
         format: 'esm',
@@ -40,4 +39,4 @@ export default () => ({
         html(),
         livereload({ watch: dist }),
     ],
-});
+};
