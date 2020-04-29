@@ -19,4 +19,9 @@ const onClose = () => {
     //     onIabConsentNotification,
 };
 
-ReactDOM.render(<ConsentManagementPlatform onClose={onClose} />, document.body);
+document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
+
+ReactDOM.render(
+    <ConsentManagementPlatform onClose={onClose} />,
+    document.getElementById('app'),
+);
