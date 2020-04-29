@@ -4,13 +4,13 @@
 
 ### Node.js
 
-Make sure you have installed [Node.js](https://nodejs.org). Our reccommended version is `10.15.3`.
+Make sure you have installed [Node.js](https://nodejs.org). See the [`.nvmrc`](../.nvmrc) file for the required version.
 
-We recommend using [nvm](https://github.com/creationix/nvm) (especially combined with [this handy gist](https://gist.github.com/sndrs/5940e9e8a3f506b287233ed65365befb)). It is great at managing multiple versions of Node.js on one machine.
+We recommend using [nvm](https://github.com/creationix/nvm). It is great at managing multiple versions of Node.js on one machine, especially when [configured to automatically use the required version](https://github.com/nvm-sh/nvm#deeper-shell-integration).
 
 ### Yarn
 
-We use [Yarn](https://yarnpkg.com/en/) for managing our dependencies. Our reccommended version is `1.17.3`.
+We use [Yarn](https://yarnpkg.com/en/) for managing our dependencies.
 
 ## Running instructions
 
@@ -18,6 +18,12 @@ We use [Yarn](https://yarnpkg.com/en/) for managing our dependencies. Our reccom
 $ git clone git@github.com:guardian/consent-management-platform.git
 $ cd consent-management-platform
 $ yarn
+```
+
+## Dev Server
+
+```bash
+$ yarn dev
 ```
 
 ## Code Quality
