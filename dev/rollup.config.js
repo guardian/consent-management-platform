@@ -1,39 +1,22 @@
-/* eslint-disable import/no-default-export */
 import html from '@rollup/plugin-html';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
+import resolve from 'rollup-plugin-node-resolve';
+import path from 'path';
 
 const extensions = ['.js', '.ts', '.tsx'];
 
-const scriptTags = (files, publicPath) =>
-    files
-        .map(
-            ({ fileName }) =>
-                `<script src="${publicPath}${fileName}" type="module"></script>`,
-        )
-        .join('');
+const dist = '.dev';
 
-const template = ({ files, publicPath }) => `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        ${scriptTags(files.js, publicPath)}
-    </head>
-    <body>
-        <div id="root"></div>
-    </body>
-    </html>
-`;
-
+// eslint-disable-next-line import/no-default-export
 export default () => ({
-    input: 'dev.tsx',
+    input: path.resolve(__dirname, 'app.tsx'),
     output: {
         format: 'esm',
-        dir: 'lib',
+        dir: dist,
     },
     plugins: [
         babel({ extensions }),
@@ -52,7 +35,8 @@ export default () => ({
         replace({
             'process.env.NODE_ENV': JSON.stringify('production'),
         }),
-        serve('lib'),
-        html({ template }),
+        serve(dist),
+        html(),
+        livereload({ watch: dist }),
     ],
 });

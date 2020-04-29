@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ConsentManagementPlatform } from './src/component/ConsentManagementPlatform';
+import { ConsentManagementPlatform } from '../src/component/ConsentManagementPlatform';
 
 // import {
 //     onGuConsentNotification,
@@ -15,7 +15,4 @@ import { ConsentManagementPlatform } from './src/component/ConsentManagementPlat
 // eslint-disable-next-line no-console
 const onClose = () => console.log('closed it');
 
-ReactDOM.render(
-    <ConsentManagementPlatform onClose={onClose} />,
-    document.getElementById('root'),
-);
+ReactDOM.render(<ConsentManagementPlatform onClose={onClose} />, document.body);

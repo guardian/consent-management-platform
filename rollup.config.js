@@ -1,11 +1,10 @@
-/* eslint-disable import/no-default-export */
-
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 
 const extensions = ['.ts', '.tsx'];
 
+// eslint-disable-next-line import/no-default-export
 export default () => ({
     input: {
         index: 'src/index.ts',
