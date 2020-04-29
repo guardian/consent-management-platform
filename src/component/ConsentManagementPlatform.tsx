@@ -28,6 +28,7 @@ interface State {
     guPurposeList: GuPurposeList;
     parsedIabVendorList?: ParsedIabVendorList;
     mode: 'banner' | 'modal';
+    focusVendors: boolean;
 }
 
 interface Props {
@@ -46,6 +47,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
 
         this.state = {
             mode: forceModal ? 'modal' : 'banner',
+            focusVendors: false,
             guPurposeList: getGuPurposeList(),
         };
 
@@ -74,7 +76,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
     }
 
     public render(): React.ReactNode {
-        const { mode, parsedIabVendorList } = this.state;
+        const { mode, focusVendors, parsedIabVendorList } = this.state;
         const { fontFamilies } = this.props;
 
         const bannerMode = mode === 'banner';
@@ -91,11 +93,18 @@ class ConsentManagementPlatform extends Component<Props, State> {
                         onEnableAllAndCloseClick={() => {
                             this.enableAllAndClose();
                         }}
-                        onOptionsClick={() => this.setState({ mode: 'modal' })}
+                        onOptionsClick={shouldFocusVendors =>
+                            this.setState({
+                                mode: 'modal',
+                                focusVendors: shouldFocusVendors,
+                            })
+                        }
+                        variant={this.props.variant}
                     />
                 )}
                 {parsedIabVendorList && !bannerMode && (
                     <Modal
+                        focusVendors={focusVendors}
                         parsedVendorList={parsedIabVendorList}
                         onSaveAndCloseClick={(iabState: IabPurposeState) => {
                             this.saveAndCloseClick(iabState);
@@ -109,7 +118,10 @@ class ConsentManagementPlatform extends Component<Props, State> {
                             if (forceModal) {
                                 onClose();
                             } else {
-                                this.setState({ mode: 'banner' });
+                                this.setState({
+                                    mode: 'banner',
+                                    focusVendors: false,
+                                });
                             }
                         }}
                     />
