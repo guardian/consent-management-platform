@@ -12,7 +12,7 @@ const extensions = ['.js', '.ts'];
 const dist = '.dev';
 
 export default {
-    input: path.resolve(__dirname, 'app.ts'),
+    input: path.resolve(__dirname, 'dev', 'app.ts'),
     output: {
         format: 'esm',
         dir: dist,
@@ -21,17 +21,7 @@ export default {
     plugins: [
         babel({ extensions }),
         resolve({ extensions }),
-        commonjs({
-            namedExports: {
-                react: [
-                    'createContext',
-                    'forwardRef',
-                    'createElement',
-                    'Component',
-                    'Fragment',
-                ],
-            },
-        }),
+        commonjs(),
         replace({
             'process.env.NODE_ENV': JSON.stringify('development'),
         }),
