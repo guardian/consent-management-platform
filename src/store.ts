@@ -234,13 +234,10 @@ const stateChanged = (
         //     (acc, key) => acc || guNew[key] !== guState[key],
         //     false as boolean,
         // ) ||
-        Object.keys(iabNew).reduce(
-            (acc, key) => {
-                const keyAsNum = parseInt(key, 10);
-                return acc || iabNew[keyAsNum] !== iabState[keyAsNum];
-            },
-            false as boolean,
-        )
+        Object.keys(iabNew).some(key => {
+            const keyAsNum = parseInt(key, 10);
+            return iabNew[keyAsNum] !== iabState[keyAsNum];
+        })
     );
 };
 
