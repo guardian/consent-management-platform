@@ -13,4 +13,14 @@ module.exports = {
     rules: {
         'prettier/prettier': 2,
     },
+    overrides: [
+        {
+            files: ['*.js'],
+            parser: 'espree',
+            parserOptions: {
+                sourceType: 'module',
+                ecmaVersion: 2015,
+            },
+        },
+    ],
 };

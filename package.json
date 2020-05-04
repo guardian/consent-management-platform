@@ -8,7 +8,7 @@
         "build": "yarn validate && yarn build-only",
         "build-only": "yarn clean && rollup --config && yarn declaration",
         "clean": "rm -rf lib/*",
-        "declaration": "tsc --emitDeclarationOnly -d -m commonjs",
+        "declaration": "tsc --emitDeclarationOnly -d -m commonjs ",
         "fix": "yarn lint --fix",
         "lint": "eslint src/**/*.ts",
         "prepublishOnly": "yarn build",
