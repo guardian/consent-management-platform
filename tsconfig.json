@@ -7,6 +7,6 @@
         "esModuleInterop": true,
         "allowJs": true
     },
-    "include": ["./**/*.ts", "./**/*.js"],
+    "include": ["src/**/*.ts", "dev/**/*.ts", "./*.js"],
     "exclude": ["node_modules", "src/**/*.test.ts"]
 }
