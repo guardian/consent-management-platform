@@ -7,12 +7,12 @@ import livereload from 'rollup-plugin-livereload';
 import resolve from 'rollup-plugin-node-resolve';
 import path from 'path';
 
-const extensions = ['.js', '.ts', '.tsx'];
+const extensions = ['.js', '.ts'];
 
 const dist = '.dev';
 
 export default {
-    input: path.resolve(__dirname, 'app.tsx'),
+    input: path.resolve(__dirname, 'app.ts'),
     output: {
         format: 'esm',
         dir: dist,
