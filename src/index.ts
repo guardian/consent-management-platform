@@ -1,3 +1,1 @@
-export { onGuConsentNotification, onIabConsentNotification } from './core';
-export { setErrorHandler } from './error';
-export { shouldShow } from './cmp-ui';
+export default () => console.log("I'm alive");
