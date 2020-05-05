@@ -12,7 +12,7 @@ const extensions = ['.js', '.ts'];
 const dist = '.dev';
 
 export default {
-    input: path.resolve(__dirname, 'dev', 'app.ts'),
+    input: path.resolve(__dirname, 'dev', 'app.js'),
     output: {
         format: 'esm',
         dir: dist,
