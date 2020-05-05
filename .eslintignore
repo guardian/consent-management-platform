@@ -1,2 +1,3 @@
 lib/**/*.js
+src/**/*.test.ts
 node_modules

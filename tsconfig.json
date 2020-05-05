@@ -4,9 +4,8 @@
         "lib": ["dom", "es7"],
         "outDir": "./lib",
         "strict": true,
-        "jsx": "preserve",
         "esModuleInterop": true
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "src/**/*.test.ts"]
 }
