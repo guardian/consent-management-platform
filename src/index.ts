@@ -20,6 +20,7 @@ export const init = ({ id }: InitProps) => {
         throw new Error('Sourcepoint global (window._sp_) is already defined!');
     }
 
+    // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support-beta/gdpr-and-tcf-v2-setup-and-configuration#1-two-step-process-to-implement-the-gdpr-and-tcf-v2-code-snippet
     window._sp_ = {
         config: {
             accountId: id,
