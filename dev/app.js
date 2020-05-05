@@ -1,3 +1,3 @@
 import { init } from '../src';
 
-init({ id: '1257' });
+init({ accountId: '1257' });
