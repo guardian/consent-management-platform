@@ -1,1 +1,1 @@
-export default () => console.log("I'm alive");
+export { init } from './sourcepoint';

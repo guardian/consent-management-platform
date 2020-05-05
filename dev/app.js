@@ -1,3 +1,3 @@
-import cmp from '../src';
+import { init } from '../src';
 
-cmp();
+init();
