@@ -14,7 +14,7 @@ export default {
     output: {
         format: 'esm',
         dir: dist,
-        sourcemap: 'inline',
+        sourcemap: true,
     },
     plugins: [
         babel({ extensions }),
