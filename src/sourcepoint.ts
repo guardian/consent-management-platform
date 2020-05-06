@@ -44,7 +44,8 @@ export const init = (config: Config) => {
         config: {
             accountId,
             wrapperAPIOrigin: 'https://wrapper-api.sp-prod.net/tcfv2',
-            mmsDomain: `https://message${accountId}.sp-prod.net`,
+            mmsDomain: `https://message.sp-prod.net`,
+            propertyHref: 'https://test.theguardian.com',
         },
     };
 
