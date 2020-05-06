@@ -4,3 +4,4 @@ node_modules
 # Built files
 /lib
 /.dev
+/.gh-pages
