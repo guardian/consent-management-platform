@@ -40,7 +40,7 @@ describe('CMP integration', () => {
     });
 
     describe('sourcepoint lib', () => {
-        it('Is added to the page', () => {
+        it('Is added to the page with the correct URL', () => {
             const url =
                 'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js';
             cy.get('#sourcepoint-lib').should('have.attr', 'src', url);
