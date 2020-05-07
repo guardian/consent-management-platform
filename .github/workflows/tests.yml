@@ -11,7 +11,5 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: 12
-            - name: Install
               run: yarn
-            - name: Unit tests
               run: yarn test:unit
