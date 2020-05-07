@@ -30,7 +30,7 @@ const lib = document.createElement('script');
 lib.id = 'sourcepoint-lib';
 lib.src = 'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js';
 
-export const init = (config: Config) => {
+export const init = (config: Config = {}) => {
     document.head.appendChild(stub);
 
     // make sure nothing else on the page has accidentally

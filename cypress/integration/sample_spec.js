@@ -2,29 +2,13 @@ describe('CMP integration', () => {
     it('Runs dev server', () => {
         cy.visit('http://localhost:10001');
     });
-    it('Adds the sourcepoint stub to the page', () => {
-        cy.get('#sourcepoint-stub');
-    });
 
     describe('sourcepoint stub', () => {
         it('Is added to the page', () => {
-            cy.get('#sourcepoint-stub');
+            cy.get('script#sourcepoint-stub');
         });
 
         it('Adds the config params', () => {
-            // cy.window()
-            //     .its('_sp_.config')
-            //     .its('accountId')
-            //     .should('equal', 1257);
-            // cy.window()
-            //     .its('_sp_.config.mmsDomain')
-            //     .should('equal', 'https://message.sp-prod.net');
-            // cy.window()
-            //     .its('_sp_.config.wrapperAPIOrigin')
-            //     .should('equal', 'https://wrapper-api.sp-prod.net/tcfv2');
-
-            // const spConfig = cy.window().its('_sp_.config');
-
             cy.window()
                 .its('_sp_.config')
                 .then(spConfig => {
@@ -41,13 +25,17 @@ describe('CMP integration', () => {
 
     describe('sourcepoint lib', () => {
         it('Is added to the page with the correct URL', () => {
-            cy.get('#sourcepoint-lib').should(
+            cy.get('script#sourcepoint-lib').should(
                 'have.attr',
                 'src',
                 'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js',
             );
         });
 
-        it.skip('Gets sourcepoint script', () => {});
+        it.skip('Gets sourcepoint script', () => {
+            // Cannot test right now due to library limitations
+            // https://docs.cypress.io/api/commands/route.html#Syntax
+            // Issue opened here: https://github.com/cypress-io/cypress/issues/95
+        });
     });
 });
