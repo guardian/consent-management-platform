@@ -24,7 +24,7 @@ export default {
             'process.env.NODE_ENV': JSON.stringify('production'),
         }),
         html({
-            title: 'Guardian CMP',
+            title: 'CMP Sourcepoint progress',
         }),
     ],
 };
