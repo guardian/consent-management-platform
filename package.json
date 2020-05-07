@@ -8,17 +8,18 @@
         "build": "yarn validate && yarn build-only",
         "build-only": "yarn clean && rollup --config && yarn declaration",
         "clean": "rm -rf lib/*",
+        "cy": "cypress open",
         "declaration": "tsc --emitDeclarationOnly -d -m commonjs ",
+        "dev": "rollup --config rollup.config.dev.js --watch",
         "fix": "yarn lint --fix",
         "lint": "eslint src/**/*.ts",
         "prepublishOnly": "yarn build",
-        "test": "yarn test:unit",
+        "test": "yarn test:unit && yarn test:integration",
+        "test:integration": "cypress run",
         "test:unit": "jest --config jestconfig.json",
         "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
-        "dev": "rollup --config rollup.config.dev.js --watch",
-        "gh-pages:build": "rollup --config rollup.config.gh-pages.js",
-        "test:integration": "cypress open"
+        "gh-pages:build": "rollup --config rollup.config.gh-pages.js"
     },
     "husky": {
         "hooks": {
