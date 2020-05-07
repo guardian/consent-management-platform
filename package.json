@@ -18,7 +18,7 @@
         "validate": "yarn tsc && yarn lint && yarn test",
         "dev": "rollup --config rollup.config.dev.js --watch",
         "gh-pages:build": "rollup --config rollup.config.gh-pages.js",
-        "test-integration": "cypress open"
+        "test:integration": "cypress open"
     },
     "husky": {
         "hooks": {
