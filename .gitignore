@@ -5,3 +5,5 @@ node_modules
 /lib
 /.dev
 /.gh-pages
+/cypress/screenshots
+/cypress/videos
