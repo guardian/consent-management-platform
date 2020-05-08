@@ -8,17 +8,36 @@ jobs:
         name: Validate
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout repo
+              uses: actions/checkout@v2
+              
             - name: Use Node.js
               uses: actions/setup-node@v1
               with:
                   node-version: 12
-            - name: Install dependencies
-              run: yarn --frozen-lockfile
+            
+            - name: Yarn - get cache directory
+              id: yarn-cache-path
+              run: echo "::set-output name=dir::$(yarn cache dir)"
+
+            - name: Yarn - process cache
+              id: yarn-cache
+              uses: actions/cache@v1
+              with:
+                path: ${{ steps.yarn-cache-path.outputs.dir }}
+                key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                restore-keys: ${{ runner.os }}-yarn-
+
+            - name: Yarn - install
+              if: steps.yarn-cache.outputs.cache-hit != 'true'
+              run: yarn install --frozen-lockfile
+              
             - name: Run unit tests
               run: yarn test:unit
+              
             - name: Lint files
               run: yarn lint
+              
             - name: Run type checks
               run: yarn tsc
 
