@@ -5,21 +5,27 @@ on:
             - 'gh-pages'
 jobs:
     test:
-        name: Tests
+        name: Validate
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - name: Use Node.js
+              uses: actions/setup-node@v1
               with:
                   node-version: 12
-            - uses: actions/cache@v1.1.2
+            - name: Use Yarn cache
+              uses: actions/cache@v1.1.2
               with:
                 path: echo "$(yarn cache dir)"
                 key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
                 restore-keys: |
                   ${{ runner.os }}-yarn-
-            - run: yarn
-            - run: yarn test:unit
-            - run: yarn lint
-            - run: yarn tsc
+            - name: Install dependencies
+              run: yarn --frozen-lockfile
+            - name: Run unit tests
+              run: yarn test:unit
+            - name: Lint files
+              run: yarn lint
+            - name: Run type checks
+              run: yarn tsc
 
