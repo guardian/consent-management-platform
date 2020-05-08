@@ -16,7 +16,8 @@ jobs:
               with:
                   node-version: 12
             
-            - uses: bahmutov/npm-install@v1
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
               
             - name: Run unit tests
               run: yarn test:unit
