@@ -13,13 +13,6 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: 12
-            - name: Use Yarn cache
-              uses: actions/cache@v1.1.2
-              with:
-                path: echo "$(yarn cache dir)"
-                key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-                restore-keys: |
-                  ${{ runner.os }}-yarn-
             - name: Install dependencies
               run: yarn --frozen-lockfile
             - name: Run unit tests
