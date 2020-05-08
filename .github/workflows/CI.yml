@@ -5,7 +5,7 @@ on:
             - 'gh-pages'
 jobs:
     test:
-        name: Validate
+        name: Test
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
@@ -21,10 +21,38 @@ jobs:
               
             - name: Run unit tests
               run: yarn test:unit --ci
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+              
+            - name: Use Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
               
             - name: Lint files
               run: yarn lint
+    types:
+        name: Types
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
               
-            - name: Run type checks
+            - name: Use Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+              
+            - name: Check types
               run: yarn tsc
 
