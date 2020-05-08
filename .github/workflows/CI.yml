@@ -8,9 +8,6 @@ jobs:
         name: Tests
         runs-on: ubuntu-latest
         steps:
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "::set-output name=dir::$(yarn cache dir)"
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
@@ -31,6 +28,12 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: 12
+            - uses: actions/cache@v1.1.2
+              with:
+                path: echo "$(yarn cache dir)"
+                key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                restore-keys: |
+                  ${{ runner.os }}-yarn-  
             - run: yarn
             - run: yarn lint
     type-check:
