@@ -7,3 +7,6 @@ node_modules
 /.gh-pages
 /cypress/screenshots
 /cypress/videos
+
+# Trash
+.DS_Store
