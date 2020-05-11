@@ -23,11 +23,6 @@
         "validate": "yarn tsc && yarn lint && yarn test",
         "gh-pages:build": "rollup --config rollup.config.gh-pages.js"
     },
-    "husky": {
-        "hooks": {
-            "pre-push": "yarn validate"
-        }
-    },
     "repository": "https://github.com/guardian/consent-management-platform.git",
     "homepage": "https://github.com/guardian/consent-management-platform.git",
     "author": "George Haberis <george.haberis@guardian.co.uk>",
