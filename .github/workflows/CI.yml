@@ -38,8 +38,8 @@ jobs:
 
             - name: Lint files
               run: yarn lint
-    test:
-        name: Tests
+    test-unit:
+        name: Unit Tests
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
@@ -55,3 +55,20 @@ jobs:
 
             - name: Run unit tests
               run: yarn test:unit --ci
+    test-integration:
+        name: Integration Tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Use Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+
+            - name: Run unit tests
+              run: yarn test:integration
