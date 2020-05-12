@@ -3,6 +3,7 @@
 declare global {
     interface Window {
         _sp_: { config: {} };
+        _sp_ccpa: { config: {} };
     }
 }
 
