@@ -68,7 +68,7 @@ export const init = (config: Config = {}) => {
             accountId,
             getDnsMsgMms: true,
             alwaysDisplayDns: false,
-            propertyHref: 'https://test.theguardian.com',
+            siteHref: 'https://test.theguardian.com',
         },
     };
 
