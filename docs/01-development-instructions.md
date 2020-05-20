@@ -66,8 +66,6 @@ The `consent-management-platform` is available to import from [NPM](https://www.
 
 Once you are ready to publish a new release please follow these steps:
 
--   Make sure all the changes you want to release have been merged into `master`.
--   On `master` bump the version number appropriately, we use [semantic versioning](https://docs.npmjs.com/about-semantic-versioning) when bumping the version.
--   Once the version number has been bumped create a new [release](https://github.com/guardian/consent-management-platform/releases) using Github. Make sure to label correctly and add a list of links to PRs merged since the last release.
--   You can now publish to NPM from your local machine. To do this pull `master`, and then run the following command: `yarn publish --access public --new-version [new version number as stated in package.json]`. This command will validate the code and if it passes validation it will build and publish to NPM.
+-   Run `yarn release` and follow the prompts
+-   Publish the opened github release draft
 -   Now check https://www.npmjs.com/package/@guardian/consent-management-platform
