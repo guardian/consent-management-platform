@@ -7,8 +7,8 @@ const extensions = ['.ts'];
 module.exports = {
     input: 'src/index.ts',
     output: [
-        { file: 'lib/index.js', format: 'cjs' },
-        { file: 'lib/index.esm.js', format: 'esm' },
+        { file: 'dist/index.js', format: 'cjs' },
+        { file: 'dist/index.esm.js', format: 'esm' },
     ],
     plugins: [babel({ extensions }), resolve({ extensions }), commonjs()],
 };

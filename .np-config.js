@@ -1,5 +1,5 @@
 module.exports = {
     yarn: true,
-    contents: 'lib',
+    contents: 'dist',
     anyBranch: true,
 };

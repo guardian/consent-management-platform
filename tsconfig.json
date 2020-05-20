@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es5", // compile to es5 since to build a package with browser compatibility.
         "lib": ["dom", "es7"],
-        "outDir": "./lib",
+        "outDir": "./dist",
         "strict": true,
         "esModuleInterop": true
     },

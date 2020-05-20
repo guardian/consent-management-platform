@@ -2,7 +2,7 @@
 node_modules
 
 # Built files
-/lib
+dist
 /.dev
 /.gh-pages
 /cypress/screenshots

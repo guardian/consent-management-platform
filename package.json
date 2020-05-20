@@ -2,12 +2,12 @@
     "name": "@guardian/consent-management-platform",
     "version": "3.0.4",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
-    "main": "lib/index.js",
-    "module": "lib/index.esm.js",
-    "types": "lib/index.d.ts",
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "build": "yarn clean && rollup --config && yarn build:types",
-        "clean": "rm -rf lib/*",
+        "clean": "rm -rf dist/*",
         "cy": "cypress open",
         "cy:run": "cypress run",
         "build:types": "tsc --emitDeclarationOnly -d -m commonjs ",
@@ -66,6 +66,6 @@
         "typescript": "~3.5.3"
     },
     "files": [
-        "lib/**/*"
+        "dist/**/*"
     ]
 }
