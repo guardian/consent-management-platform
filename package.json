@@ -5,12 +5,11 @@
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
-        "build": "yarn validate && yarn build-only",
-        "build-only": "yarn clean && rollup --config && yarn declaration",
+        "build": "yarn clean && rollup --config && yarn build:types",
         "clean": "rm -rf lib/*",
         "cy": "cypress open",
         "cy:run": "cypress run",
-        "declaration": "tsc --emitDeclarationOnly -d -m commonjs ",
+        "build:types": "tsc --emitDeclarationOnly -d -m commonjs ",
         "dev": "yarn serve-dev --watch",
         "fix": "yarn lint --fix",
         "lint": "eslint src/**/*.ts",
@@ -22,7 +21,7 @@
         "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
         "gh-pages:build": "rollup --config rollup.config.gh-pages.js",
-        "np": "np --preview"
+        "release": "np --preview"
     },
     "repository": "https://github.com/guardian/consent-management-platform.git",
     "homepage": "https://github.com/guardian/consent-management-platform.git",
