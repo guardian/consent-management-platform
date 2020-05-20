@@ -22,7 +22,7 @@
         "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
         "gh-pages:build": "rollup --config rollup.config.gh-pages.js",
-        "release": "np --preview"
+        "release": "np"
     },
     "repository": "https://github.com/guardian/consent-management-platform.git",
     "homepage": "https://github.com/guardian/consent-management-platform.git",
