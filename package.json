@@ -3,6 +3,7 @@
     "version": "3.0.4",
     "description": "Library of useful utilities for managing consent state across *.theguardian.com",
     "main": "lib/index.js",
+    "module": "lib/index.esm.js",
     "types": "lib/index.d.ts",
     "scripts": {
         "build": "yarn clean && rollup --config && yarn build:types",
