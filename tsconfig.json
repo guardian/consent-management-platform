@@ -2,10 +2,8 @@
     "compilerOptions": {
         "target": "es5", // compile to es5 since to build a package with browser compatibility.
         "lib": ["dom", "es7"],
-        "outDir": "./dist",
-        "strict": true,
-        "esModuleInterop": true
+        "strict": true
     },
     "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "cypress", "src/**/*.test.ts"]
+    "exclude": ["node_modules", "dist", "cypress", "src/**/*.test.ts"]
 }

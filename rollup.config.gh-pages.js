@@ -1,5 +1,5 @@
 import html from '@rollup/plugin-html';
-import babel from 'rollup-plugin-babel';
+import typescript from '@rollup/plugin-typescript';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
@@ -17,7 +17,7 @@ export default {
         sourcemap: true,
     },
     plugins: [
-        babel({ extensions }),
+        typescript({}),
         resolve({ extensions }),
         commonjs(),
         replace({

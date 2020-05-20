@@ -1,14 +1,19 @@
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import pkg from './package.json';
 
-const extensions = ['.ts'];
-
-module.exports = {
-    input: 'src/index.ts',
-    output: [
-        { file: 'dist/index.js', format: 'cjs' },
-        { file: 'dist/index.esm.js', format: 'esm' },
-    ],
-    plugins: [babel({ extensions }), resolve({ extensions }), commonjs()],
-};
+module.exports = [
+    {
+        input: 'src/index.ts',
+        output: [
+            {
+                file: pkg.main,
+                format: 'cjs',
+            },
+            {
+                file: pkg.module,
+                format: 'esm',
+            },
+        ],
+        plugins: [typescript()],
+    },
+];
