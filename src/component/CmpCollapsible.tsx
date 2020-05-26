@@ -48,11 +48,7 @@ export class CmpCollapsible extends Component<Props, State> {
     public render(): React.ReactNode {
         const { collapsed } = this.state;
         const { title, value, children, updateItem, showError } = this.props;
-        const id = title
-            .replace(',', '')
-            .split(' ')
-            .join('-')
-            .toLowerCase();
+        const id = title.replace(',', '').split(' ').join('-').toLowerCase();
         const panelId = `${id}-panel`;
 
         return (
