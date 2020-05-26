@@ -6,10 +6,7 @@ export const isProd = (): boolean => {
     }
 
     const domain = document.domain || '';
-    const shortDomain = domain
-        .split('.')
-        .slice(-2)
-        .join('.');
+    const shortDomain = domain.split('.').slice(-2).join('.');
 
     return shortDomain === 'theguardian.com';
 };
