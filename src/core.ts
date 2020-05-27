@@ -7,6 +7,7 @@ import {
     ItemState,
 } from './types';
 import { GU_PURPOSE_LIST } from './config';
+import { init as initSourcePoint } from './sourcepoint';
 
 type GuPurposeCallback = (state: ItemState) => void;
 type IabPurposeCallback = (state: IabPurposeState) => void;
@@ -40,9 +41,10 @@ const buildGuRegister = (): GuPurposeRegister => {
 const guPurposeRegister: GuPurposeRegister = buildGuRegister();
 const iabPurposeRegister: IabPurposeCallback[] = [];
 
-const init = (): void => {
+export const init = (): void => {
     if (!initialised) {
         registerStateChangeHandler(onStateChange);
+        initSourcePoint();
         initialised = true;
     }
 };

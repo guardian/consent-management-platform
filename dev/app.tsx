@@ -3,6 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConsentManagementPlatform } from '../src/component/ConsentManagementPlatform';
+import { init } from '../src/index';
+
+init();
 
 // import {
 //     onGuConsentNotification,
