@@ -14,12 +14,11 @@ describe('Sourcepoint', () => {
     });
 
     it('points at a real file', done => {
-        const src = url.parse(
+        const { host, path } = url.parse(
             document.getElementById('sourcepoint-ccpa-lib').getAttribute('src'),
         );
-        const req = http.request(
-            { method: 'HEAD', host: src.host, port: 80, path: src.path },
-            () => done(),
+        const req = http.request({ method: 'HEAD', host, port: 80, path }, () =>
+            done(),
         );
         req.end();
     });
