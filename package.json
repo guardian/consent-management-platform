@@ -35,7 +35,7 @@
         "whatwg-fetch": "3.0.0"
     },
     "peerDependencies": {
-        "@babel/runtime": "^7.9.2",
+        "@babel/runtime": "^7.2.0",
         "@emotion/core": "^10.0.21",
         "@guardian/src-button": "^1.0.0",
         "@guardian/src-foundations": "^1.0.0",
