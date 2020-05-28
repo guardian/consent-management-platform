@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom';
 import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
 import { init } from '../src/index';
 
-init();
+const useCcpa = false;
+init(useCcpa);
 
 // import {
 //     onGuConsentNotification,
@@ -22,9 +23,11 @@ const onClose = () => {
     //     onIabConsentNotification,
 };
 
-document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
+if (!useCcpa) {
+    document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
 
-ReactDOM.render(
-    <ConsentManagementPlatform onClose={onClose} />,
-    document.getElementById('app'),
-);
+    ReactDOM.render(
+        <ConsentManagementPlatform onClose={onClose} />,
+        document.getElementById('app'),
+    );
+}
