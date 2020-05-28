@@ -7,7 +7,6 @@ import {
     ItemState,
 } from './types';
 import { GU_PURPOSE_LIST } from './config';
-import { init as initSourcePoint } from '../ccpa';
 
 type GuPurposeCallback = (state: ItemState) => void;
 type IabPurposeCallback = (state: IabPurposeState) => void;
@@ -41,13 +40,9 @@ const buildGuRegister = (): GuPurposeRegister => {
 const guPurposeRegister: GuPurposeRegister = buildGuRegister();
 const iabPurposeRegister: IabPurposeCallback[] = [];
 
-export const init = ({ loadCCPA = false } = {}): void => {
+const init = (): void => {
     if (!initialised) {
-        if (loadCCPA) {
-            initSourcePoint();
-        } else {
-            registerStateChangeHandler(onStateChange);
-        }
+        registerStateChangeHandler(onStateChange);
         initialised = true;
     }
 };

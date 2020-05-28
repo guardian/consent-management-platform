@@ -1,8 +1,5 @@
-import {
-    init as initSourcepoint,
-    onIabConsentNotification as ccpaOnIabConsentNotification,
-} from './ccpa';
-
+import { init as initSourcepoint } from './ccpa/sourcepoint';
+import { onIabConsentNotification as ccpaOnIabConsentNotification } from './ccpa/core';
 import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/core';
 
 let ccpa = false;
