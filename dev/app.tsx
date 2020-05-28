@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ConsentManagementPlatform } from '../src/component/ConsentManagementPlatform';
+import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
 import { init } from '../src/index';
 
 init();

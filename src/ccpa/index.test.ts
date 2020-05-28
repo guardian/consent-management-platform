@@ -1,6 +1,6 @@
-import { init } from './sourcepoint';
 import http from 'http';
 import url from 'url';
+import { init } from '.';
 
 describe('Sourcepoint', () => {
     init();
@@ -14,9 +14,12 @@ describe('Sourcepoint', () => {
     });
 
     it('points at a real file', done => {
-        const { host, path } = url.parse(
-            document.getElementById('sourcepoint-ccpa-lib').getAttribute('src'),
-        );
+        const src = document
+            ?.getElementById('sourcepoint-ccpa-lib')
+            ?.getAttribute('src');
+
+        const { host, path } = url.parse(src ?? '');
+
         const req = http.request({ method: 'HEAD', host, port: 80, path }, () =>
             done(),
         );

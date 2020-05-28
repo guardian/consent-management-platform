@@ -7,7 +7,7 @@ import {
     ItemState,
 } from './types';
 import { GU_PURPOSE_LIST } from './config';
-import { init as initSourcePoint } from './sourcepoint';
+import { init as initSourcePoint } from '../ccpa';
 
 type GuPurposeCallback = (state: ItemState) => void;
 type IabPurposeCallback = (state: IabPurposeState) => void;

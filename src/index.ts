@@ -1,9 +1,9 @@
-import { init as initSourcepoint } from './sourcepoint';
+import { init as initSourcepoint } from './ccpa';
 
 export const init = () => {
     initSourcepoint();
 };
 
-export { onGuConsentNotification, onIabConsentNotification } from './core';
-export { setErrorHandler } from './error';
-export { shouldShow } from './cmp-ui';
+export { onGuConsentNotification, onIabConsentNotification } from './tcf/core';
+export { setErrorHandler } from './tcf/error';
+export { shouldShow } from './tcf/cmp-ui';

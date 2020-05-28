@@ -5,7 +5,7 @@ import resolve from 'rollup-plugin-node-resolve';
 const extensions = ['.ts', '.tsx'];
 
 module.exports = {
-    input: ['src/index.ts', 'src/component/ConsentManagementPlatform.tsx'],
+    input: ['src/index.ts', 'src/tcf/component/ConsentManagementPlatform.tsx'],
     output: [
         {
             dir: 'lib',
