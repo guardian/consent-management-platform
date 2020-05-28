@@ -1,9 +1,22 @@
-import { init as initSourcepoint } from './ccpa';
+import {
+    init as initSourcepoint,
+    onIabConsentNotification as ccpaOnIabConsentNotification,
+} from './ccpa';
 
-export const init = () => {
-    initSourcepoint();
+import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/core';
+
+let ccpa = false;
+
+export const init = ({ useCCPA = false } = {}) => {
+    if (useCCPA) {
+        initSourcepoint();
+        ccpa = true;
+    }
 };
 
-export { onGuConsentNotification, onIabConsentNotification } from './tcf/core';
+export const onIabConsentNotification = _ =>
+    ccpa ? tcfOnIabConsentNotification(_) : ccpaOnIabConsentNotification(_);
+
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';
+export { onGuConsentNotification } from './tcf/core';

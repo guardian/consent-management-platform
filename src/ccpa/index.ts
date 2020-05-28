@@ -47,3 +47,6 @@ export const init = () => {
 
     document.body.appendChild(ccpaLib);
 };
+
+export const onGuConsentNotification = () => {};
+export const onIabConsentNotification = () => {};
