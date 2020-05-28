@@ -12,8 +12,8 @@ type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
 
 let ccpa = false;
 
-export const init = ({ useCCPA = false } = {}) => {
-    if (useCCPA) {
+export const init = (useCcpa = false) => {
+    if (useCcpa) {
         initSourcepoint();
         ccpa = true;
     }
