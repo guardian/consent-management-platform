@@ -41,10 +41,13 @@ const buildGuRegister = (): GuPurposeRegister => {
 const guPurposeRegister: GuPurposeRegister = buildGuRegister();
 const iabPurposeRegister: IabPurposeCallback[] = [];
 
-export const init = (): void => {
+export const init = ({ loadCCPA = false } = {}): void => {
     if (!initialised) {
-        registerStateChangeHandler(onStateChange);
-        initSourcePoint();
+        if (loadCCPA) {
+            initSourcePoint();
+        } else {
+            registerStateChangeHandler(onStateChange);
+        }
         initialised = true;
     }
 };
