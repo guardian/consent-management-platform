@@ -1,6 +1,6 @@
 import http from 'http';
 import url from 'url';
-import { init } from '.';
+import { init } from './sourcepoint';
 
 describe('Sourcepoint', () => {
     init();
