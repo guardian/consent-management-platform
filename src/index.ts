@@ -21,8 +21,8 @@ export const init = (useCcpa = false) => {
 
 export const onIabConsentNotification = (callback: IabPurposeCallback) =>
     ccpa
-        ? tcfOnIabConsentNotification(callback as TcfPurposeCallback)
-        : ccpaOnIabConsentNotification(callback as CcpaPurposeCallback);
+        ? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
+        : tcfOnIabConsentNotification(callback as TcfPurposeCallback);
 
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';
