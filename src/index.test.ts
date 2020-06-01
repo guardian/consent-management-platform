@@ -17,6 +17,8 @@ jest.mock('./ccpa/core', () => ({
 
 const mockCallback = () => {};
 
+const ccpaOnOptions = { useCcpa: true };
+
 describe('CMP lib', () => {
     it("Calls TCF's onIabConsentNotification when in TCF mode", () => {
         onIabConsentNotification(mockCallback);
@@ -26,13 +28,13 @@ describe('CMP lib', () => {
     });
 
     it('Inititalises CCPA when in CCPA mode', () => {
-        init(true);
+        init(ccpaOnOptions);
 
         expect(initSourcepoint).toHaveBeenCalledTimes(1);
     });
 
     it("Calls CCPA's onIabConsentNotification when in TCF mode", () => {
-        init(true);
+        init(ccpaOnOptions);
         onIabConsentNotification(mockCallback);
 
         expect(ccpaOnIabConsentNotification).toHaveBeenCalledTimes(1);
