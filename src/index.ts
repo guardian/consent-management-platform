@@ -1,3 +1,37 @@
-export { onGuConsentNotification, onIabConsentNotification } from './core';
-export { setErrorHandler } from './error';
-export { shouldShow } from './cmp-ui';
+import { init as initSourcepoint } from './ccpa/sourcepoint';
+import {
+    onIabConsentNotification as tcfOnIabConsentNotification,
+    IabPurposeCallback as TcfPurposeCallback,
+} from './tcf/core';
+import {
+    onIabConsentNotification as ccpaOnIabConsentNotification,
+    CcpaPurposeCallback,
+} from './ccpa/core';
+
+type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
+
+interface InitOptions {
+    useCcpa: boolean;
+}
+
+const defaultOptions: InitOptions = {
+    useCcpa: false,
+};
+
+let ccpa = false;
+
+export const init = (options: InitOptions = defaultOptions) => {
+    if (options.useCcpa) {
+        initSourcepoint();
+        ccpa = true;
+    }
+};
+
+export const onIabConsentNotification = (callback: IabPurposeCallback) =>
+    ccpa
+        ? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
+        : tcfOnIabConsentNotification(callback as TcfPurposeCallback);
+
+export { setErrorHandler } from './tcf/error';
+export { shouldShow } from './tcf/cmp-ui';
+export { onGuConsentNotification } from './tcf/core';

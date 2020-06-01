@@ -9,7 +9,7 @@ import {
 import { GU_PURPOSE_LIST } from './config';
 
 type GuPurposeCallback = (state: ItemState) => void;
-type IabPurposeCallback = (state: IabPurposeState) => void;
+export type IabPurposeCallback = (state: IabPurposeState) => void;
 
 type GuPurposeRegister = {
     [key in GuResponsivePurposeEventId]: GuPurposeCallback[];
