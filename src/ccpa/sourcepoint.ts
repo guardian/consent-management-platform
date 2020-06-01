@@ -19,8 +19,10 @@ ccpaStub.innerHTML = ccpaStubSrc;
 const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
+ccpaLib.onload = () => window.performance?.mark('sp-loaded');
 
 export const init = () => {
+    window.performance?.mark('ccpa-start');
     document.head.appendChild(ccpaStub);
 
     // make sure nothing else on the page has accidentally

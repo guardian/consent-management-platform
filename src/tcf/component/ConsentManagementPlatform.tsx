@@ -22,6 +22,8 @@ import {
 import { Banner } from './Banner';
 import { Modal } from './Modal';
 
+window.performance?.mark('cmp-loaded');
+
 const privacyPolicyUrl = 'https://www.theguardian.com/help/privacy-policy';
 const cookiePolicyUrl = 'https://www.theguardian.com/info/cookies';
 interface State {

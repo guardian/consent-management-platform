@@ -42,6 +42,7 @@ const iabPurposeRegister: IabPurposeCallback[] = [];
 
 const init = (): void => {
     if (!initialised) {
+        window.performance?.mark('tcfv1-start');
         registerStateChangeHandler(onStateChange);
         initialised = true;
     }
