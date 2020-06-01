@@ -10,10 +10,18 @@ import {
 
 type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
 
+interface InitOptions {
+    useCcpa: boolean;
+}
+
+const defaultOptions: InitOptions = {
+    useCcpa: false,
+};
+
 let ccpa = false;
 
-export const init = (useCcpa = false) => {
-    if (useCcpa) {
+export const init = (options: InitOptions = defaultOptions) => {
+    if (options.useCcpa) {
         initSourcepoint();
         ccpa = true;
     }
