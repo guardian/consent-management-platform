@@ -19,10 +19,10 @@ ccpaStub.innerHTML = ccpaStubSrc;
 const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
-ccpaLib.onload = () => window.performance?.mark('sp-loaded');
 
 export const init = () => {
-    window.performance?.mark('ccpa-start');
+    console.log('cmp-ccpa-init');
+    window.performance?.mark('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
 
     // make sure nothing else on the page has accidentally
@@ -44,6 +44,16 @@ export const init = () => {
                 window.location.host.indexOf('theguardian.com') !== -1
                     ? null
                     : 'https://test.theguardian.com',
+            events: {
+                onConsentReady: () => {
+                    console.log('cmp-ccpa-consent-ready');
+                    window.performance?.mark('cmp-ccpa-consent-ready');
+                },
+                onMessageReady: () => {
+                    console.log('cmp-ccpa-ui-displayed');
+                    window.performance?.mark('cmp-ccpa-ui-displayed');
+                },
+            },
         },
     };
 

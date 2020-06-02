@@ -31,3 +31,5 @@ if (!initOptions.useCcpa) {
         document.getElementById('app'),
     );
 }
+
+onIabConsentNotification(() => {});
