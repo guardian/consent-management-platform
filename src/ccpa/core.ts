@@ -34,14 +34,7 @@ const runCallbacks = () => {
 const updateCcpaStateAnd = (doThis: () => void) => {
     // eslint-disable-next-line no-underscore-dangle
     window.__uspapi('getUSPData', 1, (uspData, success) => {
-        console.log('getUSPData:', success, uspData);
-        if (
-            success &&
-            uspData?.uspString?.charAt(2) === 'Y'
-            // uspData &&
-            // uspData.uspString &&
-            // uspData.uspString.charAt(2) === 'Y'
-        ) {
+        if (success && uspData?.uspString?.charAt(2) === 'Y') {
             ccpaState = true;
         } else {
             ccpaState = false;
@@ -49,4 +42,14 @@ const updateCcpaStateAnd = (doThis: () => void) => {
 
         doThis();
     });
+};
+
+export const _ = {
+    isInitialised: () => initialised,
+    ccpaState: () => ccpaState,
+    resetModule: () => {
+        initialised = false;
+        ccpaState = false;
+        ccpaCallbackList.length = 0;
+    },
 };
