@@ -56,7 +56,6 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
                     : 'https://test.theguardian.com',
             events: {
                 onConsentReady() {
-                    console.log('onConsentReady');
                     onCcpaReadyCallback();
                 },
             },
