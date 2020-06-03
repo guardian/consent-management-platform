@@ -1,12 +1,12 @@
-import { init as initSourcepoint } from './ccpa/sourcepoint';
+import {
+    init as initSourcepoint,
+    onIabConsentNotification as ccpaOnIabConsentNotification,
+    CcpaPurposeCallback,
+} from './ccpa/core';
 import {
     onIabConsentNotification as tcfOnIabConsentNotification,
     IabPurposeCallback as TcfPurposeCallback,
 } from './tcf/core';
-import {
-    onIabConsentNotification as ccpaOnIabConsentNotification,
-    CcpaPurposeCallback,
-} from './ccpa/core';
 
 type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
 

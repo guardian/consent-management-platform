@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.json",
+    "files": ["src/index.ts", "src/ConsentManagementPlatform.tsx"],
+    "compilerOptions": {
+        "rootDir": "src",
+        "declaration": true,
+        "outDir": "lib"
+    }
+}

@@ -1,3 +1,3 @@
-lib/**/*.js
-src/**/*.test.ts
+lib
 node_modules
+.*

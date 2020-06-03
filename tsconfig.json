@@ -2,11 +2,10 @@
     "compilerOptions": {
         "target": "es5", // compile to es5 since to build a package with browser compatibility.
         "lib": ["dom", "es7"],
-        "outDir": "./lib",
         "strict": true,
         "jsx": "preserve",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "allowJs": true
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
-    "exclude": ["node_modules", "src/**/*.test.ts"]
+    "exclude": ["node_modules", "lib"]
 }
