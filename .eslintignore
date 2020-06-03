@@ -1,3 +1,3 @@
 lib
-src/tcf/**/*.test.ts
 node_modules
+.*
