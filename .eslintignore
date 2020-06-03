@@ -1,3 +1,6 @@
 lib
 node_modules
 .*
+!.babelrc.js
+!.eslintrc.json
+!.prettierrc
