@@ -3,9 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
-import { init } from '../src/index';
+import { init, onIabConsentNotification } from '../src/index';
 
-const initOptions = { useCcpa: true };
+const initOptions = { useCcpa: false };
 init(initOptions);
 
 // import {
@@ -32,4 +32,7 @@ if (!initOptions.useCcpa) {
     );
 }
 
-onIabConsentNotification(() => {});
+onIabConsentNotification(() => {
+    // eslint-disable-next-line no-console
+    console.log('onIabConsentNotification in app.tsx');
+});

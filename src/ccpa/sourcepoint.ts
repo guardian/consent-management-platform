@@ -58,8 +58,8 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
                     : 'https://test.theguardian.com',
             events: {
                 onConsentReady() {
-                    console.log('cmp-ccpa-consent-ready');
-                    window.performance?.mark('cmp-ccpa-consent-ready');
+                    console.log('cmp-ccpa-user-chose');
+                    window.performance?.mark('cmp-ccpa-user-chose');
                     onCcpaReadyCallback();
                 },
                 onMessageReady: () => {

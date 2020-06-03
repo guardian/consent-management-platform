@@ -44,8 +44,16 @@ const init = (): void => {
     if (!initialised) {
         console.log('cmp-tcfv1-init');
         window.performance?.mark('cmp-tcfv1-init');
+
         registerStateChangeHandler(onStateChange);
         initialised = true;
+        // log when tcfv1 is no longer null
+        onIabConsentNotification((iabState: IabPurposeState) => {
+            if (iabState[1] !== null) {
+                console.log('cmp-tcfv1-user-chose');
+                window.performance?.mark('cmp-tcfv1-user-chose');
+            }
+        });
     }
 };
 
@@ -76,21 +84,6 @@ const onIabConsentNotification = (callback: IabPurposeCallback): void => {
 
     iabPurposeRegister.push(callback);
 };
-
-// log when tcfv1 is no longer null
-onIabConsentNotification(
-    (() => {
-        let haveValue = false;
-
-        return (iabState: IabPurposeState) => {
-            if (!haveValue && iabState[1] !== null) {
-                haveValue = true;
-                console.log('cmp-tcfv1-consent-ready');
-                window.performance?.mark('cmp-tcfv1-consent-ready');
-            }
-        };
-    })(),
-);
 
 const onGuConsentNotification = (
     purposeName: GuResponsivePurposeEventId,
