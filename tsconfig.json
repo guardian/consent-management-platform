@@ -2,11 +2,10 @@
     "compilerOptions": {
         "target": "es5", // compile to es5 since to build a package with browser compatibility.
         "lib": ["dom", "es7"],
-        "outDir": "./lib",
         "strict": true,
         "jsx": "preserve",
         "esModuleInterop": true,
         "allowJs": true
     },
-    "exclude": ["node_modules", "src/tcf/**/*.test.*"]
+    "exclude": ["node_modules", "lib"]
 }

@@ -8,7 +8,7 @@
         "build": "yarn validate && yarn build-only",
         "build-only": "yarn clean && rollup --config && yarn declaration",
         "clean": "rm -rf lib/*",
-        "declaration": "tsc --emitDeclarationOnly -d -m commonjs && mv ./lib/tcf/component/ConsentManagementPlatform.d.ts ./lib && sed -i '' 's/\\.\\././g' ./lib/ConsentManagementPlatform.d.ts && rm -rf ./lib/component",
+        "declaration": "tsc --emitDeclarationOnly --project ./tsconfig.build.json",
         "fix": "yarn validate --fix",
         "lint": "eslint src/**/*.ts src/**/*.tsx",
         "prepublishOnly": "yarn build",
