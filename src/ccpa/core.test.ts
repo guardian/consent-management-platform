@@ -41,7 +41,7 @@ describe('Core', () => {
     });
 
     describe('onConsentNotification', () => {
-      it("Does not run the callback if the module hasn't been initialised yet", () => {
+        it("Does not run the callback if the module hasn't been initialised yet", () => {
             onIabConsentNotification(mockCallback);
 
             expect(mockCallback).not.toHaveBeenCalled();
