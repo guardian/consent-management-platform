@@ -9,9 +9,7 @@ let ccpaState = false;
 
 export const init = () => {
     initSourcepoint(runCallbacksOnCcpaReady);
-    updateCcpaStateAnd(() => {
-        initialised = true;
-    });
+    updateCcpaState();
 };
 
 export const onIabConsentNotification = (
@@ -24,23 +22,25 @@ export const onIabConsentNotification = (
 };
 
 const runCallbacksOnCcpaReady = () => {
-    updateCcpaStateAnd(runCallbacks);
+    updateCcpaState();
 };
 
-const runCallbacks = () => {
-    ccpaCallbackList.forEach(cb => cb(ccpaState));
-};
-
-const updateCcpaStateAnd = (doThis: () => void) => {
+const updateCcpaState = () => {
     // eslint-disable-next-line no-underscore-dangle
     window.__uspapi('getUSPData', 1, (uspData, success) => {
+        // The __uspapi request is asynchorous before it's
+        // framework is inititalised and synchorous after.
+        // Therefore we need to guarantee inititalised = true
+        // only after first receiving the state.
+        initialised = true;
+
         if (success && uspData?.uspString?.charAt(2) === 'Y') {
             ccpaState = true;
         } else {
             ccpaState = false;
         }
 
-        doThis();
+        ccpaCallbackList.forEach(cb => cb(ccpaState));
     });
 };
 
