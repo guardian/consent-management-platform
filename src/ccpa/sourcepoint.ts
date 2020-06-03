@@ -5,8 +5,20 @@
 declare global {
     interface Window {
         _sp_ccpa: { config: {} };
+        __uspapi: (
+            command: string,
+            version: number,
+            callback: (uspdata: UspData | undefined, success: boolean) => void,
+        ) => void;
     }
 }
+
+interface UspData {
+    version: number;
+    uspString: string;
+}
+
+type onReadyCallback = () => void;
 
 const accountId = 1257;
 
@@ -20,7 +32,7 @@ const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
-export const init = () => {
+export const init = (onCcpaReadyCallback: onReadyCallback) => {
     document.head.appendChild(ccpaStub);
 
     // make sure nothing else on the page has accidentally
@@ -42,6 +54,11 @@ export const init = () => {
                 window.location.host.indexOf('theguardian.com') !== -1
                     ? null
                     : 'https://test.theguardian.com',
+            events: {
+                onConsentReady() {
+                    onCcpaReadyCallback();
+                },
+            },
         },
     };
 

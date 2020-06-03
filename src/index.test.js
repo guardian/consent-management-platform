@@ -1,17 +1,16 @@
 import { init, onIabConsentNotification } from './index';
-import { init as initSourcepoint } from './ccpa/sourcepoint';
 import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/core';
-import { onIabConsentNotification as ccpaOnIabConsentNotification } from './ccpa/core';
-
-jest.mock('./ccpa/sourcepoint', () => ({
-    init: jest.fn(),
-}));
+import {
+    init as initSourcepoint,
+    onIabConsentNotification as ccpaOnIabConsentNotification,
+} from './ccpa/core';
 
 jest.mock('./tcf/core', () => ({
     onIabConsentNotification: jest.fn(),
 }));
 
 jest.mock('./ccpa/core', () => ({
+    init: jest.fn(),
     onIabConsentNotification: jest.fn(),
 }));
 
