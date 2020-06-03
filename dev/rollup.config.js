@@ -11,6 +11,7 @@ const extensions = ['.js', '.ts', '.tsx'];
 
 const dist = '.dev';
 
+// eslint-disable-next-line import/no-default-export
 export default {
     input: path.resolve(__dirname, 'app.tsx'),
     output: {

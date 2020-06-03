@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
-import { init, onIabConsentNotification } from '../src/index';
+import { init } from '../src/index';
 
 const initOptions = { useCcpa: true };
 init(initOptions);
