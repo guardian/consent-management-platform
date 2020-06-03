@@ -5,8 +5,8 @@
         "outDir": "./lib",
         "strict": true,
         "jsx": "preserve",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "allowJs": true
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
-    "exclude": ["node_modules", "src/**/*.test.ts"]
+    "exclude": ["node_modules", "src/tcf/**/*.test.*"]
 }
