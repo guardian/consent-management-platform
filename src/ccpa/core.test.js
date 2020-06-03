@@ -56,11 +56,8 @@ describe('Core', () => {
     });
 
     describe('Callbacks registered with onConsentNotification', () => {
-        beforeEach(() => {
-            init();
-        });
-
         it('Are run immediately when a CCPA state change happens', () => {
+            init();
             onIabConsentNotification(mockCallback);
             onConsentReady();
 
@@ -70,7 +67,15 @@ describe('Core', () => {
         });
 
         it('Are passed the correct CCPA state', () => {
+            init();
             onIabConsentNotification(mockCallback);
+
+            expect(mockCallback).toHaveBeenCalledWith(true);
+        });
+
+        it('Before calling init will be called after calling init', () => {
+            onIabConsentNotification(mockCallback);
+            init();
 
             expect(mockCallback).toHaveBeenCalledWith(true);
         });
