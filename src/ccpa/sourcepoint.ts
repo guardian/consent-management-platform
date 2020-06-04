@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
+import { mark } from '../mark';
+
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support-beta/gdpr-and-tcf-v2-setup-and-configuration#1-two-step-process-to-implement-the-gdpr-and-tcf-v2-code-snippet
 
 declare global {
@@ -33,8 +35,7 @@ ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
 export const init = (onCcpaReadyCallback: onReadyCallback) => {
-    // console.log('cmp-ccpa-init');
-    window.performance?.mark?.('cmp-ccpa-init');
+    mark('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
 
     // make sure nothing else on the page has accidentally
@@ -58,13 +59,11 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
                     : 'https://test.theguardian.com',
             events: {
                 onConsentReady() {
-                    // console.log('cmp-ccpa-got-consent');
-                    window.performance?.mark?.('cmp-ccpa-got-consent');
+                    mark('cmp-ccpa-got-consent');
                     onCcpaReadyCallback();
                 },
                 onMessageReady: () => {
-                    // console.log('cmp-ccpa-ui-displayed');
-                    window.performance?.mark?.('cmp-ccpa-ui-displayed');
+                    mark('cmp-ccpa-ui-displayed');
                 },
             },
         },
