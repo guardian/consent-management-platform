@@ -42,7 +42,7 @@ const iabPurposeRegister: IabPurposeCallback[] = [];
 
 const init = (): void => {
     if (!initialised) {
-        console.log('cmp-tcfv1-init');
+        // console.log('cmp-tcfv1-init');
         window.performance?.mark?.('cmp-tcfv1-init');
 
         registerStateChangeHandler(onStateChange);
@@ -51,7 +51,7 @@ const init = (): void => {
         // log when tcfv1 is no longer null
         onIabConsentNotification((iabState: IabPurposeState) => {
             if (iabState?.[1] !== null) {
-                console.log('cmp-tcfv1-user-chose');
+                // console.log('cmp-tcfv1-user-chose');
                 window.performance?.mark?.('cmp-tcfv1-user-chose');
             }
         });

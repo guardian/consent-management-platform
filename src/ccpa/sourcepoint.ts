@@ -33,7 +33,7 @@ ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
 export const init = (onCcpaReadyCallback: onReadyCallback) => {
-    console.log('cmp-ccpa-init');
+    // console.log('cmp-ccpa-init');
     window.performance?.mark?.('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
 
@@ -58,12 +58,12 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
                     : 'https://test.theguardian.com',
             events: {
                 onConsentReady() {
-                    console.log('cmp-ccpa-user-chose');
+                    // console.log('cmp-ccpa-user-chose');
                     window.performance?.mark?.('cmp-ccpa-user-chose');
                     onCcpaReadyCallback();
                 },
                 onMessageReady: () => {
-                    console.log('cmp-ccpa-ui-displayed');
+                    // console.log('cmp-ccpa-ui-displayed');
                     window.performance?.mark?.('cmp-ccpa-ui-displayed');
                 },
             },

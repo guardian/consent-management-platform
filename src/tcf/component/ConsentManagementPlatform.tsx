@@ -61,7 +61,7 @@ class ConsentManagementPlatform extends Component<Props, State> {
     }
 
     public componentDidMount(): void {
-        console.log('cmp-tcfv1-ui-displayed');
+        // console.log('cmp-tcfv1-ui-displayed');
         window.performance?.mark?.('cmp-tcfv1-ui-displayed');
 
         const { onClose } = this.props;
