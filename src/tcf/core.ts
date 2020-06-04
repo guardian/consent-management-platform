@@ -51,8 +51,8 @@ const init = (): void => {
         // log when tcfv1 is no longer null
         onIabConsentNotification((iabState: IabPurposeState) => {
             if (iabState?.[1] !== null) {
-                // console.log('cmp-tcfv1-user-chose');
-                window.performance?.mark?.('cmp-tcfv1-user-chose');
+                // console.log('cmp-tcfv1-got-consent');
+                window.performance?.mark?.('cmp-tcfv1-got-consent');
             }
         });
     }
