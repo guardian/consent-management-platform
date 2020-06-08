@@ -18,17 +18,18 @@ const defaultOptions: InitOptions = {
     useCcpa: false,
 };
 
-let ccpa = false;
+let CCPA_APPLIES = false;
 
 export const init = (options: InitOptions = defaultOptions) => {
     if (options.useCcpa) {
         initSourcepoint();
-        ccpa = true;
+        CCPA_APPLIES = true;
     }
 };
 
+// race condition - called before init so ccpa is false
 export const onIabConsentNotification = (callback: IabPurposeCallback) =>
-    ccpa
+    CCPA_APPLIES
         ? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
         : tcfOnIabConsentNotification(callback as TcfPurposeCallback);
 

@@ -21,6 +21,7 @@ import {
 } from '../store';
 import { Banner } from './Banner';
 import { Modal } from './Modal';
+import { mark } from '../../mark';
 
 const privacyPolicyUrl = 'https://www.theguardian.com/help/privacy-policy';
 const cookiePolicyUrl = 'https://www.theguardian.com/info/cookies';
@@ -61,6 +62,8 @@ class ConsentManagementPlatform extends Component<Props, State> {
     }
 
     public componentDidMount(): void {
+        mark('cmp-tcfv1-ui-displayed');
+
         const { onClose } = this.props;
         getVendorList().then(iabVendorList => {
             if (iabVendorList) {

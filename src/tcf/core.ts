@@ -7,6 +7,7 @@ import {
     ItemState,
 } from './types';
 import { GU_PURPOSE_LIST } from './config';
+import { mark } from '../mark';
 
 type GuPurposeCallback = (state: ItemState) => void;
 export type IabPurposeCallback = (state: IabPurposeState) => void;
@@ -42,8 +43,17 @@ const iabPurposeRegister: IabPurposeCallback[] = [];
 
 const init = (): void => {
     if (!initialised) {
+        mark('cmp-tcfv1-init');
+
         registerStateChangeHandler(onStateChange);
         initialised = true;
+
+        // log when tcfv1 is no longer null
+        onIabConsentNotification((iabState: IabPurposeState) => {
+            if (iabState?.[1] !== null) {
+                mark('cmp-tcfv1-got-consent');
+            }
+        });
     }
 };
 
