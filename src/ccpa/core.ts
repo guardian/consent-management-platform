@@ -46,7 +46,10 @@ const updateCcpaState = () => {
 
 export const showConsentManager = () =>
     // eslint-disable-next-line no-underscore-dangle
-    window._sp_ccpa?.loadPrivacyManagerModal?.(106842);
+    window._sp_ccpa?.loadPrivacyManagerModal?.(
+        null,
+        '5eba7ef78c167c47ca8b433d',
+    );
 
 export const _ = {
     isInitialised: () => initialised,

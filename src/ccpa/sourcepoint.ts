@@ -16,7 +16,7 @@ declare global {
                 siteHref: string | null;
                 events: {};
             };
-            loadPrivacyManagerModal?: (id: number) => {}; // this function is undocumented
+            loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
         };
         __uspapi: (
             command: string,
