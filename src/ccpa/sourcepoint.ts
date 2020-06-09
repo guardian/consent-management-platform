@@ -6,7 +6,11 @@ import { mark } from '../mark';
 
 declare global {
     interface Window {
-        _sp_ccpa: { config: {} };
+        _sp_ccpa: {
+            config: {
+                loadPrivacyManagerModal: () => {}; // this function is undocumented
+            };
+        };
         __uspapi: (
             command: string,
             version: number,

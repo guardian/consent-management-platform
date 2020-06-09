@@ -45,8 +45,8 @@ const updateCcpaState = () => {
 };
 
 export const showConsentManager = () =>
-    // eslint-disable-next-line no-alert
-    alert('this will open the CCPA consent manager');
+    // eslint-disable-next-line no-underscore-dangle
+    window._sp_ccpa.loadPrivacyManagerModal('106842');
 
 export const _ = {
     isInitialised: () => initialised,
