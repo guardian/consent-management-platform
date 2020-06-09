@@ -44,6 +44,10 @@ const updateCcpaState = () => {
     });
 };
 
+export const showConsentManager = () =>
+    // eslint-disable-next-line no-alert
+    alert('this will open the CCPA consent manager');
+
 export const _ = {
     isInitialised: () => initialised,
     ccpaState: () => ccpaState,

@@ -1,6 +1,7 @@
 import {
     init as initSourcepoint,
     onIabConsentNotification as ccpaOnIabConsentNotification,
+    showConsentManager as showCCPAConsentManager,
     CcpaPurposeCallback,
 } from './ccpa/core';
 import {
@@ -32,6 +33,9 @@ export const onIabConsentNotification = (callback: IabPurposeCallback) =>
     CCPA_APPLIES
         ? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
         : tcfOnIabConsentNotification(callback as TcfPurposeCallback);
+
+export const showConsentManager = () =>
+    CCPA_APPLIES ? showCCPAConsentManager() : () => {};
 
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';
