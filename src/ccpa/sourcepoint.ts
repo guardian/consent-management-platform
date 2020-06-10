@@ -14,7 +14,11 @@ declare global {
                 getDnsMsgMms: boolean;
                 alwaysDisplayDns: boolean;
                 siteHref: string | null;
-                events: {};
+                events?: {
+                    onConsentReady?: () => void;
+                    onMessageReady?: () => void;
+                    onMessageReceiveData?: onMessaReceiveDataCallback;
+                };
             };
             loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
         };
@@ -26,12 +30,17 @@ declare global {
     }
 }
 
+export interface MsgData {
+    msg_id: number;
+}
+
 interface UspData {
     version: number;
     uspString: string;
 }
 
 type onReadyCallback = () => void;
+type onMessaReceiveDataCallback = (data: MsgData) => void;
 
 const accountId = '1257';
 
@@ -45,7 +54,10 @@ const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
-export const init = (onCcpaReadyCallback: onReadyCallback) => {
+export const init = (
+    onCcpaReadyCallback: onReadyCallback,
+    onMsgReceiveData: onMessaReceiveDataCallback,
+) => {
     mark('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
 
@@ -75,6 +87,9 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
                 },
                 onMessageReady: () => {
                     mark('cmp-ccpa-ui-displayed');
+                },
+                onMessageReceiveData: data => {
+                    onMsgReceiveData(data);
                 },
             },
         },

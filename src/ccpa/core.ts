@@ -1,14 +1,20 @@
-import { init as initSourcepoint } from './sourcepoint';
+import { init as initSourcepoint, MsgData } from './sourcepoint';
 
 export type CcpaPurposeCallback = (state: boolean) => void;
+type PromiseResolve = (result: boolean) => void;
 
 const ccpaCallbackList: CcpaPurposeCallback[] = [];
 
 let initialised = false;
 let ccpaState = false;
+let willShowUIPromise: Promise<boolean> | null = null;
+let willShowUIResolve: PromiseResolve | null = null;
 
 export const init = () => {
-    initSourcepoint(runCallbacksOnCcpaReady);
+    willShowUIPromise = new Promise<boolean>(resolve => {
+        willShowUIResolve = resolve;
+    });
+    initSourcepoint(runCallbacksOnCcpaReady, runOnMessageReceiveData);
     updateCcpaState();
 };
 
@@ -23,6 +29,12 @@ export const onIabConsentNotification = (
 
 const runCallbacksOnCcpaReady = () => {
     updateCcpaState();
+};
+
+const runOnMessageReceiveData = (data: MsgData): void => {
+    if (willShowUIResolve) {
+        willShowUIResolve(data.msg_id !== 0);
+    }
 };
 
 const updateCcpaState = () => {
@@ -42,6 +54,10 @@ const updateCcpaState = () => {
 
         ccpaCallbackList.forEach(cb => cb(ccpaState));
     });
+};
+
+export const checkWillShowUI = (): Promise<boolean> => {
+    return willShowUIPromise ?? Promise.reject();
 };
 
 export const showPrivacyManager = () =>

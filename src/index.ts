@@ -3,6 +3,7 @@ import {
     onIabConsentNotification as ccpaOnIabConsentNotification,
     showPrivacyManager as showCCPAPrivacyManager,
     CcpaPurposeCallback,
+    checkWillShowUI as checkWillShowUICcpa,
 } from './ccpa/core';
 import {
     onIabConsentNotification as tcfOnIabConsentNotification,
@@ -40,6 +41,9 @@ export const showPrivacyManager = () =>
         : () => {
               // placeholder for TCFv2 privacy manager
           };
+
+export const checkWillShowUI = () =>
+    CCPA_APPLIES ? checkWillShowUICcpa() : Promise.reject(); // placeholder for TCFv2 checkWillShowUI
 
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';
