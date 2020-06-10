@@ -35,7 +35,11 @@ export const onIabConsentNotification = (callback: IabPurposeCallback) =>
         : tcfOnIabConsentNotification(callback as TcfPurposeCallback);
 
 export const showConsentManager = () =>
-    CCPA_APPLIES ? showCCPAConsentManager() : () => {};
+    CCPA_APPLIES
+        ? showCCPAConsentManager()
+        : () => {
+              // placeholder for TCFv2 consent manager
+          };
 
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';
