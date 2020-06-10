@@ -16,7 +16,7 @@
         "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
         "dev": "rollup --config dev/rollup.config.js --watch",
-        "release": "np --contents lib"
+        "release": "np"
     },
     "husky": {
         "hooks": {
