@@ -3,9 +3,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
-import { init, onIabConsentNotification } from '../src/index';
+import {
+    init,
+    onIabConsentNotification,
+    showPrivacyManager,
+} from '../src/index';
 
-const initOptions = { useCcpa: false };
+const initOptions = { useCcpa: true };
 init(initOptions);
 
 // import {
@@ -36,3 +40,9 @@ onIabConsentNotification(() => {
     // eslint-disable-next-line no-console
     console.log('onIabConsentNotification in app.tsx');
 });
+
+const settingsLink = document.createElement('a');
+settingsLink.href = '#';
+settingsLink.innerText = 'privacy settings';
+settingsLink.onclick = showPrivacyManager;
+document.body.append(settingsLink);
