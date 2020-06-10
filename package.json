@@ -15,7 +15,8 @@
         "test": "jest",
         "tsc": "tsc --noEmit",
         "validate": "yarn tsc && yarn lint && yarn test",
-        "dev": "rollup --config dev/rollup.config.js --watch"
+        "dev": "rollup --config dev/rollup.config.js --watch",
+        "release": "np --contents lib"
     },
     "husky": {
         "hooks": {
@@ -73,6 +74,7 @@
         "eslint-plugin-react-hooks": "2",
         "husky": "^4.2.5",
         "jest": "^26.0.1",
+        "np": "6.2.4",
         "prettier": "^2.0.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
