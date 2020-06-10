@@ -32,9 +32,7 @@ const runCallbacksOnCcpaReady = () => {
 };
 
 const runOnMessageReceiveData = (data: MsgData): void => {
-    if (willShowUIResolve) {
-        willShowUIResolve(data.msg_id !== 0);
-    }
+    willShowUIResolve?.(data.msg_id !== 0);
 };
 
 const updateCcpaState = () => {
