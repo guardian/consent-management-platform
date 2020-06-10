@@ -6,7 +6,7 @@ import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagemen
 import {
     init,
     onIabConsentNotification,
-    showConsentManager,
+    showPrivacyManager,
 } from '../src/index';
 
 const initOptions = { useCcpa: true };
@@ -44,5 +44,5 @@ onIabConsentNotification(() => {
 const settingsLink = document.createElement('a');
 settingsLink.href = '#';
 settingsLink.innerText = 'privacy settings';
-settingsLink.onclick = showConsentManager;
+settingsLink.onclick = showPrivacyManager;
 document.body.append(settingsLink);
