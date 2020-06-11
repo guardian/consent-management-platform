@@ -3,8 +3,8 @@ import {
     onIabConsentNotification as ccpaOnIabConsentNotification,
     showPrivacyManager as showCCPAPrivacyManager,
     CcpaPurposeCallback,
-    checkWillShowUI as checkWillShowUICcpa,
 } from './ccpa/core';
+import { checkWillShowUI as checkWillShowUICcpa } from './ccpa/sourcepoint';
 import {
     onIabConsentNotification as tcfOnIabConsentNotification,
     IabPurposeCallback as TcfPurposeCallback,
@@ -43,7 +43,10 @@ export const showPrivacyManager = () =>
           };
 
 export const checkWillShowUI = () =>
-    CCPA_APPLIES ? checkWillShowUICcpa() : Promise.reject(); // placeholder for TCFv2 checkWillShowUI
+    CCPA_APPLIES
+        ? checkWillShowUICcpa
+        : // placeholder for TCFv2 checkWillShowUI
+          (Promise.resolve(false) as CheckWillShowUIPromise);
 
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';

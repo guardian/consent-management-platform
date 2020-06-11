@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable no-underscore-dangle */
 
 import { mark } from '../mark';
@@ -54,10 +55,7 @@ const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
-export const init = (
-    onCcpaReadyCallback: onReadyCallback,
-    onMsgReceiveData: onMessaReceiveDataCallback,
-) => {
+export const init = (onCcpaReadyCallback: onReadyCallback) => {
     mark('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
 
@@ -88,8 +86,8 @@ export const init = (
                 onMessageReady: () => {
                     mark('cmp-ccpa-ui-displayed');
                 },
-                onMessageReceiveData: data => {
-                    onMsgReceiveData(data);
+                onMessageReceiveData: ({ msg_id }) => {
+                    checkWillShowUI.willShow?.(msg_id !== 0);
                 },
             },
         },
@@ -97,3 +95,9 @@ export const init = (
 
     document.body.appendChild(ccpaLib);
 };
+
+let uiWillShow;
+export const checkWillShowUI: CheckWillShowUIPromise = new Promise(resolve => {
+    uiWillShow = resolve;
+});
+checkWillShowUI.willShow = uiWillShow;
