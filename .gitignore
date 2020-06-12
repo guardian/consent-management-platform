@@ -4,7 +4,6 @@ node_modules
 # Built files
 /lib
 /.dev
-/.gh-pages
 /cypress/screenshots
 /cypress/videos
 

@@ -20,8 +20,7 @@
         "test:integration": "start-server-and-test serve-dev http://localhost:10001 cy:run",
         "test:unit": "jest --config jestconfig.json",
         "tsc": "tsc --noEmit",
-        "validate": "yarn tsc && yarn lint && yarn test",
-        "gh-pages:build": "rollup --config rollup.config.gh-pages.js"
+        "validate": "yarn tsc && yarn lint && yarn test"
     },
     "repository": "https://github.com/guardian/consent-management-platform.git",
     "homepage": "https://github.com/guardian/consent-management-platform.git",
