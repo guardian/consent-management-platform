@@ -7,7 +7,7 @@ import {
     init,
     onIabConsentNotification,
     showPrivacyManager,
-    checkWillShowUI,
+    checkWillShowUi,
 } from '../src/index';
 
 const initOptions = { useCcpa: true };
@@ -36,9 +36,9 @@ if (!initOptions.useCcpa) {
         document.getElementById('app'),
     );
 } else {
-    checkWillShowUI().then((result: boolean) =>
+    checkWillShowUi().then((result: boolean) =>
         // eslint-disable-next-line no-console
-        console.log('checkWillShowUI returned', result),
+        console.log('checkWillShowUi returned', result),
     );
 }
 

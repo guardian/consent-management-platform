@@ -41,6 +41,7 @@ interface UspData {
 
 type onReadyCallback = () => void;
 type onMessaReceiveDataCallback = (data: MsgData) => void;
+type PromiseResolver = (result: boolean) => void;
 
 const accountId = '1257';
 
@@ -54,12 +55,16 @@ const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
-export const init = (
-    onCcpaReadyCallback: onReadyCallback,
-    onMsgReceiveData: onMessaReceiveDataCallback,
-) => {
+let willShowUi: Promise<boolean> | null = null;
+let willShowUiResolver: PromiseResolver | null = null;
+
+export const init = (onCcpaReadyCallback: onReadyCallback) => {
     mark('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
+
+    willShowUi = new Promise<boolean>(resolve => {
+        willShowUiResolver = resolve;
+    });
 
     // make sure nothing else on the page has accidentally
     // used the _sp_* name as well
@@ -89,11 +94,15 @@ export const init = (
                     mark('cmp-ccpa-ui-displayed');
                 },
                 onMessageReceiveData: data => {
-                    onMsgReceiveData(data);
+                    willShowUiResolver?.(data.msg_id !== 0);
                 },
             },
         },
     };
 
     document.body.appendChild(ccpaLib);
+};
+
+export const checkWillShowUi = (): Promise<boolean> => {
+    return willShowUi ?? Promise.reject();
 };
