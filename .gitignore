@@ -1,7 +1,10 @@
+# Rubbish
+.DS_Store
+
 # Dependency directories
 node_modules
 
 # Built files
-/lib
-/.dev
-.DS_Store
+lib
+.dev
+.gh-pages
