@@ -9,7 +9,7 @@ declare global {
     interface Window {
         _sp_ccpa: {
             config: {
-                mmsDomain: 'https://message.sp-prod.net';
+                mmsDomain: 'https://consent.theguardian.com';
                 ccpaOrigin: 'https://ccpa-service.sp-prod.net';
                 accountId: string;
                 getDnsMsgMms: boolean;
@@ -70,7 +70,7 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
 
     window._sp_ccpa = {
         config: {
-            mmsDomain: 'https://message.sp-prod.net',
+            mmsDomain: 'https://consent.theguardian.com',
             ccpaOrigin: 'https://ccpa-service.sp-prod.net',
             accountId,
             getDnsMsgMms: true,
