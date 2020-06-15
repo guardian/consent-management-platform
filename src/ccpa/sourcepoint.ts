@@ -14,7 +14,11 @@ declare global {
                 getDnsMsgMms: boolean;
                 alwaysDisplayDns: boolean;
                 siteHref: string | null;
-                events: {};
+                events?: {
+                    onConsentReady?: () => void;
+                    onMessageReady?: () => void;
+                    onMessageReceiveData?: onMessaReceiveDataCallback;
+                };
             };
             loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
         };
@@ -26,12 +30,18 @@ declare global {
     }
 }
 
+export interface MsgData {
+    msg_id: number;
+}
+
 interface UspData {
     version: number;
     uspString: string;
 }
 
 type onReadyCallback = () => void;
+type onMessaReceiveDataCallback = (data: MsgData) => void;
+type PromiseResolver = (result: boolean) => void;
 
 const accountId = '1257';
 
@@ -45,9 +55,16 @@ const ccpaLib = document.createElement('script');
 ccpaLib.id = 'sourcepoint-ccpa-lib';
 ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 
+let willShowUi: Promise<boolean> | null = null;
+let willShowUiResolver: PromiseResolver | null = null;
+
 export const init = (onCcpaReadyCallback: onReadyCallback) => {
     mark('cmp-ccpa-init');
     document.head.appendChild(ccpaStub);
+
+    willShowUi = new Promise<boolean>(resolve => {
+        willShowUiResolver = resolve;
+    });
 
     // make sure nothing else on the page has accidentally
     // used the _sp_* name as well
@@ -76,9 +93,16 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
                 onMessageReady: () => {
                     mark('cmp-ccpa-ui-displayed');
                 },
+                onMessageReceiveData: data => {
+                    willShowUiResolver?.(data.msg_id !== 0);
+                },
             },
         },
     };
 
     document.body.appendChild(ccpaLib);
+};
+
+export const checkWillShowUi = (): Promise<boolean> => {
+    return willShowUi ?? Promise.reject();
 };

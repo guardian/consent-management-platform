@@ -1,9 +1,10 @@
-import { init, onIabConsentNotification } from './index';
+import { init, onIabConsentNotification, checkWillShowUi } from './index';
 import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/core';
 import {
     init as initSourcepoint,
     onIabConsentNotification as ccpaOnIabConsentNotification,
 } from './ccpa/core';
+import { checkWillShowUi as checkWillShowUiCcpa } from './ccpa/sourcepoint';
 
 jest.mock('./tcf/core', () => ({
     onIabConsentNotification: jest.fn(),
@@ -12,6 +13,10 @@ jest.mock('./tcf/core', () => ({
 jest.mock('./ccpa/core', () => ({
     init: jest.fn(),
     onIabConsentNotification: jest.fn(),
+}));
+
+jest.mock('./ccpa/sourcepoint', () => ({
+    checkWillShowUi: jest.fn(),
 }));
 
 const mockCallback = () => {};
@@ -32,11 +37,18 @@ describe('CMP lib', () => {
         expect(initSourcepoint).toHaveBeenCalledTimes(1);
     });
 
-    it("Calls CCPA's onIabConsentNotification when in TCF mode", () => {
+    it("Calls CCPA's onIabConsentNotification when in CCPA mode", () => {
         init(ccpaOnOptions);
         onIabConsentNotification(mockCallback);
 
         expect(ccpaOnIabConsentNotification).toHaveBeenCalledTimes(1);
         expect(ccpaOnIabConsentNotification).toHaveBeenCalledWith(mockCallback);
+    });
+
+    it("Calls CCPA's checkWillShowUi when in CCPA mode", () => {
+        init(ccpaOnOptions);
+        checkWillShowUi();
+
+        expect(checkWillShowUiCcpa).toHaveBeenCalledTimes(1);
     });
 });

@@ -7,6 +7,7 @@ import {
     init,
     onIabConsentNotification,
     showPrivacyManager,
+    checkWillShowUi,
 } from '../src/index';
 
 const initOptions = { useCcpa: true };
@@ -33,6 +34,11 @@ if (!initOptions.useCcpa) {
     ReactDOM.render(
         <ConsentManagementPlatform onClose={onClose} />,
         document.getElementById('app'),
+    );
+} else {
+    checkWillShowUi().then((result: boolean) =>
+        // eslint-disable-next-line no-console
+        console.log('checkWillShowUi returned', result),
     );
 }
 
