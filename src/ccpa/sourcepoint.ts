@@ -2,6 +2,7 @@
 
 import './sourcepoint-stub';
 import { mark } from '../mark';
+import { isGuardianDomain } from '../domain';
 
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support-beta/gdpr-and-tcf-v2-setup-and-configuration#1-two-step-process-to-implement-the-gdpr-and-tcf-v2-code-snippet
 
@@ -75,10 +76,9 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
             accountId,
             getDnsMsgMms: true,
             alwaysDisplayDns: false,
-            siteHref:
-                window.location.host.indexOf('theguardian.com') !== -1
-                    ? null
-                    : 'https://test.theguardian.com',
+            siteHref: isGuardianDomain()
+                ? null
+                : 'https://test.theguardian.com',
             events: {
                 onConsentReady() {
                     mark('cmp-ccpa-got-consent');
