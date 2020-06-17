@@ -12,32 +12,32 @@ const extensions = ['.js', '.ts', '.tsx'];
 const dist = '.gh-pages';
 
 export default {
-    input: path.resolve(__dirname, 'dev', 'app.tsx'),
-    output: {
-        format: 'esm',
-        dir: dist,
-        sourcemap: true,
-    },
-    plugins: [
-        babel({ extensions }),
-        resolve({ extensions }),
-        replace({
-            'process.env.NODE_ENV': JSON.stringify('production'),
-        }),
-        commonjs({
-            namedExports: {
-                react: [
-                    'createContext',
-                    'forwardRef',
-                    'createElement',
-                    'Component',
-                    'Fragment',
-                ],
-            },
-        }),
-        terser(),
-        html({
-            title: 'CMP Sourcepoint progress',
-        }),
-    ],
+	input: path.resolve(__dirname, 'dev', 'app.tsx'),
+	output: {
+		format: 'esm',
+		dir: dist,
+		sourcemap: true,
+	},
+	plugins: [
+		babel({ extensions }),
+		resolve({ extensions }),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify('production'),
+		}),
+		commonjs({
+			namedExports: {
+				react: [
+					'createContext',
+					'forwardRef',
+					'createElement',
+					'Component',
+					'Fragment',
+				],
+			},
+		}),
+		terser(),
+		html({
+			title: 'CMP Sourcepoint progress',
+		}),
+	],
 };

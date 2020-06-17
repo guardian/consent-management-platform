@@ -13,31 +13,31 @@ const dist = '.dev';
 
 // eslint-disable-next-line import/no-default-export
 export default {
-    input: path.resolve(__dirname, 'app.tsx'),
-    output: {
-        format: 'esm',
-        dir: dist,
-        sourcemap: 'inline',
-    },
-    plugins: [
-        babel({ extensions }),
-        resolve({ extensions }),
-        commonjs({
-            namedExports: {
-                react: [
-                    'createContext',
-                    'forwardRef',
-                    'createElement',
-                    'Component',
-                    'Fragment',
-                ],
-            },
-        }),
-        replace({
-            'process.env.NODE_ENV': JSON.stringify('development'),
-        }),
-        serve(dist),
-        html(),
-        livereload({ watch: dist }),
-    ],
+	input: path.resolve(__dirname, 'app.tsx'),
+	output: {
+		format: 'esm',
+		dir: dist,
+		sourcemap: 'inline',
+	},
+	plugins: [
+		babel({ extensions }),
+		resolve({ extensions }),
+		commonjs({
+			namedExports: {
+				react: [
+					'createContext',
+					'forwardRef',
+					'createElement',
+					'Component',
+					'Fragment',
+				],
+			},
+		}),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify('development'),
+		}),
+		serve(dist),
+		html(),
+		livereload({ watch: dist }),
+	],
 };

@@ -4,10 +4,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
 import {
-    init,
-    onIabConsentNotification,
-    showPrivacyManager,
-    checkWillShowUi,
+	init,
+	onIabConsentNotification,
+	showPrivacyManager,
+	checkWillShowUi,
 } from '../src/index';
 
 const initOptions = { useCcpa: true };
@@ -21,30 +21,30 @@ init(initOptions);
 // } from '../src';
 
 const onClose = () => {
-    // do something with:
-    //     onGuConsentNotification,
-    //     setErrorHandler,
-    //     shouldShow,
-    //     onIabConsentNotification,
+	// do something with:
+	//     onGuConsentNotification,
+	//     setErrorHandler,
+	//     shouldShow,
+	//     onIabConsentNotification,
 };
 
 if (!initOptions.useCcpa) {
-    document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
+	document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
 
-    ReactDOM.render(
-        <ConsentManagementPlatform onClose={onClose} />,
-        document.getElementById('app'),
-    );
+	ReactDOM.render(
+		<ConsentManagementPlatform onClose={onClose} />,
+		document.getElementById('app'),
+	);
 } else {
-    checkWillShowUi().then((result: boolean) =>
-        // eslint-disable-next-line no-console
-        console.log('checkWillShowUi returned', result),
-    );
+	checkWillShowUi().then((result: boolean) =>
+		// eslint-disable-next-line no-console
+		console.log('checkWillShowUi returned', result),
+	);
 }
 
 onIabConsentNotification(() => {
-    // eslint-disable-next-line no-console
-    console.log('onIabConsentNotification in app.tsx');
+	// eslint-disable-next-line no-console
+	console.log('onIabConsentNotification in app.tsx');
 });
 
 const settingsLink = document.createElement('a');
