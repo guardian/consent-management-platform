@@ -10,97 +10,97 @@ const GU_COOKIE_VERSION = 1;
 const COOKIE_MAX_AGE = 395; // 13 months
 
 const getShortDomain = (): string => {
-    const domain = document.domain || '';
+	const domain = document.domain || '';
 
-    const slice = domain.endsWith('co.uk') ? -3 : -2;
+	const slice = domain.endsWith('co.uk') ? -3 : -2;
 
-    return domain === 'localhost'
-        ? domain
-        : ['', ...domain.split('.').slice(slice)].join('.');
+	return domain === 'localhost'
+		? domain
+		: ['', ...domain.split('.').slice(slice)].join('.');
 };
 
 const getDomainAttribute = (): string => {
-    const shortDomain = getShortDomain();
+	const shortDomain = getShortDomain();
 
-    return shortDomain === 'localhost' ? '' : shortDomain;
+	return shortDomain === 'localhost' ? '' : shortDomain;
 };
 
 const addCookie = (name: string, value: string | GuCookie): void => {
-    const options: {
-        domain: string;
-        expires: number;
-    } = {
-        domain: getDomainAttribute(),
-        expires: COOKIE_MAX_AGE,
-    };
+	const options: {
+		domain: string;
+		expires: number;
+	} = {
+		domain: getDomainAttribute(),
+		expires: COOKIE_MAX_AGE,
+	};
 
-    Cookies.set(name, value, options);
+	Cookies.set(name, value, options);
 };
 
 const readBwidCookie = (): string | null => {
-    const cookie = Cookies.get(BWID_COOKIE_NAME);
+	const cookie = Cookies.get(BWID_COOKIE_NAME);
 
-    return cookie || null;
+	return cookie || null;
 };
 
 const readGuCookie = (): GuPurposeState | null => {
-    const cookie = Cookies.getJSON(GU_COOKIE_NAME);
+	const cookie = Cookies.getJSON(GU_COOKIE_NAME);
 
-    if (cookie) {
-        if (cookie.version === 1) {
-            return cookie.state || null;
-        }
-    }
+	if (cookie) {
+		if (cookie.version === 1) {
+			return cookie.state || null;
+		}
+	}
 
-    return null;
+	return null;
 };
 
 const readIabCookie = (): string | null => {
-    const cookie = Cookies.get(IAB_COOKIE_NAME);
+	const cookie = Cookies.get(IAB_COOKIE_NAME);
 
-    return cookie || null;
+	return cookie || null;
 };
 
 const readLegacyCookie = (): string | null => {
-    const cookie = Cookies.get(LEGACY_COOKIE_NAME);
+	const cookie = Cookies.get(LEGACY_COOKIE_NAME);
 
-    return cookie || null;
+	return cookie || null;
 };
 
 // eslint-disable-next-line
 const writeGuCookie = (guState: GuPurposeState): void => {
-    // TODO: enable saving on GU Cookie when PECR purposes introduced
-    // addCookie(GU_COOKIE_NAME, { version: GU_COOKIE_VERSION, state: guState });
+	// TODO: enable saving on GU Cookie when PECR purposes introduced
+	// addCookie(GU_COOKIE_NAME, { version: GU_COOKIE_VERSION, state: guState });
 };
 
 const writeIabCookie = (iabString: string): void =>
-    addCookie(IAB_COOKIE_NAME, iabString);
+	addCookie(IAB_COOKIE_NAME, iabString);
 
 const writeStateCookies = (
-    guState: GuPurposeState,
-    iabString: string,
+	guState: GuPurposeState,
+	iabString: string,
 ): void => {
-    if (Object.keys(guState).length > 0) {
-        writeGuCookie(guState);
-    }
-    writeIabCookie(iabString);
+	if (Object.keys(guState).length > 0) {
+		writeGuCookie(guState);
+	}
+	writeIabCookie(iabString);
 
-    // TODO: trigger logging here
+	// TODO: trigger logging here
 };
 
 export {
-    readBwidCookie,
-    readGuCookie,
-    readIabCookie,
-    readLegacyCookie,
-    writeStateCookies,
+	readBwidCookie,
+	readGuCookie,
+	readIabCookie,
+	readLegacyCookie,
+	writeStateCookies,
 };
 
 export const _ = {
-    BWID_COOKIE_NAME,
-    GU_COOKIE_NAME,
-    GU_COOKIE_VERSION,
-    IAB_COOKIE_NAME,
-    COOKIE_MAX_AGE,
-    LEGACY_COOKIE_NAME,
+	BWID_COOKIE_NAME,
+	GU_COOKIE_NAME,
+	GU_COOKIE_VERSION,
+	IAB_COOKIE_NAME,
+	COOKIE_MAX_AGE,
+	LEGACY_COOKIE_NAME,
 };

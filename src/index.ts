@@ -1,49 +1,49 @@
 import {
-    init as initSourcepoint,
-    onIabConsentNotification as ccpaOnIabConsentNotification,
-    showPrivacyManager as showCCPAPrivacyManager,
-    CcpaPurposeCallback,
+	init as initSourcepoint,
+	onIabConsentNotification as ccpaOnIabConsentNotification,
+	showPrivacyManager as showCCPAPrivacyManager,
+	CcpaPurposeCallback,
 } from './ccpa/core';
 import { checkWillShowUi as checkWillShowUiCcpa } from './ccpa/sourcepoint';
 import {
-    onIabConsentNotification as tcfOnIabConsentNotification,
-    IabPurposeCallback as TcfPurposeCallback,
+	onIabConsentNotification as tcfOnIabConsentNotification,
+	IabPurposeCallback as TcfPurposeCallback,
 } from './tcf/core';
 
 type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
 
 interface InitOptions {
-    useCcpa: boolean;
+	useCcpa: boolean;
 }
 
 const defaultOptions: InitOptions = {
-    useCcpa: false,
+	useCcpa: false,
 };
 
 let CCPA_APPLIES = false;
 
 export const init = (options: InitOptions = defaultOptions) => {
-    if (options.useCcpa) {
-        initSourcepoint();
-        CCPA_APPLIES = true;
-    }
+	if (options.useCcpa) {
+		initSourcepoint();
+		CCPA_APPLIES = true;
+	}
 };
 
 // race condition - called before init so ccpa is false
 export const onIabConsentNotification = (callback: IabPurposeCallback) =>
-    CCPA_APPLIES
-        ? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
-        : tcfOnIabConsentNotification(callback as TcfPurposeCallback);
+	CCPA_APPLIES
+		? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
+		: tcfOnIabConsentNotification(callback as TcfPurposeCallback);
 
 export const showPrivacyManager = () =>
-    CCPA_APPLIES
-        ? showCCPAPrivacyManager()
-        : () => {
-              // placeholder for TCFv2 privacy manager
-          };
+	CCPA_APPLIES
+		? showCCPAPrivacyManager()
+		: () => {
+				// placeholder for TCFv2 privacy manager
+		  };
 
 export const checkWillShowUi = () =>
-    CCPA_APPLIES ? checkWillShowUiCcpa() : Promise.reject(); // placeholder for TCFv2 checkWillShowUI
+	CCPA_APPLIES ? checkWillShowUiCcpa() : Promise.reject(); // placeholder for TCFv2 checkWillShowUI
 
 export { setErrorHandler } from './tcf/error';
 export { shouldShow } from './tcf/cmp-ui';
