@@ -1095,9 +1095,9 @@
     "@guardian/src-svgs" "^1.0.1"
 
 "@guardian/src-foundations@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.0.1.tgz#f415733d458c503133adc776128401a7232935c9"
-  integrity sha512-/5XWjXRt5jsOwpD9u687xNrJFkOMmnCS8u0FoEbn/csy002TBpdVBYQaqOW46kW6RYPVCQPpBJK9mAga5PmvuQ==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.4.0.tgz#f26e3fb6d2da1d08dcb8042d00bec3bcc8cddbc3"
+  integrity sha512-FH9TBLVQph13bfY0jfqXetXWCxDHIhOUHVuSsdEgxVGAIKgdv0ocju9JoYwRnZvk+RJlekXO/EEESnS+u8yYgQ==
 
 "@guardian/src-helpers@^1.0.1":
   version "1.0.1"
