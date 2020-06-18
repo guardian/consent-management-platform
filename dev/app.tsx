@@ -10,7 +10,7 @@ import {
 	checkWillShowUi,
 } from '../src/index';
 
-const initOptions = { useCcpa: true };
+const initOptions = { useCcpa: false };
 init(initOptions);
 
 // import {
