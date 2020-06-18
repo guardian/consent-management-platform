@@ -3,7 +3,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { css } from '@emotion/core';
 import { palette, space } from '@guardian/src-foundations';
 import { Button, buttonBrand } from '@guardian/src-button/';
-import { SvgCheckmark } from '@guardian/src-svgs';
+import { SvgCheckmark } from '@guardian/src-icons';
 import { from, until } from '@guardian/src-foundations/mq';
 import { headlineSizes, body } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
