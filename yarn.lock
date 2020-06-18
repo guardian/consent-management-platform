@@ -1111,6 +1111,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-svgs/-/src-svgs-1.0.1.tgz#7ac01adea595a3e03ef0cd02d18786acc5b94337"
   integrity sha512-mTR6Im3Yu80MDmq2+tfFZiTikiQhHHPwqn4dChwCsXlBNjQOcINSpY3qatVygb1H0bkd1ACeRd1z6uE6eA5bvw==
 
+"@guardian/src-svgs@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-svgs/-/src-svgs-1.4.0.tgz#a3b112e0100ac95af948b06930c0f10d67222a92"
+  integrity sha512-Sf9uRPFwfHPW7oTxwMqlv5a42Yn3xRtIBxAzCXOfe+hbYeD8bwdYsU8eoy4FqM8n1ms1RKnwSIYqJRgM8Ls6Sw==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
