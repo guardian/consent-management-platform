@@ -1,6 +1,6 @@
 # Consent Management Platform
 
-[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAaGXi33k)
+[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
 > Consent management across `*.theguardian.com`.
 
