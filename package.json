@@ -2,12 +2,15 @@
 	"name": "@guardian/consent-management-platform",
 	"version": "3.4.2",
 	"description": "Library of useful utilities for managing consent state across *.theguardian.com",
-	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist/**/*"
+	],
 	"scripts": {
 		"build": "yarn validate && yarn build-only",
 		"build-only": "yarn clean && rollup --config && yarn declaration",
-		"clean": "rm -rf lib/*",
+		"clean": "rm -rf dist/*",
 		"declaration": "tsc --emitDeclarationOnly --project ./tsconfig.build.json",
 		"fix": "yarn lint --fix",
 		"lint": "eslint . --ext=js,ts,tsx",
@@ -82,8 +85,5 @@
 		"rollup-plugin-serve": "^1.0.1",
 		"rollup-plugin-terser": "6.1.0",
 		"typescript": "^3.9.3"
-	},
-	"files": [
-		"lib/**/*"
-	]
+	}
 }

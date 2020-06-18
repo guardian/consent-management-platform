@@ -8,11 +8,11 @@ module.exports = {
 	input: ['src/index.ts', 'src/tcf/component/ConsentManagementPlatform.tsx'],
 	output: [
 		{
-			dir: 'lib',
+			dir: 'dist',
 			format: 'cjs',
 		},
 		{
-			dir: 'lib',
+			dir: 'dist',
 			format: 'cjs',
 		},
 	],
