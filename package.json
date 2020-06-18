@@ -1,6 +1,6 @@
 {
 	"name": "@guardian/consent-management-platform",
-	"version": "3.4.2",
+	"version": "3.4.3",
 	"description": "Library of useful utilities for managing consent state across *.theguardian.com",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -37,9 +37,9 @@
 	"peerDependencies": {
 		"@babel/runtime": "^7.2.0",
 		"@emotion/core": "^10.0.21",
-		"@guardian/src-button": "^1.0.0",
-		"@guardian/src-foundations": "^1.0.0",
-		"@guardian/src-svgs": "^1.0.0",
+		"@guardian/src-button": "^1.4.0",
+		"@guardian/src-foundations": "^1.4.0",
+		"@guardian/src-icons": "^1.4.0",
 		"emotion-theming": "^10.0.27",
 		"react": "^16.10.2"
 	},
@@ -51,9 +51,9 @@
 		"@babel/preset-typescript": "^7.9.0",
 		"@emotion/babel-preset-css-prop": "^10.0.27",
 		"@emotion/core": "^10.0.28",
-		"@guardian/src-button": "^1.0.1",
-		"@guardian/src-foundations": "^1.0.1",
-		"@guardian/src-svgs": "^1.0.1",
+		"@guardian/src-button": "^1.4.0",
+		"@guardian/src-foundations": "^1.4.0",
+		"@guardian/src-icons": "^1.4.0",
 		"@rollup/plugin-html": "^0.2.0",
 		"@types/jest": "^26.0.0",
 		"@types/js-cookie": "^2.2.6",
