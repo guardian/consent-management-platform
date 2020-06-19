@@ -4,7 +4,7 @@ _This library is in flux while we work on implementing sourcepoint and supportin
 
 [![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
--
+---
 
 Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com. All exports include Typescript definitions.
 
