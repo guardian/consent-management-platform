@@ -1,5 +1,11 @@
 # Consent Management Platform
 
+_This library is in flux while we work on implementing sourcepoint and supporting CCPA and TCFv2. If you only need TCFv1, the instructions below still apply. If you also need CCPA, or you don't know what any of this means, ping us in chat!_
+
+[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
+
+---
+
 Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com. All exports include Typescript definitions.
 
 ## What useful utilities does this offer?
@@ -21,8 +27,8 @@ The `cmp` module also listens for subsequent changes to the user's consent state
 ```js
 import { onGuConsentNotification } from '@guardian/consent-management-platform';
 
-onGuConsentNotification('functional', functionalConsentState => {
-    console.log(functionalConsentState); // true || false || null
+onGuConsentNotification('functional', (functionalConsentState) => {
+	console.log(functionalConsentState); // true || false || null
 });
 ```
 
@@ -47,8 +53,8 @@ The `cmp` module will also listens for subsequent changes to the user's consent 
 ```js
 import { onIabConsentNotification } from '@guardian/consent-management-platform';
 
-onIabConsentNotification(iabConsentState => {
-    console.log(iabConsentState); // { 0: true || false || null, 1: true || false || null, ... }
+onIabConsentNotification((iabConsentState) => {
+	console.log(iabConsentState); // { 0: true || false || null, 1: true || false || null, ... }
 });
 ```
 
