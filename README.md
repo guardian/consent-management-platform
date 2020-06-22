@@ -1,144 +1,105 @@
 # Consent Management Platform
 
-_This library is in flux while we work on implementing sourcepoint and supporting CCPA and TCFv2. If you only need TCFv1, the instructions below still apply. If you also need CCPA, or you don't know what any of this means, ping us in chat!_
-
-[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
-
----
-
 Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com. All exports include Typescript definitions.
 
 ## What useful utilities does this offer?
 
+### TCF and CCPA privacy frameworks
+
+If you need to use Sourcepoint's implementation of the TCF or CCPA privacy frameworks, you can inititalise them on your page using the `init` function.
+
 ### Consent notifications
 
-If you need to conditionally run some code based on a user's consent state you can use the two functions `onGuConsentNotification` and `onIabConsentNotification`.
+If you need to conditionally run some code based on a user's consent state you can use the function `onConsentNotification`.
 
-#### onGuConsentNotification
+## What is the API?
 
-This function takes 2 arguments, the first is the purpose name (a `string`) that is relevant to the code you're running eg. "functional" OR "performance", and the second is a callback (a `function`).
+### init
 
-When `onGuConsentNotification` is called it will execute the callback immediately, passing it a single argument (a `boolean` or `null`) which indicates the user's consent state at that time for the given purpose name.
+`init(options: InitOptions): void`
 
-The `cmp` module also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument (a `boolean` or `null`) which inidicates the user's updated consent state for the given purpose name.
+This functions tale 1 argument, a configuration object.
 
-**Example:**
+When `init` is called, it will add Sourcepoint's implementation of the TCF or the CCPA privacy frameworks to the page, depending on the configuration options received. In the rest of this document we will refer to these and TCF mode and CCPA mode, respectively. It needs to be run before any other API call.
 
-```js
-import { onGuConsentNotification } from '@guardian/consent-management-platform';
-
-onGuConsentNotification('functional', (functionalConsentState) => {
-	console.log(functionalConsentState); // true || false || null
-});
-```
-
-#### onIabConsentNotification
-
-This function takes 1 argument, a callback (a `function`).
-
-When `onIabConsentNotification` is called it will execute the callback immediately, passing it a single argument, an object which reflects the consent granted to the IAB purposes. The signature for this object will be:
+The configuration object that it requires is:
 
 ```
-{
-    [key: number]: boolean | null;
+interface InitOptions {
+	useCcpa: boolean;
 }
 ```
 
-The keys in this object will match the IAB purpose IDs from the [IAB vendor list](https://vendorlist.consensu.org/vendorlist.json).
+If `options.useCcpa` is missing, `init` will default to running in TCF mode.
 
-The `cmp` module will also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument, an object which reflects the latest consent granted to the IAB purposes.
+### onConsentNotification
+
+`onConsentNotification(callback: ConsentCallack): void`
+
+This function takes 1 argument, a callback.
+
+When `onConsentNotification` is called it will execute the callback immediately, passing it two arguments, an object which reflects the TCF state (or `null` when in CCPA mode) and a boolean which reflects the CCPA state (or `null` when in TCF mode).
+
+The package also listens for subsequent changes to the user's privacy settings (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If this happens it will re-execute the callback, passing it the update consent state.
+
+The signatures for the callback function and its parameters are:
+
+```
+interface TcfState {
+    [key: string]: boolean
+}
+
+type CcpaState = boolean
+
+type ConsentCallback = (tcfSate: TcfState | null, ccpaState: CcpaState | null) => void
+```
+
+The keys in `TCFState` will match the TCF purpose IDs.
+The value of `ccpaState` will be the reverse of the [CCPA opt-out flag](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md#us-privacy-string-format) when in CCPA mode. This is to provide a homogenous way to handle consent between the TCF and the CCPA frameworks where `true` means consent has been given and `false` means consent has been denied.
+
+If `onConsentNotification` is called before `init`, it will do nothing.
 
 **Example:**
 
 ```js
-import { onIabConsentNotification } from '@guardian/consent-management-platform';
+import { onConsentNotification } from '@guardian/consent-management-platform';
 
-onIabConsentNotification((iabConsentState) => {
-	console.log(iabConsentState); // { 0: true || false || null, 1: true || false || null, ... }
+onConsentNotification((tcfState, ccpaState) => {
+	// Check whether it's in TCF or CCPA mode
+	if (tcfState !== null) {
+		console.log(tcfState); // { 1: true || false, 1: true || false, ... }
+	} else {
+		console.log(tcfState); // true || false
+	}
 });
 ```
 
-### CMP UI
+### checkWillShowUi
 
-The library exports The Guardian's CMP as a React component that can easily be imported into your React applications as well as a `shouldShow` function that indicates whether the user should be shown the CMP.
+`checkWillShowUi(): Promise<boolean>`
 
-#### shouldShow
+The `checkWillShowUi` function returns the promise of a boolean. This boolean will be `true` if the user will shown a TCF or a CCPA privacy message, depending on which mode is running, and `false` otherwise.
 
-The `shouldShow` function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do. It takes an optional boolean `shouldRepermission`. If this is set to true it will only check for the existence of the IAB cookie, otherwise it will check for both IAB and GU_TK cookies.
+If `checkWillShowUi` is called before `init`, it will return a rejected promise.
 
 **Example:**
 
 ```js
-import { shouldShow } from '@guardian/consent-management-platform';
+import { checkWillShowUi } from '@guardian/consent-management-platform';
 
-shouldShow(); // true || false
+checkWillShowUi()
+    .then(result =>
+        console.log(result) // true || false
+    ).catch(e =>
+        console.log("checkWillShowUi() failed:", e): // "checkWillShowUi() failed: called before init()"
+    );
 ```
 
-#### ConsentManagementPlatform React Component
+### showPrivacyManager
 
-The properties the `ConsentManagementPlatform` component takes are listed below along with their Typescript definitions:
+`showPrivacyManager(): void`
 
-##### onClose: () => void
-
-The `onClose` property accepts a function, this will be executed once the user has submitted their consent, either via the clicking "I'm OK with that" button in the banner, or opening the options modal selecting their choices and clicking the "Save and close" button. You can add whatever logic you want in this function. Because the `ConsentManagementPlatform` component doesn't close itself a typical example of the logic that would be included in this function might be the updating of state to hide the `ConsentManagementPlatform` component.
-
-##### source?: string
-
-The `source` property accepts an optional string. The value passed to this will be sent to the consent logs once a user has submitted their consent. The value should indicate the site on which the CMP has been seen: eg. 'manage' for 'manage.theguardian.com'. The default value passed to the logs will be 'www'.
-
-##### variant?: string
-
-The `variant` property accepts an optional string. If a value is passed to this it will be sent to the consent logs to indicate whether the user is within an a/b test related to the CMP. Typically the format for this string should follow: `${testName}-${variantName}`. We can also use the value of this property if we want to a/b test different layouts.
-
-##### fontFamilies?: { headlineSerif: string; bodySerif: string; bodySans: string; }
-
-The `fontFamilies` property accepts an optional object. If passed this object must match the definition used above. The values of `headlineSerif`, `bodySerif` and `bodySans` should be strings that match the `font-family` value in your sites `@font-face` definitions for The Guardian's custom webfonts.
-
-##### forceModal?: boolean
-
-The `forceModal` property accepts an optional boolean. If the value passed is `true` then the component will render the modal without the banner. This should be used when resurfacing the user's consent selections.
-
-**Example**
-
-```js
-import { shouldShow } from '@guardian/consent-management-platform';
-import { ConsentManagementPlatform } from '@guardian/consent-management-platform/lib/ConsentManagementPlatform';
-
-export class App {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showCmp: false,
-        };
-    }
-
-    public componentDidMount() {
-        if (shouldShow()) {
-            this.setState({ showCmp: true });
-        }
-    }
-
-    public render() {
-        const { showCmp } = this.state;
-
-        const props = {
-            source: 'manage',
-            onClose: () => {
-                this.setState({ showCmp: false });
-            },
-            fontFamilies: {
-                headlineSerif: 'GH Guardian Headline, Georgia, serif',
-                bodySerif: 'GuardianTextEgyptian, Georgia, serif',
-                bodySans:
-                    'GuardianTextSans, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif',
-            },
-        };
-
-        return (<>{showCmp && <ConsentManagementPlatform {...props} />}</>);
-    }
-}
-```
+When `showPrivacyManager` is called it will surface the TCF's or CCPA's privacy manager, depending on which mode is running (see [init](#init)).
 
 ## Developer instructions
 
