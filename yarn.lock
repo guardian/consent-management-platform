@@ -1088,9 +1088,9 @@
     "@guardian/src-foundations" "^1.4.0"
 
 "@guardian/src-icons@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.4.0.tgz#3159d034a3c42bf94bdf88384dac95f9c8708173"
-  integrity sha512-0j2QRPNjhRePicB/2aZp79OyRtPA3ftf1e/9oareisHUfn3jcvDDFeP3xkHXmv5SoMobG4GwWUepb0VNYvELnQ==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.5.0.tgz#3d3c02c9fd4c11c4d74e8bacc98d6a610ee77498"
+  integrity sha512-gI3rUadcV7idvYGr+kfsiDh+rZESwca1r+UVgwJ+gIGR/hhWsOe3HSYizDVow7f6nTiwkj1M/+slVJjYej4nRw==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
