@@ -76,7 +76,7 @@ onConsentNotification((tcfState, ccpaState) => {
 	if (tcfState !== null) {
 		console.log(tcfState); // { 1: true || false, 1: true || false, ... }
 	} else {
-		console.log(tcfState); // true || false
+		console.log(ccpaState); // true || false
 	}
 });
 ```
