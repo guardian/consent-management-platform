@@ -62,7 +62,7 @@ type ConsentCallback = (tcfSate: TcfState | null, ccpaState: CcpaState | null) =
 ```
 
 The keys in `TCFState` will match the TCF purpose IDs.
-The value of `ccpaState` will be the reverse of the [CCPA opt-out flag](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md#us-privacy-string-format) when in CCPA mode. This is to provide a homogenous way to handle consent between the TCF and the CCPA frameworks where `true` means consent has been given and `false` means consent has been denied.
+The value of `ccpaState` will be the inverse of the [CCPA opt-out flag](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md#us-privacy-string-format) when in CCPA mode. This is to provide a homogenous way to handle consent between the TCF and the CCPA frameworks where `true` means consent has been given and `false` means consent has been denied.
 
 If `onConsentNotification` is called before `init`, it will do nothing.
 
