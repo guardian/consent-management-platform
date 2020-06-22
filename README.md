@@ -1,6 +1,8 @@
 # Consent Management Platform
 
-Welcome to the Consent Management Platform, a library of useful utilities for managing consent state across \*.theguardian.com. All exports include Typescript definitions.
+Welcome to the Consent Management Platform, a library to manage privacy frameworks across \*.theguardian.com, from messaging to managing and reporting the privacy state. All exports include Typescript definitions.
+
+from messaging to state
 
 ## What useful utilities does this offer?
 
@@ -13,6 +15,11 @@ If you need to use Sourcepoint's implementation of the TCF or CCPA privacy frame
 If you need to conditionally run some code based on a user's consent state you can use the function `onConsentNotification`.
 
 ## What is the API?
+
+[init](#init)
+[onConsentNotification](#onconsentnotification)
+[checkWillShowUi](#checkwillshowui)
+[showPrivacyManager](#showprivacymanager)
 
 ### init
 
