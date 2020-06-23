@@ -2,13 +2,11 @@
 
 Welcome to the Consent Management Platform, a library to manage privacy frameworks across \*.theguardian.com, from messaging to managing and reporting the privacy state. All exports include Typescript definitions.
 
-from messaging to state
-
-## What useful utilities does this offer?
+## What utilities does this offer?
 
 ### TCF and CCPA privacy frameworks
 
-If you need to use Sourcepoint's implementation of the TCF or CCPA privacy frameworks, you can inititalise them on your page using the `init` function.
+If you need to use the TCF or CCPA privacy frameworks, you can inititalise them on your page using the `init` function.
 
 ### Consent notifications
 
@@ -27,7 +25,7 @@ If you need to conditionally run some code based on a user's consent state you c
 
 This functions tale 1 argument, a configuration object.
 
-When `init` is called, it will add Sourcepoint's implementation of the TCF or the CCPA privacy frameworks to the page, depending on the configuration options received. In the rest of this document we will refer to these and TCF mode and CCPA mode, respectively. It needs to be run before any other API call.
+When `init` is called, it will add the TCF or the CCPA privacy framework to the page, depending on the configuration options received. We refer to these as TCF mode and CCPA mode, respectively. This function needs to be run before any other API call.
 
 The configuration object that it requires is:
 
