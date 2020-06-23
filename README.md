@@ -55,7 +55,6 @@ interface CcpaState {
 interface PrivacyState {
 	tcfState?: TcfState;
 	ccpaState?: CcpaState;
-
 }
 
 type ConsentCallback = (state: PrivacyState) => void
