@@ -1,6 +1,6 @@
 # Consent Management Platform
 
-Welcome to the Consent Management Platform, a library to manage privacy frameworks across \*.theguardian.com, from messaging to managing and reporting the privacy state. All exports include Typescript definitions.
+Welcome to the Consent Management Platform, a library to manage privacy frameworks across \*.theguardian.com, from messaging to reporting the privacy state. All exports include Typescript definitions.
 
 ## What utilities does this offer?
 
@@ -23,7 +23,7 @@ If you need to conditionally run some code based on a user's consent state you c
 
 `init(options: InitOptions): void`
 
-When `init` is called, it will add the TCF or the CCPA privacy framework to the page, depending on the configuration options received. We refer to these as TCF mode and CCPA mode, respectively. This function needs to be run before any other API call.
+Calling `init` will add the TCF or the CCPA privacy framework to the page, depending on the configuration options received. We refer to these as TCF mode and CCPA mode, respectively. This function needs to be run before any other API call.
 
 The configuration object that it requires is:
 
@@ -33,13 +33,13 @@ interface InitOptions {
 }
 ```
 
-If `options.isInUS` is missing, `init` will default to running in TCF mode.
+If `InitOptions.isInUS` is missing, `init` will default to running in TCF mode.
 
 ### onConsentNotification
 
 `onConsentNotification(callback: ConsentCallack): void`
 
-When `onConsentNotification` is called it will add the supplied callback to a list of a callbacks. These callbacks will be fired when 1) the consent state is first obtained, and 2) the consent state is changed (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If the consent state is already know when `onConsentNotification` is called the callback is fired immediately. The signatures for the callback function and its parameters are:
+When `onConsentNotification` is called it will add the supplied callback to a list of a callbacks. These will be fired when 1) after the consent state is first checked, and 2) the consent state changes (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If the consent state is already known when `onConsentNotification` is called the callback is fired immediately. The signatures for the callback function and its parameters are:
 
 ```
 interface TcfState {
@@ -78,7 +78,7 @@ onConsentNotification(({ tcfState, ccpaState }) => {
 
 `checkUiWillShow(): Promise<boolean>`
 
-The `checkUiWillShow` function returns the promise of a boolean. This boolean will be `true` if the user will shown a TCF or a CCPA privacy message, depending on which mode is running, and `false` otherwise. If called before `init`, it will return a rejected promise.
+The `checkUiWillShow` function returns the promise of a boolean. This boolean will be `true` if the user will be shown a TCF or a CCPA privacy message, depending on which mode is running, and `false` otherwise. If called before `init`, it will return a rejected promise.
 
 **Example:**
 
