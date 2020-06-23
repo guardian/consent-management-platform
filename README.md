@@ -39,7 +39,9 @@ If `InitOptions.isInUS` is missing, `init` will default to running in TCF mode.
 
 `onConsentNotification(callback: ConsentCallack): void`
 
-When `onConsentNotification` is called it will add the supplied callback to a list of a callbacks. These will be fired when 1) after the consent state is first checked, and 2) the consent state changes (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If the consent state is already known when `onConsentNotification` is called the callback is fired immediately. The signatures for the callback function and its parameters are:
+When `onConsentNotification` is called it will add the supplied callback to a list of a callbacks. These will be fired when 1) after the consent state is first checked, and 2) the consent state changes (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If the consent state is already known when `onConsentNotification` is called the callback is fired immediately.
+
+The signatures for the callback function and its parameters are:
 
 ```
 interface TcfState {
