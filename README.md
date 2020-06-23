@@ -16,14 +16,12 @@ If you need to conditionally run some code based on a user's consent state you c
 
 [init](#init)<br />
 [onConsentNotification](#onconsentnotification)<br />
-[checkWillShowUi](#checkwillshowui)<br />
+[checkUiWillShow](#checkuiwillshow)<br />
 [showPrivacyManager](#showprivacymanager)
 
 ### init
 
 `init(options: InitOptions): void`
-
-This functions tale 1 argument, a configuration object.
 
 When `init` is called, it will add the TCF or the CCPA privacy framework to the page, depending on the configuration options received. We refer to these as TCF mode and CCPA mode, respectively. This function needs to be run before any other API call.
 
@@ -31,72 +29,67 @@ The configuration object that it requires is:
 
 ```
 interface InitOptions {
-	useCcpa: boolean;
+	isInUS: boolean;
 }
 ```
 
-If `options.useCcpa` is missing, `init` will default to running in TCF mode.
+If `options.isInUS` is missing, `init` will default to running in TCF mode.
 
 ### onConsentNotification
 
 `onConsentNotification(callback: ConsentCallack): void`
 
-This function takes 1 argument, a callback.
-
-When `onConsentNotification` is called it will execute the callback immediately, passing it two arguments, an object which reflects the TCF state (or `null` when in CCPA mode) and a boolean which reflects the CCPA state (or `null` when in TCF mode).
-
-The package also listens for subsequent changes to the user's privacy settings (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If this happens it will re-execute the callback, passing it the update consent state.
-
-The signatures for the callback function and its parameters are:
+When `onConsentNotification` is called it will add the supplied callback to a list of a callbacks. These callbacks will be fired when 1) the consent state is first obtained, and 2) the consent state is changed (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If the consent state is already know when `onConsentNotification` is called the callback is fired immediately. The signatures for the callback function and its parameters are:
 
 ```
 interface TcfState {
-    [key: string]: boolean
+    [key: string]: boolean;
 }
 
-type CcpaState = boolean
+interface CcpaState {
+	doNotSell: boolean;
+}
 
-type ConsentCallback = (tcfSate: TcfState | null, ccpaState: CcpaState | null) => void
+interface PrivacyState {
+	tcfState?: TcfState;
+	ccpaState?: CcpaState;
+
+}
+
+type ConsentCallback = (state: PrivacyState) => void
 ```
-
-The keys in `TCFState` will match the TCF purpose IDs.<br />
-The value of `ccpaState` will be the inverse of the [CCPA opt-out flag](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md#us-privacy-string-format) when in CCPA mode. This is to provide a homogenous way to handle consent between the TCF and the CCPA frameworks where `true` means consent has been given and `false` means consent has been denied.
-
-If `onConsentNotification` is called before `init`, it will do nothing.
 
 **Example:**
 
 ```js
 import { onConsentNotification } from '@guardian/consent-management-platform';
 
-onConsentNotification((tcfState, ccpaState) => {
+onConsentNotification(({ tcfState, ccpaState }) => {
 	// Check whether it's in TCF or CCPA mode
-	if (tcfState !== null) {
+	if (tcfState) {
 		console.log(tcfState); // { 1: true || false, 1: true || false, ... }
 	} else {
-		console.log(ccpaState); // true || false
+		console.log(ccpaState); // { doNotSell: true || false }
 	}
 });
 ```
 
-### checkWillShowUi
+### checkUiWillShow
 
-`checkWillShowUi(): Promise<boolean>`
+`checkUiWillShow(): Promise<boolean>`
 
-The `checkWillShowUi` function returns the promise of a boolean. This boolean will be `true` if the user will shown a TCF or a CCPA privacy message, depending on which mode is running, and `false` otherwise.
-
-If `checkWillShowUi` is called before `init`, it will return a rejected promise.
+The `checkUiWillShow` function returns the promise of a boolean. This boolean will be `true` if the user will shown a TCF or a CCPA privacy message, depending on which mode is running, and `false` otherwise. If called before `init`, it will return a rejected promise.
 
 **Example:**
 
 ```js
-import { checkWillShowUi } from '@guardian/consent-management-platform';
+import { checkUiWillShow } from '@guardian/consent-management-platform';
 
 checkWillShowUi()
     .then(result =>
         console.log(result) // true || false
     ).catch(e =>
-        console.log("checkWillShowUi() failed:", e): // "checkWillShowUi() failed: called before init()"
+        console.log("checkUiWillShow() failed:", e): // "checkUiWillShow() failed: called before init()"
     );
 ```
 
