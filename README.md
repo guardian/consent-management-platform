@@ -63,9 +63,9 @@ Reports the user's consent to the various TCFv2 uses:
 
 ```js
 {
-	1: Boolean,
-	2: Boolean,
-	// etc
+    1: Boolean,
+    2: Boolean,
+    // etc
 }
 ```
 
