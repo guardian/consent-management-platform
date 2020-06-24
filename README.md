@@ -76,15 +76,15 @@ Reports whether user has withdrawn consent to sell their data:
 
 ```js
 {
-    doNotSell: Boolean;
+    doNotSell: Boolean
 }
 ```
 
 ### checkUiWillShow()
 
-returns: `Promise<boolean>`
+returns: `Promise<Boolean>`
 
-The returned promise resolves to `true` if the user will be shown the initial privacy message, or `false` if they have already dismissed it.
+The returned promise resolves to `true` if the user will be shown the initial privacy message, or `false` if not.
 
 If it's called before `init()`, it will `reject`.
 
@@ -93,7 +93,7 @@ If it's called before `init()`, it will `reject`.
 ```js
 import { checkUiWillShow } from '@guardian/consent-management-platform';
 
-checkWillShowUi()
+checkUiWillShow()
     .then(result =>
         console.log(result) // true || false
     ).catch(e =>
