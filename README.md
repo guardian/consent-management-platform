@@ -39,7 +39,7 @@ Adds the relevent privacy framework to the page. It needs to be run before any o
 
 type: `boolean`
 
-_Required! Throws error is not present._ Declare whether your user is in the USA or not.
+_Required! Throws error if not present._ Declare whether your user is in the USA or not.
 
 ### onConsentNotification(callback)
 
