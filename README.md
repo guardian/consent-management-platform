@@ -1,85 +1,93 @@
 # Consent Management Platform
 
-Welcome to the Consent Management Platform, a library to manage privacy frameworks across \*.theguardian.com, from messaging to reporting the privacy state. All exports include Typescript definitions.
+> Consent management for `*.theguardian.com`.
 
-## What utilities does this offer?
+The CMP applies the CCPA to users in the USA, and TCFv2 to everyone else.
 
-### TCF and CCPA privacy frameworks
+![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
+[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
-If you need to use the TCF or CCPA privacy frameworks, you can inititalise them on your page using the `init` function.
-
-### Consent notifications
-
-If you need to conditionally run some code based on a user's consent state you can use the function `onConsentNotification`.
-
-## What is the API?
-
-[init](#init)<br />
-[onConsentNotification](#onconsentnotification)<br />
-[checkUiWillShow](#checkuiwillshow)<br />
-[showPrivacyManager](#showprivacymanager)
-
-### init
-
-`init(options: InitOptions): void`
-
-Calling `init` will add the TCF or the CCPA privacy framework to the page, depending on the configuration options received. We refer to these as TCF mode and CCPA mode, respectively. This function needs to be run before any other API call.
-
-The configuration object that it requires is:
-
-```
-interface InitOptions {
-	isInUS: boolean;
-}
-```
-
-If `InitOptions.isInUS` is missing, `init` will default to running in TCF mode.
-
-### onConsentNotification
-
-`onConsentNotification(callback: ConsentCallack): void`
-
-When `onConsentNotification` is called it will add the supplied callback to a list of a callbacks. These will be fired when 1) after the consent state is first checked, and 2) the consent state changes (eg. if a user resurfaces the privacy manager and makes change to their privacy preferences). If the consent state is already known when `onConsentNotification` is called the callback is fired immediately.
-
-The signatures for the callback function and its parameters are:
-
-```
-interface TcfState {
-    [key: string]: boolean;
-}
-
-interface CcpaState {
-	doNotSell: boolean;
-}
-
-interface PrivacyState {
-	tcfState?: TcfState;
-	ccpaState?: CcpaState;
-}
-
-type ConsentCallback = (state: PrivacyState) => void
-```
-
-**Example:**
+## Usage
 
 ```js
-import { onConsentNotification } from '@guardian/consent-management-platform';
+import {
+	init,
+	onConsentNotification,
+} from '@guardian/consent-management-platform';
+
+init({ isInUS: true });
 
 onConsentNotification(({ tcfState, ccpaState }) => {
-	// Check whether it's in TCF or CCPA mode
+	if (ccpaState) {
+		console.log(ccpaState); // { doNotSell: true || false }
+	}
 	if (tcfState) {
 		console.log(tcfState); // { 1: true || false, 1: true || false, ... }
-	} else {
-		console.log(ccpaState); // { doNotSell: true || false }
 	}
 });
 ```
 
-### checkUiWillShow
+## API
 
-`checkUiWillShow(): Promise<boolean>`
+### init(options)
 
-The `checkUiWillShow` function returns the promise of a boolean. This boolean will be `true` if the user will be shown a TCF or a CCPA privacy message, depending on which mode is running, and `false` otherwise. If called before `init`, it will return a rejected promise.
+returns: `void`
+
+Adds the relevent privacy framework to the page. It needs to be run before any other API call.
+
+#### options.isInUS
+
+type: `boolean`<br>
+required: yes
+
+### onConsentNotification(callback)
+
+returns: `void`
+
+Callbacks are invoked when the consent state:
+
+- is acquired
+- changes (eg. if a user changes to their privacy preferences).
+
+If the consent state has already been acquired when `onConsentNotification` is called, the callback is invoked immediately.
+
+#### callback(result)
+
+type: `function`<br/>
+
+##### result.tcfState
+
+type: `Object` or `undefined`
+
+Reports the user's consent to the various TCFv2 uses:
+
+```js
+{
+	1: Boolean,
+	2: Boolean,
+	// etc
+}
+```
+
+##### result.ccpaState
+
+type: `Object` or `undefined`
+
+Reports whether user has withdrawn consent to sell their data:
+
+```js
+{
+	doNotSell: Boolean;
+}
+```
+
+### checkUiWillShow()
+
+returns: `Promise<boolean>`
+
+The returned promise resolves to `true` if the user will be shown the initial privacy message, or `false` if they have already dismissed it.
+
+If it's called before `init()`, it will `reject`.
 
 **Example:**
 
@@ -94,11 +102,19 @@ checkWillShowUi()
     );
 ```
 
-### showPrivacyManager
+### showPrivacyManager()
 
-`showPrivacyManager(): void`
+returns: `void`
 
-When `showPrivacyManager` is called it will surface the TCF's or CCPA's privacy manager, depending on which mode is running (see [init](#init)).
+Allows users to change their privacy preferences by (re-)showing the privacy manager after the initial privacy message.
+
+**Example:**
+
+```js
+import { showPrivacyManager } from '@guardian/consent-management-platform';
+
+showPrivacyManager(); // privacy manager is displayed
+```
 
 ## Developer instructions
 
