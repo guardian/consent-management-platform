@@ -39,15 +39,11 @@ Adds the relevent privacy framework to the page. It needs to be run before any o
 
 type: `boolean`
 
-_Required!_ Declare whether your user is in the USA or not.
+_Required! Throws error is not present._ Declare whether your user is in the USA or not.
 
 ### onConsentNotification(callback)
 
 returns: `void`
-
-#### callback(result)
-
-type: `function`
 
 Callbacks are invoked when the consent state:
 
@@ -56,21 +52,34 @@ Callbacks are invoked when the consent state:
 
 If the consent state has already been acquired when `onConsentNotification` is called, the callback will be invoked immediately.
 
-##### result.tcfState
+#### callback(result)
 
-type: `Object` or `undefined`
+type: `function`
 
-Reports the user's preferences to the TCFv2 purposes:
+Reports the user's relevant privacy preferences.
 
 ```js
 {
-    1: Boolean,
-    2: Boolean,
+    tcfState?: Boolean,
+    ccpaState?: Boolean,
+}
+```
+
+###### result.tcfState
+
+type: `Object` or `undefined`
+
+Reports the user's preferences to each of the TCFv2 purposes:
+
+```js
+{
+    1: Boolean;
+    2: Boolean;
     // etc
 }
 ```
 
-##### result.ccpaState
+###### result.ccpaState
 
 type: `Object` or `undefined`
 
@@ -86,9 +95,9 @@ Reports whether user has withdrawn consent to sell their data:
 
 returns: `Promise<Boolean>`
 
-The returned promise resolves to `true` if the user will be shown the initial privacy message, or `false` if not.
+The returned promise resolves to `true` if the user will be shown the initial privacy message, or `false` otherwise.
 
-If it's called before `init()`, it will `reject`.
+If it's called before `init()`, it will return a rejected promise.
 
 **Example:**
 
@@ -97,9 +106,9 @@ import { checkUiWillShow } from '@guardian/consent-management-platform';
 
 checkUiWillShow()
     .then(result =>
-        console.log(result) // true || false
+        console.log(result); // true || false
     ).catch(e =>
-        console.log("checkUiWillShow() failed:", e): // "checkUiWillShow() failed: called before init()"
+        console.log("checkUiWillShow() failed:", e); // "checkUiWillShow() failed: called before init()"
     );
 ```
 
@@ -107,7 +116,7 @@ checkUiWillShow()
 
 returns: `void`
 
-Allows users to change their privacy preferences by (re-)showing the privacy manager after the initial privacy message.
+Surfaces the relevant privacy manager, allowing the user to change their privacy preferences after the initial privacy message.
 
 **Example:**
 
