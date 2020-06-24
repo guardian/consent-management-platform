@@ -45,7 +45,7 @@
 			}
 		}
 	],
-	"ignorePatterns": ["lib", ".*"],
+	"ignorePatterns": ["dist", ".*"],
 	"settings": {
 		"react": {
 			"version": "detect"
