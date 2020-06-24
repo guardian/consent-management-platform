@@ -56,6 +56,7 @@
 		"@guardian/src-foundations": "^1.4.0",
 		"@guardian/src-icons": "^1.4.0",
 		"@rollup/plugin-html": "^0.2.0",
+		"@rollup/plugin-strip": "^1.3.3",
 		"@types/jest": "^26.0.0",
 		"@types/js-cookie": "^2.2.6",
 		"@types/react": "^16.9.35",

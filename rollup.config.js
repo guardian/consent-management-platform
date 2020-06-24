@@ -1,6 +1,8 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
+import strip from '@rollup/plugin-strip';
+import replace from 'rollup-plugin-replace';
 
 const extensions = ['.ts', '.tsx'];
 
@@ -30,5 +32,16 @@ module.exports = {
 		'@guardian/src-svgs',
 		'react',
 	],
-	plugins: [babel({ extensions }), resolve({ extensions }), commonjs()],
+	plugins: [
+		babel({ extensions }),
+		resolve({ extensions }),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify('production'),
+		}),
+		commonjs(),
+		strip({
+			include: ['**/*.{j,t}s?(x)'],
+			sourceMap: true,
+		}),
+	],
 };
