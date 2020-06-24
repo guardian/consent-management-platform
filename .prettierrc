@@ -8,5 +8,14 @@
 	"semi": true,
 	"singleQuote": true,
 	"trailingComma": "all",
-	"useTabs": true
+	"useTabs": true,
+	"tabWidth": 4,
+	"overrides": [
+		{
+			"files": "*.md",
+			"options": {
+				"useTabs": false
+			}
+		}
+	]
 }

@@ -37,23 +37,22 @@ Adds the relevent privacy framework to the page. It needs to be run before any o
 
 #### options.isInUS
 
-type: `boolean`<br>
-required: yes
+type: `boolean`
 
 ### onConsentNotification(callback)
 
 returns: `void`
 
-Callbacks are invoked when the consent state:
-
-- is acquired
-- changes (eg. if a user changes to their privacy preferences).
-
-If the consent state has already been acquired when `onConsentNotification` is called, the callback is invoked immediately.
-
 #### callback(result)
 
-type: `function`<br/>
+type: `function`
+
+Callbacks are invoked when the consent state:
+
+-   is acquired
+-   changes (eg. if a user changes their privacy preferences).
+
+If the consent state has already been acquired when `onConsentNotification` is called, the callback will be invoked immediately.
 
 ##### result.tcfState
 
