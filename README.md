@@ -10,10 +10,7 @@ The CMP applies the CCPA to users in the USA, and TCFv2 to everyone else.
 ## Usage
 
 ```js
-import {
-    init,
-    onConsentNotification,
-} from '@guardian/consent-management-platform';
+import { init, onConsentNotification } from '@guardian/consent-management-platform';
 
 init({ isInUS: true });
 
