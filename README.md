@@ -11,19 +11,19 @@ The CMP applies the CCPA to users in the USA, and TCFv2 to everyone else.
 
 ```js
 import {
-	init,
-	onConsentNotification,
+    init,
+    onConsentNotification,
 } from '@guardian/consent-management-platform';
 
 init({ isInUS: true });
 
 onConsentNotification(({ tcfState, ccpaState }) => {
-	if (ccpaState) {
-		console.log(ccpaState); // { doNotSell: true || false }
-	}
-	if (tcfState) {
-		console.log(tcfState); // { 1: true || false, 1: true || false, ... }
-	}
+    if (ccpaState) {
+        console.log(ccpaState); // { doNotSell: true || false }
+    }
+    if (tcfState) {
+        console.log(tcfState); // { 1: true || false, 1: true || false, ... }
+    }
 });
 ```
 
@@ -77,7 +77,7 @@ Reports whether user has withdrawn consent to sell their data:
 
 ```js
 {
-	doNotSell: Boolean;
+    doNotSell: Boolean;
 }
 ```
 
