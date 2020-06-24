@@ -116,7 +116,7 @@ checkUiWillShow()
 
 returns: `void`
 
-Surfaces the relevant privacy manager, allowing the user to change their privacy preferences after the initial privacy message.
+Shows the relevant privacy manager, allowing the user to update their privacy preferences after they've closed the initial privacy message.
 
 **Example:**
 
