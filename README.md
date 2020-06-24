@@ -58,6 +58,11 @@ type: `function`
 
 Reports the user's relevant privacy preferences.
 
+##### result
+
+type: `Object`
+
+
 ```js
 {
     tcfState?: Boolean,
@@ -65,7 +70,7 @@ Reports the user's relevant privacy preferences.
 }
 ```
 
-###### result.tcfState
+##### result.tcfState
 
 type: `Object` or `undefined`
 
@@ -79,7 +84,7 @@ Reports the user's preferences to each of the TCFv2 purposes:
 }
 ```
 
-###### result.ccpaState
+##### result.ccpaState
 
 type: `Object` or `undefined`
 
