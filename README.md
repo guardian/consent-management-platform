@@ -36,6 +36,8 @@ Adds the relevent privacy framework to the page. It needs to be run before any o
 
 type: `boolean`
 
+_Required!_ Declare whether your user is in the US or not.
+
 ### onConsentNotification(callback)
 
 returns: `void`
