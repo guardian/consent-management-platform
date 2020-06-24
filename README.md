@@ -10,9 +10,12 @@ The CMP applies the CCPA to users in the USA, and TCFv2 to everyone else.
 ## Usage
 
 ```js
-import { init, onConsentNotification } from '@guardian/consent-management-platform';
+import {
+    init,
+    onConsentNotification,
+} from '@guardian/consent-management-platform';
 
-init({ isInUS: true });
+init({ isInUsa: true });
 
 onConsentNotification(({ tcfState, ccpaState }) => {
     if (ccpaState) {
@@ -32,11 +35,11 @@ returns: `void`
 
 Adds the relevent privacy framework to the page. It needs to be run before any other API call.
 
-#### options.isInUS
+#### options.isInUsa
 
 type: `boolean`
 
-_Required!_ Declare whether your user is in the US or not.
+_Required!_ Declare whether your user is in the USA or not.
 
 ### onConsentNotification(callback)
 
@@ -57,7 +60,7 @@ If the consent state has already been acquired when `onConsentNotification` is c
 
 type: `Object` or `undefined`
 
-Reports the user's consent to the various TCFv2 uses:
+Reports the user's preferences to the TCFv2 purposes:
 
 ```js
 {
@@ -75,7 +78,7 @@ Reports whether user has withdrawn consent to sell their data:
 
 ```js
 {
-    doNotSell: Boolean
+    doNotSell: Boolean;
 }
 ```
 
