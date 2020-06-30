@@ -5,6 +5,10 @@ import { init } from './sourcepoint';
 describe('Sourcepoint', () => {
 	init();
 
+	it('injects the stub', () => {
+		expect(document.getElementById('sourcepoint-ccpa-stub')).toBeTruthy();
+	});
+
 	it('injects the lib', () => {
 		expect(document.getElementById('sourcepoint-ccpa-lib')).toBeTruthy();
 	});
