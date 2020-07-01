@@ -102,7 +102,7 @@ The `forceModal` property accepts an optional boolean. If the value passed is `t
 
 ```js
 import { shouldShow } from '@guardian/consent-management-platform';
-import { ConsentManagementPlatform } from '@guardian/consent-management-platform/lib/ConsentManagementPlatform';
+import { ConsentManagementPlatform } from '@guardian/consent-management-platform/dist/ConsentManagementPlatform';
 
 export class App {
     constructor(props) {
