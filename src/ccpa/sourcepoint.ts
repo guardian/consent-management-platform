@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import './sourcepoint-stub';
+import { runStub } from './sourcepoint-stub';
 import { mark } from '../mark';
 import { isGuardianDomain } from '../domain';
 
@@ -68,6 +68,7 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
 			'Sourcepoint CCPA global (window._sp_ccpa) is already defined!',
 		);
 	}
+	runStub();
 
 	window._sp_ccpa = {
 		config: {
