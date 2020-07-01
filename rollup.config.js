@@ -4,7 +4,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import replace from 'rollup-plugin-replace';
 
-const extensions = ['.ts', '.tsx'];
+const extensions = ['.js', '.ts', '.tsx'];
 
 module.exports = {
 	input: ['src/index.ts', 'src/tcf/component/ConsentManagementPlatform.tsx'],
