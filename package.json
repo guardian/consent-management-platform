@@ -1,6 +1,6 @@
 {
 	"name": "@guardian/consent-management-platform",
-	"version": "3.4.4",
+	"version": "3.4.5",
 	"description": "Library of useful utilities for managing consent state across *.theguardian.com",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
