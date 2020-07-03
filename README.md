@@ -57,6 +57,8 @@ cmp.willShowPrivacyMessage()
 
 Displays an interface that allows users to manage their privacy settings at any time.
 
+#### Example
+
 ```js
 cmp.showPrivacyManager();
 ```
