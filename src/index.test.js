@@ -3,7 +3,7 @@ import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/c
 import {
 	init as initSourcepoint,
 	onIabConsentNotification as ccpaOnIabConsentNotification,
-} from './ccpa/core';
+} from './ccpa';
 import { checkWillShowUi as checkWillShowUiCcpa } from './ccpa/sourcepoint';
 
 jest.mock('./tcf/core', () => ({

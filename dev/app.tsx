@@ -1,54 +1,36 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { ConsentManagementPlatform } from '../src/tcf/component/ConsentManagementPlatform';
-import {
-	init,
-	onIabConsentNotification,
-	showPrivacyManager,
-	checkWillShowUi,
-} from '../src/index';
+import { cmp } from '../src/index';
 
-const initOptions = { useCcpa: false };
-init(initOptions);
-
-// import {
-//     onGuConsentNotification,
-//     setErrorHandler,
-//     shouldShow,
-//     onIabConsentNotification,
-// } from '../src';
-
-const onClose = () => {
-	// do something with:
-	//     onGuConsentNotification,
-	//     setErrorHandler,
-	//     shouldShow,
-	//     onIabConsentNotification,
-};
-
-if (!initOptions.useCcpa) {
-	document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
-
-	ReactDOM.render(
-		<ConsentManagementPlatform onClose={onClose} />,
-		document.getElementById('app'),
-	);
-} else {
-	checkWillShowUi().then((result: boolean) =>
-		// eslint-disable-next-line no-console
-		console.log('checkWillShowUi returned', result),
-	);
-}
-
-onIabConsentNotification(() => {
-	// eslint-disable-next-line no-console
-	console.log('onIabConsentNotification in app.tsx');
+cmp.willShowPrivacyMessage().then((willShow) => {
+	console.log('DEV willShowPrivacyMessage', { willShow });
 });
 
-const settingsLink = document.createElement('a');
-settingsLink.href = '#';
-settingsLink.innerText = 'privacy settings';
-settingsLink.onclick = showPrivacyManager;
-document.body.append(settingsLink);
+cmp.onConsent(({ tcf, ccpa }) => {
+	console.log('DEV onConsent', { tcf, ccpa });
+});
+
+cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
+
+const locationLabel = document.createElement('label');
+locationLabel.innerHTML = 'in USA';
+locationLabel.style.display = 'flex';
+locationLabel.style.flexDirection = 'row-reverse';
+locationLabel.style.justifyContent = 'flex-end';
+
+const locationControl = document.createElement('input');
+locationControl.type = 'checkbox';
+locationControl.checked = localStorage.getItem('inUSA') === 'true';
+locationControl.onclick = () => {
+	localStorage.setItem('inUSA', locationControl.checked.toString());
+	window.location.reload();
+};
+
+locationLabel.appendChild(locationControl);
+
+document.body.append(locationLabel);
+const settingsButton = document.createElement('button');
+settingsButton.innerText = 'show privacy settings';
+settingsButton.onclick = cmp.showPrivacyManager;
+settingsButton.style.marginTop = '1rem';
+document.body.append(settingsButton);
