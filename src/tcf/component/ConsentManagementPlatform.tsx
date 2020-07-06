@@ -21,7 +21,7 @@ import {
 } from '../store';
 import { Banner } from './Banner';
 import { Modal } from './Modal';
-import { mark } from '../../mark';
+import { mark } from '../../lib/mark';
 
 const privacyPolicyUrl = 'https://www.theguardian.com/help/privacy-policy';
 const cookiePolicyUrl = 'https://www.theguardian.com/info/cookies';

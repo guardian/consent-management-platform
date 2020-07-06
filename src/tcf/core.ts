@@ -7,7 +7,7 @@ import {
 	ItemState,
 } from './types';
 import { GU_PURPOSE_LIST } from './config';
-import { mark } from '../mark';
+import { mark } from '../lib/mark';
 
 type GuPurposeCallback = (state: ItemState) => void;
 export type IabPurposeCallback = (state: IabPurposeState) => void;
