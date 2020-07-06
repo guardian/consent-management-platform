@@ -31,6 +31,7 @@
 	],
 	"license": "Apache-2.0",
 	"dependencies": {
+		"@iabtcf/stub": "^1.0.2-5",
 		"consent-string": "1.5.2",
 		"js-cookie": "2.2.1",
 		"whatwg-fetch": "3.0.0"

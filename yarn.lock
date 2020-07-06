@@ -1097,6 +1097,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.6.0.tgz#a5ef68026d841e2d0c7c2622c19ca94b4ac59454"
   integrity sha512-2hdWKC3CTlKM2FL6PCMSFbG6sD5rLYhKwhUrZhmBVmTdsvxxU7NMGwjAMymxceoj4S6psDnrHBe7C+KkCyIQOw==
 
+"@iabtcf/stub@^1.0.2-5":
+  version "1.0.2-5"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.2-5.tgz#60336641b5c65bb9713040e7c48cf944dc7b7eb8"
+  integrity sha512-AuRq0/oqvoduDwBkVYBI0uonHTUHtEDmOOa3NOtwQ0d93M/+I3issM6IDaRftczn+XA1EgA8mAJfxBumL+7o+w==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
