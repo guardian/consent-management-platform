@@ -1,4 +1,4 @@
-import { init, onIabConsentNotification, _ } from './core';
+import { init, onIabConsentNotification, _ } from '.';
 import { init as initSourcepoint } from './sourcepoint';
 
 let onConsentReady;
