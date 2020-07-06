@@ -1,5 +1,8 @@
 /* eslint-disable */
-export const runStub = () => {
+
+// https://documentation.sourcepoint.com/web-implementation/sourcepoint-setup-and-ccpa-configuration
+
+export const stub = () => {
 	var e = false;
 	var c = window;
 	var t = document;
