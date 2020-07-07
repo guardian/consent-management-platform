@@ -26,6 +26,9 @@ export const init = () => {
 			wrapperAPIOrigin: 'https://wrapper-api.sp-prod.net/tcfv2',
 			accountId: ACCOUNT_ID,
 			propertyHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			targetingParams: {
+				framework: 'tcfv2',
+			},
 
 			events: {
 				onConsentReady() {
@@ -43,8 +46,9 @@ export const init = () => {
 	};
 
 	const tcfLib = document.createElement('script');
-	tcfLib.id = 'sourcepoint-ccpa-lib';
-	tcfLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
+	tcfLib.id = 'sourcepoint-tcfv2-lib';
+	tcfLib.src =
+		'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js';
 
 	document.body.appendChild(tcfLib);
 };

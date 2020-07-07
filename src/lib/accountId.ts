@@ -1,1 +1,1 @@
-export const ACCOUNT_ID = '1257';
+export const ACCOUNT_ID = 1257;

@@ -30,6 +30,9 @@ export const init = () => {
 			getDnsMsgMms: true,
 			alwaysDisplayDns: false,
 			siteHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			targetingParams: {
+				framework: 'ccpa',
+			},
 
 			events: {
 				onConsentReady() {
