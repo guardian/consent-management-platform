@@ -12,8 +12,8 @@ const init = () => {
 const willShowPrivacyMessage = () => sourcepointWillShowPrivacyMessage;
 
 function showPrivacyManager() {
-	console.log('tcfv2 showPrivacyManager');
-	window._sp_?.loadPrivacyManagerModal(106842);
+	// eslint-disable-next-line no-underscore-dangle
+	window._sp_?.loadPrivacyManagerModal?.(106842);
 }
 
 export const TCFv2: SourcepointImplementation = {
