@@ -12,8 +12,10 @@ interface ComparedConsentState {
 	state: ConsentState;
 }
 
+type Callback = (arg0: ConsentState) => void;
+
 // callbacks cache
-const callBacks: Function[] = [];
+const callBacks: Array<Callback> = [];
 
 // invokes all stored callbacks with the current consent state
 export const invokeCallbacks = () => {
@@ -80,12 +82,13 @@ const compareState: CompareState = (newState) => {
 	};
 };
 
-export const onConsent = (callBack: Function) => {
+export const onConsent = (callBack: Callback) => {
 	callBacks.push(callBack);
+
+	// if consentState is already available, invoke callback immediately
 	getConsentState()
 		.then((consentState) => {
-			// if consentState is already available, invoke callback immediately
-			if (consentState) callBack(consentState);
+			if (consentState) callBack(consentState.state);
 		})
 		.catch(() => {
 			// do nothing - callback will be added the list anyway
