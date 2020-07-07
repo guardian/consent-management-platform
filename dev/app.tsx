@@ -49,10 +49,16 @@ stagingLabel.style.display = 'flex';
 stagingLabel.style.flexDirection = 'row-reverse';
 stagingLabel.style.justifyContent = 'flex-end';
 
+if (localStorage.getItem('staging') === null) {
+	localStorage.setItem('staging', 'true');
+	window.location.search = '_sp_env=stage';
+}
+
 const stagingControl = document.createElement('input');
 stagingControl.type = 'checkbox';
-stagingControl.checked = window.location.search === '?_sp_env=stage';
+stagingControl.checked = localStorage.getItem('staging') === 'true';
 stagingControl.onclick = () => {
+	localStorage.setItem('staging', stagingControl.checked.toString());
 	window.location.search = stagingControl.checked ? '_sp_env=stage' : '';
 };
 
