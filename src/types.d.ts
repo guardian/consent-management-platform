@@ -54,7 +54,7 @@ interface Window {
 				onMessageReceiveData?: (data: SourcepointMessageReceiveData) => void;
 			};
 		};
-		loadPrivacyManagerModal?: (id: number) => {}; // this function is undocumented
+		loadPrivacyManagerModal?: (id: number) => {};
 	};
 
 	// IAB interfaces - only one should be present at a time
