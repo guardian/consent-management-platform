@@ -86,7 +86,7 @@ type: `function`
 
 Reports the user's privacy preferences.
 
-##### result.tcf
+##### result.tcfv2
 
 type: `Object` or `undefined`
 
@@ -117,9 +117,9 @@ Reports whether user has withdrawn consent to sell their data in the USA. If the
 ```js
 import { onConsent } from '@guardian/consent-management-platform';
 
-onConsent(({ tcf, ccpa }) => {
-    if (tcf) {
-        console.log(tcf); // { 1: true || false, 1: true || false, ... }
+onConsent(({ tcfv2, ccpa }) => {
+    if (tcfv2) {
+        console.log(tcfv2); // { 1: true || false, 1: true || false, ... }
     }
 
     if (ccpa) {

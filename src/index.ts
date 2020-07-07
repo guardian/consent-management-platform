@@ -2,7 +2,6 @@
 
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
-import { onConsent } from './onConsent';
 
 let CMP: SourcepointImplementation | undefined;
 
@@ -38,5 +37,6 @@ export const cmp = {
 	init,
 	willShowPrivacyMessage,
 	showPrivacyManager,
-	onConsent,
 };
+
+export { onConsent } from './onConsent';

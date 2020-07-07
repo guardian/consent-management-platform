@@ -1,13 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { cmp } from '../src/index';
+import { cmp, onConsent } from '../src/index';
 
 cmp.willShowPrivacyMessage().then((willShow) => {
 	console.log('DEV willShowPrivacyMessage', { willShow });
 });
 
-cmp.onConsent(({ tcf, ccpa }) => {
-	console.log('DEV onConsent', { tcf, ccpa });
+onConsent(({ tcfv2, ccpa }) => {
+	console.log('DEV onConsent', { tcfv2, ccpa });
 });
 
 cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 interface ConsentState {
-	tcf?: {};
+	tcfv2?: {};
 	ccpa?: {
 		doNotSell: boolean;
 	};
@@ -52,7 +52,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () =>
 			// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
 			window.__tcfapi('getTCData', 2, (tcfData, success) => {
 				if (success) {
-					resolve(compareState({ tcf: tcfData?.purpose.consents }));
+					resolve(compareState({ tcfv2: tcfData?.purpose.consents }));
 				} else {
 					reject();
 				}
