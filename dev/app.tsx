@@ -53,7 +53,7 @@ settingsButton.style.display = 'block';
 document.body.append(settingsButton);
 
 const resetButton = document.createElement('button');
-resetButton.innerText = 'clear settings';
+resetButton.innerText = 'clear preferences';
 resetButton.onclick = () => {
 	document.cookie.split(';').forEach((cookie) => {
 		document.cookie = cookie
