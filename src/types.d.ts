@@ -6,16 +6,6 @@ interface SourcepointImplementation {
 	showPrivacyManager: () => void;
 }
 
-type SourcepointMessageReceiveData = {
-	message_url?: string;
-	msg_id: 0 | string;
-	prtn_uuid?: string;
-	msg_desc?: string;
-	cmpgn_id?: string;
-	bucket?: string;
-	uuid?: string;
-};
-
 // globals set on the window by the CMP library
 interface Window {
 	// sourcepoint's libraries - only one should be present at a time
@@ -33,7 +23,7 @@ interface Window {
 			events?: {
 				onConsentReady?: () => void;
 				onMessageReady?: () => void;
-				onMessageReceiveData?: (data: SourcepointMessageReceiveData) => void;
+				onMessageReceiveData?: (data: { msg_id: 0 | string }) => void;
 			};
 		};
 		loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
@@ -51,7 +41,7 @@ interface Window {
 			events?: {
 				onConsentReady?: () => void;
 				onMessageReady?: () => void;
-				onMessageReceiveData?: (data: SourcepointMessageReceiveData) => void;
+				onMessageReceiveData?: (data: { messageId: 0 | string }) => void;
 			};
 		};
 		loadPrivacyManagerModal?: (id: number) => {};

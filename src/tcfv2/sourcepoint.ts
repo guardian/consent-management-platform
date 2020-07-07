@@ -40,7 +40,7 @@ export const init = () => {
 					mark('cmp-tcfv2-ui-displayed');
 				},
 				onMessageReceiveData: (data) => {
-					resolveWillShowPrivacyMessage?.(data.msg_id !== 0);
+					resolveWillShowPrivacyMessage?.(data.messageId !== 0);
 				},
 			},
 		},
