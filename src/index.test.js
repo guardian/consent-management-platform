@@ -1,54 +1,39 @@
-import { init, onIabConsentNotification, checkWillShowUi } from './index';
-import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/core';
-import {
-	init as initSourcepoint,
-	onIabConsentNotification as ccpaOnIabConsentNotification,
-} from './ccpa';
-import { checkWillShowUi as checkWillShowUiCcpa } from './ccpa/sourcepoint';
-
-jest.mock('./tcf/core', () => ({
-	onIabConsentNotification: jest.fn(),
-}));
-
-jest.mock('./ccpa/core', () => ({
-	init: jest.fn(),
-	onIabConsentNotification: jest.fn(),
-}));
+import { init as initCCPA } from './ccpa/sourcepoint';
+import { init as initTCF } from './tcfv2/sourcepoint';
+import { cmp } from '.';
 
 jest.mock('./ccpa/sourcepoint', () => ({
-	checkWillShowUi: jest.fn(),
+	init: jest.fn(),
 }));
 
-const mockCallback = () => {};
+jest.mock('./tcfv2/sourcepoint', () => ({
+	init: jest.fn(),
+}));
 
-const ccpaOnOptions = { useCcpa: true };
-
-describe('CMP lib', () => {
-	it("Calls TCF's onIabConsentNotification when in TCF mode", () => {
-		onIabConsentNotification(mockCallback);
-
-		expect(tcfOnIabConsentNotification).toHaveBeenCalledTimes(1);
-		expect(tcfOnIabConsentNotification).toHaveBeenCalledWith(mockCallback);
+describe('cmp.init', () => {
+	it('requires isInUsa to be true or false', () => {
+		expect(cmp.init).toThrow();
 	});
 
-	it('Inititalises CCPA when in CCPA mode', () => {
-		init(ccpaOnOptions);
-
-		expect(initSourcepoint).toHaveBeenCalledTimes(1);
+	it('inititalises CCPA when in the US', () => {
+		cmp.init({ isInUsa: true });
+		expect(initCCPA).toHaveBeenCalledTimes(1);
 	});
 
-	it("Calls CCPA's onIabConsentNotification when in CCPA mode", () => {
-		init(ccpaOnOptions);
-		onIabConsentNotification(mockCallback);
-
-		expect(ccpaOnIabConsentNotification).toHaveBeenCalledTimes(1);
-		expect(ccpaOnIabConsentNotification).toHaveBeenCalledWith(mockCallback);
+	it('inititalises TCF when not in the US', () => {
+		cmp.init({ isInUsa: false });
+		expect(initTCF).toHaveBeenCalledTimes(1);
 	});
+});
 
-	it("Calls CCPA's checkWillShowUi when in CCPA mode", () => {
-		init(ccpaOnOptions);
-		checkWillShowUi();
+describe('cmp.willShowPrivacyMessage', () => {
+	it('resolves regardless of when the cmp is initialised', () => {
+		fail('no test');
+	});
+});
 
-		expect(checkWillShowUiCcpa).toHaveBeenCalledTimes(1);
+describe('cmp.showPrivacyManager', () => {
+	it('shows the privacy manager when called', () => {
+		fail('no test');
 	});
 });
