@@ -1,12 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { cmp, onConsent } from '../src/index';
+import { cmp, onConsentChange } from '../src/index';
 
 cmp.willShowPrivacyMessage().then((willShow) => {
 	console.log('DEV willShowPrivacyMessage', { willShow });
 });
 
-onConsent(({ tcfv2, ccpa }) => {
+onConsentChange(({ tcfv2, ccpa }) => {
 	console.log('DEV onConsent', { tcfv2, ccpa });
 });
 

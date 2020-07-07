@@ -82,7 +82,7 @@ const compareState: CompareState = (newState) => {
 	};
 };
 
-export const onConsent = (callBack: Callback) => {
+export const onConsentChange = (callBack: Callback) => {
 	callBacks.push(callBack);
 
 	// if consentState is already available, invoke callback immediately

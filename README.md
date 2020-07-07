@@ -66,10 +66,10 @@ cmp.showPrivacyManager();
 ## Using Consent
 
 ```js
-import { onConsent } from '@guardian/consent-management-platform';
+import { onConsentChange } from '@guardian/consent-management-platform';
 ```
 
-### onConsent(callback)
+### onConsentChange(callback)
 
 returns: `void`
 
@@ -78,7 +78,7 @@ An event listener that invokes callbacks whenever the consent state:
 -   is acquired (e.g. after initialising)
 -   changes (eg. if a user changes their privacy preferences)
 
-If the consent state has already been acquired when `onConsent` is called, the callback will be invoked immediately.
+If the consent state has already been acquired when `onConsentChange` is called, the callback will be invoked immediately.
 
 #### callback(result)
 
@@ -115,9 +115,9 @@ Reports whether user has withdrawn consent to sell their data in the USA. If the
 #### Example
 
 ```js
-import { onConsent } from '@guardian/consent-management-platform';
+import { onConsentChange } from '@guardian/consent-management-platform';
 
-onConsent(({ tcfv2, ccpa }) => {
+onConsentChange(({ tcfv2, ccpa }) => {
     if (tcfv2) {
         console.log(tcfv2); // { 1: true || false, 1: true || false, ... }
     }

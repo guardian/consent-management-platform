@@ -39,7 +39,7 @@ export const cmp = {
 	showPrivacyManager,
 };
 
-export { onConsent } from './onConsent';
+export { onConsentChange } from './onConsentChange';
 
 export {
 	onGuConsentNotification,

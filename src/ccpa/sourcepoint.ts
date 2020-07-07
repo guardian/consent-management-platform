@@ -4,7 +4,7 @@ import { stub } from './stub';
 import { mark } from '../lib/mark';
 import { isGuardianDomain } from '../lib/domain';
 import { ACCOUNT_ID } from '../lib/accountId';
-import { invokeCallbacks } from '../onConsent';
+import { invokeCallbacks } from '../onConsentChange';
 
 let resolveWillShowPrivacyMessage: Function | undefined;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
