@@ -40,3 +40,10 @@ export const cmp = {
 };
 
 export { onConsent } from './onConsent';
+
+export {
+	onGuConsentNotification,
+	onIabConsentNotification,
+	shouldShow,
+} from 'old-cmp';
+export { ConsentManagementPlatform } from 'old-cmp/dist/ConsentManagementPlatform';
