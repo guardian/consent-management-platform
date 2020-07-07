@@ -47,10 +47,6 @@ type PromiseResolver = (result: boolean) => void;
 
 const accountId = '1257';
 
-const ccpaLib = document.createElement('script');
-ccpaLib.id = 'sourcepoint-ccpa-lib';
-ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
-
 let willShowUi: Promise<boolean> | null = null;
 let willShowUiResolver: PromiseResolver | null = null;
 
@@ -93,6 +89,9 @@ export const init = (onCcpaReadyCallback: onReadyCallback) => {
 		},
 	};
 
+	const ccpaLib = document.createElement('script');
+	ccpaLib.id = 'sourcepoint-ccpa-lib';
+	ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
 	document.body.appendChild(ccpaLib);
 };
 
