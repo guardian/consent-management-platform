@@ -33,7 +33,8 @@ export const init = () => {
 			events: {
 				onConsentReady() {
 					mark('cmp-tcfv2-got-consent');
-					invokeCallbacks();
+					// onConsentReady is triggered before SP update the consent settings :(
+					setTimeout(invokeCallbacks, 0);
 				},
 				onMessageReady: () => {
 					mark('cmp-tcfv2-ui-displayed');

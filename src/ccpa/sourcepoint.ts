@@ -37,7 +37,8 @@ export const init = () => {
 			events: {
 				onConsentReady() {
 					mark('cmp-ccpa-got-consent');
-					invokeCallbacks();
+					// onConsentReady is triggered before SP update the consent settings :(
+					setTimeout(invokeCallbacks, 0);
 				},
 				onMessageReady: () => {
 					mark('cmp-ccpa-ui-displayed');
