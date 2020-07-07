@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { cmp, onConsentChange } from '../src/index';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { cmp, onConsentChange, ConsentManagementPlatform } from '../src/index';
 
 cmp.willShowPrivacyMessage().then((willShow) => {
 	console.log('DEV willShowPrivacyMessage', { willShow });
@@ -10,7 +12,19 @@ onConsentChange(({ tcfv2, ccpa }) => {
 	console.log('DEV onConsent', { tcfv2, ccpa });
 });
 
-cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
+if (
+	localStorage.getItem('inUSA') !== 'true' &&
+	localStorage.getItem('oldCMP') === 'true'
+) {
+	document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
+
+	ReactDOM.render(
+		<ConsentManagementPlatform onClose={() => {}} />,
+		document.getElementById('app'),
+	);
+} else {
+	cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
+}
 
 const locationLabel = document.createElement('label');
 locationLabel.innerHTML = 'in USA';
@@ -44,6 +58,23 @@ stagingControl.onclick = () => {
 
 stagingLabel.appendChild(stagingControl);
 document.body.append(stagingLabel);
+
+const versionLabel = document.createElement('label');
+versionLabel.innerHTML = 'use current CMP for TCF';
+versionLabel.style.display = 'flex';
+versionLabel.style.flexDirection = 'row-reverse';
+versionLabel.style.justifyContent = 'flex-end';
+
+const versionControl = document.createElement('input');
+versionControl.type = 'checkbox';
+versionControl.checked = localStorage.getItem('oldCMP') === 'true';
+versionControl.onclick = () => {
+	localStorage.setItem('oldCMP', versionControl.checked.toString());
+	window.location.reload();
+};
+
+versionLabel.appendChild(versionControl);
+document.body.append(versionLabel);
 
 const settingsButton = document.createElement('button');
 settingsButton.innerText = 'show privacy settings';
