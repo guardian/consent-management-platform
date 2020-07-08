@@ -18,7 +18,7 @@ function init({ isInUsa }: { isInUsa: boolean }) {
 	}
 
 	CMP = isInUsa ? CCPA : TCFv2;
-	CMP?.init();
+	CMP.init();
 	resolveInitialised?.();
 }
 

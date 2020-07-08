@@ -46,9 +46,10 @@ cmp.willShowPrivacyMessage()
     .then(willShow =>
         if (willShow) {
             console.log("a privacy message will show as soon as it's ready");
+            // e.g. don't show any other banners
         } else {
             console.log('a privacy message will not be shown');
-
+            // e.g. show another banner if you like
         }
     );
 ```
