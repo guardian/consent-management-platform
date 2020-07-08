@@ -15,7 +15,7 @@
 		"fix": "yarn lint --fix",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
-		"test": "jest",
+		"test": "jest --coverage",
 		"tsc": "tsc --noEmit",
 		"validate": "npm-run-all --parallel tsc lint 'test --onlyChanged'",
 		"dev": "rollup --config dev/rollup.config.js --watch",
