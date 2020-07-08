@@ -1,11 +1,10 @@
-// just stop Jest erroring on these
-// can be deleted when olde cmp is removed
-
 import waitForExpect from 'wait-for-expect';
 import { cmp } from '.';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
 
+// just stop Jest erroring on these
+// can be deleted when olde cmp is removed
 jest.mock('old-cmp', () => ({}));
 jest.mock('old-cmp/dist/ConsentManagementPlatform', () => ({}));
 
