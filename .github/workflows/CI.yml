@@ -20,9 +20,10 @@ jobs:
               uses: bahmutov/npm-install@v1
 
             - name: Run unit tests
-              uses: ziishaned/jest-reporter-action@0.1.1
+              uses: mattallty/jest-github-action@v1.0.3
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
                   test-command: 'yarn test --coverage --ci'
     lint:
         name: Linting
