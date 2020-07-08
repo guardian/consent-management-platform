@@ -1,13 +1,28 @@
-import { init as initCCPA } from './ccpa/sourcepoint';
-import { init as initTCF } from './tcfv2/sourcepoint';
-import { cmp } from '.';
+// just stop Jest erroring on these
+// can be deleted when olde cmp is removed
 
-jest.mock('./ccpa/sourcepoint', () => ({
-	init: jest.fn(),
+import waitForExpect from 'wait-for-expect';
+import { cmp } from '.';
+import { CCPA } from './ccpa';
+import { TCFv2 } from './tcfv2';
+
+jest.mock('old-cmp', () => ({}));
+jest.mock('old-cmp/dist/ConsentManagementPlatform', () => ({}));
+
+jest.mock('./ccpa', () => ({
+	CCPA: {
+		init: jest.fn(),
+		showPrivacyManager: jest.fn(),
+		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
+	},
 }));
 
-jest.mock('./tcfv2/sourcepoint', () => ({
-	init: jest.fn(),
+jest.mock('./tcfv2', () => ({
+	TCFv2: {
+		init: jest.fn(),
+		showPrivacyManager: jest.fn(),
+		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
+	},
 }));
 
 describe('cmp.init', () => {
@@ -17,23 +32,46 @@ describe('cmp.init', () => {
 
 	it('inititalises CCPA when in the US', () => {
 		cmp.init({ isInUsa: true });
-		expect(initCCPA).toHaveBeenCalledTimes(1);
+		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
 	it('inititalises TCF when not in the US', () => {
 		cmp.init({ isInUsa: false });
-		expect(initTCF).toHaveBeenCalledTimes(1);
+		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
 });
 
 describe('cmp.willShowPrivacyMessage', () => {
 	it('resolves regardless of when the cmp is initialised', () => {
-		fail('no test');
+		const willShowPrivacyMessage1 = cmp.willShowPrivacyMessage();
+
+		cmp.init({ isInUsa: true });
+
+		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
+
+		return expect(
+			Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
+		).resolves.toEqual(['iwillshowit', 'iwillshowit']);
 	});
 });
 
 describe('cmp.showPrivacyManager', () => {
-	it('shows the privacy manager when called', () => {
-		fail('no test');
+	it('shows CCPA privacy manager when in the US', () => {
+		cmp.init({ isInUsa: true });
+
+		cmp.showPrivacyManager();
+
+		return waitForExpect(() =>
+			expect(CCPA.showPrivacyManager).toHaveBeenCalledTimes(1),
+		);
+	});
+	it('shows TCF privacy manager when not in the US', () => {
+		cmp.init({ isInUsa: false });
+
+		cmp.showPrivacyManager();
+
+		return waitForExpect(() =>
+			expect(TCFv2.showPrivacyManager).toHaveBeenCalledTimes(1),
+		);
 	});
 });
