@@ -8,7 +8,7 @@ jest.mock('../onConsentChange', () => ({
 	invokeCallbacks: jest.fn(),
 }));
 
-describe('Sourcepoint', () => {
+describe('Sourcepoint TCF', () => {
 	afterEach(() => {
 		window._sp_ = undefined;
 	});
