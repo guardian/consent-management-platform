@@ -44,7 +44,7 @@ const updateCcpaState = () => {
 	});
 };
 
-export const showPrivacyManager = () =>
+export const showPrivacyManager = (): void =>
 	// eslint-disable-next-line no-underscore-dangle
 	window._sp_ccpa?.loadPrivacyManagerModal?.(null, '5ed10d99c3b12e4c1052efca');
 
