@@ -18,7 +18,7 @@ describe('Sourcepoint TCF', () => {
 		expect(init).toThrow();
 	});
 
-	it("should initialize window _sp_ with the correct config if it doesn't exist", () => {
+	it("should initialize window._sp_ with the correct config if it doesn't exist", () => {
 		init();
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();
