@@ -35,12 +35,11 @@ export const onIabConsentNotification = (callback: IabPurposeCallback) =>
 		? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
 		: tcfOnIabConsentNotification(callback as TcfPurposeCallback);
 
-export const showPrivacyManager = () =>
-	CCPA_APPLIES
-		? showCCPAPrivacyManager()
-		: () => {
-				// placeholder for TCFv2 privacy manager
-		  };
+export const showPrivacyManager = (): void => {
+	if (CCPA_APPLIES) {
+		showCCPAPrivacyManager();
+	}
+};
 
 export const checkWillShowUi = () =>
 	CCPA_APPLIES ? checkWillShowUiCcpa() : Promise.reject(); // placeholder for TCFv2 checkWillShowUI
