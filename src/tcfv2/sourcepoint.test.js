@@ -10,39 +10,39 @@ jest.mock('../onConsentChange', () => ({
 
 describe('Sourcepoint', () => {
 	afterEach(() => {
-		window._sp_ccpa = undefined;
+		window._sp_ = undefined;
 	});
 
 	it('should throw error if window scp exists', () => {
 		// eslint-disable-next-line no-underscore-dangle
-		window._sp_ccpa = {};
+		window._sp_ = {};
 		expect(init).toThrow();
 	});
 
-	it("should initialize window ccpa with the correct config if it doesn't exist", () => {
+	it("should initialize window _sp_ with the correct config if it doesn't exist", () => {
 		// eslint-disable-next-line no-underscore-dangle
 		init();
-		expect(window._sp_ccpa).toBeDefined();
-		expect(window._sp_ccpa.config).toBeDefined();
-		expect(window._sp_ccpa.config.mmsDomain).toEqual(
+		expect(window._sp_).toBeDefined();
+		expect(window._sp_.config).toBeDefined();
+		expect(window._sp_.config.mmsDomain).toEqual(
 			'https://consent.theguardian.com',
 		);
-		expect(window._sp_ccpa.config.accountId).toEqual(ACCOUNT_ID);
-		expect(window._sp_ccpa.config.targetingParams.framework).toEqual('ccpa');
-		expect(window._sp_ccpa.config.events).toBeDefined();
-		expect(typeof window._sp_ccpa.config.events.onConsentReady).toBe('function');
-		expect(typeof window._sp_ccpa.config.events.onMessageReceiveData).toBe('function');
+		expect(window._sp_.config.accountId).toEqual(ACCOUNT_ID);
+		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');
+		expect(window._sp_.config.events).toBeDefined();
+		expect(typeof window._sp_.config.events.onConsentReady).toBe('function');
+		expect(typeof window._sp_.config.events.onMessageReceiveData).toBe('function');
 	});
 
 	it('injects the lib', () => {
 		init();
-		expect(document.getElementById('sourcepoint-ccpa-lib')).toBeTruthy();
+		expect(document.getElementById('sourcepoint-tcfv2-lib')).toBeTruthy();
 	});
 
 	it('points at a real file', (done) => {
 		init();
 		const src = document
-			?.getElementById('sourcepoint-ccpa-lib')
+			?.getElementById('sourcepoint-tcfv2-lib')
 			?.getAttribute('src');
 
 		const { host, path } = url.parse(src ?? '');
