@@ -22,7 +22,7 @@ declare global {
 					onMessageReceiveData?: onMessaReceiveDataCallback;
 				};
 			};
-			loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
+			loadPrivacyManagerModal?: (unknown: unknown, id: string) => void; // this function is undocumented
 		};
 		__uspapi: (
 			command: string,
