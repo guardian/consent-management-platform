@@ -20,7 +20,6 @@ describe('Sourcepoint TCF', () => {
 	});
 
 	it("should initialize window _sp_ with the correct config if it doesn't exist", () => {
-		// eslint-disable-next-line no-underscore-dangle
 		init();
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();
