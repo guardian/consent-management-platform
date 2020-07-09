@@ -31,7 +31,9 @@ describe('Sourcepoint', () => {
 		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');
 		expect(window._sp_.config.events).toBeDefined();
 		expect(typeof window._sp_.config.events.onConsentReady).toBe('function');
-		expect(typeof window._sp_.config.events.onMessageReceiveData).toBe('function');
+		expect(typeof window._sp_.config.events.onMessageReceiveData).toBe(
+			'function',
+		);
 	});
 
 	it('injects the lib', () => {

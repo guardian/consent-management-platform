@@ -30,8 +30,13 @@ describe('Sourcepoint', () => {
 		expect(window._sp_ccpa.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_ccpa.config.targetingParams.framework).toEqual('ccpa');
 		expect(window._sp_ccpa.config.events).toBeDefined();
-		expect(typeof window._sp_ccpa.config.events.onConsentReady).toBe('function');
-		expect(typeof window._sp_ccpa.config.events.onMessageReceiveData).toBe('function');
+		expect(typeof window._sp_ccpa.config.events.onConsentReady).toBe(
+			'function',
+		);
+
+		expect(typeof window._sp_ccpa.config.events.onMessageReceiveData).toBe(
+			'function',
+		);
 	});
 
 	it('injects the lib', () => {
