@@ -8,7 +8,11 @@ jest.mock('../onConsentChange', () => ({
 	invokeCallbacks: jest.fn(),
 }));
 
+<<<<<<< HEAD
 describe('Sourcepoint TCFv2', () => {
+=======
+describe('Sourcepoint TCF', () => {
+>>>>>>> d7cb3914cff81fc4fcae17abde9e11ef248f0441
 	afterEach(() => {
 		window._sp_ = undefined;
 	});
@@ -18,7 +22,8 @@ describe('Sourcepoint TCFv2', () => {
 		expect(init).toThrow();
 	});
 
-	it("should initialize window._sp_ with the correct config if it doesn't exist", () => {
+
+	it("should initialize window _sp_ with the correct config if it doesn't exist", () => {
 		init();
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();
