@@ -15,7 +15,7 @@
 		"fix": "yarn lint --fix",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
-		"test": "jest",
+		"test": "jest --coverage",
 		"tsc": "tsc --noEmit",
 		"validate": "npm-run-all --parallel tsc lint 'test --onlyChanged'",
 		"dev": "rollup --config dev/rollup.config.js --watch",
@@ -90,6 +90,7 @@
 		"rollup-plugin-serve": "^1.0.1",
 		"rollup-plugin-terser": "^6.1.0",
 		"serve": "^11.3.2",
-		"typescript": "^3.9.3"
+		"typescript": "^3.9.3",
+		"wait-for-expect": "^3.0.2"
 	}
 }
