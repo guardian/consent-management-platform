@@ -29,12 +29,12 @@ describe('cmp.init', () => {
 		expect(cmp.init).toThrow();
 	});
 
-	it('inititalises CCPA when in the US', () => {
+	it('initializes CCPA when in the US', () => {
 		cmp.init({ isInUsa: true });
 		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
-	it('inititalises TCF when not in the US', () => {
+	it('initializes TCF when not in the US', () => {
 		cmp.init({ isInUsa: false });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
