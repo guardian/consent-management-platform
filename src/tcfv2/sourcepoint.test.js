@@ -8,19 +8,17 @@ jest.mock('../onConsentChange', () => ({
 	invokeCallbacks: jest.fn(),
 }));
 
-describe('Sourcepoint', () => {
+describe('Sourcepoint TCFv2', () => {
 	afterEach(() => {
 		window._sp_ = undefined;
 	});
 
-	it('should throw error if window scp exists', () => {
-		// eslint-disable-next-line no-underscore-dangle
+	it('should throw error if window._sp_ exists', () => {
 		window._sp_ = {};
 		expect(init).toThrow();
 	});
 
-	it("should initialize window _sp_ with the correct config if it doesn't exist", () => {
-		// eslint-disable-next-line no-underscore-dangle
+	it("should initialize window._sp_ with the correct config if it doesn't exist", () => {
 		init();
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();

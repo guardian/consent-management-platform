@@ -8,19 +8,17 @@ jest.mock('../onConsentChange', () => ({
 	invokeCallbacks: jest.fn(),
 }));
 
-describe('Sourcepoint', () => {
+describe('Sourcepoint CCPA', () => {
 	afterEach(() => {
 		window._sp_ccpa = undefined;
 	});
 
-	it('should throw error if window scp exists', () => {
-		// eslint-disable-next-line no-underscore-dangle
+	it('should throw error if window._sp_ccpa exists', () => {
 		window._sp_ccpa = {};
 		expect(init).toThrow();
 	});
 
-	it("should initialize window ccpa with the correct config if it doesn't exist", () => {
-		// eslint-disable-next-line no-underscore-dangle
+	it("should initialize window._sp_ccpa with the correct config if it doesn't exist", () => {
 		init();
 		expect(window._sp_ccpa).toBeDefined();
 		expect(window._sp_ccpa.config).toBeDefined();
