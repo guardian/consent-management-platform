@@ -61,7 +61,7 @@ interface Window {
 			events?: {
 				onConsentReady: () => void;
 				onMessageReady: () => void;
-				onMessageReceiveData?: (data: { messageId: 0 | string }) => void;
+				onMessageReceiveData: (data: { messageId: 0 | string }) => void;
 				onMessageChoiceSelect: (
 					arg0: number,
 					arg1: SourcePointChoiceType,
