@@ -7,6 +7,5 @@
 		"esModuleInterop": true,
 		"allowJs": true
 	},
-	"include": ["src/types.d.ts"],
 	"exclude": ["node_modules", "dist"]
 }
