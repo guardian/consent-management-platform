@@ -4,10 +4,6 @@ import url from 'url';
 import { init } from './sourcepoint';
 import { ACCOUNT_ID } from '../lib/accountId';
 
-jest.mock('../onConsentChange', () => ({
-	invokeCallbacks: jest.fn(),
-}));
-
 describe('Sourcepoint TCF', () => {
 	afterEach(() => {
 		window._sp_ = undefined;
