@@ -16,7 +16,6 @@ describe('onConsentChange', () => {
 	});
 
 	it('invokes callbacks correctly', () => {
-		// const shouldChange = false;
 		const callback = jest.fn();
 		const instantCallback = jest.fn();
 		onConsentChange(callback);
