@@ -3,15 +3,20 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import replace from 'rollup-plugin-replace';
+import pkg from './package.json';
 
 const extensions = ['.js', '.ts', '.tsx'];
 
 module.exports = {
-	input: ['src/index.ts'],
+	input: 'src/index.ts',
 	output: [
 		{
-			dir: 'dist',
+			file: pkg.main,
 			format: 'cjs',
+		},
+		{
+			file: pkg.module,
+			format: 'esm',
 		},
 	],
 	external: [

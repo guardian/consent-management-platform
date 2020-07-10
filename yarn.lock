@@ -1043,7 +1043,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@guardian/old-cmp@npm:@guardian/consent-management-platform@^3.4.5":
+"@guardian/old-cmp@npm:@guardian/consent-management-platform@^3.4.8":
   version "3.4.8"
   resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-3.4.8.tgz#01c8e9894a93ec581024f59d53038ffd915ddc8c"
   integrity sha512-NZHnq4ayk+tERo72aaTIGJE0uOV/zXFXJUYw2y9M2KKgwqSMQ5ht82jmsLeuEmgVg79EYjKgPWIXU8KeWFShNQ==
@@ -6429,7 +6429,7 @@ rollup-pluginutils@^2.6.0, rollup-pluginutils@^2.8.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^2.10.9:
+rollup@^2.21.0:
   version "2.21.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.21.0.tgz#d2e114533812043d5c9b7b0a83f1b2a242e4e1d6"
   integrity sha512-BEGgy+wSzux7Ycq58pRiWEOBZaXRXTuvzl1gsm7gqmsAHxkWf9nyA5V2LN9fGSHhhDQd0/C13iRzSh4bbIpWZQ==
