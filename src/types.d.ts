@@ -6,6 +6,22 @@ interface SourcepointImplementation {
 	showPrivacyManager: () => void;
 }
 
+type SourcePointChoiceType =
+	| 1
+	| 2
+	| 3
+	| 4
+	| 5
+	| 6
+	| 7
+	| 9
+	| 10
+	| 11
+	| 12
+	| 13
+	| 14
+	| 15;
+
 // globals set on the window by the CMP library
 interface Window {
 	// sourcepoint's libraries - only one should be present at a time
@@ -21,9 +37,13 @@ interface Window {
 				framework: 'ccpa';
 			};
 			events?: {
-				onConsentReady?: () => void;
-				onMessageReady?: () => void;
-				onMessageReceiveData?: (data: { msg_id: 0 | string }) => void;
+				onConsentReady: () => void;
+				onMessageReady: () => void;
+				onMessageReceiveData: (data: { msg_id: 0 | string }) => void;
+				onMessageChoiceSelect: (
+					arg0: number,
+					arg1: SourcePointChoiceType,
+				) => void;
 			};
 		};
 		loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
@@ -39,9 +59,13 @@ interface Window {
 				framework: 'tcfv2';
 			};
 			events?: {
-				onConsentReady?: () => void;
-				onMessageReady?: () => void;
-				onMessageReceiveData?: (data: { messageId: 0 | string }) => void;
+				onConsentReady: () => void;
+				onMessageReady: () => void;
+				onMessageReceiveData: (data: { messageId: 0 | string }) => void;
+				onMessageChoiceSelect: (
+					arg0: number,
+					arg1: SourcePointChoiceType,
+				) => void;
 			};
 		};
 		loadPrivacyManagerModal?: (id: number) => {};
