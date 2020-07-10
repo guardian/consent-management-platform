@@ -7,34 +7,21 @@ import replace from 'rollup-plugin-replace';
 const extensions = ['.js', '.ts', '.tsx'];
 
 module.exports = {
-	input: ['src/index.ts', 'src/tcf/component/ConsentManagementPlatform.tsx'],
+	input: ['src/index.ts'],
 	output: [
-		{
-			dir: 'dist',
-			format: 'cjs',
-		},
 		{
 			dir: 'dist',
 			format: 'cjs',
 		},
 	],
 	external: [
-		'@babel/runtime/helpers/defineProperty',
-		'@babel/runtime/helpers/extends',
-		'@emotion/core',
-		'@guardian/src-button',
-		'@guardian/src-foundations',
-		'@guardian/src-foundations/accessibility',
-		'@guardian/src-foundations/mq',
-		'@guardian/src-foundations/palette',
-		'@guardian/src-foundations/themes',
-		'@guardian/src-foundations/typography',
-		'@guardian/src-svgs',
-		'react',
+		'@guardian/old-cmp',
+		'@guardian/old-cmp/dist/ConsentManagementPlatform',
 	],
 	plugins: [
 		babel({ extensions }),
 		resolve({ extensions }),
+
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('production'),
 		}),
