@@ -5,8 +5,8 @@ import { TCFv2 } from './tcfv2';
 
 // just stop Jest erroring on these
 // can be deleted when olde cmp is removed
-jest.mock('old-cmp', () => ({}));
-jest.mock('old-cmp/dist/ConsentManagementPlatform', () => ({}));
+jest.mock('@guardian/old-cmp', () => ({}));
+jest.mock('@guardian/old-cmp/dist/ConsentManagementPlatform', () => ({}));
 
 jest.mock('./ccpa', () => ({
 	CCPA: {

@@ -1043,6 +1043,15 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+"@guardian/old-cmp@npm:@guardian/consent-management-platform@^3.4.5":
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-3.4.8.tgz#01c8e9894a93ec581024f59d53038ffd915ddc8c"
+  integrity sha512-NZHnq4ayk+tERo72aaTIGJE0uOV/zXFXJUYw2y9M2KKgwqSMQ5ht82jmsLeuEmgVg79EYjKgPWIXU8KeWFShNQ==
+  dependencies:
+    consent-string "1.5.2"
+    js-cookie "2.2.1"
+    whatwg-fetch "3.0.0"
+
 "@guardian/src-button@^1.4.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-1.6.0.tgz#f581f75fbca4835e19998c9268482f74491c6bea"
@@ -5512,15 +5521,6 @@ object.values@^1.1.1:
     es-abstract "^1.17.0-next.1"
     function-bind "^1.1.1"
     has "^1.0.3"
-
-"old-cmp@npm:@guardian/consent-management-platform@^3.4.5":
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-3.4.5.tgz#6d26f70b76d0ddd4ed1090433c992d61ccfbb9c7"
-  integrity sha512-aQvZ7aWrTAnda8FoWWoH9PTGRJQc4CQ7aO7oqkGgx0C3MJKayzLYe1Gsa3jlB5fuh4b8Nrw71PQ9HFglPmjEaw==
-  dependencies:
-    consent-string "1.5.2"
-    js-cookie "2.2.1"
-    whatwg-fetch "3.0.0"
 
 on-headers@~1.0.1:
   version "1.0.2"

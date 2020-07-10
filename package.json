@@ -33,7 +33,7 @@
 	"dependencies": {
 		"consent-string": "1.5.2",
 		"js-cookie": "2.2.1",
-		"old-cmp": "npm:@guardian/consent-management-platform@^3.4.5",
+		"@guardian/old-cmp": "npm:@guardian/consent-management-platform@^3.4.5",
 		"whatwg-fetch": "3.0.0"
 	},
 	"peerDependencies": {

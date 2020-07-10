@@ -45,5 +45,5 @@ export {
 	onGuConsentNotification,
 	onIabConsentNotification,
 	shouldShow,
-} from 'old-cmp';
-export { ConsentManagementPlatform } from 'old-cmp/dist/ConsentManagementPlatform';
+} from '@guardian/old-cmp';
+export { ConsentManagementPlatform } from '@guardian/old-cmp/dist/ConsentManagementPlatform';
