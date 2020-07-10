@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
-import { onConsentChange, invokeCallbacks, _ } from './onConsentChange';
+import { onConsentChange, invokeCallbacks } from './onConsentChange';
 
 const uspData = {
 	version: 1,
