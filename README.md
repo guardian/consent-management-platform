@@ -133,29 +133,29 @@ onConsentChange(({ tcfv2, ccpa }) => {
 
 _These should not be used after 15 August 2020, and will be deleted shortly afterwards._
 
-#### onGuConsentNotification
+#### oldCmp.onGuConsentNotification
 
 This function takes 2 arguments, the first is the purpose name (a `string`) that is relevant to the code you're running eg. "functional" OR "performance", and the second is a callback (a `function`).
 
-When `onGuConsentNotification` is called it will execute the callback immediately, passing it a single argument (a `boolean` or `null`) which indicates the user's consent state at that time for the given purpose name.
+When `oldCmp.onGuConsentNotification` is called it will execute the callback immediately, passing it a single argument (a `boolean` or `null`) which indicates the user's consent state at that time for the given purpose name.
 
 The `cmp` module also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument (a `boolean` or `null`) which inidicates the user's updated consent state for the given purpose name.
 
 **Example:**
 
 ```js
-import { onGuConsentNotification } from '@guardian/consent-management-platform';
+import { oldCmp } from '@guardian/consent-management-platform';
 
-onGuConsentNotification('functional', (functionalConsentState) => {
+oldCmp.onGuConsentNotification('functional', (functionalConsentState) => {
     console.log(functionalConsentState); // true || false || null
 });
 ```
 
-#### onIabConsentNotification
+#### oldCmp.onIabConsentNotification
 
 This function takes 1 argument, a callback (a `function`).
 
-When `onIabConsentNotification` is called it will execute the callback immediately, passing it a single argument, an object which reflects the consent granted to the IAB purposes. The signature for this object will be:
+When `oldCmp.onIabConsentNotification` is called it will execute the callback immediately, passing it a single argument, an object which reflects the consent granted to the IAB purposes. The signature for this object will be:
 
 ```
 {
@@ -165,14 +165,14 @@ When `onIabConsentNotification` is called it will execute the callback immediate
 
 The keys in this object will match the IAB purpose IDs from the [IAB vendor list](https://vendorlist.consensu.org/vendorlist.json).
 
-The `cmp` module will also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument, an object which reflects the latest consent granted to the IAB purposes.
+The `oldCmp` module will also listens for subsequent changes to the user's consent state (eg. if a user saves an update to their consent via the CMP modal), if this happens it will re-execute the callback, passing it a single argument, an object which reflects the latest consent granted to the IAB purposes.
 
 **Example:**
 
 ```js
-import { onIabConsentNotification } from '@guardian/consent-management-platform';
+import { oldCmp } from '@guardian/consent-management-platform';
 
-onIabConsentNotification((iabConsentState) => {
+oldCmp.onIabConsentNotification((iabConsentState) => {
     console.log(iabConsentState); // { 0: true || false || null, 1: true || false || null, ... }
 });
 ```
@@ -181,25 +181,25 @@ onIabConsentNotification((iabConsentState) => {
 
 The TCFv1 library exports a React component that can be imported into your React applications as well as a `shouldShow` function that indicates whether the user should be shown the CMP.
 
-#### shouldShow
+#### oldCmp.shouldShow
 
-The `shouldShow` function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do. It takes an optional boolean `shouldRepermission`. If this is set to true it will only check for the existence of the IAB cookie, otherwise it will check for both IAB and GU_TK cookies.
+The `oldCmp.shouldShow` function returns a boolean, it will be `true` if the user does not have the appropriate consent cookies saved and `false` if they do. It takes an optional boolean `shouldRepermission`. If this is set to true it will only check for the existence of the IAB cookie, otherwise it will check for both IAB and GU_TK cookies.
 
 **Example:**
 
 ```js
-import { shouldShow } from '@guardian/consent-management-platform';
+import { oldCmp } from '@guardian/consent-management-platform';
 
-shouldShow(); // true || false
+oldCmp.shouldShow(); // true || false
 ```
 
-#### ConsentManagementPlatform React Component
+#### `oldCmp.ConsentManagementPlatform` React Component
 
-The properties the `ConsentManagementPlatform` component takes are listed below along with their Typescript definitions:
+The properties the `oldCmp.ConsentManagementPlatform` component takes are listed below along with their Typescript definitions:
 
 ##### onClose: () => void
 
-The `onClose` property accepts a function, this will be executed once the user has submitted their consent, either via the clicking "I'm OK with that" button in the banner, or opening the options modal selecting their choices and clicking the "Save and close" button. You can add whatever logic you want in this function. Because the `ConsentManagementPlatform` component doesn't close itself a typical example of the logic that would be included in this function might be the updating of state to hide the `ConsentManagementPlatform` component.
+The `onClose` property accepts a function, this will be executed once the user has submitted their consent, either via the clicking "I'm OK with that" button in the banner, or opening the options modal selecting their choices and clicking the "Save and close" button. You can add whatever logic you want in this function. Because the `oldCmp.ConsentManagementPlatform` component doesn't close itself a typical example of the logic that would be included in this function might be the updating of state to hide the `oldCmp.ConsentManagementPlatform` component.
 
 ##### source?: string
 
@@ -220,8 +220,7 @@ The `forceModal` property accepts an optional boolean. If the value passed is `t
 **Example**
 
 ```js
-import { shouldShow } from '@guardian/consent-management-platform';
-import { ConsentManagementPlatform } from '@guardian/consent-management-platform/dist/ConsentManagementPlatform';
+import { oldCmp } from '@guardian/consent-management-platform';
 
 export class App {
     constructor(props) {
@@ -233,7 +232,7 @@ export class App {
     }
 
     public componentDidMount() {
-        if (shouldShow()) {
+        if (oldCmp.shouldShow()) {
             this.setState({ showCmp: true });
         }
     }
@@ -254,7 +253,7 @@ export class App {
             },
         };
 
-        return (<>{showCmp && <ConsentManagementPlatform {...props} />}</>);
+        return (<>{showCmp && <oldCmp.ConsentManagementPlatform {...props} />}</>);
     }
 }
 ```

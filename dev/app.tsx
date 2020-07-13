@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { cmp, onConsentChange, ConsentManagementPlatform } from '../src/index';
+import { cmp, onConsentChange, oldCmp } from '../src/index';
 
 cmp.willShowPrivacyMessage().then((willShow) => {
 	console.log('DEV willShowPrivacyMessage', { willShow });
@@ -19,7 +19,7 @@ if (
 	document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
 
 	ReactDOM.render(
-		<ConsentManagementPlatform onClose={() => {}} />,
+		<oldCmp.ConsentManagementPlatform onClose={() => {}} />,
 		document.getElementById('app'),
 	);
 } else {
