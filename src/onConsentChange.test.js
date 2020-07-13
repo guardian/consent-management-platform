@@ -11,10 +11,6 @@ window.__uspapi = jest.fn((a, b, callback) => {
 });
 
 describe('onConsentChange', () => {
-	it('can fake the USP Api', () => {
-		expect(window.__uspapi).toBeDefined();
-	});
-
 	it('invokes callbacks correctly', () => {
 		const callback = jest.fn();
 		const instantCallback = jest.fn();
