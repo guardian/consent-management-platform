@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import {
-	init,
+	init as oldInit,
 	onGuConsentNotification,
 	onIabConsentNotification,
 	shouldShow,
@@ -49,7 +49,7 @@ export const cmp = {
 export { onConsentChange } from './onConsentChange';
 
 export const oldCmp = {
-	init,
+	oldInit,
 	onGuConsentNotification,
 	onIabConsentNotification,
 	shouldShow,
