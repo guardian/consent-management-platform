@@ -1,12 +1,6 @@
 /* eslint-disable no-console */
 
-import {
-	init as oldInit,
-	onGuConsentNotification,
-	onIabConsentNotification,
-	shouldShow,
-} from '@guardian/old-cmp';
-import { ConsentManagementPlatform } from '@guardian/old-cmp/dist/ConsentManagementPlatform';
+import { oldCmp as olderCmp } from './oldCmp';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
 
@@ -48,10 +42,4 @@ export const cmp = {
 
 export { onConsentChange } from './onConsentChange';
 
-export const oldCmp = {
-	oldInit,
-	onGuConsentNotification,
-	onIabConsentNotification,
-	shouldShow,
-	ConsentManagementPlatform,
-};
+export const oldCmp = olderCmp;
