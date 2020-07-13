@@ -172,7 +172,7 @@ The `oldCmp` module will also listens for subsequent changes to the user's conse
 ```js
 import { oldCmp } from '@guardian/consent-management-platform';
 
-onIabConsentNotification((iabConsentState) => {
+oldCmp.onIabConsentNotification((iabConsentState) => {
     console.log(iabConsentState); // { 0: true || false || null, 1: true || false || null, ... }
 });
 ```
@@ -193,7 +193,7 @@ import { oldCmp } from '@guardian/consent-management-platform';
 oldCmp.shouldShow(); // true || false
 ```
 
-#### ConsentManagementPlatform React Component
+#### `oldCmp.ConsentManagementPlatform` React Component
 
 The properties the `oldCmp.ConsentManagementPlatform` component takes are listed below along with their Typescript definitions:
 
