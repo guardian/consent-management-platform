@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import stub from '@iabtcf/stub';
+import { stub } from './stub';
 import { mark } from '../lib/mark';
 import { ACCOUNT_ID } from '../lib/accountId';
 import { isGuardianDomain } from '../lib/domain';

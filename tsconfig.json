@@ -1,11 +1,11 @@
 {
-    "compilerOptions": {
-        "target": "es5", // compile to es5 since to build a package with browser compatibility.
-        "lib": ["dom", "es7"],
-        "strict": true,
-        "jsx": "preserve",
-        "esModuleInterop": true,
-        "allowJs": true
-    },
-    "exclude": ["node_modules", "dist"]
+	"compilerOptions": {
+		"target": "es5", // compile to es5 since to build a package with browser compatibility.
+		"lib": ["dom", "es7"],
+		"strict": true,
+		"jsx": "preserve",
+		"esModuleInterop": true,
+		"allowJs": true
+	},
+	"exclude": ["node_modules", "dist"]
 }
