@@ -34,8 +34,10 @@ export const invokeCallbacks = () => {
 const getConsentState: () => Promise<ComparedConsentState> = () =>
 	new Promise((resolve, reject) => {
 		// in USA - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
+		/* istanbul ignore else */
 		if (window.__uspapi) {
 			window.__uspapi('getUSPData', 1, (uspData, success) => {
+				/* istanbul ignore else */
 				if (success) {
 					let doNotSell = false;
 
@@ -94,3 +96,5 @@ export const onConsentChange = (callBack: Callback) => {
 			// do nothing - callback will be added the list anyway
 		});
 };
+
+export const _ = { getConsentState };
