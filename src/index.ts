@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { oldCmp as olderCmp } from './oldCmp';
+import { oldCmp } from './oldCmp';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
 
@@ -42,4 +42,4 @@ export const cmp = {
 
 export { onConsentChange } from './onConsentChange';
 
-export const oldCmp = olderCmp;
+export { oldCmp };
