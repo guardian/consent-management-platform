@@ -12,7 +12,7 @@ import {
 
 type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
 
-interface InitOptions {
+export interface InitOptions {
 	useCcpa: boolean;
 }
 
