@@ -1077,10 +1077,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@guardian/old-cmp@npm:@guardian/consent-management-platform@^3.4.8":
-  version "3.4.8"
-  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-3.4.8.tgz#01c8e9894a93ec581024f59d53038ffd915ddc8c"
-  integrity sha512-NZHnq4ayk+tERo72aaTIGJE0uOV/zXFXJUYw2y9M2KKgwqSMQ5ht82jmsLeuEmgVg79EYjKgPWIXU8KeWFShNQ==
+"@guardian/old-cmp@npm:@guardian/consent-management-platform@^3.4.9":
+  version "3.4.9"
+  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-3.4.9.tgz#6bd6108e12cb122c4a1fcba4ae657f4d0b67ad0b"
+  integrity sha512-9TRCahVCILDvD78xQpADaZMqqUZM1opsBXKPasVdEt3hnRyMwVB+l68DpydIEK8DZE9S2jxbuqtOEKrci/qMsw==
   dependencies:
     consent-string "1.5.2"
     js-cookie "2.2.1"
