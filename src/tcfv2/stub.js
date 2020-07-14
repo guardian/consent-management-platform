@@ -74,5 +74,7 @@ export const stub = () => {
 				!1,
 			));
 	};
-	'undefined' != typeof module ? (module.exports = e) : e();
+	// TODO: Sourcepoint to fix!
+	// Cannot assign to read only property 'exports' of object
+	'undefined' != typeof module.exports ? (module.exports = e) : e();
 };
