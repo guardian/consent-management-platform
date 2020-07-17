@@ -74,5 +74,8 @@ export const stub = () => {
 				!1,
 			));
 	};
-	'undefined' != typeof module ? (module.exports = e) : e();
+	// TODO: Understand why this fix is needed
+	// When module is defined, it does not allow rewriting of exports
+	// 'undefined' != typeof module ? (module.exports = e) : e();
+	e();
 };
