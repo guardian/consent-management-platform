@@ -4,6 +4,7 @@ import {
 	onIabConsentNotification,
 	checkWillShowUi,
 	shouldShow,
+	setErrorHandler,
 } from '@guardian/old-cmp';
 import { ConsentManagementPlatform } from '@guardian/old-cmp/dist/ConsentManagementPlatform';
 
@@ -13,5 +14,6 @@ export const oldCmp = {
 	onIabConsentNotification,
 	checkWillShowUi,
 	shouldShow,
+	setErrorHandler,
 	ConsentManagementPlatform,
 };
