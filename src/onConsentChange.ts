@@ -45,7 +45,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 						doNotSell = true;
 					}
 
-					resolve(compareState({ccpa: {doNotSell}}));
+					resolve(compareState({ ccpa: { doNotSell } }));
 				} else {
 					reject();
 				}
@@ -53,7 +53,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 		} else if (window.__tcfapi) {
 			// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
 			window.__tcfapi('getTCData', 2, (tcfData, success) => {
-				if (success) {
+				if (success && window.__tcfapi) {
 					window.__tcfapi(
 						'getCustomVendorConsents',
 						2,
