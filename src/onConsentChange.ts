@@ -31,8 +31,8 @@ export const invokeCallbacks = () => {
 };
 
 // get the current constent state using the official IAB methods
-const getConsentState: () => Promise<ComparedConsentState> = () =>
-	new Promise((resolve, reject) => {
+const getConsentState: () => Promise<ComparedConsentState> = () => {
+	return new Promise((resolve, reject) => {
 		// in USA - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
 		/* istanbul ignore else */
 		if (window.__uspapi) {
@@ -45,7 +45,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () =>
 						doNotSell = true;
 					}
 
-					resolve(compareState({ ccpa: { doNotSell } }));
+					resolve(compareState({ccpa: {doNotSell}}));
 				} else {
 					reject();
 				}
@@ -54,7 +54,29 @@ const getConsentState: () => Promise<ComparedConsentState> = () =>
 			// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
 			window.__tcfapi('getTCData', 2, (tcfData, success) => {
 				if (success) {
-					resolve(compareState({ tcfv2: tcfData?.purpose.consents }));
+					window.__tcfapi(
+						'getCustomVendorConsents',
+						2,
+						(customVendors, successCustom) => {
+							console.log('SEE getCustomVendorConsents', customVendors);
+							if (successCustom) {
+								resolve(
+									compareState({
+										tcfv2: {
+											tcfData: tcfData?.purpose.consents,
+											customVendors,
+										},
+									}),
+								);
+							} else {
+								reject(
+									new Error(
+										'An error occured while fetching getCustomVendorConsents',
+									),
+								);
+							}
+						},
+					);
 				} else {
 					reject();
 				}
@@ -65,6 +87,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () =>
 			reject(new Error('no IAB consent framework found on the page'));
 		}
 	});
+};
 
 // cache current consent state as a JSON for quick comparison
 let currentConsentState: string = JSON.stringify(undefined);
