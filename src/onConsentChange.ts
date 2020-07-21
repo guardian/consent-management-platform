@@ -58,7 +58,6 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 						'getCustomVendorConsents',
 						2,
 						(customVendors, successCustom) => {
-							console.log('SEE getCustomVendorConsents', customVendors);
 							if (successCustom) {
 								resolve(
 									compareState({
