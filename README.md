@@ -91,7 +91,7 @@ Reports the user's privacy preferences.
 
 type: `Object` or `undefined`
 
-Reports the user's preferences for each of the TCFv2 purposes along with custom vendor consents. If the user is in the USA, it will be `undefined`.
+Reports the user's preferences for each of the TCFv2 purposes, the last CMP event status and custom vendor consents. If the user is in the USA, it will be `undefined`.
 
 ```js
 {
@@ -100,7 +100,7 @@ Reports the user's preferences for each of the TCFv2 purposes along with custom 
         2: Boolean,
         // etc.
     },
-    lastEvent: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
+    eventStatus: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
     vendorConsents: {
         'abcdefghijklmnopqrstuvwx': Boolean,
         'yz1234567890abcdefghijkl': Boolean,
