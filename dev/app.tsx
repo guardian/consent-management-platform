@@ -5,10 +5,12 @@ import ReactDOM from 'react-dom';
 import { cmp, onConsentChange, oldCmp } from '../src/index';
 
 cmp.willShowPrivacyMessage().then((willShow) => {
+	// eslint-disable-next-line no-console
 	console.log('DEV willShowPrivacyMessage', { willShow });
 });
 
 onConsentChange(({ tcfv2, ccpa }) => {
+	// eslint-disable-next-line no-console
 	console.log('DEV onConsent', { tcfv2, ccpa });
 });
 
