@@ -95,16 +95,16 @@ Reports the user's preferences for each of the TCFv2 purposes along with custom 
 
 ```js
 {
-    tcfData: {
+    consents: {
         1: Boolean;
         2: Boolean;
         // etc.
     },
-    customVendors: {
-        consentedPurposes: [],
-        consentedVendors: []
-        grants: { … }
-        // etc.
+    vendorConsents: {
+        'abcdefghijklmnopqrstuvwx': Boolean;
+        'yz1234567890abcdefghijkl': Boolean;
+        'mnopqrstuvwxyz1234567890': Boolean;
+        // Sourcpoint IDs, etc.
     }
 }
 ```

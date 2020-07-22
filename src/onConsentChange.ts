@@ -1,7 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 
 interface ConsentState {
-	tcfv2?: {};
+	tcfv2?: {
+		consents: {
+			[key: number]: boolean;
+		};
+		vendorConsents: {
+			[key: string]: boolean;
+		};
+	};
 	ccpa?: {
 		doNotSell: boolean;
 	};
@@ -56,30 +63,36 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 
 			const getTCDataPromise = new Promise((subResolve, subReject) => {
 				tcfApi('getTCData', 2, (tcfData, success) => {
-					if (success) subResolve(tcfData?.purpose.consents);
+					if (success) subResolve(tcfData);
 					else subReject(new Error('Unable to get consent data'));
 				});
 			});
 			const getCustomVendorConsentsPromise = new Promise(
 				(subResolve, subReject) => {
-					tcfApi('getCustomVendorConsents', 2, (customVendors, success) => {
-						if (success) subResolve(customVendors);
+					tcfApi('getCustomVendorConsents', 2, (vendorConsents, success) => {
+						if (success && vendorConsents) subResolve(vendorConsents);
 						else subReject(new Error('Unable to get custom vendors consent'));
 					});
 				},
 			);
 
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
-				.then((data) =>
+				.then((data) => {
+					const { consents } = (data[0] as TCFData).purpose;
+					const vendorConsents = Object.fromEntries(
+						Object.entries((data[1] as VendorConsents).grants).map((e) => {
+							return [e[0], e[1].vendorGrant];
+						}),
+					);
 					resolve(
 						compareState({
 							tcfv2: {
-								tcfData: data[0],
-								customVendors: data[1],
+								consents,
+								vendorConsents,
 							},
 						}),
-					),
-				)
+					);
+				})
 				.catch(() =>
 					reject(new Error('Unable to get custom vendor or consent data')),
 				);
