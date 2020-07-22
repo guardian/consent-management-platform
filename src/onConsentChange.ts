@@ -1,7 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 
 interface ConsentState {
-	tcfv2?: {};
+	tcfv2?: {
+		consents: {
+			[key: number]: boolean;
+		};
+		eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
+		vendorConsents: {
+			[key: string]: boolean;
+		};
+	};
 	ccpa?: {
 		doNotSell: boolean;
 	};
@@ -31,8 +39,8 @@ export const invokeCallbacks = () => {
 };
 
 // get the current constent state using the official IAB methods
-const getConsentState: () => Promise<ComparedConsentState> = () =>
-	new Promise((resolve, reject) => {
+const getConsentState: () => Promise<ComparedConsentState> = () => {
+	return new Promise((resolve, reject) => {
 		// in USA - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
 		/* istanbul ignore else */
 		if (window.__uspapi) {
@@ -52,19 +60,51 @@ const getConsentState: () => Promise<ComparedConsentState> = () =>
 			});
 		} else if (window.__tcfapi) {
 			// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
-			window.__tcfapi('getTCData', 2, (tcfData, success) => {
-				if (success) {
-					resolve(compareState({ tcfv2: tcfData?.purpose.consents }));
-				} else {
-					reject();
-				}
+			const tcfApi = window.__tcfapi;
+
+			const getTCDataPromise = new Promise((subResolve, subReject) => {
+				tcfApi('getTCData', 2, (tcfData, success) => {
+					if (success) subResolve(tcfData);
+					else subReject(new Error('Unable to get consent data'));
+				});
 			});
+			const getCustomVendorConsentsPromise = new Promise(
+				(subResolve, subReject) => {
+					tcfApi('getCustomVendorConsents', 2, (vendorConsents, success) => {
+						if (success && vendorConsents) subResolve(vendorConsents);
+						else subReject(new Error('Unable to get custom vendors consent'));
+					});
+				},
+			);
+
+			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
+				.then((data) => {
+					const { consents } = (data[0] as TCFData).purpose;
+					const { eventStatus } = data[0] as TCFData;
+					const { grants } = data[1] as VendorConsents;
+					const vendorConsents = Object.keys(grants)
+						.sort()
+						.reduce((acc, cur) => ({ ...acc, [cur]: grants[cur] }), {});
+					resolve(
+						compareState({
+							tcfv2: {
+								consents,
+								eventStatus,
+								vendorConsents,
+							},
+						}),
+					);
+				})
+				.catch(() =>
+					reject(new Error('Unable to get custom vendor or consent data')),
+				);
 		} else {
 			// no frameworks are initialised yet.
 			// could be a bug, could be called too soon ¯\_(ツ)_/¯
 			reject(new Error('no IAB consent framework found on the page'));
 		}
 	});
+};
 
 // cache current consent state as a JSON for quick comparison
 let currentConsentState: string = JSON.stringify(undefined);

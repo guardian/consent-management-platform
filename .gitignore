@@ -9,3 +9,4 @@ dist
 .dev
 .gh-pages
 /coverage
+.idea/

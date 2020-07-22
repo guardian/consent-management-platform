@@ -80,7 +80,10 @@ interface Window {
 	__tcfapi?: (
 		command: string,
 		version: number,
-		callback: (tcData: TCFData | undefined, success: boolean) => void,
+		callback: (
+			tcData: TCFData | VendorConsents | undefined,
+			success: boolean,
+		) => void,
 		vendorIDs?: number[],
 	) => void;
 }
@@ -93,9 +96,22 @@ interface CCPAData {
 // our partial implementation of https://git.io/JJtY6
 interface TCFData {
 	version: number;
+	eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
 	purpose: {
 		consents: {
 			[key: number]: boolean;
+		};
+	};
+}
+
+// https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
+interface VendorConsents {
+	grants: {
+		[key: string]: {
+			purposeGrants: {
+				[key: number]: boolean;
+			};
+			vendorGrant: boolean;
 		};
 	};
 }
