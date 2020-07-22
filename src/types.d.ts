@@ -80,7 +80,10 @@ interface Window {
 	__tcfapi?: (
 		command: string,
 		version: number,
-		callback: (tcData: TCFData | VendorConsents | undefined, success: boolean) => void,
+		callback: (
+			tcData: TCFData | VendorConsents | undefined,
+			success: boolean,
+		) => void,
 		vendorIDs?: number[],
 	) => void;
 }
@@ -93,6 +96,7 @@ interface CCPAData {
 // our partial implementation of https://git.io/JJtY6
 interface TCFData {
 	version: number;
+	eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
 	purpose: {
 		consents: {
 			[key: number]: boolean;
@@ -104,11 +108,10 @@ interface TCFData {
 interface VendorConsents {
 	grants: {
 		[key: string]: {
-			purposeGrants:{
-				[key: number]:Boolean,
-			   },
-			   vendorGrant: Boolean,
-			},
-		 },
+			purposeGrants: {
+				[key: number]: boolean;
+			};
+			vendorGrant: boolean;
+		};
 	};
 }

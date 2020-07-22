@@ -5,6 +5,7 @@ interface ConsentState {
 		consents: {
 			[key: number]: boolean;
 		};
+		eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
 		vendorConsents: {
 			[key: string]: boolean;
 		};
@@ -79,7 +80,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
 				.then((data) => {
 					const { consents } = (data[0] as TCFData).purpose;
-
+					const { eventStatus } = data[0] as TCFData;
 					const { grants } = data[1] as VendorConsents;
 					const vendorConsents = Object.keys(grants)
 						.sort()
@@ -88,6 +89,7 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 						compareState({
 							tcfv2: {
 								consents,
+								eventStatus,
 								vendorConsents,
 							},
 						}),

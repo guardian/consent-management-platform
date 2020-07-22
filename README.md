@@ -96,14 +96,15 @@ Reports the user's preferences for each of the TCFv2 purposes along with custom 
 ```js
 {
     consents: {
-        1: Boolean;
-        2: Boolean;
+        1: Boolean,
+        2: Boolean,
         // etc.
     },
+    lastEvent: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
     vendorConsents: {
-        'abcdefghijklmnopqrstuvwx': Boolean;
-        'yz1234567890abcdefghijkl': Boolean;
-        'mnopqrstuvwxyz1234567890': Boolean;
+        'abcdefghijklmnopqrstuvwx': Boolean,
+        'yz1234567890abcdefghijkl': Boolean,
+        'mnopqrstuvwxyz1234567890': Boolean,
         // Sourcpoint IDs, etc.
     }
 }
