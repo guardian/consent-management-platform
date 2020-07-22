@@ -91,13 +91,21 @@ Reports the user's privacy preferences.
 
 type: `Object` or `undefined`
 
-Reports the user's preferences for each of the TCFv2 purposes. If the user is in the USA, it will be `undefined`.
+Reports the user's preferences for each of the TCFv2 purposes along with custom vendor consents. If the user is in the USA, it will be `undefined`.
 
 ```js
 {
-    1: Boolean;
-    2: Boolean;
-    // etc
+    tcfData: {
+        1: Boolean;
+        2: Boolean;
+        // etc.
+    },
+    customVendors: {
+        consentedPurposes: { … },
+        consentedVender: []
+        grants: { … }
+        // etc.
+    }
 }
 ```
 
