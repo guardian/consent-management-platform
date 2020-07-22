@@ -79,11 +79,11 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
 				.then((data) => {
 					const { consents } = (data[0] as TCFData).purpose;
-					const vendorConsents = Object.fromEntries(
-						Object.entries((data[1] as VendorConsents).grants).map((e) => {
-							return [e[0], e[1].vendorGrant];
-						}),
-					);
+
+					const { grants } = data[1] as VendorConsents;
+					const vendorConsents = Object.keys(grants)
+						.sort()
+						.reduce((acc, cur) => ({ ...acc, [cur]: grants[cur] }), {});
 					resolve(
 						compareState({
 							tcfv2: {
