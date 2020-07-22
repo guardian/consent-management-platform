@@ -52,34 +52,37 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 			});
 		} else if (window.__tcfapi) {
 			// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
-			window.__tcfapi('getTCData', 2, (tcfData, success) => {
-				if (success && window.__tcfapi) {
-					window.__tcfapi(
-						'getCustomVendorConsents',
-						2,
-						(customVendors, successCustom) => {
-							if (successCustom) {
-								resolve(
-									compareState({
-										tcfv2: {
-											tcfData: tcfData?.purpose.consents,
-											customVendors,
-										},
-									}),
-								);
-							} else {
-								reject(
-									new Error(
-										'An error occured while fetching getCustomVendorConsents',
-									),
-								);
-							}
-						},
-					);
-				} else {
-					reject();
-				}
+			const tcfApi = window.__tcfapi;
+
+			const getTCDataPromise = new Promise((subResolve, subReject) => {
+				tcfApi('getTCData', 2, (tcfData, success) => {
+					if (success) subResolve(tcfData?.purpose.consents);
+					else subReject(new Error('Unable to get consent data'));
+				});
 			});
+			const getCustomVendorConsentsPromise = new Promise(
+				(subResolve, subReject) => {
+					tcfApi('getCustomVendorConsents', 2, (customVendors, success) => {
+						if (success) subResolve(customVendors);
+						else subReject(new Error('Unable to get custom vendors consent'));
+					});
+				},
+			);
+
+			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
+				.then((data) =>
+					resolve(
+						compareState({
+							tcfv2: {
+								tcfData: data[0],
+								customVendors: data[1],
+							},
+						}),
+					),
+				)
+				.catch(() =>
+					reject(new Error('Unable to get custom vendor or consent data')),
+				);
 		} else {
 			// no frameworks are initialised yet.
 			// could be a bug, could be called too soon ¯\_(ツ)_/¯
