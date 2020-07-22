@@ -101,8 +101,8 @@ Reports the user's preferences for each of the TCFv2 purposes along with custom 
         // etc.
     },
     customVendors: {
-        consentedPurposes: { … },
-        consentedVender: []
+        consentedPurposes: [],
+        consentedVendors: []
         grants: { … }
         // etc.
     }
