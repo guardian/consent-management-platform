@@ -2,7 +2,7 @@
 import http from 'http';
 import url from 'url';
 import { init } from './sourcepoint';
-import { ACCOUNT_ID } from '../lib/accountId';
+import { ACCOUNT_ID } from '../lib/sourcepointConfig';
 
 jest.mock('../onConsentChange', () => ({
 	invokeCallbacks: jest.fn(),
