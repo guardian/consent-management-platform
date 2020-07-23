@@ -4,6 +4,8 @@ import {
 } from './sourcepoint';
 import { mark } from '../lib/mark';
 
+const VENDOR_LIST_ID = '5eba7ef78c167c47ca8b433d';
+
 const init = () => {
 	mark('cmp-ccpa-init');
 	initSourcepoint();
@@ -13,7 +15,7 @@ const willShowPrivacyMessage = () => sourcepointWillShowPrivacyMessage;
 
 function showPrivacyManager() {
 	// eslint-disable-next-line no-underscore-dangle
-	window._sp_ccpa?.loadPrivacyManagerModal?.(null, '5ed10d99c3b12e4c1052efca');
+	window._sp_ccpa?.loadPrivacyManagerModal?.(null, VENDOR_LIST_ID);
 }
 
 export const CCPA: SourcepointImplementation = {
