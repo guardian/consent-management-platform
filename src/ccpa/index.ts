@@ -2,7 +2,7 @@ import {
 	init as initSourcepoint,
 	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
 } from './sourcepoint';
-import { VENDOR_LIST_ID_CCPA } from '../lib/sourcepointConfig';
+import { PRIVACY_MANAGER_CCPA } from '../lib/sourcepointConfig';
 import { mark } from '../lib/mark';
 
 const init = () => {
@@ -14,7 +14,7 @@ const willShowPrivacyMessage = () => sourcepointWillShowPrivacyMessage;
 
 function showPrivacyManager() {
 	// eslint-disable-next-line no-underscore-dangle
-	window._sp_ccpa?.loadPrivacyManagerModal?.(null, VENDOR_LIST_ID_CCPA);
+	window._sp_ccpa?.loadPrivacyManagerModal?.(null, PRIVACY_MANAGER_CCPA);
 }
 
 export const CCPA: SourcepointImplementation = {
