@@ -79,7 +79,19 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
 				.then((data) => {
-					const { consents } = (data[0] as TCFData).purpose;
+					const consents = {
+						'1': false,
+						'2': false,
+						'3': false,
+						'4': false,
+						'5': false,
+						'6': false,
+						'7': false,
+						'8': false,
+						'9': false,
+						'10': false,
+						...(data[0] as TCFData).purpose.consents,
+					};
 					const { eventStatus } = data[0] as TCFData;
 					const { grants } = data[1] as VendorConsents;
 					const vendorConsents = Object.keys(grants)

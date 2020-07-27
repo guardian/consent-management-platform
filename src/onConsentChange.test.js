@@ -9,6 +9,15 @@ const uspData = {
 window.__uspapi = jest.fn((a, b, callback) => {
 	callback(uspData, true);
 });
+const tcfData = {
+	purposes: {
+		consents: {
+			1: true,
+			2: false,
+			3: true,
+		},
+	},
+};
 
 describe('onConsentChange', () => {
 	it('invokes callbacks correctly', () => {
@@ -50,5 +59,23 @@ describe('onConsentChange', () => {
 					expect(callback).toHaveBeenCalledTimes(2);
 				}),
 			);
+	});
+
+	it('returns all 10 TCF purposes even if they are false', () => {
+		const consents = {
+			'1': false,
+			'2': false,
+			'3': false,
+			'4': false,
+			'5': false,
+			'6': false,
+			'7': false,
+			'8': false,
+			'9': false,
+			'10': false,
+			...tcfData.purposes.consents,
+		};
+
+		expect(Object.keys(consents)).toHaveLength(10);
 	});
 });
