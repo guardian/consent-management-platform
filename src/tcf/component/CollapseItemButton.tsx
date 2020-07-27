@@ -45,10 +45,10 @@ const collapseItemButtonStyles = (collapsed: boolean, bodySans: string) => css`
 	}
 	:focus,
 	:hover {
-		color: ${palette.brand.bright};
+		color: ${palette.brand[500]};
 
 		::before {
-			border-color: ${palette.brand.bright};
+			border-color: ${palette.brand[500]};
 		}
 	}
 `;
