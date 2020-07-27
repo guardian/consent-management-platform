@@ -1,5 +1,6 @@
 import { css } from '@emotion/core';
-import { palette, size, space, transitions } from '@guardian/src-foundations';
+import { palette, space, transitions } from '@guardian/src-foundations';
+import { width, height } from '@guardian/src-foundations/size';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
 import React, { Component } from 'react';
 import { ItemState, FontsContextInterface } from '../types';
@@ -16,7 +17,7 @@ const radioContainerStyles = css`
 `;
 
 const errorStyles = css`
-	box-shadow: 0 0 0 5px ${palette.news.bright};
+	box-shadow: 0 0 0 5px ${palette.news[500]};
 	z-index: 9;
 `;
 
@@ -26,8 +27,8 @@ const radioInputStyles = css`
 		outline: 0;
 		box-sizing: border-box;
 		display: inline-block;
-		width: ${size.small}px;
-		height: ${size.small}px;
+		width: ${width.ctaSmall}px;
+		height: ${height.ctaSmall}px;
 		margin: 0 ${space[2]}px 0 0;
 		border: 2px solid ${palette.neutral[60]};
 		border-radius: 50%;
@@ -38,7 +39,7 @@ const radioInputStyles = css`
 			${focusHalo};
 		}
 		:after {
-			background-color: ${palette.brand.bright};
+			background-color: ${palette.brand[500]};
 			position: absolute;
 			content: '';
 			top: 0;
@@ -54,15 +55,15 @@ const radioInputStyles = css`
 			:after {
 				transform: scale(0.6);
 			}
-			border-color: ${palette.brand.bright};
+			border-color: ${palette.brand[500]};
 		}
 		:disabled {
 			:checked {
 				:after {
-					background-color: ${palette.brand.pastel};
+					background-color: ${palette.brand[600]};
 				}
 			}
-			border-color: ${palette.brand.pastel};
+			border-color: ${palette.brand[600]};
 		}
 		:not([disabled]) {
 			cursor: pointer;
@@ -80,7 +81,7 @@ const radioLabelStyles = (disabled: boolean) => css`
 	height: fit-content;
 	:hover {
 		input:not([disabled]) {
-			border-color: ${palette.brand.bright};
+			border-color: ${palette.brand[500]};
 		}
 	}
 `;
@@ -88,7 +89,7 @@ const radioLabelTextStyles = (disabled: boolean, bodySans: string) => css`
 	position: relative;
 	font-family: ${bodySans};
 	font-size: 17px;
-	color: ${disabled ? palette.brand.pastel : palette.neutral[7]};
+	color: ${disabled ? palette.brand[600] : palette.neutral[7]};
 	line-height: 1.5;
 `;
 

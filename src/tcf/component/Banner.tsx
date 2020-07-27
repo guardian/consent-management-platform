@@ -23,7 +23,7 @@ const gridWidth = (columns: number, gutterMultiple: number): number =>
 	gutterWidth * gutterMultiple;
 
 const bannerStyles = css`
-	background-color: ${palette.brand.main};
+	background-color: ${palette.brand[400]};
 	color: ${palette.neutral[100]};
 	position: fixed;
 	width: 100%;
@@ -31,7 +31,7 @@ const bannerStyles = css`
 	bottom: -1px;
 	right: 0;
 	z-index: 9999;
-	border-top: 1px solid ${palette.brand.pastel};
+	border-top: 1px solid ${palette.brand[600]};
 
 	${until.mobileLandscape} {
 		height: 320px;
@@ -153,10 +153,10 @@ const collapsibleButtonStyles = (show: boolean, bodySerif: string) => css`
 
 	:focus,
 	:hover {
-		color: ${palette.brandYellow.main};
+		color: ${palette.brandAlt[400]};
 
 		::before {
-			border-color: ${palette.brandYellow.main};
+			border-color: ${palette.brandAlt[400]};
 		}
 	}
 `;
@@ -187,7 +187,7 @@ const collapsibleListStyles = (show: boolean, bodySerif: string) => css`
 		width: 12px;
 		margin-right: 8px;
 		margin-left: -20px;
-		background-color: ${palette.brand.pastel};
+		background-color: ${palette.brand[600]};
 	}
 `;
 
@@ -197,7 +197,7 @@ const buttonContainerStyles = css`
 		padding-right: ${gutterWidth / 2}px;
 		padding-top: ${space[2]}px;
 		padding-bottom: ${space[3]}px;
-		border-top: 1px solid ${palette.brand.pastel};
+		border-top: 1px solid ${palette.brand[600]};
 		position: absolute;
 		bottom: 0;
 		left: 0;

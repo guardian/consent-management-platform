@@ -60,7 +60,7 @@ const modalStyles = css`
 
 const headerStyles = css`
 	color: ${palette.neutral[100]};
-	background-color: ${palette.brand.main};
+	background-color: ${palette.brand[400]};
 	width: 100%;
 	padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
 	box-sizing: border-box;
@@ -117,7 +117,7 @@ const scrollableContainerStyles = css`
 const buttonContainerStyles = (bodySerif: string) => css`
 	padding: ${space[2]}px ${space[2]}px ${space[3]}px ${space[2]}px;
 	color: ${palette.neutral[100]};
-	background-color: ${palette.brand.main};
+	background-color: ${palette.brand[400]};
 	box-sizing: border-box;
 	position: relative;
 	z-index: 100;
@@ -146,7 +146,7 @@ const buttonContainerStyles = (bodySerif: string) => css`
 
 const validationErrorStyles = css`
 	display: block;
-	background-color: ${palette.news.bright};
+	background-color: ${palette.news[500]};
 	position: absolute;
 	left: 0;
 	right: 0;
