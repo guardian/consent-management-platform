@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
-import { onConsentChange, invokeCallbacks } from './onConsentChange';
+import { onConsentChange, invokeCallbacks, _ } from './onConsentChange';
 
 const uspData = {
 	version: 1,
@@ -9,6 +9,15 @@ const uspData = {
 window.__uspapi = jest.fn((a, b, callback) => {
 	callback(uspData, true);
 });
+const tcfData = {
+	purposes: {
+		consents: {
+			1: true,
+			2: false,
+			3: true,
+		},
+	},
+};
 
 describe('onConsentChange', () => {
 	it('invokes callbacks correctly', () => {
@@ -50,5 +59,15 @@ describe('onConsentChange', () => {
 					expect(callback).toHaveBeenCalledTimes(2);
 				}),
 			);
+	});
+
+	it('returns all 10 TCF purposes even if they are false', () => {
+		const consents = _.fillAllConsents(tcfData.purposes.consents);
+
+		expect(Object.keys(consents)).toHaveLength(10);
+		expect(consents[1]).toEqual(true);
+		expect(consents[3]).toEqual(true);
+		expect(consents[9]).toEqual(false);
+		expect(consents[10]).toBeDefined();
 	});
 });
