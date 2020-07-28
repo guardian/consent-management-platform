@@ -77,9 +77,6 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 				},
 			);
 
-			setTimeout(() => {
-				console.log({ getTCDataPromise, getCustomVendorConsentsPromise });
-			}, 100);
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
 				.then((data) => {
 					const consents = fillAllConsents(
