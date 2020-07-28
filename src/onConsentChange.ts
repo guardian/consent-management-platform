@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 
+interface ConsentVector {
+	[key: string]: boolean;
+}
+
 interface ConsentState {
 	tcfv2?: {
-		consents: {
-			[key: number]: boolean;
-		};
+		consents: ConsentVector;
 		eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
-		vendorConsents: {
-			[key: string]: boolean;
-		};
+		vendorConsents: ConsentVector;
 	};
 	ccpa?: {
 		doNotSell: boolean;
@@ -77,21 +77,14 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 				},
 			);
 
+			setTimeout(() => {
+				console.log({ getTCDataPromise, getCustomVendorConsentsPromise });
+			}, 100);
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
 				.then((data) => {
-					const consents = {
-						'1': false,
-						'2': false,
-						'3': false,
-						'4': false,
-						'5': false,
-						'6': false,
-						'7': false,
-						'8': false,
-						'9': false,
-						'10': false,
-						...(data[0] as TCFData).purpose.consents,
-					};
+					const consents = fillAllConsents(
+						(data[0] as TCFData).purpose.consents,
+					);
 					const { eventStatus } = data[0] as TCFData;
 					const { grants } = data[1] as VendorConsents;
 					const vendorConsents = Object.keys(grants)
@@ -116,6 +109,24 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 			reject(new Error('no IAB consent framework found on the page'));
 		}
 	});
+};
+
+type ConsentObject = (consentVector: ConsentVector) => ConsentVector;
+
+const fillAllConsents: ConsentObject = (consentVector) => {
+	return {
+		'1': false,
+		'2': false,
+		'3': false,
+		'4': false,
+		'5': false,
+		'6': false,
+		'7': false,
+		'8': false,
+		'9': false,
+		'10': false,
+		...consentVector,
+	};
 };
 
 // cache current consent state as a JSON for quick comparison
@@ -149,4 +160,4 @@ export const onConsentChange = (callBack: Callback) => {
 		});
 };
 
-export const _ = { getConsentState };
+export const _ = { getConsentState, fillAllConsents };

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
-import { onConsentChange, invokeCallbacks } from './onConsentChange';
+import { onConsentChange, invokeCallbacks, _ } from './onConsentChange';
 
 const uspData = {
 	version: 1,
@@ -62,20 +62,12 @@ describe('onConsentChange', () => {
 	});
 
 	it('returns all 10 TCF purposes even if they are false', () => {
-		const consents = {
-			'1': false,
-			'2': false,
-			'3': false,
-			'4': false,
-			'5': false,
-			'6': false,
-			'7': false,
-			'8': false,
-			'9': false,
-			'10': false,
-			...tcfData.purposes.consents,
-		};
+		const consents = _.fillAllConsents(tcfData.purposes.consents);
 
 		expect(Object.keys(consents)).toHaveLength(10);
+		expect(consents[1]).toEqual(true);
+		expect(consents[3]).toEqual(true);
+		expect(consents[9]).toEqual(false);
+		expect(consents[10]).toBeDefined();
 	});
 });
