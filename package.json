@@ -28,7 +28,7 @@
 		"validate": "npm-run-all --parallel tsc lint 'test --onlyChanged'"
 	},
 	"dependencies": {
-		"@guardian/old-cmp": "npm:@guardian/consent-management-platform@^3.4.9"
+		"@guardian/old-cmp": "npm:@guardian/consent-management-platform@^3.4.10"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.9.6",
