@@ -86,7 +86,10 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 					const { grants } = data[1] as VendorConsents;
 					const vendorConsents = Object.keys(grants)
 						.sort()
-						.reduce((acc, cur) => ({ ...acc, [cur]: grants[cur] }), {});
+						.reduce(
+							(acc, cur) => ({ ...acc, [cur]: grants[cur].vendorGrant }),
+							{},
+						);
 					resolve(
 						compareState({
 							tcfv2: {
