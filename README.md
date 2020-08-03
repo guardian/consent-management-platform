@@ -91,14 +91,19 @@ Reports the user's privacy preferences.
 
 type: `Object` or `undefined`
 
-Reports the user's preferences for each of the TCFv2 purposes, the last CMP event status and custom vendor consents. If the user is in the USA, it will be `undefined`.
+Reports the user's preferences for each of the TCFv2 purposes, the last CMP
+event status and custom vendor consents. If the user is in the USA, it will
+be `undefined`. Unlike the original `__tcfapi`, all ten consents will have a set
+boolean value, defaulting to `false` where no explicit consent was given.
 
 ```js
 {
     consents: {
         1: Boolean,
         2: Boolean,
-        // etc.
+        /* … */
+        9: Boolean,
+        10: Boolean,
     },
     eventStatus: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
     vendorConsents: {
