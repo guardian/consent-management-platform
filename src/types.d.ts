@@ -58,6 +58,9 @@ interface Window {
 			targetingParams: {
 				framework: 'tcfv2';
 			};
+			pubData: {
+				browserId?: string;
+			};
 			events?: {
 				onConsentReady: () => void;
 				onMessageReady: () => void;
