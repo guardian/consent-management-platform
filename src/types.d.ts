@@ -1,7 +1,7 @@
 declare module '@iabtcf/stub';
 
 interface SourcepointImplementation {
-	init: () => void;
+	init: (pubData?: PubData) => void;
 	willShowPrivacyMessage: () => Promise<boolean>;
 	showPrivacyManager: () => void;
 }
@@ -22,6 +22,10 @@ type SourcePointChoiceType =
 	| 14
 	| 15;
 
+interface PubData {
+	browserId?: string;
+}
+
 // globals set on the window by the CMP library
 interface Window {
 	// sourcepoint's libraries - only one should be present at a time
@@ -36,6 +40,7 @@ interface Window {
 			targetingParams: {
 				framework: 'ccpa';
 			};
+			pubData: PubData;
 			events?: {
 				onConsentReady: () => void;
 				onMessageReady: () => void;

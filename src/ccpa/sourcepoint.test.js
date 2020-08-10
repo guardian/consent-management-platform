@@ -55,4 +55,14 @@ describe('Sourcepoint CCPA', () => {
 		);
 		req.end();
 	});
+
+	it('should accept pubData', () => {
+		init({ browserId: 'abc123' });
+		expect(window._sp_ccpa.config.pubData.browserId).toEqual('abc123');
+	});
+
+	it('should handle no pubData', () => {
+		init();
+		expect(window._sp_ccpa.config.pubData).toEqual({});
+	});
 });

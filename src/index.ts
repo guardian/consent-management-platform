@@ -11,7 +11,7 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
-function init({ isInUsa }: { isInUsa: boolean }) {
+function init({ pubData, isInUsa }: { pubData: PubData; isInUsa: boolean }) {
 	if (typeof isInUsa === 'undefined') {
 		throw new Error(
 			'CMP initialised without `isInUsa` property. `isInUsa` is required.',
@@ -19,7 +19,7 @@ function init({ isInUsa }: { isInUsa: boolean }) {
 	}
 
 	CMP = isInUsa ? CCPA : TCFv2;
-	CMP.init();
+	CMP.init(pubData);
 	resolveInitialised?.();
 }
 

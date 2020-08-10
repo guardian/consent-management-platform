@@ -5,9 +5,9 @@ import {
 import { PRIVACY_MANAGER_TCFV2 } from '../lib/sourcepointConfig';
 import { mark } from '../lib/mark';
 
-const init = () => {
+const init = (pubData?: PubData) => {
 	mark('cmp-tcfv2-init');
-	initSourcepoint();
+	initSourcepoint(pubData);
 };
 
 const willShowPrivacyMessage = () => sourcepointWillShowPrivacyMessage;
