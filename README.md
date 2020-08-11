@@ -20,7 +20,6 @@ returns: `void`
 
 Adds the relevent privacy framework to the page. It must be called to enable
 privacy management.
-
 If necessary, it will also display the initial privacy message.
 
 #### options.isInUsa
@@ -39,7 +38,7 @@ Pass additional parameters for for reporting. Optional.
 #### Example
 
 ```js
-cmp.init({ browserId: 'gow59fnwohwmshz', isInUsa: false });
+cmp.init({ pubData: { browserId: 'gow59fnwohwmshz' }, isInUsa: false });
 ```
 
 ### cmp.willShowPrivacyMessage()
