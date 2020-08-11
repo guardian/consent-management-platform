@@ -5,9 +5,9 @@ import {
 import { PRIVACY_MANAGER_CCPA } from '../lib/sourcepointConfig';
 import { mark } from '../lib/mark';
 
-const init = () => {
+const init = (pubData?: PubData) => {
 	mark('cmp-ccpa-init');
-	initSourcepoint();
+	initSourcepoint(pubData);
 };
 
 const willShowPrivacyMessage = () => sourcepointWillShowPrivacyMessage;

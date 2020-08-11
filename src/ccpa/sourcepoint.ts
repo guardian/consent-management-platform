@@ -11,7 +11,7 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve;
 });
 
-export const init = () => {
+export const init = (pubData = {}) => {
 	stub();
 
 	// make sure nothing else on the page has accidentally
@@ -33,6 +33,8 @@ export const init = () => {
 			targetingParams: {
 				framework: 'ccpa',
 			},
+
+			pubData,
 
 			events: {
 				onConsentReady() {

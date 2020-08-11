@@ -30,10 +30,16 @@ type: `boolean`
 Declare whether your user is in the USA or not. Required – *throws an error if
 it's missing.*
 
+#### options.pubData
+
+type: `Object`
+
+Pass additional parameters for for reporting. Optional.
+
 #### Example
 
 ```js
-cmp.init({ isInUsa: false });
+cmp.init({ browserId: 'gow59fnwohwmshz', isInUsa: false });
 ```
 
 ### cmp.willShowPrivacyMessage()

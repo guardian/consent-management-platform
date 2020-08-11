@@ -48,4 +48,14 @@ describe('Sourcepoint TCF', () => {
 		);
 		req.end();
 	});
+
+	it('should accept pubData', () => {
+		init({ browserId: 'abc123' });
+		expect(window._sp_.config.pubData.browserId).toEqual('abc123');
+	});
+
+	it('should handle no pubData', () => {
+		init();
+		expect(window._sp_.config.pubData).toEqual({});
+	});
 });
