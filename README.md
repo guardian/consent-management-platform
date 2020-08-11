@@ -39,7 +39,7 @@ Pass additional parameters for for reporting. Optional.
 #### Example
 
 ```js
-cmp.init({ isInUsa: false });
+cmp.init({ browserId: 'gow59fnwohwmshz', isInUsa: false });
 ```
 
 ### cmp.willShowPrivacyMessage()
