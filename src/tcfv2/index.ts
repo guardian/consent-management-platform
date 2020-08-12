@@ -4,6 +4,7 @@ import {
 } from './sourcepoint';
 import { PRIVACY_MANAGER_TCFV2 } from '../lib/sourcepointConfig';
 import { mark } from '../lib/mark';
+import { PubData, SourcepointImplementation } from '../types';
 
 const init = (pubData?: PubData) => {
 	mark('cmp-tcfv2-init');

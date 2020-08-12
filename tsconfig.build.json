@@ -6,5 +6,5 @@
 		"declaration": true,
 		"outDir": "dist"
 	},
-	"include": ["src/types.d.ts"]
+	"include": ["src/window.d.ts"]
 }
