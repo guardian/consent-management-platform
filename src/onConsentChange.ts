@@ -1,5 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
+import { TCFData, VendorConsents } from './types';
+
 interface ConsentVector {
 	[key: string]: boolean;
 }

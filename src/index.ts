@@ -3,6 +3,7 @@
 import { oldCmp } from './oldCmp';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
+import { SourcepointImplementation, PubData } from './types';
 
 let CMP: SourcepointImplementation | undefined;
 
@@ -19,7 +20,7 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	}
 
 	CMP = isInUsa ? CCPA : TCFv2;
-	CMP.init(pubData);
+	CMP?.init(pubData);
 	resolveInitialised?.();
 }
 
