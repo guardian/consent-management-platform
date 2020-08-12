@@ -1,5 +1,8 @@
 declare module '@iabtcf/stub';
 
+interface PubData {
+	browserId?: string;
+}
 interface SourcepointImplementation {
 	init: (pubData?: PubData) => void;
 	willShowPrivacyMessage: () => Promise<boolean>;
@@ -21,10 +24,6 @@ type SourcePointChoiceType =
 	| 13
 	| 14
 	| 15;
-
-interface PubData {
-	browserId?: string;
-}
 
 // globals set on the window by the CMP library
 interface Window {
@@ -63,9 +62,7 @@ interface Window {
 			targetingParams: {
 				framework: 'tcfv2';
 			};
-			pubData: {
-				browserId?: string;
-			};
+			pubData: PubData;
 			events?: {
 				onConsentReady: () => void;
 				onMessageReady: () => void;
