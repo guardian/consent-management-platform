@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 on:
     push:
         branches:
-            - TCFv2
+            - master
 jobs:
     deploy:
         runs-on: ubuntu-latest

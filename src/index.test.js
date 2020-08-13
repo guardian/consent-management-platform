@@ -1,54 +1,76 @@
-import { init, onIabConsentNotification, checkWillShowUi } from './index';
-import { onIabConsentNotification as tcfOnIabConsentNotification } from './tcf/core';
-import {
-	init as initSourcepoint,
-	onIabConsentNotification as ccpaOnIabConsentNotification,
-} from './ccpa/core';
-import { checkWillShowUi as checkWillShowUiCcpa } from './ccpa/sourcepoint';
+import waitForExpect from 'wait-for-expect';
+import { cmp } from '.';
+import { CCPA } from './ccpa';
+import { TCFv2 } from './tcfv2';
 
-jest.mock('./tcf/core', () => ({
-	onIabConsentNotification: jest.fn(),
+// just stop Jest erroring on these
+// can be deleted when olde cmp is removed
+jest.mock('@guardian/old-cmp', () => ({}));
+jest.mock('@guardian/old-cmp/dist/ConsentManagementPlatform', () => ({}));
+
+jest.mock('./ccpa', () => ({
+	CCPA: {
+		init: jest.fn(),
+		showPrivacyManager: jest.fn(),
+		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
+	},
 }));
 
-jest.mock('./ccpa/core', () => ({
-	init: jest.fn(),
-	onIabConsentNotification: jest.fn(),
+jest.mock('./tcfv2', () => ({
+	TCFv2: {
+		init: jest.fn(),
+		showPrivacyManager: jest.fn(),
+		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
+	},
 }));
 
-jest.mock('./ccpa/sourcepoint', () => ({
-	checkWillShowUi: jest.fn(),
-}));
-
-const mockCallback = () => {};
-
-const ccpaOnOptions = { useCcpa: true };
-
-describe('CMP lib', () => {
-	it("Calls TCF's onIabConsentNotification when in TCF mode", () => {
-		onIabConsentNotification(mockCallback);
-
-		expect(tcfOnIabConsentNotification).toHaveBeenCalledTimes(1);
-		expect(tcfOnIabConsentNotification).toHaveBeenCalledWith(mockCallback);
+describe('cmp.init', () => {
+	it('requires isInUsa to be true or false', () => {
+		expect(cmp.init).toThrow();
 	});
 
-	it('Inititalises CCPA when in CCPA mode', () => {
-		init(ccpaOnOptions);
-
-		expect(initSourcepoint).toHaveBeenCalledTimes(1);
+	it('initializes CCPA when in the US', () => {
+		cmp.init({ isInUsa: true });
+		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
-	it("Calls CCPA's onIabConsentNotification when in CCPA mode", () => {
-		init(ccpaOnOptions);
-		onIabConsentNotification(mockCallback);
-
-		expect(ccpaOnIabConsentNotification).toHaveBeenCalledTimes(1);
-		expect(ccpaOnIabConsentNotification).toHaveBeenCalledWith(mockCallback);
+	it('initializes TCF when not in the US', () => {
+		cmp.init({ isInUsa: false });
+		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
+});
 
-	it("Calls CCPA's checkWillShowUi when in CCPA mode", () => {
-		init(ccpaOnOptions);
-		checkWillShowUi();
+describe('cmp.willShowPrivacyMessage', () => {
+	it('resolves regardless of when the cmp is initialised', () => {
+		const willShowPrivacyMessage1 = cmp.willShowPrivacyMessage();
 
-		expect(checkWillShowUiCcpa).toHaveBeenCalledTimes(1);
+		cmp.init({ isInUsa: true });
+
+		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
+
+		return expect(
+			Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
+		).resolves.toEqual(['iwillshowit', 'iwillshowit']);
+	});
+});
+
+describe('cmp.showPrivacyManager', () => {
+	it('shows CCPA privacy manager when in the US', () => {
+		cmp.init({ isInUsa: true });
+
+		cmp.showPrivacyManager();
+
+		return waitForExpect(() =>
+			expect(CCPA.showPrivacyManager).toHaveBeenCalledTimes(1),
+		);
+	});
+	it('shows TCF privacy manager when not in the US', () => {
+		cmp.init({ isInUsa: false });
+
+		cmp.showPrivacyManager();
+
+		return waitForExpect(() =>
+			expect(TCFv2.showPrivacyManager).toHaveBeenCalledTimes(1),
+		);
 	});
 });
