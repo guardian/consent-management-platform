@@ -24,17 +24,7 @@ export default {
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('production'),
 		}),
-		commonjs({
-			namedExports: {
-				react: [
-					'createContext',
-					'forwardRef',
-					'createElement',
-					'Component',
-					'Fragment',
-				],
-			},
-		}),
+		commonjs(),
 		terser(),
 		html({
 			title: 'CMP Sourcepoint progress',
