@@ -25,8 +25,8 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	if (window) {
 		window.guardian = {
 			cmp: {
-				initialised: true,
 				...window.guardian?.cmp,
+				initialised: true,
 			},
 		};
 	}
