@@ -3,38 +3,31 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import replace from 'rollup-plugin-replace';
+import copy from 'rollup-plugin-copy';
+import pkg from './package.json';
 
 const extensions = ['.js', '.ts', '.tsx'];
 
 module.exports = {
-	input: ['src/index.ts', 'src/tcf/component/ConsentManagementPlatform.tsx'],
+	input: 'src/index.ts',
 	output: [
 		{
-			dir: 'dist',
+			file: pkg.main,
 			format: 'cjs',
 		},
 		{
-			dir: 'dist',
-			format: 'cjs',
+			file: pkg.module,
+			format: 'esm',
 		},
 	],
 	external: [
-		'@babel/runtime/helpers/defineProperty',
-		'@babel/runtime/helpers/extends',
-		'@emotion/core',
-		'@guardian/src-button',
-		'@guardian/src-foundations',
-		'@guardian/src-foundations/accessibility',
-		'@guardian/src-foundations/mq',
-		'@guardian/src-foundations/palette',
-		'@guardian/src-foundations/themes',
-		'@guardian/src-foundations/typography',
-		'@guardian/src-svgs',
-		'react',
+		'@guardian/old-cmp',
+		'@guardian/old-cmp/dist/ConsentManagementPlatform',
 	],
 	plugins: [
 		babel({ extensions }),
 		resolve({ extensions }),
+
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('production'),
 		}),
@@ -42,6 +35,9 @@ module.exports = {
 		strip({
 			include: ['**/*.{j,t}s?(x)'],
 			sourceMap: true,
+		}),
+		copy({
+			targets: [{ src: 'src/types.d.ts', dest: 'dist' }],
 		}),
 	],
 };

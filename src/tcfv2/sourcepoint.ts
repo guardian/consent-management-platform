@@ -2,8 +2,8 @@
 
 import { stub } from './stub';
 import { mark } from '../lib/mark';
-import { isGuardianDomain } from '../lib/domain';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { isGuardianDomain } from '../lib/domain';
 import { invokeCallbacks } from '../onConsentChange';
 
 let resolveWillShowPrivacyMessage: Function | undefined;
@@ -14,39 +14,35 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 export const init = (pubData = {}) => {
 	stub();
 
-	// make sure nothing else on the page has accidentally
+	// // make sure nothing else on the page has accidentally
 	// used the _sp_* name as well
-	if (window._sp_ccpa) {
-		throw new Error(
-			'Sourcepoint CCPA global (window._sp_ccpa) is already defined!',
-		);
+	if (window._sp_) {
+		throw new Error('Sourcepoint TCF global (window._sp_) is already defined!');
 	}
 
-	window._sp_ccpa = {
+	window._sp_ = {
 		config: {
 			mmsDomain: 'https://consent.theguardian.com',
-			ccpaOrigin: 'https://ccpa-service.sp-prod.net',
+			wrapperAPIOrigin: 'https://wrapper-api.sp-prod.net/tcfv2',
 			accountId: ACCOUNT_ID,
-			getDnsMsgMms: true,
-			alwaysDisplayDns: false,
-			siteHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			propertyHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
 			targetingParams: {
-				framework: 'ccpa',
+				framework: 'tcfv2',
 			},
 
 			pubData,
 
 			events: {
 				onConsentReady() {
-					mark('cmp-ccpa-got-consent');
+					mark('cmp-tcfv2-got-consent');
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
 				},
 				onMessageReady: () => {
-					mark('cmp-ccpa-ui-displayed');
+					mark('cmp-tcfv2-ui-displayed');
 				},
 				onMessageReceiveData: (data) => {
-					resolveWillShowPrivacyMessage?.(data.msg_id !== 0);
+					resolveWillShowPrivacyMessage?.(data.messageId !== 0);
 				},
 				onMessageChoiceSelect: (_choiceId, choiceTypeID) => {
 					if (
@@ -62,8 +58,10 @@ export const init = (pubData = {}) => {
 		},
 	};
 
-	const ccpaLib = document.createElement('script');
-	ccpaLib.id = 'sourcepoint-ccpa-lib';
-	ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
-	document.body.appendChild(ccpaLib);
+	const tcfLib = document.createElement('script');
+	tcfLib.id = 'sourcepoint-tcfv2-lib';
+	tcfLib.src =
+		'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js';
+
+	document.body.appendChild(tcfLib);
 };

@@ -1,9 +1,10 @@
 {
-    "extends": "./tsconfig.json",
-    "files": ["src/index.ts", "src/ConsentManagementPlatform.tsx"],
-    "compilerOptions": {
-        "rootDir": "src",
-        "declaration": true,
-        "outDir": "dist"
-    }
+	"extends": "./tsconfig.json",
+	"files": ["src/index.ts"],
+	"compilerOptions": {
+		"rootDir": "src",
+		"declaration": true,
+		"outDir": "dist"
+	},
+	"include": ["src/window.d.ts"]
 }

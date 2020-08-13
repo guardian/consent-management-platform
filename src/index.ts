@@ -1,49 +1,46 @@
-import {
-	init as initSourcepoint,
-	onIabConsentNotification as ccpaOnIabConsentNotification,
-	showPrivacyManager as showCCPAPrivacyManager,
-	CcpaPurposeCallback,
-} from './ccpa/core';
-import { checkWillShowUi as checkWillShowUiCcpa } from './ccpa/sourcepoint';
-import {
-	onIabConsentNotification as tcfOnIabConsentNotification,
-	IabPurposeCallback as TcfPurposeCallback,
-} from './tcf/core';
+/* eslint-disable no-console */
 
-type IabPurposeCallback = TcfPurposeCallback | CcpaPurposeCallback;
+import { oldCmp } from './oldCmp';
+import { CCPA } from './ccpa';
+import { TCFv2 } from './tcfv2';
+import { SourcepointImplementation, PubData } from './types';
 
-export interface InitOptions {
-	useCcpa: boolean;
+let CMP: SourcepointImplementation | undefined;
+
+let resolveInitialised: Function | undefined;
+const initialised = new Promise((resolve) => {
+	resolveInitialised = resolve;
+});
+
+function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
+	if (typeof isInUsa === 'undefined') {
+		throw new Error(
+			'CMP initialised without `isInUsa` property. `isInUsa` is required.',
+		);
+	}
+
+	CMP = isInUsa ? CCPA : TCFv2;
+	CMP?.init(pubData);
+	resolveInitialised?.();
 }
 
-const defaultOptions: InitOptions = {
-	useCcpa: false,
+const willShowPrivacyMessage = () =>
+	initialised.then(() => CMP?.willShowPrivacyMessage());
+
+function showPrivacyManager() {
+	if (!CMP)
+		console.warn(
+			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
+		);
+	initialised.then(() => CMP?.showPrivacyManager());
+}
+
+export const cmp = {
+	init,
+	willShowPrivacyMessage,
+	showPrivacyManager,
 };
 
-let CCPA_APPLIES = false;
+export { onConsentChange } from './onConsentChange';
 
-export const init = (options: InitOptions = defaultOptions) => {
-	if (options.useCcpa) {
-		initSourcepoint();
-		CCPA_APPLIES = true;
-	}
-};
-
-// race condition - called before init so ccpa is false
-export const onIabConsentNotification = (callback: IabPurposeCallback) =>
-	CCPA_APPLIES
-		? ccpaOnIabConsentNotification(callback as CcpaPurposeCallback)
-		: tcfOnIabConsentNotification(callback as TcfPurposeCallback);
-
-export const showPrivacyManager = (): void => {
-	if (CCPA_APPLIES) {
-		showCCPAPrivacyManager();
-	}
-};
-
-export const checkWillShowUi = () =>
-	CCPA_APPLIES ? checkWillShowUiCcpa() : Promise.reject(); // placeholder for TCFv2 checkWillShowUI
-
-export { setErrorHandler } from './tcf/error';
-export { shouldShow } from './tcf/cmp-ui';
-export { onGuConsentNotification } from './tcf/core';
+export { oldCmp };
