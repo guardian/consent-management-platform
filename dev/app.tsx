@@ -1,32 +1,33 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { cmp, onConsentChange, oldCmp } from '../src/index';
+import { cmp, onConsentChange } from '../src/index';
 
+const call = (event: string, ...rest: unknown[]) =>
+	// eslint-disable-next-line no-console
+	console.info.apply(null, [`%c${event}()`, 'color: deeppink;', ...rest]);
+
+const response = (event: string, ...rest: unknown[]) =>
+	// eslint-disable-next-line no-console
+	console.log.apply(null, [
+		`%c${event} %cresult`,
+		'color: deeppink;',
+		'',
+		...rest,
+	]);
+
+call('cmp.willShowPrivacyMessage');
 cmp.willShowPrivacyMessage().then((willShow) => {
-	// eslint-disable-next-line no-console
-	console.log('DEV willShowPrivacyMessage', { willShow });
+	response('cmp.willShowPrivacyMessage', { willShow });
 });
 
+call('onConsentChange');
 onConsentChange(({ tcfv2, ccpa }) => {
-	// eslint-disable-next-line no-console
-	console.log('DEV onConsent', { tcfv2, ccpa });
+	response('onConsentChange', { tcfv2, ccpa });
 });
 
-if (
-	localStorage.getItem('inUSA') !== 'true' &&
-	localStorage.getItem('oldCMP') === 'true'
-) {
-	document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
-
-	ReactDOM.render(
-		<oldCmp.ConsentManagementPlatform onClose={() => {}} />,
-		document.getElementById('app'),
-	);
-} else {
-	cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
-}
+const isInUsa = localStorage.getItem('inUSA') === 'true';
+cmp.init({ isInUsa });
+call('cmp.init', { isInUsa });
 
 const locationLabel = document.createElement('label');
 locationLabel.innerHTML = 'in USA';
@@ -67,29 +68,12 @@ stagingControl.onclick = () => {
 stagingLabel.appendChild(stagingControl);
 document.body.append(stagingLabel);
 
-const versionLabel = document.createElement('label');
-versionLabel.innerHTML = 'use current CMP for TCF';
-versionLabel.style.display = 'flex';
-versionLabel.style.flexDirection = 'row-reverse';
-versionLabel.style.justifyContent = 'flex-end';
-
-const versionControl = document.createElement('input');
-versionControl.type = 'checkbox';
-versionControl.checked = localStorage.getItem('oldCMP') === 'true';
-versionControl.onclick = () => {
-	localStorage.setItem('oldCMP', versionControl.checked.toString());
-	window.location.reload();
-};
-
-versionLabel.appendChild(versionControl);
-document.body.append(versionLabel);
-
 const settingsButton = document.createElement('button');
 settingsButton.innerText = 'show privacy settings';
-settingsButton.onclick =
-	localStorage.getItem('oldCMP') === 'true'
-		? oldCmp.showPrivacyManager
-		: cmp.showPrivacyManager;
+settingsButton.onclick = () => {
+	call('cmp.showPrivacyManager');
+	cmp.showPrivacyManager();
+};
 settingsButton.style.marginTop = '1rem';
 settingsButton.style.display = 'block';
 document.body.append(settingsButton);

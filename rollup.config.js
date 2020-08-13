@@ -3,7 +3,6 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import replace from 'rollup-plugin-replace';
-import copy from 'rollup-plugin-copy';
 import pkg from './package.json';
 
 const extensions = ['.js', '.ts', '.tsx'];
@@ -27,7 +26,6 @@ module.exports = {
 	plugins: [
 		babel({ extensions }),
 		resolve({ extensions }),
-
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('production'),
 		}),
@@ -35,9 +33,6 @@ module.exports = {
 		strip({
 			include: ['**/*.{j,t}s?(x)'],
 			sourceMap: true,
-		}),
-		copy({
-			targets: [{ src: 'src/types.d.ts', dest: 'dist' }],
 		}),
 	],
 };

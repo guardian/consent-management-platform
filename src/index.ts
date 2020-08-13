@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-import { oldCmp } from './oldCmp';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
 import { SourcepointImplementation, PubData } from './types';
@@ -42,5 +41,3 @@ export const cmp = {
 };
 
 export { onConsentChange } from './onConsentChange';
-
-export { oldCmp };
