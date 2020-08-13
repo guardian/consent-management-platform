@@ -86,7 +86,10 @@ document.body.append(versionLabel);
 
 const settingsButton = document.createElement('button');
 settingsButton.innerText = 'show privacy settings';
-settingsButton.onclick = cmp.showPrivacyManager;
+settingsButton.onclick =
+	localStorage.getItem('oldCMP') === 'true'
+		? oldCmp.showPrivacyManager
+		: cmp.showPrivacyManager;
 settingsButton.style.marginTop = '1rem';
 settingsButton.style.display = 'block';
 document.body.append(settingsButton);
