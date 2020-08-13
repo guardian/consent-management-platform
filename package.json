@@ -21,7 +21,7 @@
 		"gh-pages:serve": "yarn gh-pages:build && serve .gh-pages",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
-		"release": "np --any-branch",
+		"release": "np",
 		"test": "jest --coverage",
 		"tsc": "tsc --noEmit",
 		"types": "tsc --emitDeclarationOnly --project ./tsconfig.build.json",
