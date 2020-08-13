@@ -54,6 +54,8 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ isInUsa: false });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
+
+	it.todo('uses window.guCmpHotFix exports if they exist');
 });
 // *************** END commercial.dcr.js hotfix ***************
 
