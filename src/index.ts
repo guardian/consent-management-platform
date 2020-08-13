@@ -18,17 +18,13 @@ const initialised = new Promise((resolve) => {
 
 function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	// *************** START commercial.dcr.js hotfix ***************
-	if (window?.guardian?.cmp?.initialised) {
+	if (window?.guCmpHotFix?.initialised) {
 		return;
 	}
 
 	if (window) {
-		window.guardian = {
-			...window.guardian,
-			cmp: {
-				...window.guardian?.cmp,
-				initialised: true,
-			},
+		window.guCmpHotFix = {
+			initialised: true,
 		};
 	}
 	// *************** END commercial.dcr.js hotfix ***************
@@ -70,16 +66,14 @@ const actualExports = {
 };
 
 if (window) {
-	window.guardian = {
-		cmp: {
-			...actualExports,
-			...window.guardian?.cmp,
-		},
+	window.guCmpHotFix = {
+		...actualExports,
+		...window.guCmpHotFix,
 	};
 }
 
 export const { cmp, onConsentChange } =
-	(window?.guardian?.cmp as typeof actualExports) || actualExports;
+	(window?.guCmpHotFix as typeof actualExports) || actualExports;
 // *************** END commercial.dcr.js hotfix ***************
 
 export { oldCmp };

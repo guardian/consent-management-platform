@@ -25,7 +25,7 @@ jest.mock('./tcfv2', () => ({
 }));
 
 beforeEach(() => {
-	window.guardian = {};
+	window.guCmpHotFix = {};
 	TCFv2.init.mockClear();
 });
 

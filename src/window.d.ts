@@ -9,22 +9,20 @@ import {
 declare global {
 	interface Window {
 		// *************** START commercial.dcr.js hotfix ***************
-		guardian?: {
+		guCmpHotFix?: {
+			initialised?: boolean;
 			cmp?: {
-				initialised?: boolean;
-				cmp?: {
-					init: ({
-						pubData,
-						isInUsa,
-					}: {
-						pubData?: PubData | undefined;
-						isInUsa: boolean;
-					}) => void;
-					willShowPrivacyMessage: () => Promise<boolean | undefined>;
-					showPrivacyManager: () => void;
-				};
-				onConsentChange?: unknown;
+				init: ({
+					pubData,
+					isInUsa,
+				}: {
+					pubData?: PubData | undefined;
+					isInUsa: boolean;
+				}) => void;
+				willShowPrivacyMessage: () => Promise<boolean | undefined>;
+				showPrivacyManager: () => void;
 			};
+			onConsentChange?: unknown;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
