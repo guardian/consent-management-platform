@@ -24,6 +24,7 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 
 	if (window) {
 		window.guCmpHotFix = {
+			...window.guCmpHotFix,
 			initialised: true,
 		};
 	}
