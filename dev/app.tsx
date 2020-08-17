@@ -49,28 +49,6 @@ locationControl.onclick = () => {
 locationLabel.appendChild(locationControl);
 document.body.append(locationLabel);
 
-const stagingLabel = document.createElement('label');
-stagingLabel.innerHTML = 'use staging campaign';
-stagingLabel.style.display = 'flex';
-stagingLabel.style.flexDirection = 'row-reverse';
-stagingLabel.style.justifyContent = 'flex-end';
-
-if (localStorage.getItem('staging') === null) {
-	localStorage.setItem('staging', 'true');
-	window.location.search = '_sp_env=stage';
-}
-
-const stagingControl = document.createElement('input');
-stagingControl.type = 'checkbox';
-stagingControl.checked = localStorage.getItem('staging') === 'true';
-stagingControl.onclick = () => {
-	localStorage.setItem('staging', stagingControl.checked.toString());
-	window.location.search = stagingControl.checked ? '_sp_env=stage' : '';
-};
-
-stagingLabel.appendChild(stagingControl);
-document.body.append(stagingLabel);
-
 const settingsButton = document.createElement('button');
 settingsButton.innerText = 'show privacy settings';
 settingsButton.onclick = () => {
