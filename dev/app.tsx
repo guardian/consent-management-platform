@@ -2,11 +2,11 @@
 
 import { cmp, onConsentChange } from '../src/index';
 
-const call = (event: string, ...rest: unknown[]) =>
+const logCall = (event: string, ...rest: unknown[]) =>
 	// eslint-disable-next-line no-console
 	console.info.apply(null, [`%c${event}()`, 'color: deeppink;', ...rest]);
 
-const response = (event: string, ...rest: unknown[]) =>
+const logResponse = (event: string, ...rest: unknown[]) =>
 	// eslint-disable-next-line no-console
 	console.log.apply(null, [
 		`%c${event} %cresult`,
@@ -15,19 +15,19 @@ const response = (event: string, ...rest: unknown[]) =>
 		...rest,
 	]);
 
-call('cmp.willShowPrivacyMessage');
+logCall('cmp.willShowPrivacyMessage');
 cmp.willShowPrivacyMessage().then((willShow) => {
-	response('cmp.willShowPrivacyMessage', { willShow });
+	logResponse('cmp.willShowPrivacyMessage', { willShow });
 });
 
-call('onConsentChange');
+logCall('onConsentChange');
 onConsentChange(({ tcfv2, ccpa }) => {
-	response('onConsentChange', { tcfv2, ccpa });
+	logResponse('onConsentChange', { tcfv2, ccpa });
 });
 
 const isInUsa = localStorage.getItem('inUSA') === 'true';
 cmp.init({ isInUsa });
-call('cmp.init', { isInUsa });
+logCall('cmp.init', { isInUsa });
 // *************** START commercial.dcr.js hotfix ***************
 cmp.init({ isInUsa });
 // *************** END commercial.dcr.js hotfix ***************
@@ -52,7 +52,7 @@ document.body.append(locationLabel);
 const settingsButton = document.createElement('button');
 settingsButton.innerText = 'show privacy settings';
 settingsButton.onclick = () => {
-	call('cmp.showPrivacyManager');
+	logCall('cmp.showPrivacyManager');
 	cmp.showPrivacyManager();
 };
 settingsButton.style.marginTop = '1rem';
