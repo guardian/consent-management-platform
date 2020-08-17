@@ -21,8 +21,8 @@ cmp.willShowPrivacyMessage().then((willShow) => {
 });
 
 logCall('onConsentChange');
-onConsentChange(({ tcfv2, ccpa }) => {
-	logResponse('onConsentChange', { tcfv2, ccpa });
+onConsentChange((response) => {
+	logResponse('onConsentChange', response);
 });
 
 const isInUsa = localStorage.getItem('inUSA') === 'true';
