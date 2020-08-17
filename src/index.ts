@@ -4,6 +4,10 @@ import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
 import { SourcepointImplementation, PubData } from './types';
 
+// *************** START commercial.dcr.js hotfix ***************
+import { onConsentChange as actualOnConsentChange } from './onConsentChange';
+// *************** END commercial.dcr.js hotfix ***************
+
 let CMP: SourcepointImplementation | undefined;
 
 let resolveInitialised: Function | undefined;
@@ -12,6 +16,19 @@ const initialised = new Promise((resolve) => {
 });
 
 function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
+	// *************** START commercial.dcr.js hotfix ***************
+	if (window?.guCmpHotFix?.initialised) {
+		return;
+	}
+
+	if (window) {
+		window.guCmpHotFix = {
+			...window.guCmpHotFix,
+			initialised: true,
+		};
+	}
+	// *************** END commercial.dcr.js hotfix ***************
+
 	if (typeof isInUsa === 'undefined') {
 		throw new Error(
 			'CMP initialised without `isInUsa` property. `isInUsa` is required.',
@@ -34,10 +51,27 @@ function showPrivacyManager() {
 	initialised.then(() => CMP?.showPrivacyManager());
 }
 
-export const cmp = {
-	init,
-	willShowPrivacyMessage,
-	showPrivacyManager,
+// *************** START commercial.dcr.js hotfix ***************
+// export const cmp = {
+// 	init,
+// 	willShowPrivacyMessage,
+// 	showPrivacyManager,
+// };
+
+// export { onConsentChange } from './onConsentChange';
+
+const actualExports = {
+	cmp: { init, willShowPrivacyMessage, showPrivacyManager },
+	onConsentChange: actualOnConsentChange,
 };
 
-export { onConsentChange } from './onConsentChange';
+if (window) {
+	window.guCmpHotFix = {
+		...actualExports,
+		...window.guCmpHotFix,
+	};
+}
+
+export const { cmp, onConsentChange } =
+	(window?.guCmpHotFix as typeof actualExports) || actualExports;
+// *************** END commercial.dcr.js hotfix ***************

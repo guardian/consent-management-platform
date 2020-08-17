@@ -28,6 +28,9 @@ onConsentChange(({ tcfv2, ccpa }) => {
 const isInUsa = localStorage.getItem('inUSA') === 'true';
 cmp.init({ isInUsa });
 call('cmp.init', { isInUsa });
+// *************** START commercial.dcr.js hotfix ***************
+cmp.init({ isInUsa });
+// *************** END commercial.dcr.js hotfix ***************
 
 const locationLabel = document.createElement('label');
 locationLabel.innerHTML = 'in USA';

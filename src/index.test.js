@@ -19,6 +19,11 @@ jest.mock('./tcfv2', () => ({
 	},
 }));
 
+beforeEach(() => {
+	window.guCmpHotFix = {};
+	TCFv2.init.mockClear();
+});
+
 describe('cmp.init', () => {
 	it('requires isInUsa to be true or false', () => {
 		expect(cmp.init).toThrow();
@@ -34,6 +39,20 @@ describe('cmp.init', () => {
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
 });
+
+// *************** START commercial.dcr.js hotfix ***************
+describe('hotfix cmp.init', () => {
+	it('only initialises once per page', () => {
+		cmp.init({ isInUsa: false });
+		cmp.init({ isInUsa: false });
+		cmp.init({ isInUsa: false });
+		cmp.init({ isInUsa: false });
+		expect(TCFv2.init).toHaveBeenCalledTimes(1);
+	});
+
+	it.todo('uses window.guCmpHotFix exports if they exist');
+});
+// *************** END commercial.dcr.js hotfix ***************
 
 describe('cmp.willShowPrivacyMessage', () => {
 	it('resolves regardless of when the cmp is initialised', () => {
