@@ -2,7 +2,11 @@
 
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
-import { SourcepointImplementation, PubData } from './types';
+import {
+	SourcepointImplementation,
+	PubData,
+	WillShowPrivacyMessage,
+} from './types';
 
 // *************** START commercial.dcr.js hotfix ***************
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
@@ -40,8 +44,8 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	resolveInitialised?.();
 }
 
-const willShowPrivacyMessage = () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage());
+const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
+	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
 
 function showPrivacyManager() {
 	if (!CMP)
