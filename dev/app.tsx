@@ -26,6 +26,9 @@ if (
 	);
 } else {
 	cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
+	// *************** START commercial.dcr.js hotfix ***************
+	cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
+	// *************** END commercial.dcr.js hotfix ***************
 }
 
 const locationLabel = document.createElement('label');

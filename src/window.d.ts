@@ -8,6 +8,24 @@ import {
 
 declare global {
 	interface Window {
+		// *************** START commercial.dcr.js hotfix ***************
+		guCmpHotFix?: {
+			initialised?: boolean;
+			cmp?: {
+				init: ({
+					pubData,
+					isInUsa,
+				}: {
+					pubData?: PubData | undefined;
+					isInUsa: boolean;
+				}) => void;
+				willShowPrivacyMessage: () => Promise<boolean | undefined>;
+				showPrivacyManager: () => void;
+			};
+			onConsentChange?: unknown;
+		};
+		// *************** END commercial.dcr.js hotfix ***************
+
 		// sourcepoint's libraries - only one should be present at a time
 		_sp_ccpa?: {
 			config: {

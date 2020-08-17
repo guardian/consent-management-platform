@@ -6,7 +6,7 @@ interface ConsentVector {
 	[key: string]: boolean;
 }
 
-interface ConsentState {
+export interface ConsentState {
 	tcfv2?: {
 		consents: ConsentVector;
 		eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
