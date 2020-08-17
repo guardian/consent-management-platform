@@ -2,14 +2,14 @@
 
 import { cmp, onConsentChange } from '../src/index';
 
-const logCall = (event: string, ...rest: unknown[]) =>
+const logCall = (title: string, ...rest: unknown[]) =>
 	// eslint-disable-next-line no-console
-	console.info.apply(null, [`%c${event}()`, 'color: deeppink;', ...rest]);
+	console.info.apply(null, [`%c${title}()`, 'color: deeppink;', ...rest]);
 
-const logResponse = (event: string, ...rest: unknown[]) =>
+const logResponse = (title: string, ...rest: unknown[]) =>
 	// eslint-disable-next-line no-console
 	console.log.apply(null, [
-		`%c${event} %cresult`,
+		`%c${title} %cresult`,
 		'color: deeppink;',
 		'',
 		...rest,
@@ -28,7 +28,9 @@ onConsentChange((response) => {
 const isInUsa = localStorage.getItem('inUSA') === 'true';
 cmp.init({ isInUsa });
 logCall('cmp.init', { isInUsa });
+
 // *************** START commercial.dcr.js hotfix ***************
+// init again to check hotfix
 cmp.init({ isInUsa });
 // *************** END commercial.dcr.js hotfix ***************
 
