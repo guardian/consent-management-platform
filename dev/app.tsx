@@ -1,35 +1,38 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { cmp, onConsentChange, oldCmp } from '../src/index';
+import { cmp, onConsentChange } from '../src/index';
 
+const logCall = (title: string, ...rest: unknown[]) =>
+	// eslint-disable-next-line no-console
+	console.info.apply(null, [`%c${title}()`, 'color: deeppink;', ...rest]);
+
+const logResponse = (title: string, ...rest: unknown[]) =>
+	// eslint-disable-next-line no-console
+	console.log.apply(null, [
+		`%c${title} %cresult`,
+		'color: deeppink;',
+		'',
+		...rest,
+	]);
+
+logCall('cmp.willShowPrivacyMessage');
 cmp.willShowPrivacyMessage().then((willShow) => {
-	// eslint-disable-next-line no-console
-	console.log('DEV willShowPrivacyMessage', { willShow });
+	logResponse('cmp.willShowPrivacyMessage', { willShow });
 });
 
-onConsentChange(({ tcfv2, ccpa }) => {
-	// eslint-disable-next-line no-console
-	console.log('DEV onConsent', { tcfv2, ccpa });
+logCall('onConsentChange');
+onConsentChange((response) => {
+	logResponse('onConsentChange', response);
 });
 
-if (
-	localStorage.getItem('inUSA') !== 'true' &&
-	localStorage.getItem('oldCMP') === 'true'
-) {
-	document.body.insertAdjacentHTML('afterbegin', '<div id="app"/>');
+const isInUsa = localStorage.getItem('inUSA') === 'true';
+cmp.init({ isInUsa });
+logCall('cmp.init', { isInUsa });
 
-	ReactDOM.render(
-		<oldCmp.ConsentManagementPlatform onClose={() => {}} />,
-		document.getElementById('app'),
-	);
-} else {
-	cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
-	// *************** START commercial.dcr.js hotfix ***************
-	cmp.init({ isInUsa: localStorage.getItem('inUSA') === 'true' });
-	// *************** END commercial.dcr.js hotfix ***************
-}
+// *************** START commercial.dcr.js hotfix ***************
+// init again to check hotfix
+cmp.init({ isInUsa });
+// *************** END commercial.dcr.js hotfix ***************
 
 const locationLabel = document.createElement('label');
 locationLabel.innerHTML = 'in USA';
@@ -48,51 +51,12 @@ locationControl.onclick = () => {
 locationLabel.appendChild(locationControl);
 document.body.append(locationLabel);
 
-const stagingLabel = document.createElement('label');
-stagingLabel.innerHTML = 'use staging campaign';
-stagingLabel.style.display = 'flex';
-stagingLabel.style.flexDirection = 'row-reverse';
-stagingLabel.style.justifyContent = 'flex-end';
-
-if (localStorage.getItem('staging') === null) {
-	localStorage.setItem('staging', 'true');
-	window.location.search = '_sp_env=stage';
-}
-
-const stagingControl = document.createElement('input');
-stagingControl.type = 'checkbox';
-stagingControl.checked = localStorage.getItem('staging') === 'true';
-stagingControl.onclick = () => {
-	localStorage.setItem('staging', stagingControl.checked.toString());
-	window.location.search = stagingControl.checked ? '_sp_env=stage' : '';
-};
-
-stagingLabel.appendChild(stagingControl);
-document.body.append(stagingLabel);
-
-const versionLabel = document.createElement('label');
-versionLabel.innerHTML = 'use current CMP for TCF';
-versionLabel.style.display = 'flex';
-versionLabel.style.flexDirection = 'row-reverse';
-versionLabel.style.justifyContent = 'flex-end';
-
-const versionControl = document.createElement('input');
-versionControl.type = 'checkbox';
-versionControl.checked = localStorage.getItem('oldCMP') === 'true';
-versionControl.onclick = () => {
-	localStorage.setItem('oldCMP', versionControl.checked.toString());
-	window.location.reload();
-};
-
-versionLabel.appendChild(versionControl);
-document.body.append(versionLabel);
-
 const settingsButton = document.createElement('button');
 settingsButton.innerText = 'show privacy settings';
-settingsButton.onclick =
-	localStorage.getItem('oldCMP') === 'true'
-		? oldCmp.showPrivacyManager
-		: cmp.showPrivacyManager;
+settingsButton.onclick = () => {
+	logCall('cmp.showPrivacyManager');
+	cmp.showPrivacyManager();
+};
 settingsButton.style.marginTop = '1rem';
 settingsButton.style.display = 'block';
 document.body.append(settingsButton);

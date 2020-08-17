@@ -6,7 +6,7 @@
 			"jsx": true
 		}
 	},
-	"plugins": ["@typescript-eslint", "jest", "react", "prettier"],
+	"plugins": ["@typescript-eslint", "jest", "prettier"],
 	"extends": [
 		"plugin:@typescript-eslint/recommended",
 		"airbnb-typescript/base",
@@ -14,8 +14,7 @@
 		"plugin:prettier/recommended",
 		"plugin:import/errors",
 		"plugin:import/warnings",
-		"plugin:import/typescript",
-		"plugin:react/recommended"
+		"plugin:import/typescript"
 	],
 	"env": {
 		"jest/globals": true,
@@ -28,7 +27,6 @@
 		"class-methods-use-this": [2, { "exceptMethods": ["componentDidMount"] }],
 		"import/no-default-export": 2,
 		"import/prefer-default-export": 0,
-		"import/no-unresolved": ["error", { "ignore": ["react", "@emotion/core"] }],
 		"import-name": 0,
 		"interface-name": 0,
 		"interface-over-type-literal": 0,
@@ -45,10 +43,5 @@
 			}
 		}
 	],
-	"ignorePatterns": ["dist", ".*"],
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
-	}
+	"ignorePatterns": ["dist", ".*"]
 }

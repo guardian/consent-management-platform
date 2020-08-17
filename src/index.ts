@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-import { oldCmp } from './oldCmp';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
 import { SourcepointImplementation, PubData } from './types';
@@ -76,5 +75,3 @@ if (window) {
 export const { cmp, onConsentChange } =
 	(window?.guCmpHotFix as typeof actualExports) || actualExports;
 // *************** END commercial.dcr.js hotfix ***************
-
-export { oldCmp };
