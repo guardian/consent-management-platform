@@ -17,31 +17,36 @@ export interface ConsentState {
 	};
 }
 
-interface ComparedConsentState {
-	hasChanged: boolean;
-	state: ConsentState;
-}
-
 type Callback = (arg0: ConsentState) => void;
+type CallbackQueueItem = { fn: Callback; lastState?: string };
 
 // callbacks cache
-const callBacks: Array<Callback> = [];
+const callBackQueue: CallbackQueueItem[] = [];
+
+const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
+	const stateString = JSON.stringify(state);
+
+	if (stateString !== callback.lastState) {
+		callback.fn(state);
+		// eslint-disable-next-line no-param-reassign
+		callback.lastState = stateString;
+	}
+};
 
 // invokes all stored callbacks with the current consent state
 export const invokeCallbacks = () => {
-	getConsentState().then(({ state, hasChanged }) => {
+	getConsentState().then((state) => {
 		// this function is triggered by SP events.
 		// but THEY sometimes fire even if consent state hasn't _actually_ changed,
 		// e.g. user closes dialogue without making changes.
 		// therefore, only invoke callbacks if the consent state _has_ changed:
-		if (hasChanged) {
-			callBacks.forEach((callBack) => callBack(state));
-		}
+
+		callBackQueue.forEach((callback) => invokeCallback(callback, state));
 	});
 };
 
 // get the current constent state using the official IAB methods
-const getConsentState: () => Promise<ComparedConsentState> = () => {
+const getConsentState: () => Promise<ConsentState> = () => {
 	return new Promise((resolve, reject) => {
 		// in USA - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
 		/* istanbul ignore else */
@@ -55,27 +60,31 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 						doNotSell = true;
 					}
 
-					resolve(compareState({ ccpa: { doNotSell } }));
+					resolve({ ccpa: { doNotSell } });
 				} else {
 					reject();
 				}
 			});
 		} else if (window.__tcfapi) {
 			// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
-			const tcfApi = window.__tcfapi;
 
 			const getTCDataPromise = new Promise((subResolve, subReject) => {
-				tcfApi('getTCData', 2, (tcfData, success) => {
+				window.__tcfapi?.('getTCData', 2, (tcfData, success) => {
 					if (success) subResolve(tcfData);
 					else subReject(new Error('Unable to get consent data'));
 				});
 			});
+
 			const getCustomVendorConsentsPromise = new Promise(
 				(subResolve, subReject) => {
-					tcfApi('getCustomVendorConsents', 2, (vendorConsents, success) => {
-						if (success && vendorConsents) subResolve(vendorConsents);
-						else subReject(new Error('Unable to get custom vendors consent'));
-					});
+					window.__tcfapi?.(
+						'getCustomVendorConsents',
+						2,
+						(vendorConsents, success) => {
+							if (success && vendorConsents) subResolve(vendorConsents);
+							else subReject(new Error('Unable to get custom vendors consent'));
+						},
+					);
 				},
 			);
 
@@ -92,15 +101,13 @@ const getConsentState: () => Promise<ComparedConsentState> = () => {
 							(acc, cur) => ({ ...acc, [cur]: grants[cur].vendorGrant }),
 							{},
 						);
-					resolve(
-						compareState({
-							tcfv2: {
-								consents,
-								eventStatus,
-								vendorConsents,
-							},
-						}),
-					);
+					resolve({
+						tcfv2: {
+							consents,
+							eventStatus,
+							vendorConsents,
+						},
+					});
 				})
 				.catch(() =>
 					reject(new Error('Unable to get custom vendor or consent data')),
@@ -131,31 +138,17 @@ const fillAllConsents: ConsentObject = (consentVector) => {
 	};
 };
 
-// cache current consent state as a JSON for quick comparison
-let currentConsentState: string = JSON.stringify(undefined);
-
-// compare new state with current state
-type CompareState = (newState: ConsentState) => ComparedConsentState;
-
-const compareState: CompareState = (newState) => {
-	const newConsentState = JSON.stringify(newState);
-	const hasChanged = newConsentState !== currentConsentState;
-
-	currentConsentState = newConsentState;
-
-	return {
-		state: newState,
-		hasChanged,
-	};
-};
-
 export const onConsentChange = (callBack: Callback) => {
-	callBacks.push(callBack);
+	const newCallback: CallbackQueueItem = { fn: callBack };
+
+	callBackQueue.push(newCallback);
 
 	// if consentState is already available, invoke callback immediately
 	getConsentState()
 		.then((consentState) => {
-			if (consentState) callBack(consentState.state);
+			if (consentState) {
+				invokeCallback(newCallback, consentState);
+			}
 		})
 		.catch(() => {
 			// do nothing - callback will be added the list anyway
