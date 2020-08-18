@@ -151,7 +151,7 @@ export const onConsentChange = (callBack: Callback) => {
 			}
 		})
 		.catch(() => {
-			// do nothing - callback will be added the list anyway
+			// do nothing - callback will be added the list anyway and executed when consent changes
 		});
 };
 
