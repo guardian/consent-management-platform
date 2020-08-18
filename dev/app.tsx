@@ -2,6 +2,8 @@
 
 import { cmp, onConsentChange } from '../src/index';
 
+/* ************** debug tools ************** */
+
 const logCall = (title: string, ...rest: unknown[]) =>
 	// eslint-disable-next-line no-console
 	console.info.apply(null, [`%c${title}()`, 'color: deeppink;', ...rest]);
@@ -15,24 +17,39 @@ const logResponse = (title: string, ...rest: unknown[]) =>
 		...rest,
 	]);
 
-logCall('cmp.willShowPrivacyMessage');
+/* ************** library usage ************** */
+
+// Mimic behaviour of real-world usage.
+// We call everything more than once to make sure that doesn't break anything.
+
+logCall('cmp.willShowPrivacyMessage 1');
 cmp.willShowPrivacyMessage().then((willShow) => {
-	logResponse('cmp.willShowPrivacyMessage', { willShow });
+	logResponse('cmp.willShowPrivacyMessage 1', { willShow });
 });
 
-logCall('onConsentChange');
+logCall('onConsentChange 1');
 onConsentChange((response) => {
-	logResponse('onConsentChange', response);
+	logResponse('onConsentChange 1', response);
 });
 
 const isInUsa = localStorage.getItem('inUSA') === 'true';
+logCall('cmp.init 1', { isInUsa });
 cmp.init({ isInUsa });
-logCall('cmp.init', { isInUsa });
 
-// *************** START commercial.dcr.js hotfix ***************
-// init again to check hotfix
+logCall('onConsentChange 2');
+onConsentChange((response) => {
+	logResponse('onConsentChange 2', response);
+});
+
+logCall('cmp.init 2', { isInUsa });
 cmp.init({ isInUsa });
-// *************** END commercial.dcr.js hotfix ***************
+
+logCall('cmp.willShowPrivacyMessage 2');
+cmp.willShowPrivacyMessage().then((willShow) => {
+	logResponse('cmp.willShowPrivacyMessage 2', { willShow });
+});
+
+/* ************** test page controls ************** */
 
 const locationLabel = document.createElement('label');
 locationLabel.innerHTML = 'in USA';
