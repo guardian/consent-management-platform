@@ -31,10 +31,6 @@ describe('Sourcepoint CCPA', () => {
 		expect(typeof window._sp_ccpa.config.events.onConsentReady).toBe(
 			'function',
 		);
-
-		expect(typeof window._sp_ccpa.config.events.onMessageReceiveData).toBe(
-			'function',
-		);
 	});
 
 	it('injects the lib', () => {
