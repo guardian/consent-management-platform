@@ -40,7 +40,7 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	}
 
 	CMP = isInUsa ? CCPA : TCFv2;
-	CMP?.init(pubData);
+	CMP?.init(pubData || {});
 	resolveInitialised?.();
 }
 

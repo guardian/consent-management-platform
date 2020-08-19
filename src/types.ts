@@ -26,24 +26,8 @@ export type SourcePointChoiceType =
 	| 14
 	| 15;
 
-export interface CCPAData {
-	version: number;
-	uspString: string;
-}
-
-// our partial implementation of https://git.io/JJtY6
-export interface TCFData {
-	version: number;
-	eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
-	purpose: {
-		consents: {
-			[key: number]: boolean;
-		};
-	};
-}
-
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
-export interface VendorConsents {
+interface VendorConsents {
 	grants: {
 		[key: string]: {
 			purposeGrants: {

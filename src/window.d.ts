@@ -1,10 +1,4 @@
-import {
-	PubData,
-	SourcePointChoiceType,
-	CCPAData,
-	TCFData,
-	VendorConsents,
-} from './types';
+import { PubData, SourcePointChoiceType, CCPAData, TCData } from './types';
 
 declare global {
 	interface Window {
@@ -80,10 +74,7 @@ declare global {
 		__tcfapi?: (
 			command: string,
 			version: number,
-			callback: (
-				tcData: TCFData | VendorConsents | undefined,
-				success: boolean,
-			) => void,
+			callback: (tcData: TCData, success: boolean) => void,
 			vendorIDs?: number[],
 		) => void;
 	}
