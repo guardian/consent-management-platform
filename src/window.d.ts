@@ -1,4 +1,6 @@
-import { PubData, SourcePointChoiceType, CCPAData, TCData } from './types';
+import { PubData, SourcePointChoiceType } from './types';
+import { CCPAData } from './ccpa/types/CCPAData';
+import { TCData } from './tcfv2/types/TCData';
 
 declare global {
 	interface Window {
