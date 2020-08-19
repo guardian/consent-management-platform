@@ -1,4 +1,4 @@
-import { PubData, SourcePointChoiceType } from './types';
+import { PubData } from './types';
 import { CCPAData } from './ccpa/types/CCPAData';
 import { TCData } from './tcfv2/types/TCData';
 
@@ -60,7 +60,7 @@ declare global {
 					onMessageReceiveData: (data: { messageId: 0 | string }) => void;
 					onMessageChoiceSelect: (
 						arg0: number,
-						arg1: SourcePointChoiceType,
+						arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
 					) => void;
 				};
 			};
@@ -81,8 +81,3 @@ declare global {
 		) => void;
 	}
 }
-
-// globals set on the window by the CMP library
-// interface Window {
-
-// }
