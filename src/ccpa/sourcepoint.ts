@@ -14,6 +14,9 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 export const init = (pubData = {}) => {
 	stub();
 
+	// invoke callbacks ASAP in USA
+	invokeCallbacks();
+
 	// make sure nothing else on the page has accidentally
 	// used the _sp_* name as well
 	if (window._sp_ccpa) {
@@ -47,16 +50,6 @@ export const init = (pubData = {}) => {
 				},
 				onMessageReceiveData: (data) => {
 					resolveWillShowPrivacyMessage?.(data.msg_id !== 0);
-				},
-				onMessageChoiceSelect: (_choiceId, choiceTypeID) => {
-					if (
-						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
-						choiceTypeID === 11 ||
-						choiceTypeID === 13 ||
-						choiceTypeID === 15
-					) {
-						setTimeout(invokeCallbacks, 0);
-					}
 				},
 			},
 		},

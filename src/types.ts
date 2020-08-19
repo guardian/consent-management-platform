@@ -1,11 +1,14 @@
 export interface PubData {
 	browserId?: string;
 }
+
 export interface SourcepointImplementation {
 	init: (pubData?: PubData) => void;
-	willShowPrivacyMessage: () => Promise<boolean>;
+	willShowPrivacyMessage: WillShowPrivacyMessage;
 	showPrivacyManager: () => void;
 }
+
+export type WillShowPrivacyMessage = () => Promise<boolean>;
 
 export type SourcePointChoiceType =
 	| 1

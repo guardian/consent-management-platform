@@ -43,10 +43,6 @@ declare global {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
 					onMessageReceiveData: (data: { msg_id: 0 | string }) => void;
-					onMessageChoiceSelect: (
-						arg0: number,
-						arg1: SourcePointChoiceType,
-					) => void;
 				};
 			};
 			loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
