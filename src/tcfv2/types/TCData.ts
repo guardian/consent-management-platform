@@ -97,7 +97,7 @@ export interface TCData {
 				 * 1 - Require Consents
 				 * 2 - Require Legitimate Interest
 				 */
-				[key: string]: 1;
+				[key: string]: 0 | 1 | 2;
 			};
 		};
 	};
