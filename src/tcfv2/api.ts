@@ -13,10 +13,13 @@ type Command =
 const api = (command: Command) =>
 	new Promise((resolve, reject) => {
 		if (window.__tcfapi) {
-			window.__tcfapi?.(command, 2, (result, success) => {
-				if (success) resolve(result);
-				else reject(new Error('Unable to get tcfapi data'));
-			});
+			window.__tcfapi(command, 2, (result, success) =>
+				success
+					? resolve(result)
+					: reject(new Error('Unable to get tcfapi data')),
+			);
+		} else {
+			reject(new Error('No __tcfapi found on window'));
 		}
 	});
 

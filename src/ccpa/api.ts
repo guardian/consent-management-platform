@@ -7,13 +7,13 @@ type Command = 'getUSPData';
 const api = (command: Command) =>
 	new Promise((resolve, reject) => {
 		if (window.__uspapi) {
-			window.__uspapi(command, 1, (result, success) => {
-				if (success) {
-					resolve(result);
-				} else {
-					reject();
-				}
-			});
+			window.__uspapi(command, 1, (result, success) =>
+				success
+					? resolve(result)
+					: reject(new Error('Unable to get uspapi data')),
+			);
+		} else {
+			reject(new Error('No __uspapi found on window'));
 		}
 	});
 
