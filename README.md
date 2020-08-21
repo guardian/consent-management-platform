@@ -173,8 +173,6 @@ cmp.__disable(); // CMP won't run even if you try
 
 returns: `void`
 
-Enables Guardian consent management in the current browser.
-
 #### Example
 
 ```js
