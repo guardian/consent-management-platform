@@ -5,6 +5,7 @@ import replace from 'rollup-plugin-replace';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import resolve from 'rollup-plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 import path from 'path';
 
 const extensions = ['.js', '.ts', '.tsx'];
@@ -26,6 +27,7 @@ export default {
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('development'),
 		}),
+		terser({ safari10: true }),
 		serve(dist),
 		html(),
 		livereload({ watch: dist }),
