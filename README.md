@@ -14,7 +14,7 @@ and TCFv2 to everyone else.
 import { cmp } from '@guardian/consent-management-platform';
 ```
 
-### cmp.init(options)
+### `cmp.init(options)`
 
 returns: `void`
 
@@ -22,14 +22,14 @@ Adds the relevent privacy framework to the page. It must be called to enable
 privacy management.
 If necessary, it will also display the initial privacy message.
 
-#### options.isInUsa
+#### `options.isInUsa`
 
 type: `boolean`
 
 Declare whether your user is in the USA or not. Required – *throws an error if
 it's missing.*
 
-#### options.pubData
+#### `options.pubData`
 
 type: `Object`
 
@@ -41,7 +41,7 @@ Pass additional parameters for for reporting. Optional.
 cmp.init({ pubData: { browserId: 'gow59fnwohwmshz' }, isInUsa: false });
 ```
 
-### cmp.willShowPrivacyMessage()
+### `cmp.willShowPrivacyMessage()`
 
 returns: `Promise<Boolean>`
 
@@ -63,7 +63,7 @@ cmp.willShowPrivacyMessage()
     );
 ```
 
-### cmp.showPrivacyManager()
+### `cmp.showPrivacyManager()`
 
 Displays an interface that allows users to manage
 their privacy settings at any time.
@@ -80,7 +80,7 @@ cmp.showPrivacyManager();
 import { onConsentChange } from '@guardian/consent-management-platform';
 ```
 
-### onConsentChange(callback)
+### `onConsentChange(callback)`
 
 returns: `void`
 
@@ -92,13 +92,13 @@ An event listener that invokes callbacks whenever the consent state:
 If the consent state has already been acquired when `onConsentChange` is called,
 the callback will be invoked immediately.
 
-#### callback(result)
+#### `callback(result)`
 
 type: `function`
 
 Reports the user's privacy preferences.
 
-##### result.tcfv2
+##### `result.tcfv2`
 
 type: `Object` or `undefined`
 
@@ -126,7 +126,7 @@ boolean value, defaulting to `false` where no explicit consent was given.
 }
 ```
 
-##### result.ccpa
+##### `result.ccpa`
 
 type: `Object` or `undefined`
 
@@ -154,6 +154,48 @@ onConsentChange(({ tcfv2, ccpa }) => {
     }
 });
 ```
+
+## Disabling the CMP
+
+It is possible to disable the CMP entirely in the current browser, which can be useful for testing host applications.
+
+### `cmp.__disable()`
+
+returns: `void`
+
+#### Example
+
+```js
+cmp.__disable(); // CMP won't run even if you try
+```
+
+### `cmp.__enable()`
+
+returns: `void`
+
+Enables Guardian consent management in the current browser.
+
+#### Example
+
+```js
+cmp.__enable(); // CMP will work as normal
+```
+
+### `cmp.__isDisabled()`
+
+returns: `boolean`
+
+#### Example
+
+```js
+cmp.__isDisabled(); // => true/false
+```
+
+### Manually
+
+Set a `gu-cmp-disabled=true` cookie. This is the same as running `cmp.__disable()`.
+
+Removing it is the same as running `cmp.__enable()`.
 
 ## Development
 
