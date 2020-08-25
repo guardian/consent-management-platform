@@ -157,7 +157,7 @@ onConsentChange(({ tcfv2, ccpa }) => {
 
 ## TCFv1 (deprecated)
 
-_These should not be used after 15 August 2020, and will be deleted shortly afterwards._
+_Since 15 August 2020, TCFv1 is deprecated and `oldCmp` should not be used._
 
 #### oldCmp.onGuConsentNotification
 
