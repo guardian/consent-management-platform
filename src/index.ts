@@ -92,3 +92,5 @@ if (window) {
 export const { cmp, onConsentChange } =
 	(window?.guCmpHotFix as typeof actualExports) || actualExports;
 // *************** END commercial.dcr.js hotfix ***************
+
+export { oldCmp } from './oldCmp'; // DEPRECATED: will be tree-shaken out
