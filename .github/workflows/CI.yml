@@ -18,12 +18,13 @@ jobs:
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
-      
 
             - name: Run unit tests
               uses: mattallty/jest-github-action@v1.0.3
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  test-command: 'yarn test --coverage'
     lint:
         name: Linting
         runs-on: ubuntu-latest
