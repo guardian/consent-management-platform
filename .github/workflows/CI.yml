@@ -22,8 +22,8 @@ jobs:
 
             - name: Run unit tests
               uses: mattallty/jest-github-action@v1.0.3
-              with:
-                  test-command: 'yarn test --coverage --ci'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     lint:
         name: Linting
         runs-on: ubuntu-latest
