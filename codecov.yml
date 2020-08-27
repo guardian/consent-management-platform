@@ -1,5 +1,5 @@
 codecov:
-    require_ci_to_pass: no
+    require_ci_to_pass: yes
 
 coverage:
     precision: 2
@@ -17,6 +17,9 @@ parsers:
             method: no
             macro: no
 
-comment: false
+comment:
+    layout: 'reach, diff, flags, files'
+    require_changes: true
+
 github_checks:
     annotations: true
