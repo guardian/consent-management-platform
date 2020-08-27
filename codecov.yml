@@ -24,10 +24,6 @@ parsers:
             method: no
             macro: no
 
-comment:
-    layout: 'files'
-    behavior: new
-    require_changes: no
-
+comment: false
 github_checks:
     annotations: true
