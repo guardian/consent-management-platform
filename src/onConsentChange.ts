@@ -34,7 +34,7 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 };
 
 // invokes all stored callbacks with the current consent state
-export const invokeCallbacks = () => {
+export const invokeCallbacks = (): void => {
 	getConsentState().then((state) => {
 		// this function is triggered by SP events.
 		// but THEY sometimes fire even if consent state hasn't _actually_ changed,
@@ -138,7 +138,7 @@ const fillAllConsents: ConsentObject = (consentVector) => {
 	};
 };
 
-export const onConsentChange = (callBack: Callback) => {
+export const onConsentChange = (callBack: Callback): void => {
 	const newCallback: CallbackQueueItem = { fn: callBack };
 
 	callBackQueue.push(newCallback);
