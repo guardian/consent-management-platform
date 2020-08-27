@@ -19,7 +19,7 @@ parsers:
 
 comment:
     layout: 'reach, diff, flags, files'
-    require_changes: true
+    require_changes: false
 
 github_checks:
     annotations: true
