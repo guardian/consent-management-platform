@@ -1,10 +1,20 @@
 codecov:
-    require_ci_to_pass: yes
+    require_ci_to_pass: no
 
 coverage:
     precision: 2
     round: down
     range: '70...100'
+    status:
+        patch:
+            default:
+                # basic
+                target: auto
+                threshold: 5%
+                flags:
+                    - 'unit'
+                paths:
+                    - 'src'
 
 parsers:
     gcov:
