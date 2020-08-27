@@ -18,7 +18,7 @@ parsers:
             macro: no
 
 comment:
-    layout: 'reach, diff, flags, files'
+    layout: 'reach, files'
     require_changes: false
 
 github_checks:
