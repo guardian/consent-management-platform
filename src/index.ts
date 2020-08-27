@@ -15,9 +15,9 @@ import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 
 let CMP: SourcepointImplementation | undefined;
 
-let resolveInitialised: Function | undefined;
+let resolveInitialised: typeof Promise.resolve;
 const initialised = new Promise((resolve) => {
-	resolveInitialised = resolve;
+	resolveInitialised = resolve as typeof Promise.resolve;
 });
 
 function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
@@ -92,3 +92,5 @@ if (window) {
 export const { cmp, onConsentChange } =
 	(window?.guCmpHotFix as typeof actualExports) || actualExports;
 // *************** END commercial.dcr.js hotfix ***************
+
+export { oldCmp } from './oldCmp'; // DEPRECATED: will be tree-shaken out

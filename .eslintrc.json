@@ -1,10 +1,7 @@
 {
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"project": "./tsconfig.json",
-		"ecmaFeatures": {
-			"jsx": true
-		}
+		"project": "./tsconfig.json"
 	},
 	"plugins": ["@typescript-eslint", "jest", "prettier"],
 	"extends": [
@@ -24,6 +21,27 @@
 		"@typescript-eslint/consistent-type-definitions": 0,
 		"@typescript-eslint/explicit-function-return-type": 0,
 		"@typescript-eslint/no-use-before-define": 0,
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				"selector": "variableLike",
+				"format": ["camelCase", "UPPER_CASE"],
+				"filter": {
+					"regex": "^(_|TCFv2)$",
+					"match": false
+				}
+			},
+			{
+				"selector": "typeLike",
+				"format": ["PascalCase"]
+			},
+			{
+				"selector": "memberLike",
+				"modifiers": ["private"],
+				"format": ["camelCase"],
+				"leadingUnderscore": "require"
+			}
+		],
 		"class-methods-use-this": [2, { "exceptMethods": ["componentDidMount"] }],
 		"import/no-default-export": 2,
 		"import/prefer-default-export": 0,
@@ -43,5 +61,5 @@
 			}
 		}
 	],
-	"ignorePatterns": ["dist", ".*"]
+	"ignorePatterns": ["dist", "coverage"]
 }
