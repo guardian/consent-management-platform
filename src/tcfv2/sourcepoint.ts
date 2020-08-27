@@ -6,12 +6,12 @@ import { ACCOUNT_ID } from '../lib/sourcepointConfig';
 import { isGuardianDomain } from '../lib/domain';
 import { invokeCallbacks } from '../onConsentChange';
 
-let resolveWillShowPrivacyMessage: Function | undefined;
+let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
-	resolveWillShowPrivacyMessage = resolve;
+	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-export const init = (pubData = {}) => {
+export const init = (pubData = {}): void => {
 	stub();
 
 	// // make sure nothing else on the page has accidentally
@@ -43,7 +43,7 @@ export const init = (pubData = {}) => {
 				onMessageReceiveData: (data) => {
 					resolveWillShowPrivacyMessage?.(data.messageId !== 0);
 				},
-				onMessageChoiceSelect: (_choiceId, choiceTypeID) => {
+				onMessageChoiceSelect: (_, choiceTypeID) => {
 					if (
 						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
 						choiceTypeID === 11 ||
