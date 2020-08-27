@@ -22,8 +22,7 @@ export const init = (pubData = {}) => {
 
 	window._sp_ = {
 		config: {
-			mmsDomain: 'https://consent.theguardian.com',
-			wrapperAPIOrigin: 'https://wrapper-api.sp-prod.net/tcfv2',
+			baseEndpoint: 'https://sourcepoint.theguardian.com',
 			accountId: ACCOUNT_ID,
 			propertyHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
 			targetingParams: {
@@ -61,7 +60,7 @@ export const init = (pubData = {}) => {
 	const tcfLib = document.createElement('script');
 	tcfLib.id = 'sourcepoint-tcfv2-lib';
 	tcfLib.src =
-		'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js';
+		'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js';
 
 	document.body.appendChild(tcfLib);
 };

@@ -27,7 +27,7 @@ export const init = (pubData = {}) => {
 
 	window._sp_ccpa = {
 		config: {
-			mmsDomain: 'https://consent.theguardian.com',
+			mmsDomain: 'https://sourcepoint.theguardian.com',
 			ccpaOrigin: 'https://ccpa-service.sp-prod.net',
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
@@ -57,6 +57,6 @@ export const init = (pubData = {}) => {
 
 	const ccpaLib = document.createElement('script');
 	ccpaLib.id = 'sourcepoint-ccpa-lib';
-	ccpaLib.src = 'https://ccpa.sp-prod.net/ccpa.js';
+	ccpaLib.src = 'https://sourcepoint.theguardian.com/ccpa.js';
 	document.body.appendChild(ccpaLib);
 };
