@@ -6,15 +6,15 @@ coverage:
     round: down
     range: '70...100'
     status:
+        project:
+            default: false
+            tests:
+                target: auto
+                paths: 'src/'
         patch:
             default:
-                # basic
                 target: auto
                 threshold: 5%
-                flags:
-                    - 'unit'
-                paths:
-                    - 'src'
 
 parsers:
     gcov:
