@@ -18,8 +18,8 @@ describe('Sourcepoint TCF', () => {
 		init();
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();
-		expect(window._sp_.config.mmsDomain).toEqual(
-			'https://consent.theguardian.com',
+		expect(window._sp_.config.baseEndpoint).toEqual(
+			'https://sourcepoint.theguardian.com',
 		);
 		expect(window._sp_.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');
