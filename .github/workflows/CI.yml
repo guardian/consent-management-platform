@@ -25,6 +25,10 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   test-command: 'yarn test --coverage --ci'
+
+            - name: Check coverage
+              uses: codecov/codecov-action@v1.0.13
+
     lint:
         name: Linting
         runs-on: ubuntu-latest
