@@ -20,11 +20,11 @@ jobs:
               uses: bahmutov/npm-install@v1
 
             - name: Run unit tests
-              uses: mattallty/jest-github-action@v1.0.3
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  test-command: 'yarn jest'
+              run: yarn test
+
+            - name: Check coverage
+              uses: codecov/codecov-action@v1.0.13
+
     lint:
         name: Linting
         runs-on: ubuntu-latest
