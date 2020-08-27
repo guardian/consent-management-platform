@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-export const mark = (label: string) => {
+export const mark = (label: string): void => {
 	window.performance?.mark?.(label);
 
 	if (process.env.NODE_ENV !== 'test') {

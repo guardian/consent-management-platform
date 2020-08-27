@@ -41,7 +41,7 @@ declare global {
 					onMessageReceiveData: (data: { msg_id: 0 | string }) => void;
 				};
 			};
-			loadPrivacyManagerModal?: (unknown: unknown, id: string) => {}; // this function is undocumented
+			loadPrivacyManagerModal?: (unknown: unknown, id: string) => void; // this function is undocumented
 		};
 		_sp_?: {
 			config: {
@@ -64,7 +64,7 @@ declare global {
 					) => void;
 				};
 			};
-			loadPrivacyManagerModal?: (id: number) => {};
+			loadPrivacyManagerModal?: (id: number) => void;
 		};
 
 		// IAB interfaces - only one should be present at a time

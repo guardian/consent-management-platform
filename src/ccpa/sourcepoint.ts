@@ -6,12 +6,12 @@ import { isGuardianDomain } from '../lib/domain';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 
-let resolveWillShowPrivacyMessage: Function | undefined;
+let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
-	resolveWillShowPrivacyMessage = resolve;
+	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-export const init = (pubData = {}) => {
+export const init = (pubData = {}): void => {
 	stub();
 
 	// invoke callbacks ASAP in USA

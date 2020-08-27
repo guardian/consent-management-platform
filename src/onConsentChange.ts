@@ -31,7 +31,7 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 };
 
 // invokes all stored callbacks with the current consent state
-export const invokeCallbacks = () => {
+export const invokeCallbacks = (): void => {
 	getConsentState().then((state) => {
 		callBackQueue.forEach((callback) => invokeCallback(callback, state));
 	});
@@ -51,7 +51,7 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 	throw new Error('no IAB consent framework found on the page');
 };
 
-export const onConsentChange = (callBack: Callback) => {
+export const onConsentChange = (callBack: Callback): void => {
 	const newCallback: CallbackQueueItem = { fn: callBack };
 
 	callBackQueue.push(newCallback);

@@ -7,6 +7,7 @@ import {
 	PubData,
 	WillShowPrivacyMessage,
 } from './types';
+import { isDisabled, enable, disable } from './disable';
 
 // *************** START commercial.dcr.js hotfix ***************
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
@@ -14,12 +15,15 @@ import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 
 let CMP: SourcepointImplementation | undefined;
 
-let resolveInitialised: Function | undefined;
+let resolveInitialised: typeof Promise.resolve;
 const initialised = new Promise((resolve) => {
-	resolveInitialised = resolve;
+	resolveInitialised = resolve as typeof Promise.resolve;
 });
 
 function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
+	// provide a way to disable consent for test envs
+	if (isDisabled()) return;
+
 	// *************** START commercial.dcr.js hotfix ***************
 	if (window?.guCmpHotFix?.initialised) {
 		return;
@@ -65,7 +69,16 @@ function showPrivacyManager() {
 // export { onConsentChange } from './onConsentChange';
 
 const actualExports = {
-	cmp: { init, willShowPrivacyMessage, showPrivacyManager },
+	cmp: {
+		init,
+		willShowPrivacyMessage,
+		showPrivacyManager,
+
+		// special helper methods for disabling CMP
+		__isDisabled: isDisabled,
+		__enable: enable,
+		__disable: disable,
+	},
 	onConsentChange: actualOnConsentChange,
 };
 
@@ -79,3 +92,5 @@ if (window) {
 export const { cmp, onConsentChange } =
 	(window?.guCmpHotFix as typeof actualExports) || actualExports;
 // *************** END commercial.dcr.js hotfix ***************
+
+export { oldCmp } from './oldCmp'; // DEPRECATED: will be tree-shaken out
