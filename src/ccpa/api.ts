@@ -17,4 +17,5 @@ const api = (command: Command) =>
 		}
 	});
 
-export const getUSPData = () => api('getUSPData') as Promise<CCPAData>;
+export const getUSPData = (): Promise<CCPAData> =>
+	api('getUSPData') as Promise<CCPAData>;

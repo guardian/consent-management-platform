@@ -1,4 +1,4 @@
-import { PubData } from './types';
+import { PubData } from './types/PubData';
 import { CCPAData } from './ccpa/types/CCPAData';
 import { TCData } from './tcfv2/types/TCData';
 

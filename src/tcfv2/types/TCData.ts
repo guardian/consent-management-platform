@@ -1,6 +1,6 @@
-import { PingStatusCode } from './PingStatusCode';
-import { EventStatusCode } from './EventStatusCode';
-import { Consents } from './Consents';
+import { TCPingStatusCode } from './TCPingStatusCode';
+import { TCEventStatusCode } from './TCEventStatusCode';
+import { ConsentList } from './ConsentList';
 
 // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consents-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#tcdata
 
@@ -21,12 +21,12 @@ export interface TCData {
 	/*
 	 * see addEventListener command
 	 */
-	eventStatus: EventStatusCode;
+	eventStatus: TCEventStatusCode;
 
 	/**
-	 * see Ping Status Codes in following table
+	 * see Ping Status Codes
 	 */
-	cmpStatus: PingStatusCode;
+	cmpStatus: TCPingStatusCode;
 
 	/**
 	 * If this TCData is sent to the callback of addEventListener: number,
@@ -71,24 +71,24 @@ export interface TCData {
 	 * Only exists on global-scope TC
 	 */
 	outOfBand: {
-		allowedVendors: Consents;
-		disclosedVendors: Consents;
+		allowedVendors: ConsentList;
+		disclosedVendors: ConsentList;
 	};
 	purpose: {
-		consents: Consents;
-		legitimateInterests: Consents;
+		consents: ConsentList;
+		legitimateInterests: ConsentList;
 	};
 	vendor: {
-		consents: Consents;
-		legitimateInterests: Consents;
+		consents: ConsentList;
+		legitimateInterests: ConsentList;
 	};
-	specialFeatureOptins: Consents;
+	specialFeatureOptins: ConsentList;
 	publisher: {
-		consents: Consents;
-		legitimateInterests: Consents;
+		consents: ConsentList;
+		legitimateInterests: ConsentList;
 		customPurpose: {
-			consents: Consents;
-			legitimateInterests: Consents;
+			consents: ConsentList;
+			legitimateInterests: ConsentList;
 		};
 		restrictions: {
 			[key: string]: {

@@ -4,11 +4,9 @@ import {
 } from './sourcepoint';
 import { PRIVACY_MANAGER_CCPA } from '../lib/sourcepointConfig';
 import { mark } from '../lib/mark';
-import {
-	PubData,
-	SourcepointImplementation,
-	WillShowPrivacyMessage,
-} from '../types';
+import { PubData } from '../types/PubData';
+import { WillShowPrivacyMessage } from '../types/WillShowPrivacyMessage';
+import { SourcepointImplementation } from '../types/SourcepointImplementation';
 
 const init = (pubData?: PubData): void => {
 	mark('cmp-ccpa-init');

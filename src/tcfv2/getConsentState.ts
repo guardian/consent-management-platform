@@ -1,16 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 
 import { getTCData, getCustomVendorConsents } from './api';
-import { EventStatusCode } from './types/EventStatusCode';
-import { Consents } from './types/Consents';
+import { TCEventStatusCode } from './types/TCEventStatusCode';
+import { ConsentList } from './types/ConsentList';
 
 export interface TCFv2ConsentState {
-	consents: Consents;
-	eventStatus: EventStatusCode;
-	vendorConsents: Consents;
+	consents: ConsentList;
+	eventStatus: TCEventStatusCode;
+	vendorConsents: ConsentList;
 }
 
-const defaultConsents: Consents = {
+const defaultConsents: ConsentList = {
 	'1': false,
 	'2': false,
 	'3': false,
@@ -38,7 +38,7 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 	const { eventStatus } = tcData;
 	const { grants } = customVendors;
 
-	const vendorConsents: Consents = Object.entries(grants).reduce(
+	const vendorConsents: ConsentList = Object.entries(grants).reduce(
 		(acc, [vendor, { vendorGrant }]) => ({
 			...acc,
 			[vendor]: vendorGrant,

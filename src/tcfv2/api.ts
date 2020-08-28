@@ -23,6 +23,8 @@ const api = (command: Command) =>
 		}
 	});
 
-export const getTCData = () => api('getTCData') as Promise<TCData>;
-export const getCustomVendorConsents = () =>
+export const getTCData = (): Promise<TCData> =>
+	api('getTCData') as Promise<TCData>;
+
+export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
 	api('getCustomVendorConsents') as Promise<CustomVendorConsents>;
