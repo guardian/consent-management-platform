@@ -6,28 +6,40 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import resolve from 'rollup-plugin-node-resolve';
 import path from 'path';
+import { terser } from 'rollup-plugin-terser';
 
-const extensions = ['.js', '.ts', '.tsx'];
+const extensions = ['.js', '.ts'];
 
-const dist = '.dev';
+const dist = process.env.ROLLUP_WATCH ? '.dev' : '.gh-pages';
 
 // eslint-disable-next-line import/no-default-export
 export default {
-	input: path.resolve(__dirname, 'app.ts'),
+	input: path.resolve(__dirname, 'dev', 'app.ts'),
 	output: {
 		format: 'esm',
 		dir: dist,
-		sourcemap: 'inline',
+		sourcemap: process.env.ROLLUP_WATCH ? 'inline' : true,
 	},
 	plugins: [
 		babel({ extensions }),
 		resolve({ extensions }),
-		commonjs(),
+		commonjs({
+			namedExports: {
+				react: [
+					'createContext',
+					'forwardRef',
+					'createElement',
+					'Component',
+					'Fragment',
+				],
+			},
+		}),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('development'),
 		}),
-		serve(dist),
 		html(),
-		livereload({ watch: dist }),
+		...(process.env.ROLLUP_WATCH
+			? [serve(dist), livereload({ watch: dist })]
+			: [terser()]),
 	],
 };

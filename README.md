@@ -5,6 +5,7 @@
 The Guardian CMP handles applying the CCPA to users in the USA,
 and TCFv2 to everyone else.
 
+[![codecov](https://codecov.io/gh/guardian/consent-management-platform/branch/main/graph/badge.svg)](https://codecov.io/gh/guardian/consent-management-platform)
 ![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
 [![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
