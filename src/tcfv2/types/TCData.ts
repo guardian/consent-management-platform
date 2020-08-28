@@ -1,6 +1,6 @@
-import { TCPingStatusCode } from './TCPingStatusCode';
-import { TCEventStatusCode } from './TCEventStatusCode';
 import { ConsentList } from './ConsentList';
+import { TCEventStatusCode } from './TCEventStatusCode';
+import { TCPingStatusCode } from './TCPingStatusCode';
 
 // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consents-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#tcdata
 

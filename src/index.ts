@@ -1,12 +1,11 @@
 /* eslint-disable no-console */
 
 import { CCPA } from './ccpa';
+import { disable, enable, isDisabled } from './disable';
+import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import { PubData } from './types/PubData';
-import { isDisabled, enable, disable } from './disable';
-
 // *************** START commercial.dcr.js hotfix ***************
-import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { SourcepointImplementation } from './types/SourcepointImplementation';
 import { WillShowPrivacyMessage } from './types/WillShowPrivacyMessage';
 // *************** END commercial.dcr.js hotfix ***************

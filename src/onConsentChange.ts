@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import {
-	getConsentState as getCCPAConsentState,
 	CCPAConsentState,
+	getConsentState as getCCPAConsentState,
 } from './ccpa/getConsentState';
 import {
-	TCFv2ConsentState,
 	getConsentState as getTCFv2ConsentState,
+	TCFv2ConsentState,
 } from './tcfv2/getConsentState';
 
 type Callback = (arg0: ConsentState) => void;
@@ -30,13 +30,6 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 	}
 };
 
-// invokes all stored callbacks with the current consent state
-export const invokeCallbacks = (): void => {
-	getConsentState().then((state) => {
-		callBackQueue.forEach((callback) => invokeCallback(callback, state));
-	});
-};
-
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
 		// in USA - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
@@ -49,6 +42,13 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 	}
 
 	throw new Error('no IAB consent framework found on the page');
+};
+
+// invokes all stored callbacks with the current consent state
+export const invokeCallbacks = (): void => {
+	getConsentState().then((state) => {
+		callBackQueue.forEach((callback) => invokeCallback(callback, state));
+	});
 };
 
 export const onConsentChange = (callBack: Callback): void => {

@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
-import { getTCData, getCustomVendorConsents } from './api';
-import { TCEventStatusCode } from './types/TCEventStatusCode';
+import { getCustomVendorConsents, getTCData } from './api';
 import { ConsentList } from './types/ConsentList';
+import { TCEventStatusCode } from './types/TCEventStatusCode';
 
 export interface TCFv2ConsentState {
 	consents: ConsentList;

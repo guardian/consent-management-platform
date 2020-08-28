@@ -1,12 +1,12 @@
+import { mark } from '../lib/mark';
+import { PRIVACY_MANAGER_CCPA } from '../lib/sourcepointConfig';
+import { PubData } from '../types/PubData';
+import { SourcepointImplementation } from '../types/SourcepointImplementation';
+import { WillShowPrivacyMessage } from '../types/WillShowPrivacyMessage';
 import {
 	init as initSourcepoint,
 	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
 } from './sourcepoint';
-import { PRIVACY_MANAGER_CCPA } from '../lib/sourcepointConfig';
-import { mark } from '../lib/mark';
-import { PubData } from '../types/PubData';
-import { WillShowPrivacyMessage } from '../types/WillShowPrivacyMessage';
-import { SourcepointImplementation } from '../types/SourcepointImplementation';
 
 const init = (pubData?: PubData): void => {
 	mark('cmp-ccpa-init');
