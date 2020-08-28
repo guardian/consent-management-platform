@@ -1,20 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import {
-	CCPAConsentState,
-	getConsentState as getCCPAConsentState,
-} from './ccpa/getConsentState';
-import {
-	getConsentState as getTCFv2ConsentState,
-	TCFv2ConsentState,
-} from './tcfv2/getConsentState';
+import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
+import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
+import { ConsentState } from './types/ConsentState';
 
 type Callback = (arg0: ConsentState) => void;
 type CallbackQueueItem = { fn: Callback; lastState?: string };
-
-export interface ConsentState {
-	tcfv2?: TCFv2ConsentState;
-	ccpa?: CCPAConsentState;
-}
 
 // callbacks cache
 const callBackQueue: CallbackQueueItem[] = [];

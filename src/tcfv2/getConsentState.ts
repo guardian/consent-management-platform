@@ -2,13 +2,7 @@
 
 import { getCustomVendorConsents, getTCData } from './api';
 import { ConsentList } from './types/ConsentList';
-import { TCEventStatusCode } from './types/TCEventStatusCode';
-
-export interface TCFv2ConsentState {
-	consents: ConsentList;
-	eventStatus: TCEventStatusCode;
-	vendorConsents: ConsentList;
-}
+import { TCFv2ConsentState } from './types/TCFv2ConsentState';
 
 const defaultConsents: ConsentList = {
 	'1': false,

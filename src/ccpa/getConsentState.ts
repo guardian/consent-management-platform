@@ -1,10 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { getUSPData } from './api';
-
-export interface CCPAConsentState {
-	doNotSell: boolean;
-}
+import { CCPAConsentState } from './types/CCPAConsentState';
 
 // get the current constent state using the official IAB method
 export const getConsentState: () => Promise<CCPAConsentState> = async () => {
