@@ -1,7 +1,7 @@
 import {
+	CCPAData,
 	PubData,
 	SourcePointChoiceType,
-	CCPAData,
 	TCFData,
 	VendorConsents,
 } from './types';

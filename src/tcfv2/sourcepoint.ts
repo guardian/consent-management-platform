@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 
-import { stub } from './stub';
+import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
-import { isGuardianDomain } from '../lib/domain';
 import { invokeCallbacks } from '../onConsentChange';
+import { stub } from './stub';
 
 let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
