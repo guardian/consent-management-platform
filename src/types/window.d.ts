@@ -1,10 +1,6 @@
-import {
-	PubData,
-	SourcePointChoiceType,
-	CCPAData,
-	TCFData,
-	VendorConsents,
-} from './types';
+import { CCPAData } from './ccpa';
+import { TCData } from './tcfv2/TCData';
+import { PubData } from '.';
 
 declare global {
 	interface Window {
@@ -64,7 +60,7 @@ declare global {
 					onMessageReceiveData: (data: { messageId: 0 | string }) => void;
 					onMessageChoiceSelect: (
 						arg0: number,
-						arg1: SourcePointChoiceType,
+						arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
 					) => void;
 				};
 			};
@@ -80,16 +76,8 @@ declare global {
 		__tcfapi?: (
 			command: string,
 			version: number,
-			callback: (
-				tcData: TCFData | VendorConsents | undefined,
-				success: boolean,
-			) => void,
+			callback: (tcData: TCData, success: boolean) => void,
 			vendorIDs?: number[],
 		) => void;
 	}
 }
-
-// globals set on the window by the CMP library
-// interface Window {
-
-// }
