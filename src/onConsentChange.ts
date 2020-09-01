@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
-import { ConsentState } from './types/ConsentState';
+import { ConsentState } from './types';
 
 type Callback = (arg0: ConsentState) => void;
 type CallbackQueueItem = { fn: Callback; lastState?: string };

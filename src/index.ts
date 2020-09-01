@@ -4,11 +4,11 @@ import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
-import { PubData } from './types/PubData';
-// *************** START commercial.dcr.js hotfix ***************
-import { SourcepointImplementation } from './types/SourcepointImplementation';
-import { WillShowPrivacyMessage } from './types/WillShowPrivacyMessage';
-// *************** END commercial.dcr.js hotfix ***************
+import {
+	PubData,
+	SourcepointImplementation,
+	WillShowPrivacyMessage,
+} from './types';
 
 let CMP: SourcepointImplementation | undefined;
 

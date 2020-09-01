@@ -1,9 +1,6 @@
-import { ConsentList } from './ConsentList';
-import { TCEventStatusCode } from './TCEventStatusCode';
-import { TCPingStatusCode } from './TCPingStatusCode';
+import { TCEventStatusCode, TCFv2ConsentList, TCPingStatusCode } from '.';
 
-// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consents-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#tcdata
-
+// From the IAB spec – https://git.io/JJtY6
 export interface TCData {
 	tcString: string;
 	tcfPolicyVersion: number;
@@ -71,24 +68,24 @@ export interface TCData {
 	 * Only exists on global-scope TC
 	 */
 	outOfBand: {
-		allowedVendors: ConsentList;
-		disclosedVendors: ConsentList;
+		allowedVendors: TCFv2ConsentList;
+		disclosedVendors: TCFv2ConsentList;
 	};
 	purpose: {
-		consents: ConsentList;
-		legitimateInterests: ConsentList;
+		consents: TCFv2ConsentList;
+		legitimateInterests: TCFv2ConsentList;
 	};
 	vendor: {
-		consents: ConsentList;
-		legitimateInterests: ConsentList;
+		consents: TCFv2ConsentList;
+		legitimateInterests: TCFv2ConsentList;
 	};
-	specialFeatureOptins: ConsentList;
+	specialFeatureOptins: TCFv2ConsentList;
 	publisher: {
-		consents: ConsentList;
-		legitimateInterests: ConsentList;
+		consents: TCFv2ConsentList;
+		legitimateInterests: TCFv2ConsentList;
 		customPurpose: {
-			consents: ConsentList;
-			legitimateInterests: ConsentList;
+			consents: TCFv2ConsentList;
+			legitimateInterests: TCFv2ConsentList;
 		};
 		restrictions: {
 			[key: string]: {

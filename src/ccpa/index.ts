@@ -1,8 +1,10 @@
 import { mark } from '../lib/mark';
 import { PRIVACY_MANAGER_CCPA } from '../lib/sourcepointConfig';
-import { PubData } from '../types/PubData';
-import { SourcepointImplementation } from '../types/SourcepointImplementation';
-import { WillShowPrivacyMessage } from '../types/WillShowPrivacyMessage';
+import {
+	PubData,
+	SourcepointImplementation,
+	WillShowPrivacyMessage,
+} from '../types';
 import {
 	init as initSourcepoint,
 	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,

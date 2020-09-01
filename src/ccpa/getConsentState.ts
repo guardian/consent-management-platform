@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { getUSPData } from './api';
-import { CCPAConsentState } from './types/CCPAConsentState';
+import { CCPAConsentState } from './types';
 
 // get the current constent state using the official IAB method
 export const getConsentState: () => Promise<CCPAConsentState> = async () => {

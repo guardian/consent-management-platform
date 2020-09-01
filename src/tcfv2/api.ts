@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import { CustomVendorConsents } from './types/CustomVendorConsents';
-import { TCData } from './types/TCData';
+import { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
+import { TCData } from '../types/tcfv2/TCData';
 
 type Command =
 	| 'getTCData'
