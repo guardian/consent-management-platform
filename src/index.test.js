@@ -1,7 +1,7 @@
 import waitForExpect from 'wait-for-expect';
-import { cmp } from '.';
 import { CCPA } from './ccpa';
 import { TCFv2 } from './tcfv2';
+import { cmp } from '.';
 
 // just stop Jest erroring on these
 // can be deleted when olde cmp is removed

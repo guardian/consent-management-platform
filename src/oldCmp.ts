@@ -1,11 +1,11 @@
 import {
+	checkWillShowUi,
 	init,
 	onGuConsentNotification,
 	onIabConsentNotification,
-	checkWillShowUi,
+	setErrorHandler,
 	shouldShow,
 	showPrivacyManager,
-	setErrorHandler,
 } from '@guardian/old-cmp';
 import { ConsentManagementPlatform } from '@guardian/old-cmp/dist/ConsentManagementPlatform';
 

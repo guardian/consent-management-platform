@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 
 import { CCPA } from './ccpa';
+import { disable, enable, isDisabled } from './disable';
+import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
-	SourcepointImplementation,
 	PubData,
+	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
-import { isDisabled, enable, disable } from './disable';
 
 // *************** START commercial.dcr.js hotfix ***************
-import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 // *************** END commercial.dcr.js hotfix ***************
 
 let CMP: SourcepointImplementation | undefined;
