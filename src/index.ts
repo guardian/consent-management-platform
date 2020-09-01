@@ -10,6 +10,9 @@ import {
 	WillShowPrivacyMessage,
 } from './types';
 
+// *************** START commercial.dcr.js hotfix ***************
+// *************** END commercial.dcr.js hotfix ***************
+
 let CMP: SourcepointImplementation | undefined;
 
 let resolveInitialised: typeof Promise.resolve;
@@ -41,7 +44,7 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	}
 
 	CMP = isInUsa ? CCPA : TCFv2;
-	CMP?.init(pubData || {});
+	CMP?.init(pubData);
 	resolveInitialised?.();
 }
 
