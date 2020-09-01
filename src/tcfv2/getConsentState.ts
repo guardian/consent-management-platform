@@ -31,13 +31,9 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 	const { eventStatus } = tcData;
 	const { grants } = customVendors;
 
-	const vendorConsents: TCFv2ConsentList = Object.entries(grants).reduce(
-		(acc, [vendor, { vendorGrant }]) => ({
-			...acc,
-			[vendor]: vendorGrant,
-		}),
-		{},
-	);
+	const vendorConsents: TCFv2ConsentList = Object.keys(grants)
+		.sort()
+		.reduce((acc, cur) => ({ ...acc, [cur]: grants[cur].vendorGrant }), {});
 
 	return {
 		consents,
