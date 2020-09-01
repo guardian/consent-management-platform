@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
+import { ConsentState, VendorConsents } from './types';
 import { ConsentVector } from './types/tcfv2';
 import { TCData } from './types/tcfv2/TCData';
-import { VendorConsents, ConsentState } from './types';
 
 type Callback = (arg0: ConsentState) => void;
 type CallbackQueueItem = { fn: Callback; lastState?: string };
