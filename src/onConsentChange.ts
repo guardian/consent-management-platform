@@ -1,21 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
-import { TCFData, VendorConsents } from './types';
-
-interface ConsentVector {
-	[key: string]: boolean;
-}
-
-export interface ConsentState {
-	tcfv2?: {
-		consents: ConsentVector;
-		eventStatus: 'tcloaded' | 'cmpuishown' | 'useractioncomplete';
-		vendorConsents: ConsentVector;
-	};
-	ccpa?: {
-		doNotSell: boolean;
-	};
-}
+import { ConsentState, VendorConsents } from './types';
+import { ConsentVector } from './types/tcfv2';
+import { TCData } from './types/tcfv2/TCData';
 
 type Callback = (arg0: ConsentState) => void;
 type CallbackQueueItem = { fn: Callback; lastState?: string };
@@ -91,9 +78,9 @@ const getConsentState: () => Promise<ConsentState> = () => {
 			Promise.all([getTCDataPromise, getCustomVendorConsentsPromise])
 				.then((data) => {
 					const consents = fillAllConsents(
-						(data[0] as TCFData).purpose.consents,
+						(data[0] as TCData).purpose.consents,
 					);
-					const { eventStatus } = data[0] as TCFData;
+					const { eventStatus } = data[0] as TCData;
 					const { grants } = data[1] as VendorConsents;
 					const vendorConsents = Object.keys(grants)
 						.sort()
