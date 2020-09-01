@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { CCPAData } from '../types';
+import { CCPAData } from '../types/ccpa';
 
 type Command = 'getUSPData';
 

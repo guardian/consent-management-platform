@@ -1,6 +1,6 @@
-import { CCPAData } from './ccpa/types';
-import { TCData } from './types/tcfv2/TCData';
-import { PubData } from './types';
+import { CCPAData } from './ccpa';
+import { TCData } from './tcfv2/TCData';
+import { PubData } from '.';
 
 declare global {
 	interface Window {
