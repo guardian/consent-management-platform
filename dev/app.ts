@@ -69,7 +69,7 @@ locationLabel.appendChild(locationControl);
 document.body.append(locationLabel);
 
 const settingsButton = document.createElement('button');
-settingsButton.innerText = 'show privacy settings';
+settingsButton.innerText = 'open privacy settings';
 settingsButton.onclick = () => {
 	logCall('cmp.showPrivacyManager');
 	cmp.showPrivacyManager();

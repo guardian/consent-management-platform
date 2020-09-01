@@ -1,14 +1,14 @@
-import {
-	init as initSourcepoint,
-	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
-} from './sourcepoint';
-import { PRIVACY_MANAGER_TCFV2 } from '../lib/sourcepointConfig';
 import { mark } from '../lib/mark';
+import { PRIVACY_MANAGER_TCFV2 } from '../lib/sourcepointConfig';
 import {
 	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from '../types';
+import {
+	init as initSourcepoint,
+	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
+} from './sourcepoint';
 
 const init = (pubData?: PubData): void => {
 	mark('cmp-tcfv2-init');
