@@ -8,6 +8,10 @@ export interface TCFv2ConsentState {
 	vendorConsents: TCFv2ConsentList;
 }
 
+export interface ConsentVector {
+	[key: string]: boolean;
+}
+
 // From the IAB spec – https://git.io/JUmoi
 export type TCEventStatusCode =
 	| 'tcloaded'
