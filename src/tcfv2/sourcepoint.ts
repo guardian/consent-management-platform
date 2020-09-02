@@ -20,6 +20,7 @@ export const init = (pubData = {}): void => {
 		throw new Error('Sourcepoint TCF global (window._sp_) is already defined!');
 	}
 
+	/* istanbul ignore next */
 	window._sp_ = {
 		config: {
 			mmsDomain: 'https://consent.theguardian.com',
@@ -38,12 +39,15 @@ export const init = (pubData = {}): void => {
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
 				},
+
 				onMessageReady: () => {
 					mark('cmp-tcfv2-ui-displayed');
 				},
+
 				onMessageReceiveData: (data) => {
 					resolveWillShowPrivacyMessage?.(data.messageId !== 0);
 				},
+
 				onMessageChoiceSelect: (_, choiceTypeID) => {
 					if (
 						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
