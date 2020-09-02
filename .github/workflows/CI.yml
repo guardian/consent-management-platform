@@ -64,7 +64,7 @@ jobs:
             - name: Check types
               run: yarn tsc
     build:
-        name: Types
+        name: Build
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
