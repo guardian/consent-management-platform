@@ -23,8 +23,8 @@
 		"prepublishOnly": "yarn build",
 		"release": "np",
 		"test": "jest --coverage",
-		"tsc": "tsc",
-		"types": "tsc --noEmit false --emitDeclarationOnly",
+		"tsc": "tsc --noEmit",
+		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all --parallel tsc lint 'test --onlyChanged'"
 	},
 	"dependencies": {

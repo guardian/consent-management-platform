@@ -1,0 +1,12 @@
+{
+	"extends": "./tsconfig.json",
+	"files": ["src/index.ts"],
+	"compilerOptions": {
+		"rootDir": "src",
+		"declaration": true,
+		"outDir": "dist",
+		"noEmit": false,
+		"emitDeclarationOnly": true
+	},
+	"include": ["src/window.d.ts"]
+}
