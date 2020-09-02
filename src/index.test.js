@@ -31,7 +31,9 @@ beforeEach(() => {
 
 describe('cmp.init', () => {
 	it('requires isInUsa to be true or false', () => {
-		expect(cmp.init).toThrow();
+		expect(() => {
+			cmp.init({ pubData: {} });
+		}).toThrow('required');
 	});
 
 	it('initializes CCPA when in the US', () => {
@@ -53,6 +55,7 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ isInUsa: false });
 		cmp.init({ isInUsa: false });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
+		expect(window.guCmpHotFix.initialised).toBe(true);
 	});
 
 	it.todo('uses window.guCmpHotFix exports if they exist');
