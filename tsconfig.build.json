@@ -8,5 +8,5 @@
 		"noEmit": false,
 		"emitDeclarationOnly": true
 	},
-	"include": ["src/window.d.ts"]
+	"include": ["src/types"]
 }
