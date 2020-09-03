@@ -10,13 +10,15 @@ getCustomVendorConsents.mockReturnValue(Promise.resolve(customVendorConsents));
 
 describe('getConsentState', () => {
 	it('gets the consent state correctly', async () => {
+		tcData.purpose.consents['1'] = false;
+
 		const { consents, eventStatus, vendorConsents } = await getConsentState();
 
 		expect(getTCData).toHaveBeenCalledTimes(1);
 		expect(getCustomVendorConsents).toHaveBeenCalledTimes(1);
 
 		expect(consents).toStrictEqual({
-			1: true,
+			1: false,
 			2: true,
 			3: true,
 			4: true,
