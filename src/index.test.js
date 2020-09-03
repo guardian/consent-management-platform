@@ -1,5 +1,6 @@
 import waitForExpect from 'wait-for-expect';
 import { CCPA } from './ccpa';
+import { disable, enable } from './disable';
 import { TCFv2 } from './tcfv2';
 import { cmp } from '.';
 
@@ -22,9 +23,22 @@ jest.mock('./tcfv2', () => ({
 beforeEach(() => {
 	window.guCmpHotFix = {};
 	TCFv2.init.mockClear();
+	CCPA.init.mockClear();
 });
 
 describe('cmp.init', () => {
+	it('does nothing if CMP is disabled', () => {
+		disable();
+
+		cmp.init({ isInUsa: false });
+		cmp.init({ isInUsa: true });
+
+		expect(TCFv2.init).not.toHaveBeenCalled();
+		expect(CCPA.init).not.toHaveBeenCalled();
+
+		enable();
+	});
+
 	it('requires isInUsa to be true or false', () => {
 		expect(() => {
 			cmp.init({ pubData: {} });
