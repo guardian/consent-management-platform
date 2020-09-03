@@ -1,13 +1,19 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
 import USPData from './ccpa/__fixtures__/api.getUSPData.json';
-import { invokeCallbacks, onConsentChange } from './onConsentChange';
+import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
 import CustomVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
 import TCData from './tcfv2/__fixtures__/api.getTCData.json';
 
 beforeEach(() => {
 	window.__uspapi = undefined;
 	window.__tcfapi = undefined;
+});
+
+it('throws an error if no framework is present', () => {
+	expect(_.getConsentState).rejects.toThrow(
+		'no IAB consent framework found on the page',
+	);
 });
 
 describe('under CCPA', () => {

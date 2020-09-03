@@ -58,3 +58,5 @@ export const onConsentChange = (callBack: Callback): void => {
 			// do nothing - callback will be added the list anyway and executed when consent changes
 		});
 };
+
+export const _ = { getConsentState };
