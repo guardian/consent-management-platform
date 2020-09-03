@@ -19,10 +19,6 @@ module.exports = {
 			format: 'esm',
 		},
 	],
-	external: [
-		'@guardian/old-cmp',
-		'@guardian/old-cmp/dist/ConsentManagementPlatform',
-	],
 	plugins: [
 		babel({ extensions }),
 		resolve({ extensions }),
