@@ -10,7 +10,8 @@ const api = (command: Command) =>
 			window.__uspapi(command, 1, (result, success) =>
 				success
 					? resolve(result)
-					: reject(new Error('Unable to get uspapi data')),
+					: /* istanbul ignore next */
+					  reject(new Error('Unable to get uspapi data')),
 			);
 		} else {
 			reject(new Error('No __uspapi found on window'));

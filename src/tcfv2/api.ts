@@ -16,7 +16,8 @@ const api = (command: Command) =>
 			window.__tcfapi(command, 2, (result, success) =>
 				success
 					? resolve(result)
-					: reject(new Error('Unable to get tcfapi data')),
+					: /* istanbul ignore next */
+					  reject(new Error('Unable to get tcfapi data')),
 			);
 		} else {
 			reject(new Error('No __tcfapi found on window'));
