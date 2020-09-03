@@ -22,12 +22,12 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
-		// in USA - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
+		// in USA - https://git.io/JUOdq
 		return { ccpa: await getCCPAConsentState() };
 	}
 
 	if (window.__tcfapi) {
-		// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
+		// in RoW - https://git.io/JfrZr
 		return { tcfv2: await getTCFv2ConsentState() };
 	}
 
