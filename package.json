@@ -23,7 +23,7 @@
 		"prepublishOnly": "yarn build",
 		"release": "np",
 		"test": "jest --coverage",
-		"tsc": "tsc --noEmit",
+		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
 	},
@@ -50,6 +50,7 @@
 		"prettier": "^2.1.1",
 		"rollup": "^2.26.6",
 		"rollup-plugin-babel": "^4.4.0",
+		"rollup-plugin-bundle-size": "^1.0.3",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-node-resolve": "^5.2.0",

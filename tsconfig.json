@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
 		"allowJs": true,
-		"declaration": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
@@ -9,12 +8,8 @@
 		"module": "ESNext",
 		"moduleResolution": "node",
 		"noEmit": true,
-		"outDir": "dist",
-		"rootDir": "src",
 		"strict": true,
-		"target": "esnext"
+		"target": "ESNext"
 	},
-	"files": ["src/index.ts"],
-	"exclude": ["node_modules", "dist", "coverage", "**/*.test.js"],
-	"include": ["src"]
+	"exclude": ["node_modules", "dist", "coverage"]
 }
