@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getConsentState invokes callbacks correctly 1`] = `
+exports[`getConsentState gets the consent state correctly 1`] = `
 Object {
   "5e37fc3e56a5e60dff4e1981": true,
   "5e37fc3e56a5e60dff4e1982": true,

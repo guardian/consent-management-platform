@@ -7,8 +7,9 @@ jest.mock('./api');
 getUSPData.mockReturnValue(Promise.resolve(USPData));
 
 describe('getConsentState', () => {
-	it('invokes callbacks correctly', async () => {
+	it('gets the consent state correctly', async () => {
 		const { doNotSell } = await getConsentState();
+
 		expect(getUSPData).toHaveBeenCalledTimes(1);
 		expect(doNotSell).toBe(true);
 	});
