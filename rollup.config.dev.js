@@ -23,17 +23,7 @@ export default {
 	plugins: [
 		babel({ extensions }),
 		resolve({ extensions }),
-		commonjs({
-			namedExports: {
-				react: [
-					'createContext',
-					'forwardRef',
-					'createElement',
-					'Component',
-					'Fragment',
-				],
-			},
-		}),
+		commonjs(),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('development'),
 		}),
