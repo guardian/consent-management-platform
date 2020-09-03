@@ -25,7 +25,7 @@
 		"test": "jest --coverage",
 		"tsc": "tsc --noEmit",
 		"types": "tsc --project ./tsconfig.build.json",
-		"validate": "npm-run-all --parallel tsc lint 'test --onlyChanged'"
+		"validate": "npm-run-all tsc test lint build gh-pages:build"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.11.4",
