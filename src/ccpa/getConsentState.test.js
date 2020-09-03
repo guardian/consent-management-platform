@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import USPData from './__fixtures__/api.getUSPData.json';
+import uspData from './__fixtures__/api.getUSPData.json';
 import { getUSPData } from './api';
 import { getConsentState } from './getConsentState';
 
 jest.mock('./api');
-getUSPData.mockReturnValue(Promise.resolve(USPData));
+getUSPData.mockReturnValue(Promise.resolve(uspData));
 
 describe('getConsentState', () => {
 	it('gets the consent state correctly', async () => {

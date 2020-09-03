@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
-import USPData from './ccpa/__fixtures__/api.getUSPData.json';
+import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
-import CustomVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
-import TCData from './tcfv2/__fixtures__/api.getTCData.json';
+import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
+import tcData from './tcfv2/__fixtures__/api.getTCData.json';
 
 beforeEach(() => {
 	window.__uspapi = undefined;
@@ -19,7 +19,7 @@ it('throws an error if no framework is present', () => {
 describe('under CCPA', () => {
 	beforeEach(() => {
 		window.__uspapi = jest.fn((command, b, callback) => {
-			if (command === 'getUSPData') callback(USPData, true);
+			if (command === 'getUSPData') callback(uspData, true);
 		});
 	});
 
@@ -61,7 +61,7 @@ describe('under CCPA', () => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		USPData.uspString = '1YNN';
+		uspData.uspString = '1YNN';
 		invokeCallbacks();
 
 		await waitForExpect(() => {
@@ -73,9 +73,9 @@ describe('under CCPA', () => {
 describe('under TCFv2', () => {
 	beforeEach(() => {
 		window.__tcfapi = jest.fn((command, b, callback) => {
-			if (command === 'getTCData') callback(TCData, true);
+			if (command === 'getTCData') callback(tcData, true);
 			if (command === 'getCustomVendorConsents')
-				callback(CustomVendorConsents, true);
+				callback(customVendorConsents, true);
 		});
 	});
 
@@ -117,7 +117,7 @@ describe('under TCFv2', () => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		TCData.purpose.consents['1'] = false;
+		tcData.purpose.consents['1'] = false;
 		invokeCallbacks();
 
 		await waitForExpect(() => {

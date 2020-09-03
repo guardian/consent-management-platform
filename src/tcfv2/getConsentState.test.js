@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import CustomVendorConsents from './__fixtures__/api.getCustomVendorConsents.json';
-import TCData from './__fixtures__/api.getTCData.json';
+import customVendorConsents from './__fixtures__/api.getCustomVendorConsents.json';
+import tcData from './__fixtures__/api.getTCData.json';
 import { getCustomVendorConsents, getTCData } from './api';
 import { getConsentState } from './getConsentState';
 
 jest.mock('./api');
-getTCData.mockReturnValue(Promise.resolve(TCData));
-getCustomVendorConsents.mockReturnValue(Promise.resolve(CustomVendorConsents));
+getTCData.mockReturnValue(Promise.resolve(tcData));
+getCustomVendorConsents.mockReturnValue(Promise.resolve(customVendorConsents));
 
 describe('getConsentState', () => {
 	it('gets the consent state correctly', async () => {
