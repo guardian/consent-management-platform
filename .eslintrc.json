@@ -83,13 +83,5 @@
 		"object-literal-sort-keys": 0,
 		"prettier/prettier": 2
 	},
-	"overrides": [
-		{
-			"files": "src/**/*.test.ts",
-			"rules": {
-				"@typescript-eslint/explicit-function-return-type": 0
-			}
-		}
-	],
 	"ignorePatterns": ["dist", "coverage"]
 }
