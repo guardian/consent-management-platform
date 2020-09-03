@@ -1,12 +1,15 @@
 {
 	"compilerOptions": {
-		"target": "es5", // compile to es5 since to build a package with browser compatibility.
-		"lib": ["dom", "es7"],
-		"strict": true,
-		"jsx": "preserve",
-		"esModuleInterop": true,
 		"allowJs": true,
-		"noEmit": true
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"lib": ["DOM", "ES5"],
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"noEmit": true,
+		"strict": true,
+		"target": "ESNext"
 	},
 	"exclude": ["node_modules", "dist", "coverage"]
 }
