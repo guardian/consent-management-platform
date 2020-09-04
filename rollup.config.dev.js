@@ -1,12 +1,11 @@
 import path from 'path';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import livereload from 'rollup-plugin-livereload';
-import resolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
 import serve from 'rollup-plugin-serve';
-import { terser } from 'rollup-plugin-terser';
 
 const extensions = ['.js', '.ts'];
 
