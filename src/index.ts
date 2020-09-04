@@ -44,7 +44,7 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	}
 
 	CMP = isInUsa ? CCPA : TCFv2;
-	CMP?.init(pubData);
+	CMP?.init(pubData || {});
 	resolveInitialised?.();
 }
 
@@ -52,10 +52,12 @@ const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
 	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
 
 function showPrivacyManager() {
-	if (!CMP)
+	/* istanbul ignore if */
+	if (!CMP) {
 		console.warn(
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
+	}
 	initialised.then(() => CMP?.showPrivacyManager());
 }
 
