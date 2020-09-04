@@ -11,8 +11,7 @@ it('calls the correct IAB api with the correct methods', async () => {
 
 	await getUSPData();
 
-	expect(window.__uspapi).toHaveBeenNthCalledWith(
-		1,
+	expect(window.__uspapi).toHaveBeenCalledWith(
 		'getUSPData',
 		expect.any(Number),
 		expect.any(Function),
