@@ -27,13 +27,16 @@
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
 	},
+	"peerDependencies": {
+		"@babel/runtime": "^7.11.2"
+	},
 	"devDependencies": {
 		"@babel/core": "^7.11.4",
 		"@babel/plugin-proposal-class-properties": "^7.10.4",
 		"@babel/plugin-transform-runtime": "^7.11.5",
 		"@babel/preset-env": "^7.11.0",
 		"@babel/preset-typescript": "^7.10.4",
-		"@babel/runtime": "^7.2.0",
+		"@babel/runtime": "^7.11.2",
 		"@rollup/plugin-babel": "^5.2.0",
 		"@rollup/plugin-commonjs": "^15.0.0",
 		"@rollup/plugin-html": "^0.2.0",

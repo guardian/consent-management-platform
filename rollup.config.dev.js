@@ -20,7 +20,21 @@ export default {
 		sourcemap: process.env.ROLLUP_WATCH ? 'inline' : true,
 	},
 	plugins: [
-		babel({ extensions }),
+		babel({
+			babelHelpers: 'bundled',
+			presets: [
+				[
+					'@babel/preset-env',
+					{
+						targets: {
+							esmodules: true,
+						},
+					},
+				],
+				'@babel/preset-typescript',
+			],
+			extensions,
+		}),
 		resolve({ extensions }),
 		commonjs(),
 		replace({

@@ -20,7 +20,12 @@ module.exports = {
 		},
 	],
 	plugins: [
-		babel({ extensions }),
+		babel({
+			extensions,
+			babelHelpers: 'runtime',
+			presets: [['@babel/preset-env'], '@babel/preset-typescript'],
+			plugins: ['@babel/plugin-transform-runtime'],
+		}),
 		resolve({ extensions }),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('production'),
@@ -31,4 +36,5 @@ module.exports = {
 			sourceMap: true,
 		}),
 	],
+	external: [/@babel\/runtime/],
 };
