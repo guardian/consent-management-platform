@@ -4,7 +4,7 @@ import { getUSPData } from './api';
 import { getConsentState } from './getConsentState';
 
 jest.mock('./api');
-getUSPData.mockReturnValue(Promise.resolve(uspData));
+getUSPData.mockResolvedValue(uspData);
 
 describe('getConsentState', () => {
 	it('gets the consent state correctly', async () => {
