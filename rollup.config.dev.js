@@ -41,8 +41,7 @@ export default {
 			'process.env.NODE_ENV': JSON.stringify('development'),
 		}),
 		html(),
-		...(process.env.ROLLUP_WATCH
-			? [serve(dist), livereload({ watch: dist })]
-			: [terser()]),
-	],
+		process.env.ROLLUP_WATCH && serve(dist),
+		process.env.ROLLUP_WATCH && livereload({ watch: dist }),
+	].filter(Boolean),
 };
