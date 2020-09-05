@@ -11,8 +11,8 @@ import {
 	WillShowPrivacyMessage,
 } from './types';
 
-// store some bits in the global scope for resuse, incase there's more
-// than one instance of the CMP on the page in different scopes
+// Store some bits in the global scope for reuse, incase there's more
+// than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
 
 let CMP: SourcepointImplementation | undefined;
