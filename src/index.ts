@@ -46,10 +46,10 @@ function init({
 	resolveInitialised?.();
 }
 
-const willShowPrivacyMessage: WillShowPrivacyMessage = (window.guCmpHotFix.willShowPrivacyMessage ||= () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage() || false));
+const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
+	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
 
-const showPrivacyManager = (window.guCmpHotFix.showPrivacyManager ||= () => {
+const showPrivacyManager = () => {
 	/* istanbul ignore if */
 	if (!CMP) {
 		console.warn(
@@ -57,17 +57,17 @@ const showPrivacyManager = (window.guCmpHotFix.showPrivacyManager ||= () => {
 		);
 	}
 	initialised.then(CMP?.showPrivacyManager);
-});
+};
 
 export const cmp = {
 	init,
-	willShowPrivacyMessage,
-	showPrivacyManager,
+	willShowPrivacyMessage: window.guCmpHotFix.willShowPrivacyMessage ||= willShowPrivacyMessage,
+	showPrivacyManager: window.guCmpHotFix.showPrivacyManager ||= showPrivacyManager,
 
 	// special helper methods for disabling CMP
-	__isDisabled: isDisabled,
-	__enable: enable,
-	__disable: disable,
+	__isDisabled: window.guCmpHotFix.isDisabled ||= isDisabled,
+	__enable: window.guCmpHotFix.enable ||= enable,
+	__disable: window.guCmpHotFix.disable ||= disable,
 };
 
 const onConsentChange: OnConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);

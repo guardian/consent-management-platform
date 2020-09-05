@@ -1,3 +1,4 @@
+import { disable } from '../disable';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
 import { OnConsentChange, PubData, WillShowPrivacyMessage } from '.';
@@ -10,6 +11,9 @@ declare global {
 			willShowPrivacyMessage?: WillShowPrivacyMessage;
 			showPrivacyManager?: () => void;
 			onConsentChange?: OnConsentChange;
+			isDisabled?: () => boolean;
+			disable?: () => void;
+			enable?: () => void;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
