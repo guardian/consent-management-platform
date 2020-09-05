@@ -5,13 +5,13 @@ import { disable, enable, isDisabled } from './disable';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
+	OnConsentChange,
 	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
 
-// *************** START commercial.dcr.js hotfix ***************
-// *************** END commercial.dcr.js hotfix ***************
+window.guCmpHotFix ||= {};
 
 let CMP: SourcepointImplementation | undefined;
 
@@ -20,22 +20,20 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve as typeof Promise.resolve;
 });
 
-function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
+function init({
+	pubData,
+	isInUsa,
+}: {
+	pubData?: PubData;
+	isInUsa: boolean;
+}): void {
 	// provide a way to disable consent for test envs
 	if (isDisabled()) return;
 
-	// *************** START commercial.dcr.js hotfix ***************
-	if (window?.guCmpHotFix?.initialised) {
+	if (window.guCmpHotFix.initialised) {
 		return;
 	}
-
-	if (window) {
-		window.guCmpHotFix = {
-			...window.guCmpHotFix,
-			initialised: true,
-		};
-	}
-	// *************** END commercial.dcr.js hotfix ***************
+	window.guCmpHotFix.initialised = true;
 
 	if (typeof isInUsa === 'undefined') {
 		throw new Error(
@@ -48,49 +46,29 @@ function init({ pubData, isInUsa }: { pubData?: PubData; isInUsa: boolean }) {
 	resolveInitialised?.();
 }
 
-const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
+const willShowPrivacyMessage: WillShowPrivacyMessage = (window.guCmpHotFix.willShowPrivacyMessage ||= () =>
+	initialised.then(() => CMP?.willShowPrivacyMessage() || false));
 
-function showPrivacyManager() {
+const showPrivacyManager = (window.guCmpHotFix.showPrivacyManager ||= () => {
 	/* istanbul ignore if */
 	if (!CMP) {
 		console.warn(
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
 	}
-	initialised.then(() => CMP?.showPrivacyManager());
-}
+	initialised.then(CMP?.showPrivacyManager);
+});
 
-// *************** START commercial.dcr.js hotfix ***************
-// export const cmp = {
-// 	init,
-// 	willShowPrivacyMessage,
-// 	showPrivacyManager,
-// };
+export const cmp = {
+	init,
+	willShowPrivacyMessage,
+	showPrivacyManager,
 
-// export { onConsentChange } from './onConsentChange';
-
-const actualExports = {
-	cmp: {
-		init,
-		willShowPrivacyMessage,
-		showPrivacyManager,
-
-		// special helper methods for disabling CMP
-		__isDisabled: isDisabled,
-		__enable: enable,
-		__disable: disable,
-	},
-	onConsentChange: actualOnConsentChange,
+	// special helper methods for disabling CMP
+	__isDisabled: isDisabled,
+	__enable: enable,
+	__disable: disable,
 };
 
-if (window) {
-	window.guCmpHotFix = {
-		...actualExports,
-		...window.guCmpHotFix,
-	};
-}
-
-export const { cmp, onConsentChange } =
-	(window?.guCmpHotFix as typeof actualExports) || actualExports;
-// *************** END commercial.dcr.js hotfix ***************
+const onConsentChange: OnConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
+export { onConsentChange };
