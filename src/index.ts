@@ -16,9 +16,9 @@ window.guCmpHotFix ||= {};
 
 let CMP: SourcepointImplementation | undefined;
 
-let resolveInitialised: typeof Promise.resolve;
+let resolveInitialised: (value?: unknown) => void;
 const initialised = new Promise((resolve) => {
-	resolveInitialised = resolve as typeof Promise.resolve;
+	resolveInitialised = resolve;
 });
 
 function init({
