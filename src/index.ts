@@ -29,19 +29,17 @@ function init({
 	pubData?: PubData;
 	isInUsa: boolean;
 }): void {
-	// provide a way to disable consent for test envs
-	if (isDisabled()) return;
-
-	if (window.guCmpHotFix.initialised) {
+	if (isDisabled() || window.guCmpHotFix.initialised) {
 		return;
 	}
-	window.guCmpHotFix.initialised = true;
 
 	if (typeof isInUsa === 'undefined') {
 		throw new Error(
 			'CMP initialised without `isInUsa` property. `isInUsa` is required.',
 		);
 	}
+
+	window.guCmpHotFix.initialised = true;
 
 	CMP = isInUsa ? CCPA : TCFv2;
 	CMP?.init(pubData || {});
