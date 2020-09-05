@@ -5,7 +5,6 @@ import { disable, enable, isDisabled } from './disable';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
-	OnConsentChange,
 	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
@@ -70,5 +69,4 @@ export const cmp = {
 	__disable: window.guCmpHotFix.disable ||= disable,
 };
 
-const onConsentChange: OnConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
-export { onConsentChange };
+export const onConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
