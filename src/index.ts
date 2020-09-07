@@ -29,6 +29,7 @@ function init({
 	isInUsa: boolean;
 }): void {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
+		if(window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 		return;
 	}
 
@@ -62,6 +63,7 @@ export const cmp = (window.guCmpHotFix.cmp ||= {
 	init,
 	willShowPrivacyMessage,
 	showPrivacyManager,
+	version: __PACKAGE_VERSION__,
 
 	// special helper methods for disabling CMP
 	__isDisabled: isDisabled,

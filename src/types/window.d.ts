@@ -17,6 +17,7 @@ declare global {
 				}) => void;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
+				version: string;
 				__isDisabled: () => boolean;
 				__disable: () => void;
 				__enable: () => void;

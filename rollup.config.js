@@ -20,6 +20,10 @@ module.exports = {
 		},
 	],
 	plugins: [
+		replace({
+			'process.env.NODE_ENV': JSON.stringify('production'),
+			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
+		}),
 		babel({
 			extensions,
 			babelHelpers: 'runtime',
@@ -27,9 +31,6 @@ module.exports = {
 			plugins: ['@babel/plugin-transform-runtime'],
 		}),
 		resolve({ extensions }),
-		replace({
-			'process.env.NODE_ENV': JSON.stringify('production'),
-		}),
 		commonjs(),
 		strip({
 			include: ['**/*.{j,t}s?(x)'],
