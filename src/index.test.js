@@ -67,7 +67,7 @@ describe('hotfix cmp.init', () => {
 		expect(window.guCmpHotFix.initialised).toBe(true);
 	});
 
-	it.todo('uses window.guCmpHotFix exports if they exist');
+	it.todo('uses window.guCmpHotFix instances if they exist');
 });
 // *************** END commercial.dcr.js hotfix ***************
 
