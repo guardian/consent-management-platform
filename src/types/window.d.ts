@@ -1,4 +1,3 @@
-import { disable } from '../disable';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
 import { OnConsentChange, PubData, WillShowPrivacyMessage } from '.';
@@ -8,12 +7,22 @@ declare global {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
-			willShowPrivacyMessage?: WillShowPrivacyMessage;
-			showPrivacyManager?: () => void;
+			cmp?: {
+				init: ({
+					pubData,
+					isInUsa,
+				}: {
+					pubData?: PubData | undefined;
+					isInUsa: boolean;
+				}) => void;
+				willShowPrivacyMessage: WillShowPrivacyMessage;
+				showPrivacyManager: () => void;
+				__isDisabled: () => boolean;
+				__disable: () => void;
+				__enable: () => void;
+			};
+
 			onConsentChange?: OnConsentChange;
-			isDisabled?: () => boolean;
-			disable?: () => void;
-			enable?: () => void;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 

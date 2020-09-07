@@ -58,15 +58,15 @@ const showPrivacyManager = () => {
 	initialised.then(CMP?.showPrivacyManager);
 };
 
-export const cmp = {
+export const cmp = (window.guCmpHotFix.cmp ||= {
 	init,
-	willShowPrivacyMessage: window.guCmpHotFix.willShowPrivacyMessage ||= willShowPrivacyMessage,
-	showPrivacyManager: window.guCmpHotFix.showPrivacyManager ||= showPrivacyManager,
+	willShowPrivacyMessage,
+	showPrivacyManager,
 
 	// special helper methods for disabling CMP
-	__isDisabled: window.guCmpHotFix.isDisabled ||= isDisabled,
-	__enable: window.guCmpHotFix.enable ||= enable,
-	__disable: window.guCmpHotFix.disable ||= disable,
-};
+	__isDisabled: isDisabled,
+	__enable: enable,
+	__disable: disable,
+});
 
 export const onConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
