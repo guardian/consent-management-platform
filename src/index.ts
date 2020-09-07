@@ -10,7 +10,7 @@ import {
 	WillShowPrivacyMessage,
 } from './types';
 
-// Store some bits in the global scope for reuse, incase there's more
+// Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
 
