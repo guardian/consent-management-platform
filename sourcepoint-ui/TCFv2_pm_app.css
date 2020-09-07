@@ -1,0 +1,354 @@
+/*
+
+Please update the CMP repo with any launched changes
+https://github.com/guardian/consent-management-platform
+
+*/
+
+/*-------------- TODO -----------------
+test pulling from the mapi server/origin
+https://github.com/guardian/apps-rendering/tree/master/assets/fonts
+
+eg
+https://mobile.guardianapis.com/assets/fonts/GuardianTextSans-Regular.ttf
+-------------- TODO -----------------*/
+
+::selection {
+	background: #ffe500;
+	color: #121212;
+}
+
+:focus {
+	outline: none;
+}
+
+@font-face {
+	font-family: "Guardian Titlepiece";
+	src: url("https://interactive.guim.co.uk/fonts/garnett/GTGuardianTitlepiece-Bold.woff2") format("woff2"),
+	url("https://interactive.guim.co.uk/fonts/garnett/GTGuardianTitlepiece-Bold.woff") format("woff"),
+	url("https://interactive.guim.co.uk/fonts/garnett/GTGuardianTitlepiece-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Guardian Text Sans Web";
+	src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot");
+	src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot?#iefix") format("embedded-opentype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff2") format("woff2"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff") format("woff"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.ttf") format("truetype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.svg#GuardianTextSansWeb-Regular") format("svg");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Guardian Text Sans Web";
+	src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.eot");
+	src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.eot?#iefix") format("embedded-opentype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.woff2") format("woff2"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.woff") format("woff"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.ttf") format("truetype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.svg#GuardianTextSansWeb-Bold") format("svg");
+	font-weight: 700;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+.privacy-manager-tcfv2 * {
+	box-sizing: border-box;
+}
+
+.accept-all,
+.accordion,
+.btn-primary,
+.btn-tertiary,
+.bulk-consent-btns,
+.cta-description,
+.gu-description,
+.legend,
+.opener,
+.pm-type-toggle,
+.pm-features h3, 
+.pm-purposes h3,
+.pm-sub-p,
+.pm-tab,
+.pm-toggle > span,
+.privacy-manager-tcfv2 .pm-tabs,
+.purpose-content,
+.stack-description,
+.stack-status,
+.stack-status > span,
+.stack-title > h4,
+.stack-toggle,
+.sub-purpose-description,
+.toggle-vendor .expand {
+	font-family: "Guardian Text Sans Web", Arial, sans-serif !important;
+	font-size: 15px !important;
+}
+
+.accept-all {
+	max-width: 100%;
+}
+
+.bulk-consent-btns {
+	text-decoration: underline;
+}
+
+.cta-container {
+	display: inline-block;
+}
+
+.cta-description {
+	font-size: 12px !important;
+	line-height: 16px !important;
+}
+
+.btn-primary :hover {
+	background-color: #224;
+}
+
+
+.gu-description {
+	background-color: #F6F6F6;
+}
+
+.gu-privacy-headline {
+	font-family: "Guardian Titlepiece", serif !important;
+}
+
+.legend {
+	display: none;
+}
+
+.privacy-manager-tcfv2 .legend-key.inline {
+	 margin-left: 0px; 
+	display: table;
+}
+
+.message {
+	border-radius: 0 !important;
+	max-width: 100vw;
+	height: 100vh !important;
+	max-height: 100vh !important;
+}
+
+.pm-type-toggle {
+	background-color: #dcdcdc !important;
+	border: 2px 1px solid #dcdcdc !important;
+}
+
+.pm-cta-row {
+	position: absolute;
+	bottom: 0;
+	z-index: 2147493000;
+}
+
+.privacy-manager-tcfv2 .legend-key {
+	color: #121212;
+	background: #FFE500;
+	margin-right: 0;
+}
+
+.privacy-manager-tcfv2 .pm-tabs>.pm-tab {
+	border-top: 1px solid #dcdcdc !important;
+	color: #121212;
+	line-height: 50px;
+	text-transform: initial;
+}
+
+.privacy-manager-tcfv2 .pm-tabs {
+	background-color: #F6F6F6;
+	border-bottom: 1px solid #dcdcdc !important;
+	
+}
+
+.privacy-manager-tcfv2 .pm-tabs>.pm-tab:hover {
+	color: #121212;
+}
+
+.pm-purposes h3 {
+	font-size: 17px !important;
+	padding-left: 0;
+}
+
+.pm-purposes .selected {
+	border-radius: 9px;
+}
+
+.pm-section {
+	background-color: white;
+	padding: 0 16px 64px !important;
+	height: 90vh !important;
+	max-height: calc(100vh - 340px) !important;
+}
+
+.pm-sub-p {
+	color: #121212;
+	padding: 0;
+}
+
+.pm-tab {
+	font-size: 17px !important;
+	padding-top: 16px !important;
+	line-height: initial !important;
+}
+
+
+.pm-tab:first-of-type {
+	border-right: 1px solid #dcdcdc;
+}
+
+.pm-tab:nth-of-type(n+2) {
+	border-right: 1px solid #dcdcdc;
+	
+}
+
+.privacy-manager-tcfv2 .pm-tabs > .pm-tab.active {
+	background-color: white;
+	border-bottom: 2px solid white !important;
+	border-top: 4px solid #007ABC !important;
+	color: #121212;
+	margin-bottom: -4px;
+	margin-top: -2px;	
+	padding-top: 12px !important;
+}
+
+.pm-tab.active:after,
+.pm-tab.active:before {
+	border: none !important;
+}
+
+.pm-toggle {
+	background-color: #DCDCDC;
+	border-radius: 7px !important;
+	height: 32px;
+	padding: 0;
+	border: 2px solid #DCDCDC;
+}
+
+.pm-toggle > span {
+	background-color: transparent;
+	border-radius: 6px !important;
+	font-weight: normal;
+	padding: 3px 19px !important;
+	
+}
+
+.privacy-manager-tcfv2 .pm-toggle.locked > span.on,
+.privacy-manager-tcfv2 .pm-toggle.locked > span.off {
+	border: none !important;
+	color: #121212 !important;
+}
+
+.privacy-manager-tcfv2 .pm-toggle.locked > span.off {
+	cursor: not-allowed !important;
+	opacity: 0.3;
+}
+
+.privacy-manager-tcfv2 .pm-toggle.locked > span.on {
+	background-color: white !important;
+}
+
+.stack-toggle.accept-toggle,
+.stack-toggle.reject-toggle {
+	border: none;
+	border-radius: 6px !important;
+	color: #121212;
+	font-weight: normal;
+	margin-right: 0!important;
+	padding: 6px 19px;
+}
+
+.stack-toggles {
+	background-color: #DCDCDC;
+	border: 2px solid #DCDCDC;
+	border-radius: 7px;
+	display: inline-block;
+	float: right;
+	margin-top: 8px;
+	width: auto;
+	
+}
+
+.stack-status {
+	display: inline-block;
+	margin-top: 8px;
+	margin-right: 30px;
+}
+
+.stack-status > span.grey,
+.stack-status > span.green,
+.stack-status > span.yellow {
+	color: #555;
+}
+
+.stack-toggle.choice {
+	background-color: white;
+	border: none;
+	color: #121212;
+	margin-right: 6px;
+}
+
+.toggle-vendor .expand {
+	padding: 12px 30px 12px 12px;
+}
+
+.vendor-filter {
+	height: auto;
+}
+
+.view-all {
+	color: #0073B4;
+	text-decoration: underline;
+	text-transform: Lowercase;
+}
+
+.view-all:first-letter {
+	text-transform: Uppercase;
+}
+
+
+@media (max-width: 375px) {
+	.btn-primary,
+	.btn-tertiary {
+		font-size: 15px !important;
+		line-height: 18px;
+	}
+	
+	.accept-all,
+	.accordion,
+	.btn-primary,
+	.btn-tertiary,
+	.cta-description,
+	.gu-description,
+	.opener,
+	.pm-type-toggle,
+	.pm-features h3, 
+	.pm-purposes h3,
+	.pm-sub-p,
+	.pm-tab,
+	.pm-toggle > span,
+	.privacy-manager-tcfv2 .pm-tabs,
+	.stack-description,
+	.stack-status,
+	.stack-status > span,
+	.stack-title > h4,
+	.stack-toggle {
+		font-size: 12px !important;
+		line-height: 16px !important;
+	}
+	
+	.gu-privacy-headline {
+		font-size: 24px !important;
+	}
+}
+
+@media (min-width: 46.25em) {
+	.message {
+		height: 90vh !important;
+	}
+	
+	.pm-section {
+		max-height: calc(90vh - 350px) !important;
+	}
+ 
+}
+
