@@ -29,7 +29,11 @@ function init({
 	isInUsa: boolean;
 }): void {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
-		if(window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
+		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
+			console.warn('Two different versions of the CMP are running:', [
+				__PACKAGE_VERSION__,
+				window.guCmpHotFix.cmp?.version,
+			]);
 		return;
 	}
 

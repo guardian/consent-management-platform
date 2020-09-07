@@ -21,7 +21,7 @@ jest.mock('./tcfv2', () => ({
 }));
 
 beforeEach(() => {
-	window.guCmpHotFix = {};
+	window.guCmpHotFix.initialised = false;
 	TCFv2.init.mockClear();
 	CCPA.init.mockClear();
 });
