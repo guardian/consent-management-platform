@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
 import { CCPA } from './ccpa';
 import { disable, enable } from './disable';
-import { TCFv2 } from './tcfv2';
+import { TCFv2 as actualTCFv2 } from './tcfv2';
 import { cmp } from '.';
 
 jest.mock('./ccpa', () => ({
@@ -12,15 +13,23 @@ jest.mock('./ccpa', () => ({
 	},
 }));
 
-jest.mock('./tcfv2', () => ({
-	TCFv2: {
-		init: jest.fn(),
-		showPrivacyManager: jest.fn(),
-		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
-	},
-}));
+const TCFv2 = {
+	init: jest.spyOn(actualTCFv2, 'init'),
+	showPrivacyManager: jest.spyOn(actualTCFv2, 'showPrivacyManager'),
+	willShowPrivacyMessage: jest.spyOn(actualTCFv2, 'willShowPrivacyMessage'),
+};
+
+// jest.mock('./tcfv2', () => ({
+// 	TCFv2: {
+// 		init: jest.fn(),
+// 		showPrivacyManager: jest.fn(),
+// 		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
+// 	},
+// }));
 
 beforeEach(() => {
+	window._sp_ = undefined;
+	window._sp_ccpa = undefined;
 	window.guCmpHotFix.initialised = false;
 	TCFv2.init.mockClear();
 	CCPA.init.mockClear();
@@ -65,6 +74,21 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ isInUsa: false });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 		expect(window.guCmpHotFix.initialised).toBe(true);
+	});
+
+	it('warn if two versions are running simultaneously', () => {
+		const spy = jest.spyOn(global.console, 'warn');
+		cmp.init({ isInUsa: false });
+		const cmpVersion = [window.guCmpHotFix.cmp.version, 'mockedVersion'];
+		// eslint-disable-next-line prefer-destructuring
+		window.guCmpHotFix.cmp.version = cmpVersion[1];
+
+		cmp.init({ isInUsa: false });
+
+		expect(spy).toHaveBeenCalledWith(
+			'Two different versions of the CMP are running:',
+			cmpVersion,
+		);
 	});
 
 	it.todo('uses window.guCmpHotFix instances if they exist');
