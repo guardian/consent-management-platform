@@ -22,7 +22,9 @@
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
 		"release": "np",
-		"test": "jest --coverage",
+		"test": "yarn test:unit && yarn test:integration",
+		"test:integration": "start-server-and-test serve-dev http://localhost:10001 cy:run",
+		"test:unit": "jest --coverage",
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
@@ -46,6 +48,7 @@
 		"@types/jest": "^26.0.13",
 		"@typescript-eslint/eslint-plugin": "^4.0.1",
 		"@typescript-eslint/parser": "^4.0.1",
+		"cypress": "^5.1.0",
 		"eslint": "^7.8.1",
 		"eslint-config-airbnb-typescript": "^10.0.0",
 		"eslint-config-prettier": "^6.11.0",
@@ -60,6 +63,7 @@
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-serve": "^1.0.4",
 		"serve": "^11.3.2",
+		"start-server-and-test": "^1.11.3",
 		"typescript": "^4.0.2",
 		"wait-for-expect": "^3.0.2"
 	}
