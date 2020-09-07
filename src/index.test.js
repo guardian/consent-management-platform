@@ -19,14 +19,6 @@ const TCFv2 = {
 	willShowPrivacyMessage: jest.spyOn(actualTCFv2, 'willShowPrivacyMessage'),
 };
 
-// jest.mock('./tcfv2', () => ({
-// 	TCFv2: {
-// 		init: jest.fn(),
-// 		showPrivacyManager: jest.fn(),
-// 		willShowPrivacyMessage: () => Promise.resolve('iwillshowit'),
-// 	},
-// }));
-
 beforeEach(() => {
 	window._sp_ = undefined;
 	window._sp_ccpa = undefined;
