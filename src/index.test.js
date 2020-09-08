@@ -71,15 +71,15 @@ describe('hotfix cmp.init', () => {
 	it('warn if two versions are running simultaneously', () => {
 		const spy = jest.spyOn(global.console, 'warn');
 		cmp.init({ isInUsa: false });
-		const cmpVersion = [window.guCmpHotFix.cmp.version, 'mockedVersion'];
+		const cmpVersions = [window.guCmpHotFix.cmp.version, 'mockedVersion'];
 		// eslint-disable-next-line prefer-destructuring
-		window.guCmpHotFix.cmp.version = cmpVersion[1];
+		window.guCmpHotFix.cmp.version = cmpVersions[1];
 
 		cmp.init({ isInUsa: false });
 
 		expect(spy).toHaveBeenCalledWith(
 			'Two different versions of the CMP are running:',
-			cmpVersion,
+			cmpVersions,
 		);
 	});
 
