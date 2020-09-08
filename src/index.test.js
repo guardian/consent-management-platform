@@ -69,7 +69,7 @@ describe('hotfix cmp.init', () => {
 	});
 
 	it('warn if two versions are running simultaneously', () => {
-		const spy = jest.spyOn(global.console, 'warn');
+		global.console.warn = jest.fn();
 		cmp.init({ isInUsa: false });
 		const currentVersion = window.guCmpHotFix.cmp.version;
 		const mockedVersion = '4.X.X-mock';
@@ -78,7 +78,7 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ isInUsa: false });
 
 		expect(
-			spy,
+			global.console.warn,
 		).toHaveBeenCalledWith('Two different versions of the CMP are running:', [
 			currentVersion,
 			mockedVersion,
