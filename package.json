@@ -26,11 +26,16 @@
 		"release": "np",
 		"test": "yarn test:unit && yarn test:integration",
 		"test:integration": "start-server-and-test 'yarn test:serve' http://localhost:10001 'yarn cy:run'",
-		"test:serve": "rollup --config rollup.config.test.js",
+		"test:serve": "rollup --config rollup.config.cypress.js",
 		"test:unit": "jest --coverage",
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
+	},
+	"jest": {
+		"testMatch": [
+			"**/*.test.+(ts|tsx|js)"
+		]
 	},
 	"peerDependencies": {
 		"@babel/runtime": "^7.11.2"
