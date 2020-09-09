@@ -26,6 +26,7 @@
 		"release": "np",
 		"test": "yarn test:unit && yarn test:integration",
 		"test:integration": "start-server-and-test 'yarn test:serve' http://localhost:10001 'yarn cy:run'",
+		"test:integration:visual": "start-server-and-test 'yarn test:serve' http://localhost:10001 'yarn cy'",
 		"test:serve": "rollup --config rollup.config.cypress.js",
 		"test:unit": "jest --coverage",
 		"tsc": "tsc",
