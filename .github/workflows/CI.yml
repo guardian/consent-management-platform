@@ -8,8 +8,8 @@ env:
     NODE_VERSION: 12
 
 jobs:
-    test:
-        name: Tests
+    test-unit:
+        name: Unit Tests
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
@@ -29,6 +29,31 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   test-command: 'yarn test:unit'
+
+            - name: Check coverage
+              uses: codecov/codecov-action@v1.0.13
+
+    test-integration:
+        name: Integration Tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Use Node.js
+              uses: actions/setup-node@v2.1.1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+
+            - name: Run unit tests
+              uses: mattallty/jest-github-action@v1.0.3
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  test-command: 'yarn test:integration'
 
             - name: Check coverage
               uses: codecov/codecov-action@v1.0.13
