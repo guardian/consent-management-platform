@@ -49,14 +49,7 @@ jobs:
               uses: bahmutov/npm-install@v1
 
             - name: Run integration tests with Cypress
-              uses: mattallty/jest-github-action@v1.0.3
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  test-command: 'yarn test:integration'
-
-            - name: Check coverage
-              uses: codecov/codecov-action@v1.0.13
+              run: 'yarn test:integration'
 
     lint:
         name: Linting
