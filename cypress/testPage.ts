@@ -2,6 +2,8 @@
 
 import { cmp, onConsentChange } from '../src/index';
 
+document.body.style.fontFamily = 'sans-serif';
+
 /* ************** library usage ************** */
 
 // Mimic behaviour of real-world usage.
@@ -11,18 +13,22 @@ const isInUsa = localStorage.getItem('inUSA') === 'true';
 
 cmp.init({ isInUsa });
 
-const pre = document.createElement('pre');
-document.body.append(pre);
+const list = document.createElement('ul');
+list.style.fontFamily = 'monospace';
+
+const appendListItem = (content: string): void => {
+	const element = document.createElement('li');
+	element.innerHTML = content;
+	list.appendChild(element);
+};
+appendListItem('List of events:');
 
 onConsentChange((response) => {
-	pre.innerHTML += 'onConsentChange 2\n';
-	pre.innerHTML += response;
+	appendListItem(JSON.stringify(response));
 });
 
 cmp.willShowPrivacyMessage().then((willShow) => {
-	pre.innerHTML += '\n\n';
-	pre.innerHTML += 'cmp.willShowPrivacyMessage 2';
-	pre.innerHTML += `${willShow}`;
+	appendListItem(`cmp.willShowPrivacyMessage: ${JSON.stringify(willShow)}`);
 });
 
 /* ************** test page controls ************** */
@@ -45,6 +51,7 @@ locationLabel.appendChild(locationControl);
 document.body.append(locationLabel);
 
 const settingsButton = document.createElement('button');
+settingsButton.dataset.cy = 'pm';
 settingsButton.innerText = 'open privacy settings';
 settingsButton.onclick = () => {
 	cmp.showPrivacyManager();
@@ -66,3 +73,32 @@ resetButton.onclick = () => {
 resetButton.style.marginTop = '1rem';
 settingsButton.style.display = 'block';
 document.body.append(resetButton);
+
+const purposes = document.createElement('ol');
+purposes.style.display = 'flex';
+purposes.style.flexWrap = 'wrap';
+purposes.style.justifyContent = 'center';
+purposes.style.listStyle = 'none';
+purposes.style.margin = '1em';
+purposes.style.padding = '0';
+document.body.append(purposes);
+
+onConsentChange((response) => {
+	purposes.innerHTML = '';
+	if (response.tcfv2?.consents) {
+		Object.entries(response.tcfv2?.consents).forEach((entry) => {
+			const [purpose, consent] = entry;
+			const listItem = document.createElement('li');
+			listItem.style.backgroundColor = consent ? 'lightgreen' : 'darksalmon';
+			listItem.style.width = '9em';
+			listItem.style.margin = '0.25em';
+			listItem.style.padding = '0.25em';
+			listItem.dataset.purpose = purpose.toString();
+			listItem.dataset.consent = consent.toString();
+			listItem.innerHTML = `Purpose ${purpose} &rarr; ${consent}`;
+			purposes.appendChild(listItem);
+		});
+	}
+});
+
+document.body.append(list);

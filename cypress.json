@@ -4,6 +4,5 @@
 	"baseUrl": "http://localhost:10001/",
 	"video": false,
 	"chromeWebSecurity": false,
-	"retries": 2,
-	"supportFile": false
+	"retries": 2
 }
