@@ -48,7 +48,7 @@ jobs:
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
 
-            - name: Run unit tests
+            - name: Run integration tests with Cypress
               uses: mattallty/jest-github-action@v1.0.3
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
