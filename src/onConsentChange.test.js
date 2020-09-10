@@ -1,73 +1,127 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
-import { onConsentChange, invokeCallbacks, _ } from './onConsentChange';
+import uspData from './ccpa/__fixtures__/api.getUSPData.json';
+import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
+import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
+import tcData from './tcfv2/__fixtures__/api.getTCData.json';
 
-const uspData = {
-	version: 1,
-	uspString: '1YYN',
-};
-window.__uspapi = jest.fn((a, b, callback) => {
-	callback(uspData, true);
+beforeEach(() => {
+	window.__uspapi = undefined;
+	window.__tcfapi = undefined;
 });
-const tcfData = {
-	purposes: {
-		consents: {
-			1: true,
-			2: false,
-			3: true,
-		},
-	},
-};
 
-describe('onConsentChange', () => {
-	it('invokes callbacks correctly', () => {
-		const callback = jest.fn();
-		const instantCallback = jest.fn();
-		onConsentChange(callback);
-		expect(callback).toHaveBeenCalledTimes(0);
-		invokeCallbacks();
-		return waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		}).then(() => {
-			onConsentChange(instantCallback);
-			return waitForExpect(() => {
-				expect(callback).toHaveBeenCalledTimes(1);
-				expect(instantCallback).toHaveBeenCalledTimes(1);
-			});
+it('throws an error if no framework is present', () => {
+	expect(_.getConsentState).rejects.toThrow(
+		'no IAB consent framework found on the page',
+	);
+});
+
+describe('under CCPA', () => {
+	beforeEach(() => {
+		window.__uspapi = jest.fn((command, b, callback) => {
+			if (command === 'getUSPData') callback(uspData, true);
 		});
 	});
 
-	it('invokes callbacks only if there is a new state', () => {
+	it('invokes callbacks correctly', async () => {
 		const callback = jest.fn();
+		const instantCallback = jest.fn();
+
 		onConsentChange(callback);
+
+		expect(callback).toHaveBeenCalledTimes(0);
+
 		invokeCallbacks();
-		return waitForExpect(() => {
+
+		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
-		})
-			.then(invokeCallbacks)
-			.then(() => {
-				return waitForExpect(() => {
-					expect(callback).toHaveBeenCalledTimes(1);
-				});
-			})
-			.then(() => {
-				uspData.uspString = '1YNN';
-			})
-			.then(invokeCallbacks)
-			.then(() =>
-				waitForExpect(() => {
-					expect(callback).toHaveBeenCalledTimes(2);
-				}),
-			);
+		});
+
+		onConsentChange(instantCallback);
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+			expect(instantCallback).toHaveBeenCalledTimes(1);
+		});
 	});
 
-	it('returns all 10 TCF purposes even if they are false', () => {
-		const consents = _.fillAllConsents(tcfData.purposes.consents);
+	it('invokes callbacks only if there is a new state', async () => {
+		const callback = jest.fn();
 
-		expect(Object.keys(consents)).toHaveLength(10);
-		expect(consents[1]).toEqual(true);
-		expect(consents[3]).toEqual(true);
-		expect(consents[9]).toEqual(false);
-		expect(consents[10]).toBeDefined();
+		onConsentChange(callback);
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		uspData.uspString = '1YNN';
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(2);
+		});
+	});
+});
+
+describe('under TCFv2', () => {
+	beforeEach(() => {
+		window.__tcfapi = jest.fn((command, b, callback) => {
+			if (command === 'getTCData') callback(tcData, true);
+			if (command === 'getCustomVendorConsents')
+				callback(customVendorConsents, true);
+		});
+	});
+
+	it('invokes callbacks correctly', async () => {
+		const callback = jest.fn();
+		const instantCallback = jest.fn();
+
+		onConsentChange(callback);
+
+		expect(callback).toHaveBeenCalledTimes(0);
+
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		onConsentChange(instantCallback);
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+			expect(instantCallback).toHaveBeenCalledTimes(1);
+		});
+	});
+
+	it('invokes callbacks only if there is a new state', async () => {
+		const callback = jest.fn();
+
+		onConsentChange(callback);
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		tcData.purpose.consents['1'] = false;
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(2);
+		});
 	});
 });

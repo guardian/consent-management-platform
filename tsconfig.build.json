@@ -1,12 +1,12 @@
 {
+	"compilerOptions": {
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"noEmit": false,
+		"outDir": "dist",
+		"rootDir": "src"
+	},
 	"extends": "./tsconfig.json",
 	"files": ["src/index.ts"],
-	"compilerOptions": {
-		"rootDir": "src",
-		"declaration": true,
-		"outDir": "dist",
-		"noEmit": false,
-		"emitDeclarationOnly": true
-	},
-	"include": ["src/window.d.ts"]
+	"include": ["src/types"]
 }

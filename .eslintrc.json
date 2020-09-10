@@ -18,6 +18,7 @@
 		"browser": true
 	},
 	"rules": {
+		"no-multi-assign": 0,
 		"@typescript-eslint/consistent-type-definitions": 0,
 		"@typescript-eslint/explicit-function-return-type": 0,
 		"@typescript-eslint/no-use-before-define": 0,
@@ -45,6 +46,36 @@
 		"class-methods-use-this": [2, { "exceptMethods": ["componentDidMount"] }],
 		"import/no-default-export": 2,
 		"import/prefer-default-export": 0,
+		"import/order": [
+			"error",
+			{
+				"groups": [
+					"builtin",
+					"external",
+					"internal",
+					"parent",
+					"sibling",
+					"index",
+					"object",
+					"unknown"
+				],
+				"newlines-between": "never",
+				"alphabetize": {
+					"order": "asc" /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */,
+					"caseInsensitive": true /* ignore case. Options: [true, false] */
+				}
+			}
+		],
+		"sort-imports": [
+			"error",
+			{
+				"ignoreCase": true,
+				"ignoreDeclarationSort": true,
+				"ignoreMemberSort": false
+			}
+		],
+		"import/newline-after-import": 2,
+		"import/first": 2,
 		"import-name": 0,
 		"interface-name": 0,
 		"interface-over-type-literal": 0,
@@ -53,13 +84,5 @@
 		"object-literal-sort-keys": 0,
 		"prettier/prettier": 2
 	},
-	"overrides": [
-		{
-			"files": "src/**/*.test.ts",
-			"rules": {
-				"@typescript-eslint/explicit-function-return-type": 0
-			}
-		}
-	],
 	"ignorePatterns": ["dist", "coverage"]
 }

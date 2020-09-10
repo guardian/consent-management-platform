@@ -63,3 +63,23 @@ jobs:
 
             - name: Check types
               run: yarn tsc
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Use Node.js
+              uses: actions/setup-node@v2.1.1
+              with:
+                  node-version: 12
+
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+
+            - name: Build package
+              run: yarn build
+
+            - name: Build github pages
+              run: yarn gh-pages:build

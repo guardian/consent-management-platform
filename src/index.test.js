@@ -1,12 +1,8 @@
 import waitForExpect from 'wait-for-expect';
-import { cmp } from '.';
 import { CCPA } from './ccpa';
+import { disable, enable } from './disable';
 import { TCFv2 } from './tcfv2';
-
-// just stop Jest erroring on these
-// can be deleted when olde cmp is removed
-jest.mock('@guardian/old-cmp', () => ({}));
-jest.mock('@guardian/old-cmp/dist/ConsentManagementPlatform', () => ({}));
+import { cmp } from '.';
 
 jest.mock('./ccpa', () => ({
 	CCPA: {
@@ -27,11 +23,26 @@ jest.mock('./tcfv2', () => ({
 beforeEach(() => {
 	window.guCmpHotFix = {};
 	TCFv2.init.mockClear();
+	CCPA.init.mockClear();
 });
 
 describe('cmp.init', () => {
+	it('does nothing if CMP is disabled', () => {
+		disable();
+
+		cmp.init({ isInUsa: false });
+		cmp.init({ isInUsa: true });
+
+		expect(TCFv2.init).not.toHaveBeenCalled();
+		expect(CCPA.init).not.toHaveBeenCalled();
+
+		enable();
+	});
+
 	it('requires isInUsa to be true or false', () => {
-		expect(cmp.init).toThrow();
+		expect(() => {
+			cmp.init({ pubData: {} });
+		}).toThrow('required');
 	});
 
 	it('initializes CCPA when in the US', () => {
@@ -53,9 +64,10 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ isInUsa: false });
 		cmp.init({ isInUsa: false });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
+		expect(window.guCmpHotFix.initialised).toBe(true);
 	});
 
-	it.todo('uses window.guCmpHotFix exports if they exist');
+	it.todo('uses window.guCmpHotFix instances if they exist');
 });
 // *************** END commercial.dcr.js hotfix ***************
 

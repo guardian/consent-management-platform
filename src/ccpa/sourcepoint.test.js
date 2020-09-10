@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import http from 'http';
 import url from 'url';
-import { init } from './sourcepoint';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { init } from './sourcepoint';
 
 jest.mock('../onConsentChange', () => ({
 	invokeCallbacks: jest.fn(),
