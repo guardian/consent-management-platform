@@ -30,7 +30,7 @@ declare global {
 		// sourcepoint's libraries - only one should be present at a time
 		_sp_ccpa?: {
 			config: {
-				mmsDomain: 'https://consent.theguardian.com';
+				mmsDomain: 'https://sourcepoint.theguardian.com';
 				ccpaOrigin: 'https://ccpa-service.sp-prod.net';
 				accountId: number;
 				getDnsMsgMms: boolean;
@@ -50,8 +50,7 @@ declare global {
 		};
 		_sp_?: {
 			config: {
-				mmsDomain: 'https://consent.theguardian.com';
-				wrapperAPIOrigin: 'https://wrapper-api.sp-prod.net/tcfv2';
+				baseEndpoint: 'https://sourcepoint.theguardian.com';
 				accountId: number;
 				propertyHref: string | null;
 				propertyId?: string;
