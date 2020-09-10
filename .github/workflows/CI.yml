@@ -4,8 +4,8 @@ on:
         branches-ignore:
             - 'gh-pages'
 jobs:
-    test:
-        name: Tests
+    test-unit:
+        name: Unit Tests
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
