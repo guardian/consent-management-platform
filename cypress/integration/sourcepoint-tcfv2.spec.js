@@ -41,7 +41,6 @@ describe('Interaction', () => {
 	const buttonTitle = 'Yes, I’m happy';
 
 	beforeEach(() => {
-		Cypress.Cookies.debug(true);
 		Cypress.Cookies.preserveOnce('consentUUID', 'euconsent-v2');
 	});
 
