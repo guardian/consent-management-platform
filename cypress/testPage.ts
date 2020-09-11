@@ -90,9 +90,6 @@ onConsentChange((response) => {
 			const [purpose, consent] = entry;
 			const listItem = document.createElement('li');
 			listItem.style.backgroundColor = consent ? 'lightgreen' : 'darksalmon';
-			listItem.style.width = '9em';
-			listItem.style.margin = '0.25em';
-			listItem.style.padding = '0.25em';
 			listItem.dataset.purpose = purpose.toString();
 			listItem.dataset.consent = consent.toString();
 			listItem.innerHTML = `Purpose ${purpose} &rarr; ${consent}`;
@@ -100,5 +97,15 @@ onConsentChange((response) => {
 		});
 	}
 });
+
+const styles = document.createElement('style');
+styles.innerHTML = `
+ li {
+	 width: 9em;
+	 margin: 0.25em;
+	 padding: 0.25em;
+ }
+`;
+document.body.append(styles);
 
 document.body.append(list);
