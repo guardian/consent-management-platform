@@ -9,6 +9,8 @@ document.body.style.fontFamily = 'sans-serif';
 // Mimic behaviour of real-world usage.
 // We call everything more than once to make sure that doesn't break anything.
 
+if (window.location.hash === '#tcfv2') localStorage.setItem('inUSA', 'false');
+if (window.location.hash === '#ccpa') localStorage.setItem('inUSA', 'true');
 const isInUsa = localStorage.getItem('inUSA') === 'true';
 
 cmp.init({ isInUsa });
@@ -41,6 +43,7 @@ locationLabel.style.justifyContent = 'flex-end';
 
 const locationControl = document.createElement('input');
 locationControl.type = 'checkbox';
+locationControl.dataset.cy = 'ccpa';
 locationControl.checked = localStorage.getItem('inUSA') === 'true';
 locationControl.onclick = () => {
 	localStorage.setItem('inUSA', locationControl.checked.toString());
@@ -95,6 +98,15 @@ onConsentChange((response) => {
 			listItem.innerHTML = `Purpose ${purpose} &rarr; ${consent}`;
 			purposes.appendChild(listItem);
 		});
+	}
+
+	if (response.ccpa) {
+		const { doNotSell } = response.ccpa;
+		const listItem = document.createElement('li');
+		listItem.style.backgroundColor = !doNotSell ? 'lightgreen' : 'darksalmon';
+		listItem.dataset.dnt = doNotSell.toString();
+		listItem.innerHTML = `Do not sell &rarr; ${doNotSell}`;
+		purposes.appendChild(listItem);
 	}
 });
 
