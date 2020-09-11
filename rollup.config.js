@@ -34,6 +34,7 @@ module.exports = {
 		commonjs(),
 		strip({
 			include: ['**/*.{j,t}s?(x)'],
+			exclude: ['src/index.*'],
 			sourceMap: true,
 		}),
 	],
