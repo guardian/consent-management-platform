@@ -43,6 +43,9 @@ jobs:
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
 
+            - name: check CI env var
+              run: 'node -e "console.log(\"CI: \", process.env.CI)"'
+
             - name: Run integration tests with Cypress
               run: 'yarn test:integration'
 

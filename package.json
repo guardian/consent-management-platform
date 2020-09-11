@@ -48,6 +48,7 @@
 		"@babel/preset-env": "^7.11.5",
 		"@babel/preset-typescript": "^7.10.4",
 		"@babel/runtime": "^7.11.2",
+		"@cypress/skip-test": "^2.5.0",
 		"@rollup/plugin-babel": "^5.2.0",
 		"@rollup/plugin-commonjs": "^15.0.0",
 		"@rollup/plugin-html": "^0.2.0",
