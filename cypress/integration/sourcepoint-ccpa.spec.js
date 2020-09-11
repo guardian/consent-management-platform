@@ -6,7 +6,9 @@ const loadPage = () => {
 	it('should load the CCPA page', () => cy.visit('/#ccpa'));
 };
 const doNotTrackIs = (boolean) => {
-	cy.get('li[data-dnt]').should('have.data', 'dnt').should('equal', boolean);
+	cy.get('li[data-donotsell]')
+		.should('have.data', 'donotsell')
+		.should('equal', boolean);
 };
 
 describe('Window', () => {
@@ -53,7 +55,7 @@ describe('Interaction', () => {
 		);
 	});
 
-	it('should have DNT set to false by default', () => {
+	it('should have DNS set to false by default', () => {
 		doNotTrackIs(false);
 	});
 

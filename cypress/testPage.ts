@@ -104,7 +104,7 @@ onConsentChange((response) => {
 		const { doNotSell } = response.ccpa;
 		const listItem = document.createElement('li');
 		listItem.style.backgroundColor = !doNotSell ? 'lightgreen' : 'darksalmon';
-		listItem.dataset.dnt = doNotSell.toString();
+		listItem.dataset.donotsell = doNotSell.toString();
 		listItem.innerHTML = `Do not sell &rarr; ${doNotSell}`;
 		purposes.appendChild(listItem);
 	}
