@@ -5,7 +5,7 @@ import { skipOn } from '@cypress/skip-test';
 const iframeMessage = '#sp_message_iframe_208529';
 const iframePrivacyManager = '#sp_message_iframe_106842';
 const loadPage = () => {
-	it('should load the page', () => cy.visit('/'));
+	it('should load the TCFv2 page', () => cy.visit('/#tcfv2'));
 };
 
 describe('Window', () => {
@@ -51,7 +51,9 @@ skipOn(Cypress.env('CI') === true, () => {
 		});
 
 		it(`should give all consents when clicking "${buttonTitle}"`, () => {
-			cy.getIframeBody().find(`button[title="${buttonTitle}"]`).click();
+			cy.getIframeBody(iframeMessage)
+				.find(`button[title="${buttonTitle}"]`)
+				.click();
 			[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
 				cy.get(`li[data-purpose="${purpose}"]`)
 					.should('have.data', 'consent')
