@@ -16,7 +16,9 @@ describe('Window', () => {
 			.its('_sp_.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.mmsDomain).equal('https://consent.theguardian.com');
+				expect(spConfig.baseEndpoint).equal(
+					'https://sourcepoint.theguardian.com',
+				);
 			});
 	});
 });
@@ -31,7 +33,7 @@ describe('Document', () => {
 		cy.get('script#sourcepoint-tcfv2-lib').should(
 			'have.attr',
 			'src',
-			'https://gdpr-tcfv2.sp-prod.net/wrapperMessagingWithoutDetection.js',
+			'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js',
 		);
 	});
 });
