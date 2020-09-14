@@ -26,7 +26,7 @@ describe('Window', () => {
 });
 
 // TODO: enable testing of TCFv2 on CI
-skipOn(process.env.CI === true, () => {
+skipOn(process.env.CI, () => {
 	describe('Document', () => {
 		loadPage();
 		it('should have the SP iframe', () => {
