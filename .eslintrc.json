@@ -17,6 +17,7 @@
 		"jest/globals": true,
 		"browser": true
 	},
+	"globals": { "__PACKAGE_VERSION__": "readonly" },
 	"rules": {
 		"no-multi-assign": 0,
 		"@typescript-eslint/consistent-type-definitions": 0,
