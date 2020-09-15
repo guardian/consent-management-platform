@@ -31,11 +31,6 @@
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
 	},
-	"jest": {
-		"testMatch": [
-			"**/*.test.+(ts|tsx|js)"
-		]
-	},
 	"peerDependencies": {
 		"@babel/runtime": "^7.11.2"
 	},
