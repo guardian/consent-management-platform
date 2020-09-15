@@ -1,0 +1,14 @@
+{
+	"root": true,
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module",
+		"project": ""
+	},
+	"plugins": ["cypress", "prettier"],
+	"env": {
+		"cypress/globals": true
+	},
+	"extends": ["plugin:cypress/recommended", "plugin:prettier/recommended"],
+	"ignorePatterns": ["dist"]
+}
