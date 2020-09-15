@@ -6,6 +6,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
+import pkg from './package.json';
 
 const extensions = ['.js', '.ts'];
 
@@ -39,6 +40,7 @@ export default {
 		commonjs(),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('development'),
+			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		html(),
 		process.env.ROLLUP_WATCH && serve(dist),
