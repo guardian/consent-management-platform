@@ -25,6 +25,8 @@ describe('Window', () => {
 	});
 });
 
+console.log(process.env);
+
 // TODO: enable testing of TCFv2 on CI
 skipOn(process.env.CI === 'true', () => {
 	describe('Document', () => {
