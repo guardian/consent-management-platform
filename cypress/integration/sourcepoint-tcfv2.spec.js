@@ -26,7 +26,7 @@ describe('Window', () => {
 });
 
 // TODO: enable testing of TCFv2 on CI
-skipOn(Cypress.env('CI'), () => {
+skipOn(Cypress.env('CI') === 'true', () => {
 	describe('Document', () => {
 		loadPage();
 		it('should have the SP iframe', () => {
