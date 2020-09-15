@@ -43,7 +43,13 @@ jobs:
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
 
-            - name: Run e2e tests with Cypress
+            - name: Build github pages
+              run: yarn gh-pages:build
+
+            - name: Build dist
+              run: yarn build
+
+            - name: Run e2e tests on dist with Cypress
               run: yarn test:e2e
 
     lint:
@@ -78,22 +84,3 @@ jobs:
 
             - name: Check types
               run: yarn tsc
-    build:
-        name: Build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v2
-
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
-
-            - name: Install dependencies
-              uses: bahmutov/npm-install@v1
-
-            - name: Build package
-              run: yarn build
-
-            - name: Build github pages
-              run: yarn gh-pages:build
