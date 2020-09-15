@@ -5,15 +5,14 @@ import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import serve from 'rollup-plugin-serve';
-import pkg from './package.json';
+import pkg from '../package.json';
 
 const extensions = ['.js', '.ts'];
 
-const dist = 'cypress/dist';
+const dist = 'dist';
 
-// eslint-disable-next-line import/no-default-export
 export default {
-	input: path.resolve(__dirname, 'cypress', 'testPage.ts'),
+	input: path.resolve(__dirname, 'testPage.js'),
 	output: {
 		format: 'esm',
 		dir: dist,
@@ -31,7 +30,6 @@ export default {
 						},
 					},
 				],
-				'@babel/preset-typescript',
 			],
 			extensions,
 		}),
