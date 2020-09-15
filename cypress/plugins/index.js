@@ -19,8 +19,7 @@ export default (on, config) => {
 		},
 	});
 
-	const newConfig = { ...config };
-	newConfig.env.CI = process.env.CI || false;
+	config.env = { ...config.env, ...process.env };
 
-	return newConfig;
+	return config;
 };

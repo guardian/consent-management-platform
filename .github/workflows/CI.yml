@@ -51,8 +51,6 @@ jobs:
 
             - name: Run e2e tests on dist with Cypress
               run: yarn test:e2e
-              env:
-                  CI: true
     lint:
         name: Linting
         runs-on: ubuntu-latest

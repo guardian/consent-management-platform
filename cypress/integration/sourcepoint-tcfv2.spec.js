@@ -12,7 +12,6 @@ describe('Window', () => {
 	loadPage();
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
-		cy.log(process.env);
 	});
 	it('has correct config params', () => {
 		cy.window()
@@ -27,7 +26,7 @@ describe('Window', () => {
 });
 
 // TODO: enable testing of TCFv2 on CI
-skipOn(process.env.CI === 'true', () => {
+skipOn(Cypress.env('CI'), () => {
 	describe('Document', () => {
 		loadPage();
 		it('should have the SP iframe', () => {
