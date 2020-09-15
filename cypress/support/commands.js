@@ -23,3 +23,6 @@ Cypress.Commands.add('getIframeBody', (selector = '') => {
 			.then(cy.wrap)
 	);
 });
+Cypress.Commands.overwrite('log', (subject, message) =>
+	cy.task('log', message),
+);

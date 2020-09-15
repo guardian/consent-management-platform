@@ -12,6 +12,7 @@ describe('Window', () => {
 	loadPage();
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
+		cy.log(process.env);
 	});
 	it('has correct config params', () => {
 		cy.window()
@@ -24,8 +25,6 @@ describe('Window', () => {
 			});
 	});
 });
-
-console.log(process.env);
 
 // TODO: enable testing of TCFv2 on CI
 skipOn(process.env.CI === 'true', () => {

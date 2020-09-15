@@ -12,6 +12,13 @@
 // the project's config changing)
 
 export default (on, config) => {
+	on('task', {
+		log(message) {
+			console.log(message);
+			return null;
+		},
+	});
+
 	const newConfig = { ...config };
 	newConfig.env.CI = process.env.CI || false;
 
