@@ -76,13 +76,11 @@ describe('Interaction', () => {
 
 		cy.getIframeBody(iframePrivacyManager)
 			.find(`#tab-pan_5ed10cdb1ea0b9455a0ff81c div.right`) /* ¯\_(ツ)_/¯ */
-			.wait(600)
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)
 			.find('#tab-saveandexit')
 			.should('be.visible')
-			.wait(1200)
 			.click();
 
 		doNotTrackIs(true);

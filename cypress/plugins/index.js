@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable import/no-default-export */
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
