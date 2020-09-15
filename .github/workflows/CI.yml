@@ -44,7 +44,7 @@ jobs:
               uses: bahmutov/npm-install@v1
 
             - name: Run e2e tests with Cypress
-              run: 'yarn test:e2e'
+              run: yarn test:e2e
 
     lint:
         name: Linting
