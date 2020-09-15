@@ -1,4 +1,4 @@
-import { cmp, onConsentChange } from '../src/index';
+import { cmp, onConsentChange } from '../dist/index';
 
 document.body.style.fontFamily = 'sans-serif';
 
