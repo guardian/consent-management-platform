@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { cmp, onConsentChange } from '../src/index';
 
 document.body.style.fontFamily = 'sans-serif';
@@ -18,7 +16,7 @@ cmp.init({ isInUsa });
 const list = document.createElement('ul');
 list.style.fontFamily = 'monospace';
 
-const appendListItem = (content: string): void => {
+const appendListItem = (content) => {
 	const element = document.createElement('li');
 	element.innerHTML = content;
 	list.appendChild(element);
