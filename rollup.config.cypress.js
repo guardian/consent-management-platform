@@ -44,4 +44,7 @@ export default {
 		html(),
 		serve(dist),
 	].filter(Boolean),
+	watch: {
+		clearScreen: false,
+	},
 };
