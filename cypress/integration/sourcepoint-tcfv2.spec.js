@@ -54,10 +54,16 @@ skipOn(Cypress.env('CI') === 'true', () => {
 			cy.getIframeBody(iframeMessage)
 				.find(`button[title="${buttonTitle}"]`)
 				.click();
-			[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
-				cy.get(`li[data-purpose="${purpose}"]`)
-					.should('have.data', 'consent')
-					.should('equal', true);
+
+			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			cy.wait(1000);
+
+			[(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)].forEach((purpose) => {
+				cy.get(`[data-purpose="${purpose}"]`).should(
+					'have.data',
+					'consent',
+					true,
+				);
 			});
 		});
 		it(`should be able to only deactivate purpose 1`, () => {
@@ -72,11 +78,15 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[aria-label="Save and close"]`)
 				.click();
 
-			cy.get(`li[data-purpose="1"]`)
+			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			cy.wait(1000);
+
+			cy.get(`[data-purpose="1"]`)
 				.should('have.data', 'consent')
 				.should('equal', false);
+
 			[2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
-				cy.get(`li[data-purpose="${purpose}"]`)
+				cy.get(`[data-purpose="${purpose}"]`)
 					.should('have.data', 'consent')
 					.should('equal', true);
 			});
@@ -96,11 +106,15 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[aria-label="Save and close"]`)
 				.click();
 
-			cy.get(`li[data-purpose="1"]`)
+			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			cy.wait(1000);
+
+			cy.get(`[data-purpose="1"]`)
 				.should('have.data', 'consent')
 				.should('equal', false);
+
 			[2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
-				cy.get(`li[data-purpose="${purpose}"]`)
+				cy.get(`[data-purpose="${purpose}"]`)
 					.should('have.data', 'consent')
 					.should('equal', true);
 			});
