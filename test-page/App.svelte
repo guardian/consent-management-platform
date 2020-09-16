@@ -1,21 +1,17 @@
 <script>
+	// always use the build version
 	import { cmp, onConsentChange } from '../dist/index';
 	import { onMount } from 'svelte';
 
-	$: consentState = {};
-
-	$: eventsList = [];
-
-	cmp.willShowPrivacyMessage().then((willShow) => {
-		logEvent({ title: 'cmp.willShowPrivacyMessage', payload: willShow });
-	});
-
-	onConsentChange((payload) => {
-		consentState = payload;
-
-		console.log(consentState);
-
-		logEvent({ title: 'onConsentChange', payload });
+	// allow us to listen to changes on window.guCmpHotFix
+	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
+		set: function (target, key, value) {
+			target[key] = value;
+			console.info('%cwindow.guCmpHotFix', 'color: deeppink;', {
+				...window.guCmpHotFix,
+			});
+			return true;
+		},
 	});
 
 	function logEvent(event) {
@@ -38,26 +34,62 @@
 
 	let isInUsa = JSON.parse(localStorage.getItem('isInUsa'));
 
+	$: consentState = {};
+	$: eventsList = [];
+
+	cmp.willShowPrivacyMessage().then((willShow) => {
+		logEvent({ title: 'cmp.willShowPrivacyMessage', payload: willShow });
+	});
+
+	onConsentChange((payload) => {
+		consentState = payload;
+		logEvent({ title: 'onConsentChange', payload });
+	});
+
 	onMount(async () => {
+		// do this loads to make sure that doesn't break things
+		cmp.init({ isInUsa });
+		cmp.init({ isInUsa });
+		cmp.init({ isInUsa });
 		cmp.init({ isInUsa });
 	});
 </script>
 
 <style>
 	* {
-		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-			sans-serif, Apple Color Emoji, Segoe UI Emoji;
+		font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
 		font-size: 12px;
 	}
 
-	nav,
-	label {
-		display: flex;
-		align-items: center;
+	main {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: grid;
+		grid-template-columns: auto 400px;
+		grid-template-rows: auto 1fr;
+		grid-template-areas:
+			'footer sidebar'
+			'main sidebar';
+	}
+
+	main > * {
+		overflow: auto;
 	}
 
 	nav {
-		padding-bottom: 1em;
+		grid-area: footer;
+		padding: 0.5rem;
+		align-self: end;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		z-index: 1;
+	}
+
+	nav * {
+		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+			sans-serif, Apple Color Emoji, Segoe UI Emoji;
 	}
 
 	nav * + * {
@@ -65,26 +97,18 @@
 		max-width: 50%;
 	}
 
-	main {
-		padding-right: 400px;
-	}
-
-	summary {
-		cursor: pointer;
+	#consent-state {
+		grid-area: main;
+		padding: 1rem;
 	}
 
 	#events {
+		grid-area: sidebar;
 		list-style-type: none;
 		padding: 0;
-		position: fixed;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		width: 400px;
 		border-left: black solid 1px;
 		overflow: auto;
 		margin: 0;
-		font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !important;
 	}
 
 	#events li {
@@ -99,13 +123,14 @@
 		padding: 0.4em 0.5em;
 	}
 
-	summary {
-		padding: 0.2em 0.5em;
+	label {
+		display: inline-flex;
+		align-items: center;
 	}
 
-	summary,
-	pre {
-		font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !important;
+	summary {
+		cursor: pointer;
+		padding: 0.2em 0.5em;
 	}
 
 	.yes,
@@ -122,15 +147,13 @@
 		padding: 0 1ch;
 		box-sizing: border-box;
 	}
+
 	.yes {
 		background-color: chartreuse;
 	}
+
 	.no {
 		background-color: #ff1a4f;
-	}
-
-	#consent-state * {
-		font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !important;
 	}
 
 	.label {
@@ -142,7 +165,11 @@
 
 	h2 {
 		font-weight: normal;
-		margin: 1rem 0 0.2rem;
+		margin: 0 0 0.2rem;
+	}
+
+	* + h2 {
+		margin-top: 1rem;
 	}
 </style>
 
@@ -177,15 +204,15 @@
 			<h2>¯\_(ツ)_/¯</h2>
 		{/if}
 	</div>
-</main>
 
-<ol id="events">
-	{#each eventsList as { title, payload }}
-		<li>
-			<details>
-				<summary>{title}</summary>
-				<pre>{JSON.stringify(payload, null, 4)}</pre>
-			</details>
-		</li>
-	{/each}
-</ol>
+	<ol id="events">
+		{#each eventsList as { title, payload }}
+			<li>
+				<details>
+					<summary>{title}</summary>
+					<pre>{JSON.stringify(payload, null, 4)}</pre>
+				</details>
+			</li>
+		{/each}
+	</ol>
+</main>
