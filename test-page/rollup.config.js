@@ -48,4 +48,7 @@ export default {
 		process.env.ROLLUP_WATCH && serve(dist),
 		process.env.ROLLUP_WATCH && livereload({ watch: dist }),
 	].filter(Boolean),
+	watch: {
+		clearScreen: false,
+	},
 };

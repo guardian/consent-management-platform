@@ -6,7 +6,7 @@ const loadPage = () => {
 	it('should load the CCPA page', () => cy.visit('/#ccpa'));
 };
 const doNotTrackIs = (boolean) => {
-	cy.get('li[data-donotsell]')
+	cy.get('[data-donotsell]')
 		.should('have.data', 'donotsell')
 		.should('equal', boolean);
 };
@@ -66,6 +66,9 @@ describe('Interaction', () => {
 			.find(`button[title="${buttonTitle}"]`)
 			.click();
 
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.wait(500);
+
 		doNotTrackIs(true);
 	});
 
@@ -103,6 +106,7 @@ describe('Interaction', () => {
 		cy.get(`li[data-purpose="1"]`)
 			.should('have.data', 'consent')
 			.should('equal', false);
+
 		[2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
 			cy.get(`li[data-purpose="${purpose}"]`)
 				.should('have.data', 'consent')

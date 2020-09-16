@@ -41,4 +41,7 @@ export default {
 		}),
 	],
 	external: [/@babel\/runtime/],
+	watch: {
+		clearScreen: false,
+	},
 };

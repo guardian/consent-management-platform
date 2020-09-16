@@ -28,7 +28,7 @@
 		"release": "np",
 		"test": "npm-run-all test:unit test:e2e",
 		"test:e2e": "start-server-and-test 'yarn test:e2e:serve' http://localhost:10001 'yarn cypress run'",
-		"test:e2e:serve": "rollup --config cypress/rollup.config.js",
+		"test:e2e:serve": "rollup --config --watch",
 		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:unit": "jest --coverage",
 		"tsc": "tsc",

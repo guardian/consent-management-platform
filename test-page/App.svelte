@@ -3,6 +3,10 @@
 	import { cmp, onConsentChange } from '../dist/index';
 	import { onMount } from 'svelte';
 
+	if (window.location.hash === '#tcfv2')
+		localStorage.setItem('isInUsa', 'false');
+	if (window.location.hash === '#ccpa') localStorage.setItem('isInUsa', 'true');
+
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
 		set: function (target, key, value) {
@@ -42,8 +46,8 @@
 	});
 
 	onConsentChange((payload) => {
-		consentState = payload;
 		logEvent({ title: 'onConsentChange', payload });
+		consentState = payload;
 	});
 
 	onMount(async () => {
@@ -175,7 +179,7 @@
 
 <main>
 	<nav>
-		<button on:click={cmp.showPrivacyManager}>open privacy manager</button>
+		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy manager</button>
 		<button on:click={clearPreferences}>clear preferences</button>
 		<label>
 			<input type="checkbox" bind:checked={isInUsa} on:change={setLocation} /> in
@@ -189,8 +193,11 @@
 			<span class="label">{consentState.tcfv2.eventStatus}</span>
 
 			<h2>tcfv2.consents</h2>
-			{#each Object.entries(consentState.tcfv2.consents) as [consent, state]}
-				<span class={JSON.parse(state) ? 'yes' : 'no'}>{consent}</span>
+			{#each Object.entries(consentState.tcfv2.consents) as [purpose, state]}
+				<span
+					class={JSON.parse(state) ? 'yes' : 'no'}
+					data-purpose={purpose}
+					data-consent={state}>{purpose}</span>
 			{/each}
 
 			<h2>tcfv2.vendorConsents</h2>
@@ -199,7 +206,8 @@
 			{/each}
 		{:else if consentState.ccpa}
 			<h2>ccpa.doNotSell</h2><span
-				class="label">{consentState.ccpa.doNotSell}</span>
+				class="label"
+				data-donotsell={consentState.ccpa.doNotSell}>{consentState.ccpa.doNotSell}</span>
 		{:else}
 			<h2>¯\_(ツ)_/¯</h2>
 		{/if}
