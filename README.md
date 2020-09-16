@@ -11,8 +11,7 @@ and TCFv2 to everyone else.
 
 ## Table of Contents
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- toc -->
 
 ## Managing Consent
 
