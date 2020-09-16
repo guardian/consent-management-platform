@@ -5,12 +5,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import strip from '@rollup/plugin-strip';
-import pkg from './package.json';
+import pkg from '../package.json';
 
 const extensions = ['.js', '.ts', '.tsx'];
 
 export default {
-	input: 'src/index.ts',
+	input: './src/index.ts',
 	output: [
 		{
 			file: pkg.main,
@@ -36,7 +36,7 @@ export default {
 		commonjs(),
 		strip({
 			include: ['**/*.{j,t}s?(x)'],
-			exclude: ['src/index.*'],
+			exclude: ['index.*'],
 			sourceMap: true,
 		}),
 	],

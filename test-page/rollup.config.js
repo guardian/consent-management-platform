@@ -1,6 +1,3 @@
-/* eslint-disable import/no-default-export */
-
-import path from 'path';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
@@ -10,14 +7,14 @@ import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
+import pkg from '../package.json';
 
 const extensions = ['.js', '.ts'];
 
 const dist = '.test-page';
 
 export default {
-	input: path.resolve(__dirname, 'test-page', 'index.js'),
+	input: './test-page/index.js',
 	output: {
 		format: 'esm',
 		dir: dist,
@@ -47,7 +44,7 @@ export default {
 			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		!process.env.ROLLUP_WATCH && terser(),
-		html(),
+		html({ title: 'Guardian CMP' }),
 		process.env.ROLLUP_WATCH && serve(dist),
 		process.env.ROLLUP_WATCH && livereload({ watch: dist }),
 	].filter(Boolean),
