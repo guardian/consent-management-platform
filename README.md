@@ -13,7 +13,7 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Managing Consent tesst](#managing-consent-tesst)
+- [Managing Consent](#managing-consent)
   * [`cmp.init(options)`](#cmpinitoptions)
   * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
@@ -28,7 +28,7 @@ and TCFv2 to everyone else.
 
 <!-- tocstop -->
 
-## Managing Consent tesst
+## Managing Consent
 
 ```js
 import { cmp } from '@guardian/consent-management-platform';
