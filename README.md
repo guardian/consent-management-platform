@@ -9,6 +9,10 @@ and TCFv2 to everyone else.
 ![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
 [![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
+## Table of Contents
+
+<!-- toc -->
+
 ## Managing Consent
 
 ```js
