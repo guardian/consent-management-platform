@@ -21,18 +21,22 @@
 		"gh-pages:serve": "yarn gh-pages:build && serve .gh-pages",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
+		"readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
+		"readme-toc:generate": "markdown-toc README.md -i --maxdepth=3",
 		"release": "np",
 		"test": "npm-run-all test:unit test:e2e",
 		"test:e2e": "start-server-and-test 'yarn test:e2e:serve' http://localhost:10001 'yarn cypress run'",
-		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:e2e:serve": "rollup --config cypress/rollup.config.js",
+		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:unit": "jest --coverage",
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
 	},
-	"peerDependencies": {
-		"@babel/runtime": "^7.11.2"
+	"husky": {
+		"hooks": {
+			"pre-push": "npm-run-all readme-toc:generate readme-toc:commit"
+		}
 	},
 	"devDependencies": {
 		"@babel/core": "^7.11.6",
@@ -42,33 +46,38 @@
 		"@babel/preset-typescript": "^7.10.4",
 		"@babel/runtime": "^7.11.2",
 		"@cypress/skip-test": "^2.5.0",
-		"@rollup/plugin-babel": "^5.2.0",
+		"@rollup/plugin-babel": "^5.2.1",
 		"@rollup/plugin-commonjs": "^15.0.0",
 		"@rollup/plugin-html": "^0.2.0",
 		"@rollup/plugin-node-resolve": "^9.0.0",
 		"@rollup/plugin-replace": "^2.3.3",
 		"@rollup/plugin-strip": "^2.0.0",
 		"@types/jest": "^26.0.13",
-		"@typescript-eslint/eslint-plugin": "^4.0.1",
-		"@typescript-eslint/parser": "^4.0.1",
-		"cypress": "^5.1.0",
-		"eslint": "^7.8.1",
+		"@typescript-eslint/eslint-plugin": "^4.1.1",
+		"@typescript-eslint/parser": "^4.1.1",
+		"cypress": "^5.2.0",
+		"eslint": "^7.9.0",
 		"eslint-config-airbnb-typescript": "^10.0.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-cypress": "^2.11.1",
 		"eslint-plugin-import": "^2.22.0",
-		"eslint-plugin-jest": "^24.0.0",
+		"eslint-plugin-jest": "^24.0.1",
 		"eslint-plugin-prettier": "^3.1.4",
+		"husky": "^4.3.0",
 		"jest": "^26.4.2",
+		"markdown-toc": "^1.2.0",
 		"np": "^6.5.0",
 		"npm-run-all": "^4.1.5",
-		"prettier": "^2.1.1",
-		"rollup": "^2.26.10",
+		"prettier": "^2.1.2",
+		"rollup": "^2.27.0",
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-serve": "^1.0.4",
 		"serve": "^11.3.2",
 		"start-server-and-test": "^1.11.3",
 		"typescript": "^4.0.2",
 		"wait-for-expect": "^3.0.2"
+	},
+	"peerDependencies": {
+		"@babel/runtime": "^7.11.2"
 	}
 }

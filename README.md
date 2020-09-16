@@ -9,6 +9,25 @@ and TCFv2 to everyone else.
 ![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
 [![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
+## Table of Contents
+
+<!-- toc -->
+
+- [Managing Consent](#managing-consent)
+  * [`cmp.init(options)`](#cmpinitoptions)
+  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+- [Using Consent](#using-consent)
+  * [`onConsentChange(callback)`](#onconsentchangecallback)
+- [Disabling Consent](#disabling-consent)
+  * [`cmp.__disable()`](#cmp__disable)
+  * [`cmp.__enable()`](#cmp__enable)
+  * [`cmp.__isDisabled()`](#cmp__isdisabled)
+  * [Manually](#manually)
+- [Development](#development)
+
+<!-- tocstop -->
+
 ## Managing Consent
 
 ```js
@@ -156,7 +175,7 @@ onConsentChange(({ tcfv2, ccpa }) => {
 });
 ```
 
-## Disabling the CMP
+## Disabling Consent
 
 It is possible to disable the CMP entirely in the current browser, which can be useful for testing host applications.
 
