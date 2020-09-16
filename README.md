@@ -11,24 +11,8 @@ and TCFv2 to everyone else.
 
 ## Table of Contents
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Managing Consent](#managing-consent)
-  - [`cmp.init(options)`](#cmpinitoptions)
-  - [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  - [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  - [`onConsentChange(callback)`](#onconsentchangecallback)
-- [Disabling Consent](#disabling-consent)
-  - [`cmp.__disable()`](#cmp__disable)
-  - [`cmp.__enable()`](#cmp__enable)
-  - [`cmp.__isDisabled()`](#cmp__isdisabled)
-  - [Manually](#manually)
-- [Development](#development)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 ## Managing Consent
 

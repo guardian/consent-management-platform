@@ -21,6 +21,8 @@
 		"gh-pages:serve": "yarn gh-pages:build && serve .gh-pages",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
+		"readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
+		"readme-toc:generate": "markdown-toc README.md -i --maxdepth=3",
 		"release": "np",
 		"test": "npm-run-all test:unit test:e2e",
 		"test:e2e": "start-server-and-test 'yarn test:e2e:serve' http://localhost:10001 'yarn cypress run'",
@@ -33,7 +35,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-push": "yarn doctoc README.md --maxlevel 3 && git add README.md && git commit -m 'Update README toc'"
+			"pre-push": "npm-run-all readme-toc:generate readme-toc:commit"
 		}
 	},
 	"devDependencies": {
