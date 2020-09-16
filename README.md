@@ -156,7 +156,7 @@ onConsentChange(({ tcfv2, ccpa }) => {
 });
 ```
 
-## Disabling the CMP
+## Disabling Consent
 
 It is possible to disable the CMP entirely in the current browser, which can be useful for testing host applications.
 
