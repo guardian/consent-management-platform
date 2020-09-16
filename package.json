@@ -33,7 +33,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-push": "yarn markdown-toc README.md -i --maxdepth=3 && git add README.md && git commit -m 'Update README toc'"
+			"pre-push": "yarn doctoc README.md --maxlevel 3 && git add README.md && git commit -m 'Update README toc'"
 		}
 	},
 	"devDependencies": {
@@ -54,6 +54,7 @@
 		"@typescript-eslint/eslint-plugin": "^4.1.1",
 		"@typescript-eslint/parser": "^4.1.1",
 		"cypress": "^5.2.0",
+		"doctoc": "^1.4.0",
 		"eslint": "^7.9.0",
 		"eslint-config-airbnb-typescript": "^10.0.0",
 		"eslint-config-prettier": "^6.11.0",
