@@ -13,18 +13,18 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
--   [Managing Consent](#managing-consent)
-    -   [`cmp.init(options)`](#cmpinitoptions)
-    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
--   [Using Consent](#using-consent)
-    -   [`onConsentChange(callback)`](#onconsentchangecallback)
--   [Disabling Consent](#disabling-consent)
-    -   [`cmp.__disable()`](#cmp__disable)
-    -   [`cmp.__enable()`](#cmp__enable)
-    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
-    -   [Manually](#manually)
--   [Development](#development)
+- [Managing Consent tesst](#managing-consent-tesst)
+  * [`cmp.init(options)`](#cmpinitoptions)
+  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+- [Using Consent](#using-consent)
+  * [`onConsentChange(callback)`](#onconsentchangecallback)
+- [Disabling Consent](#disabling-consent)
+  * [`cmp.__disable()`](#cmp__disable)
+  * [`cmp.__enable()`](#cmp__enable)
+  * [`cmp.__isDisabled()`](#cmp__isdisabled)
+  * [Manually](#manually)
+- [Development](#development)
 
 <!-- tocstop -->
 
