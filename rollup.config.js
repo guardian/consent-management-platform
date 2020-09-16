@@ -1,42 +1,6 @@
-import babel from '@rollup/plugin-babel';
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
-import strip from '@rollup/plugin-strip';
-import pkg from './package.json';
+/* eslint-disable import/no-default-export */
 
-const extensions = ['.js', '.ts', '.tsx'];
+import packageConfig from './rollup.config.package';
+import testPageConfig from './rollup.config.test-page';
 
-module.exports = {
-	input: 'src/index.ts',
-	output: [
-		{
-			file: pkg.main,
-			format: 'cjs',
-		},
-		{
-			file: pkg.module,
-			format: 'esm',
-		},
-	],
-	plugins: [
-		babel({
-			extensions,
-			babelHelpers: 'runtime',
-			presets: [['@babel/preset-env'], '@babel/preset-typescript'],
-			plugins: ['@babel/plugin-transform-runtime'],
-		}),
-		resolve({ extensions }),
-		replace({
-			'process.env.NODE_ENV': JSON.stringify('production'),
-			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
-		}),
-		commonjs(),
-		strip({
-			include: ['**/*.{j,t}s?(x)'],
-			exclude: ['src/index.*'],
-			sourceMap: true,
-		}),
-	],
-	external: [/@babel\/runtime/],
-};
+export default [packageConfig, testPageConfig];

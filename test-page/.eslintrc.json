@@ -1,0 +1,20 @@
+{
+	"root": true,
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module"
+	},
+	"plugins": ["prettier", "svelte3"],
+	"env": {
+		"es6": true,
+		"browser": true
+	},
+	"extends": ["plugin:prettier/recommended"],
+	"ignorePatterns": ["dist"],
+	"overrides": [
+		{
+			"files": ["*.svelte"],
+			"processor": "svelte3/svelte3"
+		}
+	]
+}
