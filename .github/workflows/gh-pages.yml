@@ -7,16 +7,21 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2.1.1
-              with:
-                  node-version: 12
-            - name: build
-              run: |
-                  yarn
-                  yarn gh-pages:build
-            - name: deploy
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Use Node.js
+              shell: bash -l {0}
+              run: nvm install
+
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+
+            - name: Build
+              run: yarn build
+
+            - name: Deploy
               env:
                   GH_PAT: ${{ secrets.GH_PAT }}
-                  BUILD_DIR: '.gh-pages/'
+                  BUILD_DIR: '.test-page/'
               uses: maxheld83/ghpages@v0.3.0
