@@ -21,18 +21,22 @@
 		"gh-pages:serve": "yarn gh-pages:build && serve .gh-pages",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
+		"readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
+		"readme-toc:generate": "markdown-toc README.md -i --maxdepth=3",
 		"release": "np",
 		"test": "npm-run-all test:unit test:e2e",
 		"test:e2e": "start-server-and-test 'yarn test:e2e:serve' http://localhost:10001 'yarn cypress run'",
-		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:e2e:serve": "rollup --config cypress/rollup.config.js",
+		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:unit": "jest --coverage",
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build gh-pages:build"
 	},
-	"peerDependencies": {
-		"@babel/runtime": "^7.11.2"
+	"husky": {
+		"hooks": {
+			"pre-push": "npm-run-all readme-toc:generate readme-toc:commit"
+		}
 	},
 	"devDependencies": {
 		"@babel/core": "^7.11.6",
@@ -59,7 +63,9 @@
 		"eslint-plugin-import": "^2.22.0",
 		"eslint-plugin-jest": "^24.0.1",
 		"eslint-plugin-prettier": "^3.1.4",
+		"husky": "^4.3.0",
 		"jest": "^26.4.2",
+		"markdown-toc": "^1.2.0",
 		"np": "^6.5.0",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^2.1.2",
@@ -70,5 +76,8 @@
 		"start-server-and-test": "^1.11.3",
 		"typescript": "^4.0.2",
 		"wait-for-expect": "^3.0.2"
+	},
+	"peerDependencies": {
+		"@babel/runtime": "^7.11.2"
 	}
 }
