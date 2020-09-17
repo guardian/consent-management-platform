@@ -27,3 +27,8 @@ export type TCPingStatusCode =
 	| 'visible'
 	| 'hidden'
 	| 'disabled';
+
+export interface VendorSourcepointId {
+	vendor: string;
+	sourcepointId: string;
+}
