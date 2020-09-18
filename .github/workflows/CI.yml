@@ -43,12 +43,6 @@ jobs:
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
 
-            - name: Build github pages
-              run: yarn gh-pages:build
-
-            - name: Build dist
-              run: yarn build
-
             - name: Run e2e tests on dist with Cypress
               run: yarn test:e2e
     lint:

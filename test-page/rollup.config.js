@@ -9,8 +9,6 @@ import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import pkg from '../package.json';
 
-const extensions = ['.js', '.ts'];
-
 const dist = '.test-page';
 
 export default {
@@ -33,11 +31,9 @@ export default {
 						},
 					},
 				],
-				'@babel/preset-typescript',
 			],
-			extensions,
 		}),
-		resolve({ extensions }),
+		resolve(),
 		commonjs(),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify('development'),

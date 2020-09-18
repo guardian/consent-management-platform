@@ -19,13 +19,12 @@
 		"compile": "rollup --config",
 		"dev": "yarn clean && yarn compile --watch",
 		"fix": "yarn lint --fix",
-		"gh-pages:build": "yarn build",
-		"gh-pages:serve": "yarn gh-pages:build && serve .test-page",
 		"lint": "eslint . --ext=js,ts,tsx",
 		"prepublishOnly": "yarn build",
 		"readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
 		"readme-toc:generate": "markdown-toc README.md -i --maxdepth=3",
 		"release": "np",
+		"start": "yarn build && serve .test-page",
 		"test": "npm-run-all test:unit test:e2e",
 		"test:e2e": "start-server-and-test 'yarn test:e2e:serve' http://localhost:10001 'yarn cypress run'",
 		"test:e2e:serve": "rollup --config --watch",
@@ -54,6 +53,7 @@
 		"@rollup/plugin-node-resolve": "^9.0.0",
 		"@rollup/plugin-replace": "^2.3.3",
 		"@rollup/plugin-strip": "^2.0.0",
+		"@rollup/plugin-typescript": "^6.0.0",
 		"@types/jest": "^26.0.13",
 		"@typescript-eslint/eslint-plugin": "^4.1.1",
 		"@typescript-eslint/parser": "^4.1.1",
@@ -81,10 +81,8 @@
 		"serve": "^11.3.2",
 		"start-server-and-test": "^1.11.3",
 		"svelte": "^3.25.1",
+		"tslib": "^2.0.1",
 		"typescript": "^4.0.2",
 		"wait-for-expect": "^3.0.2"
-	},
-	"peerDependencies": {
-		"@babel/runtime": "^7.11.2"
 	}
 }
