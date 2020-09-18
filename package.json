@@ -84,8 +84,5 @@
 		"tslib": "^2.0.1",
 		"typescript": "^4.0.2",
 		"wait-for-expect": "^3.0.2"
-	},
-	"peerDependencies": {
-		"@babel/runtime": "^7.11.2"
 	}
 }
