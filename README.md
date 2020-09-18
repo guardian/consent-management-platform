@@ -1,32 +1,53 @@
 # Consent Management Platform
 
+[![npm (scoped)](https://img.shields.io/npm/v/@guardian/consent-management-platform)](https://www.npmjs.com/package/@guardian/consent-management-platform)
+[![ES version](https://badgen.net/badge/ES/2020/cyan)](https://tc39.es/ecma262/2020/)
+![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
+[![codecov](https://codecov.io/gh/guardian/consent-management-platform/branch/main/graph/badge.svg)](https://codecov.io/gh/guardian/consent-management-platform)
+
 > Consent management for `*.theguardian.com`.
 
 The Guardian CMP handles applying the CCPA to users in the USA,
 and TCFv2 to everyone else.
 
-[![codecov](https://codecov.io/gh/guardian/consent-management-platform/branch/main/graph/badge.svg)](https://codecov.io/gh/guardian/consent-management-platform)
-![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
-[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
-
 ## Table of Contents
 
 <!-- toc -->
 
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-- [Development](#development)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+-   [Development](#development)
 
 <!-- tocstop -->
+
+## Installation
+
+[![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
+
+```bash
+yarn add @guardian/consent-management-platform
+```
+
+or
+
+```bash
+npm install @guardian/consent-management-platform
+```
+
+## Usage
+
+This package is built targeting `ES2020`.
+
+If your target environment is older than that, make sure your bundler includes this package for transpilation when building your application.
 
 ## Managing Consent
 
