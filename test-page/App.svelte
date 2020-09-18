@@ -1,6 +1,6 @@
 <script>
-	// always use the build version
-	import { cmp, onConsentChange } from '../dist/index';
+	// always use the dist version
+	import { cmp, onConsentChange } from '../';
 	import { onMount } from 'svelte';
 
 	if (window.location.hash === '#tcfv2')
