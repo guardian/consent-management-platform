@@ -43,9 +43,6 @@ jobs:
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
 
-            - name: Build github pages
-              run: yarn gh-pages:build
-
             - name: Build dist
               run: yarn build
 
