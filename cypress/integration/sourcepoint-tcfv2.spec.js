@@ -121,3 +121,8 @@ skipOn(Cypress.env('CI') === 'true', () => {
 		});
 	});
 });
+skipOn(Cypress.env('CI') !== 'true', () => {
+	describe('Skipped in CI', () => {
+		it('should skip TCFv2 in CI env, because of geolocation', () => true);
+	});
+});
