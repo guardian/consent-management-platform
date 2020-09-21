@@ -3,7 +3,7 @@ import { ConsentState } from './types';
 enum VendorIDs {
 	'google-analytics' = '5e542b3a4cd8884eb41b5a72',
 	'google-tag-manager' = '5e952f6107d9d20c88e7c975',
-	'googltag' = '5f1aada6b8e05c306c0597d7',
+	'googletag' = '5f1aada6b8e05c306c0597d7',
 	'remarketing' = '5ed0eb688a76503f1016578f',
 	'permutive' = '5eff0d77969bfa03746427eb',
 	'ias' = '5e7ced57b8e05c485246ccf3',
