@@ -16,13 +16,13 @@ const consentStateFoundFalse = {
 it('throws an error if the vendor found ', () => {
 	expect(() => {
 		getConsentFor('doesnotexist', consentStateFoundTrue);
-	}).toThrow();
+	}).toThrow("Vendor 'doesnotexist' not found");
 });
 
 it('throws an error if no consent found for specific vendor ', () => {
 	expect(() => {
 		getConsentFor('google-analytics', consentStateNotFound);
-	}).toThrow();
+	}).toThrow("No consent returned from SP for vendor: 'google-analytics'");
 });
 
 it('returns true consent if true', () => {
