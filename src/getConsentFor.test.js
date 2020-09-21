@@ -9,20 +9,26 @@ const consentStateFoundTrue = {
 	tcfv2: { vendorConsents: { '5e542b3a4cd8884eb41b5a72': true } },
 };
 
-const consentStateFoundfalse = {
+const consentStateFoundFalse = {
 	tcfv2: { vendorConsents: { '5e542b3a4cd8884eb41b5a72': false } },
 };
 
-it('throws an error if no consent for the vendor found ', () => {
-	expect(getConsentFor('google-analytics', consentStateNotFound)).toThrow(
-		'Consent not found for vendor google-analytics',
-	);
+it('throws an error if the vendor found ', () => {
+	expect(() => {
+		getConsentFor('doesnotexist', consentStateFoundTrue);
+	}).toThrow();
 });
 
-it('returns consent if true', () => {
+it('throws an error if no consent found for specific vendor ', () => {
+	expect(() => {
+		getConsentFor('google-analytics', consentStateNotFound);
+	}).toThrow();
+});
+
+it('returns true consent if true', () => {
 	expect(getConsentFor('google-analytics', consentStateFoundTrue)).toBeTruthy();
 });
 
-it('returns consent if false', () => {
-	expect(getConsentFor('google-analytics', consentStateFoundfalse)).toBeFalsy();
+it('returns false consent if false', () => {
+	expect(getConsentFor('google-analytics', consentStateFoundFalse)).toBeFalsy();
 });
