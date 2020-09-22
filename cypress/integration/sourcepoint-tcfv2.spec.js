@@ -47,6 +47,7 @@ skipOn(Cypress.env('CI') === 'true', () => {
 		const buttonTitle = 'Yes, I’m happy';
 
 		beforeEach(() => {
+			cy.setCookie('ccpaApplies', 'false');
 			Cypress.Cookies.preserveOnce('consentUUID', 'euconsent-v2');
 		});
 
