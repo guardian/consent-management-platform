@@ -9,6 +9,7 @@ const loadPage = () => {
 };
 const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]')
+		.should('have.length', 1)
 		.should('have.data', 'donotsell')
 		.should('equal', boolean);
 };
