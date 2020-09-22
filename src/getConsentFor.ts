@@ -6,12 +6,17 @@ export const getConsentFor = (
 ): boolean => {
 	const sourcepointId = VendorIDs[vendor];
 	if (typeof sourcepointId === 'undefined') {
-		throw new Error(`Vendor '${vendor}' not found`);
+		throw new Error(
+			`Vendor '${vendor}' not found. If it should be added, raise an issue at https://git.io/JUzVL`,
+		);
 	}
 	const vendorConsent: boolean | undefined =
 		consent.tcfv2?.vendorConsents[sourcepointId];
 	if (typeof vendorConsent === 'undefined') {
-		throw new Error(`No consent returned from SP for vendor: '${vendor}'`);
+		console.warn(
+			`No consent returned from Sourcepoint for vendor: '${vendor}'`,
+		);
+		return false;
 	}
 	return vendorConsent;
 };

@@ -20,9 +20,7 @@ it('throws an error if the vendor found ', () => {
 });
 
 it('throws an error if no consent found for specific vendor ', () => {
-	expect(() => {
-		getConsentFor('google-analytics', consentStateNotFound);
-	}).toThrow("No consent returned from SP for vendor: 'google-analytics'");
+	expect(getConsentFor('google-analytics', consentStateNotFound)).toBeFalsy();
 });
 
 it('returns true consent if true', () => {

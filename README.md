@@ -21,6 +21,8 @@ and TCFv2 to everyone else.
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
+  * [`getConsentFor(vendor, consent)`](#getconsentforvendor-consent)
+  * [Example](#example-4)
 - [Disabling Consent](#disabling-consent)
   * [`cmp.__disable()`](#cmp__disable)
   * [`cmp.__enable()`](#cmp__enable)
@@ -196,6 +198,28 @@ onConsentChange(({ tcfv2, ccpa }) => {
     }
 });
 ```
+
+
+```js
+import { getConsentFor } from '@guardian/consent-management-platform';
+```
+
+### `getConsentFor(vendor, consent)`
+
+returns: `boolean`
+
+A method to get the consent for each particular vendor
+
+-   to be used inside `onConsentChange` callback
+
+
+### Example
+
+```
+    getConsentFor('google-analytics', consent) //consent is been returned from onConsentChange
+```
+
+Make sure the vendor you are trying to is included inside VendorIds
 
 ## Disabling Consent
 
