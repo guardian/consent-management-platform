@@ -15,6 +15,7 @@ and TCFv2 to everyone else.
 <!-- toc -->
 
 - [Installation](#installation)
+  * [Bundling](#bundling)
 - [Managing Consent](#managing-consent)
   * [`cmp.init(options)`](#cmpinitoptions)
   * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
@@ -44,11 +45,11 @@ or
 npm install @guardian/consent-management-platform
 ```
 
-#### Bundling
+### Bundling
 
 This package uses `ES2020`.
 
-If your target environment is older than that, make sure your bundler includes this package for transpilation when building your application.
+If your target environment does not support that, make sure you transpile this package when bundling your application.
 
 ## Managing Consent
 
