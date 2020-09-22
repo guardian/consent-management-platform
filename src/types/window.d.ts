@@ -1,6 +1,11 @@
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
-import { OnConsentChange, PubData, WillShowPrivacyMessage } from '.';
+import {
+	GetConsentFor,
+	OnConsentChange,
+	PubData,
+	WillShowPrivacyMessage,
+} from '.';
 
 declare global {
 	interface Window {
@@ -24,6 +29,7 @@ declare global {
 			};
 
 			onConsentChange?: OnConsentChange;
+			getConsentFor?: GetConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
