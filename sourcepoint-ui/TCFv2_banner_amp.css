@@ -409,7 +409,6 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     
     .gu-content {
         border-top: 1px solid rgb(80, 105, 145) !important;
-        max-height: calc(51vh) !important;
         overflow-y: scroll;
         padding-bottom: 80px !important;
         scrollbar-width: thin;
