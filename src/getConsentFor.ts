@@ -10,13 +10,18 @@ export const getConsentFor = (
 			`Vendor '${vendor}' not found. If it should be added, raise an issue at https://git.io/JUzVL`,
 		);
 	}
-	const vendorConsent: boolean | undefined =
+
+	if (consent.ccpa) {
+		return !consent.ccpa.doNotSell;
+	}
+
+	const tcfv2Consent: boolean | undefined =
 		consent.tcfv2?.vendorConsents[sourcepointId];
-	if (typeof vendorConsent === 'undefined') {
+	if (typeof tcfv2Consent === 'undefined') {
 		console.warn(
 			`No consent returned from Sourcepoint for vendor: '${vendor}'`,
 		);
 		return false;
 	}
-	return vendorConsent;
+	return tcfv2Consent;
 };
