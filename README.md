@@ -199,6 +199,7 @@ onConsentChange(({ tcfv2, ccpa }) => {
 });
 ```
 
+## Get consent for particular vendor
 
 ```js
 import { getConsentFor } from '@guardian/consent-management-platform';
@@ -208,15 +209,32 @@ import { getConsentFor } from '@guardian/consent-management-platform';
 
 returns: `boolean`
 
-A method to get the consent for each particular vendor
+A method to get the consent for each particular custom vendor from Sourcepoint
 
--   to be used inside `onConsentChange` callback
+params:
+
+#### `vendor`: string representing the key of the Vendor Id
+    Check VendorIds (inside `src/types/index.ts`) to see if the vendor you are trying to use is already configured.
+    If not please raise an issue at https://git.io/JUzVL
+
+#### `consent`: the consent object been returned from `onConsentChange` callback
 
 
 ### Example
 
 ```
-    getConsentFor('google-analytics', consent) //consent is been returned from onConsentChange
+    import { getConsentFor, onConsentChange } from '@guardian/consent-management-platform`
+
+    onConsentChange(consent => {
+        const ga = getConsentFor('google-analytics', consent); // true
+        const comscore = getConsentFor('comscore', consent); // false
+
+        // throws error
+        const eowifnwoeifjoweinf = getConsentFor('eowifnwoeifjoweinf', consent);
+
+        // you can still use the consent state for a more complicated logic
+        const complexConsentCondition = myComplexConsentTask(consent);
+    })
 ```
 
 Make sure the vendor you are trying to is included inside VendorIds
