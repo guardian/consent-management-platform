@@ -15,15 +15,14 @@ and TCFv2 to everyone else.
 <!-- toc -->
 
 - [Installation](#installation)
+  * [Bundling](#bundling)
 - [Managing Consent](#managing-consent)
   * [`cmp.init(options)`](#cmpinitoptions)
   * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
-- [Get consent for particular vendor](#get-consent-for-particular-vendor)
   * [`getConsentFor(vendor, consent)`](#getconsentforvendor-consent)
-  * [Example](#example-4)
 - [Disabling Consent](#disabling-consent)
   * [`cmp.__disable()`](#cmp__disable)
   * [`cmp.__enable()`](#cmp__enable)
@@ -47,11 +46,11 @@ or
 npm install @guardian/consent-management-platform
 ```
 
-#### Bundling
+### Bundling
 
 This package uses `ES2020`.
 
-If your target environment is older than that, make sure your bundler includes this package for transpilation when building your application.
+If your target environment does not support that, make sure you transpile this package when bundling your application.
 
 ## Managing Consent
 
@@ -200,8 +199,6 @@ onConsentChange(({ tcfv2, ccpa }) => {
 });
 ```
 
-## Get consent for particular vendor
-
 ```js
 import { getConsentFor } from '@guardian/consent-management-platform';
 ```
@@ -215,27 +212,29 @@ A method to get the consent for each particular custom vendor from Sourcepoint
 params:
 
 #### `vendor`: string representing the key of the Vendor Id
-    Check VendorIds (inside `src/types/index.ts`) to see if the vendor you are trying to use is already configured.
-    If not please raise an issue at https://git.io/JUzVL
+Check [VendorIds][] (inside `src/getConsentFor.ts`) to see if the vendor you are trying to use is already configured.
+If not please raise an issue at https://git.io/JUzVL
+
+[VendorIds]: https://github.com/guardian/consent-management-platform/blob/9de2219cf2499871b3e2f11b4be42acad7ac6f96/src/types/index.ts#L38
 
 #### `consent`: the consent object been returned from `onConsentChange` callback
 
 
-### Example
+#### Example
 
-```
-    import { getConsentFor, onConsentChange } from '@guardian/consent-management-platform`
+```js
+import { getConsentFor, onConsentChange } from '@guardian/consent-management-platform`
 
-    onConsentChange(consent => {
-        const ga = getConsentFor('google-analytics', consent); // true
-        const comscore = getConsentFor('comscore', consent); // false
+onConsentChange(consent => {
+    const ga = getConsentFor('google-analytics', consent); // true
+    const comscore = getConsentFor('comscore', consent); // false
 
-        // throws error
-        const eowifnwoeifjoweinf = getConsentFor('eowifnwoeifjoweinf', consent);
+    // throws error
+    const eowifnwoeifjoweinf = getConsentFor('eowifnwoeifjoweinf', consent);
 
-        // you can still use the consent state for a more complicated logic
-        const complexConsentCondition = myComplexConsentTask(consent);
-    })
+    // you can still use the consent state for a more complicated logic
+    const complexConsentCondition = myComplexConsentTask(consent);
+})
 ```
 
 Make sure the vendor you are trying to is included inside VendorIds

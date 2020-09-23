@@ -23,22 +23,15 @@ it('throws an error if the vendor found ', () => {
 	}).toThrow("Vendor 'doesnotexist' not found");
 });
 
-it('throws an error if no tcfv2 consent found for specific vendor ', () => {
-	expect(getConsentFor('google-analytics', tcfv2ConsentNotFound)).toBeFalsy();
-});
-
-it('returns true tcfv2 consent if true', () => {
-	expect(getConsentFor('google-analytics', tcfv2ConsentFoundTrue)).toBeTruthy();
-});
-
-it('returns false tcfv2 consent if false', () => {
-	expect(getConsentFor('google-analytics', tcfv2ConsentFoundFalse)).toBeFalsy();
-});
-
-it('returns true ccpa consent if true', () => {
-	expect(getConsentFor('google-analytics', ccpaWithConsent)).toBeTruthy();
-});
-
-it('returns false ccpa consent if false', () => {
-	expect(getConsentFor('google-analytics', ccpaWithoutConsent)).toBeFalsy();
-});
+test.each([
+	['tcfv2', false, 'google-analytics', tcfv2ConsentNotFound],
+	['tcfv2', true, 'google-analytics', tcfv2ConsentFoundTrue],
+	['tcfv2', false, 'google-analytics', tcfv2ConsentFoundFalse],
+	['ccpa', true, 'google-analytics', ccpaWithConsent],
+	['ccpa', false, 'google-analytics', ccpaWithoutConsent],
+])(
+	`In %s mode, returns %s, for vendor %s`,
+	(cmpMode, expected, vendor, mock) => {
+		expect(getConsentFor(vendor, mock)).toBe(expected);
+	},
+);

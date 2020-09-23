@@ -1,11 +1,8 @@
+import { getConsentFor } from '../getConsentFor';
+import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
-import {
-	GetConsentFor,
-	OnConsentChange,
-	PubData,
-	WillShowPrivacyMessage,
-} from '.';
+import { PubData, WillShowPrivacyMessage } from '.';
 
 declare global {
 	interface Window {
@@ -28,8 +25,8 @@ declare global {
 				__enable: () => void;
 			};
 
-			onConsentChange?: OnConsentChange;
-			getConsentFor?: GetConsentFor;
+			onConsentChange?: typeof onConsentChange;
+			getConsentFor?: typeof getConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
