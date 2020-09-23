@@ -215,7 +215,7 @@ params:
 Check [VendorIds][] (inside `src/getConsentFor.ts`) to see if the vendor you are trying to use is already configured.
 If not please raise an issue at https://git.io/JUzVL
 
-[VendorIds]: https://github.com/guardian/consent-management-platform/blob/9de2219cf2499871b3e2f11b4be42acad7ac6f96/src/types/index.ts#L38
+[VendorIds]: https://github.com/guardian/consent-management-platform/blob/b243844e2ec2e1c8b0b6849c248c308347de2cd9/src/getConsentFor.ts#L3
 
 #### `consent`: the consent object been returned from `onConsentChange` callback
 
@@ -236,8 +236,6 @@ onConsentChange(consent => {
     const complexConsentCondition = myComplexConsentTask(consent);
 })
 ```
-
-Make sure the vendor you are trying to is included inside VendorIds
 
 ## Disabling Consent
 
