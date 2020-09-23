@@ -21,6 +21,7 @@ and TCFv2 to everyone else.
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
+- [Get consent for particular vendor](#get-consent-for-particular-vendor)
   * [`getConsentFor(vendor, consent)`](#getconsentforvendor-consent)
   * [Example](#example-4)
 - [Disabling Consent](#disabling-consent)
