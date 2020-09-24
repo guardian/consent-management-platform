@@ -22,6 +22,7 @@ and TCFv2 to everyone else.
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
+  * [`getConsentFor(vendor, consent)`](#getconsentforvendor-consent)
 - [Disabling Consent](#disabling-consent)
   * [`cmp.__disable()`](#cmp__disable)
   * [`cmp.__enable()`](#cmp__enable)
@@ -196,6 +197,48 @@ onConsentChange(({ tcfv2, ccpa }) => {
         console.log(ccpa); // { doNotSell: true || false }
     }
 });
+```
+
+```js
+import { getConsentFor } from '@guardian/consent-management-platform';
+```
+
+### `getConsentFor(vendor, consent)`
+
+returns: `boolean`
+
+A method to get the consent for each particular custom vendor from Sourcepoint
+
+#### `vendor`
+
+type: string
+
+See the list of [`VendorIDs`][] for options. If vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!). 
+
+[VendorIDs]: https://github.com/guardian/consent-management-platform/blob/main/src/getConsentFor.ts#L3-L29
+
+#### `consent`
+
+type: `object` 
+
+The consent object returned from `onConsentChange` callback.
+
+
+#### Example
+
+```js
+import { getConsentFor, onConsentChange } from '@guardian/consent-management-platform`
+
+onConsentChange(consent => {
+    const ga = getConsentFor('google-analytics', consent); // true
+    const comscore = getConsentFor('comscore', consent); // false
+
+    // throws error
+    const eowifnwoeifjoweinf = getConsentFor('eowifnwoeifjoweinf', consent);
+
+    // you can still use the consent state for a more complicated logic
+    const complexConsentCondition = myComplexConsentTask(consent);
+})
 ```
 
 ## Disabling Consent

@@ -2,6 +2,7 @@
 
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
+import { getConsentFor as actualGetConsentFor } from './getConsentFor';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
@@ -76,3 +77,4 @@ export const cmp = (window.guCmpHotFix.cmp ||= {
 });
 
 export const onConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
+export const getConsentFor = (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);

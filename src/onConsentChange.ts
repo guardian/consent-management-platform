@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
-import { CallbackQueueItem, ConsentState, OnConsentChange } from './types';
+import { Callback, CallbackQueueItem, ConsentState } from './types';
 
 // callbacks cache
 const callBackQueue: CallbackQueueItem[] = [];
@@ -38,7 +38,7 @@ export const invokeCallbacks = (): void => {
 	});
 };
 
-export const onConsentChange: OnConsentChange = (callBack) => {
+export const onConsentChange: (fn: Callback) => void = (callBack) => {
 	const newCallback: CallbackQueueItem = { fn: callBack };
 
 	callBackQueue.push(newCallback);
