@@ -209,15 +209,19 @@ returns: `boolean`
 
 A method to get the consent for each particular custom vendor from Sourcepoint
 
-params:
+#### `vendor`
 
-#### `vendor`: string representing the key of the Vendor Id
-Check [VendorIds][] (inside `src/getConsentFor.ts`) to see if the vendor you are trying to use is already configured.
-If not please raise an issue at https://git.io/JUzVL
+type: string
 
-[VendorIds]: https://github.com/guardian/consent-management-platform/blob/b243844e2ec2e1c8b0b6849c248c308347de2cd9/src/getConsentFor.ts#L3
+See the list of [`VendorIDs`][] for options. If vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!). 
 
-#### `consent`: the consent object been returned from `onConsentChange` callback
+[VendorIDs]: https://github.com/guardian/consent-management-platform/blob/main/src/getConsentFor.ts#L3-L29
+
+#### `consent`
+
+type: `object` 
+
+The consent object returned from `onConsentChange` callback.
 
 
 #### Example
