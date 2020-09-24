@@ -22,7 +22,7 @@ and TCFv2 to everyone else.
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consent)`](#getconsentforvendor-consent)
+  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
 - [Disabling Consent](#disabling-consent)
   * [`cmp.__disable()`](#cmp__disable)
   * [`cmp.__enable()`](#cmp__enable)
@@ -121,7 +121,10 @@ cmp.showPrivacyManager();
 ## Using Consent
 
 ```js
-import { onConsentChange } from '@guardian/consent-management-platform';
+import {
+    onConsentChange,
+    getConsentFor,
+} from '@guardian/consent-management-platform';
 ```
 
 ### `onConsentChange(callback)`
@@ -136,19 +139,22 @@ An event listener that invokes callbacks whenever the consent state:
 If the consent state has already been acquired when `onConsentChange` is called,
 the callback will be invoked immediately.
 
-#### `callback(result)`
+#### `callback(consentState)`
 
 type: `function`
 
 Reports the user's privacy preferences.
 
-##### `result.tcfv2`
+##### `consentState.tcfv2`
 
 type: `Object` or `undefined`
 
 Reports the user's preferences for each of the TCFv2 purposes, the last CMP
-event status and custom vendor consents. If the user is in the USA, it will
-be `undefined`. Unlike the original `__tcfapi`, all ten consents will have a set
+event status and custom vendor consents.
+
+If the user is in the USA, it will be `undefined`.
+
+Unlike the [`__tcfapi`](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#how-does-the-cmp-provide-the-api), all ten consents will have a set
 boolean value, defaulting to `false` where no explicit consent was given.
 
 ```js
@@ -170,11 +176,12 @@ boolean value, defaulting to `false` where no explicit consent was given.
 }
 ```
 
-##### `result.ccpa`
+##### `consentState.ccpa`
 
 type: `Object` or `undefined`
 
 Reports whether user has withdrawn consent to sell their data in the USA.
+
 If the user is not in the USA, it will be `undefined`.
 
 ```js
@@ -199,46 +206,77 @@ onConsentChange(({ tcfv2, ccpa }) => {
 });
 ```
 
-```js
-import { getConsentFor } from '@guardian/consent-management-platform';
-```
-
-### `getConsentFor(vendor, consent)`
+### `getConsentFor(vendor, consentState)`
 
 returns: `boolean`
 
-A method to get the consent for each particular custom vendor from Sourcepoint
+Gets the consent for a given vendor.
 
 #### `vendor`
 
-type: string
+type: `string`
 
-See the list of [`VendorIDs`][] for options. If vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!). 
+The following vendors are available:
 
-[VendorIDs]: https://github.com/guardian/consent-management-platform/blob/main/src/getConsentFor.ts#L3-L29
+<!-- keep this list up to date with the VendorIDs in src/getConsentFor.ts -->
+
+-   `"a9"`
+-   `"acast"`
+-   `"braze"`
+-   `"comscore"`
+-   `"facebook-mobile"`
+-   `"fb"`
+-   `"firebase"`
+-   `"google-analytics"`
+-   `"google-mobile-ads"`
+-   `"google-sign-in"`
+-   `"google-tag-manager"`
+-   `"googletag"`
+-   `"ias"`
+-   `"inizio"`
+-   `"lotame"`
+-   `"nielsen"`
+-   `"ophan"`
+-   `"permutive"`
+-   `"prebid"`
+-   `"redplanet"`
+-   `"remarketing"`
+-   `"sentry"`
+-   `"teads"`
+-   `"twitter"`
+-   `"youtube-player"`
+
+If vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
+
+[vendorids]: https://github.com/guardian/consent-management-platform/blob/main/src/getConsentFor.ts#L3-L29
 
 #### `consent`
 
-type: `object` 
+type: `object`
 
-The consent object returned from `onConsentChange` callback.
-
+The consent object passed to the `onConsentChange` callback.
 
 #### Example
 
 ```js
-import { getConsentFor, onConsentChange } from '@guardian/consent-management-platform`
+import {
+    onConsentChange,
+    getConsentFor,
+} from '@guardian/consent-management-platform';
 
-onConsentChange(consent => {
-    const ga = getConsentFor('google-analytics', consent); // true
-    const comscore = getConsentFor('comscore', consent); // false
+onConsentChange((consentState) => {
+    const ga = getConsentFor('google-analytics', consentState); // true
+    const comscore = getConsentFor('comscore', consentState); // false
 
     // throws error
-    const eowifnwoeifjoweinf = getConsentFor('eowifnwoeifjoweinf', consent);
+    const eowifnwoeifjoweinf = getConsentFor(
+        'eowifnwoeifjoweinf',
+        consentState,
+    );
 
-    // you can still use the consent state for a more complicated logic
-    const complexConsentCondition = myComplexConsentTask(consent);
-})
+    // you can still use the consent state for a more complicated task
+    const complexConsentCondition = myComplexConsentTask(consentState);
+});
 ```
 
 ## Disabling Consent
