@@ -246,13 +246,11 @@ The following vendors are available:
 -   `"twitter"`
 -   `"youtube-player"`
 
-If vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
+If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
 
-[vendorids]: https://github.com/guardian/consent-management-platform/blob/main/src/getConsentFor.ts#L3-L29
+#### `consentState`
 
-#### `consent`
-
-type: `object`
+type: `Object`
 
 The consent object passed to the `onConsentChange` callback.
 
