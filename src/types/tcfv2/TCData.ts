@@ -6,6 +6,7 @@ export interface TCData {
 	tcfPolicyVersion: number;
 	cmpId: number;
 	cmpVersion: number;
+	addtlConsent: string;
 
 	/**
 	 * true - GDPR Applies
