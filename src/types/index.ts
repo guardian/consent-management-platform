@@ -7,6 +7,8 @@ export interface ConsentState {
 }
 export interface PubData {
 	browserId?: string;
+	pageViewId?: string;
+	cmpInitTimeUtc?: number;
 }
 export interface SourcepointImplementation {
 	init: (pubData?: PubData) => void;

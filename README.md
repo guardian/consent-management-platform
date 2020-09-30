@@ -82,7 +82,14 @@ Pass additional parameters for for reporting. Optional.
 #### Example
 
 ```js
-cmp.init({ pubData: { browserId: 'gow59fnwohwmshz' }, isInUsa: false });
+cmp.init({
+    pubData: {
+        browserId: 'gow59fnwohwmshz',
+        pageViewId: 'jkao3u2kcbaqk',
+        cmpInitTimeUtc: 1601511014537
+    },
+    isInUsa: false
+});
 ```
 
 ### `cmp.willShowPrivacyMessage()`

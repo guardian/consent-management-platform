@@ -53,8 +53,16 @@ describe('Sourcepoint CCPA', () => {
 	});
 
 	it('should accept pubData', () => {
-		init({ browserId: 'abc123' });
+		init({
+			browserId: 'abc123',
+			pageViewId: 'abcdef',
+			cmpInitTimeUtc: 1601511014537,
+		});
 		expect(window._sp_ccpa.config.pubData.browserId).toEqual('abc123');
+		expect(window._sp_ccpa.config.pubData.pageViewId).toEqual('abcdef');
+		expect(window._sp_ccpa.config.pubData.cmpInitTimeUtc).toEqual(
+			1601511014537,
+		);
 	});
 
 	it('should handle no pubData', () => {
