@@ -20,6 +20,14 @@
 
 	function logEvent(event) {
 		eventsList = [...eventsList, event];
+		console.log(
+			`%c@guardian%c %cCMP%c [event]`,
+			'background: #052962; color: white; padding: 2px; border-radius:3px',
+			'',
+			'background: deeppink; color: white; padding: 2px; border-radius:3px',
+			'color: deepskyblue; ',
+			event,
+		);
 	}
 
 	let clearPreferences = () => {
