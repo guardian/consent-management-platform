@@ -150,7 +150,7 @@ Reports the user's privacy preferences.
 type: `Object` or `undefined`
 
 Reports the user's preferences for each of the TCFv2 purposes, the last CMP
-event status and custom vendor consents.
+event status, custom vendor consents, flag if GDPR applies, the TC string and addtlConsent string.
 
 If the user is in the USA, it will be `undefined`.
 
@@ -159,6 +159,10 @@ boolean value, defaulting to `false` where no explicit consent was given.
 
 ```js
 {
+    gdprApplies: Boolean | undefined, // true - GDPR Applies, false - GDPR Does not apply, undefined - unknown whether GDPR Applies
+    tcString: String, // 'base64url-encoded TC string with segments'
+    addtlConsent: String, // Google AC string
+    eventStatus: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
     consents: {
         1: Boolean,
         2: Boolean,
@@ -166,7 +170,7 @@ boolean value, defaulting to `false` where no explicit consent was given.
         9: Boolean,
         10: Boolean,
     },
-    eventStatus: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
+
     vendorConsents: {
         'abcdefghijklmnopqrstuvwx': Boolean,
         'yz1234567890abcdefghijkl': Boolean,
