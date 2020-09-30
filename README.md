@@ -150,7 +150,7 @@ Reports the user's privacy preferences.
 type: `Object` or `undefined`
 
 Reports the user's preferences for each of the TCFv2 purposes, the last CMP
-event status, custom vendor consents, flag if gdpr applies, the TC string and addtlConsent string.
+event status, custom vendor consents, flag if GDPR applies, the TC string and addtlConsent string.
 
 If the user is in the USA, it will be `undefined`.
 
