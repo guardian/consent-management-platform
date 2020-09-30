@@ -159,9 +159,9 @@ boolean value, defaulting to `false` where no explicit consent was given.
 
 ```js
 {
-    gdprApplies: Boolean | undefined,
-    tcString: String,
-    addtlConsent: String,
+    gdprApplies: Boolean | undefined, // true - GDPR Applies, false - GDPR Does not apply, undefined - unknown whether GDPR Applies
+    tcString: String, // 'base64url-encoded TC string with segments'
+    addtlConsent: String, // Google AC string
     eventStatus: String, // 'tcloaded' | 'cmpuishown' | 'useractioncomplete'
     consents: {
         1: Boolean,
@@ -176,7 +176,7 @@ boolean value, defaulting to `false` where no explicit consent was given.
         'yz1234567890abcdefghijkl': Boolean,
         'mnopqrstuvwxyz1234567890': Boolean,
         // Sourcpoint IDs, etc.
-    },
+    }
 }
 ```
 
