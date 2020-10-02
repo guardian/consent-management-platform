@@ -30,7 +30,7 @@ export const init = (pubData = {}): void => {
 				framework: 'tcfv2',
 			},
 
-			pubData,
+			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
 				onConsentReady() {
