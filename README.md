@@ -220,7 +220,7 @@ Gets the consent for a given vendor.
 
 type: `string`
 
-The following vendors are available:
+<details><summary>Click to view the full list of available vendors:</summary>
 
 <!-- keep this list up to date with the VendorIDs in src/getConsentFor.ts -->
 
@@ -251,6 +251,8 @@ The following vendors are available:
 -   `"youtube-player"`
 
 If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
+
+</details>
 
 #### `consentState`
 
