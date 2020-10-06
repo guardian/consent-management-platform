@@ -4,6 +4,11 @@ import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
 import { PubData, WillShowPrivacyMessage } from '.';
 
+type OnMessageChoiceSelect = (
+	arg0: number,
+	arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
+) => void;
+
 declare global {
 	interface Window {
 		// *************** START commercial.dcr.js hotfix ***************
@@ -47,6 +52,7 @@ declare global {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
 					onMessageReceiveData: (data: { msg_id: 0 | string }) => void;
+					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
 			loadPrivacyManagerModal?: (unknown: unknown, id: string) => void; // this function is undocumented
@@ -65,10 +71,7 @@ declare global {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
 					onMessageReceiveData: (data: { messageId: 0 | string }) => void;
-					onMessageChoiceSelect: (
-						arg0: number,
-						arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
-					) => void;
+					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
 			loadPrivacyManagerModal?: (id: number) => void;

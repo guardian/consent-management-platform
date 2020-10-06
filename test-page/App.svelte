@@ -3,9 +3,14 @@
 	import { cmp, onConsentChange } from '../';
 	import { onMount } from 'svelte';
 
-	if (window.location.hash === '#tcfv2')
-		localStorage.setItem('isInUsa', 'false');
-	if (window.location.hash === '#ccpa') localStorage.setItem('isInUsa', 'true');
+	switch (window.location.hash) {
+		case '#tcfv2':
+			localStorage.setItem('isInUsa', 'false');
+			break;
+		case '#ccpa':
+			localStorage.setItem('isInUsa', 'true');
+			break;
+	}
 
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
@@ -20,6 +25,14 @@
 
 	function logEvent(event) {
 		eventsList = [...eventsList, event];
+		console.log(
+			`%c@guardian%c %cCMP%c [event]`,
+			'background: #052962; color: white; padding: 2px; border-radius:3px',
+			'',
+			'background: deeppink; color: white; padding: 2px; border-radius:3px',
+			'color: deepskyblue; ',
+			event,
+		);
 	}
 
 	let clearPreferences = () => {
@@ -33,6 +46,7 @@
 
 	let setLocation = () => {
 		localStorage.setItem('isInUsa', JSON.stringify(isInUsa));
+		window.location.hash = isInUsa ? 'ccpa' : 'tcfv2';
 		clearPreferences();
 	};
 
@@ -89,11 +103,13 @@
 		align-self: end;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		z-index: 1;
+		display: flex;
 	}
 
 	nav * {
 		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
 			sans-serif, Apple Color Emoji, Segoe UI Emoji;
+		margin: 0 0.25em 0;
 	}
 
 	nav * + * {
@@ -182,8 +198,18 @@
 		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy manager</button>
 		<button on:click={clearPreferences}>clear preferences</button>
 		<label>
-			<input type="checkbox" bind:checked={isInUsa} on:change={setLocation} /> in
-			USA
+			<input
+				type="radio"
+				value={false}
+				bind:group={isInUsa}
+				on:change={setLocation} /> in RoW—TCFv2
+		</label>
+		<label>
+			<input
+				type="radio"
+				value={true}
+				bind:group={isInUsa}
+				on:change={setLocation} /> in USA—CCPA
 		</label>
 	</nav>
 

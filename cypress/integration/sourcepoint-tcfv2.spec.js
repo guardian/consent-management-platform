@@ -25,28 +25,30 @@ describe('Window', () => {
 	});
 });
 
-// TODO: enable testing of TCFv2 on CI
-skipOn(Cypress.env('CI') === 'true', () => {
-	describe('Document', () => {
-		loadPage();
-		it('should have the SP iframe', () => {
-			cy.get('iframe').should('be.visible').get(iframeMessage);
-		});
-
-		it('should have the correct script URL', () => {
-			cy.get('script#sourcepoint-tcfv2-lib').should(
-				'have.attr',
-				'src',
-				'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js',
-			);
-		});
+describe('Document', () => {
+	loadPage();
+	it('should have the SP iframe', () => {
+		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
 
+	it('should have the correct script URL', () => {
+		cy.get('script#sourcepoint-tcfv2-lib').should(
+			'have.attr',
+			'src',
+			'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js',
+		);
+	});
+});
+
+// TODO: enable testing of TCFv2 on CI
+skipOn(Cypress.env('CI') === 'true', () => {
 	describe('Interaction', () => {
 		loadPage();
 		const buttonTitle = 'Yes, I’m happy';
 
 		beforeEach(() => {
+			cy.setCookie('ccpaApplies', 'false');
+			cy.setCookie('gdprApplies', 'true');
 			Cypress.Cookies.preserveOnce('consentUUID', 'euconsent-v2');
 		});
 
@@ -119,5 +121,10 @@ skipOn(Cypress.env('CI') === 'true', () => {
 					.should('equal', true);
 			});
 		});
+	});
+});
+skipOn(Cypress.env('CI') !== 'true', () => {
+	describe('Skipped in CI', () => {
+		it('should skip TCFv2 in CI env, because of geolocation', () => true);
 	});
 });
