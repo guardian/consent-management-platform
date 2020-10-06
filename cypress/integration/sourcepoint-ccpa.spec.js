@@ -10,8 +10,7 @@ const loadPage = () => {
 const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]')
 		.should('have.length', 1)
-		.should('have.data', 'donotsell')
-		.should('equal', boolean);
+		.should('contain', boolean.toString());
 };
 
 const ccpaRejectCookieIs = (boolean) => {
@@ -82,11 +81,8 @@ describe('Interaction', () => {
 			.find(`button[title="${buttonTitle}"]`)
 			.click();
 
-		// the settings are only registered on the next page load
 		ccpaRejectCookieIs(true);
-		doNotSellIs(false);
-		// cy.reload();
-		// doNotSellIs(true);
+		doNotSellIs(true);
 	});
 
 	// TODO: clicking "save and exit" does not actually save,
@@ -104,6 +100,6 @@ describe('Interaction', () => {
 			.click();
 
 		ccpaRejectCookieIs(true);
-		// doNotSellIs(true);
+		doNotSellIs(true);
 	});
 });
