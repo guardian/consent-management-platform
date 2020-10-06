@@ -1,6 +1,6 @@
 {
 	"name": "@guardian/consent-management-platform",
-	"version": "6.0.0",
+	"version": "6.2.0",
 	"description": "Consent management for *.theguardian.com.",
 	"homepage": "https://github.com/guardian/consent-management-platform.git",
 	"repository": "https://github.com/guardian/consent-management-platform.git",
@@ -60,7 +60,7 @@
 		"cypress": "5.3.0",
 		"cypress-wait-until": "^1.7.1",
 		"eslint": "^7.9.0",
-		"eslint-config-airbnb-typescript": "^10.0.0",
+		"eslint-config-airbnb-typescript": "^11.0.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-cypress": "^2.11.1",
 		"eslint-plugin-import": "^2.22.0",

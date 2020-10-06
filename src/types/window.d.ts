@@ -1,6 +1,8 @@
+import { getConsentFor } from '../getConsentFor';
+import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
-import { OnConsentChange, PubData, WillShowPrivacyMessage } from '.';
+import { PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -28,7 +30,8 @@ declare global {
 				__enable: () => void;
 			};
 
-			onConsentChange?: OnConsentChange;
+			onConsentChange?: typeof onConsentChange;
+			getConsentFor?: typeof getConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 

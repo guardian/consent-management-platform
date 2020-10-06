@@ -28,7 +28,7 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		...tcData.purpose.consents,
 	};
 
-	const { eventStatus } = tcData;
+	const { eventStatus, gdprApplies, tcString, addtlConsent } = tcData;
 	const { grants } = customVendors;
 
 	const vendorConsents: TCFv2ConsentList = Object.keys(grants)
@@ -39,5 +39,8 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		consents,
 		eventStatus,
 		vendorConsents,
+		addtlConsent,
+		gdprApplies,
+		tcString,
 	};
 };
