@@ -38,7 +38,7 @@ export const init = (pubData = {}): void => {
 				framework: 'ccpa',
 			},
 
-			pubData,
+			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
 				onConsentReady() {

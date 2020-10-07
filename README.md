@@ -79,10 +79,21 @@ type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
+##### Expected parameters
+
+ - pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
+
+
 #### Example
 
 ```js
-cmp.init({ pubData: { browserId: 'gow59fnwohwmshz' }, isInUsa: false });
+cmp.init({
+    pubData: {
+        browserId: 'gow59fnwohwmshz',
+        pageViewId: 'jkao3u2kcbaqk',
+    },
+    isInUsa: false
+});
 ```
 
 ### `cmp.willShowPrivacyMessage()`
