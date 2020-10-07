@@ -54,6 +54,17 @@ export const init = (pubData = {}): void => {
 				onMessageReceiveData: (data) => {
 					resolveWillShowPrivacyMessage?.(data.msg_id !== 0);
 				},
+
+				onMessageChoiceSelect: (_, choiceTypeID) => {
+					if (
+						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
+						choiceTypeID === 11 ||
+						choiceTypeID === 13 ||
+						choiceTypeID === 15
+					) {
+						setTimeout(invokeCallbacks, 0);
+					}
+				},
 			},
 		},
 	};
