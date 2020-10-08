@@ -2,7 +2,7 @@ import { ConsentState } from './types';
 
 enum VendorIDs {
 	// keep the list in README.md up to date with these values
-	'a9' = '5edf9a821dc4e95986b66df4',
+	'a9' = '5f369a02b8e05c308701f829',
 	'acast' = '5f203dcb1f0dea790562e20f',
 	'braze' = '5ed8c49c4b8ce4571c7ad801',
 	'comscore' = '5efefe25b8e05c06542b2a77',
