@@ -23,7 +23,7 @@ function showPrivacyManager(): void {
 	window._sp_ccpa?.loadPrivacyManagerModal?.(null, PRIVACY_MANAGER_AUSTRALIA);
 }
 
-export const CCPA: SourcepointImplementation = {
+export const AUS: SourcepointImplementation = {
 	init,
 	willShowPrivacyMessage,
 	showPrivacyManager,

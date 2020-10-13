@@ -2,7 +2,7 @@ import { getConsentFor } from '../getConsentFor';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
-import { PubData, WillShowPrivacyMessage } from '.';
+import { Framework, PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -17,10 +17,10 @@ declare global {
 			cmp?: {
 				init: ({
 					pubData,
-					isInUsa,
+					framework,
 				}: {
 					pubData?: PubData | undefined;
-					isInUsa: boolean;
+					framework: Framework;
 				}) => void;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;

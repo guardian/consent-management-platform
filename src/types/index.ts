@@ -20,6 +20,8 @@ export type WillShowPrivacyMessage = () => Promise<boolean>;
 export type Callback = (arg0: ConsentState) => void;
 export type CallbackQueueItem = { fn: Callback; lastState?: string };
 
+export type Framework = 'tcfv2' | 'ccpa' | 'aus';
+
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
 export interface VendorConsents {
 	grants: {

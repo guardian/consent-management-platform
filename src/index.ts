@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
 
+import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as actualGetConsentFor } from './getConsentFor';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
+	Framework,
 	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
@@ -24,10 +26,10 @@ const initialised = new Promise((resolve) => {
 
 function init({
 	pubData,
-	isInUsa,
+	framework,
 }: {
 	pubData?: PubData;
-	isInUsa: boolean;
+	framework: Framework;
 }): void {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
@@ -38,15 +40,28 @@ function init({
 		return;
 	}
 
-	if (typeof isInUsa === 'undefined') {
+	if (typeof framework === 'undefined') {
 		throw new Error(
-			'CMP initialised without `isInUsa` property. `isInUsa` is required.',
+			'CMP initialised without `framework` property. `framework` is required.',
 		);
 	}
 
 	window.guCmpHotFix.initialised = true;
 
-	CMP = isInUsa ? CCPA : TCFv2;
+	switch (framework) {
+		case 'ccpa':
+			CMP = CCPA;
+			break;
+		case 'tcfv2':
+			CMP = TCFv2;
+			break;
+		case 'aus':
+			CMP = AUS;
+			break;
+		default:
+			break;
+	}
+
 	CMP?.init(pubData || {});
 	resolveInitialised?.();
 }
