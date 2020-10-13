@@ -25,8 +25,11 @@ export const init = (pubData = {}, property?: string): void => {
 		);
 	}
 
-	const siteHref =
-		property || isGuardianDomain() ? null : 'https://test.theguardian.com';
+	const currentDomain = isGuardianDomain()
+		? null
+		: 'https://test.theguardian.com';
+
+	const siteHref = property || currentDomain;
 
 	/* istanbul ignore next */
 	window._sp_ccpa = {
