@@ -11,7 +11,7 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-export const init = (pubData = {}): void => {
+export const init = (pubData = {}, property?: string): void => {
 	stub();
 
 	// invoke callbacks ASAP in USA
@@ -25,6 +25,9 @@ export const init = (pubData = {}): void => {
 		);
 	}
 
+	const siteHref =
+		property || isGuardianDomain() ? null : 'https://test.theguardian.com';
+
 	/* istanbul ignore next */
 	window._sp_ccpa = {
 		config: {
@@ -33,7 +36,7 @@ export const init = (pubData = {}): void => {
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
 			alwaysDisplayDns: false,
-			siteHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			siteHref,
 			targetingParams: {
 				framework: 'ccpa',
 			},
