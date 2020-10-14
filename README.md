@@ -14,21 +14,21 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -66,11 +66,12 @@ Adds the relevent privacy framework to the page. It must be called to enable
 privacy management.
 If necessary, it will also display the initial privacy message.
 
-#### `options.isInUsa`
+#### `options.framewok`
 
-type: `boolean`
+type: `string`
+values: `tcfv2`, `ccpa` or `aus`
 
-Declare whether your user is in the USA or not. Required – *throws an error if
+Declare which framework should be served to your user. Required – *throws an error if
 it's missing.*
 
 #### `options.pubData`
@@ -81,8 +82,7 @@ Pass additional parameters for for reporting. Optional.
 
 ##### Expected parameters
 
- - pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
-
+-   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
 
 #### Example
 
@@ -92,7 +92,7 @@ cmp.init({
         browserId: 'gow59fnwohwmshz',
         pageViewId: 'jkao3u2kcbaqk',
     },
-    isInUsa: false
+    framework: 'tcfv2',
 });
 ```
 
@@ -260,7 +260,6 @@ type: `string`
 -   `"teads"`
 -   `"twitter"`
 -   `"youtube-player"`
-
 
 </details>
 If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
