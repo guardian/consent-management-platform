@@ -45,7 +45,7 @@ declare global {
 				alwaysDisplayDns: boolean;
 				siteHref: string | null;
 				targetingParams: {
-					framework: 'ccpa';
+					framework: 'ccpa' | 'aus';
 				};
 				pubData: PubData;
 				events?: {

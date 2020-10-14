@@ -12,7 +12,7 @@ import {
 
 const init = (pubData?: PubData): void => {
 	mark('cmp-ccpa-init');
-	initSourcepoint(pubData, 'https://au.theguardian.com');
+	initSourcepoint(pubData, true);
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
