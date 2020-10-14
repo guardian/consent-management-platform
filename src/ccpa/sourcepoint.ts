@@ -64,7 +64,6 @@ export const init = (pubData = {}, aus = false): void => {
 				},
 
 				onMessageChoiceSelect: (_, choiceTypeID) => {
-					setTimeout(invokeCallbacks, 0);
 					if (
 						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
 						choiceTypeID === 11 ||
