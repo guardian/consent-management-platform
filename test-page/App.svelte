@@ -254,6 +254,25 @@
 			<h2>ccpa.doNotSell</h2><span
 				class="label"
 				data-donotsell={consentState.ccpa.doNotSell}>{consentState.ccpa.doNotSell}</span>
+		{:else if consentState.aus}
+			<h2>aus.ccpaApplies</h2>
+			<span class="label">{consentState.aus.ccpaApplies}</span>
+
+			<h2>aus.rejectedCategories</h2>
+			{#each Object.entries(consentState.aus.rejectedCategories) as [purpose, state]}
+				<span
+					class={JSON.parse(state) ? 'yes' : 'no'}
+					data-purpose={purpose}
+					data-consent={state}>{purpose}</span>
+			{/each}
+
+			<h2>aus.rejectedVendors</h2>
+			{#each Object.entries(consentState.aus.rejectedVendors) as [purpose, state]}
+				<span
+					class={JSON.parse(state) ? 'yes' : 'no'}
+					data-purpose={purpose}
+					data-consent={state}>{purpose}</span>
+			{/each}
 		{:else}
 			<h2>¯\_(ツ)_/¯</h2>
 		{/if}
