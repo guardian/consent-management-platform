@@ -14,6 +14,7 @@ declare global {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
+			framework?: Framework;
 			cmp?: {
 				init: ({
 					pubData,

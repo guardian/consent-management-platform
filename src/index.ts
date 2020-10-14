@@ -62,6 +62,8 @@ function init({
 			break;
 	}
 
+	window.guCmpHotFix.framework = framework;
+
 	CMP?.init(pubData || {});
 	resolveInitialised?.();
 }

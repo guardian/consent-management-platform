@@ -11,7 +11,7 @@ import {
 } from '../types';
 
 const init = (pubData?: PubData): void => {
-	mark('cmp-ccpa-init');
+	mark('cmp-aus-init');
 	initSourcepoint(pubData, true);
 };
 

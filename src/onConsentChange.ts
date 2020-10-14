@@ -21,7 +21,7 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
 		// in USA or AUS - https://git.io/JUOdq
-		if (window._sp_ccpa?.config.targetingParams.framework === 'aus')
+		if (window.guCmpHotFix.framework === 'aus')
 			return { aus: await getAUSConsentState() };
 
 		return { ccpa: await getCCPAConsentState() };
