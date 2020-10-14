@@ -259,20 +259,14 @@
 			<span class="label">{consentState.aus.ccpaApplies}</span>
 
 			<h2>aus.rejectedCategories</h2>
-			{#each Object.entries(consentState.aus.rejectedCategories) as [purpose, state]}
-				<span
-					class={JSON.parse(state) ? 'yes' : 'no'}
-					data-purpose={purpose}
-					data-consent={state}>{purpose}</span>
-			{/each}
+			{#each consentState.aus.rejectedCategories as category}
+				<span class="no" data-id={category._id}>{category.name}</span>
+			{:else}<span class="label">[no rejected categories]</span>{/each}
 
 			<h2>aus.rejectedVendors</h2>
-			{#each Object.entries(consentState.aus.rejectedVendors) as [purpose, state]}
-				<span
-					class={JSON.parse(state) ? 'yes' : 'no'}
-					data-purpose={purpose}
-					data-consent={state}>{purpose}</span>
-			{/each}
+			{#each consentState.aus.rejectedVendors as vendor}
+				<span class="no" data-id={vendor._id}>{vendor.name}</span>
+			{:else}<span class="label">[no rejected vendor]</span>{/each}
 		{:else}
 			<h2>¯\_(ツ)_/¯</h2>
 		{/if}
