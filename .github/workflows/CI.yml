@@ -132,7 +132,7 @@ jobs:
                   path: dist
     release:
         name: Release
-        needs: [build, test, lint, types]
+        needs: [build, test-e2e, test-unit, lint, types]
         if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
         steps:
