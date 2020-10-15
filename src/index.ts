@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+import { getFramework } from 'countries';
 import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
@@ -26,10 +27,10 @@ const initialised = new Promise((resolve) => {
 
 function init({
 	pubData,
-	framework,
+	countryCode,
 }: {
 	pubData?: PubData;
-	framework: Framework;
+	countryCode: string;
 }): void {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
@@ -40,11 +41,13 @@ function init({
 		return;
 	}
 
-	if (typeof framework === 'undefined') {
+	if (typeof countryCode === 'undefined') {
 		throw new Error(
 			'CMP initialised without `framework` property. `framework` is required.',
 		);
 	}
+
+	const framework = getFramework(countryCode);
 
 	window.guCmpHotFix.initialised = true;
 
