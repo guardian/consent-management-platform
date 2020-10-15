@@ -28,8 +28,8 @@ describe('cmp.init', () => {
 	it('does nothing if CMP is disabled', () => {
 		disable();
 
-		cmp.init({ isInUsa: false });
-		cmp.init({ isInUsa: true });
+		cmp.init({ country: 'GB' });
+		cmp.init({ country: 'US' });
 
 		expect(TCFv2.init).not.toHaveBeenCalled();
 		expect(CCPA.init).not.toHaveBeenCalled();
@@ -44,12 +44,12 @@ describe('cmp.init', () => {
 	});
 
 	it('initializes CCPA when in the US', () => {
-		cmp.init({ isInUsa: true });
+		cmp.init({ country: 'US' });
 		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
 	it('initializes TCF when not in the US', () => {
-		cmp.init({ isInUsa: false });
+		cmp.init({ country: 'GB' });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
 });
@@ -57,22 +57,22 @@ describe('cmp.init', () => {
 // *************** START commercial.dcr.js hotfix ***************
 describe('hotfix cmp.init', () => {
 	it('only initialises once per page', () => {
-		cmp.init({ isInUsa: false });
-		cmp.init({ isInUsa: false });
-		cmp.init({ isInUsa: false });
-		cmp.init({ isInUsa: false });
+		cmp.init({ country: 'GB' });
+		cmp.init({ country: 'GB' });
+		cmp.init({ country: 'GB' });
+		cmp.init({ country: 'GB' });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 		expect(window.guCmpHotFix.initialised).toBe(true);
 	});
 
 	it('warn if two versions are running simultaneously', () => {
 		global.console.warn = jest.fn();
-		cmp.init({ isInUsa: false });
+		cmp.init({ country: 'GB' });
 		const currentVersion = window.guCmpHotFix.cmp.version;
-		const mockedVersion = '4.X.X-mock';
+		const mockedVersion = 'X.X.X-mock';
 		window.guCmpHotFix.cmp.version = mockedVersion;
 
-		cmp.init({ isInUsa: false });
+		cmp.init({ country: 'GB' });
 
 		expect(
 			global.console.warn,
@@ -91,7 +91,7 @@ describe('cmp.willShowPrivacyMessage', () => {
 		// This should be tested in e2e test to be meaningful
 		const willShowPrivacyMessage1 = cmp.willShowPrivacyMessage();
 
-		cmp.init({ isInUsa: true });
+		cmp.init({ country: 'US' });
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
@@ -103,7 +103,7 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 describe('cmp.showPrivacyManager', () => {
 	it('shows CCPA privacy manager when in the US', () => {
-		cmp.init({ isInUsa: true });
+		cmp.init({ country: 'US' });
 
 		cmp.showPrivacyManager();
 
@@ -112,7 +112,7 @@ describe('cmp.showPrivacyManager', () => {
 		);
 	});
 	it('shows TCF privacy manager when not in the US', () => {
-		cmp.init({ isInUsa: false });
+		cmp.init({ country: 'GB' });
 
 		cmp.showPrivacyManager();
 

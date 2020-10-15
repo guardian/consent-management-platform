@@ -8,6 +8,7 @@ import tcData from './tcfv2/__fixtures__/api.getTCData.json';
 beforeEach(() => {
 	window.__uspapi = undefined;
 	window.__tcfapi = undefined;
+	window.guCmpHotFix = undefined;
 });
 
 it('throws an error if no framework is present', () => {
@@ -21,6 +22,11 @@ describe('under CCPA', () => {
 		window.__uspapi = jest.fn((command, b, callback) => {
 			if (command === 'getUSPData') callback(uspData, true);
 		});
+
+		// needed to distinguish from AUS
+		window.guCmpHotFix = {
+			framework: 'ccpa',
+		};
 	});
 
 	it('invokes callbacks correctly', async () => {
