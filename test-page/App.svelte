@@ -1,6 +1,6 @@
 <script>
 	// always use the dist version
-	import { cmp, onConsentChange, getFramework } from '../';
+	import { cmp, onConsentChange } from '../';
 	import { onMount } from 'svelte';
 
 	switch (window.location.hash) {
@@ -176,6 +176,7 @@
 		border-radius: 0.25em;
 		border: rgba(0, 0, 0, 0.1) solid 1px;
 	}
+
 	label.selected {
 		background-color: lightgrey;
 	}
