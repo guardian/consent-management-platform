@@ -1,5 +1,4 @@
 import { getConsentFor } from '../getConsentFor';
-import { getFramework } from '../getFramework';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { Country } from './countries';
@@ -35,7 +34,6 @@ declare global {
 
 			onConsentChange?: typeof onConsentChange;
 			getConsentFor?: typeof getConsentFor;
-			getFramework?: typeof getFramework;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
