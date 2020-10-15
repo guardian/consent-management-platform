@@ -12,9 +12,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+                run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+                id: nvm
+
+            - name: Setup node
+                uses: actions/setup-node@v2.1.2
+                with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
@@ -36,9 +42,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+                run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+                id: nvm
+
+            - name: Setup node
+                uses: actions/setup-node@v2.1.2
+                with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
@@ -52,9 +64,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+                run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+                id: nvm
+
+            - name: Setup node
+                uses: actions/setup-node@v2.1.2
+                with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
@@ -68,9 +86,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+                run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+                id: nvm
+
+            - name: Setup node
+                uses: actions/setup-node@v2.1.2
+                with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
