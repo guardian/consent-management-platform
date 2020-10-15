@@ -1,7 +1,3 @@
-import {
-	init as initSourcepoint,
-	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
-} from '../ccpa/sourcepoint';
 import { mark } from '../lib/mark';
 import { PRIVACY_MANAGER_AUSTRALIA } from '../lib/sourcepointConfig';
 import {
@@ -9,10 +5,14 @@ import {
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from '../types';
+import {
+	init as initSourcepoint,
+	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
+} from './sourcepoint';
 
 const init = (pubData?: PubData): void => {
 	mark('cmp-aus-init');
-	initSourcepoint(pubData, true);
+	initSourcepoint(pubData);
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>

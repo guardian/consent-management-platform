@@ -1,4 +1,5 @@
-import { CCPAConsentState, CustomVendorRejects } from './ccpa';
+import { CustomVendorRejects } from './aus';
+import { CCPAConsentState } from './ccpa';
 import { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';

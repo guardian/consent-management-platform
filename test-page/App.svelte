@@ -1,6 +1,6 @@
 <script>
 	// always use the dist version
-	import { cmp, onConsentChange } from '../';
+	import { cmp, onConsentChange, getFramework } from '../';
 	import { onMount } from 'svelte';
 
 	switch (window.location.hash) {
@@ -51,13 +51,14 @@
 		window.location.reload();
 	};
 
+	let framework = JSON.parse(localStorage.getItem('framework'));
+
 	let setLocation = () => {
 		localStorage.setItem('framework', JSON.stringify(framework));
 		window.location.hash = framework;
 		clearPreferences();
 	};
 
-	let framework = JSON.parse(localStorage.getItem('framework'));
 
 	$: consentState = {};
 	$: eventsList = [];
@@ -72,11 +73,29 @@
 	});
 
 	onMount(async () => {
+
+		// Set the country based on chosen framework.
+		// This is not to be used in production
+		let country = '';
+		switch (framework) {
+			case 'tcfv2':
+				country = 'GB';
+				break;
+
+			case 'ccpa':
+				country = 'US';
+				break;
+
+			case 'aus':
+				country = 'AU';
+				break;
+		}
+
 		// do this loads to make sure that doesn't break things
-		cmp.init({ framework });
-		cmp.init({ framework });
-		cmp.init({ framework });
-		cmp.init({ framework });
+		cmp.init({ country });
+		cmp.init({ country });
+		cmp.init({ country });
+		cmp.init({ country });
 	});
 </script>
 

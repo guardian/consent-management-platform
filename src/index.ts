@@ -1,18 +1,18 @@
 /* eslint-disable no-console */
 
-import { getFramework } from 'countries';
 import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as actualGetConsentFor } from './getConsentFor';
+import { getFramework as actualGetFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
-	Framework,
 	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
+import { Country } from './types/countries';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -27,10 +27,10 @@ const initialised = new Promise((resolve) => {
 
 function init({
 	pubData,
-	countryCode,
+	country,
 }: {
 	pubData?: PubData;
-	countryCode: string;
+	country: Country;
 }): void {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
@@ -41,13 +41,13 @@ function init({
 		return;
 	}
 
-	if (typeof countryCode === 'undefined') {
+	if (typeof country === 'undefined') {
 		throw new Error(
-			'CMP initialised without `framework` property. `framework` is required.',
+			'CMP initialised without `country` property. An 2-letter, ISO ISO_3166-1 country code is required.',
 		);
 	}
 
-	const framework = getFramework(countryCode);
+	const framework = getFramework(country);
 
 	window.guCmpHotFix.initialised = true;
 
@@ -98,3 +98,4 @@ export const cmp = (window.guCmpHotFix.cmp ||= {
 
 export const onConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
 export const getConsentFor = (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);
+export const getFramework = (window.guCmpHotFix.getFramework ||= actualGetFramework);

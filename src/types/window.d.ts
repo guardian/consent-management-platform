@@ -1,6 +1,8 @@
 import { getConsentFor } from '../getConsentFor';
+import { getFramework } from '../getFramework';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
+import { Country } from './countries';
 import { TCData } from './tcfv2/TCData';
 import { Framework, PubData, WillShowPrivacyMessage } from '.';
 
@@ -18,10 +20,10 @@ declare global {
 			cmp?: {
 				init: ({
 					pubData,
-					framework,
+					country,
 				}: {
 					pubData?: PubData | undefined;
-					framework: Framework;
+					country: Country;
 				}) => void;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
@@ -33,6 +35,7 @@ declare global {
 
 			onConsentChange?: typeof onConsentChange;
 			getConsentFor?: typeof getConsentFor;
+			getFramework?: typeof getFramework;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 

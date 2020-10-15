@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 
-import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
@@ -14,7 +13,8 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 export const init = (pubData = {}): void => {
 	stub();
 
-	// invoke callbacks ASAP in USA
+	// invoke callbacks ASAP in AUS
+	// TODO this causes an error
 	invokeCallbacks();
 
 	// make sure nothing else on the page has accidentally
@@ -33,22 +33,22 @@ export const init = (pubData = {}): void => {
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
 			alwaysDisplayDns: false,
-			siteHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			siteHref: 'https://au.theguardian.com',
 			targetingParams: {
-				framework: 'ccpa',
+				framework: 'aus',
 			},
 
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
 				onConsentReady() {
-					mark('cmp-ccpa-got-consent');
+					mark('cmp-aus-got-consent');
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
 				},
 
 				onMessageReady: () => {
-					mark('cmp-ccpa-ui-displayed');
+					mark('cmp-aus-ui-displayed');
 				},
 
 				onMessageReceiveData: (data) => {
@@ -70,7 +70,7 @@ export const init = (pubData = {}): void => {
 	};
 
 	const ccpaLib = document.createElement('script');
-	ccpaLib.id = 'sourcepoint-ccpa-lib';
+	ccpaLib.id = 'sourcepoint-aus-lib';
 	ccpaLib.src = 'https://sourcepoint.theguardian.com/ccpa.js';
 	document.body.appendChild(ccpaLib);
 };

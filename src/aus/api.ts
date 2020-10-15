@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
-import { CCPAData } from '../types/ccpa';
+import { CustomVendorRejects } from '../types/aus';
 
-type Command = 'getUSPData';
+type Command = 'getCustomVendorRejects';
 
 const api = (command: Command) =>
 	new Promise((resolve, reject) => {
@@ -18,5 +18,5 @@ const api = (command: Command) =>
 		}
 	});
 
-export const getUSPData = (): Promise<CCPAData> =>
-	api('getUSPData') as Promise<CCPAData>;
+export const getCustomVendorRejects = (): Promise<CustomVendorRejects> =>
+	api('getCustomVendorRejects') as Promise<CustomVendorRejects>;
