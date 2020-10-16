@@ -1,7 +1,5 @@
 {
-    "aus": {
-        "rejectedCategories": [],
-        "rejectedVendors": [],
-        "ccpaApplies": true
-    }
+	"rejectedCategories": [],
+	"rejectedVendors": [],
+	"ccpaApplies": true
 }
