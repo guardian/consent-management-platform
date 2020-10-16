@@ -69,7 +69,7 @@ If necessary, it will also display the initial privacy message.
 #### `options.country`
 
 type: `string`
-values: any 2-letter country code, e.g. `GB`, `US`, `AU`, …
+values: any [2-letter, ISO_3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Decoding_table), e.g. `GB`, `US`, `AU`, …
 
 Declare which country your user is in. Required – *throws an error if
 it's missing.*

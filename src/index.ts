@@ -43,7 +43,7 @@ function init({
 
 	if (typeof country === 'undefined') {
 		throw new Error(
-			'CMP initialised without `country` property. An 2-letter, ISO ISO_3166-1 country code is required.',
+			'CMP initialised without `country` property. A 2-letter, ISO ISO_3166-1 country code is required.',
 		);
 	}
 
