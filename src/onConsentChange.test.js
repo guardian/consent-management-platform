@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
+import ausData from './aus/__fixtures__/api.getCustomVendorRejects.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
 import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
@@ -68,6 +69,65 @@ describe('under CCPA', () => {
 		});
 
 		uspData.uspString = '1YNN';
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(2);
+		});
+	});
+});
+
+describe('under AUS', () => {
+	beforeEach(() => {
+		window.__uspapi = jest.fn((command, b, callback) => {
+			if (command === 'getCustomVendorRejects') callback(ausData, true);
+		});
+
+		// needed to distinguish from US
+		window.guCmpHotFix = {
+			framework: 'aus',
+		};
+	});
+
+	it('invokes callbacks correctly', async () => {
+		const callback = jest.fn();
+		const instantCallback = jest.fn();
+
+		onConsentChange(callback);
+
+		expect(callback).toHaveBeenCalledTimes(0);
+
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		onConsentChange(instantCallback);
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+			expect(instantCallback).toHaveBeenCalledTimes(1);
+		});
+	});
+
+	it('invokes callbacks only if there is a new state', async () => {
+		const callback = jest.fn();
+
+		onConsentChange(callback);
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		invokeCallbacks();
+
+		await waitForExpect(() => {
+			expect(callback).toHaveBeenCalledTimes(1);
+		});
+
+		ausData.ccpaApplies = 'false';
 		invokeCallbacks();
 
 		await waitForExpect(() => {
