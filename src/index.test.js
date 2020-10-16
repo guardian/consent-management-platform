@@ -155,3 +155,5 @@ describe('cmp.showPrivacyManager', () => {
 		);
 	});
 });
+
+it.todo('cmp.willShowPrivacyMessage');
