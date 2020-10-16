@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
+import { AUS as actualAUS } from './aus';
 import { CCPA as actualCCPA } from './ccpa';
 import { disable, enable } from './disable';
 import { TCFv2 as actualTCFv2 } from './tcfv2';
@@ -14,6 +15,11 @@ const CCPA = {
 const TCFv2 = {
 	init: jest.spyOn(actualTCFv2, 'init'),
 	showPrivacyManager: jest.spyOn(actualTCFv2, 'showPrivacyManager'),
+};
+
+const AUS = {
+	init: jest.spyOn(actualAUS, 'init'),
+	showPrivacyManager: jest.spyOn(actualAUS, 'showPrivacyManager'),
 };
 
 beforeEach(() => {
@@ -37,7 +43,7 @@ describe('cmp.init', () => {
 		enable();
 	});
 
-	it('requires isInUsa to be true or false', () => {
+	it('requires country to be set', () => {
 		expect(() => {
 			cmp.init({ pubData: {} });
 		}).toThrow('required');
@@ -48,7 +54,12 @@ describe('cmp.init', () => {
 		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
-	it('initializes TCF when not in the US', () => {
+	it('initializes CCPA when in Australia', () => {
+		cmp.init({ country: 'AU' });
+		expect(AUS.init).toHaveBeenCalledTimes(1);
+	});
+
+	it('initializes TCF when neither in the US or Australia', () => {
 		cmp.init({ country: 'GB' });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
@@ -82,6 +93,19 @@ describe('hotfix cmp.init', () => {
 		]);
 	});
 
+	it.each([
+		['GB', 'tcfv2'],
+		['AU', 'aus'],
+		['US', 'ccpa'],
+		['YT', 'tcfv2'],
+		['FR', 'tcfv2'],
+		['CA', 'tcfv2'],
+		['NZ', 'tcfv2'],
+	])('In %s, use the %s framework correctly', (country, framework) => {
+		cmp.init({ country });
+		expect(window.guCmpHotFix.framework).toEqual(framework);
+	});
+
 	it.todo('uses window.guCmpHotFix instances if they exist');
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -111,7 +135,17 @@ describe('cmp.showPrivacyManager', () => {
 			expect(CCPA.showPrivacyManager).toHaveBeenCalledTimes(1),
 		);
 	});
-	it('shows TCF privacy manager when not in the US', () => {
+
+	it('shows AUS privacy manager when in Australia', () => {
+		cmp.init({ country: 'AU' });
+
+		cmp.showPrivacyManager();
+
+		return waitForExpect(() =>
+			expect(AUS.showPrivacyManager).toHaveBeenCalledTimes(1),
+		);
+	});
+	it('shows TCF privacy manager when neither in the US or Australia', () => {
 		cmp.init({ country: 'GB' });
 
 		cmp.showPrivacyManager();
