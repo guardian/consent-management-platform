@@ -60,12 +60,16 @@ VSCode should prompt you to install our recommended extensions when you open the
 
 You can also find these extensions by searching for `@recommended` in the extensions pane.
 
-## Publishing to NPM
+## Releasing
 
-The `consent-management-platform` is available to import from [NPM](https://www.npmjs.com/package/@guardian/consent-management-platform), You must be a member of the `guardian` organisation on NPM to publish new versions of this package.
+Changes are automatically released to NPM.
 
-Once you are ready to publish a new release please follow these steps:
+The `main` branch on GitHub is analysed by [semantic-release](https://semantic-release.gitbook.io/) after every push.
 
--   Run `yarn release` and follow the prompts
--   Publish the opened github release draft
--   Now check https://www.npmjs.com/package/@guardian/consent-management-platform
+If a commit message follows the [conventional commit format](https://www.conventionalcommits.org/en/v1.0.0), semantic-release can determine what types of changes are included in that commit.
+
+If necessary, it will then automatically release a new, [semver](https://semver.org/)-compliant version of the package to NPM.
+
+### Pull requests
+
+Try to write PR titles in the conventional commit format, and [squash and merge](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits) when merging. That way your PR will trigger a release when you merge it (if necessary).
