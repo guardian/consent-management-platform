@@ -26,7 +26,9 @@ describe('Sourcepoint CCPA', () => {
 			'https://sourcepoint.theguardian.com',
 		);
 		expect(window._sp_ccpa.config.accountId).toEqual(ACCOUNT_ID);
-		expect(window._sp_ccpa.config.targetingParams.framework).toEqual('ccpa');
+		expect(window._sp_ccpa.config.targetingParams.framework).toEqual(
+			'ccpa',
+		);
 		expect(window._sp_ccpa.config.events).toBeDefined();
 		expect(typeof window._sp_ccpa.config.events.onConsentReady).toBe(
 			'function',

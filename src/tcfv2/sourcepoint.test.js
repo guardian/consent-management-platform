@@ -24,7 +24,9 @@ describe('Sourcepoint TCF', () => {
 		expect(window._sp_.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');
 		expect(window._sp_.config.events).toBeDefined();
-		expect(typeof window._sp_.config.events.onConsentReady).toBe('function');
+		expect(typeof window._sp_.config.events.onConsentReady).toBe(
+			'function',
+		);
 		expect(typeof window._sp_.config.events.onMessageReceiveData).toBe(
 			'function',
 		);
@@ -58,16 +60,16 @@ describe('Sourcepoint TCF', () => {
 		});
 		expect(window._sp_.config.pubData.browserId).toEqual('abc123');
 		expect(window._sp_.config.pubData.pageViewId).toEqual('abcdef');
-		expect(window._sp_.config.pubData.cmpInitTimeUtc).toBeGreaterThanOrEqual(
-			now,
-		);
+		expect(
+			window._sp_.config.pubData.cmpInitTimeUtc,
+		).toBeGreaterThanOrEqual(now);
 	});
 
 	it('should handle no pubData', () => {
 		const now = new Date().getTime();
 		init();
-		expect(window._sp_.config.pubData.cmpInitTimeUtc).toBeGreaterThanOrEqual(
-			now,
-		);
+		expect(
+			window._sp_.config.pubData.cmpInitTimeUtc,
+		).toBeGreaterThanOrEqual(now);
 	});
 });

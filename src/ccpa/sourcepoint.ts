@@ -33,7 +33,9 @@ export const init = (pubData = {}): void => {
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
 			alwaysDisplayDns: false,
-			siteHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			siteHref: isGuardianDomain()
+				? null
+				: 'https://test.theguardian.com',
 			targetingParams: {
 				framework: 'ccpa',
 			},
