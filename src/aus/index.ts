@@ -15,6 +15,7 @@ const init = (pubData?: PubData): void => {
 	initSourcepoint(pubData);
 };
 
+/* istanbul ignore-next */
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
 	sourcepointWillShowPrivacyMessage;
 
