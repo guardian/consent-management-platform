@@ -12,6 +12,7 @@ export const getFramework = (countryCode: Country): Framework => {
 			framework = 'aus';
 			break;
 
+		case 'GB':
 		default:
 			framework = 'tcfv2';
 			break;
