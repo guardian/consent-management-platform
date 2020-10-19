@@ -1,89 +1,11 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "plugins": ["@typescript-eslint", "jest", "prettier"],
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "airbnb-typescript/base",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript"
-  ],
+  "root": true,
   "env": {
-    "jest/globals": true,
+    "jest": true,
     "browser": true
   },
+  "extends": ["@guardian/eslint-config-typescript"],
   "globals": { "__PACKAGE_VERSION__": "readonly" },
-  "rules": {
-    "no-multi-assign": 0,
-    "@typescript-eslint/consistent-type-definitions": 0,
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/no-use-before-define": 0,
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        "selector": "variableLike",
-        "format": ["camelCase", "UPPER_CASE"],
-        "filter": {
-          "regex": "^(_|TCFv2)$",
-          "match": false
-        }
-      },
-      {
-        "selector": "typeLike",
-        "format": ["PascalCase"]
-      },
-      {
-        "selector": "memberLike",
-        "modifiers": ["private"],
-        "format": ["camelCase"],
-        "leadingUnderscore": "require"
-      }
-    ],
-    "class-methods-use-this": [2, { "exceptMethods": ["componentDidMount"] }],
-    "import/no-default-export": 2,
-    "import/prefer-default-export": 0,
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "unknown"
-        ],
-        "newlines-between": "never",
-        "alphabetize": {
-          "order": "asc" /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */,
-          "caseInsensitive": true /* ignore case. Options: [true, false] */
-        }
-      }
-    ],
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true,
-        "ignoreMemberSort": false
-      }
-    ],
-    "import/newline-after-import": 2,
-    "import/first": 2,
-    "import-name": 0,
-    "interface-name": 0,
-    "interface-over-type-literal": 0,
-    "no-plusplus": 0,
-    "no-use-before-define": 0,
-    "object-literal-sort-keys": 0,
-    "prettier/prettier": 2
-  },
+
   "ignorePatterns": ["dist", "coverage"]
 }
