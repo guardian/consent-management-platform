@@ -12,9 +12,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+              run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+              id: nvm
+
+            - name: Setup node
+              uses: actions/setup-node@v2.1.2
+              with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
@@ -27,7 +33,7 @@ jobs:
                   test-command: 'yarn test:unit'
 
             - name: Check coverage
-              uses: codecov/codecov-action@v1.0.13
+              uses: codecov/codecov-action@v1.0.14
 
     test-e2e:
         name: e2e tests
@@ -36,9 +42,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+              run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+              id: nvm
+
+            - name: Setup node
+              uses: actions/setup-node@v2.1.2
+              with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
@@ -52,9 +64,15 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+              run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+              id: nvm
+
+            - name: Setup node
+              uses: actions/setup-node@v2.1.2
+              with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
@@ -68,12 +86,83 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+              run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+              id: nvm
+
+            - name: Setup node
+              uses: actions/setup-node@v2.1.2
+              with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
             - name: Install dependencies
               uses: bahmutov/npm-install@v1
 
             - name: Check types
               run: yarn tsc
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+              run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+              id: nvm
+
+            - name: Setup node
+              uses: actions/setup-node@v2.1.2
+              with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
+
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+
+            - name: Build package
+              run: yarn build
+
+            - name: Save build
+              if: github.ref == 'refs/heads/main'
+              uses: actions/upload-artifact@v2
+              with:
+                  name: dist
+                  path: dist
+    release:
+        name: Release
+        needs: [build, test-e2e, test-unit, lint, types]
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            # based on https://github.com/actions/setup-node/issues/32#issuecomment-539794249
+            - name: Read .nvmrc
+              run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+              id: nvm
+
+            - name: Setup node
+              uses: actions/setup-node@v2.1.2
+              with:
+                node-version: '${{ steps.nvm.outputs.NVMRC }}'
+
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+
+            - name: Fetch build
+              uses: actions/download-artifact@v2
+              with:
+                  name: dist
+                  path: dist
+
+            - name: Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: npx semantic-release
