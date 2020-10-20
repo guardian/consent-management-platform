@@ -53,15 +53,15 @@ function init({
 	window.guCmpHotFix.initialised = true;
 
 	switch (framework) {
-		case 'tcfv2':
-		default:
-			CMP = TCFv2;
-			break;
 		case 'ccpa':
 			CMP = CCPA;
 			break;
 		case 'aus':
 			CMP = AUS;
+			break;
+		case 'tcfv2':
+		default: // default is also 'tcfv2'
+			CMP = TCFv2;
 			break;
 	}
 
