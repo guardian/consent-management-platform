@@ -66,11 +66,12 @@ Adds the relevent privacy framework to the page. It must be called to enable
 privacy management.
 If necessary, it will also display the initial privacy message.
 
-#### `options.isInUsa`
+#### `options.country`
 
-type: `boolean`
+type: `string`
+values: any [2-letter, ISO_3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Decoding_table), e.g. `GB`, `US`, `AU`, …
 
-Declare whether your user is in the USA or not. Required – *throws an error if
+Declare which country your user is in. Required – *throws an error if
 it's missing.*
 
 #### `options.pubData`
@@ -81,8 +82,7 @@ Pass additional parameters for for reporting. Optional.
 
 ##### Expected parameters
 
- - pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
-
+-   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
 
 #### Example
 
@@ -92,7 +92,7 @@ cmp.init({
         browserId: 'gow59fnwohwmshz',
         pageViewId: 'jkao3u2kcbaqk',
     },
-    isInUsa: false
+    country: 'GB',
 });
 ```
 
@@ -260,7 +260,6 @@ type: `string`
 -   `"teads"`
 -   `"twitter"`
 -   `"youtube-player"`
-
 
 </details>
 If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
