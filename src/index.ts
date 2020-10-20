@@ -60,7 +60,8 @@ function init({
 			CMP = AUS;
 			break;
 		case 'tcfv2':
-		default: // default is also 'tcfv2'
+		default:
+			// default is also 'tcfv2'
 			CMP = TCFv2;
 			break;
 	}
