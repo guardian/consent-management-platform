@@ -3,7 +3,7 @@ import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { Country } from './countries';
 import { TCData } from './tcfv2/TCData';
-import { Framework, PubData, WillShowPrivacyMessage } from '.';
+import { PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -15,7 +15,6 @@ declare global {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
-			framework?: Framework;
 			cmp?: {
 				init: ({
 					pubData,

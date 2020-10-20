@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
+import { getCurrentFramework } from './getCurrentFramework';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
 import { Callback, CallbackQueueItem, ConsentState } from './types';
 
@@ -21,7 +22,7 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
 		// in USA or AUS - https://git.io/JUOdq
-		if (window.guCmpHotFix.framework === 'aus')
+		if (getCurrentFramework() === 'aus')
 			return { aus: await getAUSConsentState() };
 
 		return { ccpa: await getCCPAConsentState() };

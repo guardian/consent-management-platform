@@ -3,6 +3,7 @@ import waitForExpect from 'wait-for-expect';
 import { AUS as actualAUS } from './aus';
 import { CCPA as actualCCPA } from './ccpa';
 import { disable, enable } from './disable';
+import { getCurrentFramework } from './getCurrentFramework';
 import { TCFv2 as actualTCFv2 } from './tcfv2';
 import { cmp } from '.';
 
@@ -103,7 +104,7 @@ describe('hotfix cmp.init', () => {
 		['NZ', 'tcfv2'],
 	])('In %s, use the %s framework correctly', (country, framework) => {
 		cmp.init({ country });
-		expect(window.guCmpHotFix.framework).toEqual(framework);
+		expect(getCurrentFramework()).toEqual(framework);
 	});
 
 	it.todo('uses window.guCmpHotFix instances if they exist');

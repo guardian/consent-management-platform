@@ -4,6 +4,7 @@ import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as actualGetConsentFor } from './getConsentFor';
+import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
@@ -64,7 +65,7 @@ function init({
 			break;
 	}
 
-	window.guCmpHotFix.framework = framework;
+	setCurrentFramework(framework);
 
 	CMP?.init(pubData || {});
 	resolveInitialised?.();
