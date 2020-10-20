@@ -33,7 +33,7 @@ jobs:
                   test-command: 'yarn test:unit'
 
             - name: Check coverage
-              uses: codecov/codecov-action@v1.0.13
+              uses: codecov/codecov-action@v1.0.14
 
     test-e2e:
         name: e2e tests
