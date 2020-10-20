@@ -2,6 +2,7 @@
 import waitForExpect from 'wait-for-expect';
 import ausData from './aus/__fixtures__/api.getCustomVendorRejects.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
+import { setCurrentFramework } from './getCurrentFramework';
 import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
 import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './tcfv2/__fixtures__/api.getTCData.json';
@@ -24,10 +25,7 @@ describe('under CCPA', () => {
 			if (command === 'getUSPData') callback(uspData, true);
 		});
 
-		// needed to distinguish from AUS
-		window.guCmpHotFix = {
-			framework: 'ccpa',
-		};
+		setCurrentFramework('ccpa');
 	});
 
 	it('invokes callbacks correctly', async () => {
@@ -84,9 +82,7 @@ describe('under AUS', () => {
 		});
 
 		// needed to distinguish from US
-		window.guCmpHotFix = {
-			framework: 'aus',
-		};
+		setCurrentFramework('aus');
 	});
 
 	it('invokes callbacks correctly', async () => {
