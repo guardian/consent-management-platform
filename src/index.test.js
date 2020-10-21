@@ -169,4 +169,10 @@ describe('Old API parameter `isInUsa`', () => {
 		cmp.init({ isInUsa: false });
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
+
+	it('Should throw an error if neither is passed', () => {
+		expect(() => {
+			cmp.init({});
+		}).toThrow('required');
+	});
 });
