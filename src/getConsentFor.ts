@@ -44,6 +44,15 @@ export const getConsentFor = (
 		return !consent.ccpa.doNotSell;
 	}
 
+	if (consent.aus) {
+		if (typeof consent.aus.rejectedVendors === 'undefined') return true;
+		const rejected = consent.aus.rejectedVendors.filter(
+			// eslint-disable-next-line no-underscore-dangle
+			(rejectedVendor) => rejectedVendor._id === sourcepointId,
+		);
+		return rejected.length === 0;
+	}
+
 	const tcfv2Consent: boolean | undefined =
 		consent.tcfv2?.vendorConsents[sourcepointId];
 	if (typeof tcfv2Consent === 'undefined') {

@@ -66,11 +66,12 @@ Adds the relevent privacy framework to the page. It must be called to enable
 privacy management.
 If necessary, it will also display the initial privacy message.
 
-#### `options.isInUsa`
+#### `options.country`
 
-type: `boolean`
+type: `string`
+values: any [2-letter, ISO_3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Decoding_table), e.g. `GB`, `US`, `AU`, …
 
-Declare whether your user is in the USA or not. Required – *throws an error if
+Declare which country your user is in. Required – *throws an error if
 it's missing.*
 
 #### `options.pubData`
@@ -79,10 +80,15 @@ type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
+#### `options.isInUsa` _(DEPRECATED)_
+
+type: `boolean`
+
+Deprecated, please use `options.country` instead. **Will be removed in next major version.**
+
 ##### Expected parameters
 
- - pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
-
+-   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
 
 #### Example
 
@@ -92,7 +98,7 @@ cmp.init({
         browserId: 'gow59fnwohwmshz',
         pageViewId: 'jkao3u2kcbaqk',
     },
-    isInUsa: false
+    country: 'GB',
 });
 ```
 
@@ -163,7 +169,7 @@ type: `Object` or `undefined`
 Reports the user's preferences for each of the TCFv2 purposes, the last CMP
 event status, custom vendor consents, flag if GDPR applies, the TC string and addtlConsent string.
 
-If the user is in the USA, it will be `undefined`.
+If the user is neither in the USA or Australia, it will be `undefined`.
 
 Unlike the [`__tcfapi`](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#how-does-the-cmp-provide-the-api), all ten consents will have a set
 boolean value, defaulting to `false` where no explicit consent was given.
@@ -205,18 +211,38 @@ If the user is not in the USA, it will be `undefined`.
 }
 ```
 
+##### `consentState.aus`
+
+type: `Object` or `undefined`
+
+Reports whether user has withdrawn consent to sell their data in Australia.
+
+If the user is not in Australia, it will be `undefined`.
+
+```js
+{
+    "rejectedCategories": Array, // Empty by default
+	"rejectedVendors": Array, // Empty by default
+	"ccpaApplies": Boolean | undefined // true — AUS applies, false — it does not
+}
+```
+
 #### Example
 
 ```js
 import { onConsentChange } from '@guardian/consent-management-platform';
 
-onConsentChange(({ tcfv2, ccpa }) => {
+onConsentChange(({ tcfv2, ccpa, aus }) => {
     if (tcfv2) {
         console.log(tcfv2); // { 1: true || false, 1: true || false, ... }
     }
 
     if (ccpa) {
         console.log(ccpa); // { doNotSell: true || false }
+    }
+
+    if (aus) {
+        console.log(aus); // { rejectedCategories: [], ... }
     }
 });
 ```
@@ -260,7 +286,6 @@ type: `string`
 -   `"teads"`
 -   `"twitter"`
 -   `"youtube-player"`
-
 
 </details>
 If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
