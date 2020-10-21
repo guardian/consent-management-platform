@@ -29,9 +29,11 @@ const initialised = new Promise((resolve) => {
 function init({
 	pubData,
 	country,
+	isInUsa, // Will soon be deprected
 }: {
 	pubData?: PubData;
-	country: Country;
+	country?: Country;
+	isInUsa?: boolean;
 }): void {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
@@ -40,6 +42,15 @@ function init({
 				window.guCmpHotFix.cmp?.version,
 			]);
 		return;
+	}
+
+	if (typeof isInUsa !== 'undefined') {
+		// eslint-disable-next-line no-param-reassign
+		country = isInUsa ? 'US' : 'GB';
+
+		console.warn(
+			'`isInUsa` will soon be deprecated. Prefer using `country` instead.',
+		);
 	}
 
 	if (typeof country === 'undefined') {
