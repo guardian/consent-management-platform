@@ -45,12 +45,12 @@ export const getConsentFor = (
 	}
 
 	if (consent.aus) {
-		const rejected =
-			consent.aus.rejectedVendors.filter(
-				// eslint-disable-next-line no-underscore-dangle
-				(rejectedVendor) => rejectedVendor._id === sourcepointId,
-			).length > 0;
-		return rejected;
+		if (typeof consent.aus.rejectedVendors === 'undefined') return true;
+		const rejected = consent.aus.rejectedVendors.filter(
+			// eslint-disable-next-line no-underscore-dangle
+			(rejectedVendor) => rejectedVendor._id === sourcepointId,
+		);
+		return rejected.length === 0;
 	}
 
 	const tcfv2Consent: boolean | undefined =
