@@ -47,8 +47,7 @@ export const getConsentFor = (
 	if (consent.aus) {
 		if (typeof consent.aus.rejectedVendors === 'undefined') return true;
 		const rejected = consent.aus.rejectedVendors.filter(
-			// eslint-disable-next-line no-underscore-dangle
-			(rejectedVendor) => rejectedVendor._id === sourcepointId,
+			(rejectedVendor) => rejectedVendor.[`_id`] === sourcepointId,
 		);
 		return rejected.length === 0;
 	}
