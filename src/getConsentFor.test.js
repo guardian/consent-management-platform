@@ -1,16 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 import { getConsentFor } from './getConsentFor';
 
+const googleAnalytics = '5e542b3a4cd8884eb41b5a72';
+
 const tcfv2ConsentNotFound = {
 	tcfv2: { vendorConsents: { doesnotexist: true } },
 };
 
 const tcfv2ConsentFoundTrue = {
-	tcfv2: { vendorConsents: { '5e542b3a4cd8884eb41b5a72': true } },
+	tcfv2: { vendorConsents: { [googleAnalytics]: true } },
 };
 
 const tcfv2ConsentFoundFalse = {
-	tcfv2: { vendorConsents: { '5e542b3a4cd8884eb41b5a72': false } },
+	tcfv2: { vendorConsents: { [googleAnalytics]: false } },
 };
 
 const ccpaWithConsent = { ccpa: { doNotSell: false } };

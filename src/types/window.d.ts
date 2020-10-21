@@ -1,6 +1,7 @@
 import { getConsentFor } from '../getConsentFor';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
+import { Country } from './countries';
 import { TCData } from './tcfv2/TCData';
 import { PubData, WillShowPrivacyMessage } from '.';
 
@@ -17,10 +18,10 @@ declare global {
 			cmp?: {
 				init: ({
 					pubData,
-					isInUsa,
+					country,
 				}: {
 					pubData?: PubData | undefined;
-					isInUsa: boolean;
+					country: Country;
 				}) => void;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
@@ -45,7 +46,7 @@ declare global {
 				alwaysDisplayDns: boolean;
 				siteHref: string | null;
 				targetingParams: {
-					framework: 'ccpa';
+					framework: 'ccpa' | 'aus';
 				};
 				pubData: PubData;
 				events?: {
