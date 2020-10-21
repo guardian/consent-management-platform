@@ -1103,10 +1103,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@guardian/prettier@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-0.2.0.tgz#08c0303cbb98fa0f2e588903e078e58e5b92f0c8"
-  integrity sha512-d06AGNJhATJorU3lFE4ekmMUtDgsT+3wlzjEI4Q/ChG9ksBY8vI5ozqdrTRFXHhjKFdJETx+J6kKkyOdOsN9Uw==
+"@guardian/prettier@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-0.3.0.tgz#2844af880a28dfac21d47fee0a68a71ad744137d"
+  integrity sha512-hZoDjB748Ahd1MhQBrcHLvXX/2FSn0JkWvcv9FXUvayQ1Z21ALkUjDwGqOQ7YQ4l4isjwqOgJQp9XzDpQoF6Og==
 
 "@hapi/address@^4.1.0":
   version "4.1.0"
