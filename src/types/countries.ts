@@ -253,4 +253,5 @@ type Countries = {
 	Zimbabwe: 'ZW';
 };
 
-export type Country = Countries[keyof Countries];
+// temporarily accept any string to integrate into DCR
+export type Country = Countries[keyof Countries] | string;
