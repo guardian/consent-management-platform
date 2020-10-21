@@ -80,6 +80,12 @@ type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
+#### `options.isInUsa` _(DEPRECATED)_
+
+type: `boolean`
+
+Deprecated, please use `options.country` instead. **Will be removed in next major version.**
+
 ##### Expected parameters
 
 -   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
