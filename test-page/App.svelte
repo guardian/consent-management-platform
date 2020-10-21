@@ -46,7 +46,10 @@
 		document.cookie.split(';').forEach((cookie) => {
 			document.cookie = cookie
 				.replace(/^ +/, '')
-				.replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+				.replace(
+					/=.*/,
+					`=;expires=${new Date('1821-05-05T00:00:00').toUTCString()};path=/`,
+				);
 		});
 		window.location.reload();
 	};
@@ -58,7 +61,6 @@
 		window.location.hash = framework;
 		clearPreferences();
 	};
-
 
 	$: consentState = {};
 	$: eventsList = [];
@@ -73,7 +75,6 @@
 	});
 
 	onMount(async () => {
-
 		// Set the country based on chosen framework.
 		// This is not to be used in production
 		let country = '';
