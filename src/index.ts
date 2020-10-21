@@ -29,7 +29,7 @@ const initialised = new Promise((resolve) => {
 function init({
 	pubData,
 	country,
-	isInUsa, // Will soon be deprected
+	isInUsa, // DEPRECATED: Will be removed in next major version
 }: {
 	pubData?: PubData;
 	country?: Country;

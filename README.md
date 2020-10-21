@@ -14,21 +14,21 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -74,19 +74,17 @@ values: any [2-letter, ISO_3166-1 country code](https://en.wikipedia.org/wiki/IS
 Declare which country your user is in. Required – *throws an error if
 it's missing.*
 
-> N.B. you can omit `country` if isInUsa is set, but please update!
-
 #### `options.pubData`
 
 type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
-#### `options.isInUsa`
+#### `options.isInUsa` _(DEPRECATED)_
 
 type: `boolean`
 
-Old interface, prefer `options.country`. Optional. **Soon to be deprecated.**
+Deprecated, please use `options.country` instead. **Will be removed in next major version.**
 
 ##### Expected parameters
 
