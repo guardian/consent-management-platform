@@ -91,7 +91,6 @@ const showPrivacyManager = () => {
 	initialised.then(CMP?.showPrivacyManager);
 };
 
-// keep the window.guCmpHotFix.cmp type in sync with this types/window.d.ts
 export const cmp = (window.guCmpHotFix.cmp ||= {
 	init,
 	willShowPrivacyMessage,
