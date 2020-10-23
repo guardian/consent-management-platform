@@ -15,6 +15,7 @@ declare global {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
+			// keep this in sync with the `cmp` export of ../index.ts
 			cmp?: {
 				init: ({
 					pubData,
