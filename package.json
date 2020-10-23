@@ -1,6 +1,6 @@
 {
 	"name": "@guardian/consent-management-platform",
-	"version": "0.0.0-this-never-updates-in-source-code-refer-to-git-tags",
+	"version": "6.5.1",
 	"description": "Consent management for *.theguardian.com.",
 	"homepage": "https://github.com/guardian/consent-management-platform.git",
 	"repository": "https://github.com/guardian/consent-management-platform.git",
