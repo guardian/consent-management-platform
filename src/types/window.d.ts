@@ -1,9 +1,8 @@
 import { getConsentFor } from '../getConsentFor';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
-import { Country } from './countries';
 import { TCData } from './tcfv2/TCData';
-import { PubData, WillShowPrivacyMessage } from '.';
+import { InitCmp, PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -15,17 +14,12 @@ declare global {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
-			// keep this in sync with the `cmp` export of ../index.ts
 			cmp?: {
 				init: ({
 					pubData,
 					country,
 					isInUsa, // DEPRECATED: Will be removed in next major version
-				}: {
-					pubData?: PubData;
-					country?: Country;
-					isInUsa?: boolean;
-				}) => void;
+				}: InitCmp) => void;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
 				version: typeof __PACKAGE_VERSION__;

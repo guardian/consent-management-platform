@@ -1,8 +1,15 @@
 import { CustomVendorRejects } from './aus';
 import { CCPAConsentState } from './ccpa';
+import { Country } from './countries';
 import { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';
+
+export interface InitCmp {
+	pubData?: PubData;
+	country?: Country;
+	isInUsa?: boolean;
+}
 
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
