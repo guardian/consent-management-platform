@@ -9,11 +9,10 @@ import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
-	PubData,
+	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
-import { Country } from './types/countries';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -26,15 +25,11 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
-function init({
+const init: InitCMP = ({
 	pubData,
 	country,
 	isInUsa, // DEPRECATED: Will be removed in next major version
-}: {
-	pubData?: PubData;
-	country?: Country;
-	isInUsa?: boolean;
-}): void {
+}) => {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 			console.warn('Two different versions of the CMP are running:', [
@@ -81,7 +76,7 @@ function init({
 
 	CMP?.init(pubData || {});
 	resolveInitialised?.();
-}
+};
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
 	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
