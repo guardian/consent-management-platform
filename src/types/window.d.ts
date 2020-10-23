@@ -19,9 +19,11 @@ declare global {
 				init: ({
 					pubData,
 					country,
+					isInUsa, // DEPRECATED: Will be removed in next major version
 				}: {
-					pubData?: PubData | undefined;
-					country: Country;
+					pubData?: PubData;
+					country?: Country;
+					isInUsa?: boolean;
 				}) => void;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
