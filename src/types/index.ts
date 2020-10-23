@@ -5,11 +5,15 @@ import { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';
 
-export interface InitCmp {
+export type InitCMP = ({
+	pubData,
+	country,
+	isInUsa, // DEPRECATED: Will be removed in next major version
+}: {
 	pubData?: PubData;
 	country?: Country;
 	isInUsa?: boolean;
-}
+}) => void;
 
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;

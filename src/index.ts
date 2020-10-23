@@ -9,7 +9,7 @@ import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import {
-	InitCmp,
+	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
@@ -25,11 +25,11 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
-function init({
+const init: InitCMP = ({
 	pubData,
 	country,
 	isInUsa, // DEPRECATED: Will be removed in next major version
-}: InitCmp): void {
+}) => {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 			console.warn('Two different versions of the CMP are running:', [
@@ -76,7 +76,7 @@ function init({
 
 	CMP?.init(pubData || {});
 	resolveInitialised?.();
-}
+};
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
 	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
