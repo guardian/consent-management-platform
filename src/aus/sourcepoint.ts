@@ -69,8 +69,8 @@ export const init = (pubData = {}): void => {
 		},
 	};
 
-	const ccpaLib = document.createElement('script');
-	ccpaLib.id = 'sourcepoint-aus-lib';
-	ccpaLib.src = 'https://sourcepoint.theguardian.com/ccpa.js';
-	document.body.appendChild(ccpaLib);
+	const ausLib = document.createElement('script');
+	ausLib.id = 'sourcepoint-aus-lib';
+	ausLib.src = 'https://sourcepoint.theguardian.com/ccpa.js';
+	document.body.appendChild(ausLib);
 };
