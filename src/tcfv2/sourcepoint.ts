@@ -17,7 +17,9 @@ export const init = (pubData = {}): void => {
 	// // make sure nothing else on the page has accidentally
 	// used the _sp_* name as well
 	if (window._sp_) {
-		throw new Error('Sourcepoint TCF global (window._sp_) is already defined!');
+		throw new Error(
+			'Sourcepoint TCF global (window._sp_) is already defined!',
+		);
 	}
 
 	/* istanbul ignore next */
@@ -25,7 +27,9 @@ export const init = (pubData = {}): void => {
 		config: {
 			baseEndpoint: 'https://sourcepoint.theguardian.com',
 			accountId: ACCOUNT_ID,
-			propertyHref: isGuardianDomain() ? null : 'https://test.theguardian.com',
+			propertyHref: isGuardianDomain()
+				? null
+				: 'https://test.theguardian.com',
 			targetingParams: {
 				framework: 'tcfv2',
 			},

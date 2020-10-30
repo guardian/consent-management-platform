@@ -1,27 +1,27 @@
 name: Deploy to GitHub Pages
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v2
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-            - name: Use Node.js
-              shell: bash -l {0}
-              run: nvm install
+      - name: Use Node.js
+        shell: bash -l {0}
+        run: nvm install
 
-            - name: Install dependencies
-              uses: bahmutov/npm-install@v1
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
 
-            - name: Build
-              run: yarn build
+      - name: Build
+        run: yarn build
 
-            - name: Deploy
-              env:
-                  GH_PAT: ${{ secrets.GH_PAT }}
-                  BUILD_DIR: '.test-page/'
-              uses: maxheld83/ghpages@v0.3.0
+      - name: Deploy
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          BUILD_DIR: '.test-page/'
+        uses: maxheld83/ghpages@v0.3.0

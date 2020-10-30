@@ -64,7 +64,7 @@ You can also find these extensions by searching for `@recommended` in the extens
 
 Changes are automatically released to [NPM][].
 
-[NPM]: https://www.npmjs.com/package/@guardian/consent-management-platform
+[npm]: https://www.npmjs.com/package/@guardian/consent-management-platform
 
 The `main` branch on GitHub is analysed by [semantic-release](https://semantic-release.gitbook.io/) after every push.
 

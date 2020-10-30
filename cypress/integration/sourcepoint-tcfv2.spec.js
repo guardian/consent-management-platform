@@ -72,7 +72,9 @@ skipOn(Cypress.env('CI') === 'true', () => {
 			cy.get('[data-cy=pm]').click();
 
 			cy.getIframeBody(iframePrivacyManager)
-				.find(`label[aria-label="Store and/or access information on a device"]`)
+				.find(
+					`label[aria-label="Store and/or access information on a device"]`,
+				)
 				.find('span.off')
 				.click();
 
@@ -98,11 +100,15 @@ skipOn(Cypress.env('CI') === 'true', () => {
 			cy.get('[data-cy=pm]').click();
 
 			cy.getIframeBody(iframePrivacyManager)
-				.find(`label[aria-label="Store and/or access information on a device"]`)
+				.find(
+					`label[aria-label="Store and/or access information on a device"]`,
+				)
 				.find('span.on')
 				.click();
 
-			cy.getIframeBody(iframePrivacyManager).find(`div.stack-toggles`).click();
+			cy.getIframeBody(iframePrivacyManager)
+				.find(`div.stack-toggles`)
+				.click();
 
 			cy.getIframeBody(iframePrivacyManager)
 				.find(`button[aria-label="Save and close"]`)

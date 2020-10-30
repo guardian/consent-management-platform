@@ -45,7 +45,9 @@ declare global {
 				events?: {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
-					onMessageReceiveData: (data: { msg_id: 0 | string }) => void;
+					onMessageReceiveData: (data: {
+						msg_id: 0 | string;
+					}) => void;
 					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
@@ -64,7 +66,9 @@ declare global {
 				events?: {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
-					onMessageReceiveData: (data: { messageId: 0 | string }) => void;
+					onMessageReceiveData: (data: {
+						messageId: 0 | string;
+					}) => void;
 					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};

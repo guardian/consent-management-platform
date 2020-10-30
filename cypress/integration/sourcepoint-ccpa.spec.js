@@ -35,8 +35,12 @@ describe('Window', () => {
 			.its('_sp_ccpa.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.mmsDomain).equal('https://sourcepoint.theguardian.com');
-				expect(spConfig.ccpaOrigin).equal('https://ccpa-service.sp-prod.net');
+				expect(spConfig.mmsDomain).equal(
+					'https://sourcepoint.theguardian.com',
+				);
+				expect(spConfig.ccpaOrigin).equal(
+					'https://ccpa-service.sp-prod.net',
+				);
 			});
 	});
 });
@@ -91,7 +95,9 @@ describe('Interaction', () => {
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(`#tab-pan_5ed10cdb1ea0b9455a0ff81c div.right`) /* ¯\_(ツ)_/¯ */
+			.find(
+				`#tab-pan_5ed10cdb1ea0b9455a0ff81c div.right`,
+			) /* ¯\_(ツ)_/¯ */
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)

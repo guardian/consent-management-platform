@@ -88,10 +88,10 @@ describe('hotfix cmp.init', () => {
 
 		expect(
 			global.console.warn,
-		).toHaveBeenCalledWith('Two different versions of the CMP are running:', [
-			currentVersion,
-			mockedVersion,
-		]);
+		).toHaveBeenCalledWith(
+			'Two different versions of the CMP are running:',
+			[currentVersion, mockedVersion],
+		);
 	});
 
 	it.each([

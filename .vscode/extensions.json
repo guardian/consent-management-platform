@@ -1,9 +1,9 @@
 {
-    "recommendations": [
-        "esbenp.prettier-vscode",
-        "wix.vscode-import-cost",
-        "orta.vscode-jest",
-        "editorconfig.editorconfig",
-        "dbaeumer.vscode-eslint"
-    ]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "wix.vscode-import-cost",
+    "orta.vscode-jest",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint"
+  ]
 }
