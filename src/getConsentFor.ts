@@ -20,6 +20,7 @@ enum VendorIDs {
 	'googletag' = '5f1aada6b8e05c306c0597d7',
 	'ias' = '5e7ced57b8e05c485246ccf3',
 	'inizio' = '5e37fc3e56a5e6615502f9c9',
+	'ipsos' = '5f745ab96f3aae0163740409',
 	'lotame' = '5ed6aeb1b8e05c241a63c71f',
 	'nielsen' = '5ef5c3a5b8e05c69980eaa5b',
 	'ophan' = '5f203dbeeaaaa8768fd3226a',
