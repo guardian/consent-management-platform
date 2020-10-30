@@ -14,21 +14,21 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -275,6 +275,7 @@ type: `string`
 -   `"googletag"`
 -   `"ias"`
 -   `"inizio"`
+-   `"ipsos"`
 -   `"lotame"`
 -   `"nielsen"`
 -   `"ophan"`
