@@ -2,7 +2,7 @@ import { getConsentFor } from '../getConsentFor';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
-import { PubData, WillShowPrivacyMessage } from '.';
+import { InitCMP, PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -15,13 +15,7 @@ declare global {
 		guCmpHotFix: {
 			initialised?: boolean;
 			cmp?: {
-				init: ({
-					pubData,
-					isInUsa,
-				}: {
-					pubData?: PubData | undefined;
-					isInUsa: boolean;
-				}) => void;
+				init: InitCMP;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
 				version: typeof __PACKAGE_VERSION__;
@@ -45,7 +39,7 @@ declare global {
 				alwaysDisplayDns: boolean;
 				siteHref: string | null;
 				targetingParams: {
-					framework: 'ccpa';
+					framework: 'ccpa' | 'aus';
 				};
 				pubData: PubData;
 				events?: {

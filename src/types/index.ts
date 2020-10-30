@@ -1,14 +1,25 @@
+import { CustomVendorRejects } from './aus';
 import { CCPAConsentState } from './ccpa';
+import { Country } from './countries';
 import { TCFv2ConsentState } from './tcfv2';
+
+export type Framework = 'tcfv2' | 'ccpa' | 'aus';
+
+export type InitCMP = (arg0: {
+	pubData?: PubData;
+	country?: Country;
+	isInUsa?: boolean;
+}) => void;
 
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
 	ccpa?: CCPAConsentState;
+	aus?: CustomVendorRejects;
 }
 export interface PubData {
 	browserId?: string;
 	pageViewId?: string;
-	[propName: string]: any;
+	[propName: string]: unknown;
 }
 export interface SourcepointImplementation {
 	init: (pubData?: PubData) => void;
