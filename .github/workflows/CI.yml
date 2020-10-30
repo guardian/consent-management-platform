@@ -31,7 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           test-command: 'yarn test:unit'
-
             - name: Check coverage
               uses: codecov/codecov-action@v1.0.14
 
