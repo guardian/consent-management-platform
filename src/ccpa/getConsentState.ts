@@ -1,6 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-
-import { CCPAConsentState } from '../types/ccpa';
+import type { CCPAConsentState } from '../types/ccpa';
 import { getUSPData } from './api';
 
 // get the current constent state using the official IAB method

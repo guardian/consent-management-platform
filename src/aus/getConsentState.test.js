@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import ausData from './__fixtures__/api.getCustomVendorRejects.json';
 import { getCustomVendorRejects } from './api';
 import { getConsentState } from './getConsentState';

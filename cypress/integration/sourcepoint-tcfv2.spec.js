@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { skipOn } from '@cypress/skip-test';
 
 const iframeMessage = `#sp_message_iframe_${343252}`;
@@ -57,7 +55,7 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[title="${buttonTitle}"]`)
 				.click();
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 			cy.wait(1000);
 
 			[(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)].forEach((purpose) => {
@@ -82,7 +80,7 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[aria-label="Save and close"]`)
 				.click();
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 			cy.wait(1000);
 
 			cy.get(`[data-purpose="1"]`)
@@ -114,7 +112,7 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[aria-label="Save and close"]`)
 				.click();
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 			cy.wait(1000);
 
 			cy.get(`[data-purpose="1"]`)

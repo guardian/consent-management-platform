@@ -1,5 +1,5 @@
 import type { Framework } from './types';
-import { Country } from './types/countries';
+import type { Country } from './types/countries';
 
 export const getFramework = (countryCode: Country): Framework => {
 	let framework: Framework;

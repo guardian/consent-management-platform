@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import http from 'http';
 import url from 'url';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
@@ -40,7 +39,7 @@ describe('Sourcepoint TCF', () => {
 	it('points at a real file', (done) => {
 		init();
 		const src = document
-			?.getElementById('sourcepoint-tcfv2-lib')
+			.getElementById('sourcepoint-tcfv2-lib')
 			?.getAttribute('src');
 
 		const { host, path } = url.parse(src ?? '');

@@ -1,9 +1,7 @@
-/* eslint-disable no-underscore-dangle */
-
 import { getCustomVendorRejects } from './api';
 
 it('throws an error on missing window.__uspapi', async () => {
-	expect(getCustomVendorRejects()).rejects.toThrow(
+	await expect(getCustomVendorRejects()).rejects.toThrow(
 		'No __uspapi found on window',
 	);
 });

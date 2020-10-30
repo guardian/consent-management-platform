@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
 import { ACCOUNT_ID } from '../lib/sourcepointConfig';
@@ -54,7 +52,7 @@ export const init = (pubData = {}): void => {
 				},
 
 				onMessageReceiveData: (data) => {
-					resolveWillShowPrivacyMessage?.(data.msg_id !== 0);
+					void resolveWillShowPrivacyMessage(data.msg_id !== 0);
 				},
 
 				onMessageChoiceSelect: (_, choiceTypeID) => {

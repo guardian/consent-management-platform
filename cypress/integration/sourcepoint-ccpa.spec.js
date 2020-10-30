@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import 'cypress-wait-until';
 
 const iframeMessage = `#sp_message_iframe_${343253}`;
