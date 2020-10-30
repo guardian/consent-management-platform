@@ -158,3 +158,21 @@ describe('cmp.showPrivacyManager', () => {
 });
 
 it.todo('cmp.willShowPrivacyMessage');
+
+describe('Old API parameter `isInUsa`', () => {
+	it('Should handle `{ isInUsa: true }`', () => {
+		cmp.init({ isInUsa: true });
+		expect(CCPA.init).toHaveBeenCalledTimes(1);
+	});
+
+	it('Should handle `{ isInUsa: false }`', () => {
+		cmp.init({ isInUsa: false });
+		expect(TCFv2.init).toHaveBeenCalledTimes(1);
+	});
+
+	it('Should throw an error if neither is passed', () => {
+		expect(() => {
+			cmp.init({});
+		}).toThrow('required');
+	});
+});

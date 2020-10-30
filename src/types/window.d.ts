@@ -1,9 +1,8 @@
 import { getConsentFor } from '../getConsentFor';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
-import { Country } from './countries';
 import { TCData } from './tcfv2/TCData';
-import { PubData, WillShowPrivacyMessage } from '.';
+import { InitCMP, PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -16,13 +15,7 @@ declare global {
 		guCmpHotFix: {
 			initialised?: boolean;
 			cmp?: {
-				init: ({
-					pubData,
-					country,
-				}: {
-					pubData?: PubData | undefined;
-					country: Country;
-				}) => void;
+				init: InitCMP;
 				willShowPrivacyMessage: WillShowPrivacyMessage;
 				showPrivacyManager: () => void;
 				version: typeof __PACKAGE_VERSION__;
