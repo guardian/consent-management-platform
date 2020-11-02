@@ -32,8 +32,10 @@ jobs:
         with:
           test-command: 'yarn test:unit'
 
-      - name: Check coverage
-        uses: codecov/codecov-action@v1.0.14
+      - name: Report coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   test-e2e:
     name: e2e tests
