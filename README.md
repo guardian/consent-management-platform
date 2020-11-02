@@ -3,7 +3,7 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@guardian/consent-management-platform)](https://www.npmjs.com/package/@guardian/consent-management-platform)
 [![ES version](https://badgen.net/badge/ES/2020/cyan)](https://tc39.es/ecma262/2020/)
 ![Types](https://img.shields.io/npm/types/@guardian/consent-management-platform)
-[![codecov](https://codecov.io/gh/guardian/consent-management-platform/branch/main/graph/badge.svg)](https://codecov.io/gh/guardian/consent-management-platform)
+[![Coverage Status](https://coveralls.io/repos/github/guardian/consent-management-platform/badge.svg)](https://coveralls.io/github/guardian/consent-management-platform)
 
 > Consent management for `*.theguardian.com`.
 
@@ -14,21 +14,21 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
--   [Installation](#installation)
-    *   [Bundling](#bundling)
--   [Managing Consent](#managing-consent)
-    *   [`cmp.init(options)`](#cmpinitoptions)
-    *   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-    *   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
--   [Using Consent](#using-consent)
-    *   [`onConsentChange(callback)`](#onconsentchangecallback)
-    *   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
--   [Disabling Consent](#disabling-consent)
-    *   [`cmp.__disable()`](#cmp__disable)
-    *   [`cmp.__enable()`](#cmp__enable)
-    *   [`cmp.__isDisabled()`](#cmp__isdisabled)
-    *   [Manually](#manually)
--   [Development](#development)
+- [Installation](#installation)
+  * [Bundling](#bundling)
+- [Managing Consent](#managing-consent)
+  * [`cmp.init(options)`](#cmpinitoptions)
+  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+- [Using Consent](#using-consent)
+  * [`onConsentChange(callback)`](#onconsentchangecallback)
+  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+- [Disabling Consent](#disabling-consent)
+  * [`cmp.__disable()`](#cmp__disable)
+  * [`cmp.__enable()`](#cmp__enable)
+  * [`cmp.__isDisabled()`](#cmp__isdisabled)
+  * [Manually](#manually)
+- [Development](#development)
 
 <!-- tocstop -->
 
