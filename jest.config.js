@@ -8,5 +8,5 @@ module.exports = {
 	globals: { __PACKAGE_VERSION__: pkg.version },
 	clearMocks: true,
 	testPathIgnorePatterns: ['cypress'],
-	transformIgnorePatterns: ['/node_modules/(?!@guardian/).+\\.js$'],
+	transformIgnorePatterns: ['/node_modules/(?!@guardian/)'],
 };
