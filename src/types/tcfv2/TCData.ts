@@ -88,6 +88,11 @@ export interface TCData {
 			consents: TCFv2ConsentList;
 			legitimateInterests: TCFv2ConsentList;
 		};
+		/**
+		 * 0 - Not Allowed
+		 * 1 - Require Consents
+		 * 2 - Require Legitimate Interest
+		 */
 		restrictions: Record<string, Record<string, 0 | 1 | 2>>;
 	};
 }
