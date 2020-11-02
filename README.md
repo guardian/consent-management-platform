@@ -14,21 +14,21 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -60,42 +60,31 @@ import { cmp } from '@guardian/consent-management-platform';
 
 ### `cmp.init(options)`
 
-returns: `void`
+returns: `Promise<void>`
 
 Adds the relevent privacy framework to the page. It must be called to enable
 privacy management.
 If necessary, it will also display the initial privacy message.
 
-#### `options.country`
+#### `options.pubData?`
 
-type: `string`
-values: any [2-letter, ISO_3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Decoding_table), e.g. `GB`, `US`, `AU`, …
+type: `Object` or `undefined`
 
-Declare which country your user is in. Required – *throws an error if
-it's missing.*
+Optional additional parameters for reporting.
 
-#### `options.pubData`
+##### `pubData.pageViewId?`
 
-type: `Object`
+type: `String` or `undefined`
 
-Pass additional parameters for for reporting. Optional.
+Optional key used to identify the unique pageview associated with this instance of the CMP. It will be used to link back to a `browserId` for further reporting.
 
-#### `options.isInUsa` _(DEPRECATED)_
-
-type: `boolean`
-
-Deprecated, please use `options.country` instead. **Will be removed in next major version.**
-
-##### Expected parameters
-
--   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
+If possible this should be available via the pageview table.
 
 #### Example
 
 ```js
 cmp.init({
     pubData: {
-        browserId: 'gow59fnwohwmshz',
         pageViewId: 'jkao3u2kcbaqk',
     },
     country: 'GB',
@@ -125,6 +114,8 @@ cmp.willShowPrivacyMessage()
 ```
 
 ### `cmp.showPrivacyManager()`
+
+returns: `void`
 
 Displays an interface that allows users to manage
 their privacy settings at any time.
