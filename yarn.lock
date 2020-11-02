@@ -1103,10 +1103,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@guardian/libs@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-1.4.1.tgz#86244a043e2e965d670b0207367d15a3df3bb4fb"
-  integrity sha512-b0jLRZzGQ6J1t+wJ3txFSetmk5Hk1YXxgWuoVpObt+lUn3doxgsf3MHxa9HBOg/ZbrImyedWadzTYiLmbVz6Dw==
+"@guardian/libs@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-1.4.0.tgz#4f5ec91d7d90018b9ec17501ec32243db7dad110"
+  integrity sha512-8dwmbxf+iBN33nVkDFMpDyTS7Kcq2L2UZMu33dQm4UUTbcNZda/DInWDda52q67X0wRjlStDhfxhLGomD0LUvQ==
 
 "@guardian/prettier@0.4.1":
   version "0.4.1"
