@@ -89,5 +89,8 @@
     "tslib": "2.0.3",
     "typescript": "4.0.5",
     "wait-for-expect": "3.0.2"
+  },
+  "peerDependencies": {
+    "@guardian/libs": "^1.4.1"
   }
 }
