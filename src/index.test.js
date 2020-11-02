@@ -1,4 +1,6 @@
 /* eslint-disable no-underscore-dangle */
+
+import * as libs from '@guardian/libs';
 import waitForExpect from 'wait-for-expect';
 import { AUS as actualAUS } from './aus';
 import { CCPA as actualCCPA } from './ccpa';
@@ -6,6 +8,9 @@ import { disable, enable } from './disable';
 import { getCurrentFramework } from './getCurrentFramework';
 import { TCFv2 as actualTCFv2 } from './tcfv2';
 import { cmp } from '.';
+
+const getLocale = jest.spyOn(libs, 'getLocale');
+getLocale.mockImplementation(async () => 'GB');
 
 const CCPA = {
 	init: jest.spyOn(actualCCPA, 'init'),
@@ -27,16 +32,21 @@ beforeEach(() => {
 	window._sp_ = undefined;
 	window._sp_ccpa = undefined;
 	window.guCmpHotFix.initialised = false;
+
 	TCFv2.init.mockClear();
 	CCPA.init.mockClear();
 });
 
+afterAll(() => {
+	getLocale.mockClear();
+});
+
 describe('cmp.init', () => {
-	it('does nothing if CMP is disabled', () => {
+	it('does nothing if CMP is disabled', async () => {
 		disable();
 
-		cmp.init({ country: 'GB' });
-		cmp.init({ country: 'US' });
+		await cmp.init();
+		await cmp.init();
 
 		expect(TCFv2.init).not.toHaveBeenCalled();
 		expect(CCPA.init).not.toHaveBeenCalled();
@@ -44,47 +54,44 @@ describe('cmp.init', () => {
 		enable();
 	});
 
-	it('requires country to be set', () => {
-		expect(() => {
-			cmp.init({ pubData: {} });
-		}).toThrow('required');
-	});
-
-	it('initializes CCPA when in the US', () => {
-		cmp.init({ country: 'US' });
+	it('initializes CCPA when in the US', async () => {
+		getLocale.mockImplementationOnce(async () => 'US');
+		await cmp.init();
 		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
-	it('initializes CCPA when in Australia', () => {
-		cmp.init({ country: 'AU' });
+	it('initializes CCPA when in Australia', async () => {
+		getLocale.mockImplementationOnce(async () => 'AU');
+		await cmp.init();
 		expect(AUS.init).toHaveBeenCalledTimes(1);
 	});
 
-	it('initializes TCF when neither in the US or Australia', () => {
-		cmp.init({ country: 'GB' });
+	it('initializes TCF when neither in the US or Australia', async () => {
+		getLocale.mockImplementationOnce(async () => 'ZA');
+		await cmp.init();
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 	});
 });
 
 // *************** START commercial.dcr.js hotfix ***************
 describe('hotfix cmp.init', () => {
-	it('only initialises once per page', () => {
-		cmp.init({ country: 'GB' });
-		cmp.init({ country: 'GB' });
-		cmp.init({ country: 'GB' });
-		cmp.init({ country: 'GB' });
+	it('only initialises once per page', async () => {
+		await cmp.init();
+		await cmp.init();
+		await cmp.init();
+		await cmp.init();
 		expect(TCFv2.init).toHaveBeenCalledTimes(1);
 		expect(window.guCmpHotFix.initialised).toBe(true);
 	});
 
-	it('warn if two versions are running simultaneously', () => {
+	it('warn if two versions are running simultaneously', async () => {
 		global.console.warn = jest.fn();
-		cmp.init({ country: 'GB' });
+		await cmp.init();
 		const currentVersion = window.guCmpHotFix.cmp.version;
 		const mockedVersion = 'X.X.X-mock';
 		window.guCmpHotFix.cmp.version = mockedVersion;
 
-		cmp.init({ country: 'GB' });
+		await cmp.init();
 
 		expect(
 			global.console.warn,
@@ -102,8 +109,9 @@ describe('hotfix cmp.init', () => {
 		['FR', 'tcfv2'],
 		['CA', 'tcfv2'],
 		['NZ', 'tcfv2'],
-	])('In %s, use the %s framework correctly', (country, framework) => {
-		cmp.init({ country });
+	])('In %s, use the %s framework correctly', async (country, framework) => {
+		getLocale.mockImplementationOnce(async () => country);
+		await cmp.init();
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 
@@ -112,11 +120,11 @@ describe('hotfix cmp.init', () => {
 // *************** END commercial.dcr.js hotfix ***************
 
 describe('cmp.willShowPrivacyMessage', () => {
-	it.skip('resolves regardless of when the cmp is initialised', () => {
+	it.skip('resolves regardless of when the cmp is initialised', async () => {
 		// This should be tested in e2e test to be meaningful
 		const willShowPrivacyMessage1 = cmp.willShowPrivacyMessage();
 
-		cmp.init({ country: 'US' });
+		await cmp.init();
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
@@ -127,8 +135,9 @@ describe('cmp.willShowPrivacyMessage', () => {
 });
 
 describe('cmp.showPrivacyManager', () => {
-	it('shows CCPA privacy manager when in the US', () => {
-		cmp.init({ country: 'US' });
+	it('shows CCPA privacy manager when in the US', async () => {
+		getLocale.mockImplementationOnce(async () => 'US');
+		await cmp.init();
 
 		cmp.showPrivacyManager();
 
@@ -137,8 +146,9 @@ describe('cmp.showPrivacyManager', () => {
 		);
 	});
 
-	it('shows AUS privacy manager when in Australia', () => {
-		cmp.init({ country: 'AU' });
+	it('shows AUS privacy manager when in Australia', async () => {
+		getLocale.mockImplementationOnce(async () => 'AU');
+		await cmp.init();
 
 		cmp.showPrivacyManager();
 
@@ -146,8 +156,9 @@ describe('cmp.showPrivacyManager', () => {
 			expect(AUS.showPrivacyManager).toHaveBeenCalledTimes(1),
 		);
 	});
-	it('shows TCF privacy manager when neither in the US or Australia', () => {
-		cmp.init({ country: 'GB' });
+	it('shows TCF privacy manager when neither in the US or Australia', async () => {
+		getLocale.mockImplementationOnce(async () => 'ZA');
+		await cmp.init();
 
 		cmp.showPrivacyManager();
 
@@ -158,21 +169,3 @@ describe('cmp.showPrivacyManager', () => {
 });
 
 it.todo('cmp.willShowPrivacyMessage');
-
-describe('Old API parameter `isInUsa`', () => {
-	it('Should handle `{ isInUsa: true }`', () => {
-		cmp.init({ isInUsa: true });
-		expect(CCPA.init).toHaveBeenCalledTimes(1);
-	});
-
-	it('Should handle `{ isInUsa: false }`', () => {
-		cmp.init({ isInUsa: false });
-		expect(TCFv2.init).toHaveBeenCalledTimes(1);
-	});
-
-	it('Should throw an error if neither is passed', () => {
-		expect(() => {
-			cmp.init({});
-		}).toThrow('required');
-	});
-});
