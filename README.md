@@ -87,7 +87,6 @@ cmp.init({
     pubData: {
         pageViewId: 'jkao3u2kcbaqk',
     },
-    country: 'GB',
 });
 ```
 
