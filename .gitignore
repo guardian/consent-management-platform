@@ -8,8 +8,7 @@ node_modules
 dist
 .dev
 .gh-pages
-.test-page
-test-page*
+test-page/build
 /coverage
 .idea/
 

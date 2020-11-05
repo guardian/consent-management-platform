@@ -9,7 +9,7 @@ import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import pkg from '../package.json';
 
-const dist = '.test-page';
+const dist = 'test-page/build';
 
 export default {
 	input: './test-page/index.js',

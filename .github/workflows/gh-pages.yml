@@ -23,5 +23,5 @@ jobs:
       - name: Deploy
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
-          BUILD_DIR: '.test-page/'
+          BUILD_DIR: 'test-page/build/'
         uses: maxheld83/ghpages@v0.3.0
