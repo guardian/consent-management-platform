@@ -2,7 +2,7 @@
 
 import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
-import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 import { stub } from './stub';
 
@@ -28,7 +28,7 @@ export const init = (pubData = {}): void => {
 	/* istanbul ignore next */
 	window._sp_ccpa = {
 		config: {
-			mmsDomain: 'https://sourcepoint.theguardian.com',
+			mmsDomain: ENDPOINT,
 			ccpaOrigin: 'https://ccpa-service.sp-prod.net',
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
@@ -73,6 +73,6 @@ export const init = (pubData = {}): void => {
 
 	const ccpaLib = document.createElement('script');
 	ccpaLib.id = 'sourcepoint-ccpa-lib';
-	ccpaLib.src = 'https://sourcepoint.theguardian.com/ccpa.js';
+	ccpaLib.src = ENDPOINT;
 	document.body.appendChild(ccpaLib);
 };

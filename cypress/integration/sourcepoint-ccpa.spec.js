@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 import 'cypress-wait-until';
+import { ENDPOINT } from "../../src/lib/sourcepointConfig";
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
@@ -36,7 +37,7 @@ describe('Window', () => {
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
 				expect(spConfig.mmsDomain).equal(
-					'https://sourcepoint.theguardian.com',
+					ENDPOINT,
 				);
 				expect(spConfig.ccpaOrigin).equal(
 					'https://ccpa-service.sp-prod.net',
@@ -55,7 +56,7 @@ describe('Document', () => {
 		cy.get('script#sourcepoint-ccpa-lib').should(
 			'have.attr',
 			'src',
-			'https://sourcepoint.theguardian.com/ccpa.js',
+			`${ENDPOINT}/ccpa.js`,
 		);
 	});
 });

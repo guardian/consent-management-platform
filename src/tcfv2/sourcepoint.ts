@@ -2,7 +2,7 @@
 
 import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
-import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 import { stub } from './stub';
 
@@ -25,11 +25,11 @@ export const init = (pubData = {}): void => {
 	/* istanbul ignore next */
 	window._sp_ = {
 		config: {
-			baseEndpoint: 'https://sourcepoint.theguardian.com',
+			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
 			propertyHref: isGuardianDomain()
 				? null
-				: 'https://theguardian.eteve.net',
+				: 'https://test.theguardian.com',
 			targetingParams: {
 				framework: 'tcfv2',
 			},
@@ -68,7 +68,7 @@ export const init = (pubData = {}): void => {
 	const tcfLib = document.createElement('script');
 	tcfLib.id = 'sourcepoint-tcfv2-lib';
 	tcfLib.src =
-		'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js';
+		`${ENDPOINT}/wrapperMessagingWithoutDetection.js`;
 
 	document.body.appendChild(tcfLib);
 };

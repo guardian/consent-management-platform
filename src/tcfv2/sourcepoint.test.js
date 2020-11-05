@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import http from 'http';
 import url from 'url';
-import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { init } from './sourcepoint';
 
 describe('Sourcepoint TCF', () => {
@@ -19,7 +19,7 @@ describe('Sourcepoint TCF', () => {
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();
 		expect(window._sp_.config.baseEndpoint).toEqual(
-			'https://sourcepoint.theguardian.com',
+			ENDPOINT,
 		);
 		expect(window._sp_.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');

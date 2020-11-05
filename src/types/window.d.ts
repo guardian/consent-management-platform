@@ -3,6 +3,7 @@ import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
 import { InitCMP, PubData, WillShowPrivacyMessage } from '.';
+import { EndPoint } from '../lib/sourcepointConfig';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -32,7 +33,7 @@ declare global {
 		// sourcepoint's libraries - only one should be present at a time
 		_sp_ccpa?: {
 			config: {
-				mmsDomain: 'https://sourcepoint.theguardian.com';
+				mmsDomain: EndPoint;
 				ccpaOrigin: 'https://ccpa-service.sp-prod.net';
 				accountId: number;
 				getDnsMsgMms: boolean;
@@ -55,7 +56,7 @@ declare global {
 		};
 		_sp_?: {
 			config: {
-				baseEndpoint: 'https://sourcepoint.theguardian.com';
+				baseEndpoint: EndPoint;
 				accountId: number;
 				propertyHref: string | null;
 				propertyId?: string;
