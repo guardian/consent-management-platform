@@ -73,6 +73,6 @@ export const init = (pubData = {}): void => {
 
 	const ccpaLib = document.createElement('script');
 	ccpaLib.id = 'sourcepoint-ccpa-lib';
-	ccpaLib.src = ENDPOINT;
+	ccpaLib.src = `${ENDPOINT}/ccpa.js`;
 	document.body.appendChild(ccpaLib);
 };
