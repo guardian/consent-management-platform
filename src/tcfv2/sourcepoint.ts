@@ -67,8 +67,7 @@ export const init = (pubData = {}): void => {
 
 	const tcfLib = document.createElement('script');
 	tcfLib.id = 'sourcepoint-tcfv2-lib';
-	tcfLib.src =
-		`${ENDPOINT}/wrapperMessagingWithoutDetection.js`;
+	tcfLib.src = `${ENDPOINT}/wrapperMessagingWithoutDetection.js`;
 
 	document.body.appendChild(tcfLib);
 };

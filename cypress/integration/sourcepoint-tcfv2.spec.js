@@ -19,9 +19,7 @@ describe('Window', () => {
 			.its('_sp_.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.baseEndpoint).equal(
-					ENDPOINT,
-				);
+				expect(spConfig.baseEndpoint).equal(ENDPOINT);
 			});
 	});
 });
@@ -36,7 +34,7 @@ describe('Document', () => {
 		cy.get('script#sourcepoint-tcfv2-lib').should(
 			'have.attr',
 			'src',
-			ENDPOINT+'/wrapperMessagingWithoutDetection.js',
+			ENDPOINT + '/wrapperMessagingWithoutDetection.js',
 		);
 	});
 });

@@ -1,9 +1,9 @@
 import { getConsentFor } from '../getConsentFor';
+import { EndPoint } from '../lib/sourcepointConfig';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
 import { TCData } from './tcfv2/TCData';
 import { InitCMP, PubData, WillShowPrivacyMessage } from '.';
-import { EndPoint } from '../lib/sourcepointConfig';
 
 type OnMessageChoiceSelect = (
 	arg0: number,

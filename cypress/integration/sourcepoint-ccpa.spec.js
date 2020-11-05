@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
 import 'cypress-wait-until';
-import { ENDPOINT } from "../../src/lib/sourcepointConfig";
+import { ENDPOINT } from '../../src/lib/sourcepointConfig';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
@@ -36,9 +36,7 @@ describe('Window', () => {
 			.its('_sp_ccpa.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.mmsDomain).equal(
-					ENDPOINT,
-				);
+				expect(spConfig.mmsDomain).equal(ENDPOINT);
 				expect(spConfig.ccpaOrigin).equal(
 					'https://ccpa-service.sp-prod.net',
 				);
