@@ -9,6 +9,7 @@ dist
 .dev
 .gh-pages
 .test-page
+test-page*
 /coverage
 .idea/
 
