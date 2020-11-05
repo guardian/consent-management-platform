@@ -29,7 +29,7 @@ export const init = (pubData = {}): void => {
 			accountId: ACCOUNT_ID,
 			propertyHref: isGuardianDomain()
 				? null
-				: 'https://test.theguardian.com',
+				: 'https://theguardian.eteve.net',
 			targetingParams: {
 				framework: 'tcfv2',
 			},
