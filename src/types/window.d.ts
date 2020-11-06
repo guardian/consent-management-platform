@@ -1,4 +1,5 @@
 import { getConsentFor } from '../getConsentFor';
+import type { Property } from '../lib/property';
 import { EndPoint } from '../lib/sourcepointConfig';
 import { onConsentChange } from '../onConsentChange';
 import { CCPAData } from './ccpa';
@@ -38,7 +39,7 @@ declare global {
 				accountId: number;
 				getDnsMsgMms: boolean;
 				alwaysDisplayDns: boolean;
-				siteHref: string | null;
+				siteHref: Property;
 				targetingParams: {
 					framework: 'ccpa' | 'aus';
 				};
@@ -58,7 +59,7 @@ declare global {
 			config: {
 				baseEndpoint: EndPoint;
 				accountId: number;
-				propertyHref: string | null;
+				propertyHref: Property;
 				propertyId?: string;
 				targetingParams: {
 					framework: 'tcfv2';
