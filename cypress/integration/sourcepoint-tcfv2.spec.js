@@ -3,7 +3,11 @@
 import { skipOn } from '@cypress/skip-test';
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
 
+<<<<<<< HEAD
 const iframeMessage = `[id^="sp_message_iframe_"]`;
+=======
+const iframeMessage = `#sp_message_iframe_${379541}`; // changes on reconsent
+>>>>>>> 0c5225b... fix tests
 const iframePrivacyManager = '#sp_message_iframe_106842';
 const loadPage = () => {
 	it('should load the TCFv2 page', () => cy.visit('/#tcfv2'));

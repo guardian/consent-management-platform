@@ -14,7 +14,7 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 // This selects the property/custom vendor list to choose on test domains
 const properties = {
 	live: null, // whichever *.theguardian.com subdomain the page is served on
-	test: 'https://theguardian.eteve.net',
+	test: 'https://test.theguardian.com',
 };
 
 export const init = (pubData = {}): void => {
