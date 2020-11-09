@@ -37,9 +37,6 @@ describe('Window', () => {
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
 				expect(spConfig.baseEndpoint).equal(ENDPOINT);
-				expect(spConfig.ccpaOrigin).equal(
-					'https://ccpa-service.sp-prod.net',
-				);
 			});
 	});
 });
