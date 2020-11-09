@@ -46,7 +46,7 @@
     "@babel/plugin-transform-runtime": "7.12.1",
     "@babel/preset-env": "7.12.1",
     "@babel/preset-typescript": "7.12.1",
-    "@babel/runtime": "7.12.1",
+    "@babel/runtime": "7.12.5",
     "@cypress/skip-test": "2.5.0",
     "@guardian/prettier": "0.4.1",
     "@rollup/plugin-babel": "5.2.1",
