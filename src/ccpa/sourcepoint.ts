@@ -34,8 +34,7 @@ export const init = (pubData = {}): void => {
 	/* istanbul ignore next */
 	window._sp_ccpa = {
 		config: {
-			mmsDomain: ENDPOINT,
-			ccpaOrigin: 'https://ccpa-service.sp-prod.net',
+			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
 			alwaysDisplayDns: false,

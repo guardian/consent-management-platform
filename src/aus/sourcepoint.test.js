@@ -22,7 +22,7 @@ describe('Sourcepoint CCPA', () => {
 		init();
 		expect(window._sp_ccpa).toBeDefined();
 		expect(window._sp_ccpa.config).toBeDefined();
-		expect(window._sp_ccpa.config.mmsDomain).toEqual(ENDPOINT);
+		expect(window._sp_ccpa.config.baseEndpoint).toEqual(ENDPOINT);
 		expect(window._sp_ccpa.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_ccpa.config.siteHref).toEqual(
 			'https://au.theguardian.com',

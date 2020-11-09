@@ -36,7 +36,7 @@ describe('Window', () => {
 			.its('_sp_ccpa.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.mmsDomain).equal(ENDPOINT);
+				expect(spConfig.baseEndpoint).equal(ENDPOINT);
 				expect(spConfig.ccpaOrigin).equal(
 					'https://ccpa-service.sp-prod.net',
 				);

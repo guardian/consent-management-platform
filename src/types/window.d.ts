@@ -34,8 +34,7 @@ declare global {
 		// sourcepoint's libraries - only one should be present at a time
 		_sp_ccpa?: {
 			config: {
-				mmsDomain: EndPoint;
-				ccpaOrigin: 'https://ccpa-service.sp-prod.net';
+				baseEndpoint: EndPoint;
 				accountId: number;
 				getDnsMsgMms: boolean;
 				alwaysDisplayDns: boolean;
