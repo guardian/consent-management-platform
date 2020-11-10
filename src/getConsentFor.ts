@@ -51,9 +51,10 @@ export const getConsentFor = (
 	}
 
 	if (consent.aus) {
-		if (typeof consent.aus.rejectedVendors === 'undefined') return true;
-		const rejected = consent.aus.rejectedVendors.filter(
-			(rejectedVendor) => rejectedVendor._id === sourcepointId,
+		if (typeof consent.aus.rejectedCategories === 'undefined') return true;
+		const advertising = '5f859c3420e4ec3e476c7006';
+		const rejected = consent.aus.rejectedCategories.filter(
+			(rejectedCategory) => rejectedCategory._id === advertising,
 		);
 		return rejected.length === 0;
 	}

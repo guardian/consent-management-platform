@@ -1,6 +1,6 @@
 import { skipOn } from '@cypress/skip-test';
 
-const iframeMessage = `#sp_message_iframe_${343252}`;
+const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
 const loadPage = () => {
 	it('should load the TCFv2 page', () => cy.visit('/#tcfv2'));
