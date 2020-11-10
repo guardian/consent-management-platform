@@ -2,6 +2,7 @@
 import { getConsentFor } from './getConsentFor';
 
 const googleAnalytics = '5e542b3a4cd8884eb41b5a72';
+const advertising = '5f859c3420e4ec3e476c7006';
 
 const tcfv2ConsentNotFound = {
 	tcfv2: { vendorConsents: { doesnotexist: true } },
@@ -21,11 +22,11 @@ const ccpaWithoutConsent = { ccpa: { doNotSell: true } };
 
 const ausUnknownConsent = { aus: {} };
 
-const ausWithConsent = { aus: { rejectedVendors: [] } };
+const ausWithConsent = { aus: { rejectedCategories: [] } };
 
 const ausWithoutConsent = {
 	aus: {
-		rejectedVendors: [{ _id: googleAnalytics, name: 'Google Analytics' }],
+		rejectedCategories: [{ _id: advertising, name: 'Advertising' }],
 	},
 };
 

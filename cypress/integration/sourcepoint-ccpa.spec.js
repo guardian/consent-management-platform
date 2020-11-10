@@ -2,7 +2,7 @@
 
 import 'cypress-wait-until';
 
-const iframeMessage = `#sp_message_iframe_${343253}`;
+const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
 const loadPage = () => {
 	it('should load the CCPA page', () => cy.visit('/#ccpa'));
