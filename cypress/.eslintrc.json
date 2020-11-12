@@ -13,5 +13,12 @@
   "ignorePatterns": ["dist"],
   "rules": {
     "import/no-default-export": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }
