@@ -1,6 +1,6 @@
-import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
-import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { getProperty } from '../lib/property';
+import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 import { stub } from './stub';
 
@@ -8,6 +8,12 @@ let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
+
+// Sets the SP property and custom vendor list
+const properties = {
+	live: null, // whichever *.theguardian.com subdomain the page is served on
+	test: 'https://test.theguardian.com',
+};
 
 export const init = (pubData = {}): void => {
 	stub();
@@ -26,14 +32,11 @@ export const init = (pubData = {}): void => {
 	/* istanbul ignore next */
 	window._sp_ccpa = {
 		config: {
-			mmsDomain: 'https://sourcepoint.theguardian.com',
-			ccpaOrigin: 'https://ccpa-service.sp-prod.net',
+			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
 			getDnsMsgMms: true,
 			alwaysDisplayDns: false,
-			siteHref: isGuardianDomain()
-				? null
-				: 'https://test.theguardian.com',
+			siteHref: getProperty(properties),
 			targetingParams: {
 				framework: 'ccpa',
 			},
@@ -71,6 +74,6 @@ export const init = (pubData = {}): void => {
 
 	const ccpaLib = document.createElement('script');
 	ccpaLib.id = 'sourcepoint-ccpa-lib';
-	ccpaLib.src = 'https://sourcepoint.theguardian.com/ccpa.js';
+	ccpaLib.src = `${ENDPOINT}/ccpa.js`;
 	document.body.appendChild(ccpaLib);
 };
