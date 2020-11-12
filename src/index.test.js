@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import * as libs from '@guardian/libs';
 import waitForExpect from 'wait-for-expect';
 import { AUS as actualAUS } from './aus';
@@ -89,7 +87,7 @@ describe('hotfix cmp.init', () => {
 		await cmp.init();
 		const currentVersion = window.guCmpHotFix.cmp.version;
 		const mockedVersion = 'X.X.X-mock';
-		window.guCmpHotFix.cmp.version = mockedVersion;
+		global.guCmpHotFix.cmp.version = mockedVersion;
 
 		await cmp.init();
 

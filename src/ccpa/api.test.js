@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import { getUSPData } from './api';
 
 it('calls the correct IAB api with the correct methods', async () => {

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import customVendorConsents from './__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './__fixtures__/api.getTCData.json';
 import { getCustomVendorConsents, getTCData } from './api';

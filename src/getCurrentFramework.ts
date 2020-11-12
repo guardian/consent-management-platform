@@ -1,4 +1,4 @@
-import { Framework } from './types';
+import type { Framework } from './types';
 
 let currentFramework: Framework | undefined;
 

@@ -1,6 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-
-import { CustomVendorRejects } from '../types/aus';
+import type { CustomVendorRejects } from '../types/aus';
 
 type Command = 'getCustomVendorRejects';
 

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { getLocale } from '@guardian/libs';
 import { AUS } from './aus';
 import { CCPA } from './ccpa';
@@ -9,7 +7,7 @@ import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
-import {
+import type {
 	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
@@ -59,15 +57,15 @@ const init: InitCMP = async ({ pubData } = {}) => {
 
 		setCurrentFramework(framework);
 
-		CMP?.init(pubData || {});
-		resolveInitialised?.();
+	CMP.init(pubData ?? {});
+	resolveInitialised();
 	} else {
 		throw new Error('CMP failed to get locale');
 	}
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
+	initialised.then(() => CMP?.willShowPrivacyMessage() ?? false);
 
 const showPrivacyManager = () => {
 	/* istanbul ignore if */
@@ -76,7 +74,7 @@ const showPrivacyManager = () => {
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
 	}
-	initialised.then(CMP?.showPrivacyManager);
+	void initialised.then(CMP?.showPrivacyManager);
 };
 
 export const cmp = (window.guCmpHotFix.cmp ||= {

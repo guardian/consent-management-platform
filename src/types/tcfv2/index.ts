@@ -1,6 +1,4 @@
-export interface TCFv2ConsentList {
-	[key: string]: boolean;
-}
+export type TCFv2ConsentList = Record<string, boolean>;
 
 export interface TCFv2ConsentState {
 	consents: TCFv2ConsentList;
@@ -11,9 +9,7 @@ export interface TCFv2ConsentState {
 	tcString: string;
 }
 
-export interface ConsentVector {
-	[key: string]: boolean;
-}
+export type ConsentVector = Record<string, boolean>;
 
 // From the IAB spec – https://git.io/JUmoi
 export type TCEventStatusCode =
