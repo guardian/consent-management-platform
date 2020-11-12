@@ -8,6 +8,7 @@ enum VendorIDs {
 	// keep the list in README.md up to date with these values
 	'a9' = '5f369a02b8e05c308701f829',
 	'acast' = '5f203dcb1f0dea790562e20f',
+	'aus-advertising' = '5f859c3420e4ec3e476c7006',
 	'braze' = '5ed8c49c4b8ce4571c7ad801',
 	'comscore' = '5efefe25b8e05c06542b2a77',
 	'facebook-mobile' = '5e716fc09a0b5040d575080f',
@@ -52,9 +53,9 @@ export const getConsentFor = (
 
 	if (consent.aus) {
 		if (typeof consent.aus.rejectedCategories === 'undefined') return true;
-		const advertising = '5f859c3420e4ec3e476c7006';
 		const rejected = consent.aus.rejectedCategories.filter(
-			(rejectedCategory) => rejectedCategory._id === advertising,
+			(rejectedCategory) =>
+				rejectedCategory._id === VendorIDs['aus-advertising'],
 		);
 		return rejected.length === 0;
 	}
