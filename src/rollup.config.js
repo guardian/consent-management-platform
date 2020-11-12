@@ -1,4 +1,4 @@
-/* eslint-disable import/no-default-export */
+/* eslint-disable import/no-default-export -- it's what rollup wants */
 
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';

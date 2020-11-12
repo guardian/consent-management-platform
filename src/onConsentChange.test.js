@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
 import ausData from './aus/__fixtures__/api.getCustomVendorRejects.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';

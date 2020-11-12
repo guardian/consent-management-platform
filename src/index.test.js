@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import waitForExpect from 'wait-for-expect';
 import { AUS as actualAUS } from './aus';
 import { CCPA as actualCCPA } from './ccpa';
@@ -82,7 +81,7 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ country: 'GB' });
 		const currentVersion = window.guCmpHotFix.cmp.version;
 		const mockedVersion = 'X.X.X-mock';
-		window.guCmpHotFix.cmp.version = mockedVersion;
+		global.guCmpHotFix.cmp.version = mockedVersion;
 
 		cmp.init({ country: 'GB' });
 

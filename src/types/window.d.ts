@@ -1,10 +1,10 @@
-import { getConsentFor } from '../getConsentFor';
+import type { getConsentFor } from '../getConsentFor';
 import type { Property } from '../lib/property';
-import { EndPoint } from '../lib/sourcepointConfig';
-import { onConsentChange } from '../onConsentChange';
-import { CCPAData } from './ccpa';
-import { TCData } from './tcfv2/TCData';
-import { InitCMP, PubData, WillShowPrivacyMessage } from '.';
+import type { EndPoint } from '../lib/sourcepointConfig';
+import type { onConsentChange } from '../onConsentChange';
+import type { CCPAData } from './ccpa';
+import type { TCData } from './tcfv2/TCData';
+import type { InitCMP, PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,

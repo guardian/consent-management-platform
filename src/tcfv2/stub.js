@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support-beta/gdpr-and-tcf-v2-setup-and-configuration#1-two-step-process-to-implement-the-gdpr-and-tcf-v2-code-snippet
@@ -33,16 +33,25 @@ export const stub = () => {
 				return !r;
 			})(),
 			(n.__tcfapi = function () {
-				for (var e, t = arguments.length, n = new Array(t), r = 0; r < t; r++)
+				for (
+					var e, t = arguments.length, n = new Array(t), r = 0;
+					r < t;
+					r++
+				)
 					n[r] = arguments[r];
 				if (!n.length) return a;
 				if ('setGdprApplies' === n[0])
 					n.length > 3 &&
 						2 === parseInt(n[1], 10) &&
 						'boolean' == typeof n[3] &&
-						((e = n[3]), 'function' == typeof n[2] && n[2]('set', !0));
+						((e = n[3]),
+						'function' == typeof n[2] && n[2]('set', !0));
 				else if ('ping' === n[0]) {
-					var i = { gdprApplies: e, cmpLoaded: !1, cmpStatus: 'stub' };
+					var i = {
+						gdprApplies: e,
+						cmpLoaded: !1,
+						cmpStatus: 'stub',
+					};
 					'function' == typeof n[2] && n[2](i);
 				} else a.push(n);
 			}),
@@ -67,7 +76,8 @@ export const stub = () => {
 										callId: n.callId,
 									},
 								};
-								t && (i = JSON.stringify(i)), e.source.postMessage(i, '*');
+								t && (i = JSON.stringify(i)),
+									e.source.postMessage(i, '*');
 							},
 							n.parameter,
 						);

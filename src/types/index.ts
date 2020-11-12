@@ -1,7 +1,7 @@
-import { CustomVendorRejects } from './aus';
-import { CCPAConsentState } from './ccpa';
-import { Country } from './countries';
-import { TCFv2ConsentState } from './tcfv2';
+import type { CustomVendorRejects } from './aus';
+import type { CCPAConsentState } from './ccpa';
+import type { Country } from './countries';
+import type { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';
 
@@ -33,12 +33,11 @@ export type CallbackQueueItem = { fn: Callback; lastState?: string };
 
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
 export interface VendorConsents {
-	grants: {
-		[key: string]: {
-			purposeGrants: {
-				[key: number]: boolean;
-			};
+	grants: Record<
+		string,
+		{
+			purposeGrants: Record<number, boolean>;
 			vendorGrant: boolean;
-		};
-	};
+		}
+	>;
 }
