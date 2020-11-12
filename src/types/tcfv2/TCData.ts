@@ -1,4 +1,4 @@
-import { TCEventStatusCode, TCFv2ConsentList, TCPingStatusCode } from '.';
+import type { TCEventStatusCode, TCFv2ConsentList, TCPingStatusCode } from '.';
 
 // From the IAB spec – https://git.io/JJtY6
 export interface TCData {
@@ -88,15 +88,11 @@ export interface TCData {
 			consents: TCFv2ConsentList;
 			legitimateInterests: TCFv2ConsentList;
 		};
-		restrictions: {
-			[key: string]: {
-				/**
-				 * 0 - Not Allowed
-				 * 1 - Require Consents
-				 * 2 - Require Legitimate Interest
-				 */
-				[key: string]: 0 | 1 | 2;
-			};
-		};
+		/**
+		 * 0 - Not Allowed
+		 * 1 - Require Consents
+		 * 2 - Require Legitimate Interest
+		 */
+		restrictions: Record<string, Record<string, 0 | 1 | 2>>;
 	};
 }

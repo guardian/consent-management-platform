@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
@@ -8,7 +6,7 @@ import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
-import {
+import type {
 	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
@@ -40,7 +38,6 @@ const init: InitCMP = ({
 	}
 
 	if (typeof isInUsa !== 'undefined') {
-		// eslint-disable-next-line no-param-reassign
 		country = isInUsa ? 'US' : 'GB';
 
 		console.warn(
@@ -74,12 +71,12 @@ const init: InitCMP = ({
 
 	setCurrentFramework(framework);
 
-	CMP?.init(pubData || {});
-	resolveInitialised?.();
+	CMP.init(pubData ?? {});
+	resolveInitialised();
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage() || false);
+	initialised.then(() => CMP?.willShowPrivacyMessage() ?? false);
 
 const showPrivacyManager = () => {
 	/* istanbul ignore if */
@@ -88,7 +85,7 @@ const showPrivacyManager = () => {
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
 	}
-	initialised.then(CMP?.showPrivacyManager);
+	void initialised.then(CMP?.showPrivacyManager);
 };
 
 export const cmp = (window.guCmpHotFix.cmp ||= {

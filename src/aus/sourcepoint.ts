@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import { mark } from '../lib/mark';
 import { getProperty } from '../lib/property';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
@@ -58,7 +56,7 @@ export const init = (pubData = {}): void => {
 				},
 
 				onMessageReceiveData: (data) => {
-					resolveWillShowPrivacyMessage?.(data.msg_id !== 0);
+					void resolveWillShowPrivacyMessage(data.msg_id !== 0);
 				},
 
 				onMessageChoiceSelect: (_, choiceTypeID) => {

@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import 'cypress-wait-until';
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
 
