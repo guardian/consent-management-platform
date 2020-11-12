@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 import { skipOn } from '@cypress/skip-test';
+import { ENDPOINT } from '../../src/lib/sourcepointConfig';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
@@ -18,9 +19,7 @@ describe('Window', () => {
 			.its('_sp_.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.baseEndpoint).equal(
-					'https://sourcepoint.theguardian.com',
-				);
+				expect(spConfig.baseEndpoint).equal(ENDPOINT);
 			});
 	});
 });
@@ -35,7 +34,7 @@ describe('Document', () => {
 		cy.get('script#sourcepoint-tcfv2-lib').should(
 			'have.attr',
 			'src',
-			'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js',
+			ENDPOINT + '/wrapperMessagingWithoutDetection.js',
 		);
 	});
 });
