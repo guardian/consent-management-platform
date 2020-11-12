@@ -55,7 +55,6 @@ export const getConsentFor = (
 		if (typeof consent.aus.rejectedCategories === 'undefined') return true;
 		const rejected = consent.aus.rejectedCategories.filter(
 			(rejectedCategory) =>
-				// eslint-disable-next-line no-underscore-dangle
 				rejectedCategory._id === VendorIDs['aus-advertising'],
 		);
 		return rejected.length === 0;
