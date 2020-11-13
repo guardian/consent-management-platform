@@ -9,6 +9,11 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
+let resolveLoaded: typeof Promise.resolve;
+export const loaded = new Promise<void>((resolve) => {
+	resolveLoaded = resolve as typeof Promise.resolve;
+});
+
 // Sets the SP property and custom vendor list
 const properties = {
 	live: 'https://au.theguardian.com',
@@ -76,5 +81,6 @@ export const init = (pubData = {}): void => {
 	const ausLib = document.createElement('script');
 	ausLib.id = 'sourcepoint-aus-lib';
 	ausLib.src = `${ENDPOINT}/ccpa.js`;
+	ausLib.onload = resolveLoaded;
 	document.body.appendChild(ausLib);
 };
