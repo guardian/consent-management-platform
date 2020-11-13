@@ -81,6 +81,7 @@ export const init = (pubData = {}): void => {
 	const ausLib = document.createElement('script');
 	ausLib.id = 'sourcepoint-aus-lib';
 	ausLib.src = `${ENDPOINT}/ccpa.js`;
-	ausLib.onload = resolveLoaded;
 	document.body.appendChild(ausLib);
+
+	window.__uspapi?.('getUSPData', 1, () => void resolveLoaded());
 };
