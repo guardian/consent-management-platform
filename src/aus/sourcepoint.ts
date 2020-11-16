@@ -12,6 +12,8 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 let resolveLoaded: typeof Promise.resolve;
 export const loaded = new Promise<void>((resolve) => {
 	resolveLoaded = resolve as typeof Promise.resolve;
+}).then(() => {
+	console.log('SP lib loaded');
 });
 
 // Sets the SP property and custom vendor list
@@ -53,13 +55,6 @@ export const init = (pubData = {}): void => {
 				onConsentReady() {
 					mark('cmp-aus-got-consent');
 
-					// the 'getCustomVendorRejects' option of SP's implementation of __uspapi
-					// is a custom extension. It hits SP's servers, but unlike the rest of the
-					// __uspapi, it doesn't implement a queue.
-					// the only way we can be sure it has become available is to wait for a
-					// SP event to fire, so we resolve this now so we can be sure its available elsewhere
-					void resolveLoaded();
-
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
 				},
@@ -90,4 +85,13 @@ export const init = (pubData = {}): void => {
 	ausLib.id = 'sourcepoint-aus-lib';
 	ausLib.src = `${ENDPOINT}/ccpa.js`;
 	document.body.appendChild(ausLib);
+
+	// the 'getCustomVendorRejects' option of SP's implementation of __uspapi
+	// is a custom extension. It hits SP's servers, but unlike the rest of the
+	// __uspapi, it doesn't implement a queue.
+	// the only way we can be sure it has become available is to wait for a
+	// SP event to fire, so we resolve this now so we can be sure its available elsewhere
+	window.__uspapi?.('getUSPData', 1, () =>
+		setTimeout(() => void resolveLoaded(), 0),
+	);
 };
