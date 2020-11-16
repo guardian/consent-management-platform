@@ -6,6 +6,10 @@ import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
 import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './tcfv2/__fixtures__/api.getTCData.json';
 
+jest.mock('./aus/sourcepoint', () => ({
+	loaded: Promise.resolve(),
+}));
+
 beforeEach(() => {
 	window.__uspapi = undefined;
 	window.__tcfapi = undefined;
