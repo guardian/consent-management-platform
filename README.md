@@ -28,6 +28,7 @@ and TCFv2 to everyone else.
   * [`cmp.__enable()`](#cmp__enable)
   * [`cmp.__isDisabled()`](#cmp__isdisabled)
   * [Manually](#manually)
+  * [Using Cypress](#using-cypress)
 - [Development](#development)
 
 <!-- tocstop -->
@@ -358,7 +359,23 @@ cmp.__isDisabled(); // => true/false
 
 Set a `gu-cmp-disabled=true` cookie. This is the same as running `cmp.__disable()`.
 
+#### Example
+
+```js
+document.cookie = 'gu-cmp-disabled=true;';
+```
+
 Removing it is the same as running `cmp.__enable()`.
+
+#### Example
+
+```js
+document.cookie = 'gu-cmp-disabled=; Max-Age=0;';
+```
+
+### Using Cypress
+
+To disable consent in Cypress tests, see their [`setCookie` documentation](https://docs.cypress.io/api/commands/setcookie.html).
 
 ## Development
 

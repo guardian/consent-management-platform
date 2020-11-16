@@ -1,7 +1,6 @@
-/* eslint-disable no-underscore-dangle */
 import http from 'http';
 import url from 'url';
-import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { init } from './sourcepoint';
 
 jest.mock('../onConsentChange', () => ({
@@ -22,9 +21,7 @@ describe('Sourcepoint CCPA', () => {
 		init();
 		expect(window._sp_ccpa).toBeDefined();
 		expect(window._sp_ccpa.config).toBeDefined();
-		expect(window._sp_ccpa.config.mmsDomain).toEqual(
-			'https://sourcepoint.theguardian.com',
-		);
+		expect(window._sp_ccpa.config.baseEndpoint).toEqual(ENDPOINT);
 		expect(window._sp_ccpa.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_ccpa.config.siteHref).toEqual(
 			'https://au.theguardian.com',
@@ -44,7 +41,7 @@ describe('Sourcepoint CCPA', () => {
 	it('points at a real file', (done) => {
 		init();
 		const src = document
-			?.getElementById('sourcepoint-aus-lib')
+			.getElementById('sourcepoint-aus-lib')
 			?.getAttribute('src');
 
 		const { host, path } = url.parse(src ?? '');

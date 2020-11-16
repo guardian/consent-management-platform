@@ -29,14 +29,13 @@ export interface CustomVendorConsents {
 	 * purposeGrants - indicates the consent and legitimate interst status for all purposes that are mapped to a vendor
 	 * vendorGrant - indicates if a vendor has consent or legitmate interest for all purposes the vendor is matched to
 	 */
-	grants: {
-		[key: string]: {
-			purposeGrants: {
-				[key: string]: boolean;
-			};
+	grants: Record<
+		string,
+		{
+			purposeGrants: Record<string, boolean>;
 			vendorGrant: boolean;
-		};
-	};
+		}
+	>;
 
 	/**
 	 * returns information on the purposes that are classified as legitimate interest in the vendor list

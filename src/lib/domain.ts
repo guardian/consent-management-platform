@@ -2,6 +2,6 @@ let isGuardian: boolean | undefined;
 
 export const isGuardianDomain = (): boolean => {
 	if (typeof isGuardian === 'undefined')
-		isGuardian = /\.theguardian\.com$/.test(window.location.host);
+		isGuardian = window.location.host.endsWith('.theguardian.com');
 	return isGuardian;
 };

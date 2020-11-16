@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import { getCustomVendorConsents, getTCData } from './api';
 
 it('calls the correct IAB api with the correct methods', async () => {

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-setup-and-ccpa-configuration
@@ -40,7 +40,11 @@ export const stub = () => {
 				var n = a.__cmpCall;
 				c.__uspapi(n.command, n.parameter, function (a, e) {
 					var c = {
-						__cmpReturn: { returnValue: a, success: e, callId: n.callId },
+						__cmpReturn: {
+							returnValue: a,
+							success: e,
+							callId: n.callId,
+						},
 					};
 					t.source.postMessage(r ? JSON.stringify(c) : c, '*');
 				});

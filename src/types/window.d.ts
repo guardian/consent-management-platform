@@ -1,8 +1,10 @@
-import { getConsentFor } from '../getConsentFor';
-import { onConsentChange } from '../onConsentChange';
-import { CCPAData } from './ccpa';
-import { TCData } from './tcfv2/TCData';
-import { InitCMP, PubData, WillShowPrivacyMessage } from '.';
+import type { getConsentFor } from '../getConsentFor';
+import type { Property } from '../lib/property';
+import type { EndPoint } from '../lib/sourcepointConfig';
+import type { onConsentChange } from '../onConsentChange';
+import type { CCPAData } from './ccpa';
+import type { TCData } from './tcfv2/TCData';
+import type { InitCMP, PubData, WillShowPrivacyMessage } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -32,12 +34,11 @@ declare global {
 		// sourcepoint's libraries - only one should be present at a time
 		_sp_ccpa?: {
 			config: {
-				mmsDomain: 'https://sourcepoint.theguardian.com';
-				ccpaOrigin: 'https://ccpa-service.sp-prod.net';
+				baseEndpoint: EndPoint;
 				accountId: number;
 				getDnsMsgMms: boolean;
 				alwaysDisplayDns: boolean;
-				siteHref: string | null;
+				siteHref: Property;
 				targetingParams: {
 					framework: 'ccpa' | 'aus';
 				};
@@ -55,9 +56,9 @@ declare global {
 		};
 		_sp_?: {
 			config: {
-				baseEndpoint: 'https://sourcepoint.theguardian.com';
+				baseEndpoint: EndPoint;
 				accountId: number;
-				propertyHref: string | null;
+				propertyHref: Property;
 				propertyId?: string;
 				targetingParams: {
 					framework: 'tcfv2';

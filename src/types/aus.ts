@@ -1,14 +1,14 @@
 export interface CustomVendorRejects {
-	rejectedCategories: {
+	rejectedCategories: Array<{
 		_id: string;
 		name: string;
-	}[];
+	}>;
 
-	rejectedVendors: {
+	rejectedVendors: Array<{
 		_id: string;
 		name: string;
 		vendorType: string;
-	}[];
+	}>;
 
 	ccpaApplies: true;
 }

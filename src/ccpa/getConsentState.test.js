@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import uspData from './__fixtures__/api.getUSPData.json';
 import { getUSPData } from './api';
 import { getConsentState } from './getConsentState';

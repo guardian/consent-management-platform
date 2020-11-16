@@ -1,9 +1,14 @@
-import { ConsentState } from './types';
+import type { ConsentState } from './types';
 
+/* eslint-disable @typescript-eslint/naming-convention
+   --
+   these are API names, and we want them like this
+*/
 enum VendorIDs {
 	// keep the list in README.md up to date with these values
 	'a9' = '5f369a02b8e05c308701f829',
 	'acast' = '5f203dcb1f0dea790562e20f',
+	'aus-advertising' = '5f859c3420e4ec3e476c7006',
 	'braze' = '5ed8c49c4b8ce4571c7ad801',
 	'comscore' = '5efefe25b8e05c06542b2a77',
 	'facebook-mobile' = '5e716fc09a0b5040d575080f',
@@ -29,6 +34,7 @@ enum VendorIDs {
 	'twitter' = '5e71760b69966540e4554f01',
 	'youtube-player' = '5e7ac3fae30e7d1bc1ebf5e8',
 }
+/* eslint-enable @typescript-eslint/naming-convention */
 
 export const getConsentFor = (
 	vendor: keyof typeof VendorIDs,
@@ -47,10 +53,9 @@ export const getConsentFor = (
 
 	if (consent.aus) {
 		if (typeof consent.aus.rejectedCategories === 'undefined') return true;
-		const advertising = '5f859c3420e4ec3e476c7006';
 		const rejected = consent.aus.rejectedCategories.filter(
-			// eslint-disable-next-line no-underscore-dangle
-			(rejectedCategory) => rejectedCategory._id === advertising,
+			(rejectedCategory) =>
+				rejectedCategory._id === VendorIDs['aus-advertising'],
 		);
 		return rejected.length === 0;
 	}
@@ -58,7 +63,6 @@ export const getConsentFor = (
 	const tcfv2Consent: boolean | undefined =
 		consent.tcfv2?.vendorConsents[sourcepointId];
 	if (typeof tcfv2Consent === 'undefined') {
-		// eslint-disable-next-line no-console
 		console.warn(
 			`No consent returned from Sourcepoint for vendor: '${vendor}'`,
 		);
