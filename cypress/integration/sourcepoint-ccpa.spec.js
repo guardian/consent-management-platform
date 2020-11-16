@@ -1,15 +1,11 @@
 import 'cypress-wait-until';
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
+import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
-const loadPage = () => {
-	// undocumented fix for cookies from non-localhost domains
-	// https://github.com/cypress-io/cypress/issues/408#issuecomment-643281127
-	cy.clearCookies({ domain: null });
+const url = '/#ccpa';
 
-	it('should load the CCPA page', () => cy.visit('/#ccpa'));
-};
 const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]')
 		.should('have.length', 1)
@@ -29,7 +25,7 @@ const ccpaRejectCookieIs = (boolean) => {
 };
 
 describe('Window', () => {
-	loadPage();
+	loadPage(url);
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
@@ -44,7 +40,7 @@ describe('Window', () => {
 });
 
 describe('Document', () => {
-	loadPage();
+	loadPage(url);
 	it('should have the SP iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
@@ -59,7 +55,7 @@ describe('Document', () => {
 });
 
 describe('Interaction', () => {
-	loadPage();
+	loadPage(url);
 	const buttonTitle = 'Do not sell my personal information';
 
 	beforeEach(() => {
