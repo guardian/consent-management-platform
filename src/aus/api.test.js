@@ -1,5 +1,9 @@
 import { getCustomVendorRejects } from './api';
 
+jest.mock('./sourcepoint', () => ({
+	loaded: Promise.resolve(),
+}));
+
 it('throws an error on missing window.__uspapi', async () => {
 	await expect(getCustomVendorRejects()).rejects.toThrow(
 		'No __uspapi found on window',
