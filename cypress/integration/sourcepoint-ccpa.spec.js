@@ -4,6 +4,10 @@ import { ENDPOINT } from '../../src/lib/sourcepointConfig';
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
 const loadPage = () => {
+	// undocumented fix for cookies from non-localhost domains
+	// https://github.com/cypress-io/cypress/issues/408#issuecomment-643281127
+	cy.clearCookies({ domain: null });
+
 	it('should load the CCPA page', () => cy.visit('/#ccpa'));
 };
 const doNotSellIs = (boolean) => {
