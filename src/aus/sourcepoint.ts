@@ -61,9 +61,11 @@ export const init = (pubData = {}): void => {
 
 				onMessageReady: () => {
 					mark('cmp-aus-ui-displayed');
+					void resolveLoaded(); // any SP event firing tells us it's loaded.
 				},
 
 				onMessageReceiveData: (data) => {
+					void resolveLoaded(); // any SP event firing tells us it's loaded.
 					void resolveWillShowPrivacyMessage(data.msg_id !== 0);
 				},
 
@@ -74,6 +76,7 @@ export const init = (pubData = {}): void => {
 						choiceTypeID === 13 ||
 						choiceTypeID === 15
 					) {
+						void resolveLoaded(); // any SP event firing tells us it's loaded.
 						setTimeout(invokeCallbacks, 0);
 					}
 				},
