@@ -7,7 +7,7 @@ import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsen
 import tcData from './tcfv2/__fixtures__/api.getTCData.json';
 
 jest.mock('./aus/sourcepoint', () => ({
-	loaded: Promise.resolve(),
+	sourcepointLibraryLoaded: Promise.resolve(),
 }));
 
 beforeEach(() => {
