@@ -9,11 +9,14 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-let resolveLoaded: typeof Promise.resolve;
-export const loaded = new Promise<void>((resolve) => {
-	resolveLoaded = resolve as typeof Promise.resolve;
-}).then(() => {
-	console.log('SP lib loaded');
+// the 'getCustomVendorRejects' option of SP's implementation of __uspapi
+// is a custom extension. It hits SP's servers, but unlike the rest of the
+// __uspapi, it doesn't implement a queue.
+// the only way we can be sure it has become available is to wait for a
+// SP event to fire, so we resolve this when we know it has loaded
+let resolveSourcepointLibraryLoaded: typeof Promise.resolve;
+export const sourcepointLibraryLoaded = new Promise<void>((resolve) => {
+	resolveSourcepointLibraryLoaded = resolve as typeof Promise.resolve;
 });
 
 // Sets the SP property and custom vendor list
@@ -61,11 +64,10 @@ export const init = (pubData = {}): void => {
 
 				onMessageReady: () => {
 					mark('cmp-aus-ui-displayed');
-					void resolveLoaded(); // any SP event firing tells us it's loaded.
 				},
 
 				onMessageReceiveData: (data) => {
-					void resolveLoaded(); // any SP event firing tells us it's loaded.
+					void resolveSourcepointLibraryLoaded();
 					void resolveWillShowPrivacyMessage(data.msg_id !== 0);
 				},
 
@@ -76,7 +78,6 @@ export const init = (pubData = {}): void => {
 						choiceTypeID === 13 ||
 						choiceTypeID === 15
 					) {
-						void resolveLoaded(); // any SP event firing tells us it's loaded.
 						setTimeout(invokeCallbacks, 0);
 					}
 				},
@@ -88,13 +89,4 @@ export const init = (pubData = {}): void => {
 	ausLib.id = 'sourcepoint-aus-lib';
 	ausLib.src = `${ENDPOINT}/ccpa.js`;
 	document.body.appendChild(ausLib);
-
-	// the 'getCustomVendorRejects' option of SP's implementation of __uspapi
-	// is a custom extension. It hits SP's servers, but unlike the rest of the
-	// __uspapi, it doesn't implement a queue.
-	// the only way we can be sure it has become available is to wait for a
-	// SP event to fire, so we resolve this now so we can be sure its available elsewhere
-	window.__uspapi?.('getUSPData', 1, () =>
-		setTimeout(() => void resolveLoaded(), 0),
-	);
 };
