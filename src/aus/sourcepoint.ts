@@ -67,8 +67,10 @@ export const init = (pubData = {}): void => {
 				},
 
 				onMessageReceiveData: (data) => {
-					void resolveSourcepointLibraryLoaded();
 					void resolveWillShowPrivacyMessage(data.msg_id !== 0);
+
+					// this event always fires, so we can use it announce that the library has loaded
+					void resolveSourcepointLibraryLoaded();
 				},
 
 				onMessageChoiceSelect: (_, choiceTypeID) => {
