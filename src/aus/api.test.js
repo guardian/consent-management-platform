@@ -1,7 +1,7 @@
 import { getCustomVendorRejects } from './api';
 
 jest.mock('./sourcepoint', () => ({
-	loaded: Promise.resolve(),
+	sourcepointLibraryLoaded: Promise.resolve(),
 }));
 
 it('throws an error on missing window.__uspapi', async () => {
