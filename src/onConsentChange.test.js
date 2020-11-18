@@ -122,7 +122,7 @@ describe('under AUS', () => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		ausData.uspString = '1YNN';
+		ausData.uspString = '1YYN';
 		invokeCallbacks();
 
 		await waitForExpect(() => {
