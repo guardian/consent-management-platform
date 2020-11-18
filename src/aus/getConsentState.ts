@@ -6,6 +6,6 @@ export const getConsentState: () => Promise<AUSConsentState> = async () => {
 	const uspData = await getUSPData();
 
 	return {
-		personalisedAdvertising: uspData.uspString.charAt(2) === 'Y',
+		personalisedAdvertising: uspData.uspString.charAt(2) !== 'Y',
 	};
 };
