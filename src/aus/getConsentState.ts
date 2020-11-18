@@ -1,9 +1,11 @@
-import type { CustomVendorRejects } from '../types/aus';
-import { getCustomVendorRejects } from './api';
+import type { AUSConsentState } from '../types/aus';
+import { getUSPData } from './api';
 
 // get the current constent state using the official IAB method
-export const getConsentState: () => Promise<CustomVendorRejects> = async () => {
-	const customVendorRejects = await getCustomVendorRejects();
+export const getConsentState: () => Promise<AUSConsentState> = async () => {
+	const uspData = await getUSPData();
 
-	return customVendorRejects;
+	return {
+		personalisedAdvertising: uspData.uspString.charAt(2) === 'Y',
+	};
 };

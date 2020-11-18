@@ -1,7 +1,6 @@
 import { getConsentFor } from './getConsentFor';
 
 const googleAnalytics = '5e542b3a4cd8884eb41b5a72';
-const advertising = '5f859c3420e4ec3e476c7006';
 
 const tcfv2ConsentNotFound = {
 	tcfv2: { vendorConsents: { doesnotexist: true } },
@@ -19,15 +18,9 @@ const ccpaWithConsent = { ccpa: { doNotSell: false } };
 
 const ccpaWithoutConsent = { ccpa: { doNotSell: true } };
 
-const ausUnknownConsent = { aus: {} };
+const ausWithConsent = { aus: { personalisedAdvertising: true } };
 
-const ausWithConsent = { aus: { rejectedCategories: [] } };
-
-const ausWithoutConsent = {
-	aus: {
-		rejectedCategories: [{ _id: advertising, name: 'Advertising' }],
-	},
-};
+const ausWithoutConsent = { aus: { personalisedAdvertising: false } };
 
 it('throws an error if the vendor found ', () => {
 	expect(() => {
@@ -41,7 +34,6 @@ test.each([
 	['tcfv2', false, 'google-analytics', tcfv2ConsentFoundFalse],
 	['ccpa', true, 'google-analytics', ccpaWithConsent],
 	['ccpa', false, 'google-analytics', ccpaWithoutConsent],
-	['aus (unknown)', true, 'google-analytics', ausUnknownConsent],
 	['aus', true, 'google-analytics', ausWithConsent],
 	['aus', false, 'google-analytics', ausWithoutConsent],
 ])(
