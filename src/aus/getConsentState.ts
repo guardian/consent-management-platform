@@ -5,7 +5,10 @@ import { getUSPData } from './api';
 export const getConsentState: () => Promise<AUSConsentState> = async () => {
 	const uspData = await getUSPData();
 
+	// https://github.com/InteractiveAdvertisingBureau/CCPA-reference-code
+	const optedOut = uspData.uspString.charAt(2) === 'Y';
+
 	return {
-		personalisedAdvertising: uspData.uspString.charAt(2) === 'Y',
+		personalisedAdvertising: !optedOut,
 	};
 };

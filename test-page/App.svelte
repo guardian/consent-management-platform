@@ -59,7 +59,6 @@
 		clearPreferences();
 	};
 
-
 	$: consentState = {};
 	$: eventsList = [];
 
@@ -73,7 +72,6 @@
 	});
 
 	onMount(async () => {
-
 		// Set the country based on chosen framework.
 		// This is not to be used in production
 		let country = '';
@@ -133,8 +131,8 @@
 	}
 
 	nav * {
-		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-			sans-serif, Apple Color Emoji, Segoe UI Emoji;
+		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,
+			Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
 		margin: 0 0.25em 0;
 	}
 
@@ -228,28 +226,34 @@
 
 <main>
 	<nav>
-		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy manager</button>
+		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy
+			manager</button>
 		<button on:click={clearPreferences}>clear preferences</button>
 		<label class={framework == 'tcfv2' ? 'selected' : 'none'}>
 			<input
 				type="radio"
 				value="tcfv2"
 				bind:group={framework}
-				on:change={setLocation} /> in RoW:<strong>TCFv2</strong>
+				on:change={setLocation} />
+			in RoW:<strong>TCFv2</strong>
 		</label>
 		<label class={framework == 'ccpa' ? 'selected' : 'none'}>
 			<input
 				type="radio"
 				value="ccpa"
 				bind:group={framework}
-				on:change={setLocation} /> in USA: <strong>CCPA</strong>
+				on:change={setLocation} />
+			in USA:
+			<strong>CCPA</strong>
 		</label>
 		<label class={framework == 'aus' ? 'selected' : 'none'}>
 			<input
 				type="radio"
 				value="aus"
 				bind:group={framework}
-				on:change={setLocation} /> in Australia: <strong>CCPA-like</strong>
+				on:change={setLocation} />
+			in Australia:
+			<strong>CCPA-like</strong>
 		</label>
 	</nav>
 
@@ -275,18 +279,9 @@
 				class="label"
 				data-donotsell={consentState.ccpa.doNotSell}>{consentState.ccpa.doNotSell}</span>
 		{:else if consentState.aus}
-			<h2>aus.ccpaApplies</h2>
-			<span class="label">{consentState.aus.ccpaApplies}</span>
-
-			<h2>aus.rejectedCategories</h2>
-			{#each consentState.aus.rejectedCategories as category}
-				<span class="no" data-id={category._id}>{category.name}</span>
-			{:else}<span class="label">[no rejected categories]</span>{/each}
-
-			<h2>aus.rejectedVendors</h2>
-			{#each consentState.aus.rejectedVendors as vendor}
-				<span class="no" data-id={vendor._id}>{vendor.name}</span>
-			{:else}<span class="label">[no rejected vendor]</span>{/each}
+			<h2>aus.personalisedAdvertising</h2>
+			<span
+				class={consentState.aus.personalisedAdvertising ? 'yes' : 'no'}>{consentState.aus.personalisedAdvertising}</span>
 		{:else}
 			<h2>¯\_(ツ)_/¯</h2>
 		{/if}
