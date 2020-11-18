@@ -1,4 +1,4 @@
-import type { CustomVendorRejects } from './aus';
+import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
 import type { Country } from './countries';
 import type { TCFv2ConsentState } from './tcfv2';
@@ -14,7 +14,7 @@ export type InitCMP = (arg0: {
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
 	ccpa?: CCPAConsentState;
-	aus?: CustomVendorRejects;
+	aus?: AUSConsentState;
 }
 export interface PubData {
 	browserId?: string;

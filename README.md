@@ -14,22 +14,22 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -216,15 +216,14 @@ If the user is not in the USA, it will be `undefined`.
 
 type: `Object` or `undefined`
 
-Reports whether user has withdrawn consent to sell their data in Australia.
+Reports whether user has withdrawn consent to personalised adversising
+in Australia.
 
 If the user is not in Australia, it will be `undefined`.
 
 ```js
 {
-    "rejectedCategories": Array, // Empty by default
-	"rejectedVendors": Array, // Empty by default
-	"ccpaApplies": Boolean | undefined // true — AUS applies, false — it does not
+    personalisedAdvertising: Boolean, // True by default
 }
 ```
 
@@ -243,7 +242,7 @@ onConsentChange(({ tcfv2, ccpa, aus }) => {
     }
 
     if (aus) {
-        console.log(aus); // { rejectedCategories: [], ... }
+        console.log(aus); // { personalisedAdvertising: true || false }
     }
 });
 ```
