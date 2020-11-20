@@ -1,14 +1,10 @@
 import waitForExpect from 'wait-for-expect';
-import ausData from './aus/__fixtures__/api.getCustomVendorRejects.json';
+import ausData from './aus/__fixtures__/api.getUSPData.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { setCurrentFramework } from './getCurrentFramework';
 import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
 import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './tcfv2/__fixtures__/api.getTCData.json';
-
-jest.mock('./aus/sourcepoint', () => ({
-	loaded: Promise.resolve(),
-}));
 
 beforeEach(() => {
 	window.__uspapi = undefined;
@@ -81,7 +77,7 @@ describe('under CCPA', () => {
 describe('under AUS', () => {
 	beforeEach(() => {
 		window.__uspapi = jest.fn((command, b, callback) => {
-			if (command === 'getCustomVendorRejects') callback(ausData, true);
+			if (command === 'getUSPData') callback(ausData, true);
 		});
 
 		// needed to distinguish from US
@@ -126,7 +122,7 @@ describe('under AUS', () => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		ausData.ccpaApplies = 'false';
+		ausData.uspString = '1YYN';
 		invokeCallbacks();
 
 		await waitForExpect(() => {

@@ -1,13 +1,11 @@
-import { getCustomVendorRejects } from './api';
+import { getUSPData } from './api';
 
 jest.mock('./sourcepoint', () => ({
-	loaded: Promise.resolve(),
+	sourcepointLibraryLoaded: Promise.resolve(),
 }));
 
 it('throws an error on missing window.__uspapi', async () => {
-	await expect(getCustomVendorRejects()).rejects.toThrow(
-		'No __uspapi found on window',
-	);
+	await expect(getUSPData()).rejects.toThrow('No __uspapi found on window');
 });
 
 it('calls the modified IAB api with the correct methods', async () => {
@@ -15,10 +13,10 @@ it('calls the modified IAB api with the correct methods', async () => {
 		cb({}, true);
 	});
 
-	await getCustomVendorRejects();
+	await getUSPData();
 
 	expect(window.__uspapi).toHaveBeenCalledWith(
-		'getCustomVendorRejects',
+		'getUSPData',
 		expect.any(Number),
 		expect.any(Function),
 	);
