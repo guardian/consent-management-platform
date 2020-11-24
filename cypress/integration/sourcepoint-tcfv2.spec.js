@@ -1,14 +1,13 @@
 import { skipOn } from '@cypress/skip-test';
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
+import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
-const loadPage = () => {
-	it('should load the TCFv2 page', () => cy.visit('/#tcfv2'));
-};
+const url = '/#tcfv2';
 
 describe('Window', () => {
-	loadPage();
+	loadPage(url);
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
@@ -23,7 +22,7 @@ describe('Window', () => {
 });
 
 describe('Document', () => {
-	loadPage();
+	loadPage(url);
 	it('should have the SP iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
@@ -40,7 +39,7 @@ describe('Document', () => {
 // TODO: enable testing of TCFv2 on CI
 skipOn(Cypress.env('CI') === 'true', () => {
 	describe('Interaction', () => {
-		loadPage();
+		loadPage(url);
 		const buttonTitle = 'Yes, I’m happy';
 
 		beforeEach(() => {

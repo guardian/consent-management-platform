@@ -1,6 +1,6 @@
-import type { CustomVendorRejects } from '../types/aus';
+import type { CCPAData } from '../types/ccpa';
 
-type Command = 'getCustomVendorRejects';
+type Command = 'getUSPData';
 
 const api = (command: Command) =>
 	new Promise((resolve, reject) => {
@@ -9,12 +9,12 @@ const api = (command: Command) =>
 				success
 					? resolve(result)
 					: /* istanbul ignore next */
-					  reject(new Error('Unable to get uspapi data')),
+					  reject(new Error(`Unable to get ${command} data`)),
 			);
 		} else {
 			reject(new Error('No __uspapi found on window'));
 		}
 	});
 
-export const getCustomVendorRejects = (): Promise<CustomVendorRejects> =>
-	api('getCustomVendorRejects') as Promise<CustomVendorRejects>;
+export const getUSPData = (): Promise<CCPAData> =>
+	api('getUSPData') as Promise<CCPAData>;

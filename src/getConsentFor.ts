@@ -47,16 +47,13 @@ export const getConsentFor = (
 	}
 
 	if (consent.ccpa) {
+		// doNotSell = false means we have consent
 		return !consent.ccpa.doNotSell;
 	}
 
 	if (consent.aus) {
-		if (typeof consent.aus.rejectedCategories === 'undefined') return true;
-		const advertising = '5f859c3420e4ec3e476c7006';
-		const rejected = consent.aus.rejectedCategories.filter(
-			(rejectedCategory) => rejectedCategory._id === advertising,
-		);
-		return rejected.length === 0;
+		// personalisedAdvertising = true means we have consent
+		return consent.aus.personalisedAdvertising;
 	}
 
 	const tcfv2Consent: boolean | undefined =

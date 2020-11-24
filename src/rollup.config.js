@@ -27,12 +27,13 @@ export default {
 			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		commonjs(),
-		strip({
-			include: ['**/*.{j,t}s?(x)'],
-			exclude: ['index.*'],
-			sourceMap: true,
-		}),
-	],
+		process.env.NODE_ENV === 'production' &&
+			strip({
+				include: ['**/*.{j,t}s?(x)'],
+				exclude: ['index.*'],
+				sourceMap: true,
+			}),
+	].filter(Boolean),
 	watch: {
 		clearScreen: false,
 	},
