@@ -1,3 +1,4 @@
+import { getLocale } from '@guardian/libs';
 import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
@@ -23,11 +24,7 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
-const init: InitCMP = ({
-	pubData,
-	country,
-	isInUsa, // DEPRECATED: Will be removed in next major version
-}) => {
+const init: InitCMP = async ({ pubData } = {}) => {
 	if (isDisabled() || window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 			console.warn('Two different versions of the CMP are running:', [
@@ -37,42 +34,34 @@ const init: InitCMP = ({
 		return;
 	}
 
-	if (typeof isInUsa !== 'undefined') {
-		country = isInUsa ? 'US' : 'GB';
+	const locale = await getLocale();
 
-		console.warn(
-			'`isInUsa` will soon be deprecated. Prefer using `country` instead.',
-		);
+	if (locale) {
+		const framework = getFramework(locale);
+
+		window.guCmpHotFix.initialised = true;
+
+		switch (framework) {
+			case 'ccpa':
+				CMP = CCPA;
+				break;
+			case 'aus':
+				CMP = AUS;
+				break;
+			case 'tcfv2':
+			default:
+				// default is also 'tcfv2'
+				CMP = TCFv2;
+				break;
+		}
+
+		setCurrentFramework(framework);
+
+		CMP.init(pubData ?? {});
+		resolveInitialised();
+	} else {
+		throw new Error('CMP failed to get locale');
 	}
-
-	if (typeof country === 'undefined') {
-		throw new Error(
-			'CMP initialised without `country` property. A 2-letter, ISO ISO_3166-1 country code is required.',
-		);
-	}
-
-	const framework = getFramework(country);
-
-	window.guCmpHotFix.initialised = true;
-
-	switch (framework) {
-		case 'ccpa':
-			CMP = CCPA;
-			break;
-		case 'aus':
-			CMP = AUS;
-			break;
-		case 'tcfv2':
-		default:
-			// default is also 'tcfv2'
-			CMP = TCFv2;
-			break;
-	}
-
-	setCurrentFramework(framework);
-
-	CMP.init(pubData ?? {});
-	resolveInitialised();
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>

@@ -9,7 +9,7 @@ export type InitCMP = (arg0: {
 	pubData?: PubData;
 	country?: Country;
 	isInUsa?: boolean;
-}) => void;
+}) => Promise<void>;
 
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;

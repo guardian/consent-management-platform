@@ -22,6 +22,7 @@ module.exports = {
 				'@typescript-eslint/no-unsafe-member-access': 0,
 				'@typescript-eslint/no-unsafe-assignment': 0,
 				'@typescript-eslint/no-var-requires': 0,
+				'@typescript-eslint/require-await': 0,
 				'@typescript-eslint/unbound-method': 0,
 			},
 		},
