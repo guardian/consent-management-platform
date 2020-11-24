@@ -57,8 +57,8 @@ const init: InitCMP = async ({ pubData } = {}) => {
 
 		setCurrentFramework(framework);
 
-	CMP.init(pubData ?? {});
-	resolveInitialised();
+		CMP.init(pubData ?? {});
+		resolveInitialised();
 	} else {
 		throw new Error('CMP failed to get locale');
 	}
