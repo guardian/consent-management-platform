@@ -14,7 +14,7 @@ module.exports = {
 	overrides: [
 		{
 			// tests and config files sometimes do unorthodox things, and that's ok
-			files: ['**/*.test.*', '*.config.js'],
+			files: ['**/*.test.*', '*.config.js', 'lib/**/*.js'],
 			rules: {
 				'@typescript-eslint/no-unsafe-return': 0,
 				'@typescript-eslint/no-unsafe-call': 0,

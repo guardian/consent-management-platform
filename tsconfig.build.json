@@ -8,5 +8,5 @@
     "rootDir": "src"
   },
   "files": ["src/index.ts"],
-  "include": ["src"]
+  "exclude": ["**/*.js", "lib"]
 }
