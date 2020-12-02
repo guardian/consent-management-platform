@@ -193,7 +193,7 @@ boolean value, defaulting to `false` where no explicit consent was given.
         'abcdefghijklmnopqrstuvwx': Boolean,
         'yz1234567890abcdefghijkl': Boolean,
         'mnopqrstuvwxyz1234567890': Boolean,
-        // Sourcpoint IDs, etc.
+        // Sourcepoint IDs, etc.
     }
 }
 ```
