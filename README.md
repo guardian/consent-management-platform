@@ -105,7 +105,7 @@ cmp.init({
 });
 ```
 
-### `cmp.isInitialised()`
+### `cmp.hasInitialised()`
 
 returns: `boolean`
 
@@ -146,7 +146,7 @@ _You almost always want to use the async version above._
 #### Example
 
 ```js
-if (cmp.isInitialised()) {
+if (cmp.hasInitialised()) {
     if (cmp.willShowPrivacyMessageSync()) {
         // do something
     }

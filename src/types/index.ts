@@ -9,7 +9,7 @@ export type CMP = {
 	init: InitCMP;
 	willShowPrivacyMessage: WillShowPrivacyMessage;
 	willShowPrivacyMessageSync: () => boolean;
-	isInitialised: () => boolean;
+	hasInitialised: () => boolean;
 	showPrivacyManager: () => void;
 	version: typeof __PACKAGE_VERSION__;
 	__isDisabled: () => boolean;

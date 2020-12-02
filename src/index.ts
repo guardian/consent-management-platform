@@ -20,12 +20,11 @@ window.guCmpHotFix ||= {};
 let activeCMP: SourcepointImplementation | undefined;
 
 let _willShowPrivacyMessage: undefined | boolean;
-let _initialised = false;
+let initComplete = false;
 
 let resolveInitialised: (value?: unknown) => void;
 const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
-	_initialised = true;
 });
 
 const init: InitCMP = ({
@@ -33,7 +32,9 @@ const init: InitCMP = ({
 	country,
 	isInUsa, // DEPRECATED: Will be removed in next major version
 }) => {
-	if (isDisabled() || window.guCmpHotFix.initialised) {
+	if (isDisabled()) return;
+
+	if (window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 			console.warn('Two different versions of the CMP are running:', [
 				__PACKAGE_VERSION__,
@@ -41,6 +42,11 @@ const init: InitCMP = ({
 			]);
 		return;
 	}
+
+	// this is slightly different to initComplete - it's there to
+	// prevent another instance of CMP initialising, so we set this true asap.
+	// initComplete is set true once we have _finished_ initialising
+	window.guCmpHotFix.initialised = true;
 
 	if (typeof isInUsa !== 'undefined') {
 		country = isInUsa ? 'US' : 'GB';
@@ -57,8 +63,6 @@ const init: InitCMP = ({
 	}
 
 	const framework = getFramework(country);
-
-	window.guCmpHotFix.initialised = true;
 
 	switch (framework) {
 		case 'ccpa':
@@ -77,6 +81,12 @@ const init: InitCMP = ({
 	setCurrentFramework(framework);
 
 	activeCMP.init(pubData ?? {});
+
+	void activeCMP.willShowPrivacyMessage().then((willShowValue) => {
+		_willShowPrivacyMessage = willShowValue;
+		initComplete = true;
+	});
+
 	resolveInitialised();
 };
 
@@ -92,7 +102,7 @@ const willShowPrivacyMessageSync = () => {
 	);
 };
 
-const isInitialised = () => _initialised;
+const hasInitialised = () => initComplete;
 
 const showPrivacyManager = () => {
 	/* istanbul ignore if */
@@ -108,7 +118,7 @@ export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
 	init,
 	willShowPrivacyMessage,
 	willShowPrivacyMessageSync,
-	isInitialised,
+	hasInitialised,
 	showPrivacyManager,
 	version: __PACKAGE_VERSION__,
 
