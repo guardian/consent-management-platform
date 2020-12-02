@@ -91,7 +91,9 @@ Optional value identifying the unique pageview associated with this instance of 
 
 Will be used to link back to a `browserId` for further reporting; if possible this should be available via the pageview table.
 
-#### ~~`options.isInUsa`~~ <font color="red">DEPRECATED</font>
+#### ~~`options.isInUsa`~~ 
+
+**DEPRECATED**
 
 Will be removed in next major version. Use `options.country` instead.
 
