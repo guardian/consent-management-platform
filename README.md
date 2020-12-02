@@ -14,22 +14,22 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -81,15 +81,15 @@ type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
+##### Expected parameters
+
+-   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
+
 #### `options.isInUsa` _(DEPRECATED)_
 
 type: `boolean`
 
 Deprecated, please use `options.country` instead. **Will be removed in next major version.**
-
-##### Expected parameters
-
--   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
 
 #### Example
 
