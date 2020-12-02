@@ -83,27 +83,9 @@ type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
-#### `options.isInUsa` _(DEPRECATED)_
+#### ~~`options.isInUsa`~~ <span style="color: red">DEPRECATED</span>
 
-type: `boolean`
-
-Deprecated, please use `options.country` instead. **Will be removed in next major version.**
-
-##### Expected parameters
-
--   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
-
-#### Example
-
-```js
-cmp.init({
-    pubData: {
-        browserId: 'gow59fnwohwmshz',
-        pageViewId: 'jkao3u2kcbaqk',
-    },
-    country: 'GB',
-});
-```
+Will be removed in next major version. Use `options.country` instead.
 
 ### `cmp.hasInitialised()`
 
@@ -137,11 +119,11 @@ cmp.willShowPrivacyMessage()
 
 returns: `Boolean`
 
+_You almost always want to use the async version above._
+
 Returns `true` if the CMP will show the initial privacy message (or is, or was), or `false` if not.
 
 Throws an error if the CMP has not been initialised.
-
-_You almost always want to use the async version above._
 
 #### Example
 
