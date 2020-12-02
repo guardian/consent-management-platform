@@ -91,9 +91,20 @@ Optional value identifying the unique pageview associated with this instance of 
 
 Will be used to link back to a `browserId` for further reporting; if possible this should be available via the pageview table.
 
-#### ~~`options.isInUsa`~~ <span style="color: red">DEPRECATED</span>
+#### ~~`options.isInUsa`~~ <font color="red">DEPRECATED</font>
 
 Will be removed in next major version. Use `options.country` instead.
+
+#### Example
+
+```js
+cmp.init({
+    country: 'GB',
+    pubData: {
+        pageViewId: 'jkao3u2kcbaqk',
+    },
+});
+```
 
 ### `cmp.hasInitialised()`
 
