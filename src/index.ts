@@ -17,7 +17,7 @@ import type {
 // than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
 
-let activeCMP: SourcepointImplementation | undefined;
+let frameworkCMP: SourcepointImplementation | undefined;
 
 let _willShowPrivacyMessage: undefined | boolean;
 let initComplete = false;
@@ -66,23 +66,23 @@ const init: InitCMP = ({
 
 	switch (framework) {
 		case 'ccpa':
-			activeCMP = CCPA;
+			frameworkCMP = CCPA;
 			break;
 		case 'aus':
-			activeCMP = AUS;
+			frameworkCMP = AUS;
 			break;
 		case 'tcfv2':
 		default:
 			// default is also 'tcfv2'
-			activeCMP = TCFv2;
+			frameworkCMP = TCFv2;
 			break;
 	}
 
 	setCurrentFramework(framework);
 
-	activeCMP.init(pubData ?? {});
+	frameworkCMP.init(pubData ?? {});
 
-	void activeCMP.willShowPrivacyMessage().then((willShowValue) => {
+	void frameworkCMP.willShowPrivacyMessage().then((willShowValue) => {
 		_willShowPrivacyMessage = willShowValue;
 		initComplete = true;
 	});
@@ -91,7 +91,7 @@ const init: InitCMP = ({
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => activeCMP?.willShowPrivacyMessage() ?? false);
+	initialised.then(() => frameworkCMP?.willShowPrivacyMessage() ?? false);
 
 const willShowPrivacyMessageSync = () => {
 	if (_willShowPrivacyMessage !== void 0) {
@@ -106,12 +106,12 @@ const hasInitialised = () => initComplete;
 
 const showPrivacyManager = () => {
 	/* istanbul ignore if */
-	if (!activeCMP) {
+	if (!frameworkCMP) {
 		console.warn(
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
 	}
-	void initialised.then(activeCMP?.showPrivacyManager);
+	void initialised.then(frameworkCMP?.showPrivacyManager);
 };
 
 export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
