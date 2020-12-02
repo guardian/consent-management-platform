@@ -14,22 +14,22 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -103,6 +103,12 @@ cmp.init({
 });
 ```
 
+### `cmp.isInitialised()`
+
+returns: `boolean`
+
+Returns `true` if the CMP has initialised.
+
 ### `cmp.willShowPrivacyMessage()`
 
 returns: `Promise<Boolean>`
@@ -123,6 +129,26 @@ cmp.willShowPrivacyMessage()
             // e.g. show another banner if you like
         }
     );
+```
+
+### `cmp.willShowPrivacyMessageSync()`
+
+returns: `Boolean`
+
+Returns `true` if the CMP will show the initial privacy message (or is, or was), or `false` if not.
+
+Throws an error if the CMP has not been initialised.
+
+_You almost always want to use the async version above._
+
+#### Example
+
+```js
+if (cmp.isInitialised()) {
+    if (cmp.willShowPrivacyMessageSync()) {
+        // do something
+    }
+}
 ```
 
 ### `cmp.showPrivacyManager()`

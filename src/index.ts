@@ -7,6 +7,7 @@ import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import type {
+	CMP,
 	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
@@ -16,11 +17,15 @@ import type {
 // than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
 
-let CMP: SourcepointImplementation | undefined;
+let activeCMP: SourcepointImplementation | undefined;
+
+let _willShowPrivacyMessage: undefined | boolean;
+let _initialised = false;
 
 let resolveInitialised: (value?: unknown) => void;
 const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
+	_initialised = true;
 });
 
 const init: InitCMP = ({
@@ -57,40 +62,53 @@ const init: InitCMP = ({
 
 	switch (framework) {
 		case 'ccpa':
-			CMP = CCPA;
+			activeCMP = CCPA;
 			break;
 		case 'aus':
-			CMP = AUS;
+			activeCMP = AUS;
 			break;
 		case 'tcfv2':
 		default:
 			// default is also 'tcfv2'
-			CMP = TCFv2;
+			activeCMP = TCFv2;
 			break;
 	}
 
 	setCurrentFramework(framework);
 
-	CMP.init(pubData ?? {});
+	activeCMP.init(pubData ?? {});
 	resolveInitialised();
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage() ?? false);
+	initialised.then(() => activeCMP?.willShowPrivacyMessage() ?? false);
+
+const willShowPrivacyMessageSync = () => {
+	if (_willShowPrivacyMessage !== void 0) {
+		return _willShowPrivacyMessage;
+	}
+	throw new Error(
+		'CMP has not been initialised. Use the async willShowPrivacyMessage() instead.',
+	);
+};
+
+const isInitialised = () => _initialised;
 
 const showPrivacyManager = () => {
 	/* istanbul ignore if */
-	if (!CMP) {
+	if (!activeCMP) {
 		console.warn(
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
 	}
-	void initialised.then(CMP?.showPrivacyManager);
+	void initialised.then(activeCMP?.showPrivacyManager);
 };
 
-export const cmp = (window.guCmpHotFix.cmp ||= {
+export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
 	init,
 	willShowPrivacyMessage,
+	willShowPrivacyMessageSync,
+	isInitialised,
 	showPrivacyManager,
 	version: __PACKAGE_VERSION__,
 
