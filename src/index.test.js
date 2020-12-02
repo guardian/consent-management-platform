@@ -125,6 +125,34 @@ describe('cmp.willShowPrivacyMessage', () => {
 	});
 });
 
+describe('cmp.willShowPrivacyMessageSync', () => {
+	it('throws if CMP is not initialised', () => {
+		expect(() => cmp.willShowPrivacyMessageSync()).toThrow();
+	});
+
+	it('does not throw if CMP is initialised', () => {
+		cmp.init({ country: 'GB' });
+
+		cmp.willShowPrivacyMessage().then(() => {
+			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
+		});
+	});
+});
+
+describe('cmp.hasInitialised', () => {
+	it('returns false if CMP is not initialised', () => {
+		expect(cmp.hasInitialised()).toBe(false);
+	});
+
+	it('returns true when CMP is initialised', () => {
+		cmp.init({ country: 'GB' });
+
+		cmp.willShowPrivacyMessage().then(() => {
+			expect(cmp.hasInitialised()).toBe(true);
+		});
+	});
+});
+
 describe('cmp.showPrivacyManager', () => {
 	it('shows CCPA privacy manager when in the US', () => {
 		cmp.init({ country: 'US' });
