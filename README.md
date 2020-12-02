@@ -14,24 +14,24 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.hasInitialised()`](#cmphasinitialised)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.hasInitialised()`](#cmphasinitialised)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -81,7 +81,15 @@ it's missing.*
 
 type: `Object`
 
-Pass additional parameters for for reporting. Optional.
+Optional additional parameters for reporting.
+
+##### `pubData.pageViewId`
+
+type: `string`
+
+Optional value identifying the unique pageview associated with this instance of the CMP.
+
+Will be used to link back to a `browserId` for further reporting; if possible this should be available via the pageview table.
 
 #### ~~`options.isInUsa`~~ <span style="color: red">DEPRECATED</span>
 
