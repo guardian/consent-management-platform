@@ -18,7 +18,7 @@ and TCFv2 to everyone else.
   * [Bundling](#bundling)
 - [Managing Consent](#managing-consent)
   * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.isInitialised()`](#cmpisinitialised)
+  * [`cmp.hasInitialised()`](#cmphasinitialised)
   * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
   * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
