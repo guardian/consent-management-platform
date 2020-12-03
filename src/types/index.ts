@@ -5,6 +5,18 @@ import type { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';
 
+export type CMP = {
+	init: InitCMP;
+	willShowPrivacyMessage: WillShowPrivacyMessage;
+	willShowPrivacyMessageSync: () => boolean;
+	hasInitialised: () => boolean;
+	showPrivacyManager: () => void;
+	version: typeof __PACKAGE_VERSION__;
+	__isDisabled: () => boolean;
+	__disable: () => void;
+	__enable: () => void;
+};
+
 export type InitCMP = (arg0: {
 	pubData?: PubData;
 	country?: Country;

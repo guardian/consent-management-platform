@@ -4,7 +4,7 @@ import type { EndPoint } from '../lib/sourcepointConfig';
 import type { onConsentChange } from '../onConsentChange';
 import type { CCPAData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
-import type { InitCMP, PubData, WillShowPrivacyMessage } from '.';
+import type { CMP, PubData } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -16,16 +16,7 @@ declare global {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
-			cmp?: {
-				init: InitCMP;
-				willShowPrivacyMessage: WillShowPrivacyMessage;
-				showPrivacyManager: () => void;
-				version: typeof __PACKAGE_VERSION__;
-				__isDisabled: () => boolean;
-				__disable: () => void;
-				__enable: () => void;
-			};
-
+			cmp?: CMP;
 			onConsentChange?: typeof onConsentChange;
 			getConsentFor?: typeof getConsentFor;
 		};

@@ -7,6 +7,7 @@ import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import { TCFv2 } from './tcfv2';
 import type {
+	CMP,
 	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
@@ -16,7 +17,10 @@ import type {
 // than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
 
-let CMP: SourcepointImplementation | undefined;
+let frameworkCMP: SourcepointImplementation | undefined;
+
+let _willShowPrivacyMessage: undefined | boolean;
+let initComplete = false;
 
 let resolveInitialised: (value?: unknown) => void;
 const initialised = new Promise((resolve) => {
@@ -28,7 +32,9 @@ const init: InitCMP = ({
 	country,
 	isInUsa, // DEPRECATED: Will be removed in next major version
 }) => {
-	if (isDisabled() || window.guCmpHotFix.initialised) {
+	if (isDisabled()) return;
+
+	if (window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 			console.warn('Two different versions of the CMP are running:', [
 				__PACKAGE_VERSION__,
@@ -36,6 +42,11 @@ const init: InitCMP = ({
 			]);
 		return;
 	}
+
+	// this is slightly different to initComplete - it's there to
+	// prevent another instance of CMP initialising, so we set this true asap.
+	// initComplete is set true once we have _finished_ initialising
+	window.guCmpHotFix.initialised = true;
 
 	if (typeof isInUsa !== 'undefined') {
 		country = isInUsa ? 'US' : 'GB';
@@ -53,44 +64,61 @@ const init: InitCMP = ({
 
 	const framework = getFramework(country);
 
-	window.guCmpHotFix.initialised = true;
-
 	switch (framework) {
 		case 'ccpa':
-			CMP = CCPA;
+			frameworkCMP = CCPA;
 			break;
 		case 'aus':
-			CMP = AUS;
+			frameworkCMP = AUS;
 			break;
 		case 'tcfv2':
 		default:
 			// default is also 'tcfv2'
-			CMP = TCFv2;
+			frameworkCMP = TCFv2;
 			break;
 	}
 
 	setCurrentFramework(framework);
 
-	CMP.init(pubData ?? {});
+	frameworkCMP.init(pubData ?? {});
+
+	void frameworkCMP.willShowPrivacyMessage().then((willShowValue) => {
+		_willShowPrivacyMessage = willShowValue;
+		initComplete = true;
+	});
+
 	resolveInitialised();
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => CMP?.willShowPrivacyMessage() ?? false);
+	initialised.then(() => frameworkCMP?.willShowPrivacyMessage() ?? false);
+
+const willShowPrivacyMessageSync = () => {
+	if (_willShowPrivacyMessage !== undefined) {
+		return _willShowPrivacyMessage;
+	}
+	throw new Error(
+		'CMP has not been initialised. Use the async willShowPrivacyMessage() instead.',
+	);
+};
+
+const hasInitialised = () => initComplete;
 
 const showPrivacyManager = () => {
 	/* istanbul ignore if */
-	if (!CMP) {
+	if (!frameworkCMP) {
 		console.warn(
 			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
 		);
 	}
-	void initialised.then(CMP?.showPrivacyManager);
+	void initialised.then(frameworkCMP?.showPrivacyManager);
 };
 
-export const cmp = (window.guCmpHotFix.cmp ||= {
+export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
 	init,
 	willShowPrivacyMessage,
+	willShowPrivacyMessageSync,
+	hasInitialised,
 	showPrivacyManager,
 	version: __PACKAGE_VERSION__,
 

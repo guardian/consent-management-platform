@@ -18,7 +18,9 @@ and TCFv2 to everyone else.
   * [Bundling](#bundling)
 - [Managing Consent](#managing-consent)
   * [`cmp.init(options)`](#cmpinitoptions)
+  * [`cmp.hasInitialised()`](#cmphasinitialised)
   * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+  * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
@@ -79,29 +81,38 @@ it's missing.*
 
 type: `Object`
 
-Pass additional parameters for for reporting. Optional.
+Optional additional parameters for reporting.
 
-##### Expected parameters
+##### `pubData.pageViewId`
 
--   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
+type: `string`
 
-#### `options.isInUsa` _(DEPRECATED)_
+Optional value identifying the unique pageview associated with this instance of the CMP.
 
-type: `boolean`
+Will be used to link back to a `browserId` for further reporting; if possible this should be available via the pageview table.
 
-Deprecated, please use `options.country` instead. **Will be removed in next major version.**
+#### ~~`options.isInUsa`~~ 
+
+**DEPRECATED**
+
+Will be removed in next major version. Use `options.country` instead.
 
 #### Example
 
 ```js
 cmp.init({
+    country: 'GB',
     pubData: {
-        browserId: 'gow59fnwohwmshz',
         pageViewId: 'jkao3u2kcbaqk',
     },
-    country: 'GB',
 });
 ```
+
+### `cmp.hasInitialised()`
+
+returns: `boolean`
+
+Returns `true` if the CMP has initialised.
 
 ### `cmp.willShowPrivacyMessage()`
 
@@ -123,6 +134,26 @@ cmp.willShowPrivacyMessage()
             // e.g. show another banner if you like
         }
     );
+```
+
+### `cmp.willShowPrivacyMessageSync()`
+
+returns: `Boolean`
+
+_You almost always want to use the async version above._
+
+Returns `true` if the CMP has shown, is showing or will show the initial privacy message. Returns `false` otherwise.
+
+Throws an error if the CMP has not been initialised.
+
+#### Example
+
+```js
+if (cmp.hasInitialised()) {
+    if (cmp.willShowPrivacyMessageSync()) {
+        // do something
+    }
+}
 ```
 
 ### `cmp.showPrivacyManager()`
