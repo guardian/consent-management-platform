@@ -81,15 +81,15 @@ type: `Object`
 
 Pass additional parameters for for reporting. Optional.
 
+##### Expected parameters
+
+-   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
+
 #### `options.isInUsa` _(DEPRECATED)_
 
 type: `boolean`
 
 Deprecated, please use `options.country` instead. **Will be removed in next major version.**
-
-##### Expected parameters
-
--   pageViewId - A key used to identify the unique pageview associated with this instance of the CMP. This will be used to link back to a browserId for further reporting; if possible this should be available via the pageview table.
 
 #### Example
 
@@ -170,7 +170,7 @@ type: `Object` or `undefined`
 Reports the user's preferences for each of the TCFv2 purposes, the last CMP
 event status, custom vendor consents, flag if GDPR applies, the TC string and addtlConsent string.
 
-If the user is neither in the USA or Australia, it will be `undefined`.
+If the user is either in the USA or Australia, it will be `undefined`.
 
 Unlike the [`__tcfapi`](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#how-does-the-cmp-provide-the-api), all ten consents will have a set
 boolean value, defaulting to `false` where no explicit consent was given.
@@ -193,7 +193,7 @@ boolean value, defaulting to `false` where no explicit consent was given.
         'abcdefghijklmnopqrstuvwx': Boolean,
         'yz1234567890abcdefghijkl': Boolean,
         'mnopqrstuvwxyz1234567890': Boolean,
-        // Sourcpoint IDs, etc.
+        // Sourcepoint IDs, etc.
     }
 }
 ```
