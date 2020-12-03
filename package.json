@@ -88,7 +88,7 @@
     "semantic-release": "17.2.3",
     "serve": "11.3.2",
     "start-server-and-test": "1.11.5",
-    "svelte": "3.29.6",
+    "svelte": "3.31.0",
     "tslib": "2.0.3",
     "typescript": "4.0.5",
     "wait-for-expect": "3.0.2"
