@@ -31,9 +31,7 @@
     "test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
     "test:unit": "jest --coverage",
     "tsc": "tsc",
-    "types": "npm-run-all types:typescript types:flow",
-    "types:flow": "node lib/flow-gen.js",
-    "types:typescript": "tsc --project ./tsconfig.build.json",
+    "types": "tsc --project ./tsconfig.build.json",
     "validate": "npm-run-all tsc test lint build"
   },
   "husky": {
@@ -75,8 +73,6 @@
     "eslint-plugin-jest": "24.1.0",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-svelte3": "2.7.3",
-    "fast-glob": "^3.2.4",
-    "flowgen": "^1.12.1",
     "husky": "4.3.0",
     "jest": "26.6.3",
     "markdown-toc": "1.2.0",
