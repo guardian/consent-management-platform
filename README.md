@@ -142,7 +142,7 @@ returns: `Boolean`
 
 _You almost always want to use the async version above._
 
-Returns `true` if the CMP will show the initial privacy message (or is, or was), or `false` if not.
+Returns `true` if the CMP has shown, is showing or will show the initial privacy message. Returns `false` otherwise.
 
 Throws an error if the CMP has not been initialised.
 
