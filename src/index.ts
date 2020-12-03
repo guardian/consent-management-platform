@@ -94,7 +94,7 @@ const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
 	initialised.then(() => frameworkCMP?.willShowPrivacyMessage() ?? false);
 
 const willShowPrivacyMessageSync = () => {
-	if (_willShowPrivacyMessage !== void 0) {
+	if (_willShowPrivacyMessage !== undefined) {
 		return _willShowPrivacyMessage;
 	}
 	throw new Error(
