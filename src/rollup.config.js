@@ -1,4 +1,4 @@
-/* eslint-disable import/no-default-export */
+/* eslint-disable import/no-default-export -- it's what rollup wants */
 
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -27,12 +27,13 @@ export default {
 			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		commonjs(),
-		strip({
-			include: ['**/*.{j,t}s?(x)'],
-			exclude: ['index.*'],
-			sourceMap: true,
-		}),
-	],
+		process.env.NODE_ENV === 'production' &&
+			strip({
+				include: ['**/*.{j,t}s?(x)'],
+				exclude: ['index.*'],
+				sourceMap: true,
+			}),
+	].filter(Boolean),
 	watch: {
 		clearScreen: false,
 	},

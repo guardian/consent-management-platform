@@ -1,7 +1,6 @@
-/* eslint-disable no-underscore-dangle */
 import http from 'http';
 import url from 'url';
-import { ACCOUNT_ID } from '../lib/sourcepointConfig';
+import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { init } from './sourcepoint';
 
 describe('Sourcepoint TCF', () => {
@@ -18,13 +17,13 @@ describe('Sourcepoint TCF', () => {
 		init();
 		expect(window._sp_).toBeDefined();
 		expect(window._sp_.config).toBeDefined();
-		expect(window._sp_.config.baseEndpoint).toEqual(
-			'https://sourcepoint.theguardian.com',
-		);
+		expect(window._sp_.config.baseEndpoint).toEqual(ENDPOINT);
 		expect(window._sp_.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');
 		expect(window._sp_.config.events).toBeDefined();
-		expect(typeof window._sp_.config.events.onConsentReady).toBe('function');
+		expect(typeof window._sp_.config.events.onConsentReady).toBe(
+			'function',
+		);
 		expect(typeof window._sp_.config.events.onMessageReceiveData).toBe(
 			'function',
 		);
@@ -38,7 +37,7 @@ describe('Sourcepoint TCF', () => {
 	it('points at a real file', (done) => {
 		init();
 		const src = document
-			?.getElementById('sourcepoint-tcfv2-lib')
+			.getElementById('sourcepoint-tcfv2-lib')
 			?.getAttribute('src');
 
 		const { host, path } = url.parse(src ?? '');
@@ -50,12 +49,24 @@ describe('Sourcepoint TCF', () => {
 	});
 
 	it('should accept pubData', () => {
-		init({ browserId: 'abc123' });
+		const now = new Date().getTime();
+		init({
+			browserId: 'abc123',
+			pageViewId: 'abcdef',
+			cmpInitTimeUtc: 1601511014537,
+		});
 		expect(window._sp_.config.pubData.browserId).toEqual('abc123');
+		expect(window._sp_.config.pubData.pageViewId).toEqual('abcdef');
+		expect(
+			window._sp_.config.pubData.cmpInitTimeUtc,
+		).toBeGreaterThanOrEqual(now);
 	});
 
 	it('should handle no pubData', () => {
+		const now = new Date().getTime();
 		init();
-		expect(window._sp_.config.pubData).toEqual({});
+		expect(
+			window._sp_.config.pubData.cmpInitTimeUtc,
+		).toBeGreaterThanOrEqual(now);
 	});
 });

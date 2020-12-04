@@ -1,15 +1,13 @@
-/* eslint-disable no-undef */
-
 import { skipOn } from '@cypress/skip-test';
+import { ENDPOINT } from '../../src/lib/sourcepointConfig';
+import { loadPage } from '../utils';
 
-const iframeMessage = '#sp_message_iframe_208529';
+const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
-const loadPage = () => {
-	it('should load the TCFv2 page', () => cy.visit('/#tcfv2'));
-};
+const url = '/#tcfv2';
 
 describe('Window', () => {
-	loadPage();
+	loadPage(url);
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
@@ -18,35 +16,35 @@ describe('Window', () => {
 			.its('_sp_.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.baseEndpoint).equal(
-					'https://sourcepoint.theguardian.com',
-				);
+				expect(spConfig.baseEndpoint).equal(ENDPOINT);
 			});
+	});
+});
+
+describe('Document', () => {
+	loadPage(url);
+	it('should have the SP iframe', () => {
+		cy.get('iframe').should('be.visible').get(iframeMessage);
+	});
+
+	it('should have the correct script URL', () => {
+		cy.get('script#sourcepoint-tcfv2-lib').should(
+			'have.attr',
+			'src',
+			ENDPOINT + '/wrapperMessagingWithoutDetection.js',
+		);
 	});
 });
 
 // TODO: enable testing of TCFv2 on CI
 skipOn(Cypress.env('CI') === 'true', () => {
-	describe('Document', () => {
-		loadPage();
-		it('should have the SP iframe', () => {
-			cy.get('iframe').should('be.visible').get(iframeMessage);
-		});
-
-		it('should have the correct script URL', () => {
-			cy.get('script#sourcepoint-tcfv2-lib').should(
-				'have.attr',
-				'src',
-				'https://sourcepoint.theguardian.com/wrapperMessagingWithoutDetection.js',
-			);
-		});
-	});
-
 	describe('Interaction', () => {
-		loadPage();
+		loadPage(url);
 		const buttonTitle = 'Yes, I’m happy';
 
 		beforeEach(() => {
+			cy.setCookie('ccpaApplies', 'false');
+			cy.setCookie('gdprApplies', 'true');
 			Cypress.Cookies.preserveOnce('consentUUID', 'euconsent-v2');
 		});
 
@@ -55,7 +53,7 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[title="${buttonTitle}"]`)
 				.click();
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 			cy.wait(1000);
 
 			[(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)].forEach((purpose) => {
@@ -70,7 +68,9 @@ skipOn(Cypress.env('CI') === 'true', () => {
 			cy.get('[data-cy=pm]').click();
 
 			cy.getIframeBody(iframePrivacyManager)
-				.find(`label[aria-label="Store and/or access information on a device"]`)
+				.find(
+					`label[aria-label="Store and/or access information on a device"]`,
+				)
 				.find('span.off')
 				.click();
 
@@ -78,7 +78,7 @@ skipOn(Cypress.env('CI') === 'true', () => {
 				.find(`button[aria-label="Save and close"]`)
 				.click();
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 			cy.wait(1000);
 
 			cy.get(`[data-purpose="1"]`)
@@ -96,17 +96,21 @@ skipOn(Cypress.env('CI') === 'true', () => {
 			cy.get('[data-cy=pm]').click();
 
 			cy.getIframeBody(iframePrivacyManager)
-				.find(`label[aria-label="Store and/or access information on a device"]`)
+				.find(
+					`label[aria-label="Store and/or access information on a device"]`,
+				)
 				.find('span.on')
 				.click();
 
-			cy.getIframeBody(iframePrivacyManager).find(`div.stack-toggles`).click();
+			cy.getIframeBody(iframePrivacyManager)
+				.find(`div.stack-toggles`)
+				.click();
 
 			cy.getIframeBody(iframePrivacyManager)
 				.find(`button[aria-label="Save and close"]`)
 				.click();
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 			cy.wait(1000);
 
 			cy.get(`[data-purpose="1"]`)
@@ -119,5 +123,10 @@ skipOn(Cypress.env('CI') === 'true', () => {
 					.should('equal', true);
 			});
 		});
+	});
+});
+skipOn(Cypress.env('CI') !== 'true', () => {
+	describe('Skipped in CI', () => {
+		it('should skip TCFv2 in CI env, because of geolocation', () => true);
 	});
 });

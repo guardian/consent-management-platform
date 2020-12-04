@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import customVendorConsents from './__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './__fixtures__/api.getTCData.json';
 import { getCustomVendorConsents, getTCData } from './api';
@@ -12,7 +11,14 @@ describe('getConsentState', () => {
 	it('gets the consent state correctly', async () => {
 		tcData.purpose.consents['1'] = false;
 
-		const { consents, eventStatus, vendorConsents } = await getConsentState();
+		const {
+			consents,
+			eventStatus,
+			vendorConsents,
+			addtlConsent,
+			gdprApplies,
+			tcString,
+		} = await getConsentState();
 
 		expect(getTCData).toHaveBeenCalledTimes(1);
 		expect(getCustomVendorConsents).toHaveBeenCalledTimes(1);
@@ -31,5 +37,8 @@ describe('getConsentState', () => {
 		});
 		expect(eventStatus).toBe('tcloaded');
 		expect(vendorConsents).toMatchSnapshot();
+		expect(gdprApplies).toMatchSnapshot();
+		expect(tcString).toMatchSnapshot();
+		expect(addtlConsent).toMatchSnapshot();
 	});
 });

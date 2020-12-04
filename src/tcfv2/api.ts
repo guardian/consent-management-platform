@@ -1,7 +1,5 @@
-/* eslint-disable no-underscore-dangle */
-
-import { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
-import { TCData } from '../types/tcfv2/TCData';
+import type { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
+import type { TCData } from '../types/tcfv2/TCData';
 
 type Command =
 	| 'getTCData'
@@ -17,7 +15,7 @@ const api = (command: Command) =>
 				success
 					? resolve(result)
 					: /* istanbul ignore next */
-					  reject(new Error('Unable to get tcfapi data')),
+					  reject(new Error(`Unable to get ${command} data`)),
 			);
 		} else {
 			reject(new Error('No __tcfapi found on window'));

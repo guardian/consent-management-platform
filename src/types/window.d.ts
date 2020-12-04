@@ -1,58 +1,55 @@
-import { CCPAData } from './ccpa';
-import { TCData } from './tcfv2/TCData';
-import { OnConsentChange, PubData, WillShowPrivacyMessage } from '.';
+import type { getConsentFor } from '../getConsentFor';
+import type { Property } from '../lib/property';
+import type { EndPoint } from '../lib/sourcepointConfig';
+import type { onConsentChange } from '../onConsentChange';
+import type { CCPAData } from './ccpa';
+import type { TCData } from './tcfv2/TCData';
+import type { CMP, PubData } from '.';
+
+type OnMessageChoiceSelect = (
+	arg0: number,
+	arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
+) => void;
 
 declare global {
 	interface Window {
 		// *************** START commercial.dcr.js hotfix ***************
 		guCmpHotFix: {
 			initialised?: boolean;
-			cmp?: {
-				init: ({
-					pubData,
-					isInUsa,
-				}: {
-					pubData?: PubData | undefined;
-					isInUsa: boolean;
-				}) => void;
-				willShowPrivacyMessage: WillShowPrivacyMessage;
-				showPrivacyManager: () => void;
-				version: typeof __PACKAGE_VERSION__;
-				__isDisabled: () => boolean;
-				__disable: () => void;
-				__enable: () => void;
-			};
-
-			onConsentChange?: OnConsentChange;
+			cmp?: CMP;
+			onConsentChange?: typeof onConsentChange;
+			getConsentFor?: typeof getConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
 		// sourcepoint's libraries - only one should be present at a time
 		_sp_ccpa?: {
 			config: {
-				mmsDomain: 'https://sourcepoint.theguardian.com';
-				ccpaOrigin: 'https://ccpa-service.sp-prod.net';
+				baseEndpoint: EndPoint;
 				accountId: number;
 				getDnsMsgMms: boolean;
 				alwaysDisplayDns: boolean;
-				siteHref: string | null;
+				siteHref: Property;
 				targetingParams: {
-					framework: 'ccpa';
+					framework: 'ccpa' | 'aus';
 				};
 				pubData: PubData;
 				events?: {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
-					onMessageReceiveData: (data: { msg_id: 0 | string }) => void;
+					onMessageReceiveData: (data: {
+						msg_id: 0 | string;
+					}) => void;
+					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
 			loadPrivacyManagerModal?: (unknown: unknown, id: string) => void; // this function is undocumented
 		};
 		_sp_?: {
 			config: {
-				baseEndpoint: 'https://sourcepoint.theguardian.com';
+				baseEndpoint: EndPoint;
 				accountId: number;
-				propertyHref: string | null;
+				propertyHref: Property;
 				propertyId?: string;
 				targetingParams: {
 					framework: 'tcfv2';
@@ -61,11 +58,10 @@ declare global {
 				events?: {
 					onConsentReady: () => void;
 					onMessageReady: () => void;
-					onMessageReceiveData: (data: { messageId: 0 | string }) => void;
-					onMessageChoiceSelect: (
-						arg0: number,
-						arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
-					) => void;
+					onMessageReceiveData: (data: {
+						messageId: 0 | string;
+					}) => void;
+					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
 			loadPrivacyManagerModal?: (id: number) => void;

@@ -1,6 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-
-import { TCFv2ConsentList, TCFv2ConsentState } from '../types/tcfv2';
+import type { TCFv2ConsentList, TCFv2ConsentState } from '../types/tcfv2';
 import { getCustomVendorConsents, getTCData } from './api';
 
 const defaultConsents: TCFv2ConsentList = {
@@ -28,7 +26,7 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		...tcData.purpose.consents,
 	};
 
-	const { eventStatus } = tcData;
+	const { eventStatus, gdprApplies, tcString, addtlConsent } = tcData;
 	const { grants } = customVendors;
 
 	const vendorConsents: TCFv2ConsentList = Object.keys(grants)
@@ -39,5 +37,8 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		consents,
 		eventStatus,
 		vendorConsents,
+		addtlConsent,
+		gdprApplies,
+		tcString,
 	};
 };

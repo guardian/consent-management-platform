@@ -3,9 +3,21 @@
 	import { cmp, onConsentChange } from '../';
 	import { onMount } from 'svelte';
 
-	if (window.location.hash === '#tcfv2')
-		localStorage.setItem('isInUsa', 'false');
-	if (window.location.hash === '#ccpa') localStorage.setItem('isInUsa', 'true');
+	switch (window.location.hash) {
+		case '#tcfv2':
+			localStorage.setItem('framework', JSON.stringify('tcfv2'));
+			break;
+		case '#ccpa':
+			localStorage.setItem('framework', JSON.stringify('ccpa'));
+			break;
+		case '#aus':
+			localStorage.setItem('framework', JSON.stringify('aus'));
+			break;
+		default:
+			window.location.hash = 'tcfv2';
+			localStorage.setItem('framework', JSON.stringify('tcfv2'));
+			break;
+	}
 
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
@@ -20,6 +32,14 @@
 
 	function logEvent(event) {
 		eventsList = [...eventsList, event];
+		console.log(
+			`%c@guardian%c %cCMP%c [event]`,
+			'background: #052962; color: white; padding: 2px; border-radius:3px',
+			'',
+			'background: deeppink; color: white; padding: 2px; border-radius:3px',
+			'color: deepskyblue; ',
+			event,
+		);
 	}
 
 	let clearPreferences = () => {
@@ -31,12 +51,13 @@
 		window.location.reload();
 	};
 
+	let framework = JSON.parse(localStorage.getItem('framework'));
+
 	let setLocation = () => {
-		localStorage.setItem('isInUsa', JSON.stringify(isInUsa));
+		localStorage.setItem('framework', JSON.stringify(framework));
+		window.location.hash = framework;
 		clearPreferences();
 	};
-
-	let isInUsa = JSON.parse(localStorage.getItem('isInUsa'));
 
 	$: consentState = {};
 	$: eventsList = [];
@@ -51,11 +72,28 @@
 	});
 
 	onMount(async () => {
+		// Set the country based on chosen framework.
+		// This is not to be used in production
+		let country = '';
+		switch (framework) {
+			case 'tcfv2':
+				country = 'GB';
+				break;
+
+			case 'ccpa':
+				country = 'US';
+				break;
+
+			case 'aus':
+				country = 'AU';
+				break;
+		}
+
 		// do this loads to make sure that doesn't break things
-		cmp.init({ isInUsa });
-		cmp.init({ isInUsa });
-		cmp.init({ isInUsa });
-		cmp.init({ isInUsa });
+		cmp.init({ country });
+		cmp.init({ country });
+		cmp.init({ country });
+		cmp.init({ country });
 	});
 </script>
 
@@ -89,15 +127,17 @@
 		align-self: end;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		z-index: 1;
+		display: flex;
 	}
 
 	nav * {
-		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-			sans-serif, Apple Color Emoji, Segoe UI Emoji;
+		font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,
+			Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+		margin: 0 0.25em 0;
 	}
 
 	nav * + * {
-		margin-left: 1em;
+		margin-left: 0.5em;
 		max-width: 50%;
 	}
 
@@ -130,6 +170,13 @@
 	label {
 		display: inline-flex;
 		align-items: center;
+		padding: 0.25em;
+		border-radius: 0.25em;
+		border: rgba(0, 0, 0, 0.1) solid 1px;
+	}
+
+	label.selected {
+		background-color: lightgrey;
 	}
 
 	summary {
@@ -179,11 +226,34 @@
 
 <main>
 	<nav>
-		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy manager</button>
+		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy
+			manager</button>
 		<button on:click={clearPreferences}>clear preferences</button>
-		<label>
-			<input type="checkbox" bind:checked={isInUsa} on:change={setLocation} /> in
-			USA
+		<label class={framework == 'tcfv2' ? 'selected' : 'none'}>
+			<input
+				type="radio"
+				value="tcfv2"
+				bind:group={framework}
+				on:change={setLocation} />
+			in RoW:<strong>TCFv2</strong>
+		</label>
+		<label class={framework == 'ccpa' ? 'selected' : 'none'}>
+			<input
+				type="radio"
+				value="ccpa"
+				bind:group={framework}
+				on:change={setLocation} />
+			in USA:
+			<strong>CCPA</strong>
+		</label>
+		<label class={framework == 'aus' ? 'selected' : 'none'}>
+			<input
+				type="radio"
+				value="aus"
+				bind:group={framework}
+				on:change={setLocation} />
+			in Australia:
+			<strong>CCPA-like</strong>
 		</label>
 	</nav>
 
@@ -208,6 +278,10 @@
 			<h2>ccpa.doNotSell</h2><span
 				class="label"
 				data-donotsell={consentState.ccpa.doNotSell}>{consentState.ccpa.doNotSell}</span>
+		{:else if consentState.aus}
+			<h2>aus.personalisedAdvertising</h2>
+			<span
+				class={consentState.aus.personalisedAdvertising ? 'yes' : 'no'}>{consentState.aus.personalisedAdvertising}</span>
 		{:else}
 			<h2>¯\_(ツ)_/¯</h2>
 		{/if}

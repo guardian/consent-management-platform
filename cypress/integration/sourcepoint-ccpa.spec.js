@@ -1,18 +1,31 @@
-/* eslint-disable no-undef */
+import 'cypress-wait-until';
+import { ENDPOINT } from '../../src/lib/sourcepointConfig';
+import { loadPage } from '../utils';
 
-const iframeMessage = '#sp_message_iframe_208530';
+const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
-const loadPage = () => {
-	it('should load the CCPA page', () => cy.visit('/#ccpa'));
-};
-const doNotTrackIs = (boolean) => {
+const url = '/#ccpa';
+
+const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]')
-		.should('have.data', 'donotsell')
-		.should('equal', boolean);
+		.should('have.length', 1)
+		.should('contain', boolean.toString());
+};
+
+const ccpaRejectCookieIs = (boolean) => {
+	cy.waitUntil(() =>
+		cy
+			.getCookie('ccpaReject')
+			.then((cookie) => Boolean(cookie && cookie.value)),
+	);
+
+	cy.getCookie('ccpaReject')
+		.should('exist')
+		.should('have.property', 'value', boolean.toString());
 };
 
 describe('Window', () => {
-	loadPage();
+	loadPage(url);
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
@@ -21,14 +34,13 @@ describe('Window', () => {
 			.its('_sp_ccpa.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(1257);
-				expect(spConfig.mmsDomain).equal('https://sourcepoint.theguardian.com');
-				expect(spConfig.ccpaOrigin).equal('https://ccpa-service.sp-prod.net');
+				expect(spConfig.baseEndpoint).equal(ENDPOINT);
 			});
 	});
 });
 
 describe('Document', () => {
-	loadPage();
+	loadPage(url);
 	it('should have the SP iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
@@ -37,16 +49,17 @@ describe('Document', () => {
 		cy.get('script#sourcepoint-ccpa-lib').should(
 			'have.attr',
 			'src',
-			'https://sourcepoint.theguardian.com/ccpa.js',
+			`${ENDPOINT}/ccpa.js`,
 		);
 	});
 });
 
 describe('Interaction', () => {
-	loadPage();
+	loadPage(url);
 	const buttonTitle = 'Do not sell my personal information';
 
 	beforeEach(() => {
+		cy.setCookie('ccpaApplies', 'true');
 		Cypress.Cookies.preserveOnce(
 			'ccpaUUID',
 			'ccpaReject',
@@ -56,29 +69,29 @@ describe('Interaction', () => {
 	});
 
 	it('should have DNS set to false by default', () => {
-		doNotTrackIs(false);
+		doNotSellIs(false);
 	});
 
 	// TODO: fix this bug!
 	// currently `onConsentChange` is not called when clicking the button
-	it.skip(`should retract consent when clicking "${buttonTitle}"`, () => {
+	it(`should retract consent when clicking "${buttonTitle}"`, () => {
 		cy.getIframeBody(iframeMessage)
 			.find(`button[title="${buttonTitle}"]`)
 			.click();
 
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(500);
-
-		doNotTrackIs(true);
+		ccpaRejectCookieIs(true);
+		doNotSellIs(true);
 	});
 
 	// TODO: clicking "save and exit" does not actually save,
 	// but does dismiss the PM
-	it.skip(`should be able to retract consent`, () => {
+	it(`should be able to retract consent`, () => {
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(`#tab-pan_5ed10cdb1ea0b9455a0ff81c div.right`) /* ¯\_(ツ)_/¯ */
+			.find(
+				`#tab-pan_5ed10cdb1ea0b9455a0ff81c div.right`,
+			) /* ¯\_(ツ)_/¯ */
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)
@@ -86,31 +99,7 @@ describe('Interaction', () => {
 			.should('be.visible')
 			.click();
 
-		doNotTrackIs(true);
-	});
-
-	it.skip(`should be able to refuse all but purpose 1`, () => {
-		cy.get('[data-cy=pm]').click();
-
-		cy.getIframeBody(iframePrivacyManager)
-			.find(`label[aria-label="Store and/or access information on a device"]`)
-			.find('span.on')
-			.click();
-
-		cy.getIframeBody(iframePrivacyManager).find(`div.stack-toggles`).click();
-
-		cy.getIframeBody(iframePrivacyManager)
-			.find(`button[aria-label="Save and close"]`)
-			.click();
-
-		cy.get(`li[data-purpose="1"]`)
-			.should('have.data', 'consent')
-			.should('equal', false);
-
-		[2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
-			cy.get(`li[data-purpose="${purpose}"]`)
-				.should('have.data', 'consent')
-				.should('equal', true);
-		});
+		ccpaRejectCookieIs(true);
+		doNotSellIs(true);
 	});
 });
