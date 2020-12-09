@@ -1,3 +1,4 @@
+import { log } from '@guardian/libs';
 import { AUS } from './aus';
 import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
@@ -85,6 +86,7 @@ const init: InitCMP = ({
 	void frameworkCMP.willShowPrivacyMessage().then((willShowValue) => {
 		_willShowPrivacyMessage = willShowValue;
 		initComplete = true;
+		log('cmp', 'initComplete');
 	});
 
 	resolveInitialised();
