@@ -48,6 +48,7 @@
     "@babel/preset-typescript": "7.12.1",
     "@babel/runtime": "7.12.5",
     "@cypress/skip-test": "2.5.0",
+    "@guardian/libs": "1.6.1",
     "@guardian/eslint-config": "0.4.0",
     "@guardian/eslint-config-typescript": "0.4.1",
     "@guardian/prettier": "0.4.1",

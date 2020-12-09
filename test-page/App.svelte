@@ -1,6 +1,7 @@
 <script>
 	// always use the dist version
 	import { cmp, onConsentChange } from '../';
+	import { log } from '@guardian/libs';
 	import { onMount } from 'svelte';
 
 	switch (window.location.hash) {
@@ -32,14 +33,7 @@
 
 	function logEvent(event) {
 		eventsList = [...eventsList, event];
-		console.log(
-			`%c@guardian%c %cCMP%c [event]`,
-			'background: #052962; color: white; padding: 2px; border-radius:3px',
-			'',
-			'background: deeppink; color: white; padding: 2px; border-radius:3px',
-			'color: deepskyblue; ',
-			event,
-		);
+		log('cmp', event);
 	}
 
 	let clearPreferences = () => {
