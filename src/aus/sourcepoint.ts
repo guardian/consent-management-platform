@@ -28,10 +28,6 @@ const properties = {
 export const init = (pubData = {}): void => {
 	stub();
 
-	// invoke callbacks ASAP in AUS
-	// TODO this causes an error
-	invokeCallbacks();
-
 	// make sure nothing else on the page has accidentally
 	// used the _sp_* name as well
 	if (window._sp_ccpa) {
@@ -39,6 +35,9 @@ export const init = (pubData = {}): void => {
 			'Sourcepoint CCPA global (window._sp_ccpa) is already defined!',
 		);
 	}
+
+	// invoke callbacks before we receive Sourcepoint events
+	setTimeout(invokeCallbacks, 0);
 
 	/* istanbul ignore next */
 	window._sp_ccpa = {
