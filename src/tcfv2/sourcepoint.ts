@@ -42,7 +42,7 @@ export const init = (pubData = {}): void => {
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
-				onConsentReady() {
+				onConsentReady: () => {
 					mark('cmp-tcfv2-got-consent');
 				},
 

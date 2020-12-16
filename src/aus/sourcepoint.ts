@@ -54,7 +54,7 @@ export const init = (pubData = {}): void => {
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
-				onConsentReady() {
+				onConsentReady: () => {
 					mark('cmp-aus-got-consent');
 
 					// onConsentReady is triggered before SP update the consent settings :(

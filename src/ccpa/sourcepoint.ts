@@ -44,7 +44,7 @@ export const init = (pubData = {}): void => {
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
-				onConsentReady() {
+				onConsentReady: () => {
 					mark('cmp-ccpa-got-consent');
 				},
 
