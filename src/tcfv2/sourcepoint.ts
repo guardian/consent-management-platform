@@ -27,7 +27,7 @@ export const init = (pubData = {}): void => {
 	}
 
 	// invoke callbacks before we receive Sourcepoint events
-	setTimeout(invokeCallbacks, 0);
+	invokeCallbacks();
 
 	/* istanbul ignore next */
 	window._sp_ = {
