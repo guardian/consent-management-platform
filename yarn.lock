@@ -9994,10 +9994,10 @@ supports-hyperlinks@^2.0.0, supports-hyperlinks@^2.1.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelte@3.29.6:
-  version "3.29.6"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.29.6.tgz#0a9e378c7896cdb0cbd617e793e60543ffc26354"
-  integrity sha512-VIQMHPPEg/d4BQTy+WX1hHi/0EzjwjgjBK+DF0kLFy5hBsDKHQemd7xrCO1Spz57sT0xUb/YgRwFoozQrK0cmQ==
+svelte@3.31.1:
+  version "3.31.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.31.1.tgz#1a1e2a2fe4eeb72be5c2542735e035c49c45be87"
+  integrity sha512-Q8xVz5U/IFFNjgvVSjdzKJPAX0MFytFwiJo1HAPfGwM7LkHA+BN2q2kL8vKcJwjku7/509MapLov8C9SjogNRg==
 
 symbol-observable@^1.1.0:
   version "1.2.0"
