@@ -132,7 +132,7 @@ describe('hotfix cmp.init', () => {
 // *************** END commercial.dcr.js hotfix ***************
 
 describe('cmp.willShowPrivacyMessage', () => {
-	it.skip('resolves regardless of when the cmp is initialised', () => {
+	it('resolves regardless of when the cmp is initialised', () => {
 		// This should be tested in e2e test to be meaningful
 		const willShowPrivacyMessage1 = cmp.willShowPrivacyMessage();
 
@@ -140,9 +140,11 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
-		return expect(
-			Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-		).resolves.toEqual(['iwillshowit', 'iwillshowit']);
+		cmp.willShowPrivacyMessage().then(() => {
+			expect(
+				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
+			).resolves.toEqual([true, true]);
+		});
 	});
 });
 
