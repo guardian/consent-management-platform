@@ -106,7 +106,28 @@ describe('hotfix cmp.init', () => {
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 
-	it.todo('uses window.guCmpHotFix instances if they exist');
+	it('uses window.guCmpHotFix instances if they exist', () => {
+		const mockCmp = {
+			init: () => undefined,
+			willShowPrivacyMessage: () => true,
+			willShowPrivacyMessageSync: () => true,
+			hasInitialised: () => true,
+			mocked: 'mocked',
+		};
+
+		window.guCmpHotFix = {
+			cmp: mockCmp,
+		};
+
+		jest.resetModules();
+		import('.').then((module) => {
+			expect(module.cmp).toEqual(mockCmp);
+
+			delete window.guCmpHotFix;
+			jest.resetModules();
+			import('.');
+		});
+	});
 });
 // *************** END commercial.dcr.js hotfix ***************
 
