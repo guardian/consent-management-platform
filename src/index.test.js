@@ -184,8 +184,6 @@ describe('cmp.showPrivacyManager', () => {
 	});
 });
 
-it.todo('cmp.willShowPrivacyMessage');
-
 describe('Old API parameter `isInUsa`', () => {
 	it('Should handle `{ isInUsa: true }`', () => {
 		cmp.init({ isInUsa: true });
