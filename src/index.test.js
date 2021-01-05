@@ -106,12 +106,33 @@ describe('hotfix cmp.init', () => {
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 
-	it.todo('uses window.guCmpHotFix instances if they exist');
+	it('uses window.guCmpHotFix instances if they exist', () => {
+		const mockCmp = {
+			init: () => undefined,
+			willShowPrivacyMessage: () => true,
+			willShowPrivacyMessageSync: () => true,
+			hasInitialised: () => true,
+			mocked: 'mocked',
+		};
+
+		window.guCmpHotFix = {
+			cmp: mockCmp,
+		};
+
+		jest.resetModules();
+		import('.').then((module) => {
+			expect(module.cmp).toEqual(mockCmp);
+
+			delete window.guCmpHotFix;
+			jest.resetModules();
+			import('.');
+		});
+	});
 });
 // *************** END commercial.dcr.js hotfix ***************
 
 describe('cmp.willShowPrivacyMessage', () => {
-	it.skip('resolves regardless of when the cmp is initialised', () => {
+	it('resolves regardless of when the cmp is initialised', () => {
 		// This should be tested in e2e test to be meaningful
 		const willShowPrivacyMessage1 = cmp.willShowPrivacyMessage();
 
@@ -119,9 +140,11 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
-		return expect(
-			Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-		).resolves.toEqual(['iwillshowit', 'iwillshowit']);
+		cmp.willShowPrivacyMessage().then(() => {
+			expect(
+				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
+			).resolves.toEqual([true, true]);
+		});
 	});
 });
 
@@ -183,8 +206,6 @@ describe('cmp.showPrivacyManager', () => {
 		);
 	});
 });
-
-it.todo('cmp.willShowPrivacyMessage');
 
 describe('Old API parameter `isInUsa`', () => {
 	it('Should handle `{ isInUsa: true }`', () => {
