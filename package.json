@@ -50,6 +50,7 @@
     "@cypress/skip-test": "2.5.0",
     "@guardian/eslint-config": "0.4.0",
     "@guardian/eslint-config-typescript": "0.4.1",
+    "@guardian/libs": "^1.6.2",
     "@guardian/prettier": "0.4.1",
     "@rollup/plugin-babel": "5.2.1",
     "@rollup/plugin-commonjs": "16.0.0",
@@ -92,5 +93,8 @@
     "tslib": "2.0.3",
     "typescript": "4.0.5",
     "wait-for-expect": "3.0.2"
+  },
+  "peerDependencies": {
+    "@guardian/libs": "^1.6.2"
   }
 }
