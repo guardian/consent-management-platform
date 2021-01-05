@@ -26,6 +26,9 @@ export const init = (pubData = {}): void => {
 		);
 	}
 
+	// invoke callbacks before we receive Sourcepoint events
+	invokeCallbacks();
+
 	/* istanbul ignore next */
 	window._sp_ = {
 		config: {
@@ -39,10 +42,8 @@ export const init = (pubData = {}): void => {
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
-				onConsentReady() {
+				onConsentReady: () => {
 					mark('cmp-tcfv2-got-consent');
-					// onConsentReady is triggered before SP update the consent settings :(
-					setTimeout(invokeCallbacks, 0);
 				},
 
 				onMessageReady: () => {
