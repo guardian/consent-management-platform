@@ -35,8 +35,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    font-display: swap;
-    
+    font-display: swap;   
 }
 
 @font-face {
@@ -389,7 +388,6 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
          -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
         background: rgba(5, 41, 98, 0.7);
-        
     }
 
     .cta-container .cta-ask,    
