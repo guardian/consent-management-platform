@@ -5,13 +5,11 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 
 */
 
-/*-------------- TODO -----------------
-test pulling from the mapi server/origin
-https://github.com/guardian/apps-rendering/tree/master/assets/fonts
+/*------ Test pulling from the mapi server/origin ----
+see https://github.com/guardian/apps-rendering/tree/master/assets/fonts
 
-eg
-https://mobile.guardianapis.com/assets/fonts/GuardianTextSans-Regular.ttf
--------------- TODO -----------------*/
+eg https://mobile.guardianapis.com/assets/fonts/GuardianTextSans-Regular.ttf
+-------------- END TODO -----------------*/
 
 ::selection {
     background: #ffe500;

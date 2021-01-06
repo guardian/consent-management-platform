@@ -1,0 +1,212 @@
+/*
+
+Please update the CMP repo with any launched changes
+https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
+
+*/
+
+@font-face {
+    font-family: "Guardian Titlepiece";
+    src: url("https://interactive.guim.co.uk/fonts/garnett/GTGuardianTitlepiece-Bold.woff2") format("woff2"),
+    url("https://interactive.guim.co.uk/fonts/garnett/GTGuardianTitlepiece-Bold.woff") format("woff"),
+    url("https://interactive.guim.co.uk/fonts/garnett/GTGuardianTitlepiece-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Guardian Text Sans Web";
+    src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot");
+    src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot?#iefix") format("embedded-opentype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff2") format("woff2"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff") format("woff"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.ttf") format("truetype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.svg#GuardianTextSansWeb-Regular") format("svg");
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    font-display: swap;
+
+}
+
+@font-face {
+    font-family: "Guardian Text Sans Web";
+    src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.eot");
+    src: url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.eot?#iefix") format("embedded-opentype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.woff2") format("woff2"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.woff") format("woff"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.ttf") format("truetype"), url("https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Bold.svg#GuardianTextSansWeb-Bold") format("svg");
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    font-display: swap;
+}
+
+* {
+    font-family: "Guardian Text Sans Web", Arial, sans-serif !important;
+}
+
+.accordian-parent {
+    background-color: white;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.accordian-parent:hover {
+    background-color: white;
+}
+
+.neutral {
+    background: #DCDCDC;
+    border-radius: 9px;
+    /*font-size: 15px;*/
+}
+
+.bg-overlay {
+    overflow: auto;
+}
+
+.neutral:focus {
+    border: none;
+    border-radius: 9px;
+}
+
+.neutral.off>.left {
+    background: #dcdcdc;
+    color: #000000;
+}
+
+.neutral.on>.left {
+    border: #dcdcdc;
+    border: 1px solid #dcdcdc;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+    color: #000000;
+}
+
+.neutral.off>.right {
+    border: #dcdcdc;
+    border: 1px solid #dcdcdc;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+    color: #000000;
+}
+
+.neutral.on>.right {
+    background: #dcdcdc;
+    color: #000000;
+}
+
+.neutral>.left, .neutral>.right {
+    padding: 6px 16px 5px;
+}
+
+
+
+.priv_main_parent {
+    border-radius: 0px !important;
+}
+
+.priv-cancel-btn, .priv-save-btn {
+    /*font-size: 17px;*/
+    padding: 11px 21px;
+}
+
+.priv-description {
+    background-color: #F6F6F6;
+    color: #000000;
+    font-family: "Guardian Text Sans Web", Arial, sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+}
+
+
+.priv-ft-container {
+    background-color: #052962;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    padding: 14px 12px 40px 12px;
+}
+
+.priv-logo-enabled {
+    display: none;
+}
+
+.priv-main {
+    background-color: #F6F6F6;
+    border-radius: 0 !important;
+    margin: 0;
+}
+
+.priv_main_parent {
+    border-radius: 0px !important;
+}
+
+.privacy-container {
+    border-radius: 0px !important;
+    overflow-y: auto;
+    overflow-x: auto;
+    padding-top: 0px;
+}
+
+.privacy-title {
+    background-color: #052962;
+    color: #fff;
+    font-family: "Guardian Titlepiece", serif !important;
+    font-size: 32px;
+    font-weight: 800;
+    padding: 20px 12px;
+}
+
+.purpose-title {
+    font-size: 14px !important;
+    font-weight: 700;
+}
+
+.sp-priv-link {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.sp-switch-arrow-block {
+    background: #DCDCDC;
+    border-radius: 9px;
+    border: 1px solid #dcdcdc;
+}
+
+.sp-arrow-block {
+    display: none;
+}
+
+.tab>a {
+    display: block;
+    padding: 0;
+}
+
+
+#tab-cancel {
+    border: 1px solid #ffffff;
+}
+
+#tab-purposes {
+    color: #052962;
+    font-size: 14px;
+}
+
+.tab-slider {
+    display: none;
+}
+
+.tabs {
+    background-color: #f6f6f6;
+    border-top: 1px solid #bbbbbb;
+}
+
+.tabs>.tab {
+    border-right: 1px solid #dcdcdc;
+    padding: 16px 13px 16px 16px;
+    text-align: left;
+    width: auto;
+}
+
+.tabs>.tab.active {
+    background-color: #ffffff;
+    border-top: 4px solid #007ABC;
+}
+

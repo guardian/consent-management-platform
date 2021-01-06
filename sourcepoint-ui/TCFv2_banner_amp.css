@@ -123,6 +123,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 
 .gu-content {
     border-top: 1px solid rgb(80, 105, 145) !important;
+    max-height: calc(568px * 0.6) !important; /* Opera mini does not support viewport units. Calculates 60% of the height of an iPhone SE viewport */
     max-height: calc(100vh) !important; /* Why 100vh instead of 51vh like on web? Banner height on AMP is relative to a maximum of 60% of the viewport. Therefore 51vh would result in 51% of 60%. */
     overflow-y: scroll;
     padding: 0.625rem 1.25rem 110px 1.25rem !important;
@@ -409,7 +410,8 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     
     .gu-content {
         border-top: 1px solid rgb(80, 105, 145) !important;
-        max-height: calc(51vh) !important;
+        max-height: calc(1080px * 0.51) !important; /* opera mini does not support viewport units */
+        max-height: calc(100vh) !important; /* See above */
         overflow-y: scroll;
         padding-bottom: 80px !important;
         scrollbar-width: thin;
