@@ -1,5 +1,7 @@
 import type { TCFv2ConsentList, TCFv2ConsentState } from '../types/tcfv2';
 import { getCustomVendorConsents, getTCData } from './api';
+import {getCurrentFramework} from "../getCurrentFramework";
+import {Framework} from "../types";
 
 const defaultConsents: TCFv2ConsentList = {
 	'1': false,
@@ -21,6 +23,14 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		getCustomVendorConsents(),
 	]);
 
+	if (typeof tcData === 'undefined') {
+		const currentFramework: string = getCurrentFramework() ?? 'undefined';
+		const guGeolocation: string =
+			window.localStorage.getItem('gu.geolocation') ?? 'undefined';
+		throw new Error(
+			`No TC Data found with current framework: ${currentFramework} and location: ${guGeolocation}`,
+		);
+	}
 	const consents = {
 		...defaultConsents,
 		...tcData.purpose.consents,
