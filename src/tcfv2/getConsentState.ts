@@ -26,7 +26,7 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		const currentFramework: string = getCurrentFramework() ?? 'undefined';
 		const guGeolocation: string =
 			window.localStorage.getItem('gu.geolocation') ?? 'undefined';
-		throw new Error(
+		console.error(
 			`No TC Data found with current framework: ${currentFramework} and location: ${guGeolocation}`,
 		);
 	}
