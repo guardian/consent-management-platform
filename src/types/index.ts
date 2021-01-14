@@ -11,7 +11,7 @@ export type CMP = {
 	willShowPrivacyMessageSync: () => boolean;
 	hasInitialised: () => boolean;
 	showPrivacyManager: () => void;
-	version: typeof __PACKAGE_VERSION__;
+	version: string;
 	__isDisabled: () => boolean;
 	__disable: () => void;
 	__enable: () => void;
