@@ -22,7 +22,7 @@ export const sourcepointLibraryLoaded = new Promise<void>((resolve) => {
 // Sets the SP property and custom vendor list
 const properties = {
 	live: 'https://au.theguardian.com',
-	test: 'https://au.theguardian.com',
+	test: 'https://theguardian.eteve.net',
 };
 
 export const init = (pubData = {}): void => {

@@ -12,7 +12,7 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 // Sets the SP property and custom vendor list
 const properties = {
 	live: null, // whichever *.theguardian.com subdomain the page is served on
-	test: 'https://test.theguardian.com',
+	test: 'https://theguardian.eteve.net',
 };
 
 export const init = (pubData = {}): void => {

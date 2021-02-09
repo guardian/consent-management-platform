@@ -12,7 +12,7 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 // This selects the property/custom vendor list to choose on test domains
 const properties = {
 	live: null, // whichever *.theguardian.com subdomain the page is served on
-	test: 'https://test.theguardian.com',
+	test: 'https://theguardian.eteve.net',
 };
 
 export const init = (pubData = {}): void => {
@@ -56,12 +56,12 @@ export const init = (pubData = {}): void => {
 
 				onMessageChoiceSelect: (_, choiceTypeID) => {
 					if (
-						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
+						// https://documentation.sourcepoint.com/web-implementation/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/optional-callbacks-tcfv2#choice-type-id-descriptions
 						choiceTypeID === 11 ||
 						choiceTypeID === 13 ||
 						choiceTypeID === 15
 					) {
-						setTimeout(invokeCallbacks, 0);
+						setTimeout(invokeCallbacks, 100);
 					}
 				},
 			},
