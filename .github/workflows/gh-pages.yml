@@ -10,9 +10,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Use Node.js
-        shell: bash -l {0}
-        run: nvm install
+      - name: Setup node
+        uses: guardian/actions-setup-node
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
