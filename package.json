@@ -95,5 +95,6 @@
   },
   "peerDependencies": {
     "@guardian/libs": "^1.6.2"
-  }
+  },
+  "dependencies": {}
 }
