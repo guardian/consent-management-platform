@@ -47,7 +47,6 @@
     "@babel/preset-env": "7.12.1",
     "@babel/preset-typescript": "7.12.1",
     "@babel/runtime": "7.12.5",
-    "@cypress/skip-test": "2.5.0",
     "@guardian/eslint-config": "0.4.0",
     "@guardian/eslint-config-typescript": "0.4.1",
     "@guardian/libs": "^1.6.2",
@@ -96,5 +95,6 @@
   },
   "peerDependencies": {
     "@guardian/libs": "^1.6.2"
-  }
+  },
+  "dependencies": {}
 }
