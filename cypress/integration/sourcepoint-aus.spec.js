@@ -12,7 +12,6 @@ const personalisedAdvertisingIs = (boolean) => {
 		.should('contain', boolean.toString());
 };
 
-
 describe('Window', () => {
 	loadPage(url);
 	it('has the guCmpHotFix object', () => {
