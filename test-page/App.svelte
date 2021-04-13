@@ -275,6 +275,7 @@
 		{:else if consentState.aus}
 			<h2>aus.personalisedAdvertising</h2>
 			<span
+				data-personalised-advertising={consentState.aus.personalisedAdvertising}
 				class={consentState.aus.personalisedAdvertising ? 'yes' : 'no'}>{consentState.aus.personalisedAdvertising}</span>
 		{:else}
 			<h2>¯\_(ツ)_/¯</h2>
