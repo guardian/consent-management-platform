@@ -47,7 +47,7 @@ describe('Document', () => {
 
 describe('Interaction', () => {
 	loadPage(url);
-	const buttonTitle = 'Do not sell my personal information';
+	// const buttonTitle = 'Do not sell my personal information';
 
 	beforeEach(() => {
 		cy.setCookie('ccpaApplies', 'true');
