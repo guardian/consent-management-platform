@@ -31,7 +31,7 @@ describe('Document', () => {
 	loadPage(url);
 	// The banner/message iframe only appears in Australia (including VPN)
 	// TODO: check scenarios on Sourcepoint config
-	it.skip('should have the Sourcepoint iframe', () => {
+	it('should have the Sourcepoint iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
 
@@ -48,21 +48,15 @@ describe('Interaction', () => {
 	loadPage(url);
 	// const buttonTitle = 'Do not sell my personal information';
 
-	beforeEach(() => {
-		cy.setCookie('ccpaApplies', 'true');
-		Cypress.Cookies.preserveOnce(
-			'ccpaUUID',
-			'ccpaReject',
-			'ccpaConsentAll',
-			'consentStatus',
-		);
-	});
-
 	it('should have personalised advertising set to true by default', () => {
 		personalisedAdvertisingIs(true);
 	});
 
-	it.skip('Interaction with the banner to retract consent.');
+	it('Should click continue to dismiss the banner', () => {
+		cy.getIframeBody(iframeMessage)
+			.find(`button[title="Continue"]`)
+			.click();
+	});
 
 	it(`should be able to retract consent`, () => {
 		cy.get('[data-cy=pm]').click();
