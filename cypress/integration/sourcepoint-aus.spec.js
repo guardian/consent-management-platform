@@ -29,8 +29,7 @@ describe('Window', () => {
 
 describe('Document', () => {
 	loadPage(url);
-	// The banner/message iframe only appears in Australia (including VPN)
-	// TODO: check scenarios on Sourcepoint config
+
 	it('should have the Sourcepoint iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
@@ -46,7 +45,17 @@ describe('Document', () => {
 
 describe('Interaction', () => {
 	loadPage(url);
-	// const buttonTitle = 'Do not sell my personal information';
+
+	// Cookies need to be kept for consent to be passed from one test to the next
+	beforeEach(() => {
+		cy.setCookie('ccpaApplies', 'true');
+		Cypress.Cookies.preserveOnce(
+			'ccpaUUID',
+			'ccpaReject',
+			'ccpaConsentAll',
+			'consentStatus',
+		);
+	});
 
 	it('should have personalised advertising set to true by default', () => {
 		personalisedAdvertisingIs(true);
@@ -72,7 +81,6 @@ describe('Interaction', () => {
 			.should('be.visible')
 			.click();
 
-		// ccpaRejectCookieIs(true);
-		personalisedAdvertisingIs(true);
+		personalisedAdvertisingIs(false);
 	});
 });
