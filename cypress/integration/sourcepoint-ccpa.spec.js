@@ -72,8 +72,6 @@ describe('Interaction', () => {
 		doNotSellIs(false);
 	});
 
-	// TODO: fix this bug!
-	// currently `onConsentChange` is not called when clicking the button
 	it(`should retract consent when clicking "${buttonTitle}"`, () => {
 		cy.getIframeBody(iframeMessage)
 			.find(`button[title="${buttonTitle}"]`)
@@ -83,8 +81,6 @@ describe('Interaction', () => {
 		doNotSellIs(true);
 	});
 
-	// TODO: clicking "save and exit" does not actually save,
-	// but does dismiss the PM
 	it(`should be able to retract consent`, () => {
 		cy.get('[data-cy=pm]').click();
 
