@@ -9989,10 +9989,10 @@ supports-hyperlinks@^2.0.0, supports-hyperlinks@^2.1.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelte@3.29.6:
-  version "3.29.6"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.29.6.tgz#0a9e378c7896cdb0cbd617e793e60543ffc26354"
-  integrity sha512-VIQMHPPEg/d4BQTy+WX1hHi/0EzjwjgjBK+DF0kLFy5hBsDKHQemd7xrCO1Spz57sT0xUb/YgRwFoozQrK0cmQ==
+svelte@3.38.1:
+  version "3.38.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.38.1.tgz#5d856a9d643f56a8d3e281f6dd8b4f8962155ca5"
+  integrity sha512-N3XLAyfzqrFxwRLevBeW7Dke9ZlHRVGSIed5abo4Drvj+zvd2OyWpFa1x4nQUc8Lnvt4Kcn8/5le1peRDybNqg==
 
 symbol-observable@^1.1.0:
   version "1.2.0"
