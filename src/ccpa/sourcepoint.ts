@@ -46,6 +46,9 @@ export const init = (pubData = {}): void => {
 			events: {
 				onConsentReady: () => {
 					mark('cmp-ccpa-got-consent');
+
+					// onConsentReady is triggered before SP update the consent settings :(
+					setTimeout(invokeCallbacks, 0);
 				},
 
 				onMessageReady: () => {

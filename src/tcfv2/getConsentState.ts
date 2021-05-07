@@ -1,3 +1,4 @@
+import { getCurrentFramework } from '../getCurrentFramework';
 import type { TCFv2ConsentList, TCFv2ConsentState } from '../types/tcfv2';
 import { getCustomVendorConsents, getTCData } from './api';
 
@@ -21,6 +22,12 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 		getCustomVendorConsents(),
 	]);
 
+	if (typeof tcData === 'undefined') {
+		const currentFramework: string = getCurrentFramework() ?? 'undefined';
+		throw new Error(
+			`No TC Data found with current framework: ${currentFramework}`,
+		);
+	}
 	const consents = {
 		...defaultConsents,
 		...tcData.purpose.consents,
