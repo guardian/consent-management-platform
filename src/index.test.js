@@ -85,9 +85,7 @@ describe('hotfix cmp.init', () => {
 
 		cmp.init({ country: 'GB' });
 
-		expect(
-			global.console.warn,
-		).toHaveBeenCalledWith(
+		expect(global.console.warn).toHaveBeenCalledWith(
 			'Two different versions of the CMP are running:',
 			[currentVersion, mockedVersion],
 		);
