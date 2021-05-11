@@ -23,6 +23,7 @@ export default {
 		typescript(),
 		resolve(),
 		replace({
+			preventAssignment: true,
 			'process.env.NODE_ENV': JSON.stringify('production'),
 			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),

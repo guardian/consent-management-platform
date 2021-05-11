@@ -130,5 +130,7 @@ export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
 	__disable: disable,
 });
 
-export const onConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
-export const getConsentFor = (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);
+export const onConsentChange = (window.guCmpHotFix.onConsentChange ||=
+	actualOnConsentChange);
+export const getConsentFor = (window.guCmpHotFix.getConsentFor ||=
+	actualGetConsentFor);
