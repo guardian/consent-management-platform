@@ -14,24 +14,24 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.hasInitialised()`](#cmphasinitialised)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.hasInitialised()`](#cmphasinitialised)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -91,7 +91,7 @@ Optional value identifying the unique pageview associated with this instance of 
 
 Will be used to link back to a `browserId` for further reporting; if possible this should be available via the pageview table.
 
-#### ~~`options.isInUsa`~~ 
+#### ~~`options.isInUsa`~~
 
 **DEPRECATED**
 
@@ -247,7 +247,7 @@ If the user is not in the USA, it will be `undefined`.
 
 type: `Object` or `undefined`
 
-Reports whether user has withdrawn consent to personalised adversising
+Reports whether user has withdrawn consent to personalised advertising
 in Australia.
 
 If the user is not in Australia, it will be `undefined`.
