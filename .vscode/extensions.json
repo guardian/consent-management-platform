@@ -4,6 +4,7 @@
     "wix.vscode-import-cost",
     "orta.vscode-jest",
     "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker",
     "dbaeumer.vscode-eslint"
   ]
 }
