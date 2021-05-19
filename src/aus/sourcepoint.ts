@@ -9,8 +9,8 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-// the 'getCustomVendorRejects' option of SP's implementation of __uspapi
-// is a custom extension. It hits SP's servers, but unlike the rest of the
+// the 'getCustomVendorRejects' option of SP’s implementation of __uspapi
+// is a custom extension. It hits SP’s servers, but unlike the rest of the
 // __uspapi, it doesn't implement a queue.
 // the only way we can be sure it has become available is to wait for a
 // SP event to fire, so we resolve this when we know it has loaded

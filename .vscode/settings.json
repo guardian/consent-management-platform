@@ -9,5 +9,29 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": [
+	"SP’s",
+	"acast",
+	"ccpa",
+	"cmpuishown",
+	"comscore",
+	"googletag",
+	"inizio",
+	"ipsos",
+	"lotame",
+	"ophan",
+	"permutive",
+	"redplanet",
+	"remarketing",
+	"sourcepoint",
+	"tcfapi",
+	"tcfv",
+	"tcloaded",
+	"teads",
+	"theguardian",
+	"useractioncomplete",
+	"uspapi",
+	"youtube"
+]
 }
