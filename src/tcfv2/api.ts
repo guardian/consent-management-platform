@@ -1,5 +1,8 @@
 import type { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
 import type { TCData } from '../types/tcfv2/TCData';
+import { mark } from '../lib/mark';
+import { invokeCallbacks } from '../onConsentChange';
+import { log } from '@guardian/libs';
 
 type Command =
 	| 'getTCData'
@@ -27,3 +30,29 @@ export const getTCData = (): Promise<TCData> =>
 
 export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
 	api('getCustomVendorConsents') as Promise<CustomVendorConsents>;
+
+export const tcfApiEventListener = (): void => {
+	// https://documentation.sourcepoint.com/api/gdpr-tcf-v2-api/the-__tcfapi-gettcdata-api-overview/using-__tcfapi-addeventlistener-and-removeeventlistener-commands
+	if (window.__tcfapi) {
+		window.__tcfapi('addEventListener', 2, (result, success) => {
+			const { eventStatus } = result;
+			log('cmp', 'Tcf api event:', eventStatus);
+
+			if (!success) {
+				log('cmp', 'Tcf api addEventListener failed:');
+			}
+
+			switch (eventStatus) {
+				case 'tcloaded':
+					mark('cmp-tcfv2-got-consent');
+					// setTimeout(invokeCallbacks, 0);
+					invokeCallbacks();
+					break;
+				case 'useractioncomplete':
+					break;
+			}
+		});
+	} else {
+		console.warn('No __tcfapi found on window');
+	}
+};
