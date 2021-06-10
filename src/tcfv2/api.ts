@@ -9,9 +9,9 @@ type Command =
 	| 'ping'
 	| 'addEventListener'
 	| 'removeEventListener'
-	| 'getCustomVendorConsents'; // sourecepoint addition https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
+	| 'getCustomVendorConsents'; // Sourcepoint addition https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
 
-const api = (command: Command) =>
+const api = (command: Command): Promise<TCData> =>
 	new Promise((resolve, reject) => {
 		if (window.__tcfapi) {
 			window.__tcfapi(command, 2, (result, success) =>
@@ -25,11 +25,10 @@ const api = (command: Command) =>
 		}
 	});
 
-export const getTCData = (): Promise<TCData> =>
-	api('getTCData') as Promise<TCData>;
+export const getTCData = (): Promise<TCData> => api('getTCData');
 
 export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
-	api('getCustomVendorConsents') as Promise<CustomVendorConsents>;
+	api('getCustomVendorConsents') as unknown as Promise<CustomVendorConsents>;
 
 export const tcfApiEventListener = (): void => {
 	// https://documentation.sourcepoint.com/api/gdpr-tcf-v2-api/the-__tcfapi-gettcdata-api-overview/using-__tcfapi-addeventlistener-and-removeeventlistener-commands
