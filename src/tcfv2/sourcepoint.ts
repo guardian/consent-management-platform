@@ -2,6 +2,7 @@ import { mark } from '../lib/mark';
 import { getProperty } from '../lib/property';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
+import { tcfApiEventListener } from './api';
 import { stub } from './stub';
 
 let resolveWillShowPrivacyMessage: typeof Promise.resolve;
@@ -28,6 +29,7 @@ export const init = (pubData = {}): void => {
 
 	// invoke callbacks before we receive Sourcepoint events
 	invokeCallbacks();
+	tcfApiEventListener();
 
 	/* istanbul ignore next */
 	window._sp_ = {
@@ -42,13 +44,6 @@ export const init = (pubData = {}): void => {
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
-				onConsentReady: () => {
-					mark('cmp-tcfv2-got-consent');
-
-					// onConsentReady is triggered before SP update the consent settings :(
-					setTimeout(invokeCallbacks, 0);
-				},
-
 				onMessageReady: () => {
 					mark('cmp-tcfv2-ui-displayed');
 				},
