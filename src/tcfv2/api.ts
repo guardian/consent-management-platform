@@ -43,7 +43,7 @@ export const tcfApiEventListener = (): void => {
 
 			switch (eventStatus) {
 				case 'tcloaded':
-					mark('cmp-tcfv2-tc-loaded');
+					mark('cmp-tcfv2-got-consent');
 					invokeCallbacks();
 					break;
 				case 'useractioncomplete':
