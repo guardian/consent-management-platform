@@ -1,8 +1,8 @@
-import type { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
-import type { TCData } from '../types/tcfv2/TCData';
+import { log } from '@guardian/libs';
 import { mark } from '../lib/mark';
 import { invokeCallbacks } from '../onConsentChange';
-import { log } from '@guardian/libs';
+import type { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
+import type { TCData } from '../types/tcfv2/TCData';
 
 type Command =
 	| 'getTCData'
