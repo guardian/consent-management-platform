@@ -43,10 +43,12 @@ export const tcfApiEventListener = (): void => {
 
 			switch (eventStatus) {
 				case 'tcloaded':
+					// This is the event status when a TC String is available to any calling scripts on the page.
 					mark('cmp-tcfv2-got-consent');
 					invokeCallbacks();
 					break;
 				case 'useractioncomplete':
+					// This is the event status whenever a user has confirmed or re-confirmed their choices.
 					mark('cmp-tcfv2-user-action-complete');
 					invokeCallbacks();
 					break;
