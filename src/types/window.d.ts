@@ -48,10 +48,10 @@ declare global {
 					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
-			gdpr: {
+			gdpr?: {
 				loadPrivacyManagerModal?: (id: number) => void;
 			};
-			ccpa: {
+			ccpa?: {
 				loadPrivacyManagerModal?: (id: string) => void;
 			};
 		};

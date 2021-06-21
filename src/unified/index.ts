@@ -21,6 +21,7 @@ import {
 } from './sourcepoint';
 
 const init = (framework: Framework, pubData?: PubData): void => {
+	// TODO rename?
 	mark('cmp-init');
 	initSourcepoint(framework, pubData);
 };
@@ -31,13 +32,13 @@ const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
 function showPrivacyManager(): void {
 	switch (getCurrentFramework()) {
 		case 'tcfv2':
-			window._sp_?.gdpr.loadPrivacyManagerModal?.(PRIVACY_MANAGER_TCFV2);
+			window._sp_?.gdpr?.loadPrivacyManagerModal?.(PRIVACY_MANAGER_TCFV2);
 			break;
 		case 'ccpa':
-			window._sp_?.ccpa.loadPrivacyManagerModal?.(PRIVACY_MANAGER_CCPA);
+			window._sp_?.ccpa?.loadPrivacyManagerModal?.(PRIVACY_MANAGER_CCPA);
 			break;
 		case 'aus':
-			window._sp_?.ccpa.loadPrivacyManagerModal?.(
+			window._sp_?.ccpa?.loadPrivacyManagerModal?.(
 				PRIVACY_MANAGER_AUSTRALIA,
 			);
 			break;

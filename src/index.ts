@@ -4,14 +4,13 @@ import { getConsentFor as actualGetConsentFor } from './getConsentFor';
 import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
-import { TCFv2 } from './tcfv2';
 import type {
 	CMP,
 	InitCMP,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
-import { UnifiedCMP } from './unified';
+import { UnifiedCMP } from './unified/index';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -63,20 +62,6 @@ const init: InitCMP = ({
 	}
 
 	const framework = getFramework(country);
-
-	// switch (framework) {
-	// 	case 'ccpa':
-	// 		frameworkCMP = CCPA;
-	// 		break;
-	// 	case 'aus':
-	// 		frameworkCMP = AUS;
-	// 		break;
-	// 	case 'tcfv2':
-	// 	default:
-	// 		// default is also 'tcfv2'
-	// 		frameworkCMP = TCFv2;
-	// 		break;
-	// }
 
 	setCurrentFramework(framework);
 
