@@ -38,6 +38,11 @@ export interface SourcepointImplementation {
 	willShowPrivacyMessage: WillShowPrivacyMessage;
 	showPrivacyManager: () => void;
 }
+export interface UnifiedSourcepointImplementation {
+	init: (framework: Framework, pubData?: PubData) => void;
+	willShowPrivacyMessage: WillShowPrivacyMessage;
+	showPrivacyManager: () => void;
+}
 export type WillShowPrivacyMessage = () => Promise<boolean>;
 
 export type Callback = (arg0: ConsentState) => void;

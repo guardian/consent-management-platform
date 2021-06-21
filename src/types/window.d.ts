@@ -22,37 +22,21 @@ declare global {
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
-		// sourcepoint's libraries - only one should be present at a time
-		_sp_ccpa?: {
-			config: {
-				baseEndpoint: EndPoint;
-				accountId: number;
-				getDnsMsgMms: boolean;
-				alwaysDisplayDns: boolean;
-				siteHref: Property;
-				targetingParams: {
-					framework: 'ccpa' | 'aus';
-				};
-				pubData: PubData;
-				events?: {
-					onConsentReady: () => void;
-					onMessageReady: () => void;
-					onMessageReceiveData: (data: {
-						msg_id: 0 | string;
-					}) => void;
-					onMessageChoiceSelect: OnMessageChoiceSelect;
-				};
-			};
-			loadPrivacyManagerModal?: (unknown: unknown, id: string) => void; // this function is undocumented
-		};
 		_sp_?: {
 			config: {
 				baseEndpoint: EndPoint;
 				accountId: number;
 				propertyHref: Property;
 				propertyId?: string;
-				targetingParams: {
-					framework: 'tcfv2';
+				ccpa: {
+					targetingParams: {
+						framework: string;
+					};
+				};
+				gdpr: {
+					targetingParams: {
+						framework: string;
+					};
 				};
 				pubData: PubData;
 				events?: {
@@ -64,7 +48,12 @@ declare global {
 					onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
-			loadPrivacyManagerModal?: (id: number) => void;
+			gdpr: {
+				loadPrivacyManagerModal?: (id: number) => void;
+			};
+			ccpa: {
+				loadPrivacyManagerModal?: (id: string) => void;
+			};
 		};
 
 		// IAB interfaces - only one should be present at a time
