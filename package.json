@@ -94,6 +94,6 @@
     "wait-for-expect": "^3"
   },
   "dependencies": {
-    "@guardian/libs": "^1"
+    "@guardian/libs": "^2"
   }
 }
