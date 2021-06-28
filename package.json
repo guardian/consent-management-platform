@@ -61,7 +61,7 @@
     "@types/jest": "^26",
     "@typescript-eslint/eslint-plugin": "^4",
     "@typescript-eslint/parser": "^4",
-    "cypress": "^5",
+    "cypress": "^7",
     "cypress-wait-until": "^1",
     "eslint": "^7",
     "eslint-config-airbnb-typescript": "^12",
