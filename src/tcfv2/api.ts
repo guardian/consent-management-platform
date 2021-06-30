@@ -55,6 +55,6 @@ export const tcfApiEventListener = (): void => {
 			}
 		});
 	} else {
-		console.warn('No __tcfapi found on window');
+		throw new Error('No __tcfapi found on window');
 	}
 };
