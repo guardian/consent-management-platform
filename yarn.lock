@@ -1009,10 +1009,10 @@
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-0.5.0.tgz#ece14ec90b372932c7bf01992fc6d8ce58f7f26e"
   integrity sha512-THJn0wg7i9YjSVM9ofobsJgS+WH9ybrZH1+0CXLAebp0T53RGtgZUkek82mDg1h3DidsM+f7HSZqoQyrCbPzPw==
 
-"@guardian/libs@^1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-1.8.1.tgz#22bccd66be7c5bf70cd5bbb1bf7700d94610ccb7"
-  integrity sha512-Q/JPLhNeYa5XhDPJhw/1+fbZmszopvovWW8I7dGEuFPGWeNUmXAbW8J3kzuonDu7l9/tuFZg8jljbKHZlrFx0A==
+"@guardian/libs@^2":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-2.4.0.tgz#44d19ea4ce5e39bfe8ce5c4d5b60f0cfd6fb8864"
+  integrity sha512-6C5BQm8fWrmcUOdydhO2X5vSy2nH92SMpT+wrV0aJr/7JNAEzJ45Bwc9LQ5J5OiQbekWx3i5BKd9ashk7dW+xw==
 
 "@guardian/prettier@^0.5.0":
   version "0.5.0"

@@ -49,6 +49,7 @@
     "@babel/runtime": "^7",
     "@guardian/eslint-config": "^0.5.0",
     "@guardian/eslint-config-typescript": "^0.5.0",
+    "@guardian/libs": "^2",
     "@guardian/prettier": "^0.5.0",
     "@rollup/plugin-babel": "^5",
     "@rollup/plugin-commonjs": "^19",
@@ -93,7 +94,7 @@
     "typescript": "^4",
     "wait-for-expect": "^3"
   },
-  "dependencies": {
-    "@guardian/libs": "^1"
+  "peerDependencies": {
+    "@guardian/libs": "^2"
   }
 }

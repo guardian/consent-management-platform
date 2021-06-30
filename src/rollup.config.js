@@ -38,4 +38,5 @@ export default {
 	watch: {
 		clearScreen: false,
 	},
+	external: ['@guardian/libs'],
 };
