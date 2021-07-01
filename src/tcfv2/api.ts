@@ -31,7 +31,7 @@ export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
 	api('getCustomVendorConsents') as unknown as Promise<CustomVendorConsents>;
 
 export const tcfApiEventListener = (): void => {
-	// https://documentation.sourcepoint.com/api/gdpr-tcf-v2-api/the-__tcfapi-gettcdata-api-overview/using-__tcfapi-addeventlistener-and-removeeventlistener-commands
+	// https://documentation.sourcepoint.com/api/gdpr-tcf-v2-api/iab-__tcfapi-function
 	if (window.__tcfapi) {
 		window.__tcfapi('addEventListener', 2, (result, success) => {
 			const { eventStatus } = result;
