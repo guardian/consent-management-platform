@@ -28,6 +28,7 @@ beforeEach(() => {
 	window.guCmpHotFix.initialised = false;
 	TCFv2.init.mockClear();
 	CCPA.init.mockClear();
+	AUS.init.mockClear();
 });
 
 describe('cmp.init', () => {
@@ -36,9 +37,11 @@ describe('cmp.init', () => {
 
 		cmp.init({ country: 'GB' });
 		cmp.init({ country: 'US' });
+		cmp.init({ country: 'AU' });
 
 		expect(TCFv2.init).not.toHaveBeenCalled();
 		expect(CCPA.init).not.toHaveBeenCalled();
+		expect(AUS.init).not.toHaveBeenCalled();
 
 		enable();
 	});
@@ -54,7 +57,7 @@ describe('cmp.init', () => {
 		expect(CCPA.init).toHaveBeenCalledTimes(1);
 	});
 
-	it('initializes CCPA when in Australia', () => {
+	it('initializes AUS when in Australia', () => {
 		cmp.init({ country: 'AU' });
 		expect(AUS.init).toHaveBeenCalledTimes(1);
 	});
