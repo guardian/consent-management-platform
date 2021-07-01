@@ -30,7 +30,7 @@ export const getTCData = (): Promise<TCData> => api('getTCData');
 export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
 	api('getCustomVendorConsents') as unknown as Promise<CustomVendorConsents>;
 
-export const tcfApiEventListener = (): void => {
+export const tcfApiEventListener = (callback: () => void): void => {
 	// https://documentation.sourcepoint.com/api/gdpr-tcf-v2-api/iab-__tcfapi-function
 	if (window.__tcfapi) {
 		window.__tcfapi('addEventListener', 2, (result, success) => {
@@ -45,12 +45,12 @@ export const tcfApiEventListener = (): void => {
 				case 'tcloaded':
 					// This is the event status when a TC String is available to any calling scripts on the page.
 					mark('cmp-tcfv2-got-consent');
-					invokeCallbacks();
+					callback();
 					break;
 				case 'useractioncomplete':
 					// This is the event status whenever a user has confirmed or re-confirmed their choices.
 					mark('cmp-tcfv2-user-action-complete');
-					invokeCallbacks();
+					callback();
 					break;
 			}
 		});
