@@ -1,9 +1,14 @@
 import http from 'http';
 import url from 'url';
+import { setCurrentFramework } from '../getCurrentFramework';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { init } from './sourcepoint';
 
 describe('Sourcepoint TCF', () => {
+	beforeEach(() => {
+		setCurrentFramework('tcfv2');
+	});
+
 	afterEach(() => {
 		window._sp_ = undefined;
 	});
