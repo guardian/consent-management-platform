@@ -80,7 +80,6 @@ describe('under AUS', () => {
 			if (command === 'getUSPData') callback(ausData, true);
 		});
 
-		// needed to distinguish from US
 		setCurrentFramework('aus');
 	});
 
@@ -138,6 +137,8 @@ describe('under TCFv2', () => {
 			if (command === 'getCustomVendorConsents')
 				callback(customVendorConsents, true);
 		});
+
+		setCurrentFramework('tcfv2');
 	});
 
 	it('invokes callbacks correctly', async () => {

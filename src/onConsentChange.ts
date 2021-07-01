@@ -26,7 +26,7 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 		case 'tcfv2':
 			return { tcfv2: await getTCFv2ConsentState() };
 		default:
-			throw new Error('could not get IAB consent framework');
+			throw new Error('no IAB consent framework found on the page');
 	}
 };
 
