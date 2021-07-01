@@ -28,8 +28,10 @@ export const init = (pubData = {}): void => {
 	}
 
 	// invoke callbacks before we receive Sourcepoint events
-	invokeCallbacks();
-	tcfApiEventListener();
+	setTimeout(() => {
+		invokeCallbacks();
+		tcfApiEventListener();
+	}, 100);
 
 	/* istanbul ignore next */
 	window._sp_ = {
