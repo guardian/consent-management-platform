@@ -1,6 +1,5 @@
 import { log } from '@guardian/libs';
 import { mark } from '../lib/mark';
-import { invokeCallbacks } from '../onConsentChange';
 import type { CustomVendorConsents } from '../types/tcfv2/CustomVendorConsents';
 import type { TCData } from '../types/tcfv2/TCData';
 
