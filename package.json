@@ -72,7 +72,7 @@
     "eslint-plugin-jest": "^24",
     "eslint-plugin-prettier": "^3",
     "eslint-plugin-svelte3": "^3",
-    "husky": "^4",
+    "husky": "^7",
     "jest": "^26",
     "locate-character": "^2",
     "markdown-toc": "^1",
