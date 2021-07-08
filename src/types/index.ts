@@ -33,11 +33,6 @@ export interface PubData {
 	pageViewId?: string;
 	[propName: string]: unknown;
 }
-export interface SourcepointImplementation {
-	init: (pubData?: PubData) => void;
-	willShowPrivacyMessage: WillShowPrivacyMessage;
-	showPrivacyManager: () => void;
-}
 export interface UnifiedSourcepointImplementation {
 	init: (framework: Framework, pubData?: PubData) => void;
 	willShowPrivacyMessage: WillShowPrivacyMessage;

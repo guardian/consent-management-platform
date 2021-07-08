@@ -7,7 +7,6 @@ import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import type {
 	CMP,
 	InitCMP,
-	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
 import { UnifiedCMP } from './unified/index';
@@ -15,8 +14,6 @@ import { UnifiedCMP } from './unified/index';
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
-
-let frameworkCMP: SourcepointImplementation | undefined;
 
 let _willShowPrivacyMessage: undefined | boolean;
 let initComplete = false;
@@ -77,7 +74,7 @@ const init: InitCMP = ({
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => frameworkCMP?.willShowPrivacyMessage() ?? false);
+	initialised.then(() => UnifiedCMP.willShowPrivacyMessage() ?? false);
 
 const willShowPrivacyMessageSync = () => {
 	if (_willShowPrivacyMessage !== undefined) {
@@ -91,13 +88,7 @@ const willShowPrivacyMessageSync = () => {
 const hasInitialised = () => initComplete;
 
 const showPrivacyManager = () => {
-	/* istanbul ignore if */
-	if (!frameworkCMP) {
-		console.warn(
-			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
-		);
-	}
-	void initialised.then(frameworkCMP?.showPrivacyManager);
+	void initialised.then(UnifiedCMP.showPrivacyManager);
 };
 
 export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
