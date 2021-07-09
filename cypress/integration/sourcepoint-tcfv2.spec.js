@@ -30,7 +30,7 @@ describe('Document', () => {
 		cy.get('script#sourcepoint-tcfv2-lib').should(
 			'have.attr',
 			'src',
-			ENDPOINT + '/wrapperMessagingWithoutDetection.js',
+			ENDPOINT + '/unified/wrapperMessagingWithoutDetection.js',
 		);
 	});
 });

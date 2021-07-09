@@ -19,7 +19,7 @@ describe('Window', () => {
 	});
 	it('has correct config params', () => {
 		cy.window()
-			.its('_sp_ccpa.config')
+			.its('_sp_.config')
 			.then((spConfig) => {
 				expect(spConfig.accountId).equal(ACCOUNT_ID);
 				expect(spConfig.baseEndpoint).equal(ENDPOINT);

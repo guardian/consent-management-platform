@@ -11,7 +11,6 @@ const CMP = {
 
 beforeEach(() => {
 	window._sp_ = undefined;
-	window._sp_ccpa = undefined;
 	window.guCmpHotFix.initialised = false;
 	CMP.init.mockClear();
 	CMP.init.mockClear();
