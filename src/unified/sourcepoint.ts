@@ -57,7 +57,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
 				},
-
 				onMessageReady: () => {
 					//  TODO rename
 					mark('cmp-tcfv2-ui-displayed');

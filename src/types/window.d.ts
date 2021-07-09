@@ -40,7 +40,6 @@ declare global {
 				};
 				pubData: PubData;
 				events?: {
-					onConsentReady: () => void;
 					onMessageReady: () => void;
 					onMessageReceiveData: (data: {
 						messageId: 0 | string;
