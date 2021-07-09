@@ -4,11 +4,7 @@ import { getConsentFor as actualGetConsentFor } from './getConsentFor';
 import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
-import type {
-	CMP,
-	InitCMP,
-	WillShowPrivacyMessage,
-} from './types';
+import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { UnifiedCMP } from './unified/index';
 
 // Store some bits in the global scope for reuse, in case there's more
@@ -74,7 +70,7 @@ const init: InitCMP = ({
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => UnifiedCMP.willShowPrivacyMessage() ?? false);
+	initialised.then(() => UnifiedCMP.willShowPrivacyMessage());
 
 const willShowPrivacyMessageSync = () => {
 	if (_willShowPrivacyMessage !== undefined) {

@@ -1,8 +1,8 @@
 import waitForExpect from 'wait-for-expect';
 import { disable, enable } from './disable';
 import { getCurrentFramework } from './getCurrentFramework';
-import { cmp } from '.';
 import { UnifiedCMP as actualCMP } from './unified';
+import { cmp } from '.';
 
 const CMP = {
 	init: jest.spyOn(actualCMP, 'init'),

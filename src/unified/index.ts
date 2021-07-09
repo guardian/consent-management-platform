@@ -1,14 +1,10 @@
 import { getCurrentFramework } from '../getCurrentFramework';
 import { mark } from '../lib/mark';
-import { getProperty } from '../lib/property';
 import {
-	ACCOUNT_ID,
-	ENDPOINT,
 	PRIVACY_MANAGER_AUSTRALIA,
 	PRIVACY_MANAGER_CCPA,
 	PRIVACY_MANAGER_TCFV2,
 } from '../lib/sourcepointConfig';
-import { invokeCallbacks } from '../onConsentChange';
 import type {
 	Framework,
 	PubData,
