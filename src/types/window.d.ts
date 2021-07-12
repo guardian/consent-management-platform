@@ -21,7 +21,7 @@ declare global {
 			getConsentFor?: typeof getConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
-
+		_sp_queue: []
 		_sp_?: {
 			config: {
 				baseEndpoint: EndPoint;
@@ -40,6 +40,7 @@ declare global {
 				};
 				pubData: PubData;
 				events?: {
+					onConsentReady: () => void;
 					onMessageReady: () => void;
 					onMessageReceiveData: (data: {
 						messageId: 0 | string;

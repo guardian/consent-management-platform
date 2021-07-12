@@ -38,12 +38,12 @@ export const init = (framework: Framework, pubData = {}): void => {
 			propertyHref: getProperty(properties),
 			ccpa: {
 				targetingParams: {
-					framework: 'ccpa',
+					"framework": 'ccpa',
 				},
 			},
 			gdpr: {
 				targetingParams: {
-					framework: 'tcfv2',
+					"framework": 'tcfv2',
 				},
 			},
 
