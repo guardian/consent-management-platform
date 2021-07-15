@@ -4,7 +4,7 @@ import type { EndPoint } from '../lib/sourcepointConfig';
 import type { onConsentChange } from '../onConsentChange';
 import type { CCPAData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
-import type { CMP, PubData } from '.';
+import type { CMP, Framework, PubData } from '.';
 
 type OnMessageChoiceSelect = (
 	arg0: number,
@@ -29,16 +29,16 @@ declare global {
 				propertyHref: Property;
 				propertyId?: string;
 				targetingParams: {
-					framework: string;
+					framework: Framework;
 				};
-				ccpa?: {
+				ccpa: {
 					targetingParams?: {
-						framework: string;
+						framework: Framework;
 					};
 				};
 				gdpr: {
 					targetingParams?: {
-						framework: string;
+						framework: Framework;
 					};
 				};
 				pubData: PubData;

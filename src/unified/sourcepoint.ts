@@ -30,9 +30,11 @@ export const init = (framework: Framework, pubData = {}): void => {
 	// invoke callbacks before we receive Sourcepoint events
 	invokeCallbacks();
 
-	/* istanbul ignore next */
+	let targetingParamFramework: Framework = framework == 'tcfv2' ? framework : 'ccpa'
 	console.log("framework: ", framework)
+	console.log("targetingParamFramework: ", targetingParamFramework)
 	window._sp_queue = [];
+	/* istanbul ignore next */
 	window._sp_ = {
 		config: {
 			baseEndpoint: ENDPOINT,
@@ -40,18 +42,10 @@ export const init = (framework: Framework, pubData = {}): void => {
 			// propertyHref: getProperty(properties),
 			propertyHref:'https://ui-dev',
 			targetingParams: {
-				"framework": framework,
+				"framework": targetingParamFramework,
 			},
-			ccpa: {
-				targetingParams: {
-					"framework": 'ccpa',
-				},
-			},
-			gdpr: {
-				targetingParams: {
-					"framework": 'tcfv2',
-				},
-			},
+			ccpa: {},
+			gdpr: {},
 
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
@@ -118,6 +112,12 @@ export const init = (framework: Framework, pubData = {}): void => {
 			},
 		},
 	};
+
+	if (framework === 'tcfv2') {
+		window._sp_.config.gdpr.targetingParams = { framework: targetingParamFramework };
+	} else {
+		window._sp_.config.ccpa.targetingParams = { framework: targetingParamFramework };
+	}
 
 	const spLib = document.createElement('script');
 	spLib.id = 'sourcepoint-lib';
