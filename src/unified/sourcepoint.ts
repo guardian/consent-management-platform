@@ -31,11 +31,17 @@ export const init = (framework: Framework, pubData = {}): void => {
 	invokeCallbacks();
 
 	/* istanbul ignore next */
+	console.log("framework: ", framework)
+	window._sp_queue = [];
 	window._sp_ = {
 		config: {
 			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
-			propertyHref: getProperty(properties),
+			// propertyHref: getProperty(properties),
+			propertyHref:'https://ui-dev',
+			targetingParams: {
+				"framework": framework,
+			},
 			ccpa: {
 				targetingParams: {
 					"framework": 'ccpa',
