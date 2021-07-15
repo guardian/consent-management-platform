@@ -27,7 +27,7 @@ describe('Document', () => {
 	});
 
 	it('should have the correct script URL', () => {
-		cy.get('script#sourcepoint-tcfv2-lib').should(
+		cy.get('script#sourcepoint-lib').should(
 			'have.attr',
 			'src',
 			ENDPOINT + '/unified/wrapperMessagingWithoutDetection.js',

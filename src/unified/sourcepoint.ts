@@ -50,23 +50,36 @@ export const init = (framework: Framework, pubData = {}): void => {
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
-				onConsentReady: () => {
+				onConsentReady: (message_type, consentUUID, euconsent) => {
+					console.log('onConsentReady', message_type);
+					console.log('consentUUID', consentUUID)
+					console.log('euconsent', euconsent)
+
 					//  TODO rename
 					mark('cmp-tcfv2-got-consent');
 
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
 				},
-				onMessageReady: () => {
+				onMessageReady: (message_type) => {
+					// Event fires when a message is about to display.
 					//  TODO rename
 					mark('cmp-tcfv2-ui-displayed');
+					console.log('onMessageReady', message_type)
 				},
 
-				onMessageReceiveData: (data) => {
+				onMessageReceiveData: (message_type, data) => {
+					// Event fires when a message is displayed to the user and sends data about the message and campaign to the callback.
+					// The data sent to the callback is in the following structure:
+					console.log('onMessageReceiveData', message_type);
+					console.log('onMessageReceiveData', data)
 					void resolveWillShowPrivacyMessage(data.messageId !== 0);
 				},
 
-				onMessageChoiceSelect: (_, choiceTypeID) => {
+				onMessageChoiceSelect: (message_type, choice_id, choiceTypeID) => {
+					console.log('onMessageChoiceSelect message_type: ', message_type);
+					console.log('onMessageChoiceSelect choice_id: ', choice_id);
+					console.log('onMessageChoiceSelect choice_type_id: ', choiceTypeID);
 					if (
 						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
 						choiceTypeID === 11 ||
@@ -75,6 +88,26 @@ export const init = (framework: Framework, pubData = {}): void => {
 					) {
 						setTimeout(invokeCallbacks, 0);
 					}
+				},
+				onPrivacyManagerAction: function (message_type, pmData) {
+					console.log('onPrivacyManagerAction message_type:', message_type);
+					console.log('onPrivacyManagerAction', pmData)
+				},
+				onMessageChoiceError: function (message_type, err) {
+					console.log('onMessageChoiceError', message_type);
+					console.log('onMessageChoiceError', err)
+				},
+				onPMCancel: function (message_type) {
+					console.log('onPMCancel', message_type)
+				},
+				onSPPMObjectReady: function () {
+					 console.log('onSPPMObjectReady')
+				},
+				onError: function (message_type, errorCode, errorObject, userReset){
+					console.log('errorCode: ', message_type);
+					console.log('errorCode: ' + errorCode);
+					console.log(errorObject);
+					console.log('userReset: ' + userReset);
 				},
 			},
 		},

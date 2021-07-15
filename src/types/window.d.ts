@@ -28,24 +28,33 @@ declare global {
 				accountId: number;
 				propertyHref: Property;
 				propertyId?: string;
-				ccpa: {
-					targetingParams: {
+				targetingParams: {
+					framework: string;
+				};
+				ccpa?: {
+					targetingParams?: {
 						framework: string;
 					};
 				};
 				gdpr: {
-					targetingParams: {
+					targetingParams?: {
 						framework: string;
 					};
 				};
 				pubData: PubData;
 				events?: {
-					onConsentReady: () => void;
-					onMessageReady: () => void;
-					onMessageReceiveData: (data: {
+					onMessageReceiveData: (message_type: any, data: {
 						messageId: 0 | string;
 					}) => void;
-					onMessageChoiceSelect: OnMessageChoiceSelect;
+					onConsentReady: (message_type: any, consentUUID: any, euconsent: any) => void;
+					onMessageReady: (message_type: any) => void;
+					onMessageChoiceSelect: (message_type: any, choice_id: any, choiceTypeID: any) => void;
+					onPrivacyManagerAction: (message_type: any, pmData: any) => void;
+					onMessageChoiceError: (message_type: any, err: any) => void;
+					onPMCancel: (message_type: any) => void;
+					onSPPMObjectReady: () => void;
+					onError: (message_type: any, errorCode: any, errorObject: any, userReset: any) => void;
+					// onMessageChoiceSelect: OnMessageChoiceSelect;
 				};
 			};
 			gdpr?: {
