@@ -1,5 +1,6 @@
 import { mark } from '../lib/mark';
 import { getProperty } from '../lib/property';
+import { log } from '@guardian/libs';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 import type { Framework } from '../types';
@@ -31,8 +32,9 @@ export const init = (framework: Framework, pubData = {}): void => {
 	invokeCallbacks();
 
 	let targetingParamFramework: Framework = framework == 'tcfv2' ? framework : 'ccpa'
-	console.log("framework: ", framework)
-	console.log("targetingParamFramework: ", targetingParamFramework)
+	let messageTypeFramework: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
+	log('cmp', 'framework: ', framework);
+	log('cmp', 'targetingParamFramework: ', targetingParamFramework);
 	window._sp_queue = [];
 	/* istanbul ignore next */
 	window._sp_ = {
@@ -51,9 +53,11 @@ export const init = (framework: Framework, pubData = {}): void => {
 
 			events: {
 				onConsentReady: (message_type, consentUUID, euconsent) => {
-					console.log('onConsentReady', message_type);
-					console.log('consentUUID', consentUUID)
-					console.log('euconsent', euconsent)
+					log('cmp', `onConsentReady ${message_type}`);
+					if (message_type != messageTypeFramework) return;
+
+					log('cmp', `consentUUID ${consentUUID}`);
+					log('cmp', `euconsent ${euconsent}`);
 
 					//  TODO rename
 					mark('cmp-tcfv2-got-consent');
@@ -62,26 +66,39 @@ export const init = (framework: Framework, pubData = {}): void => {
 					setTimeout(invokeCallbacks, 0);
 				},
 				onMessageReady: (message_type) => {
+					log('cmp', `onMessageReady ${message_type}`);
+					if (message_type != messageTypeFramework) return;
+
 					// Event fires when a message is about to display.
 					//  TODO rename
 					mark('cmp-tcfv2-ui-displayed');
-					console.log('onMessageReady', message_type)
 				},
 
 				onMessageReceiveData: (message_type, data) => {
 					// Event fires when a message is displayed to the user and sends data about the message and campaign to the callback.
 					// The data sent to the callback is in the following structure:
-					console.log('onMessageReceiveData', message_type);
-					console.log('onMessageReceiveData', data)
+					log('cmp', `onMessageReceiveData ${message_type}`);
+					if (message_type != messageTypeFramework) return;
+
+					log('cmp', `onMessageReceiveData ${data}`);
 					void resolveWillShowPrivacyMessage(data.messageId !== 0);
 				},
 
 				onMessageChoiceSelect: (message_type, choice_id, choiceTypeID) => {
-					console.log('onMessageChoiceSelect message_type: ', message_type);
-					console.log('onMessageChoiceSelect choice_id: ', choice_id);
-					console.log('onMessageChoiceSelect choice_type_id: ', choiceTypeID);
+					log(
+						'cmp',
+						`onMessageChoiceSelect message_type: ${message_type}`,
+					);
+					console.log();
+					if (message_type != messageTypeFramework) return;
+
+					log('cmp', `onMessageChoiceSelect choice_id: ${choice_id}`);
+					log(
+						'cmp',
+						`onMessageChoiceSelect choice_type_id: ${choiceTypeID}`,
+					);
 					if (
-						// https://documentation.sourcepoint.com/web-implementation/sourcepoint-set-up-and-configuration-v2/optional-callbacks#choice-type-id-descriptions
+						// https://documentation.sourcepoint.com/web-implementation/web-implementation/multi-campaign-web-implementation/event-callbacks#choice-type-id-descriptions
 						choiceTypeID === 11 ||
 						choiceTypeID === 13 ||
 						choiceTypeID === 15
@@ -90,24 +107,34 @@ export const init = (framework: Framework, pubData = {}): void => {
 					}
 				},
 				onPrivacyManagerAction: function (message_type, pmData) {
-					console.log('onPrivacyManagerAction message_type:', message_type);
-					console.log('onPrivacyManagerAction', pmData)
+					log(
+						'cmp',
+						`onPrivacyManagerAction message_type: ${message_type}`,
+					);
+					if (message_type != messageTypeFramework) return;
+
+					log('cmp', `onPrivacyManagerAction ${pmData}`);
 				},
 				onMessageChoiceError: function (message_type, err) {
-					console.log('onMessageChoiceError', message_type);
-					console.log('onMessageChoiceError', err)
+					log('cmp', `onMessageChoiceError ${message_type}`);
+					if (message_type != messageTypeFramework) return;
+
+					log('cmp', `onMessageChoiceError ${err}`);
 				},
 				onPMCancel: function (message_type) {
-					console.log('onPMCancel', message_type)
+					log('cmp', `onPMCancel ${message_type}`);
+					if (message_type != messageTypeFramework) return;
 				},
 				onSPPMObjectReady: function () {
-					 console.log('onSPPMObjectReady')
+					 log('cmp', 'onSPPMObjectReady');
 				},
 				onError: function (message_type, errorCode, errorObject, userReset){
-					console.log('errorCode: ', message_type);
-					console.log('errorCode: ' + errorCode);
-					console.log(errorObject);
-					console.log('userReset: ' + userReset);
+					log('cmp', `errorCode: ${message_type}`);
+					if (message_type != messageTypeFramework) return;
+
+					log('cmp', `errorCode: ${errorCode}`);
+					log('cmp', errorObject);
+					log('cmp', `userReset: ${userReset}`);
 				},
 			},
 		},
