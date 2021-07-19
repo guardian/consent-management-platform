@@ -1,3 +1,1 @@
-import type { Framework } from '../types';
-
-export declare const stub: (framework: Framework) => void;
+export declare const stub: () => void;

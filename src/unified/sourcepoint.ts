@@ -18,14 +18,12 @@ const properties = {
 };
 
 export const init = (framework: Framework, pubData = {}): void => {
-	stub(framework);
+	stub();
 
 	// // make sure nothing else on the page has accidentally
 	// used the _sp_* name as well
 	if (window._sp_) {
-		throw new Error(
-			'Sourcepoint TCF global (window._sp_) is already defined!',
-		);
+		throw new Error('Sourcepoint global (window._sp_) is already defined!');
 	}
 
 	// invoke callbacks before we receive Sourcepoint events
@@ -33,18 +31,20 @@ export const init = (framework: Framework, pubData = {}): void => {
 
 	let targetingParamFramework: Framework = framework == 'tcfv2' ? framework : 'ccpa'
 	let messageTypeFramework: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
-	log('cmp', 'framework: ', framework);
-	log('cmp', 'targetingParamFramework: ', targetingParamFramework);
+
+	log('cmp', `framework: ${framework}`);
+	log('cmp', `targetingParamFramework: ${targetingParamFramework}`);
+	log('cmp', `messageTypeFramework: ${messageTypeFramework}`);
 	window._sp_queue = [];
 	/* istanbul ignore next */
 	window._sp_ = {
 		config: {
 			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
-			// propertyHref: getProperty(properties),
-			propertyHref:'https://ui-dev',
+			propertyHref: getProperty(properties),
+			// propertyHref:'https://ui-dev',
 			targetingParams: {
-				"framework": targetingParamFramework,
+				framework: targetingParamFramework,
 			},
 			ccpa: {},
 			gdpr: {},
@@ -84,7 +84,11 @@ export const init = (framework: Framework, pubData = {}): void => {
 					void resolveWillShowPrivacyMessage(data.messageId !== 0);
 				},
 
-				onMessageChoiceSelect: (message_type, choice_id, choiceTypeID) => {
+				onMessageChoiceSelect: (
+					message_type,
+					choice_id,
+					choiceTypeID,
+				) => {
 					log(
 						'cmp',
 						`onMessageChoiceSelect message_type: ${message_type}`,
@@ -126,9 +130,14 @@ export const init = (framework: Framework, pubData = {}): void => {
 					if (message_type != messageTypeFramework) return;
 				},
 				onSPPMObjectReady: function () {
-					 log('cmp', 'onSPPMObjectReady');
+					log('cmp', 'onSPPMObjectReady');
 				},
-				onError: function (message_type, errorCode, errorObject, userReset){
+				onError: function (
+					message_type,
+					errorCode,
+					errorObject,
+					userReset,
+				) {
 					log('cmp', `errorCode: ${message_type}`);
 					if (message_type != messageTypeFramework) return;
 
