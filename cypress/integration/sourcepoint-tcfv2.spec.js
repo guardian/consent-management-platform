@@ -66,13 +66,13 @@ describe('Interaction', () => {
 
 		cy.getIframeBody(iframePrivacyManager)
 			.find(
-				`label[aria-label="Store and/or access information on a device"]`,
+				`div[aria-label="Store and/or access information on a device"]`,
 			)
 			.find('span.off')
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(`button[aria-label="Save and close"]`)
+			.find(`button[title="Save and close"]`)
 			.click();
 
 		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
@@ -94,7 +94,7 @@ describe('Interaction', () => {
 
 		cy.getIframeBody(iframePrivacyManager)
 			.find(
-				`label[aria-label="Store and/or access information on a device"]`,
+				`div[aria-label="Store and/or access information on a device"]`,
 			)
 			.find('span.on')
 			.click();
@@ -104,7 +104,7 @@ describe('Interaction', () => {
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(`button[aria-label="Save and close"]`)
+			.find(`button[title="Save and close"]`)
 			.click();
 
 		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
