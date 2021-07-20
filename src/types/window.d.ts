@@ -6,11 +6,6 @@ import type { CCPAData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
 import type { CMP, Framework, PubData } from '.';
 
-type OnMessageChoiceSelect = (
-	arg0: number,
-	arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
-) => void;
-
 declare global {
 	interface Window {
 		// *************** START commercial.dcr.js hotfix ***************
@@ -21,7 +16,7 @@ declare global {
 			getConsentFor?: typeof getConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
-		_sp_queue: []
+		_sp_queue: [];
 		_sp_?: {
 			config: {
 				baseEndpoint: EndPoint;
@@ -43,18 +38,53 @@ declare global {
 				};
 				pubData: PubData;
 				events?: {
-					onMessageReceiveData: (message_type: any, data: {
-						messageId: 0 | string;
-					}) => void;
-					onConsentReady: (message_type: any, consentUUID: any, euconsent: any) => void;
-					onMessageReady: (message_type: any) => void;
-					onMessageChoiceSelect: (message_type: any, choice_id: any, choiceTypeID: any) => void;
-					onPrivacyManagerAction: (message_type: any, pmData: any) => void;
-					onMessageChoiceError: (message_type: any, err: any) => void;
-					onPMCancel: (message_type: any) => void;
+					onMessageReceiveData: (
+						message_type: string,
+						data: {
+							messageId: 0 | string;
+						},
+					) => void;
+					onConsentReady: (
+						message_type: string,
+						consentUUID: string,
+						euconsent: string,
+					) => void;
+					onMessageReady: (message_type: string) => void;
+					onMessageChoiceSelect: (
+						message_type: string,
+						choice_id: number,
+						choiceTypeID:
+							| 1
+							| 2
+							| 3
+							| 4
+							| 5
+							| 6
+							| 7
+							| 9
+							| 10
+							| 11
+							| 12
+							| 13
+							| 14
+							| 15,
+					) => void;
+					onPrivacyManagerAction: (
+						message_type: string,
+						pmData: string,
+					) => void;
+					onMessageChoiceError: (
+						message_type: string,
+						err: string,
+					) => void;
+					onPMCancel: (message_type: string) => void;
 					onSPPMObjectReady: () => void;
-					onError: (message_type: any, errorCode: any, errorObject: any, userReset: any) => void;
-					// onMessageChoiceSelect: OnMessageChoiceSelect;
+					onError: (
+						message_type: string,
+						errorCode: string,
+						errorObject: string,
+						userReset: string,
+					) => void;
 				};
 			};
 			gdpr?: {

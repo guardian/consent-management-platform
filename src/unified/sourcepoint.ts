@@ -1,7 +1,7 @@
+import { log } from '@guardian/libs';
+import { setCurrentFramework } from '../getCurrentFramework';
 import { mark } from '../lib/mark';
 import { getProperty } from '../lib/property';
-import { setCurrentFramework } from '../getCurrentFramework';
-import { log } from '@guardian/libs';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 import type { Framework } from '../types';
@@ -32,8 +32,9 @@ export const init = (framework: Framework, pubData = {}): void => {
 	// invoke callbacks before we receive Sourcepoint events
 	invokeCallbacks();
 
-	let targetingParamFramework: Framework = framework == 'tcfv2' ? framework : 'ccpa'
-	let messageTypeFramework: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
+	const targetingParamFramework: Framework =
+		framework == 'tcfv2' ? framework : 'ccpa';
+	const messageTypeFramework: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
 
 	log('cmp', `framework: ${framework}`);
 	log('cmp', `targetingParamFramework: ${targetingParamFramework}`);
@@ -83,7 +84,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					log('cmp', `onMessageReceiveData ${message_type}`);
 					if (message_type != messageTypeFramework) return;
 
-					log('cmp', `onMessageReceiveData ${data}`);
+					log('cmp', 'onMessageReceiveData ', data);
 					void resolveWillShowPrivacyMessage(data.messageId !== 0);
 				},
 
@@ -153,9 +154,13 @@ export const init = (framework: Framework, pubData = {}): void => {
 	};
 
 	if (framework === 'tcfv2') {
-		window._sp_.config.gdpr.targetingParams = { framework: targetingParamFramework };
+		window._sp_.config.gdpr.targetingParams = {
+			framework: targetingParamFramework,
+		};
 	} else {
-		window._sp_.config.ccpa.targetingParams = { framework: targetingParamFramework };
+		window._sp_.config.ccpa.targetingParams = {
+			framework: targetingParamFramework,
+		};
 	}
 
 	const spLib = document.createElement('script');
