@@ -1,7 +1,8 @@
 import { log } from '@guardian/libs';
 import { setCurrentFramework } from '../getCurrentFramework';
+import { isGuardianDomain } from '../lib/domain';
 import { mark } from '../lib/mark';
-import { getProperty } from '../lib/property';
+import type { Property } from '../lib/property';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
 import type { Framework } from '../types';
@@ -12,10 +13,10 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-// Sets the SP property and custom vendor list
-const properties = {
-	live: null, // whichever *.theguardian.com subdomain the page is served on
-	test: 'https://test.theguardian.com',
+const getProperty = (framework: Framework): Property => {
+	if (framework == 'aus') return 'https://au.theguardian.com';
+	// whichever *.theguardian.com subdomain the page is served on
+	else return isGuardianDomain() ? 'https://test.theguardian.com' : null;
 };
 
 export const init = (framework: Framework, pubData = {}): void => {
@@ -46,7 +47,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
 			// propertyHref: getProperty(properties),
-			propertyHref:'https://ui-dev',
+			propertyHref: 'https://ui-dev',
 			targetingParams: {
 				framework: targetingParamFramework,
 			},
