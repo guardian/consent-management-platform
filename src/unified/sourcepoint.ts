@@ -1,5 +1,6 @@
 import { mark } from '../lib/mark';
 import { getProperty } from '../lib/property';
+import { setCurrentFramework } from '../getCurrentFramework';
 import { log } from '@guardian/libs';
 import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
 import { invokeCallbacks } from '../onConsentChange';
@@ -25,6 +26,8 @@ export const init = (framework: Framework, pubData = {}): void => {
 	if (window._sp_) {
 		throw new Error('Sourcepoint global (window._sp_) is already defined!');
 	}
+
+	setCurrentFramework(framework);
 
 	// invoke callbacks before we receive Sourcepoint events
 	invokeCallbacks();

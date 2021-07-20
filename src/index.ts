@@ -1,7 +1,6 @@
 import { log } from '@guardian/libs';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as actualGetConsentFor } from './getConsentFor';
-import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
@@ -55,8 +54,6 @@ const init: InitCMP = ({
 	}
 
 	const framework = getFramework(country);
-
-	setCurrentFramework(framework);
 
 	UnifiedCMP.init(framework, pubData ?? {});
 
