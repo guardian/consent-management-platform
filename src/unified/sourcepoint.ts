@@ -45,8 +45,8 @@ export const init = (framework: Framework, pubData = {}): void => {
 		config: {
 			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
-			propertyHref: getProperty(properties),
-			// propertyHref:'https://ui-dev',
+			// propertyHref: getProperty(properties),
+			propertyHref:'https://ui-dev',
 			targetingParams: {
 				framework: targetingParamFramework,
 			},

@@ -35,10 +35,10 @@ describe('Document', () => {
 	});
 
 	it('should have the correct script URL', () => {
-		cy.get('script#sourcepoint-aus-lib').should(
+		cy.get('script#sourcepoint-lib').should(
 			'have.attr',
 			'src',
-			`${ENDPOINT}/ccpa.js`,
+			ENDPOINT + '/unified/wrapperMessagingWithoutDetection.js',
 		);
 	});
 });
