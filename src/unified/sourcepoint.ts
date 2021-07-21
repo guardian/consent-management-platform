@@ -16,7 +16,8 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 const getProperty = (framework: Framework): Property => {
 	if (framework == 'aus') return 'https://au.theguardian.com';
 	// whichever *.theguardian.com subdomain the page is served on
-	else return isGuardianDomain() ? 'https://test.theguardian.com' : null;
+	// TODO comment this better
+	return isGuardianDomain() ? null : 'https://test.theguardian.com';
 };
 
 export const init = (framework: Framework, pubData = {}): void => {
@@ -46,8 +47,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 		config: {
 			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
-			// propertyHref: getProperty(properties),
-			propertyHref: 'https://ui-dev',
+			propertyHref: getProperty(framework),
 			targetingParams: {
 				framework: targetingParamFramework,
 			},
