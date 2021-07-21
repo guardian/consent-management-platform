@@ -4,6 +4,8 @@
 	import { log } from '@guardian/libs';
 	import { onMount } from 'svelte';
 
+	window.guardian.logger.subscribeTo("cmp")
+
 	switch (window.location.hash) {
 		case '#tcfv2':
 			localStorage.setItem('framework', JSON.stringify('tcfv2'));
@@ -19,6 +21,9 @@
 			localStorage.setItem('framework', JSON.stringify('tcfv2'));
 			break;
 	}
+
+	const params = new URLSearchParams(document.location.search.substring(1));
+	let stage = params.get("_sp_env") == "stage";
 
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
@@ -48,8 +53,21 @@
 	let framework = JSON.parse(localStorage.getItem('framework'));
 
 	let setLocation = () => {
+		let url = new URL(window.location)
 		localStorage.setItem('framework', JSON.stringify(framework));
-		window.location.hash = framework;
+		url.hash = framework;
+
+
+		localStorage.setItem('stage', JSON.stringify(stage));
+		if (stage)
+			params.set("_sp_env", "stage");
+		else
+			params.set("_sp_env", "public");
+
+
+		url.params = params.toString()
+		const newurl = `${url.protocol}//${url.host}/?${url.params}${url.hash}`
+		window.location = newurl
 		clearPreferences();
 	};
 
@@ -126,6 +144,15 @@
 			/>
 			in Australia:
 			<strong>CCPA-like</strong>
+		</label>
+		<label>
+			<input
+				type="checkbox"
+				value="checked"
+				bind:checked={stage}
+				on:change={setLocation}
+			/>
+			Stage
 		</label>
 	</nav>
 
