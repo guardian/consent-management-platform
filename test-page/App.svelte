@@ -20,6 +20,8 @@
 			break;
 	}
 
+	window.guardian.logger.subscribeTo("cmp")
+
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
 		set: function (target, key, value) {
