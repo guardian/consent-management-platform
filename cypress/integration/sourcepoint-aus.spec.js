@@ -4,7 +4,9 @@ import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
-const url = '/#aus';
+const stage = true;
+const env = stage ? 'stage' : 'public';
+const url = `/?_sp_env=${env}#aus`;
 
 const personalisedAdvertisingIs = (boolean) => {
 	cy.get('[data-personalised-advertising]')

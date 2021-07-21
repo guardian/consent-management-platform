@@ -3,7 +3,9 @@ import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
-const url = '/#tcfv2';
+const stage = true;
+const env = stage ? 'stage' : 'public';
+const url = `/?_sp_env=${env}#tcfv2`;
 
 describe('Window', () => {
 	loadPage(url);

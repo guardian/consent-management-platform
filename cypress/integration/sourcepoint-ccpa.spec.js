@@ -4,7 +4,9 @@ import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_privacy_manager_iframe';
-const url = '/#ccpa';
+const stage = true;
+const env = stage ? 'stage' : 'public';
+const url = `/?_sp_env=${env}#ccpa`;
 
 const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]')
