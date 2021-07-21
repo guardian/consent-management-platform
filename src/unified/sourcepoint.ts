@@ -34,13 +34,11 @@ export const init = (framework: Framework, pubData = {}): void => {
 	// invoke callbacks before we receive Sourcepoint events
 	invokeCallbacks();
 
-	const targetingParamFramework: Framework =
-		framework == 'tcfv2' ? framework : 'ccpa';
-	const messageTypeFramework: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
+	const frameworkMessageType: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
 
 	log('cmp', `framework: ${framework}`);
-	log('cmp', `targetingParamFramework: ${targetingParamFramework}`);
-	log('cmp', `messageTypeFramework: ${messageTypeFramework}`);
+	log('cmp', `frameworkMessageType: ${frameworkMessageType}`);
+
 	window._sp_queue = [];
 	/* istanbul ignore next */
 	window._sp_ = {
@@ -49,7 +47,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 			accountId: ACCOUNT_ID,
 			propertyHref: getProperty(framework),
 			targetingParams: {
-				framework: targetingParamFramework,
+				framework,
 			},
 			ccpa: {},
 			gdpr: {},
@@ -59,7 +57,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 			events: {
 				onConsentReady: (message_type, consentUUID, euconsent) => {
 					log('cmp', `onConsentReady ${message_type}`);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `consentUUID ${consentUUID}`);
 					log('cmp', `euconsent ${euconsent}`);
@@ -72,7 +70,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 				},
 				onMessageReady: (message_type) => {
 					log('cmp', `onMessageReady ${message_type}`);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					// Event fires when a message is about to display.
 					//  TODO rename
@@ -83,7 +81,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					// Event fires when a message is displayed to the user and sends data about the message and campaign to the callback.
 					// The data sent to the callback is in the following structure:
 					log('cmp', `onMessageReceiveData ${message_type}`);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					log('cmp', 'onMessageReceiveData ', data);
 					void resolveWillShowPrivacyMessage(data.messageId !== 0);
@@ -99,7 +97,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 						`onMessageChoiceSelect message_type: ${message_type}`,
 					);
 					console.log();
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `onMessageChoiceSelect choice_id: ${choice_id}`);
 					log(
@@ -120,19 +118,19 @@ export const init = (framework: Framework, pubData = {}): void => {
 						'cmp',
 						`onPrivacyManagerAction message_type: ${message_type}`,
 					);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `onPrivacyManagerAction ${pmData}`);
 				},
 				onMessageChoiceError: function (message_type, err) {
 					log('cmp', `onMessageChoiceError ${message_type}`);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `onMessageChoiceError ${err}`);
 				},
 				onPMCancel: function (message_type) {
 					log('cmp', `onPMCancel ${message_type}`);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 				},
 				onSPPMObjectReady: function () {
 					log('cmp', 'onSPPMObjectReady');
@@ -144,7 +142,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					userReset,
 				) {
 					log('cmp', `errorCode: ${message_type}`);
-					if (message_type != messageTypeFramework) return;
+					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `errorCode: ${errorCode}`);
 					log('cmp', errorObject);
@@ -156,11 +154,11 @@ export const init = (framework: Framework, pubData = {}): void => {
 
 	if (framework === 'tcfv2') {
 		window._sp_.config.gdpr.targetingParams = {
-			framework: targetingParamFramework,
+			framework,
 		};
 	} else {
 		window._sp_.config.ccpa.targetingParams = {
-			framework: targetingParamFramework,
+			framework,
 		};
 	}
 
