@@ -38,7 +38,7 @@ describe('Sourcepoint unified', () => {
 			} else {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
-				).toEqual('ccpa');
+				).toEqual(framework);
 			}
 		},
 	);
