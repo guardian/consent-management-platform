@@ -1,10 +1,10 @@
 import { log } from '@guardian/libs';
+import { CMP as UnifiedCMP } from './cmp';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as actualGetConsentFor } from './getConsentFor';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
-import { UnifiedCMP } from './unified/index';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.

@@ -1,23 +1,22 @@
-import { getCurrentFramework } from '../getCurrentFramework';
-import { mark } from '../lib/mark';
+import { getCurrentFramework } from './getCurrentFramework';
+import { mark } from './lib/mark';
 import {
 	PRIVACY_MANAGER_AUSTRALIA,
 	PRIVACY_MANAGER_CCPA,
 	PRIVACY_MANAGER_TCFV2,
-} from '../lib/sourcepointConfig';
-import type {
-	Framework,
-	PubData,
-	UnifiedSourcepointImplementation,
-	WillShowPrivacyMessage,
-} from '../types';
+} from './lib/sourcepointConfig';
 import {
 	init as initSourcepoint,
 	willShowPrivacyMessage as sourcepointWillShowPrivacyMessage,
 } from './sourcepoint';
+import type {
+	Framework,
+	PubData,
+	SourcepointImplementation,
+	WillShowPrivacyMessage,
+} from './types';
 
 const init = (framework: Framework, pubData?: PubData): void => {
-	// TODO rename?
 	mark('cmp-init');
 	initSourcepoint(framework, pubData);
 };
@@ -41,7 +40,7 @@ function showPrivacyManager(): void {
 	}
 }
 
-export const UnifiedCMP: UnifiedSourcepointImplementation = {
+export const CMP: SourcepointImplementation = {
 	init,
 	willShowPrivacyMessage,
 	showPrivacyManager,

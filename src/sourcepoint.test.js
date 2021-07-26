@@ -1,6 +1,6 @@
 import http from 'http';
 import url from 'url';
-import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
+import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
 import { init } from './sourcepoint';
 
 const frameworks = ['tcfv2', 'ccpa', 'aus'];
@@ -30,7 +30,6 @@ describe('Sourcepoint unified', () => {
 			expect(typeof window._sp_.config.events.onMessageReceiveData).toBe(
 				'function',
 			);
-			// TODO is this necessary?
 			if (framework == 'tcfv2') {
 				expect(
 					window._sp_.config.gdpr.targetingParams.framework,

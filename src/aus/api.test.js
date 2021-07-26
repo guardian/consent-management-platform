@@ -1,6 +1,6 @@
 import { getUSPData } from './api';
 
-jest.mock('../unified/sourcepoint', () => ({
+jest.mock('../sourcepoint', () => ({
 	sourcepointLibraryLoaded: Promise.resolve(),
 }));
 

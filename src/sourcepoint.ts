@@ -1,12 +1,12 @@
 import { log } from '@guardian/libs';
-import { setCurrentFramework } from '../getCurrentFramework';
-import { isGuardianDomain } from '../lib/domain';
-import { mark } from '../lib/mark';
-import type { Property } from '../lib/property';
-import { ACCOUNT_ID, ENDPOINT } from '../lib/sourcepointConfig';
-import { invokeCallbacks } from '../onConsentChange';
-import type { Framework } from '../types';
+import { setCurrentFramework } from './getCurrentFramework';
+import { isGuardianDomain } from './lib/domain';
+import { mark } from './lib/mark';
+import type { Property } from './lib/property';
+import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
+import { invokeCallbacks } from './onConsentChange';
 import { stub } from './stub';
+import type { Framework } from './types';
 
 let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {

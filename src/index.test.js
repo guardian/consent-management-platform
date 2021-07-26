@@ -1,7 +1,7 @@
 import waitForExpect from 'wait-for-expect';
+import { CMP as actualCMP } from './cmp';
 import { disable, enable } from './disable';
 import { getCurrentFramework } from './getCurrentFramework';
-import { UnifiedCMP as actualCMP } from './unified';
 import { cmp } from '.';
 
 const CMP = {
