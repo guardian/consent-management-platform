@@ -13,7 +13,6 @@ beforeEach(() => {
 	window._sp_ = undefined;
 	window.guCmpHotFix.initialised = false;
 	CMP.init.mockClear();
-	CMP.init.mockClear();
 });
 
 describe('cmp.init', () => {
