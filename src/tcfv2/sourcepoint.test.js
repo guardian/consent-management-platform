@@ -21,6 +21,9 @@ describe('Sourcepoint TCF', () => {
 		expect(window._sp_.config.accountId).toEqual(ACCOUNT_ID);
 		expect(window._sp_.config.targetingParams.framework).toEqual('tcfv2');
 		expect(window._sp_.config.events).toBeDefined();
+		expect(typeof window._sp_.config.events.onConsentReady).toBe(
+			'function',
+		);
 		expect(typeof window._sp_.config.events.onMessageReceiveData).toBe(
 			'function',
 		);
