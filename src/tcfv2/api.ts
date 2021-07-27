@@ -6,7 +6,7 @@ type Command =
 	| 'ping'
 	| 'addEventListener'
 	| 'removeEventListener'
-	| 'getCustomVendorConsents'; // sourecepoint addition https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
+	| 'getCustomVendorConsents'; // Sourcepoint addition https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api
 
 const api = (command: Command) =>
 	new Promise((resolve, reject) => {
