@@ -50,7 +50,7 @@ describe('Interaction', () => {
 			.find(`button[title="${buttonTitle}"]`)
 			.click();
 
-		// eslint-disable-next-line cypress/no-unnecessary-waiting -- CMP is slow
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 		cy.wait(1000);
 
 		[(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)].forEach((purpose) => {
@@ -66,16 +66,16 @@ describe('Interaction', () => {
 
 		cy.getIframeBody(iframePrivacyManager)
 			.find(
-				`label[aria-label="Store and/or access information on a device"]`,
+				`div[aria-label="Store and/or access information on a device"]`,
 			)
 			.find('span.off')
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(`button[aria-label="Save and close"]`)
+			.find(`button[title="Save and close"]`)
 			.click();
 
-		// eslint-disable-next-line cypress/no-unnecessary-waiting -- CMP is slow
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 		cy.wait(1000);
 
 		cy.get(`[data-purpose="1"]`)
@@ -94,7 +94,7 @@ describe('Interaction', () => {
 
 		cy.getIframeBody(iframePrivacyManager)
 			.find(
-				`label[aria-label="Store and/or access information on a device"]`,
+				`div[aria-label="Store and/or access information on a device"]`,
 			)
 			.find('span.on')
 			.click();
@@ -104,10 +104,10 @@ describe('Interaction', () => {
 			.click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(`button[aria-label="Save and close"]`)
+			.find(`button[title="Save and close"]`)
 			.click();
 
-		// eslint-disable-next-line cypress/no-unnecessary-waiting -- CMP is slow
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
 		cy.wait(1000);
 
 		cy.get(`[data-purpose="1"]`)
