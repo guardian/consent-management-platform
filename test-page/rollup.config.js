@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import css from 'rollup-plugin-css-only';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import svelte from 'rollup-plugin-svelte';
@@ -20,6 +21,7 @@ export default {
 	},
 	plugins: [
 		svelte(),
+		css(),
 		babel({
 			babelHelpers: 'bundled',
 			presets: [

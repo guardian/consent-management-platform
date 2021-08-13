@@ -1,7 +1,7 @@
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
-// https://documentation.sourcepoint.com/web-implementation/web-implementation/multi-campaign-web-implementation#stub-file
+// https://documentation.sourcepoint.com/web-implementation/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/gdpr-and-tcf-v2-setup-and-configuration_v1.1.3
 
 export const stub = () => {
 	// ccpa
