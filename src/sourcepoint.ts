@@ -23,8 +23,8 @@ const getProperty = (framework: Framework): Property => {
 export const init = (framework: Framework, pubData = {}): void => {
 	stub();
 
-	// // make sure nothing else on the page has accidentally
-	// used the _sp_* name as well
+	// make sure nothing else on the page has accidentally
+	// used the `_sp_` name as well
 	if (window._sp_) {
 		throw new Error('Sourcepoint global (window._sp_) is already defined!');
 	}
