@@ -63,8 +63,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					log('cmp', `consentUUID ${consentUUID}`);
 					log('cmp', `euconsent ${euconsent}`);
 
-					//  TODO rename
-					mark('cmp-tcfv2-got-consent');
+					mark('cmp-got-consent');
 
 					// onConsentReady is triggered before SP update the consent settings :(
 					setTimeout(invokeCallbacks, 0);
@@ -74,8 +73,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					if (message_type != frameworkMessageType) return;
 
 					// Event fires when a message is about to display.
-					//  TODO rename
-					mark('cmp-tcfv2-ui-displayed');
+					mark('cmp-ui-displayed');
 				},
 
 				onMessageReceiveData: (message_type, data) => {
