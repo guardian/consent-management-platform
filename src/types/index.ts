@@ -20,7 +20,6 @@ export type CMP = {
 export type InitCMP = (arg0: {
 	pubData?: PubData;
 	country?: Country;
-	isInUsa?: boolean;
 }) => void;
 
 export interface ConsentState {
