@@ -6,6 +6,12 @@ import type { CCPAData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
 import type { CMP, Framework, PubData } from '.';
 
+type OnMessageChoiceSelect = (
+	message_type: string,
+	choice_id: number,
+	choiceTypeID: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
+) => void;
+
 declare global {
 	interface Window {
 		// *************** START commercial.dcr.js hotfix ***************
@@ -50,25 +56,7 @@ declare global {
 						euconsent: string,
 					) => void;
 					onMessageReady: (message_type: string) => void;
-					onMessageChoiceSelect: (
-						message_type: string,
-						choice_id: number,
-						choiceTypeID:
-							| 1
-							| 2
-							| 3
-							| 4
-							| 5
-							| 6
-							| 7
-							| 9
-							| 10
-							| 11
-							| 12
-							| 13
-							| 14
-							| 15,
-					) => void;
+					onMessageChoiceSelect: OnMessageChoiceSelect;
 					onPrivacyManagerAction: (
 						message_type: string,
 						pmData: string,
