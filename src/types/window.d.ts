@@ -91,7 +91,7 @@ declare global {
 				loadPrivacyManagerModal?: (id: number) => void;
 			};
 			ccpa?: {
-				loadPrivacyManagerModal?: (id: string) => void;
+				loadPrivacyManagerModal?: (id: number) => void;
 			};
 		};
 
