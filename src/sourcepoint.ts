@@ -1,4 +1,4 @@
-import { log } from '@guardian/libs';
+import { loadScript, log } from '@guardian/libs';
 import { setCurrentFramework } from './getCurrentFramework';
 import { isGuardianDomain } from './lib/domain';
 import { mark } from './lib/mark';
@@ -7,7 +7,6 @@ import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
 import { invokeCallbacks } from './onConsentChange';
 import { stub } from './stub';
 import type { Framework } from './types';
-import { loadScript } from '@guardian/libs';
 
 let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
@@ -161,5 +160,13 @@ export const init = (framework: Framework, pubData = {}): void => {
 		};
 	}
 	// TODO put this file in place!
-	loadScript(`${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`, {"id": 'sourcepoint-lib'})
+	loadScript(`${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`, {
+		id: 'sourcepoint-lib',
+	})
+		.then(() => {
+			log('cmp', `Sourcepoint script loaded`);
+		})
+		.catch(() => {
+			log('cmp', `error loading Sourcepoint script`);
+		});
 };
