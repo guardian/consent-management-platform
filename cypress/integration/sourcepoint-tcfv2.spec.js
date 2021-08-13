@@ -3,6 +3,8 @@ import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
+
+// TODO add checkbox in UI, default to production
 const stage = true;
 const env = stage ? 'stage' : 'public';
 const url = `/?_sp_env=${env}#tcfv2`;
