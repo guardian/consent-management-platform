@@ -13,10 +13,16 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
+
+/**
+ * @param  {Framework} framework
+ * @returns Property
+ * Given a CMP framework, returns the SourcePoint property associated with it.
+ * Australia has a single property while the rest of the world has a test and prod property.
+ * TODO: incorporate au.theguardian into *.theguardian.com
+ */
 const getProperty = (framework: Framework): Property => {
 	if (framework == 'aus') return 'https://au.theguardian.com';
-	// whichever *.theguardian.com subdomain the page is served on
-	// TODO comment this better
 	return isGuardianDomain() ? null : 'https://test.theguardian.com';
 };
 
