@@ -7,6 +7,7 @@ import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
 import { invokeCallbacks } from './onConsentChange';
 import { stub } from './stub';
 import type { Framework } from './types';
+import { loadScript } from '@guardian/libs';
 
 let resolveWillShowPrivacyMessage: typeof Promise.resolve;
 export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
@@ -161,11 +162,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 			framework,
 		};
 	}
-
-	const spLib = document.createElement('script');
-	spLib.id = 'sourcepoint-lib';
 	// TODO put this file in place!
-	spLib.src = `${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`;
-
-	document.body.appendChild(spLib);
+	loadScript(`${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`, {"id": 'sourcepoint-lib'})
 };
