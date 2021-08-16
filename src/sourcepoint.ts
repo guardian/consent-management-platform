@@ -13,7 +13,6 @@ export const willShowPrivacyMessage = new Promise<boolean>((resolve) => {
 	resolveWillShowPrivacyMessage = resolve as typeof Promise.resolve;
 });
 
-
 /**
  * @param  {Framework} framework
  * @returns Property
