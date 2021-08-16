@@ -165,7 +165,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 			framework,
 		};
 	}
-	// TODO put this file in place!
 	loadScript(`${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`, {
 		id: 'sourcepoint-lib',
 	})
