@@ -165,13 +165,12 @@ export const init = (framework: Framework, pubData = {}): void => {
 			framework,
 		};
 	}
-	loadScript(`${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`, {
-		id: 'sourcepoint-lib',
-	})
-		.then(() => {
-			log('cmp', `Sourcepoint script loaded`);
-		})
-		.catch(() => {
-			log('cmp', `error loading Sourcepoint script`);
-		});
+
+	// TODO use libs function loadScript,
+	// change signature of init function to return promise returned by loadScript
+	const spLib = document.createElement('script');
+	spLib.id = 'sourcepoint-lib';
+	spLib.src = `${ENDPOINT}/unified/wrapperMessagingWithoutDetection.js`;
+
+	document.body.appendChild(spLib);
 };
