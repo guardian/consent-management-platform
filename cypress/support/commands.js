@@ -25,3 +25,9 @@ Cypress.Commands.add('getIframeBody', (selector = '') => {
 Cypress.Commands.overwrite('log', (subject, message) =>
 	cy.task('log', message),
 );
+
+// Ignore uncaught exceptions. getConsentState is called repeatedly until __uspapi or __tcfapi is on window
+// and throws an exception if it isn't.
+Cypress.on('uncaught:exception', () => {
+	return false;
+});
