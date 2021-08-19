@@ -32,12 +32,8 @@
     "test:unit": "jest --coverage",
     "tsc": "tsc",
     "types": "tsc --project ./tsconfig.build.json",
-    "validate": "npm-run-all tsc test lint build"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm-run-all readme-toc:generate readme-toc:commit"
-    }
+    "validate": "npm-run-all tsc test lint build",
+    "prepare": "husky install"
   },
   "prettier": "@guardian/prettier",
   "devDependencies": {
@@ -72,7 +68,7 @@
     "eslint-plugin-jest": "^24",
     "eslint-plugin-prettier": "^3",
     "eslint-plugin-svelte3": "^3",
-    "husky": "^4",
+    "husky": "^7.0.0",
     "jest": "^26",
     "locate-character": "^2",
     "markdown-toc": "^1",

@@ -1,0 +1,1 @@
+npm-run-all readme-toc:generate readme-toc:commit
