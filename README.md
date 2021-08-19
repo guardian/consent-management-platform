@@ -406,3 +406,7 @@ document.cookie = 'gu-cmp-disabled=; Max-Age=0;';
 ### Using Cypress
 
 To disable consent in Cypress tests, see their [`setCookie` documentation](https://docs.cypress.io/api/commands/setcookie.html).
+
+## Development
+
+See the [developer docs](docs/01-development-instructions.md).
