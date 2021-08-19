@@ -1,1 +1,5 @@
-npm-run-all readme-toc:generate readme-toc:commit
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run readme-toc:generate
+npm run readme-toc:commit
