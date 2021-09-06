@@ -28,10 +28,7 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
-const init: InitCMP = ({
-	pubData,
-	country
-}) => {
+const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled()) return;
 
 	if (window.guCmpHotFix.initialised) {
