@@ -91,6 +91,7 @@
     "wait-for-expect": "^3"
   },
   "dependencies": {
-    "@guardian/libs": "^1"
+    "@guardian/libs": "^1",
+    "conventional-changelog-conventionalcommits": "^4.6.0"
   }
 }
