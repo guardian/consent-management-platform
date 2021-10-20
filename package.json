@@ -50,7 +50,7 @@
     "@rollup/plugin-commonjs": "^20",
     "@rollup/plugin-html": "^0.2.0",
     "@rollup/plugin-node-resolve": "^13",
-    "@rollup/plugin-replace": "^2",
+    "@rollup/plugin-replace": "^3",
     "@rollup/plugin-strip": "^2",
     "@rollup/plugin-typescript": "^8",
     "@semantic-release/github": "^7",
