@@ -28,11 +28,7 @@ const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
-const init: InitCMP = ({
-	pubData,
-	country,
-	isInUsa, // DEPRECATED: Will be removed in next major version
-}) => {
+const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled()) return;
 
 	if (window.guCmpHotFix.initialised) {
@@ -48,14 +44,6 @@ const init: InitCMP = ({
 	// prevent another instance of CMP initialising, so we set this true asap.
 	// initComplete is set true once we have _finished_ initialising
 	window.guCmpHotFix.initialised = true;
-
-	if (typeof isInUsa !== 'undefined') {
-		country = isInUsa ? 'US' : 'GB';
-
-		console.warn(
-			'`isInUsa` will soon be deprecated. Prefer using `country` instead.',
-		);
-	}
 
 	if (typeof country === 'undefined') {
 		throw new Error(
@@ -130,5 +118,7 @@ export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
 	__disable: disable,
 });
 
-export const onConsentChange = (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
-export const getConsentFor = (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);
+export const onConsentChange = (window.guCmpHotFix.onConsentChange ||=
+	actualOnConsentChange);
+export const getConsentFor = (window.guCmpHotFix.getConsentFor ||=
+	actualGetConsentFor);

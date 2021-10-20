@@ -1,3 +1,5 @@
+// cSpell:ignore doesnotexist
+
 import { getConsentFor } from './getConsentFor';
 
 const googleAnalytics = '5e542b3a4cd8884eb41b5a72';

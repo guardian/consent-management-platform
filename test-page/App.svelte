@@ -89,7 +89,93 @@
 		cmp.init({ country });
 		cmp.init({ country });
 	});
+
 </script>
+
+<main>
+	<nav>
+		<button on:click={cmp.showPrivacyManager} data-cy="pm"
+			>open privacy manager</button
+		>
+		<button on:click={clearPreferences}>clear preferences</button>
+		<label class={framework == 'tcfv2' ? 'selected' : 'none'}>
+			<input
+				type="radio"
+				value="tcfv2"
+				bind:group={framework}
+				on:change={setLocation}
+			/>
+			in RoW:<strong>TCFv2</strong>
+		</label>
+		<label class={framework == 'ccpa' ? 'selected' : 'none'}>
+			<input
+				type="radio"
+				value="ccpa"
+				bind:group={framework}
+				on:change={setLocation}
+			/>
+			in USA:
+			<strong>CCPA</strong>
+		</label>
+		<label class={framework == 'aus' ? 'selected' : 'none'}>
+			<input
+				type="radio"
+				value="aus"
+				bind:group={framework}
+				on:change={setLocation}
+			/>
+			in Australia:
+			<strong>CCPA-like</strong>
+		</label>
+	</nav>
+
+	<div id="consent-state">
+		{#if consentState.tcfv2}
+			<h2>tcfv2.eventStatus</h2>
+			<span class="label">{consentState.tcfv2.eventStatus}</span>
+
+			<h2>tcfv2.consents</h2>
+			{#each Object.entries(consentState.tcfv2.consents) as [purpose, state]}
+				<span
+					class={JSON.parse(state) ? 'yes' : 'no'}
+					data-purpose={purpose}
+					data-consent={state}>{purpose}</span
+				>
+			{/each}
+
+			<h2>tcfv2.vendorConsents</h2>
+			{#each Object.entries(consentState.tcfv2.vendorConsents) as [consent, state]}
+				<span class={JSON.parse(state) ? 'yes' : 'no'}>{consent}</span>
+			{/each}
+		{:else if consentState.ccpa}
+			<h2>ccpa.doNotSell</h2>
+			<span class="label" data-donotsell={consentState.ccpa.doNotSell}
+				>{consentState.ccpa.doNotSell}</span
+			>
+		{:else if consentState.aus}
+			<h2>aus.personalisedAdvertising</h2>
+			<span
+				data-personalised-advertising={consentState.aus
+					.personalisedAdvertising}
+				class={consentState.aus.personalisedAdvertising ? 'yes' : 'no'}
+				>{consentState.aus.personalisedAdvertising}</span
+			>
+		{:else}
+			<h2>¯\_(ツ)_/¯</h2>
+		{/if}
+	</div>
+
+	<ol id="events">
+		{#each eventsList as { title, payload }}
+			<li>
+				<details>
+					<summary>{title}</summary>
+					<pre>{JSON.stringify(payload, null, 4)}</pre>
+				</details>
+			</li>
+		{/each}
+	</ol>
+</main>
 
 <style>
 	* {
@@ -216,80 +302,5 @@
 	* + h2 {
 		margin-top: 1rem;
 	}
+
 </style>
-
-<main>
-	<nav>
-		<button on:click={cmp.showPrivacyManager} data-cy="pm">open privacy
-			manager</button>
-		<button on:click={clearPreferences}>clear preferences</button>
-		<label class={framework == 'tcfv2' ? 'selected' : 'none'}>
-			<input
-				type="radio"
-				value="tcfv2"
-				bind:group={framework}
-				on:change={setLocation} />
-			in RoW:<strong>TCFv2</strong>
-		</label>
-		<label class={framework == 'ccpa' ? 'selected' : 'none'}>
-			<input
-				type="radio"
-				value="ccpa"
-				bind:group={framework}
-				on:change={setLocation} />
-			in USA:
-			<strong>CCPA</strong>
-		</label>
-		<label class={framework == 'aus' ? 'selected' : 'none'}>
-			<input
-				type="radio"
-				value="aus"
-				bind:group={framework}
-				on:change={setLocation} />
-			in Australia:
-			<strong>CCPA-like</strong>
-		</label>
-	</nav>
-
-	<div id="consent-state">
-		{#if consentState.tcfv2}
-			<h2>tcfv2.eventStatus</h2>
-			<span class="label">{consentState.tcfv2.eventStatus}</span>
-
-			<h2>tcfv2.consents</h2>
-			{#each Object.entries(consentState.tcfv2.consents) as [purpose, state]}
-				<span
-					class={JSON.parse(state) ? 'yes' : 'no'}
-					data-purpose={purpose}
-					data-consent={state}>{purpose}</span>
-			{/each}
-
-			<h2>tcfv2.vendorConsents</h2>
-			{#each Object.entries(consentState.tcfv2.vendorConsents) as [consent, state]}
-				<span class={JSON.parse(state) ? 'yes' : 'no'}>{consent}</span>
-			{/each}
-		{:else if consentState.ccpa}
-			<h2>ccpa.doNotSell</h2><span
-				class="label"
-				data-donotsell={consentState.ccpa.doNotSell}>{consentState.ccpa.doNotSell}</span>
-		{:else if consentState.aus}
-			<h2>aus.personalisedAdvertising</h2>
-			<span
-				data-personalised-advertising={consentState.aus.personalisedAdvertising}
-				class={consentState.aus.personalisedAdvertising ? 'yes' : 'no'}>{consentState.aus.personalisedAdvertising}</span>
-		{:else}
-			<h2>¯\_(ツ)_/¯</h2>
-		{/if}
-	</div>
-
-	<ol id="events">
-		{#each eventsList as { title, payload }}
-			<li>
-				<details>
-					<summary>{title}</summary>
-					<pre>{JSON.stringify(payload, null, 4)}</pre>
-				</details>
-			</li>
-		{/each}
-	</ol>
-</main>

@@ -26,8 +26,8 @@ export interface CustomVendorConsents {
 
 	/**
 	 * returns information on purposes that are mapped to a vendor
-	 * purposeGrants - indicates the consent and legitimate interst status for all purposes that are mapped to a vendor
-	 * vendorGrant - indicates if a vendor has consent or legitmate interest for all purposes the vendor is matched to
+	 * purposeGrants - indicates the consent and legitimate interest status for all purposes that are mapped to a vendor
+	 * vendorGrant - indicates if a vendor has consent or legitimate interest for all purposes the vendor is matched to
 	 */
 	grants: Record<
 		string,

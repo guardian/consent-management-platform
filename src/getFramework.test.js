@@ -1,5 +1,6 @@
 import { getFramework } from './getFramework';
 
+/* cSpell:disable */
 const countries = {
 	ccpa: [['UnitedStates', 'US']],
 	aus: [['Australia', 'AU']],
@@ -253,6 +254,7 @@ const countries = {
 		['Zimbabwe', 'ZW'],
 	],
 };
+/* cSpell:enable */
 
 describe('Match countries and framework', () => {
 	describe.each([
@@ -267,7 +269,7 @@ describe('Match countries and framework', () => {
 			},
 		);
 	});
-	describe('Unkown country gets TCFv2', () => {
+	describe('Unknown country gets TCFv2', () => {
 		it('should default to TCFv2 on ZZ', () =>
 			expect(getFramework('ZZ')).toEqual('tcfv2'));
 

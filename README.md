@@ -91,12 +91,6 @@ Optional value identifying the unique pageview associated with this instance of 
 
 Will be used to link back to a `browserId` for further reporting; if possible this should be available via the pageview table.
 
-#### ~~`options.isInUsa`~~ 
-
-**DEPRECATED**
-
-Will be removed in next major version. Use `options.country` instead.
-
 #### Example
 
 ```js
@@ -247,7 +241,7 @@ If the user is not in the USA, it will be `undefined`.
 
 type: `Object` or `undefined`
 
-Reports whether user has withdrawn consent to personalised adversising
+Reports whether user has withdrawn consent to personalised advertising
 in Australia.
 
 If the user is not in Australia, it will be `undefined`.
