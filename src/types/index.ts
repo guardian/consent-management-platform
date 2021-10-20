@@ -17,11 +17,7 @@ export type CMP = {
 	__enable: () => void;
 };
 
-export type InitCMP = (arg0: {
-	pubData?: PubData;
-	country?: Country;
-	isInUsa?: boolean;
-}) => void;
+export type InitCMP = (arg0: { pubData?: PubData; country?: Country }) => void;
 
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
