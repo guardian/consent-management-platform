@@ -1,9 +1,13 @@
 import 'cypress-wait-until';
-import { ACCOUNT_ID, ENDPOINT } from '../../src/lib/sourcepointConfig';
+import {
+	ACCOUNT_ID,
+	ENDPOINT,
+	PRIVACY_MANAGER_AUSTRALIA,
+} from '../../src/lib/sourcepointConfig';
 import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
-const iframePrivacyManager = '#sp_privacy_manager_iframe';
+const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_AUSTRALIA}`;
 
 // TODO add checkbox in UI, default to production
 const stage = true;
@@ -74,14 +78,10 @@ describe('Interaction', () => {
 	it(`should be able to retract consent`, () => {
 		cy.get('[data-cy=pm]').click();
 
-		cy.getIframeBody(iframePrivacyManager)
-			.find(
-				`#tab-pan_5ff468ee2517312b60214b15 div.right`,
-			) /* ¯\_(ツ)_/¯ */
-			.click();
+		cy.getIframeBody(iframePrivacyManager).find('.pm-toggle .off').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find('#tab-saveandexit')
+			.find('.sp_choice_type_SAVE_AND_EXIT')
 			.should('be.visible')
 			.click();
 
