@@ -15,9 +15,11 @@ const env = stage ? 'stage' : 'public';
 const url = `/?_sp_env=${env}#aus`;
 
 const personalisedAdvertisingIs = (boolean) => {
-	cy.get('[data-personalised-advertising]')
-		.should('have.length', 1)
-		.should('contain', boolean.toString());
+	cy.get('[data-personalised-advertising]').should(
+		'have.attr',
+		'data-personalised-advertising',
+		boolean.toString(),
+	);
 };
 
 describe('Window', () => {
