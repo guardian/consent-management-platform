@@ -1,13 +1,11 @@
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
-import { loadPage } from '../utils';
+import { loadPage, STAGE } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
 
 // TODO add checkbox in UI, default to production
-const stage = true;
-const env = stage ? 'stage' : 'public';
-const url = `/?_sp_env=${env}#tcfv2`;
+const url = `/?_sp_env=${STAGE}#tcfv2`;
 
 describe('Window', () => {
 	loadPage(url);

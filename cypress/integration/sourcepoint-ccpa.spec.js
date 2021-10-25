@@ -3,15 +3,13 @@ import {
 	ENDPOINT,
 	PRIVACY_MANAGER_CCPA,
 } from '../../src/lib/sourcepointConfig';
-import { loadPage } from '../utils';
+import { loadPage, STAGE } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_CCPA}`;
 
 // TODO add checkbox in UI, default to production
-const stage = true;
-const env = stage ? 'stage' : 'public';
-const url = `/?_sp_env=${env}#ccpa`;
+const url = `/?_sp_env=${STAGE}#ccpa`;
 
 const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]').should(

@@ -4,15 +4,13 @@ import {
 	ENDPOINT,
 	PRIVACY_MANAGER_AUSTRALIA,
 } from '../../src/lib/sourcepointConfig';
-import { loadPage } from '../utils';
+import { loadPage, STAGE } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_AUSTRALIA}`;
 
 // TODO add checkbox in UI, default to production
-const stage = true;
-const env = stage ? 'stage' : 'public';
-const url = `/?_sp_env=${env}#aus`;
+const url = `/?_sp_env=${STAGE}#aus`;
 
 const personalisedAdvertisingIs = (boolean) => {
 	cy.get('[data-personalised-advertising]').should(
