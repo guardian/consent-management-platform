@@ -1,5 +1,5 @@
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
-import { loadPage, STAGE } from '../utils';
+import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';

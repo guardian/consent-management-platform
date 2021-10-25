@@ -1,5 +1,3 @@
-export const STAGE = 'prod';
-
 export const loadPage = (url) => {
 	it(`should load the page: ${url}`, () => {
 		cy.clearLocalStorage();

@@ -3,7 +3,7 @@ import {
 	ENDPOINT,
 	PRIVACY_MANAGER_CCPA,
 } from '../../src/lib/sourcepointConfig';
-import { loadPage, STAGE } from '../utils';
+import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_CCPA}`;
