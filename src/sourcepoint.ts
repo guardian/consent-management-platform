@@ -1,4 +1,4 @@
-import { loadScript, log } from '@guardian/libs';
+import { log } from '@guardian/libs';
 import { setCurrentFramework } from './getCurrentFramework';
 import { isGuardianDomain } from './lib/domain';
 import { mark } from './lib/mark';
