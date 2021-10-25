@@ -1,24 +1,14 @@
 import { log } from '@guardian/libs';
-import { AUS } from './aus';
-import { CCPA } from './ccpa';
+import { CMP as UnifiedCMP } from './cmp';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as actualGetConsentFor } from './getConsentFor';
-import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
-import { TCFv2 } from './tcfv2';
-import type {
-	CMP,
-	InitCMP,
-	SourcepointImplementation,
-	WillShowPrivacyMessage,
-} from './types';
+import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 window.guCmpHotFix ||= {};
-
-let frameworkCMP: SourcepointImplementation | undefined;
 
 let _willShowPrivacyMessage: undefined | boolean;
 let initComplete = false;
@@ -53,25 +43,9 @@ const init: InitCMP = ({ pubData, country }) => {
 
 	const framework = getFramework(country);
 
-	switch (framework) {
-		case 'ccpa':
-			frameworkCMP = CCPA;
-			break;
-		case 'aus':
-			frameworkCMP = AUS;
-			break;
-		case 'tcfv2':
-		default:
-			// default is also 'tcfv2'
-			frameworkCMP = TCFv2;
-			break;
-	}
+	UnifiedCMP.init(framework, pubData ?? {});
 
-	setCurrentFramework(framework);
-
-	frameworkCMP.init(pubData ?? {});
-
-	void frameworkCMP.willShowPrivacyMessage().then((willShowValue) => {
+	void UnifiedCMP.willShowPrivacyMessage().then((willShowValue) => {
 		_willShowPrivacyMessage = willShowValue;
 		initComplete = true;
 		log('cmp', 'initComplete');
@@ -81,7 +55,7 @@ const init: InitCMP = ({ pubData, country }) => {
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
-	initialised.then(() => frameworkCMP?.willShowPrivacyMessage() ?? false);
+	initialised.then(() => UnifiedCMP.willShowPrivacyMessage());
 
 const willShowPrivacyMessageSync = () => {
 	if (_willShowPrivacyMessage !== undefined) {
@@ -95,13 +69,7 @@ const willShowPrivacyMessageSync = () => {
 const hasInitialised = () => initComplete;
 
 const showPrivacyManager = () => {
-	/* istanbul ignore if */
-	if (!frameworkCMP) {
-		console.warn(
-			'cmp.showPrivacyManager() was called before the CMP was initialised. This will work but you are probably calling cmp.init() too late.',
-		);
-	}
-	void initialised.then(frameworkCMP?.showPrivacyManager);
+	void initialised.then(UnifiedCMP.showPrivacyManager);
 };
 
 export const cmp: CMP = (window.guCmpHotFix.cmp ||= {

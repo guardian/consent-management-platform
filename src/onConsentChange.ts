@@ -18,20 +18,16 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 };
 
 const getConsentState: () => Promise<ConsentState> = async () => {
-	if (window.__uspapi) {
-		// in USA or AUS - https://git.io/JUOdq
-		if (getCurrentFramework() === 'aus')
+	switch (getCurrentFramework()) {
+		case 'aus':
 			return { aus: await getAUSConsentState() };
-
-		return { ccpa: await getCCPAConsentState() };
+		case 'ccpa':
+			return { ccpa: await getCCPAConsentState() };
+		case 'tcfv2':
+			return { tcfv2: await getTCFv2ConsentState() };
+		default:
+			throw new Error('no IAB consent framework found on the page');
 	}
-
-	if (window.__tcfapi) {
-		// in RoW - https://git.io/JfrZr
-		return { tcfv2: await getTCFv2ConsentState() };
-	}
-
-	throw new Error('no IAB consent framework found on the page');
 };
 
 // invokes all stored callbacks with the current consent state
