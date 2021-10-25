@@ -9,7 +9,7 @@ const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_CCPA}`;
 
 // TODO add checkbox in UI, default to production
-const url = `/?_sp_env=${STAGE}#ccpa`;
+const url = `/#ccpa`;
 
 const doNotSellIs = (boolean) => {
 	cy.get('[data-donotsell]').should(

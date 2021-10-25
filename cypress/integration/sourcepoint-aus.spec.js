@@ -10,7 +10,7 @@ const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_AUSTRALIA}`;
 
 // TODO add checkbox in UI, default to production
-const url = `/?_sp_env=${STAGE}#aus`;
+const url = `/#aus`;
 
 const personalisedAdvertisingIs = (boolean) => {
 	cy.get('[data-personalised-advertising]').should(
