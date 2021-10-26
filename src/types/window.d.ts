@@ -4,11 +4,12 @@ import type { EndPoint } from '../lib/sourcepointConfig';
 import type { onConsentChange } from '../onConsentChange';
 import type { CCPAData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
-import type { CMP, PubData } from '.';
+import type { CMP, Framework, PubData } from '.';
 
 type OnMessageChoiceSelect = (
-	arg0: number,
-	arg1: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
+	message_type: string,
+	choice_id: number,
+	choiceTypeID: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
 ) => void;
 
 declare global {
@@ -21,30 +22,7 @@ declare global {
 			getConsentFor?: typeof getConsentFor;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
-
-		// sourcepoint's libraries - only one should be present at a time
-		_sp_ccpa?: {
-			config: {
-				baseEndpoint: EndPoint;
-				accountId: number;
-				getDnsMsgMms: boolean;
-				alwaysDisplayDns: boolean;
-				siteHref: Property;
-				targetingParams: {
-					framework: 'ccpa' | 'aus';
-				};
-				pubData: PubData;
-				events?: {
-					onConsentReady: () => void;
-					onMessageReady: () => void;
-					onMessageReceiveData: (data: {
-						msg_id: 0 | string;
-					}) => void;
-					onMessageChoiceSelect: OnMessageChoiceSelect;
-				};
-			};
-			loadPrivacyManagerModal?: (unknown: unknown, id: string) => void; // this function is undocumented
-		};
+		_sp_queue: [];
 		_sp_?: {
 			config: {
 				baseEndpoint: EndPoint;
@@ -52,19 +30,57 @@ declare global {
 				propertyHref: Property;
 				propertyId?: string;
 				targetingParams: {
-					framework: 'tcfv2';
+					framework: Framework;
+				};
+				ccpa: {
+					targetingParams?: {
+						framework: Framework;
+					};
+				};
+				gdpr: {
+					targetingParams?: {
+						framework: Framework;
+					};
 				};
 				pubData: PubData;
 				events?: {
-					onConsentReady: () => void;
-					onMessageReady: () => void;
-					onMessageReceiveData: (data: {
-						messageId: 0 | string;
-					}) => void;
+					onMessageReceiveData: (
+						message_type: string,
+						data: {
+							messageId: 0 | string;
+						},
+					) => void;
+					onConsentReady: (
+						message_type: string,
+						consentUUID: string,
+						euconsent: string,
+					) => void;
+					onMessageReady: (message_type: string) => void;
 					onMessageChoiceSelect: OnMessageChoiceSelect;
+					onPrivacyManagerAction: (
+						message_type: string,
+						pmData: string,
+					) => void;
+					onMessageChoiceError: (
+						message_type: string,
+						err: string,
+					) => void;
+					onPMCancel: (message_type: string) => void;
+					onSPPMObjectReady: () => void;
+					onError: (
+						message_type: string,
+						errorCode: string,
+						errorObject: string,
+						userReset: string,
+					) => void;
 				};
 			};
-			loadPrivacyManagerModal?: (id: number) => void;
+			gdpr?: {
+				loadPrivacyManagerModal?: (id: number) => void;
+			};
+			ccpa?: {
+				loadPrivacyManagerModal?: (id: number) => void;
+			};
 		};
 
 		// IAB interfaces - only one should be present at a time

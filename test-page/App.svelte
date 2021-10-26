@@ -20,6 +20,8 @@
 			break;
 	}
 
+	window.guardian.logger.subscribeTo("cmp")
+
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
 		set: function (target, key, value) {
@@ -37,6 +39,12 @@
 	}
 
 	let clearPreferences = () => {
+		// clear local storage
+		// https://documentation.sourcepoint.com/web-implementation/general/cookies-and-local-storage#cmp-local-storage
+		localStorage.clear();
+
+		// clear cookies
+		// https://documentation.sourcepoint.com/web-implementation/general/cookies-and-local-storage#cmp-cookies
 		document.cookie.split(';').forEach((cookie) => {
 			document.cookie = cookie
 				.replace(/^ +/, '')
