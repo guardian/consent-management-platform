@@ -33,11 +33,13 @@ describe('Sourcepoint unified', () => {
 			if (framework == 'tcfv2') {
 				expect(
 					window._sp_.config.gdpr.targetingParams.framework,
-				).toEqual('tcfv2');
+				).toEqual(framework);
+				expect(window._sp_.config.ccpa).toEqual(undefined);
 			} else {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);
+				expect(window._sp_.config.gdpr).toEqual(undefined);
 			}
 		},
 	);

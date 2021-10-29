@@ -54,9 +54,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 			targetingParams: {
 				framework,
 			},
-			ccpa: {},
-			gdpr: {},
-
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
 
 			events: {
@@ -156,12 +153,16 @@ export const init = (framework: Framework, pubData = {}): void => {
 	};
 
 	if (framework === 'tcfv2') {
-		window._sp_.config.gdpr.targetingParams = {
-			framework,
+		window._sp_.config.gdpr = {
+			targetingParams: {
+				framework,
+			},
 		};
 	} else {
-		window._sp_.config.ccpa.targetingParams = {
-			framework,
+		window._sp_.config.ccpa = {
+			targetingParams: {
+				framework,
+			},
 		};
 	}
 

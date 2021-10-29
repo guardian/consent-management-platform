@@ -32,12 +32,12 @@ declare global {
 				targetingParams: {
 					framework: Framework;
 				};
-				ccpa: {
+				ccpa?: {
 					targetingParams?: {
 						framework: Framework;
 					};
 				};
-				gdpr: {
+				gdpr?: {
 					targetingParams?: {
 						framework: Framework;
 					};
