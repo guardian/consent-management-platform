@@ -1,9 +1,7 @@
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
-// documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
-
-const stub_tcfv2 = () => {
+export const stub_tcfv2 = () => {
 	!(function (t) {
 		var e = {};
 		function n(r) {
@@ -293,69 +291,4 @@ const stub_tcfv2 = () => {
 			};
 		},
 	]);
-};
-
-const stub_ccpa = () => {
-	(function () {
-		var e = false;
-		var c = window;
-		var t = document;
-		function r() {
-			if (!c.frames['__uspapiLocator']) {
-				if (t.body) {
-					var a = t.body;
-					var e = t.createElement('iframe');
-					e.style.cssText = 'display:none';
-					e.name = '__uspapiLocator';
-					a.appendChild(e);
-				} else {
-					setTimeout(r, 5);
-				}
-			}
-		}
-		r();
-		function p() {
-			var a = arguments;
-			__uspapi.a = __uspapi.a || [];
-			if (!a.length) {
-				return __uspapi.a;
-			} else if (a[0] === 'ping') {
-				a[2]({ gdprAppliesGlobally: e, cmpLoaded: false }, true);
-			} else {
-				__uspapi.a.push([].slice.apply(a));
-			}
-		}
-		function l(t) {
-			var r = typeof t.data === 'string';
-			try {
-				var a = r ? JSON.parse(t.data) : t.data;
-				if (a.__cmpCall) {
-					var n = a.__cmpCall;
-					c.__uspapi(n.command, n.parameter, function (a, e) {
-						var c = {
-							__cmpReturn: {
-								returnValue: a,
-								success: e,
-								callId: n.callId,
-							},
-						};
-						t.source.postMessage(r ? JSON.stringify(c) : c, '*');
-					});
-				}
-			} catch (a) {}
-		}
-		if (typeof __uspapi !== 'function') {
-			c.__uspapi = p;
-			__uspapi.msgHandler = l;
-			c.addEventListener('message', l, false);
-		}
-	})();
-};
-
-export const stub = (framework) => {
-	// NOTE - Contrary to the SourcePoint documentation, it's important that we only run the stub file
-	// for the framework currently in use. The presence of __tcfapi on the window object signals to GPT
-	// that it should take precedence over __uspapi
-	if (framework == 'tcfv2') stub_tcfv2();
-	else stub_ccpa();
 };
