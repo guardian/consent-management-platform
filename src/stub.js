@@ -4,7 +4,6 @@
 // documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
 
 const stub_tcfv2 = () => {
-	// tcfv2
 	!(function (t) {
 		var e = {};
 		function n(r) {
@@ -358,6 +357,5 @@ export const stub = (framework) => {
 	// for the framework currently in use. The presence of __tcfapi on the window object signals to GPT
 	// that it should take precedence over __uspapi
 	if (framework == 'tcfv2') stub_tcfv2();
-	// stub_tcfv2();
 	else stub_ccpa();
 };

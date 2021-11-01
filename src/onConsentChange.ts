@@ -32,6 +32,7 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 
 // invokes all stored callbacks with the current consent state
 export const invokeCallbacks = (): void => {
+	if (callBackQueue.length == 0) return;
 	void getConsentState().then((state) => {
 		callBackQueue.forEach((callback) => invokeCallback(callback, state));
 	});

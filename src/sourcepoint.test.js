@@ -6,6 +6,10 @@ import { init } from './sourcepoint';
 const frameworks = ['tcfv2', 'ccpa', 'aus'];
 
 describe('Sourcepoint unified', () => {
+	beforeEach(() => {
+		window.__tcfapi = undefined;
+		window.__uspapi = undefined;
+	});
 	afterEach(() => {
 		window._sp_ = undefined;
 	});
@@ -30,27 +34,28 @@ describe('Sourcepoint unified', () => {
 			expect(typeof window._sp_.config.events.onMessageReceiveData).toBe(
 				'function',
 			);
+
 			if (framework == 'tcfv2') {
 				expect(
 					window._sp_.config.gdpr.targetingParams.framework,
 				).toEqual(framework);
-				expect(window._sp_.config.ccpa).toEqual(undefined);
+				expect(window._sp_.config.ccpa).toBeUndefined();
+				expect(window.__tcfapi).toBeDefined();
+				expect(window.__uspapi).toBeUndefined();
 			} else {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);
-				expect(window._sp_.config.gdpr).toEqual(undefined);
+				expect(window._sp_.config.gdpr).toBeUndefined;
+				expect(window.__uspapi).toBeDefined();
+				expect(window.__tcfapi).toBeUndefined();
 			}
 		},
 	);
 
-	it.each(frameworks)('injects the lib', (framework) => {
-		init(framework);
-		expect(document.getElementById('sourcepoint-lib')).toBeTruthy();
-	});
-
 	it.each(frameworks)('points at a real file', (framework, done) => {
 		init(framework);
+		expect(document.getElementById('sourcepoint-lib')).toBeTruthy();
 		const src = document
 			.getElementById('sourcepoint-lib')
 			?.getAttribute('src');
