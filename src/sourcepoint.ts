@@ -26,7 +26,7 @@ const getProperty = (framework: Framework): Property => {
 };
 
 export const init = (framework: Framework, pubData = {}): void => {
-	stub();
+	stub(framework);
 
 	// make sure nothing else on the page has accidentally
 	// used the `_sp_` name as well
@@ -55,6 +55,8 @@ export const init = (framework: Framework, pubData = {}): void => {
 				framework,
 			},
 			pubData: { ...pubData, cmpInitTimeUtc: new Date().getTime() },
+
+			// ccpa or gdpr object added below
 
 			events: {
 				onConsentReady: (message_type, consentUUID, euconsent) => {
@@ -152,6 +154,10 @@ export const init = (framework: Framework, pubData = {}): void => {
 		},
 	};
 
+	// NOTE - Contrary to the SourcePoint documentation, it's important that we add EITHER gdpr OR ccpa
+	// to the _sp_ object. wrapperMessagingWithoutDetection.js uses the presence of these keys to attach
+	// __tcfapi or __uspapi to the window object respectively. If both of these functions appear on the window,
+	// advertisers seem to assume that __tcfapi is the one to use, breaking CCPA consent.
 	if (framework === 'tcfv2') {
 		window._sp_.config.gdpr = {
 			targetingParams: {
