@@ -158,6 +158,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 	// to the _sp_ object. wrapperMessagingWithoutDetection.js uses the presence of these keys to attach
 	// __tcfapi or __uspapi to the window object respectively. If both of these functions appear on the window,
 	// advertisers seem to assume that __tcfapi is the one to use, breaking CCPA consent.
+	// https://documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#implementation-code-snippet-overview
 	if (framework === 'tcfv2') {
 		window._sp_.config.gdpr = {
 			targetingParams: {
