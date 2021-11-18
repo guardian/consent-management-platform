@@ -1,20 +1,13 @@
+import { distinctUntilChanged, mergeMap, ReplaySubject, Subject } from 'rxjs';
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
-import type { Callback, CallbackQueueItem, ConsentState } from './types';
+import type { Callback, ConsentState } from './types';
 
-// callbacks cache
-const callBackQueue: CallbackQueueItem[] = [];
-
-const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
-	const stateString = JSON.stringify(state);
-
-	// only invoke callback if the consent state has changed
-	if (stateString !== callback.lastState) {
-		callback.fn(state);
-		callback.lastState = stateString;
-	}
+const interactionSubject = new Subject<void>();
+const cmpInteraction = (): void => {
+	interactionSubject.next();
 };
 
 const getConsentState: () => Promise<ConsentState> = async () => {
@@ -30,28 +23,29 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 	}
 };
 
-// invokes all stored callbacks with the current consent state
-export const invokeCallbacks = (): void => {
-	if (callBackQueue.length === 0) return;
-	void getConsentState().then((state) => {
-		callBackQueue.forEach((callback) => invokeCallback(callback, state));
+let consentState = new ReplaySubject<ConsentState>(1);
+
+interactionSubject
+	.pipe(mergeMap(async () => await getConsentState()))
+	.subscribe((state) => {
+		consentState.next(state);
 	});
+
+const onConsentChange = (callback: Callback): void => {
+	consentState
+		.pipe(
+			distinctUntilChanged(
+				(prev, curr) => JSON.stringify(prev) === JSON.stringify(curr),
+			),
+		)
+		.subscribe(callback);
 };
 
-export const onConsentChange: (fn: Callback) => void = (callBack) => {
-	const newCallback: CallbackQueueItem = { fn: callBack };
+export { cmpInteraction, onConsentChange };
 
-	callBackQueue.push(newCallback);
-
-	// if consentState is already available, invoke callback immediately
-	getConsentState()
-		.then((consentState) => {
-			invokeCallback(newCallback, consentState);
-		})
-		/* istanbul ignore next */
-		.catch(() => {
-			// do nothing - callback will be added the list anyway and executed when consent changes
-		});
+export const _ = {
+	getConsentState,
+	resetConsentState: (): void => {
+		consentState = new ReplaySubject<ConsentState>();
+	},
 };
-
-export const _ = { getConsentState };

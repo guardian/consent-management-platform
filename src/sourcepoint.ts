@@ -4,7 +4,7 @@ import { isGuardianDomain } from './lib/domain';
 import { mark } from './lib/mark';
 import type { Property } from './lib/property';
 import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
-import { invokeCallbacks } from './onConsentChange';
+import { cmpInteraction } from './onConsentChange';
 import { stub } from './stub';
 import type { Framework } from './types';
 
@@ -36,9 +36,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 
 	setCurrentFramework(framework);
 
-	// invoke callbacks before we receive Sourcepoint events
-	invokeCallbacks();
-
 	const frameworkMessageType: string = framework == 'tcfv2' ? 'gdpr' : 'ccpa';
 
 	log('cmp', `framework: ${framework}`);
@@ -69,7 +66,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					mark('cmp-got-consent');
 
 					// onConsentReady is triggered before SP update the consent settings :(
-					setTimeout(invokeCallbacks, 0);
+					setTimeout(cmpInteraction, 0);
 				},
 				onMessageReady: (message_type) => {
 					log('cmp', `onMessageReady ${message_type}`);
@@ -112,7 +109,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 						choiceTypeID === 13 ||
 						choiceTypeID === 15
 					) {
-						setTimeout(invokeCallbacks, 0);
+						setTimeout(cmpInteraction, 0);
 					}
 				},
 				onPrivacyManagerAction: function (message_type, pmData) {

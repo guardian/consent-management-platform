@@ -2,7 +2,7 @@ import waitForExpect from 'wait-for-expect';
 import ausData from './aus/__fixtures__/api.getUSPData.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { setCurrentFramework } from './getCurrentFramework';
-import { _, invokeCallbacks, onConsentChange } from './onConsentChange';
+import { _, cmpInteraction, onConsentChange } from './onConsentChange';
 import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './tcfv2/__fixtures__/api.getTCData.json';
 
@@ -20,6 +20,8 @@ it('throws an error if no framework is present', () => {
 
 describe('under CCPA', () => {
 	beforeEach(() => {
+		_.resetConsentState();
+
 		window.__uspapi = jest.fn((command, b, callback) => {
 			if (command === 'getUSPData') callback(uspData, true);
 		});
@@ -35,7 +37,7 @@ describe('under CCPA', () => {
 
 		expect(callback).toHaveBeenCalledTimes(0);
 
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
@@ -53,20 +55,20 @@ describe('under CCPA', () => {
 		const callback = jest.fn();
 
 		onConsentChange(callback);
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
 		uspData.uspString = '1YNN';
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(2);
@@ -76,6 +78,8 @@ describe('under CCPA', () => {
 
 describe('under AUS', () => {
 	beforeEach(() => {
+		_.resetConsentState();
+
 		window.__uspapi = jest.fn((command, b, callback) => {
 			if (command === 'getUSPData') callback(ausData, true);
 		});
@@ -92,7 +96,7 @@ describe('under AUS', () => {
 
 		expect(callback).toHaveBeenCalledTimes(0);
 
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
@@ -110,20 +114,20 @@ describe('under AUS', () => {
 		const callback = jest.fn();
 
 		onConsentChange(callback);
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
 		ausData.uspString = '1YYN';
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(2);
@@ -133,11 +137,14 @@ describe('under AUS', () => {
 
 describe('under TCFv2', () => {
 	beforeEach(() => {
+		_.resetConsentState();
+
 		window.__tcfapi = jest.fn((command, b, callback) => {
 			if (command === 'getTCData') callback(tcData, true);
 			if (command === 'getCustomVendorConsents')
 				callback(customVendorConsents, true);
 		});
+
 		setCurrentFramework('tcfv2');
 	});
 
@@ -149,7 +156,7 @@ describe('under TCFv2', () => {
 
 		expect(callback).toHaveBeenCalledTimes(0);
 
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
@@ -167,20 +174,20 @@ describe('under TCFv2', () => {
 		const callback = jest.fn();
 
 		onConsentChange(callback);
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(1);
 		});
 
 		tcData.purpose.consents['1'] = false;
-		invokeCallbacks();
+		cmpInteraction();
 
 		await waitForExpect(() => {
 			expect(callback).toHaveBeenCalledTimes(2);
