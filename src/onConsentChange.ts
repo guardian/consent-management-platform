@@ -8,11 +8,6 @@ import type { Callback, CallbackQueueItem, ConsentState } from './types';
 const callBackQueue: CallbackQueueItem[] = [];
 
 const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
-	// In TCFv2, Don’t only invoke callbacks if event status is either:
-	// - useractioncomplete
-	// - cmpuishown
-	if (state.tcfv2?.eventStatus === 'cmpuishown') return;
-
 	const stateString = JSON.stringify(state);
 
 	// only invoke callback if the consent state has changed
@@ -39,6 +34,11 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 export const invokeCallbacks = (): void => {
 	if (callBackQueue.length === 0) return;
 	void getConsentState().then((state) => {
+		// In TCFv2, Don’t only invoke callbacks if event status is either:
+		// - useractioncomplete
+		// - cmpuishown
+		if (state.tcfv2?.eventStatus === 'cmpuishown') return;
+
 		callBackQueue.forEach((callback) => invokeCallback(callback, state));
 	});
 };
