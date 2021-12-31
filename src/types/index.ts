@@ -1,3 +1,4 @@
+import type { Vendor } from '../getConsentFor';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
 import type { Country } from './countries';
@@ -49,3 +50,5 @@ export interface VendorConsents {
 		}
 	>;
 }
+
+export type { Vendor };
