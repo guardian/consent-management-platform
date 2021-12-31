@@ -3,9 +3,7 @@ import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
-
-// TODO add checkbox in UI, default to production
-const url = `/#tcfv2`;
+const url = '/#tcfv2';
 
 describe('Window', () => {
 	loadPage(url);
@@ -29,10 +27,10 @@ describe('Document', () => {
 	});
 
 	it('should have the correct script URL', () => {
-		cy.get('script#sourcepoint-lib').should(
+		cy.get('script#sourcepoint-tcfv2-lib').should(
 			'have.attr',
 			'src',
-			ENDPOINT + '/unified/wrapperMessagingWithoutDetection.js',
+			ENDPOINT + '/wrapperMessagingWithoutDetection.js',
 		);
 	});
 });

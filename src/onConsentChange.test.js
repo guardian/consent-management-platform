@@ -138,7 +138,6 @@ describe('under TCFv2', () => {
 			if (command === 'getCustomVendorConsents')
 				callback(customVendorConsents, true);
 		});
-		setCurrentFramework('tcfv2');
 	});
 
 	it('invokes callbacks correctly', async () => {
@@ -180,35 +179,6 @@ describe('under TCFv2', () => {
 		});
 
 		tcData.purpose.consents['1'] = false;
-		invokeCallbacks();
-
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(2);
-		});
-	});
-
-	it('invokes callbacks only if there is a user action', async () => {
-		const callback = jest.fn();
-
-		tcData.eventStatus = 'cmpuishown';
-
-		onConsentChange(callback);
-		invokeCallbacks();
-
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(0);
-		});
-
-		tcData.eventStatus = 'useractioncomplete';
-
-		invokeCallbacks();
-
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
-
-		tcData.eventStatus = 'tcloaded';
-
 		invokeCallbacks();
 
 		await waitForExpect(() => {
