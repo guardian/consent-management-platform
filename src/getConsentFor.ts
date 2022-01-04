@@ -35,8 +35,10 @@ enum VendorIDs {
 }
 /* eslint-enable @typescript-eslint/naming-convention */
 
+export type VendorName = keyof typeof VendorIDs;
+
 export const getConsentFor = (
-	vendor: keyof typeof VendorIDs,
+	vendor: VendorName,
 	consent: ConsentState,
 ): boolean => {
 	const sourcepointId = VendorIDs[vendor];
