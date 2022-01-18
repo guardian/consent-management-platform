@@ -31,7 +31,7 @@ export interface PubData {
 	[propName: string]: unknown;
 }
 export interface SourcepointImplementation {
-	init: (pubData?: PubData) => void;
+	init: (framework: Framework, pubData?: PubData) => void;
 	willShowPrivacyMessage: WillShowPrivacyMessage;
 	showPrivacyManager: () => void;
 }
