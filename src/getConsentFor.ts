@@ -25,7 +25,7 @@ enum VendorIDs {
 	'nielsen' = '5ef5c3a5b8e05c69980eaa5b',
 	'ophan' = '5f203dbeeaaaa8768fd3226a',
 	'permutive' = '5eff0d77969bfa03746427eb',
-	'prebid' = '5f22bfd82a6b6c1afd1181a9',
+	'prebid' = '5f92a62aa22863685f4daa4c',
 	'redplanet' = '5f199c302425a33f3f090f51',
 	'remarketing' = '5ed0eb688a76503f1016578f',
 	'sentry' = '5f0f39014effda6e8bbd2006',
