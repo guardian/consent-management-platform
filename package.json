@@ -20,6 +20,7 @@
     "dev": "yarn clean && yarn compile --watch",
     "fix": "yarn lint --fix",
     "lint": "eslint . --ext=js,ts,tsx",
+		"foo": "ts-node vendor-test/index.ts",
     "prepublishOnly": "yarn build",
     "readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
     "readme-toc:generate": "markdown-toc README.md -i --maxdepth=3",
@@ -87,8 +88,9 @@
     "serve": "^11",
     "start-server-and-test": "^1",
     "svelte": "^3",
+    "ts-node": "^10.5.0",
     "tslib": "^2",
-    "typescript": "^4",
+    "typescript": "^4.5.5",
     "wait-for-expect": "^3"
   },
   "dependencies": {

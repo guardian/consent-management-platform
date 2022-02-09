@@ -4,7 +4,7 @@ import type { ConsentState } from './types';
    --
    these are API names, and we want them like this
 */
-enum VendorIDs {
+export enum VendorIDs {
 	// keep the list in README.md up to date with these values
 	'a9' = '5f369a02b8e05c308701f829',
 	'acast' = '5f203dcb1f0dea790562e20f',
