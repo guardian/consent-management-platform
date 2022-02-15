@@ -65,5 +65,5 @@ it('the vendor ids used must be a subset of those known by the IAB as our vendor
 		(id) => !iabVendorIds.includes(id),
 	);
 
-	expect(missingVendorIds).toBe([]);
+	expect(missingVendorIds).toStrictEqual([]);
 });
