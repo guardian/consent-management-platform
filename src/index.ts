@@ -10,9 +10,11 @@ import { TCFv2 } from './tcfv2';
 import type {
 	CMP,
 	InitCMP,
+	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
+import type { Country } from './types/countries';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -104,19 +106,37 @@ const showPrivacyManager = () => {
 	void initialised.then(frameworkCMP?.showPrivacyManager);
 };
 
-export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
-	init,
-	willShowPrivacyMessage,
-	willShowPrivacyMessageSync,
-	hasInitialised,
-	showPrivacyManager,
-	version: __PACKAGE_VERSION__,
+export const cmp: CMP = (window.guCmpHotFix.cmp ||=
+	// On the server return a CMP object
+	typeof window === 'undefined'
+		? {
+				init: (_: { pubData?: PubData; country?: Country }) => void 0,
+				showPrivacyManager: () => {
+					void 0;
+				},
+				willShowPrivacyMessage: () => new Promise(() => false),
+				willShowPrivacyMessageSync: () => false,
+				hasInitialised: () => true,
+				version: __PACKAGE_VERSION__,
 
-	// special helper methods for disabling CMP
-	__isDisabled: isDisabled,
-	__enable: enable,
-	__disable: disable,
-});
+				// special helper methods for disabling CMP
+				__isDisabled: isDisabled,
+				__enable: enable,
+				__disable: disable,
+		  }
+		: {
+				init,
+				willShowPrivacyMessage,
+				willShowPrivacyMessageSync,
+				hasInitialised,
+				showPrivacyManager,
+				version: __PACKAGE_VERSION__,
+
+				// special helper methods for disabling CMP
+				__isDisabled: isDisabled,
+				__enable: enable,
+				__disable: disable,
+		  });
 
 export const onConsentChange = (window.guCmpHotFix.onConsentChange ||=
 	actualOnConsentChange);
