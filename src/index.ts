@@ -10,11 +10,9 @@ import { TCFv2 } from './tcfv2';
 import type {
 	CMP,
 	InitCMP,
-	PubData,
 	SourcepointImplementation,
 	WillShowPrivacyMessage,
 } from './types';
-import type { Country } from './types/countries';
 
 const isServerSide = typeof window === 'undefined';
 
