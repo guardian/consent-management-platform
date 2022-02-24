@@ -115,9 +115,7 @@ export const cmp: CMP = (() => {
 	if (isServerSide) {
 		return {
 			init: (_: { pubData?: PubData; country?: Country }) => void 0,
-			showPrivacyManager: () => {
-				void 0;
-			},
+			showPrivacyManager: () => void 0,
 			willShowPrivacyMessage: () => new Promise(() => false),
 			willShowPrivacyMessageSync: () => false,
 			hasInitialised: () => true,
