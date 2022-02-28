@@ -150,7 +150,7 @@ export const onConsentChange = (() => {
 
 export const getConsentFor = (() => {
 	if (isServerSide) {
-		actualGetConsentFor;
+		return actualGetConsentFor;
 	}
 	return (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);
 })();
