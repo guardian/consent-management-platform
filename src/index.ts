@@ -16,7 +16,7 @@ import type {
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
-window.guCmpHotFix ||= {};
+globalThis.guCmpHotFix ||= {};
 
 let frameworkCMP: SourcepointImplementation | undefined;
 
@@ -31,11 +31,11 @@ const initialised = new Promise((resolve) => {
 const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled()) return;
 
-	if (window.guCmpHotFix.initialised) {
-		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
+	if (globalThis.guCmpHotFix.initialised) {
+		if (globalThis.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
 			console.warn('Two different versions of the CMP are running:', [
 				__PACKAGE_VERSION__,
-				window.guCmpHotFix.cmp?.version,
+				globalThis.guCmpHotFix.cmp?.version,
 			]);
 		return;
 	}
@@ -43,7 +43,7 @@ const init: InitCMP = ({ pubData, country }) => {
 	// this is slightly different to initComplete - it's there to
 	// prevent another instance of CMP initialising, so we set this true asap.
 	// initComplete is set true once we have _finished_ initialising
-	window.guCmpHotFix.initialised = true;
+	globalThis.guCmpHotFix.initialised = true;
 
 	if (typeof country === 'undefined') {
 		throw new Error(
@@ -104,7 +104,7 @@ const showPrivacyManager = () => {
 	void initialised.then(frameworkCMP?.showPrivacyManager);
 };
 
-export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
+export const cmp: CMP = (globalThis.guCmpHotFix.cmp ||= {
 	init,
 	willShowPrivacyMessage,
 	willShowPrivacyMessageSync,
@@ -118,7 +118,7 @@ export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
 	__disable: disable,
 });
 
-export const onConsentChange = (window.guCmpHotFix.onConsentChange ||=
+export const onConsentChange = (globalThis.guCmpHotFix.onConsentChange ||=
 	actualOnConsentChange);
-export const getConsentFor = (window.guCmpHotFix.getConsentFor ||=
+export const getConsentFor = (globalThis.guCmpHotFix.getConsentFor ||=
 	actualGetConsentFor);
