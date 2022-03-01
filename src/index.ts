@@ -16,6 +16,18 @@ import type {
 
 const isServerSide = typeof window === 'undefined';
 
+const serverSideWarn = (): void => {
+	console.warn(
+		'This is a server-side version of the @guardian/consent-management-platform',
+		'No consent signals will be received.',
+	);
+};
+
+const serverSideWarnAndReturn = <T extends unknown>(arg: T): (() => T) => {
+	serverSideWarn();
+	return () => arg;
+};
+
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 if (!isServerSide) {
@@ -112,17 +124,17 @@ const showPrivacyManager = () => {
 export const cmp: CMP = (() => {
 	if (isServerSide) {
 		return {
-			init: () => void 0,
-			showPrivacyManager: () => void 0,
-			willShowPrivacyMessage: () => new Promise(() => false),
-			willShowPrivacyMessageSync: () => false,
-			hasInitialised: () => true,
-			version: __PACKAGE_VERSION__,
-
-			// special helper methods for disabling CMP
-			__isDisabled: isDisabled,
-			__enable: enable,
-			__disable: disable,
+			__disable: serverSideWarn,
+			__enable: serverSideWarnAndReturn(false),
+			__isDisabled: serverSideWarnAndReturn(false),
+			hasInitialised: serverSideWarnAndReturn(false),
+			init: serverSideWarn,
+			showPrivacyManager: serverSideWarn,
+			version: 'n/a',
+			willShowPrivacyMessage: serverSideWarnAndReturn(
+				Promise.resolve(false),
+			),
+			willShowPrivacyMessageSync: serverSideWarnAndReturn(false),
 		} as CMP;
 	}
 
@@ -143,14 +155,14 @@ export const cmp: CMP = (() => {
 
 export const onConsentChange = (() => {
 	if (isServerSide) {
-		return () => void 0;
+		return serverSideWarn();
 	}
 	return (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
 })();
 
 export const getConsentFor = (() => {
 	if (isServerSide) {
-		return actualGetConsentFor;
+		return serverSideWarn();
 	}
 	return (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);
 })();
