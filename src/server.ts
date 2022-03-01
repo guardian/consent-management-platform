@@ -47,9 +47,9 @@ export const getConsentFor: GetConsentFor = (
 		`Server-side call for getConsentFor(${vendor}, ${JSON.stringify(
 			consent,
 		)})`,
-		'getConsentFor will always return true server-side',
+		'getConsentFor will always return false server-side',
 	);
 	serverSideWarn();
 
-	return true;
+	return false;
 };
