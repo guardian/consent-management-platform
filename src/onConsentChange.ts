@@ -2,7 +2,7 @@ import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
-import type { Callback, CallbackQueueItem, ConsentState } from './types';
+import type { CallbackQueueItem, ConsentState, OnConsentChange } from './types';
 
 // callbacks cache
 const callBackQueue: CallbackQueueItem[] = [];
@@ -41,7 +41,7 @@ export const invokeCallbacks = (): void => {
 	});
 };
 
-export const onConsentChange: (fn: Callback) => void = (callBack) => {
+export const onConsentChange: OnConsentChange = (callBack) => {
 	const newCallback: CallbackQueueItem = { fn: callBack };
 
 	callBackQueue.push(newCallback);

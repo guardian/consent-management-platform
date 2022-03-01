@@ -1,4 +1,4 @@
-import type { ConsentState } from './types';
+import type { ConsentState, GetConsentFor } from './types';
 
 /* eslint-disable @typescript-eslint/naming-convention
    --
@@ -34,7 +34,7 @@ export enum VendorIDs {
 
 export type VendorName = keyof typeof VendorIDs;
 
-export const getConsentFor = (
+export const getConsentFor: GetConsentFor = (
 	vendor: VendorName,
 	consent: ConsentState,
 ): boolean => {
