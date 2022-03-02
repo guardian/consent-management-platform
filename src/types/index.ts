@@ -20,6 +20,12 @@ export type CMP = {
 
 export type InitCMP = (arg0: { pubData?: PubData; country?: Country }) => void;
 
+export type OnConsentChange = (fn: Callback) => void;
+export type GetConsentFor = (
+	vendor: VendorName,
+	consent: ConsentState,
+) => boolean;
+
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
 	ccpa?: CCPAConsentState;

@@ -1,6 +1,6 @@
-let isGuardian: boolean | undefined;
+import { isServerSide } from '../server';
 
-const isServerSide = typeof window === 'undefined';
+let isGuardian: boolean | undefined;
 
 export const isGuardianDomain = (): boolean => {
 	if (typeof isGuardian === 'undefined') {
