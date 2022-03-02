@@ -55,7 +55,7 @@ it('the vendor ids used must be a subset of those known by the IAB as our vendor
 		guardianVendorListUrl,
 	);
 
-	const vendorIds = Object.values(VendorIDs);
+	const vendorIds = Object.values(VendorIDs).flat();
 
 	const iabVendorIds = iabGuardianVendorListResponse.data['vendors'].map(
 		(vendor) => vendor['_id'],
