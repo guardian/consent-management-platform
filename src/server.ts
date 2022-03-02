@@ -18,8 +18,10 @@ export const serverSideWarn = (): void => {
 export const serverSideWarnAndReturn = <T extends unknown>(
 	arg: T,
 ): (() => T) => {
-	serverSideWarn();
-	return () => arg;
+	return () => {
+		serverSideWarn();
+		return arg;
+	}
 };
 
 export const cmp: CMP = {
