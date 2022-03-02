@@ -21,7 +21,7 @@ export const serverSideWarnAndReturn = <T extends unknown>(
 	return () => {
 		serverSideWarn();
 		return arg;
-	}
+	};
 };
 
 export const cmp: CMP = {
