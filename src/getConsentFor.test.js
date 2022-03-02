@@ -67,3 +67,23 @@ it('the vendor ids used must be a subset of those known by the IAB as our vendor
 
 	expect(missingVendorIds).toStrictEqual([]);
 });
+
+
+// TODO: Mock /vendors import to check what happens with multiple IDs
+it('fails', async () => {
+	const vendorWithOneId = '5f369a02b8e05c308701f829'
+	const vendorWithTwoIds = '5f369a02b8e05c308701f829'
+
+	jest.mock('./vendors', () => ({
+		VendorIDs: {
+			vendorWithOneId: ['5f369a02b8e05c308701f829'],
+			vendorWithTwoIds: ['5f369a02b8e05c308701f829'],
+		}
+	}));
+
+	const bat = {
+		tcfv2: { vendorConsents: { [vendorWithOneId]: true } },
+	}
+
+	expect(getConsentFor('vendorWithOneId', bat)).toBe(expected);
+});
