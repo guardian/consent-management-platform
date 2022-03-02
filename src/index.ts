@@ -6,20 +6,25 @@ import { getFramework } from './getFramework';
 import { onConsentChange as actualOnConsentChange } from './onConsentChange';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 
+const isServerSide = typeof window === 'undefined';
+
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
-window.guCmpHotFix ||= {};
+if (!isServerSide) {
+	window.guCmpHotFix ||= {};
+}
 
 let _willShowPrivacyMessage: undefined | boolean;
 let initComplete = false;
 
 let resolveInitialised: (value?: unknown) => void;
+
 const initialised = new Promise((resolve) => {
 	resolveInitialised = resolve;
 });
 
 const init: InitCMP = ({ pubData, country }) => {
-	if (isDisabled()) return;
+	if (isDisabled() || isServerSide) return;
 
 	if (window.guCmpHotFix.initialised) {
 		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
@@ -72,21 +77,48 @@ const showPrivacyManager = () => {
 	void initialised.then(UnifiedCMP.showPrivacyManager);
 };
 
-export const cmp: CMP = (window.guCmpHotFix.cmp ||= {
-	init,
-	willShowPrivacyMessage,
-	willShowPrivacyMessageSync,
-	hasInitialised,
-	showPrivacyManager,
-	version: __PACKAGE_VERSION__,
+export const cmp: CMP = (() => {
+	if (isServerSide) {
+		return {
+			init: () => void 0,
+			showPrivacyManager: () => void 0,
+			willShowPrivacyMessage: () => new Promise(() => false),
+			willShowPrivacyMessageSync: () => false,
+			hasInitialised: () => true,
+			version: __PACKAGE_VERSION__,
 
-	// special helper methods for disabling CMP
-	__isDisabled: isDisabled,
-	__enable: enable,
-	__disable: disable,
-});
+			// special helper methods for disabling CMP
+			__isDisabled: isDisabled,
+			__enable: enable,
+			__disable: disable,
+		} as CMP;
+	}
 
-export const onConsentChange = (window.guCmpHotFix.onConsentChange ||=
-	actualOnConsentChange);
-export const getConsentFor = (window.guCmpHotFix.getConsentFor ||=
-	actualGetConsentFor);
+	return (window.guCmpHotFix.cmp ||= {
+		init,
+		willShowPrivacyMessage,
+		willShowPrivacyMessageSync,
+		hasInitialised,
+		showPrivacyManager,
+		version: __PACKAGE_VERSION__,
+
+		// special helper methods for disabling CMP
+		__isDisabled: isDisabled,
+		__enable: enable,
+		__disable: disable,
+	});
+})();
+
+export const onConsentChange = (() => {
+	if (isServerSide) {
+		return () => void 0;
+	}
+	return (window.guCmpHotFix.onConsentChange ||= actualOnConsentChange);
+})();
+
+export const getConsentFor = (() => {
+	if (isServerSide) {
+		return actualGetConsentFor;
+	}
+	return (window.guCmpHotFix.getConsentFor ||= actualGetConsentFor);
+})();
