@@ -1,6 +1,11 @@
 // cSpell:ignore doesnotexist
 
-import { getConsentFor } from './getConsentFor';
+import axios from 'axios';
+import { getConsentFor, VendorIDs } from './getConsentFor';
+
+const cmpBaseUrl = 'sourcepoint.mgr.consensu.org';
+const guardianId = '5ec67f5bb8e05c4a1160fda1';
+const guardianVendorListUrl = `https://${cmpBaseUrl}/tcfv2/vendor-list?vendorListId=${guardianId}`;
 
 const googleAnalytics = '5e542b3a4cd8884eb41b5a72';
 
@@ -44,3 +49,21 @@ test.each([
 		expect(getConsentFor(vendor, mock)).toBe(expected);
 	},
 );
+
+it('the vendor ids used must be a subset of those known by the IAB as our vendors', async () => {
+	const iabGuardianVendorListResponse = await axios.get(
+		guardianVendorListUrl,
+	);
+
+	const vendorIds = Object.values(VendorIDs);
+
+	const iabVendorIds = iabGuardianVendorListResponse.data['vendors'].map(
+		(vendor) => vendor['_id'],
+	);
+
+	const missingVendorIds = vendorIds.filter(
+		(id) => !iabVendorIds.includes(id),
+	);
+
+	expect(missingVendorIds).toStrictEqual([]);
+});

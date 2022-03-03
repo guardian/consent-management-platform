@@ -57,6 +57,7 @@
     "@types/jest": "^26",
     "@typescript-eslint/eslint-plugin": "^4",
     "@typescript-eslint/parser": "^4",
+    "axios": "^0.25.0",
     "conventional-changelog-conventionalcommits": "^4.6.0",
     "cypress": "^8",
     "cypress-wait-until": "^1",

@@ -1,3 +1,4 @@
+import type { VendorName } from '../getConsentFor';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
 import type { Country } from './countries';
@@ -18,6 +19,12 @@ export type CMP = {
 };
 
 export type InitCMP = (arg0: { pubData?: PubData; country?: Country }) => void;
+
+export type OnConsentChange = (fn: Callback) => void;
+export type GetConsentFor = (
+	vendor: VendorName,
+	consent: ConsentState,
+) => boolean;
 
 export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
@@ -49,3 +56,5 @@ export interface VendorConsents {
 		}
 	>;
 }
+
+export type { VendorName };
