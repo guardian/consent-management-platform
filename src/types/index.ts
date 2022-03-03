@@ -1,4 +1,4 @@
-import type { VendorName } from '../getConsentFor';
+import type { VendorName } from '../vendors';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
 import type { Country } from './countries';

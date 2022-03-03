@@ -1,5 +1,6 @@
 import type { ConsentState, GetConsentFor } from './types';
-import { VendorIDs, VendorName } from './vendors'
+import type { VendorName } from './vendors';
+import { VendorIDs } from './vendors';
 
 export const getConsentFor: GetConsentFor = (
 	vendor: VendorName,
