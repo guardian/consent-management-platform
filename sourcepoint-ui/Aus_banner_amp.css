@@ -9,7 +9,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     box-sizing: border-box;
 }
 
-:root { 
+:root {
     font-size: 16px;
 }
 
@@ -83,12 +83,12 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     border-top: 1px solid rgb(80, 105, 145) !important;
 }
 
-.cta-container .cta-ask, 
+.cta-container .cta-ask,
 .cta-container .cta-description  {
     display: none;
 }
 
-.cta-container, 
+.cta-container,
 .gu-tcfv2-privacy-notice {
     box-sizing: border-box;
     display: -webkit-flex;
@@ -128,7 +128,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     overflow-y: scroll;
     padding: 0.625rem 1.25rem 110px 1.25rem !important;
     scrollbar-width: thin;
-    scrollbar-color: #052862 #CFD8DC;
+    scrollbar-color: #052962 #CFD8DC;
 }
 
 .gu-content::-webkit-scrollbar {
@@ -140,7 +140,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 .gu-content::-webkit-scrollbar-thumb {
-    background-color: #052862;
+    background-color: #052962;
     border-radius: 6px;
     border: 3px solid #506991;
 }
@@ -170,12 +170,12 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 .message-stacks .accordion {
-    background: #052862;
+    background: #052962;
 }
 
 .message-stacks .stack {
     width: 100%;
-    background-color: #052862;
+    background-color: #052962;
 }
 
 .message-stacks .stack:hover {
@@ -192,12 +192,12 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 .message-stacks .panel {
-    background: #052862;
+    background: #052962;
     border-bottom: 0px;
 }
 
 .panel {
-    background: #052862;
+    background: #052962;
     font-size: 15px !important;
     line-height: 20px !important;
 }
@@ -211,7 +211,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 @media (max-width: 375px) {
-    .btn-primary, 
+    .btn-primary,
     .btn-secondary {
         font-size: 15px !important;
         padding: 8px 12px !important;
@@ -227,7 +227,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
         background: none;
-    } 
+    }
 
     .cta-row {
         max-width: 46.25rem;
@@ -279,7 +279,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     }
 
     .gu-privacy-headline {
-        margin-bottom: 17px !important;    
+        margin-bottom: 17px !important;
     }
 
     .gu-privacy-headline > p {
@@ -320,12 +320,12 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 
 @media (min-width: 61.25rem) {
     .cta-row .cta-description {
-        width: 50% !important;    
+        width: 50% !important;
     }
 
     .cta-row {
         max-width: 61.25rem;
-    }    
+    }
 
     .gs-container {
         max-width: 61.25rem;
@@ -392,7 +392,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
         background: rgba(5, 41, 98, 0.7);
     }
 
-    .cta-container .cta-ask, 
+    .cta-container .cta-ask,
     .cta-container .cta-description  {
         display: none;
     }
@@ -415,7 +415,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
         overflow-y: scroll;
         padding-bottom: 80px !important;
         scrollbar-width: thin;
-        scrollbar-color: #052862 #CFD8DC;
+        scrollbar-color: #052962 #CFD8DC;
     }
 
     .gu-content::-webkit-scrollbar {
@@ -427,7 +427,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
     }
 
     .gu-content::-webkit-scrollbar-thumb {
-        background-color: #052862;
+        background-color: #052962;
         border-radius: 6px;
         border: 3px solid #506991;
     }
