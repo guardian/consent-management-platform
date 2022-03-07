@@ -67,7 +67,7 @@
     "eslint-plugin-cypress": "^2",
     "eslint-plugin-eslint-comments": "^3",
     "eslint-plugin-import": "^2",
-    "eslint-plugin-jest": "^24",
+    "eslint-plugin-jest": "^26",
     "eslint-plugin-prettier": "^3",
     "eslint-plugin-svelte3": "^3",
     "husky": "^7.0.0",
