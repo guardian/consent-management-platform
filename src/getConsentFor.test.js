@@ -2,27 +2,31 @@
 
 import { getConsentFor } from './getConsentFor';
 
-const googleAnalytics = '5e542b3a4cd8884eb41b5a72';
+const vendorOne = 'd3b07384d113edec49eaa623';
+const vendorAlt = 'c157a79031e1c40f85931829';
 
 const tcfv2ConsentNotFound = {
 	tcfv2: { vendorConsents: { doesnotexist: true } },
 };
-
+const tcfv2ConsentFoundTrueAlt = {
+	tcfv2: { vendorConsents: { [vendorAlt]: true } },
+};
 const tcfv2ConsentFoundTrue = {
-	tcfv2: { vendorConsents: { [googleAnalytics]: true } },
+	tcfv2: { vendorConsents: { [vendorOne]: true } },
 };
-
 const tcfv2ConsentFoundFalse = {
-	tcfv2: { vendorConsents: { [googleAnalytics]: false } },
+	tcfv2: { vendorConsents: { [vendorOne]: false } },
 };
-
 const ccpaWithConsent = { ccpa: { doNotSell: false } };
-
 const ccpaWithoutConsent = { ccpa: { doNotSell: true } };
-
 const ausWithConsent = { aus: { personalisedAdvertising: true } };
-
 const ausWithoutConsent = { aus: { personalisedAdvertising: false } };
+
+jest.mock('./vendors', () => ({
+	VendorIDs: {
+		vendorOne: [vendorOne, vendorAlt],
+	},
+}));
 
 it('throws an error if the vendor found ', () => {
 	expect(() => {
@@ -31,13 +35,14 @@ it('throws an error if the vendor found ', () => {
 });
 
 test.each([
-	['tcfv2 (unknown)', false, 'google-analytics', tcfv2ConsentNotFound],
-	['tcfv2', true, 'google-analytics', tcfv2ConsentFoundTrue],
-	['tcfv2', false, 'google-analytics', tcfv2ConsentFoundFalse],
-	['ccpa', true, 'google-analytics', ccpaWithConsent],
-	['ccpa', false, 'google-analytics', ccpaWithoutConsent],
-	['aus', true, 'google-analytics', ausWithConsent],
-	['aus', false, 'google-analytics', ausWithoutConsent],
+	['tcfv2 (unknown)', false, 'vendorOne', tcfv2ConsentNotFound],
+	['tcfv2', true, 'vendorOne', tcfv2ConsentFoundTrueAlt],
+	['tcfv2', true, 'vendorOne', tcfv2ConsentFoundTrue],
+	['tcfv2', false, 'vendorOne', tcfv2ConsentFoundFalse],
+	['ccpa', true, 'vendorOne', ccpaWithConsent],
+	['ccpa', false, 'vendorOne', ccpaWithoutConsent],
+	['aus', true, 'vendorOne', ausWithConsent],
+	['aus', false, 'vendorOne', ausWithoutConsent],
 ])(
 	`In %s mode, returns %s, for vendor %s`,
 	(cmpMode, expected, vendor, mock) => {
