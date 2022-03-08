@@ -249,10 +249,46 @@ const mark = (label) => {
     }
 };
 
+const isServerSide = typeof window === 'undefined';
+const serverSideWarn = () => {
+    console.warn('This is a server-side version of the @guardian/consent-management-platform', 'No consent signals will be received.');
+};
+const serverSideWarnAndReturn = (arg) => {
+    return () => {
+        serverSideWarn();
+        return arg;
+    };
+};
+const cmp$1 = {
+    __disable: serverSideWarn,
+    __enable: serverSideWarnAndReturn(false),
+    __isDisabled: serverSideWarnAndReturn(false),
+    hasInitialised: serverSideWarnAndReturn(false),
+    init: serverSideWarn,
+    showPrivacyManager: serverSideWarn,
+    version: 'n/a',
+    willShowPrivacyMessage: serverSideWarnAndReturn(Promise.resolve(false)),
+    willShowPrivacyMessageSync: serverSideWarnAndReturn(false),
+};
+const onConsentChange$2 = () => {
+    return serverSideWarn();
+};
+const getConsentFor$2 = (vendor, consent) => {
+    console.log(`Server-side call for getConsentFor(${vendor}, ${JSON.stringify(consent)})`, 'getConsentFor will always return false server-side');
+    serverSideWarn();
+    return false;
+};
+
 let isGuardian;
 const isGuardianDomain = () => {
-    if (typeof isGuardian === 'undefined')
-        isGuardian = window.location.host.endsWith('.theguardian.com');
+    if (typeof isGuardian === 'undefined') {
+        if (isServerSide) {
+            isGuardian = true;
+        }
+        else {
+            isGuardian = window.location.host.endsWith('.theguardian.com');
+        }
+    }
     return isGuardian;
 };
 
@@ -913,39 +949,37 @@ const enable = () => {
 };
 const isDisabled = () => new RegExp(`${COOKIE_NAME}=true(\\W+|$)`).test(document.cookie);
 
-var VendorIDs;
-(function (VendorIDs) {
-    VendorIDs["a9"] = "5f369a02b8e05c308701f829";
-    VendorIDs["acast"] = "5f203dcb1f0dea790562e20f";
-    VendorIDs["braze"] = "5ed8c49c4b8ce4571c7ad801";
-    VendorIDs["comscore"] = "5efefe25b8e05c06542b2a77";
-    VendorIDs["facebook-mobile"] = "5e716fc09a0b5040d575080f";
-    VendorIDs["fb"] = "5e7e1298b8e05c54a85c52d2";
-    VendorIDs["firebase"] = "5e68dbc769e7a93e0b25902f";
-    VendorIDs["google-analytics"] = "5e542b3a4cd8884eb41b5a72";
-    VendorIDs["google-mobile-ads"] = "5f1aada6b8e05c306c0597d7";
-    VendorIDs["google-sign-in"] = "5e4a5fbf26de4a77922b38a6";
-    VendorIDs["google-tag-manager"] = "5e952f6107d9d20c88e7c975";
-    VendorIDs["googletag"] = "5f1aada6b8e05c306c0597d7";
-    VendorIDs["ias"] = "5e7ced57b8e05c485246ccf3";
-    VendorIDs["inizio"] = "5e37fc3e56a5e6615502f9c9";
-    VendorIDs["ipsos"] = "5f745ab96f3aae0163740409";
-    VendorIDs["lotame"] = "5ed6aeb1b8e05c241a63c71f";
-    VendorIDs["nielsen"] = "5ef5c3a5b8e05c69980eaa5b";
-    VendorIDs["ophan"] = "5f203dbeeaaaa8768fd3226a";
-    VendorIDs["permutive"] = "5eff0d77969bfa03746427eb";
-    VendorIDs["prebid"] = "5f22bfd82a6b6c1afd1181a9";
-    VendorIDs["redplanet"] = "5f199c302425a33f3f090f51";
-    VendorIDs["remarketing"] = "5ed0eb688a76503f1016578f";
-    VendorIDs["sentry"] = "5f0f39014effda6e8bbd2006";
-    VendorIDs["teads"] = "5eab3d5ab8e05c2bbe33f399";
-    VendorIDs["twitter"] = "5e71760b69966540e4554f01";
-    VendorIDs["youtube-player"] = "5e7ac3fae30e7d1bc1ebf5e8";
-})(VendorIDs || (VendorIDs = {}));
+const VendorIDs = {
+    a9: ['5f369a02b8e05c308701f829'],
+    acast: ['5f203dcb1f0dea790562e20f'],
+    braze: ['5ed8c49c4b8ce4571c7ad801'],
+    comscore: ['5efefe25b8e05c06542b2a77'],
+    fb: ['5e7e1298b8e05c54a85c52d2'],
+    'google-analytics': ['5e542b3a4cd8884eb41b5a72'],
+    'google-mobile-ads': ['5f1aada6b8e05c306c0597d7'],
+    'google-tag-manager': ['5e952f6107d9d20c88e7c975'],
+    googletag: ['5f1aada6b8e05c306c0597d7'],
+    ias: ['5e7ced57b8e05c485246ccf3'],
+    inizio: ['5e37fc3e56a5e6615502f9c9'],
+    ipsos: ['5f745ab96f3aae0163740409'],
+    lotame: ['5ed6aeb1b8e05c241a63c71f'],
+    nielsen: ['5ef5c3a5b8e05c69980eaa5b'],
+    ophan: ['5f203dbeeaaaa8768fd3226a'],
+    permutive: ['5eff0d77969bfa03746427eb'],
+    prebid: ['5f92a62aa22863685f4daa4c'],
+    redplanet: ['5f199c302425a33f3f090f51'],
+    remarketing: ['5ed0eb688a76503f1016578f'],
+    sentry: ['5f0f39014effda6e8bbd2006'],
+    teads: ['5eab3d5ab8e05c2bbe33f399'],
+    twitter: ['5e71760b69966540e4554f01'],
+    'youtube-player': ['5e7ac3fae30e7d1bc1ebf5e8'],
+};
+
 const getConsentFor$1 = (vendor, consent) => {
-    const sourcepointId = VendorIDs[vendor];
-    if (typeof sourcepointId === 'undefined') {
-        throw new Error(`Vendor '${vendor}' not found. If it should be added, raise an issue at https://git.io/JUzVL`);
+    const sourcepointIds = VendorIDs[vendor];
+    if (typeof sourcepointIds === 'undefined' || sourcepointIds === []) {
+        throw new Error(`Vendor '${vendor}' not found, or with no Sourcepoint ID. ` +
+            'If it should be added, raise an issue at https://git.io/JUzVL');
     }
     if (consent.ccpa) {
         return !consent.ccpa.doNotSell;
@@ -953,7 +987,12 @@ const getConsentFor$1 = (vendor, consent) => {
     if (consent.aus) {
         return consent.aus.personalisedAdvertising;
     }
-    const tcfv2Consent = consent.tcfv2?.vendorConsents[sourcepointId];
+    const foundSourcepointId = sourcepointIds.find((id) => typeof consent.tcfv2?.vendorConsents[id] !== 'undefined');
+    if (typeof foundSourcepointId === 'undefined') {
+        console.warn(`No consent returned from Sourcepoint for vendor: '${vendor}'`);
+        return false;
+    }
+    const tcfv2Consent = consent.tcfv2?.vendorConsents[foundSourcepointId];
     if (typeof tcfv2Consent === 'undefined') {
         console.warn(`No consent returned from Sourcepoint for vendor: '${vendor}'`);
         return false;
@@ -979,7 +1018,9 @@ const getFramework = (countryCode) => {
 };
 
 var _a, _b, _c;
-window.guCmpHotFix || (window.guCmpHotFix = {});
+if (!isServerSide) {
+    window.guCmpHotFix || (window.guCmpHotFix = {});
+}
 let _willShowPrivacyMessage;
 let initComplete = false;
 let resolveInitialised;
@@ -987,7 +1028,7 @@ const initialised = new Promise((resolve) => {
     resolveInitialised = resolve;
 });
 const init = ({ pubData, country }) => {
-    if (isDisabled())
+    if (isDisabled() || isServerSide)
         return;
     if (window.guCmpHotFix.initialised) {
         if (window.guCmpHotFix.cmp?.version !== "0.0.0-this-never-updates-in-source-code-refer-to-git-tags")
@@ -1021,19 +1062,25 @@ const hasInitialised = () => initComplete;
 const showPrivacyManager = () => {
     void initialised.then(CMP.showPrivacyManager);
 };
-const cmp = ((_a = window.guCmpHotFix).cmp || (_a.cmp = {
-    init,
-    willShowPrivacyMessage,
-    willShowPrivacyMessageSync,
-    hasInitialised,
-    showPrivacyManager,
-    version: "0.0.0-this-never-updates-in-source-code-refer-to-git-tags",
-    __isDisabled: isDisabled,
-    __enable: enable,
-    __disable: disable,
-}));
-const onConsentChange = ((_b = window.guCmpHotFix).onConsentChange || (_b.onConsentChange = onConsentChange$1));
-const getConsentFor = ((_c = window.guCmpHotFix).getConsentFor || (_c.getConsentFor = getConsentFor$1));
+const cmp = isServerSide
+    ? cmp$1
+    : ((_a = window.guCmpHotFix).cmp || (_a.cmp = {
+        init,
+        willShowPrivacyMessage,
+        willShowPrivacyMessageSync,
+        hasInitialised,
+        showPrivacyManager,
+        version: "0.0.0-this-never-updates-in-source-code-refer-to-git-tags",
+        __isDisabled: isDisabled,
+        __enable: enable,
+        __disable: disable,
+    }));
+const onConsentChange = isServerSide
+    ? onConsentChange$2
+    : ((_b = window.guCmpHotFix).onConsentChange || (_b.onConsentChange = onConsentChange$1));
+const getConsentFor = isServerSide
+    ? getConsentFor$2
+    : ((_c = window.guCmpHotFix).getConsentFor || (_c.getConsentFor = getConsentFor$1));
 
 exports.cmp = cmp;
 exports.getConsentFor = getConsentFor;
