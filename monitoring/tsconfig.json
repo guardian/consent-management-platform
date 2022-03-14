@@ -1,0 +1,10 @@
+{
+	"extends": "@tsconfig/node14/tsconfig.json",
+	"include": ["./*.ts"],
+	"target": "es5",
+	"compilerOptions": {
+		"lib": ["DOM", "es2019"]
+	}
+}
+
+
