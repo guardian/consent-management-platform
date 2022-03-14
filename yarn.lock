@@ -1636,9 +1636,9 @@
     resolve "^1.17.0"
 
 "@rollup/plugin-html@^0.2.0":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-html/-/plugin-html-0.2.3.tgz#bed48fc18dbde345c0ef09b0b53a165d7bd3b7cd"
-  integrity sha512-efx8Ud1FWaHmj3Es5parp6uRt1DPyKq9A8t1GEZoNsYB4UTQQIL8PsjxcJOlH+P3QKRsSv1rIJhiMvuG4+kfwg==
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-html/-/plugin-html-0.2.4.tgz#11e0c1255b2986a71a858c8cbc6a6313d0b46c1e"
+  integrity sha512-x0qpNXxbmGa9Jnl4OX89AORPe2T/a4DqNK69BGRnEdaPKq6MdiUXSTam/eCkF5DxkQGcRcPq0L4vzr/E3q4mVA==
 
 "@rollup/plugin-node-resolve@^13":
   version "13.0.0"
@@ -4254,6 +4254,12 @@ eslint-plugin-jest@^24:
   dependencies:
     "@typescript-eslint/experimental-utils" "^4.0.1"
 
+eslint-plugin-prettier@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.4.0.tgz#cdbad3bf1dbd2b177e9825737fe63b476a08f0c7"
+  integrity sha512-UDK6rJT6INSfcOo545jiaOwB701uAIt2/dR7WnFQoGCVl1/EMqdANBmwUaqqQ45aXprsTGzSa39LI1PyuRBxxw==
+  dependencies:
+    prettier-linter-helpers "^1.0.0"
 
 eslint-plugin-prettier@^3:
   version "3.4.1"
