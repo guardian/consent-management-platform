@@ -1,0 +1,11 @@
+{
+	"projectName": "ConsentManagementPlatform",
+	"vcsURL": "https://github.com/guardian/consent-management-platform",
+	"actions": [
+		{
+			"action": "cmp-monitoring-lambda",
+			"path": "monitoring/dist",
+			"compress": "zip"
+		}
+	]
+}

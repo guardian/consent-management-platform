@@ -3,9 +3,6 @@ const fs = require("fs");
 const path = require("path");
 
 const chromium = require('chrome-aws-lambda');
-const {addExtra} = require('puppeteer-extra')
-const puppeteer = addExtra(chromium.puppeteer);
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 type CustomPuppeteerOptions = {
 	headless: boolean,
@@ -115,8 +112,7 @@ const initialiseOptions = async (isDebugMode: boolean): Promise<CustomPuppeteerO
 }
 
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	puppeteer.use(StealthPlugin())
-	return await puppeteer.launch(ops);
+	return await chromium.puppeteer.launch(ops);
 }
 
 const run = async (browser: Browser | null, url: string, isDebugMode: boolean) => {

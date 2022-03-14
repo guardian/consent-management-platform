@@ -4,7 +4,7 @@ export const handler = async () => {
 	console.log("hey there universe");
 
 	let browser = null;
-	const isDebugMode = true
+	const isDebugMode = false
 
 	try {
 		browser = await run(browser, 'https://www.theguardian.com', isDebugMode)
