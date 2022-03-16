@@ -77,7 +77,7 @@
     "np": "^7",
     "npm-run-all": "^4",
     "prettier": "^2.5.1",
-    "prettier-plugin-svelte": "^2",
+    "prettier-plugin-svelte": "^2.6.0",
     "rollup": "^2",
     "rollup-plugin-css-only": "^3",
     "rollup-plugin-livereload": "^2",
