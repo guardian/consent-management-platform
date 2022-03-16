@@ -66,9 +66,7 @@ describe('Interaction', () => {
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(
-				`div[title="Store and/or access information on a device"]`,
-			)
+			.find(`div[title="Store and/or access information on a device"]`)
 			.find('span.off')
 			.click();
 
@@ -94,9 +92,7 @@ describe('Interaction', () => {
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(
-				`div[title="Store and/or access information on a device"]`,
-			)
+			.find(`div[title="Store and/or access information on a device"]`)
 			.find('span.on')
 			.click();
 
