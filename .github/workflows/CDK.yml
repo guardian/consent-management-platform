@@ -1,0 +1,30 @@
+name: CDK
+on:
+  push:
+    branches:
+      - add-cdk
+
+jobs:
+  CDK:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies
+        working-directory: './cdk'
+        run: yarn
+
+      - name: Install dependencies
+        working-directory: './cdk'
+        run: yarn build
