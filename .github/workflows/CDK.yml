@@ -16,15 +16,21 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
+      - name: Install Root dependencies
+        run: yarn
 
-      - name: Install dependencies
+      - name: Install CDK dependencies
         working-directory: './cdk'
         run: yarn
 
-      - name: Install dependencies
+      - name: Build
         working-directory: './cdk'
         run: yarn build
+
+      - name: Test
+        working-directory: './cdk'
+        run: yarn test
+
+      - name: Synth
+        working-directory: './cdk'
+        run: yarn synth
