@@ -2,293 +2,99 @@
 /* istanbul ignore file */
 
 export const stub_tcfv2 = () => {
-	!(function (t) {
-		var e = {};
-		function n(r) {
-			if (e[r]) return e[r].exports;
-			var o = (e[r] = { i: r, l: !1, exports: {} });
-			return t[r].call(o.exports, o, o.exports, n), (o.l = !0), o.exports;
-		}
-		(n.m = t),
-			(n.c = e),
-			(n.d = function (t, e, r) {
-				n.o(t, e) ||
-					Object.defineProperty(t, e, { enumerable: !0, get: r });
-			}),
-			(n.r = function (t) {
-				'undefined' != typeof Symbol &&
-					Symbol.toStringTag &&
-					Object.defineProperty(t, Symbol.toStringTag, {
-						value: 'Module',
-					}),
-					Object.defineProperty(t, '__esModule', { value: !0 });
-			}),
-			(n.t = function (t, e) {
-				if ((1 & e && (t = n(t)), 8 & e)) return t;
-				if (4 & e && 'object' == typeof t && t && t.__esModule)
-					return t;
-				var r = Object.create(null);
-				if (
-					(n.r(r),
-					Object.defineProperty(r, 'default', {
-						enumerable: !0,
-						value: t,
-					}),
-					2 & e && 'string' != typeof t)
-				)
-					for (var o in t)
-						n.d(
-							r,
-							o,
-							function (e) {
-								return t[e];
-							}.bind(null, o),
-						);
-				return r;
-			}),
-			(n.n = function (t) {
-				var e =
-					t && t.__esModule
-						? function () {
-								return t.default;
-						  }
-						: function () {
-								return t;
-						  };
-				return n.d(e, 'a', e), e;
-			}),
-			(n.o = function (t, e) {
-				return Object.prototype.hasOwnProperty.call(t, e);
-			}),
-			(n.p = ''),
-			n((n.s = 3));
-	})([
-		function (t, e, n) {
-			var r = n(2);
-			t.exports = !r(function () {
-				return (
-					7 !=
-					Object.defineProperty({}, 'a', {
-						get: function () {
-							return 7;
-						},
-					}).a
-				);
-			});
-		},
-		function (t, e) {
-			t.exports = function (t) {
-				return 'object' == typeof t
-					? null !== t
-					: 'function' == typeof t;
-			};
-		},
-		function (t, e) {
-			t.exports = function (t) {
-				try {
-					return !!t();
-				} catch (t) {
-					return !0;
+	function _typeof(t) {
+		return (_typeof =
+			"function" == typeof Symbol && "symbol" == typeof Symbol.iterator
+				? function (t) {
+					return typeof t;
 				}
-			};
-		},
-		function (t, e, n) {
-			n(4),
-				(function () {
-					if ('function' != typeof window.__tcfapi) {
-						var t,
-							e = [],
-							n = window,
-							r = n.document;
-						!n.__tcfapi &&
-							(function t() {
-								var e = !!n.frames.__tcfapiLocator;
-								if (!e)
-									if (r.body) {
-										var o = r.createElement('iframe');
-										(o.style.cssText = 'display:none'),
-											(o.name = '__tcfapiLocator'),
-											r.body.appendChild(o);
-									} else setTimeout(t, 5);
-								return !e;
-							})() &&
-							((n.__tcfapi = function () {
-								for (
-									var n = arguments.length,
-										r = new Array(n),
-										o = 0;
-									o < n;
-									o++
-								)
-									r[o] = arguments[o];
-								if (!r.length) return e;
-								if ('setGdprApplies' === r[0])
-									r.length > 3 &&
-										2 === parseInt(r[1], 10) &&
-										'boolean' == typeof r[3] &&
-										((t = r[3]),
-										'function' == typeof r[2] &&
-											r[2]('set', !0));
-								else if ('ping' === r[0]) {
-									var i = {
-										gdprApplies: t,
-										cmpLoaded: !1,
-										apiVersion: '2.0',
-									};
-									'function' == typeof r[2] && r[2](i, !0);
-								} else e.push(r);
-							}),
-							n.addEventListener(
-								'message',
-								function (t) {
-									var e = 'string' == typeof t.data,
-										r = {};
-									try {
-										r = e ? JSON.parse(t.data) : t.data;
-									} catch (t) {}
-									var o = r.__tcfapiCall;
-									o &&
-										n.__tcfapi(
-											o.command,
-											o.parameter,
-											o.version,
-											function (n, r) {
-												var i = {
-													__tcfapiReturn: {
-														returnValue: n,
-														success: r,
-														callId: o.callId,
-													},
-												};
-												e && (i = JSON.stringify(i)),
-													t.source.postMessage(
-														i,
-														'*',
-													);
-											},
-										);
-								},
-								!1,
-							));
+				: function (t) {
+					return t &&
+					"function" == typeof Symbol &&
+					t.constructor === Symbol &&
+					t !== Symbol.prototype
+						? "symbol"
+						: typeof t;
+				})(t);
+	}
+	!(function () {
+		var t = function () {
+			var t,
+				e,
+				o = [],
+				n = window,
+				r = n;
+			for (; r; ) {
+				try {
+					if (r.frames.__tcfapiLocator) {
+						t = r;
+						break;
 					}
-				})();
-		},
-		function (t, e, n) {
-			var r = n(0),
-				o = n(5).f,
-				i = Function.prototype,
-				c = i.toString,
-				u = /^s*function ([^ (]*)/;
-			r &&
-				!('name' in i) &&
-				o(i, 'name', {
-					configurable: !0,
-					get: function () {
-						try {
-							return c.call(this).match(u)[1];
-						} catch (t) {
-							return '';
-						}
-					},
-				});
-		},
-		function (t, e, n) {
-			var r = n(0),
-				o = n(6),
-				i = n(10),
-				c = n(11),
-				u = Object.defineProperty;
-			e.f = r
-				? u
-				: function (t, e, n) {
-						if ((i(t), (e = c(e, !0)), i(n), o))
-							try {
-								return u(t, e, n);
-							} catch (t) {}
-						if ('get' in n || 'set' in n)
-							throw TypeError('Accessors not supported');
-						return 'value' in n && (t[e] = n.value), t;
-				  };
-		},
-		function (t, e, n) {
-			var r = n(0),
-				o = n(2),
-				i = n(7);
-			t.exports =
-				!r &&
-				!o(function () {
-					return (
-						7 !=
-						Object.defineProperty(i('div'), 'a', {
-							get: function () {
-								return 7;
-							},
-						}).a
-					);
-				});
-		},
-		function (t, e, n) {
-			var r = n(8),
-				o = n(1),
-				i = r.document,
-				c = o(i) && o(i.createElement);
-			t.exports = function (t) {
-				return c ? i.createElement(t) : {};
-			};
-		},
-		function (t, e, n) {
-			(function (e) {
-				var n = function (t) {
-					return t && t.Math == Math && t;
-				};
-				t.exports =
-					n('object' == typeof globalThis && globalThis) ||
-					n('object' == typeof window && window) ||
-					n('object' == typeof self && self) ||
-					n('object' == typeof e && e) ||
-					Function('return this')();
-			}.call(this, n(9)));
-		},
-		function (t, e) {
-			var n;
-			n = (function () {
-				return this;
-			})();
-			try {
-				n = n || new Function('return this')();
-			} catch (t) {
-				'object' == typeof window && (n = window);
+				} catch (t) {}
+				if (r === n.top) break;
+				r = n.parent;
 			}
-			t.exports = n;
-		},
-		function (t, e, n) {
-			var r = n(1);
-			t.exports = function (t) {
-				if (!r(t)) throw TypeError(String(t) + ' is not an object');
-				return t;
-			};
-		},
-		function (t, e, n) {
-			var r = n(1);
-			t.exports = function (t, e) {
-				if (!r(t)) return t;
-				var n, o;
-				if (
-					e &&
-					'function' == typeof (n = t.toString) &&
-					!r((o = n.call(t)))
-				)
-					return o;
-				if ('function' == typeof (n = t.valueOf) && !r((o = n.call(t))))
-					return o;
-				if (
-					!e &&
-					'function' == typeof (n = t.toString) &&
-					!r((o = n.call(t)))
-				)
-					return o;
-				throw TypeError("Can't convert object to primitive value");
-			};
-		},
-	]);
+			t ||
+			(!(function t() {
+				var e = n.document,
+					o = !!n.frames.__tcfapiLocator;
+				if (!o)
+					if (e.body) {
+						var r = e.createElement("iframe");
+						(r.style.cssText = "display:none"),
+							(r.name = "__tcfapiLocator"),
+							e.body.appendChild(r);
+					} else setTimeout(t, 5);
+				return !o;
+			})(),
+				(n.__tcfapi = function () {
+					for (var t = arguments.length, n = new Array(t), r = 0; r < t; r++)
+						n[r] = arguments[r];
+					if (!n.length) return o;
+					"setGdprApplies" === n[0]
+						? n.length > 3 &&
+						2 === parseInt(n[1], 10) &&
+						"boolean" == typeof n[3] &&
+						((e = n[3]), "function" == typeof n[2] && n[2]("set", !0))
+						: "ping" === n[0]
+							? "function" == typeof n[2] &&
+							n[2]({ gdprApplies: e, cmpLoaded: !1, cmpStatus: "stub" })
+							: o.push(n);
+				}),
+				n.addEventListener(
+					"message",
+					function (t) {
+						var e = "string" == typeof t.data,
+							o = {};
+						if (e)
+							try {
+								o = JSON.parse(t.data);
+							} catch (t) {}
+						else o = t.data;
+						var n = "object" === _typeof(o) ? o.__tcfapiCall : null;
+						n &&
+						window.__tcfapi(
+							n.command,
+							n.version,
+							function (o, r) {
+								var a = {
+									__tcfapiReturn: {
+										returnValue: o,
+										success: r,
+										callId: n.callId,
+									},
+								};
+								t &&
+								t.source &&
+								t.source.postMessage &&
+								t.source.postMessage(e ? JSON.stringify(a) : a, "*");
+							},
+							n.parameter
+						);
+					},
+					!1
+				));
+		};
+		"undefined" != typeof module ? (module.exports = t) : t();
+	})();
 };
