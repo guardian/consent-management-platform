@@ -650,7 +650,6 @@ const stub_tcfv2 = () => {
 									o &&
 										n.__tcfapi(
 											o.command,
-											o.parameter,
 											o.version,
 											function (n, r) {
 												var i = {
@@ -666,6 +665,7 @@ const stub_tcfv2 = () => {
 														'*',
 													);
 											},
+											o.parameter,
 										);
 								},
 								!1,
