@@ -1,10 +1,32 @@
-name: CDK
+name: CI Monitoring
 on:
   push:
     branches:
       - add-cdk
 
 jobs:
+  Lambda:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install Root dependencies
+        run: yarn
+
+      - name: Install CDK dependencies
+        working-directory: './monitoring'
+        run: yarn
+
+      - name: Build
+        working-directory: './monitoring'
+        run: yarn build
+
   CDK:
     runs-on: ubuntu-latest
 
