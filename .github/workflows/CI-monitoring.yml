@@ -19,41 +19,29 @@ jobs:
       - name: Install Root dependencies
         run: yarn
 
-      - name: Install CDK dependencies
+      - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
         run: yarn
 
-      - name: Build
+      - name: Lambda Build
         working-directory: './monitoring'
         run: yarn build
 
-  CDK:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Install Root dependencies
-        run: yarn
-
-      - name: Install CDK dependencies
+      - name: CDK Install CDK dependencies
         working-directory: './cdk'
         run: yarn
 
-      - name: Test
+      - name: CDK Test
         working-directory: './cdk'
         run: yarn test
 
-      - name: Build
+      - name: CDK Build
         working-directory: './cdk'
         run: yarn build
 
-      - name: Synth
+      - name: CDK Synth
         working-directory: './cdk'
         run: yarn synth
 
+      - name: Generate riff-raff artifacts
+        run: yarn ci:monitoring
