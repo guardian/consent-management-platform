@@ -6,6 +6,11 @@
 			"action": "cmp-monitoring-lambda",
 			"path": "monitoring/dist",
 			"compress": "zip"
+		},
+		{
+			"action": "cmp-monitoring-cdk",
+			"path": "cdk/cdk.out/CmpMonitoringStack.template.json",
+			"compress": false
 		}
 	]
 }

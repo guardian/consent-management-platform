@@ -1,4 +1,4 @@
-name: CDK
+name: Monitoring
 on:
   push:
     branches:
@@ -20,18 +20,16 @@ jobs:
         run: yarn
 
       - name: Install CDK dependencies
-        working-directory: './cdk'
+        working-directory: './monitoring'
         run: yarn
 
       - name: Test
-        working-directory: './cdk'
+        working-directory: './monitoring'
         run: yarn test
 
       - name: Build
-        working-directory: './cdk'
+        working-directory: './monitoring'
         run: yarn build
 
-      - name: Synth
-        working-directory: './cdk'
-        run: yarn synth
+
 

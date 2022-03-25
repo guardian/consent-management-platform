@@ -1,0 +1,18 @@
+regions: [eu-west-1]
+stacks: [playground]
+deployments:
+    cmp-monitoring-lambda:
+        type: aws-lambda
+        dependencies: [cmp-monitoring-cloudformation]
+        parameters:
+            prefixStack: false
+            bucket: developer-playground-dist
+            fileName: cmp-monitoring-lambda.zip
+            functionNames: [cmp-monitoring-]
+    cmp-monitoring-cloudformation:
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templatePath: CmpMonitoringStack.template.json
+            cloudFormationStackByTags: false

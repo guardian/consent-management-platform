@@ -33,7 +33,8 @@
     "tsc": "tsc",
     "types": "tsc --project ./tsconfig.build.json",
     "validate": "npm-run-all tsc test lint build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+		"deploy": "yarn run node-riffraff-artifact"
   },
   "prettier": "@guardian/prettier",
   "devDependencies": {
