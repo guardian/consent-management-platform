@@ -1,4 +1,1 @@
-require('./src').handler()
-	.catch(console.error)
-
-
+require('./src').handler().catch(console.error);

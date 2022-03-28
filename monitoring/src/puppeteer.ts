@@ -1,20 +1,20 @@
-import {Browser, Page, Viewport} from "puppeteer-core";
-const fs = require("fs");
-const path = require("path");
+import type { Browser, Page, Viewport } from 'puppeteer-core';
 
+const fs = require('fs');
+const path = require('path');
 const chromium = require('chrome-aws-lambda');
 
 type CustomPuppeteerOptions = {
-	headless: boolean,
-	args: string[],
-	defaultViewport: Required<Viewport>,
-	executablePath: string,
-	ignoreHTTPSErrors: boolean,
-	devtools?: boolean,
-	timeout?: number,
-	waitUntil?: string,
-	dumpio?: boolean
-}
+	headless: boolean;
+	args: string[];
+	defaultViewport: Required<Viewport>;
+	executablePath: string;
+	ignoreHTTPSErrors: boolean;
+	devtools?: boolean;
+	timeout?: number;
+	waitUntil?: string;
+	dumpio?: boolean;
+};
 
 const checkCMPIsHidden = async (page: Page) => {
 	const display = await page.evaluate(
@@ -99,7 +99,9 @@ const checkPage = async function (browser: Browser, URL: string) {
 	await checkCMPDidNotLoad(page);
 };
 
-const initialiseOptions = async (isDebugMode: boolean): Promise<CustomPuppeteerOptions> => {
+const initialiseOptions = async (
+	isDebugMode: boolean,
+): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
@@ -107,27 +109,31 @@ const initialiseOptions = async (isDebugMode: boolean): Promise<CustomPuppeteerO
 		executablePath: await chromium.executablePath,
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
-		timeout: 0
-	}
-}
+		timeout: 0,
+	};
+};
 
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
 	return await chromium.puppeteer.launch(ops);
-}
+};
 
-const run = async (browser: Browser | null, url: string, isDebugMode: boolean) => {
+const run = async (
+	browser: Browser | null,
+	url: string,
+	isDebugMode: boolean,
+) => {
 	const ops = await initialiseOptions(isDebugMode);
 	browser = await launchBrowser(ops);
 
-	await checkPage(browser, url)
+	await checkPage(browser, url);
 
 	return browser;
-}
+};
 
 const terminate = async (browser: Browser | null) => {
 	if (browser !== null) {
-		await browser.close()
+		await browser.close();
 	}
-}
+};
 
-export {run, terminate}
+export { run, terminate };
