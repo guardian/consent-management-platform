@@ -5,11 +5,18 @@ on:
       - add-cdk
 
 jobs:
-  Lambda:
+  CI:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+
+      # Setup AWS credentials to enable uploading to S3 for Riff-Raff.
+      # See https://github.com/aws-actions/configure-aws-credentials
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+          aws-region: eu-west-1
 
       - name: Setup Node
         uses: actions/setup-node@v3
