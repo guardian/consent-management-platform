@@ -4,6 +4,7 @@ import type { App } from '@aws-cdk/core';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack, GuStageParameter } from '@guardian/cdk/lib/constructs/core';
 import { Runtime, Code, Handler } from '@aws-cdk/aws-lambda';
+import { Duration } from '@aws-cdk/core';
 
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda'
 
@@ -20,6 +21,7 @@ export class Monitoring extends GuStack {
       fileName: `${lambdaBaseName}.zip`,
       handler: "index.handler",
       runtime: Runtime.NODEJS_14_X,
+      timeout: Duration.seconds(300),
     });
 	}
 }
