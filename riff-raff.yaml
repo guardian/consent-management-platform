@@ -3,7 +3,7 @@ stacks: [playground]
 deployments:
     cmp-monitoring-lambda:
         type: aws-lambda
-        dependencies: [cmp-monitoring-cloudformation]
+        dependencies: [cmp-monitoring-cdk]
         parameters:
             prefixStack: false
             bucket: developer-playground-dist
