@@ -1,5 +1,5 @@
 {
-	"projectName": "ConsentManagementPlatform",
+	"projectName": "consent::cmp-monitoring",
 	"vcsURL": "https://github.com/guardian/consent-management-platform",
 	"actions": [
 		{
