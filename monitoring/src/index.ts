@@ -1,21 +1,21 @@
 import { run, terminate } from './puppeteer';
+import { debugMode, baseDomain } from './utils/flags';
 
-export const handler = async () => {
+export const handler = async (): Promise<void> => {
 	console.log('hey there universe');
 
 	let browser = null;
-	const isDebugMode = false;
 
 	try {
 		browser = await run(
 			browser,
-			'https://www.theguardian.com',
-			isDebugMode,
+			baseDomain,
+			debugMode,
 		);
 	} catch (error) {
 		console.log(error);
 	} finally {
-		if (!isDebugMode) {
+		if (!debugMode) {
 			await terminate(browser);
 		}
 	}
