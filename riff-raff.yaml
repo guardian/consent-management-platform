@@ -9,7 +9,7 @@ deployments:
             bucket: developer-playground-dist
             fileName: cmp-monitoring-lambda.zip
             functionNames: [cmp-monitoring-]
-    cmp-monitoring-cloudformation:
+    cmp-monitoring-cdk:
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
