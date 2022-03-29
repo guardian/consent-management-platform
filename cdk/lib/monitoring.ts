@@ -19,6 +19,7 @@ export class Monitoring extends GuStack {
 			handler: 'index.handler',
 			runtime: Runtime.NODEJS_14_X,
 			timeout: Duration.seconds(300),
+      memorySize: 1024,
 		});
 	}
 }
