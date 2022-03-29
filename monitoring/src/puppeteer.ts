@@ -1,8 +1,5 @@
-import type { Browser, Page, Viewport } from 'puppeteer-core';
-
-const fs = require('fs');
-const path = require('path');
-const chromium = require('chrome-aws-lambda');
+import Chromium = require('chrome-aws-lambda');
+import type { Browser, HTTPResponse, Page, Viewport } from 'puppeteer-core';
 
 type CustomPuppeteerOptions = {
 	headless: boolean;
@@ -17,8 +14,18 @@ type CustomPuppeteerOptions = {
 };
 
 const checkCMPIsHidden = async (page: Page) => {
-	const display = await page.evaluate(
-		`window.getComputedStyle(document.querySelector('[id*=\\"sp_message_container\\"]')).getPropertyValue('display')`,
+	const getSpMessageDisplayProperty = function () {
+		const querySelector = document.querySelector(
+			'[id*="sp_message_container"]',
+		);
+		if (querySelector) {
+			const computedStyle = window.getComputedStyle(querySelector);
+			return computedStyle.getPropertyValue('display');
+		}
+	};
+
+	const display = await page.evaluate<() => string | undefined>(
+		getSpMessageDisplayProperty,
 	);
 
 	// Use `!=` rather than `!==` here because display is a DOMString type
@@ -42,10 +49,11 @@ const checkPage = async function (browser: Browser, URL: string) {
 	const client = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
 
-	const response = await page.goto(URL, {
+	const response: HTTPResponse | null = await page.goto(URL, {
 		waitUntil: 'domcontentloaded',
 		timeout: 30000,
 	});
+
 	if (!response) {
 		throw 'Failed to load page!';
 	}
@@ -104,9 +112,9 @@ const initialiseOptions = async (
 ): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
-		defaultViewport: isDebugMode ? null : chromium.defaultViewport,
-		executablePath: await chromium.executablePath,
+		args: isDebugMode ? ['--window-size=1920,1080'] : Chromium.args,
+		defaultViewport: Chromium.defaultViewport,
+		executablePath: await Chromium.executablePath,
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
@@ -114,14 +122,14 @@ const initialiseOptions = async (
 };
 
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	return await chromium.puppeteer.launch(ops);
+	return await Chromium.puppeteer.launch(ops);
 };
 
 const run = async (
 	browser: Browser | null,
 	url: string,
 	isDebugMode: boolean,
-) => {
+): Promise<Browser> => {
 	const ops = await initialiseOptions(isDebugMode);
 	browser = await launchBrowser(ops);
 
