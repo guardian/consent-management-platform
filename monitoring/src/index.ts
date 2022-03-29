@@ -1,15 +1,15 @@
 import type { Browser } from 'puppeteer-core';
-import { run, terminate } from './puppeteer';
+import { run } from './puppeteer';
 import { baseDomain, debugMode } from './utils/flags';
 
 export const handler = async (): Promise<void> => {
 	console.log('Starting cmp-monitoring');
 
 	try {
-		const browser: Browser = await run(null, baseDomain, debugMode);
+		const browser: Browser = await run(baseDomain, debugMode);
 
 		if (!debugMode) {
-			await terminate(browser);
+			await browser.close();
 		}
 		console.log('Finished cmp-monitoring');
 	} catch (error) {

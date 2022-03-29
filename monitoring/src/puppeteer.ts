@@ -1,5 +1,5 @@
 import Chromium = require('chrome-aws-lambda');
-import type { Browser, HTTPResponse, Page, Viewport } from 'puppeteer-core';
+import type { Browser, Page, Viewport } from 'puppeteer-core';
 
 type CustomPuppeteerOptions = {
 	headless: boolean;
@@ -28,7 +28,6 @@ const checkCMPIsHidden = async (page: Page) => {
 		getSpMessageDisplayProperty,
 	);
 
-	// Use `!=` rather than `!==` here because display is a DOMString type
 	if (display != 'none') {
 		throw Error('CMP still present on page');
 	}
@@ -49,14 +48,10 @@ const checkPage = async function (browser: Browser, URL: string) {
 	const client = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
 
-	const response: HTTPResponse | null = await page.goto(URL, {
+	const response = await page.goto(URL, {
 		waitUntil: 'domcontentloaded',
 		timeout: 30000,
 	});
-
-	if (!response) {
-		throw 'Failed to load page!';
-	}
 
 	//If the response status code is not a 2xx success code
 	if (response.status() < 200 || response.status() > 299) {
@@ -67,7 +62,7 @@ const checkPage = async function (browser: Browser, URL: string) {
 	await page.waitForSelector('[id*="sp_message_container"]');
 
 	// Wait for iframe to load into sp_message_container
-	await page.waitFor(5000);
+	await page.waitForTimeout(5000);
 
 	// Click on Yes I'm happy
 	const frame = page
@@ -80,7 +75,7 @@ const checkPage = async function (browser: Browser, URL: string) {
 
 	await frame.click('button[title="Yes, I’m happy"]');
 
-	await page.waitFor(5000);
+	await page.waitForTimeout(5000);
 
 	await checkCMPIsHidden(page);
 
@@ -125,23 +120,13 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
 	return await Chromium.puppeteer.launch(ops);
 };
 
-const run = async (
-	browser: Browser | null,
-	url: string,
-	isDebugMode: boolean,
-): Promise<Browser> => {
+const run = async (url: string, isDebugMode: boolean): Promise<Browser> => {
 	const ops = await initialiseOptions(isDebugMode);
-	browser = await launchBrowser(ops);
+	const browser = await launchBrowser(ops);
 
 	await checkPage(browser, url);
 
 	return browser;
 };
 
-const terminate = async (browser: Browser | null) => {
-	if (browser !== null) {
-		await browser.close();
-	}
-};
-
-export { run, terminate };
+export { run };
