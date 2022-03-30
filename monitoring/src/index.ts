@@ -1,7 +1,7 @@
 import type { Browser } from 'puppeteer-core';
+import { envConfig } from './config';
+import { debugMode } from './env';
 import { run } from './puppeteer';
-import { envConfig } from './utils/config';
-import { debugMode } from './utils/flags';
 
 export const handler = async (): Promise<void> => {
 	console.log(`Starting cmp-monitoring for ${envConfig.configKey}`);

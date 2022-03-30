@@ -1,10 +1,5 @@
-import { configEnv } from './flags';
-
-export interface Config {
-	configKey: string;
-	baseDomain: string;
-	iframeDomain: string;
-}
+import { configEnv } from './env';
+import type { Config } from './types';
 
 const ProdConfig: Config = {
 	configKey: 'prod',

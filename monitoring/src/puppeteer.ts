@@ -1,18 +1,6 @@
 import Chromium from 'chrome-aws-lambda';
-import type { Browser, Page, Viewport } from 'puppeteer-core';
-import type { Config } from './utils/config';
-
-type CustomPuppeteerOptions = {
-	headless: boolean;
-	args: string[];
-	defaultViewport: Required<Viewport>;
-	executablePath: string;
-	ignoreHTTPSErrors: boolean;
-	devtools?: boolean;
-	timeout?: number;
-	waitUntil?: string;
-	dumpio?: boolean;
-};
+import type { Browser, Page } from 'puppeteer-core';
+import type { Config, CustomPuppeteerOptions } from './types';
 
 const checkCmpIsHidden = async (page: Page) => {
 	const getSpMessageDisplayProperty = function () {
