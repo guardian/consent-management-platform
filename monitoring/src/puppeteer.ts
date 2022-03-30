@@ -1,4 +1,4 @@
-import Chromium = require('chrome-aws-lambda');
+import Chromium from 'chrome-aws-lambda';
 import type { Browser, Page, Viewport } from 'puppeteer-core';
 
 type CustomPuppeteerOptions = {
@@ -13,7 +13,7 @@ type CustomPuppeteerOptions = {
 	dumpio?: boolean;
 };
 
-const checkCMPIsHidden = async (page: Page) => {
+const checkCmpIsHidden = async (page: Page) => {
 	const getSpMessageDisplayProperty = function () {
 		const querySelector = document.querySelector(
 			'[id*="sp_message_container"]',
@@ -77,7 +77,7 @@ const checkPage = async function (browser: Browser, URL: string) {
 
 	await page.waitForTimeout(5000);
 
-	await checkCMPIsHidden(page);
+	await checkCmpIsHidden(page);
 
 	//ads are loaded
 	await page.waitForSelector(

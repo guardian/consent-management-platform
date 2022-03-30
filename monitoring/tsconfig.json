@@ -3,8 +3,7 @@
 	"include": ["./*.ts"],
 	"target": "es5",
 	"compilerOptions": {
-		"lib": ["DOM", "es2019"]
+		"lib": ["DOM", "es2019"],
+		"moduleResolution": "node"
 	}
 }
-
-

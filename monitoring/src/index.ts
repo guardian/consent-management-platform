@@ -3,7 +3,7 @@ import { run } from './puppeteer';
 import { baseDomain, debugMode } from './utils/flags';
 
 export const handler = async (): Promise<void> => {
-	console.log('Starting cmp-monitoring');
+	console.log(`Starting cmp-monitoring for ${baseDomain}`);
 
 	try {
 		const browser: Browser = await run(baseDomain, debugMode);
