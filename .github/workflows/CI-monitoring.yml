@@ -32,6 +32,10 @@ jobs:
         working-directory: './monitoring'
         run: yarn
 
+      - name: Lambda lint
+        working-directory: './monitoring'
+        run: yarn lint
+
       - name: Lambda Build
         working-directory: './monitoring'
         run: yarn build
@@ -43,6 +47,10 @@ jobs:
       - name: CDK Test
         working-directory: './cdk'
         run: yarn test
+
+      - name: CDK lint
+        working-directory: './cdk'
+        run: yarn lint
 
       - name: CDK Build
         working-directory: './cdk'
