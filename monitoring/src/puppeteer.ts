@@ -1,5 +1,6 @@
 import Chromium from 'chrome-aws-lambda';
 import type { Browser, Page, Viewport } from 'puppeteer-core';
+import type { Config } from './utils/config';
 
 type CustomPuppeteerOptions = {
 	headless: boolean;
@@ -41,14 +42,14 @@ const checkCMPDidNotLoad = async (page: Page) => {
 	}
 };
 
-const checkPage = async function (browser: Browser, URL: string) {
+const checkPage = async function (config: Config, browser: Browser) {
 	const page: Page = await browser.newPage();
 
 	//clear cookies
 	const client = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
 
-	const response = await page.goto(URL, {
+	const response = await page.goto(config.baseDomain, {
 		waitUntil: 'domcontentloaded',
 		timeout: 30000,
 	});
@@ -67,7 +68,7 @@ const checkPage = async function (browser: Browser, URL: string) {
 	// Click on Yes I'm happy
 	const frame = page
 		.frames()
-		.find((f) => f.url().startsWith('https://sourcepoint.theguardian.com'));
+		.find((f) => f.url().startsWith(config.iframeDomain));
 
 	if (!frame) {
 		throw 'CMP not found on page!';
@@ -120,11 +121,11 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
 	return await Chromium.puppeteer.launch(ops);
 };
 
-const run = async (url: string, isDebugMode: boolean): Promise<Browser> => {
+const run = async (config: Config, isDebugMode: boolean): Promise<Browser> => {
 	const ops = await initialiseOptions(isDebugMode);
 	const browser = await launchBrowser(ops);
 
-	await checkPage(browser, url);
+	await checkPage(config, browser);
 
 	return browser;
 };
