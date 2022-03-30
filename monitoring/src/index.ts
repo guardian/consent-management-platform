@@ -4,7 +4,9 @@ import { debugMode } from './env';
 import { run } from './puppeteer';
 
 export const handler = async (): Promise<void> => {
-	console.log(`Starting cmp-monitoring for ${envConfig.configKey}`);
+	console.log(
+		`Starting cmp-monitoring for ${envConfig.configKey}, ${envConfig.regionKey}`,
+	);
 
 	try {
 		const browser: Browser = await run(envConfig, debugMode);

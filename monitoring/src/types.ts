@@ -1,4 +1,4 @@
-import type { Viewport } from 'puppeteer-core';
+import type { Browser, Viewport } from 'puppeteer-core';
 
 export type CustomPuppeteerOptions = {
 	headless: boolean;
@@ -13,7 +13,10 @@ export type CustomPuppeteerOptions = {
 };
 
 export type Config = {
-	configKey: string;
-	baseDomain: string;
+	configKey: 'prod' | 'code';
+	regionKey: 'tcfv2' | 'ccpa' | 'aus';
+	frontUrl: string;
+	articleUrl: string;
 	iframeDomain: string;
+	checkFunction: (config: Config, browser: Browser) => Promise<void>;
 };
