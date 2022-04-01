@@ -1,6 +1,13 @@
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
+/*
+This code is the CCPA stub made available by Sourcepoint.
+
+See the documentation on how to retrieve the latest version:
+https://documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
+*/
+
 export const stub_ccpa = () => {
 	(function () {
 		var e = false;

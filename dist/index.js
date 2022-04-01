@@ -441,6 +441,13 @@ const onConsentChange$1 = (callBack) => {
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
+/*
+This code is the CCPA stub made available by Sourcepoint.
+
+See the documentation on how to retrieve the latest version:
+https://documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
+*/
+
 const stub_ccpa = () => {
 	(function () {
 		var e = false;
@@ -500,6 +507,13 @@ const stub_ccpa = () => {
 
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
+
+/*
+This code is the TCFv2 stub made available by Sourcepoint.
+
+See the documentation on how to retrieve the latest version:
+https://documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
+*/
 
 const stub_tcfv2 = () => {
 	!(function (t) {
@@ -647,6 +661,12 @@ const stub_tcfv2 = () => {
 										r = e ? JSON.parse(t.data) : t.data;
 									} catch (t) {}
 									var o = r.__tcfapiCall;
+									// WARNING
+									// This function call has been modified from the provided Sourcepoint code.
+									// The parameter order has been updated as the original function call was incorrect as per the TCF specification.
+									// See:
+									// - Required interface: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#how-does-the-cmp-provide-the-api
+									// - Update to function: https://github.com/guardian/consent-management-platform/pull/561/commits/f6113f4a1f8fbe6cec5b4ea8e7b29b969fdb60f3#diff-b58313c0ab5f7b3c35c9d788a1e37e18c982fef7fb8a9b562d728163ffb8a8a1L152
 									o &&
 										n.__tcfapi(
 											o.command,
