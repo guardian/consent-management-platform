@@ -63,13 +63,12 @@ describe('Interaction', () => {
 			);
 		});
 	});
+
 	it(`should be able to only deactivate purpose 1`, () => {
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(
-				`div[aria-label="Store and/or access information on a device"]`,
-			)
+			.find(`div[title="Store and/or access information on a device"]`)
 			.find('span.off')
 			.click();
 
@@ -95,9 +94,7 @@ describe('Interaction', () => {
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
-			.find(
-				`div[aria-label="Store and/or access information on a device"]`,
-			)
+			.find(`div[title="Store and/or access information on a device"]`)
 			.find('span.on')
 			.click();
 
