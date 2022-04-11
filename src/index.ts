@@ -4,12 +4,14 @@ import { CCPA } from './ccpa';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as clientGetConsentFor } from './getConsentFor';
 import { setCurrentFramework } from './getCurrentFramework';
+import { getEnhancedConsent as clientGetEnhancedConsent } from './getEnhancedConsent';
 import { getFramework } from './getFramework';
 import { onConsentChange as clientOnConsentChange } from './onConsentChange';
 import {
 	isServerSide,
 	cmp as serverCmp,
 	getConsentFor as serverGetConsentFor,
+	getEnhancedConsent as serverGetEnhancedConsent,
 	onConsentChange as serverOnConsentChange,
 } from './server';
 import { TCFv2 } from './tcfv2';
@@ -135,3 +137,6 @@ export const onConsentChange = isServerSide
 export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
+export const getEnhancedConsent = isServerSide
+	? serverGetEnhancedConsent
+	: (window.guCmpHotFix.getEnhancedConsent ||= clientGetEnhancedConsent);

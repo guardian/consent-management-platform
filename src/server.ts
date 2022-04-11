@@ -1,3 +1,4 @@
+import type { GetEnhancedConsent } from './getEnhancedConsent';
 import type {
 	CMP,
 	ConsentState,
@@ -54,4 +55,12 @@ export const getConsentFor: GetConsentFor = (
 	serverSideWarn();
 
 	return false;
+};
+
+export const getEnhancedConsent: GetEnhancedConsent = () => {
+	serverSideWarn();
+	return Promise.resolve({
+		canTarget: false,
+		framework: null,
+	});
 };

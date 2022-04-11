@@ -7,6 +7,8 @@ type ConsentStateEnhanced = ConsentState & {
 	framework: Framework | null;
 };
 
+type GetEnhancedConsent = () => Promise<ConsentStateEnhanced>;
+
 const tcfv2ConsentedToAll = (consents: TCFv2ConsentList): boolean => {
 	return (
 		Object.keys(consents).length > 0 &&
@@ -59,7 +61,7 @@ const enhanceConsentState = (state: ConsentState): ConsentStateEnhanced => {
  *
  * @returns Promise<ConsentStateEnhanced>
  */
-const getEnhancedConsent = (): Promise<ConsentStateEnhanced> =>
+const getEnhancedConsent: GetEnhancedConsent = () =>
 	new Promise<ConsentStateEnhanced>((resolve, reject) => {
 		onConsentChange((consentState) => {
 			if (consentState.tcfv2 || consentState.ccpa || consentState.aus) {
@@ -69,6 +71,6 @@ const getEnhancedConsent = (): Promise<ConsentStateEnhanced> =>
 		});
 	});
 
-export type { ConsentStateEnhanced };
+export type { ConsentStateEnhanced, GetEnhancedConsent };
 
 export { getEnhancedConsent };
