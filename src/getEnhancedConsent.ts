@@ -44,9 +44,18 @@ const enhanceConsentState = (state: ConsentState): ConsentStateEnhanced => {
 };
 
 /**
- * Resolves `ConsentStateEnhanced` which enhances `ConsentState` with two properties:
- * - `canTarget`: if the user can be targeted for personalisation according to the active consent framework
- * - `framework`: the active consent framework
+ * Wraps onConsentChange to provide:
+ *
+ *1. A promise that resolves on the initial consent state
+ *
+ *    This will only resolve once whereas callbacks passed to onConsentChange
+ *    are executed each time consent state changes. Avoid using this function
+ *    in contexts where subsequent consent states must be listened for.
+ *
+ *2. Additional properties for convenience on consent state i.e. `canTarget` and `framework`
+ *
+ *    - `canTarget`: if the user can be targeted for personalisation according to the active consent framework
+ *    - `framework`: the active consent framework
  *
  * @returns Promise<ConsentStateEnhanced>
  */
