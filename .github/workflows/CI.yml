@@ -93,7 +93,7 @@ jobs:
 
       - name: Save build
         if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist
