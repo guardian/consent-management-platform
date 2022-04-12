@@ -16,7 +16,7 @@ const checkCmpIsHidden = async (page: Page) => {
 		getSpMessageDisplayProperty,
 	);
 
-	if (display != 'none') {
+	if (display && display != 'none') {
 		throw Error('CMP still present on page');
 	}
 };
