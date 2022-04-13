@@ -7,7 +7,7 @@ deployments:
         parameters:
             prefixStack: false
             bucket: developer-playground-dist
-            fileName: cmp-monitoring-lambda.zip
+            fileName: cmp-monitoring-lambda-eu.zip
             functionNames: [cmp-monitoring-]
     cmp-monitoring-cdk-eu:
         regions: [eu-west-1]
@@ -24,7 +24,7 @@ deployments:
         parameters:
             prefixStack: false
             bucket: developer-playground-dist-us-west-1
-            fileName: cmp-monitoring-lambda.zip
+            fileName: cmp-monitoring-lambda-us.zip
             functionNames: [cmp-monitoring-]
     cmp-monitoring-cdk-us:
         regions: [us-west-1]
