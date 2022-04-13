@@ -37,7 +37,7 @@ Object {
                 Object {
                   "Ref": "Stage",
                 },
-                "/cmp-monitoring/cmp-monitoring.zip",
+                "/cmp-monitoring/cmp-monitoring-eu-west-1.zip",
               ],
             ],
           },
