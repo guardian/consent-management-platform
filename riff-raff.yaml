@@ -10,7 +10,7 @@ deployments:
             functionNames: [cmp-monitoring-]
     cmp-monitoring-cdk-eu:
         regions: [eu-west-1]
-		dependencies: [cmp-monitoring-lambda-eu]
+        dependencies: [cmp-monitoring-lambda-eu]
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
