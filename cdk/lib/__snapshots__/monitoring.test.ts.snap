@@ -19,10 +19,10 @@ Object {
     },
   },
   "Resources": Object {
-    "cmpmonitoring2CD05B94": Object {
+    "cmpmonitoringlambda8A28B17C": Object {
       "DependsOn": Array [
-        "cmpmonitoringServiceRoleDefaultPolicy19C1C252",
-        "cmpmonitoringServiceRole3F7FDCEC",
+        "cmpmonitoringlambdaServiceRoleDefaultPolicyAA5D0FA1",
+        "cmpmonitoringlambdaServiceRoleE84B9C5A",
       ],
       "Properties": Object {
         "Code": Object {
@@ -37,11 +37,11 @@ Object {
                 Object {
                   "Ref": "Stage",
                 },
-                "/cmp-monitoring-",
+                "/cmp-monitoring-lambda-",
                 Object {
                   "Ref": "Stage",
                 },
-                "/cmp-monitoring-eu-west-1.zip",
+                "/cmp-monitoring-lambda-eu-west-1.zip",
               ],
             ],
           },
@@ -52,7 +52,7 @@ Object {
               "Fn::Join": Array [
                 "",
                 Array [
-                  "cmp-monitoring-",
+                  "cmp-monitoring-lambda-",
                   Object {
                     "Ref": "Stage",
                   },
@@ -69,7 +69,7 @@ Object {
           "Fn::Join": Array [
             "",
             Array [
-              "cmp-monitoring-",
+              "cmp-monitoring-lambda-",
               Object {
                 "Ref": "Stage",
               },
@@ -80,7 +80,7 @@ Object {
         "MemorySize": 1024,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "cmpmonitoringServiceRole3F7FDCEC",
+            "cmpmonitoringlambdaServiceRoleE84B9C5A",
             "Arn",
           ],
         },
@@ -92,7 +92,7 @@ Object {
               "Fn::Join": Array [
                 "",
                 Array [
-                  "cmp-monitoring-",
+                  "cmp-monitoring-lambda-",
                   Object {
                     "Ref": "Stage",
                   },
@@ -123,72 +123,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "cmpmonitoringServiceRole3F7FDCEC": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "App",
-            "Value": Object {
-              "Fn::Join": Array [
-                "",
-                Array [
-                  "cmp-monitoring-",
-                  Object {
-                    "Ref": "Stage",
-                  },
-                ],
-              ],
-            },
-          },
-          Object {
-            "Key": "gu:cdk:version",
-            "Value": "TEST",
-          },
-          Object {
-            "Key": "gu:repo",
-            "Value": "guardian/consent-management-platform",
-          },
-          Object {
-            "Key": "Stack",
-            "Value": "cmp-monitoring",
-          },
-          Object {
-            "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "cmpmonitoringServiceRoleDefaultPolicy19C1C252": Object {
+    "cmpmonitoringlambdaServiceRoleDefaultPolicyAA5D0FA1": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -252,7 +187,7 @@ Object {
                     Object {
                       "Ref": "Stage",
                     },
-                    "/cmp-monitoring/cmp-monitoring-",
+                    "/cmp-monitoring/cmp-monitoring-lambda-",
                     Object {
                       "Ref": "Stage",
                     },
@@ -282,7 +217,7 @@ Object {
                     Object {
                       "Ref": "Stage",
                     },
-                    "/cmp-monitoring/cmp-monitoring-",
+                    "/cmp-monitoring/cmp-monitoring-lambda-",
                     Object {
                       "Ref": "Stage",
                     },
@@ -294,14 +229,79 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "cmpmonitoringServiceRoleDefaultPolicy19C1C252",
+        "PolicyName": "cmpmonitoringlambdaServiceRoleDefaultPolicyAA5D0FA1",
         "Roles": Array [
           Object {
-            "Ref": "cmpmonitoringServiceRole3F7FDCEC",
+            "Ref": "cmpmonitoringlambdaServiceRoleE84B9C5A",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
+    },
+    "cmpmonitoringlambdaServiceRoleE84B9C5A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "cmp-monitoring-lambda-",
+                  Object {
+                    "Ref": "Stage",
+                  },
+                ],
+              ],
+            },
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/consent-management-platform",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "cmp-monitoring",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
   },
 }

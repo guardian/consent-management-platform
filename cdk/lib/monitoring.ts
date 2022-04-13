@@ -13,7 +13,7 @@ export class Monitoring extends GuStack {
 
 		const region = props.env?.region ?? 'eu-west-1';
 
-		const lambdaBaseName = 'cmp-monitoring';
+		const lambdaBaseName = 'cmp-monitoring-lambda';
 		new GuLambdaFunction(this, lambdaBaseName, {
 			app: `${lambdaBaseName}-${stage}`,
 			functionName: `${lambdaBaseName}-${stage}`,
