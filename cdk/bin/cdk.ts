@@ -5,11 +5,16 @@ import { Monitoring } from '../lib/monitoring';
 
 const app = new App();
 
-const props: GuStackProps = {
-	stack: 'cmp-monitoring',
-	env: {
-		region: 'eu-west-1',
-	},
-};
+type AwsRegion = 'eu-west-1' | 'us-west-1';
 
-new Monitoring(app, 'CmpMonitoringStack', props);
+function stackProps(awsRegion: AwsRegion): GuStackProps {
+	return {
+		stack: 'cmp-monitoring',
+		env: {
+			region: awsRegion,
+		},
+	};
+}
+
+new Monitoring(app, 'CmpMonitoringStackEU', stackProps('eu-west-1'));
+new Monitoring(app, 'CmpMonitoringStackUS', stackProps('us-west-1'));
