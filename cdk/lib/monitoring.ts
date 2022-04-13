@@ -15,7 +15,7 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 		new GuLambdaFunction(this, lambdaBaseName, {
-			app: lambdaBaseName,
+			app: `${lambdaBaseName}-${stage}`,
 			functionName: `${lambdaBaseName}-${stage}`,
 			fileName: `${lambdaBaseName}-${region}.zip`,
 			handler: 'index.handler',
