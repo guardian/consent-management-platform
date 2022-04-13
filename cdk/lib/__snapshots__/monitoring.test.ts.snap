@@ -37,14 +37,28 @@ Object {
                 Object {
                   "Ref": "Stage",
                 },
-                "/cmp-monitoring/cmp-monitoring-eu-west-1.zip",
+                "/cmp-monitoring-",
+                Object {
+                  "Ref": "Stage",
+                },
+                "/cmp-monitoring-eu-west-1.zip",
               ],
             ],
           },
         },
         "Environment": Object {
           "Variables": Object {
-            "APP": "cmp-monitoring",
+            "APP": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "cmp-monitoring-",
+                  Object {
+                    "Ref": "Stage",
+                  },
+                ],
+              ],
+            },
             "STACK": "cmp-monitoring",
             "STAGE": Object {
               "Ref": "Stage",
@@ -74,7 +88,17 @@ Object {
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": "cmp-monitoring",
+            "Value": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "cmp-monitoring-",
+                  Object {
+                    "Ref": "Stage",
+                  },
+                ],
+              ],
+            },
           },
           Object {
             "Key": "gu:cdk:version",
@@ -130,7 +154,17 @@ Object {
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": "cmp-monitoring",
+            "Value": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "cmp-monitoring-",
+                  Object {
+                    "Ref": "Stage",
+                  },
+                ],
+              ],
+            },
           },
           Object {
             "Key": "gu:cdk:version",
@@ -218,7 +252,10 @@ Object {
                     Object {
                       "Ref": "Stage",
                     },
-                    "/cmp-monitoring/cmp-monitoring",
+                    "/cmp-monitoring/cmp-monitoring-",
+                    Object {
+                      "Ref": "Stage",
+                    },
                   ],
                 ],
               },
@@ -245,7 +282,11 @@ Object {
                     Object {
                       "Ref": "Stage",
                     },
-                    "/cmp-monitoring/cmp-monitoring/*",
+                    "/cmp-monitoring/cmp-monitoring-",
+                    Object {
+                      "Ref": "Stage",
+                    },
+                    "/*",
                   ],
                 ],
               },
