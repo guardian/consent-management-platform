@@ -8,8 +8,13 @@
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk",
-			"path": "cdk/cdk.out/CmpMonitoringStack.template.json",
+			"action": "cmp-monitoring-cdk-eu",
+			"path": "cdk/cdk.out/CmpMonitoringStackEU.template.json",
+			"compress": false
+		},
+		{
+			"action": "cmp-monitoring-cdk-us",
+			"path": "cdk/cdk.out/CmpMonitoringStackUS.template.json",
 			"compress": false
 		}
 	]
