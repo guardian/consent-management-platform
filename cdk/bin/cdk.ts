@@ -8,7 +8,7 @@ const app = new App();
 type AwsRegion = 'eu-west-1' | 'us-west-1';
 
 function stackProps(awsRegion: AwsRegion): GuStackProps {
-	const stackName = `cmp-monitoring-${awsRegion}`;
+	const stackName = 'playground';
 
 	return {
 		stack: stackName,
