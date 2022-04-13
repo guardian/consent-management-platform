@@ -3,7 +3,12 @@
 	"vcsURL": "https://github.com/guardian/consent-management-platform",
 	"actions": [
 		{
-			"action": "cmp-monitoring-lambda",
+			"action": "cmp-monitoring-lambda-eu",
+			"path": "monitoring/dist",
+			"compress": "zip"
+		},
+		{
+			"action": "cmp-monitoring-lambda-us",
 			"path": "monitoring/dist",
 			"compress": "zip"
 		},
