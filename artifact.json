@@ -3,22 +3,22 @@
 	"vcsURL": "https://github.com/guardian/consent-management-platform",
 	"actions": [
 		{
-			"action": "cmp-monitoring-lambda-eu",
+			"action": "cmp-monitoring-lambda-eu-west-1",
 			"path": "monitoring/dist",
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-lambda-us",
+			"action": "cmp-monitoring-lambda-us-west-1",
 			"path": "monitoring/dist",
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk-eu",
+			"action": "cmp-monitoring-cdk-eu-west-1",
 			"path": "cdk/cdk.out/CmpMonitoringStackEU.template.json",
 			"compress": false
 		},
 		{
-			"action": "cmp-monitoring-cdk-us",
+			"action": "cmp-monitoring-cdk-us-west-1",
 			"path": "cdk/cdk.out/CmpMonitoringStackUS.template.json",
 			"compress": false
 		}

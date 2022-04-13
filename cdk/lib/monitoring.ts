@@ -11,11 +11,13 @@ export class Monitoring extends GuStack {
 
 		const stage = this.stage;
 
+		const region = props.env?.region ?? 'eu-west-1';
+
 		const lambdaBaseName = 'cmp-monitoring';
 		new GuLambdaFunction(this, lambdaBaseName, {
 			app: lambdaBaseName,
 			functionName: `${lambdaBaseName}-${stage}`,
-			fileName: `${lambdaBaseName}.zip`,
+			fileName: `${lambdaBaseName}-${region}.zip`,
 			handler: 'index.handler',
 			runtime: Runtime.NODEJS_14_X,
 			timeout: Duration.seconds(300),
