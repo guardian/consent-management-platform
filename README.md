@@ -14,24 +14,25 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.hasInitialised()`](#cmphasinitialised)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.hasInitialised()`](#cmphasinitialised)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`onConsent()`](#onconsent)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -165,6 +166,7 @@ cmp.showPrivacyManager();
 
 ```js
 import {
+    onConsent,
     onConsentChange,
     getConsentFor,
 } from '@guardian/consent-management-platform';
@@ -271,6 +273,14 @@ onConsentChange(({ tcfv2, ccpa, aus }) => {
     }
 });
 ```
+
+### `onConsent()`
+
+A promise wrapper around `onConsentChange` that resolves the initial consent state.
+
+This will only resolve once whereas callbacks passed to `onConsentChange` are executed each time consent state changes. Avoid using this function in contexts where subsequent consent states must be listened for.
+
+returns: `Promise<ConsentState>`
 
 ### `getConsentFor(vendor, consentState)`
 
