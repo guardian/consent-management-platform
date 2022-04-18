@@ -3,6 +3,15 @@ import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
 import type { CallbackQueueItem, ConsentState, OnConsentChange } from './types';
+import type { AUSConsentState } from './types/aus';
+import type { CCPAConsentState } from './types/ccpa';
+import type { TCFv2ConsentState } from './types/tcfv2';
+
+interface ConsentStateBasic {
+	tcfv2?: TCFv2ConsentState;
+	ccpa?: CCPAConsentState;
+	aus?: AUSConsentState;
+}
 
 // callbacks cache
 const callBackQueue: CallbackQueueItem[] = [];
@@ -27,18 +36,48 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 	}
 };
 
+const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
+	if (consentState.tcfv2) {
+		const consents = consentState.tcfv2.consents;
+		return {
+			...consentState,
+			canTarget:
+				Object.keys(consents).length > 0 &&
+				Object.values(consents).every(Boolean),
+			framework: 'tcfv2',
+		};
+	} else if (consentState.ccpa) {
+		return {
+			...consentState,
+			canTarget: !consentState.ccpa.doNotSell,
+			framework: 'ccpa',
+		};
+	} else if (consentState.aus) {
+		return {
+			...consentState,
+			canTarget: consentState.aus.personalisedAdvertising,
+			framework: 'aus',
+		};
+	}
+	return {
+		...consentState,
+		canTarget: false,
+		framework: null,
+	};
+};
+
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
 		// in USA or AUS - https://git.io/JUOdq
 		if (getCurrentFramework() === 'aus')
-			return { aus: await getAUSConsentState() };
+			return enhanceConsentState({ aus: await getAUSConsentState() });
 
-		return { ccpa: await getCCPAConsentState() };
+		return enhanceConsentState({ ccpa: await getCCPAConsentState() });
 	}
 
 	if (window.__tcfapi) {
 		// in RoW - https://git.io/JfrZr
-		return { tcfv2: await getTCFv2ConsentState() };
+		return enhanceConsentState({ tcfv2: await getTCFv2ConsentState() });
 	}
 
 	throw new Error('no IAB consent framework found on the page');
