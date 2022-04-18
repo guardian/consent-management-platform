@@ -14,25 +14,25 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
--   [Installation](#installation)
-    -   [Bundling](#bundling)
--   [Managing Consent](#managing-consent)
-    -   [`cmp.init(options)`](#cmpinitoptions)
-    -   [`cmp.hasInitialised()`](#cmphasinitialised)
-    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-    -   [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
-    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
--   [Using Consent](#using-consent)
-    -   [`onConsentChange(callback)`](#onconsentchangecallback)
-    -   [`onConsent()`](#onconsent)
-    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
--   [Disabling Consent](#disabling-consent)
-    -   [`cmp.__disable()`](#cmp__disable)
-    -   [`cmp.__enable()`](#cmp__enable)
-    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
-    -   [Manually](#manually)
-    -   [Using Cypress](#using-cypress)
--   [Development](#development)
+- [Installation](#installation)
+  * [Bundling](#bundling)
+- [Managing Consent](#managing-consent)
+  * [`cmp.init(options)`](#cmpinitoptions)
+  * [`cmp.hasInitialised()`](#cmphasinitialised)
+  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+  * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
+  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+- [Using Consent](#using-consent)
+  * [`onConsentChange(callback)`](#onconsentchangecallback)
+  * [`onConsent()`](#onconsent)
+  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+- [Disabling Consent](#disabling-consent)
+  * [`cmp.__disable()`](#cmp__disable)
+  * [`cmp.__enable()`](#cmp__enable)
+  * [`cmp.__isDisabled()`](#cmp__isdisabled)
+  * [Manually](#manually)
+  * [Using Cypress](#using-cypress)
+- [Development](#development)
 
 <!-- tocstop -->
 
@@ -253,6 +253,18 @@ If the user is not in Australia, it will be `undefined`.
     personalisedAdvertising: Boolean, // True by default
 }
 ```
+
+##### `consentState.canTarget`
+
+type: `boolean`
+
+If the user can be targeted for personalisation according to the active consent framework.
+
+##### `consentState.framework`
+
+type: `string` | null
+
+The active consent framework e.g. `"ccpa"`, `"aus"`, `"tcfv2"` or `null`.
 
 #### Example
 
