@@ -1,4 +1,4 @@
-import { getEnhancedConsent } from './getEnhancedConsent';
+import { onConsent } from './onConsent';
 import { onConsentChange } from './onConsentChange';
 import type { Callback, ConsentState } from './types';
 import type { AUSConsentState } from './types/aus';
@@ -39,7 +39,7 @@ describe('onConsent returns a promise that resolves the initial consent state', 
 			framework: 'tcfv2',
 		};
 		mockOnConsentChange(consentState);
-		const resolvedConsentState = await getEnhancedConsent();
+		const resolvedConsentState = await onConsent();
 		expect(resolvedConsentState).toEqual(consentState);
 	});
 	test('ccpa', async () => {
@@ -49,7 +49,7 @@ describe('onConsent returns a promise that resolves the initial consent state', 
 			framework: 'ccpa',
 		};
 		mockOnConsentChange(consentState);
-		const resolvedConsentState = await getEnhancedConsent();
+		const resolvedConsentState = await onConsent();
 		expect(resolvedConsentState).toEqual(consentState);
 	});
 	test('aus', async () => {
@@ -59,11 +59,11 @@ describe('onConsent returns a promise that resolves the initial consent state', 
 			framework: 'aus',
 		};
 		mockOnConsentChange(consentState);
-		const resolvedConsentState = await getEnhancedConsent();
+		const resolvedConsentState = await onConsent();
 		expect(resolvedConsentState).toEqual(consentState);
 	});
 	test('unknown region rejects', async () => {
 		mockOnConsentChange({ canTarget: false, framework: null });
-		await expect(getEnhancedConsent()).rejects.toEqual('Unknown framework');
+		await expect(onConsent()).rejects.toEqual('Unknown framework');
 	});
 });

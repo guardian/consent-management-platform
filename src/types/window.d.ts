@@ -1,5 +1,4 @@
 import type { getConsentFor } from '../getConsentFor';
-import type { getEnhancedConsent } from '../getEnhancedConsent';
 import type { Property } from '../lib/property';
 import type { EndPoint } from '../lib/sourcepointConfig';
 import type { onConsentChange } from '../onConsentChange';
@@ -20,7 +19,6 @@ declare global {
 			cmp?: CMP;
 			onConsentChange?: typeof onConsentChange;
 			getConsentFor?: typeof getConsentFor;
-			getEnhancedConsent?: typeof getEnhancedConsent;
 		};
 		// *************** END commercial.dcr.js hotfix ***************
 
