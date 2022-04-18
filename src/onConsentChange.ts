@@ -36,6 +36,15 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 	}
 };
 
+/**
+ * Adds properties for convenience on consent state:
+ *
+ * - `canTarget`: if the user can be targeted for personalisation according to the active consent framework
+ * - `framework`: the active consent framework
+ *
+ * @param consentState
+ * @returns Promise<ConsentState>
+ */
 const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
 	if (consentState.tcfv2) {
 		const consents = consentState.tcfv2.consents;
