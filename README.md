@@ -260,6 +260,12 @@ type: `boolean`
 
 If the user can be targeted for personalisation according to the active consent framework.
 
+For example `canTarget` would be `true` in the following scenarios:
+
+- for CCPA if the user has _not_ clicked "do not sell",
+- for AUS if the user has _not_ opted out of personalised advertising
+- for TCFv2 if the user has given consent for all purposes
+
 ##### `consentState.framework`
 
 type: `string` | null
