@@ -1,4 +1,4 @@
-import type { Browser, Page } from 'puppeteer-core';
+import type { Browser, Frame, Page } from 'puppeteer-core';
 import type { Config } from '../types';
 
 const checkCmpIsHidden = async (page: Page) => {
@@ -51,11 +51,6 @@ export const checkPage = async function (
 
 	// wait for CMP
 	await page.waitForSelector('[id*="sp_message_container"]');
-
-	// Wait for iframe to load into sp_message_container
-	await page.waitForTimeout(5000);
-
-	console.log(page.frames().forEach((f) => console.log(f.url())));
 
 	// Click on Yes I'm happy
 	const frame = page
