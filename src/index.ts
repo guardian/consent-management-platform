@@ -5,11 +5,13 @@ import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as clientGetConsentFor } from './getConsentFor';
 import { setCurrentFramework } from './getCurrentFramework';
 import { getFramework } from './getFramework';
+import { onConsent as clientOnConsent } from './onConsent';
 import { onConsentChange as clientOnConsentChange } from './onConsentChange';
 import {
 	isServerSide,
 	cmp as serverCmp,
 	getConsentFor as serverGetConsentFor,
+	onConsent as serverOnConsent,
 	onConsentChange as serverOnConsentChange,
 } from './server';
 import { TCFv2 } from './tcfv2';
@@ -129,6 +131,9 @@ export const cmp: CMP = isServerSide
 			__disable: disable,
 	  });
 
+export const onConsent = isServerSide
+	? serverOnConsent
+	: (window.guCmpHotFix.onConsent ||= clientOnConsent);
 export const onConsentChange = isServerSide
 	? serverOnConsentChange
 	: (window.guCmpHotFix.onConsentChange ||= clientOnConsentChange);
