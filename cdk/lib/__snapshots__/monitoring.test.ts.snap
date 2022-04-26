@@ -37,14 +37,14 @@ Object {
                 Object {
                   "Ref": "Stage",
                 },
-                "/cmp-monitoring/cmp-monitoring-eu-west-1.zip",
+                "/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda-eu-west-1.zip",
               ],
             ],
           },
         },
         "Environment": Object {
           "Variables": Object {
-            "APP": "cmp-monitoring",
+            "APP": "cmp-monitoring-lambda-eu-west-1",
             "STACK": "cmp-monitoring",
             "STAGE": Object {
               "Ref": "Stage",
@@ -74,7 +74,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": "cmp-monitoring",
+            "Value": "cmp-monitoring-lambda-eu-west-1",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -130,7 +130,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": "cmp-monitoring",
+            "Value": "cmp-monitoring-lambda-eu-west-1",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -218,7 +218,7 @@ Object {
                     Object {
                       "Ref": "Stage",
                     },
-                    "/cmp-monitoring/cmp-monitoring",
+                    "/cmp-monitoring/cmp-monitoring-lambda-eu-west-1",
                   ],
                 ],
               },
@@ -245,7 +245,7 @@ Object {
                     Object {
                       "Ref": "Stage",
                     },
-                    "/cmp-monitoring/cmp-monitoring/*",
+                    "/cmp-monitoring/cmp-monitoring-lambda-eu-west-1/*",
                   ],
                 ],
               },
