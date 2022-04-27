@@ -77,7 +77,7 @@ const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
 
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
-		// in USA or AUS - https://git.io/JUOdq
+		// in USA or AUS - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
 		if (getCurrentFramework() === 'aus')
 			return enhanceConsentState({ aus: await getAUSConsentState() });
 
@@ -85,7 +85,7 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 	}
 
 	if (window.__tcfapi) {
-		// in RoW - https://git.io/JfrZr
+		// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
 		return enhanceConsentState({ tcfv2: await getTCFv2ConsentState() });
 	}
 
