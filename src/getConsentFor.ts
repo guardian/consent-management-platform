@@ -11,7 +11,7 @@ export const getConsentFor: GetConsentFor = (
 	if (typeof sourcepointIds === 'undefined' || sourcepointIds === []) {
 		throw new Error(
 			`Vendor '${vendor}' not found, or with no Sourcepoint ID. ` +
-				'If it should be added, raise an issue at https://git.io/JUzVL',
+				'If it should be added, raise an issue at https://github.com/guardian/consent-management-platform/issues',
 		);
 	}
 
