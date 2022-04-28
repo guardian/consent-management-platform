@@ -8,14 +8,14 @@
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-lambda-us-west-1",
-			"path": "monitoring/dist",
-			"compress": "zip"
-		},
-		{
 			"action": "cmp-monitoring-cdk-eu-west-1",
 			"path": "cdk/cdk.out/CmpMonitoringStackEU.template.json",
 			"compress": false
+		},
+		{
+			"action": "cmp-monitoring-lambda-us-west-1",
+			"path": "monitoring/dist",
+			"compress": "zip"
 		},
 		{
 			"action": "cmp-monitoring-cdk-us-west-1",
