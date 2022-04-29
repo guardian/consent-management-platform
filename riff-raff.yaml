@@ -2,6 +2,7 @@ stacks: [playground]
 deployments:
     cmp-monitoring-lambda-eu-west-1:
         regions: [eu-west-1]
+        dependencies: [cmp-monitoring-cdk-eu-west-1]
         type: aws-lambda
         parameters:
             prefixStack: false
@@ -10,15 +11,16 @@ deployments:
             functionNames: [cmp-monitoring-]
     cmp-monitoring-cdk-eu-west-1:
         regions: [eu-west-1]
-        dependencies: [cmp-monitoring-lambda-eu-west-1]
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templatePath: CmpMonitoringStackEU.template.json
             cloudFormationStackByTags: false
+            manageStackPolicy: false
     cmp-monitoring-lambda-us-west-1:
         regions: [us-west-1]
+        dependencies: [cmp-monitoring-cdk-us-west-1]
         type: aws-lambda
         parameters:
             prefixStack: false
@@ -27,10 +29,10 @@ deployments:
             functionNames: [cmp-monitoring-]
     cmp-monitoring-cdk-us-west-1:
         regions: [us-west-1]
-        dependencies: [cmp-monitoring-lambda-us-west-1]
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templatePath: CmpMonitoringStackUS.template.json
             cloudFormationStackByTags: false
+            manageStackPolicy: false

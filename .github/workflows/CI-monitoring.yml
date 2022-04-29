@@ -2,7 +2,7 @@ name: CI Monitoring
 on:
   push:
     branches:
-      - add-cdk
+      - rk-add-cdk
 
 jobs:
   CI:
