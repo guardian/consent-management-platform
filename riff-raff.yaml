@@ -14,7 +14,7 @@ deployments:
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
-            cloudFormationStackName: cmp-monitoring
+            cloudFormationStackName: cmp-monitoring-eu-west-1
             templatePath: CmpMonitoringStackEU.template.json
             cloudFormationStackByTags: false
     cmp-monitoring-lambda-us-west-1:
@@ -31,6 +31,6 @@ deployments:
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
-            cloudFormationStackName: cmp-monitoring
+            cloudFormationStackName: cmp-monitoring-us-west-1
             templatePath: CmpMonitoringStackUS.template.json
             cloudFormationStackByTags: false
