@@ -1,6 +1,16 @@
 stacks: [playground]
 deployments:
+    cmp-monitoring-cdk-eu-west-1:
+        regions: [eu-west-1]
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring-eu-west-1
+            templatePath: CmpMonitoringStackEU.template.json
+            cloudFormationStackByTags: false
+            manageStackPolicy: false
     cmp-monitoring-lambda-eu-west-1:
+        dependencies: [cmp-monitoring-cdk-eu-west-1]
         regions: [eu-west-1]
         type: aws-lambda
         parameters:
@@ -8,16 +18,17 @@ deployments:
             bucket: developer-playground-dist
             fileName: cmp-monitoring-lambda-eu-west-1.zip
             functionNames: [cmp-monitoring-eu-west-1-]
-    cmp-monitoring-cdk-eu-west-1:
-        regions: [eu-west-1]
-        dependencies: [cmp-monitoring-lambda-eu-west-1]
+    cmp-monitoring-cdk-us-west-1:
+        regions: [us-west-1]
         type: cloud-formation
         parameters:
             prependStackToCloudFormationStackName: false
-            cloudFormationStackName: cmp-monitoring-eu-west-1
-            templatePath: CmpMonitoringStackEU.template.json
+            cloudFormationStackName: cmp-monitoring-us-west-1
+            templatePath: CmpMonitoringStackUS.template.json
             cloudFormationStackByTags: false
+            manageStackPolicy: false
     cmp-monitoring-lambda-us-west-1:
+        dependencies: [cmp-monitoring-cdk-us-west-1]
         regions: [us-west-1]
         type: aws-lambda
         parameters:
@@ -25,12 +36,3 @@ deployments:
             bucket: developer-playground-dist-us-west-1
             fileName: cmp-monitoring-lambda-us-west-1.zip
             functionNames: [cmp-monitoring-us-west-1-]
-    cmp-monitoring-cdk-us-west-1:
-        regions: [us-west-1]
-        dependencies: [cmp-monitoring-lambda-us-west-1]
-        type: cloud-formation
-        parameters:
-            prependStackToCloudFormationStackName: false
-            cloudFormationStackName: cmp-monitoring-us-west-1
-            templatePath: CmpMonitoringStackUS.template.json
-            cloudFormationStackByTags: false
