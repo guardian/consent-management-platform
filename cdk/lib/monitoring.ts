@@ -4,6 +4,7 @@ import { Duration } from '@aws-cdk/core';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
+import { GuSnsTopic } from '@guardian/cdk/lib/constructs/sns';
 
 export class Monitoring extends GuStack {
 	constructor(scope: App, id: string, props: GuStackProps) {
@@ -14,14 +15,19 @@ export class Monitoring extends GuStack {
 		const region = props.env?.region ?? 'eu-west-1';
 
 		const lambdaBaseName = 'cmp-monitoring';
-		new GuLambdaFunction(this, lambdaBaseName, {
-			app: `${lambdaBaseName}-lambda-${region}`,
-			functionName: `${lambdaBaseName}-${stage}`,
-			fileName: `${lambdaBaseName}-lambda-${region}.zip`,
-			handler: 'index.handler',
-			runtime: Runtime.NODEJS_14_X,
-			timeout: Duration.seconds(300),
-			memorySize: 1024,
-		});
+
+		if (region === 'ap-southeast-2') {
+			new GuSnsTopic(this, 'SnsTopic');
+		} else {
+			new GuLambdaFunction(this, lambdaBaseName, {
+				app: `${lambdaBaseName}-lambda-${region}`,
+				functionName: `${lambdaBaseName}-${stage}`,
+				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
+				handler: 'index.handler',
+				runtime: Runtime.NODEJS_14_X,
+				timeout: Duration.seconds(300),
+				memorySize: 1024,
+			});
+		}
 	}
 }

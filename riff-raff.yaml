@@ -45,12 +45,3 @@ deployments:
             templatePath: CmpMonitoringStackAU.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
-    cmp-monitoring-lambda-ap-southeast-2:
-        dependencies: [cmp-monitoring-cdk-ap-southeast-2]
-        regions: [ap-southeast-2]
-        type: aws-lambda
-        parameters:
-            prefixStack: false
-            bucket: developer-playground-dist-ap-southeast-2
-            fileName: cmp-monitoring-lambda-ap-southeast-2.zip
-            functionNames: [cmp-monitoring-]
