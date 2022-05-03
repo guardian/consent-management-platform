@@ -26,6 +26,11 @@
 			"action": "cmp-monitoring-cdk-ap-southeast-2",
 			"path": "cdk/cdk.out/CmpMonitoringStackAU.template.json",
 			"compress": false
+		},
+		{
+			"action": "cmp-monitoring-lambda-ap-southeast-2",
+			"path": "monitoring/dist",
+			"compress": "zip"
 		}
 	]
 }
