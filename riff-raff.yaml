@@ -17,7 +17,7 @@ deployments:
             prefixStack: false
             bucket: developer-playground-dist
             fileName: cmp-monitoring-lambda-eu-west-1.zip
-            functionNames: [cmp-monitoring-eu-west-1-]
+            functionNames: [cmp-monitoring-]
     cmp-monitoring-cdk-us-west-1:
         regions: [us-west-1]
         type: cloud-formation
@@ -35,4 +35,4 @@ deployments:
             prefixStack: false
             bucket: developer-playground-dist-us-west-1
             fileName: cmp-monitoring-lambda-us-west-1.zip
-            functionNames: [cmp-monitoring-us-west-1-]
+            functionNames: [cmp-monitoring-]
