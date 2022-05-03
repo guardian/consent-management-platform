@@ -5,7 +5,7 @@ import { Monitoring } from '../lib/monitoring';
 
 const app = new App();
 
-type AwsRegion = 'eu-west-1' | 'us-west-1';
+type AwsRegion = 'eu-west-1' | 'us-west-1' | 'ap-southeast-2';
 
 function stackProps(awsRegion: AwsRegion): GuStackProps {
 	const stackName = 'playground';
@@ -20,3 +20,4 @@ function stackProps(awsRegion: AwsRegion): GuStackProps {
 
 new Monitoring(app, 'CmpMonitoringStackEU', stackProps('eu-west-1'));
 new Monitoring(app, 'CmpMonitoringStackUS', stackProps('us-west-1'));
+new Monitoring(app, 'CmpMonitoringStackAU', stackProps('ap-southeast-2'));

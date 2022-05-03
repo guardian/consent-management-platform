@@ -3,13 +3,18 @@
 	"vcsURL": "https://github.com/guardian/consent-management-platform",
 	"actions": [
 		{
+			"action": "cmp-monitoring-cdk-eu-west-1",
+			"path": "cdk/cdk.out/CmpMonitoringStackEU.template.json",
+			"compress": false
+		},
+		{
 			"action": "cmp-monitoring-lambda-eu-west-1",
 			"path": "monitoring/dist",
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk-eu-west-1",
-			"path": "cdk/cdk.out/CmpMonitoringStackEU.template.json",
+			"action": "cmp-monitoring-cdk-us-west-1",
+			"path": "cdk/cdk.out/CmpMonitoringStackUS.template.json",
 			"compress": false
 		},
 		{
@@ -18,9 +23,14 @@
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk-us-west-1",
-			"path": "cdk/cdk.out/CmpMonitoringStackUS.template.json",
+			"action": "cmp-monitoring-cdk-ap-southeast-2",
+			"path": "cdk/cdk.out/CmpMonitoringStackAU.template.json",
 			"compress": false
+		},
+		{
+			"action": "cmp-monitoring-lambda-ap-southeast-2",
+			"path": "monitoring/dist",
+			"compress": "zip"
 		}
 	]
 }
