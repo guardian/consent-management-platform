@@ -5,14 +5,7 @@ import { run } from './puppeteer';
 
 export const handler = async (): Promise<void> => {
 	console.log(
-		`Starting cmp-monitoring at region ${
-			process.env['AWS_REGION'] ??
-			'Failed to read AWS_REGION from inside the Lambda'
-		}`,
-	);
-
-	console.log(
-		`Starting cmp-monitoring for ${envConfig.stage}, ${envConfig.jurisdiction}`,
+		`Starting cmp-monitoring for stage: ${envConfig.stage}, jurisdiction: ${envConfig.jurisdiction}`,
 	);
 
 	try {

@@ -1,7 +1,31 @@
-import { configJurisdiction, configStage } from './env';
+import { envAwsRegion, envJurisdiction, envStage } from './env';
 import { checkPage as checkCCPAPage } from './regions/ccpa';
 import { checkPage as checkTcfV2Page } from './regions/tcfv2';
 import type { Config } from './types';
+
+type OptJurisdiction = string | undefined;
+type OptAwsRegion = string | undefined;
+
+const decideJurisdition = (
+	jurisdiction: OptJurisdiction,
+	awsRegion: OptAwsRegion,
+): string => {
+	jurisdiction;
+	awsRegion;
+	if (jurisdiction) {
+		return jurisdiction;
+	}
+	if (awsRegion === 'eu-west-1') {
+		return 'tcfv2';
+	}
+	if (awsRegion === 'us-west-1') {
+		return 'ccpa';
+	}
+	if (awsRegion === 'ap-southeast-2') {
+		return 'ccpa';
+	}
+	return 'tcfv2';
+};
 
 const ProdTcfv2Config: Config = {
 	stage: 'prod',
@@ -51,14 +75,17 @@ const availableEnvConfig = [
 ];
 
 export const envConfig: Config = (() => {
+	const jurisdiction = decideJurisdition(envJurisdiction, envAwsRegion);
 	const foundConfig = availableEnvConfig.find(
 		(value) =>
-			value.stage == configStage &&
-			value.jurisdiction == configJurisdiction,
+			value.stage == envStage.toLowerCase() &&
+			value.jurisdiction == jurisdiction,
 	);
 
 	if (foundConfig === undefined) {
-		throw `No config found for ${configStage}, ${configJurisdiction}`;
+		const j = envJurisdiction ?? 'missing';
+		const awsr = envAwsRegion ?? 'missing';
+		throw `No config found for (env)stage: ${envStage}, (env)jurisdiction: ${j}, (env)aws-region: ${awsr}`;
 	}
 
 	return foundConfig;
