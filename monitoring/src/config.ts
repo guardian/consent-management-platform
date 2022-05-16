@@ -1,4 +1,4 @@
-import { configEnv, configRegion } from './env';
+import { configStage, configRegion } from './env';
 import { checkPage as checkCCPAPage } from './regions/ccpa';
 import { checkPage as checkTcfV2Page } from './regions/tcfv2';
 import type { Config } from './types';
@@ -53,11 +53,11 @@ const availableEnvConfig = [
 export const envConfig: Config = (() => {
 	const foundConfig = availableEnvConfig.find(
 		(value) =>
-			value.configKey == configEnv && value.regionKey == configRegion,
+			value.configKey == configStage && value.regionKey == configRegion,
 	);
 
 	if (foundConfig === undefined) {
-		throw `No config found for ${configEnv}, ${configRegion}`;
+		throw `No config found for ${configStage}, ${configRegion}`;
 	}
 
 	return foundConfig;
