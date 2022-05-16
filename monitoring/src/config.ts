@@ -1,11 +1,11 @@
-import { configStage, configJurisdiction } from './env';
+import { configJurisdiction, configStage } from './env';
 import { checkPage as checkCCPAPage } from './regions/ccpa';
 import { checkPage as checkTcfV2Page } from './regions/tcfv2';
 import type { Config } from './types';
 
 const ProdTcfv2Config: Config = {
-	configKey: 'prod',
-	regionKey: 'tcfv2',
+	stage: 'prod',
+	jurisdiction: 'tcfv2',
 	frontUrl: 'https://www.theguardian.com',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -14,8 +14,8 @@ const ProdTcfv2Config: Config = {
 };
 
 const CodeTcfv2Config: Config = {
-	configKey: 'code',
-	regionKey: 'tcfv2',
+	stage: 'code',
+	jurisdiction: 'tcfv2',
 	frontUrl: 'https://m.code.dev-theguardian.com',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -24,8 +24,8 @@ const CodeTcfv2Config: Config = {
 };
 
 const ProdCCPAConfig: Config = {
-	configKey: 'prod',
-	regionKey: 'ccpa',
+	stage: 'prod',
+	jurisdiction: 'ccpa',
 	frontUrl: 'https://www.theguardian.com/us',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -34,8 +34,8 @@ const ProdCCPAConfig: Config = {
 };
 
 const CodeCCPAConfig: Config = {
-	configKey: 'code',
-	regionKey: 'ccpa',
+	stage: 'code',
+	jurisdiction: 'ccpa',
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -53,7 +53,8 @@ const availableEnvConfig = [
 export const envConfig: Config = (() => {
 	const foundConfig = availableEnvConfig.find(
 		(value) =>
-			value.configKey == configStage && value.regionKey == configJurisdiction,
+			value.stage == configStage &&
+			value.jurisdiction == configJurisdiction,
 	);
 
 	if (foundConfig === undefined) {

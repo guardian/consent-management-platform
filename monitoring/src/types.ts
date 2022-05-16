@@ -13,8 +13,8 @@ export type CustomPuppeteerOptions = {
 };
 
 export type Config = {
-	configKey: 'prod' | 'code';
-	regionKey: 'tcfv2' | 'ccpa' | 'aus';
+	stage: 'prod' | 'code';
+	jurisdiction: 'tcfv2' | 'ccpa' | 'aus';
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;

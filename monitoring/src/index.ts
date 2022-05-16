@@ -12,7 +12,7 @@ export const handler = async (): Promise<void> => {
 	);
 
 	console.log(
-		`Starting cmp-monitoring for ${envConfig.configKey}, ${envConfig.regionKey}`,
+		`Starting cmp-monitoring for ${envConfig.stage}, ${envConfig.jurisdiction}`,
 	);
 
 	try {
