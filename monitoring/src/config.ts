@@ -1,14 +1,15 @@
 import { envAwsRegion, envJurisdiction, envStage } from './env';
+import { checkPage as checkAusPage } from './regions/aus';
 import { checkPage as checkCCPAPage } from './regions/ccpa';
 import { checkPage as checkTcfV2Page } from './regions/tcfv2';
 import type { Config } from './types';
 
-type OptJurisdiction = string | undefined;
-type OptAwsRegion = string | undefined;
+type JurisdictionOpt = string | undefined;
+type AwsRegionOpt = string | undefined;
 
 const decideJurisdition = (
-	jurisdiction: OptJurisdiction,
-	awsRegion: OptAwsRegion,
+	jurisdiction: JurisdictionOpt,
+	awsRegion: AwsRegionOpt,
 ): string => {
 	jurisdiction;
 	awsRegion;
@@ -22,9 +23,9 @@ const decideJurisdition = (
 		return 'ccpa';
 	}
 	if (awsRegion === 'ap-southeast-2') {
-		return 'ccpa';
+		return 'aus';
 	}
-	return 'tcfv2';
+	return 'tcfv2'; // default value
 };
 
 const ConfigTcfv2Prod: Config = {
@@ -67,11 +68,33 @@ const ConfigCCPACode: Config = {
 	checkFunction: checkCCPAPage,
 };
 
+const ConfigAusProd: Config = {
+	stage: 'prod',
+	jurisdiction: 'aus',
+	frontUrl: 'https://www.theguardian.com/au',
+	articleUrl:
+		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	checkFunction: checkAusPage,
+};
+
+const ConfigAusCode: Config = {
+	stage: 'code',
+	jurisdiction: 'aus',
+	frontUrl: 'https://m.code.dev-theguardian.com/au',
+	articleUrl:
+		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	checkFunction: checkAusPage,
+};
+
 const availableEnvConfig = [
 	ConfigTcfv2Prod,
 	ConfigTcfv2Code,
 	ConfigCCPAProd,
 	ConfigCCPACode,
+	ConfigAusProd,
+	ConfigAusCode,
 ];
 
 export const envConfig: Config = (() => {
@@ -84,8 +107,8 @@ export const envConfig: Config = (() => {
 
 	if (foundConfig === undefined) {
 		const j = envJurisdiction ?? 'missing';
-		const awsr = envAwsRegion ?? 'missing';
-		throw `No config found for (env)stage: ${envStage}, (env)jurisdiction: ${j}, (env)aws-region: ${awsr}`;
+		const r = envAwsRegion ?? 'missing';
+		throw `No config found for (env)stage: ${envStage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
 	}
 
 	return foundConfig;
