@@ -27,7 +27,7 @@ const decideJurisdition = (
 	return 'tcfv2';
 };
 
-const ProdTcfv2Config: Config = {
+const ConfigTcfv2Prod: Config = {
 	stage: 'prod',
 	jurisdiction: 'tcfv2',
 	frontUrl: 'https://www.theguardian.com',
@@ -37,7 +37,7 @@ const ProdTcfv2Config: Config = {
 	checkFunction: checkTcfV2Page,
 };
 
-const CodeTcfv2Config: Config = {
+const ConfigTcfv2Code: Config = {
 	stage: 'code',
 	jurisdiction: 'tcfv2',
 	frontUrl: 'https://m.code.dev-theguardian.com',
@@ -47,7 +47,7 @@ const CodeTcfv2Config: Config = {
 	checkFunction: checkTcfV2Page,
 };
 
-const ProdCCPAConfig: Config = {
+const ConfigCCPAProd: Config = {
 	stage: 'prod',
 	jurisdiction: 'ccpa',
 	frontUrl: 'https://www.theguardian.com/us',
@@ -57,7 +57,7 @@ const ProdCCPAConfig: Config = {
 	checkFunction: checkCCPAPage,
 };
 
-const CodeCCPAConfig: Config = {
+const ConfigCCPACode: Config = {
 	stage: 'code',
 	jurisdiction: 'ccpa',
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
@@ -68,10 +68,10 @@ const CodeCCPAConfig: Config = {
 };
 
 const availableEnvConfig = [
-	ProdTcfv2Config,
-	CodeTcfv2Config,
-	ProdCCPAConfig,
-	CodeCCPAConfig,
+	ConfigTcfv2Prod,
+	ConfigTcfv2Code,
+	ConfigCCPAProd,
+	ConfigCCPACode,
 ];
 
 export const envConfig: Config = (() => {
