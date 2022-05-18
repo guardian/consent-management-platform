@@ -1,7 +1,7 @@
-import { envAwsRegion, envJurisdiction, envStage } from './env';
 import { checkPage as checkAusPage } from './check-page/aus';
 import { checkPage as checkCCPAPage } from './check-page/ccpa';
 import { checkPage as checkTcfV2Page } from './check-page/tcfv2';
+import { envAwsRegion, envJurisdiction, envStage } from './env';
 import type { Config } from './types';
 
 type JurisdictionOpt = string | undefined;
