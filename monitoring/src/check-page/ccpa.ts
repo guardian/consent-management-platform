@@ -1,6 +1,15 @@
-import Chromium from 'chrome-aws-lambda';
-import type { Browser, CDPSession, Page } from 'puppeteer-core';
-import type { Config, CustomPuppeteerOptions } from '../types';
+import type { Browser, Page } from 'puppeteer-core';
+import type { Config } from '../types';
+import {
+	checkCMPIsNotVisible,
+	checkCMPIsOnPage,
+	checkTopAdHasLoaded,
+	clearCookies,
+	loadPage,
+	log_error,
+	log_info,
+	makeNewBrowser,
+} from './common-functions';
 
 // -- Original code from Robert ------------------------------------------------
 
@@ -93,32 +102,6 @@ export const checkPage_old = async function (
 	await checkCMPDidNotLoad(page);
 };
 
-// -- Prelude to adaptation ------------------------------------------------
-
-const initialiseOptions = async (
-	isDebugMode: boolean,
-): Promise<CustomPuppeteerOptions> => {
-	return {
-		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : Chromium.args,
-		defaultViewport: Chromium.defaultViewport,
-		executablePath: await Chromium.executablePath,
-		ignoreHTTPSErrors: true,
-		devtools: isDebugMode,
-		timeout: 0,
-	};
-};
-
-const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	return await Chromium.puppeteer.launch(ops);
-};
-
-const makeNewBrowser = async () => {
-	const ops = await initialiseOptions(false);
-	const browser = await launchBrowser(ops);
-	return browser;
-};
-
 // -- Code adapted from the ccpa canary ------------------------------------------------
 
 /*
@@ -128,28 +111,6 @@ const log = require('SyntheticsLogger');
 
 const LOG_EVERY_REQUEST = false;
 const LOG_EVERY_RESPONSE = false;
-
-const log_info = (message: string) => {
-	console.log(`(cmp monitoring) info: ${message}`);
-};
-
-const log_error = (message: string) => {
-	console.log(`(cmp monitoring): error: ${message}`);
-};
-
-const clearCookies = async (client: CDPSession) => {
-	await client.send('Network.clearBrowserCookies');
-	log_info(`Cleared Cookies`);
-};
-
-const checkTopAdHasLoaded = async (page: Page) => {
-	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(
-		'.ad-slot--top-above-nav .ad-slot__content iframe',
-		{ timeout: 30000 },
-	);
-	log_info(`Waiting for ads to load: Complete`);
-};
 
 const interactWithCMP = async (page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
@@ -168,33 +129,6 @@ const interactWithCMP = async (page: Page) => {
 	await frame.click('button[title="Do not sell my personal information"]');
 };
 
-const checkCMPIsOnPage = async (page: Page) => {
-	log_info(`Waiting for CMP: Start`);
-	await page.waitForSelector('[id*="sp_message_container"]');
-	log_info(`Waiting for CMP: Finish`);
-};
-
-const checkCMPIsNotVisible = async (page: Page) => {
-	log_info(`Checking CMP is Hidden: Start`);
-
-	const getSpMessageDisplayProperty = function () {
-		const element = document.querySelector('[id*="sp_message_container"]');
-		if (element) {
-			const computedStyle = window.getComputedStyle(element);
-			return computedStyle.getPropertyValue('display');
-		}
-	};
-
-	const display = await page.evaluate(getSpMessageDisplayProperty);
-
-	// Use `!=` rather than `!==` here because display is a DOMString type
-	if (display && display != 'none') {
-		throw Error('CMP still present on page');
-	}
-
-	log_info('CMP hidden or removed from page');
-};
-
 const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
@@ -206,29 +140,6 @@ const reloadPage = async (page: Page) => {
 		throw 'Failed to refresh page!';
 	}
 	log_info(`Reloading page: Complete`);
-};
-
-const loadPage = async (page: Page, url: string) => {
-	log_info(`Loading page: Start`);
-	const response = await page.goto(url, {
-		waitUntil: 'domcontentloaded',
-		timeout: 30000,
-	});
-
-	// For some reason VSCode thinks the conditional is not needed, because `!response` is always falsy 🤔
-	// TODO: clarify that...
-	//if (!response) {
-	//	log_error('Loading URL: Failed');
-	//	throw 'Failed to load page!';
-	//}
-
-	// If the response status code is not a 2xx success code
-	if (response.status() < 200 || response.status() > 299) {
-		log_error(`Loading URL: Error: Status ${response.status()}`);
-		throw 'Failed to load page!';
-	}
-
-	log_info(`Loading page: Complete`);
 };
 
 /**
