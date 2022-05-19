@@ -30,6 +30,7 @@ export interface ConsentState {
 	tcfv2?: TCFv2ConsentState;
 	ccpa?: CCPAConsentState;
 	aus?: AUSConsentState;
+	gpcSet: boolean;
 	canTarget: boolean;
 	framework: Framework | null;
 }

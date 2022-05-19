@@ -1,6 +1,7 @@
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
+import { isServerSide } from './server';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
 import type { CallbackQueueItem, ConsentState, OnConsentChange } from './types';
 import type { AUSConsentState } from './types/aus';
@@ -41,11 +42,16 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
  *
  * - `canTarget`: if the user can be targeted for personalisation according to the active consent framework
  * - `framework`: the active consent framework
+ * - `gpcSet`: is the JS indicator of GPC present (see: https://globalprivacycontrol.github.io/gpc-spec/#javascript-property-to-detect-preference)
  *
  * @param consentState
  * @returns Promise<ConsentState>
  */
 const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
+	const gpcSetFromNavigator = isServerSide
+		? false
+		: (navigator.globalPrivacyControl as boolean);
+
 	if (consentState.tcfv2) {
 		const consents = consentState.tcfv2.consents;
 		return {
@@ -54,24 +60,28 @@ const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
 				Object.keys(consents).length > 0 &&
 				Object.values(consents).every(Boolean),
 			framework: 'tcfv2',
+			gpcSet: gpcSetFromNavigator,
 		};
 	} else if (consentState.ccpa) {
 		return {
 			...consentState,
 			canTarget: !consentState.ccpa.doNotSell,
 			framework: 'ccpa',
+			gpcSet: gpcSetFromNavigator,
 		};
 	} else if (consentState.aus) {
 		return {
 			...consentState,
 			canTarget: consentState.aus.personalisedAdvertising,
 			framework: 'aus',
+			gpcSet: gpcSetFromNavigator,
 		};
 	}
 	return {
 		...consentState,
 		canTarget: false,
 		framework: null,
+		gpcSet: gpcSetFromNavigator,
 	};
 };
 
