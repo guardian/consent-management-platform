@@ -340,7 +340,7 @@ export const checkPage = async function (
 	config: Config,
 	browser: Browser,
 ): Promise<void> {
-	log_info('checkPage, new version');
+	log_info('checkPage, new version (tcfv2)');
 	// Todo: adapt pageLoadBlueprint
 	const page: Page = await browser.newPage();
 	page;
