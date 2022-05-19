@@ -13,6 +13,8 @@ import {
 
 // -- Original code from Robert ------------------------------------------------
 
+/*
+
 const checkCmpIsHidden = async (page: Page) => {
 	const getSpMessageDisplayProperty = function () {
 		const querySelector = document.querySelector(
@@ -102,15 +104,12 @@ export const checkPage_old = async function (
 	await checkCMPDidNotLoad(page);
 };
 
-// -- Code adapted from the ccpa canary ------------------------------------------------
-
-/*
-const synthetics = require('Synthetics');
-const log = require('SyntheticsLogger');
 */
 
-const LOG_EVERY_REQUEST = false;
-const LOG_EVERY_RESPONSE = false;
+// -- Code adapted from the ccpa canary ------------------------------------------------
+
+// const LOG_EVERY_REQUEST = false;
+// const LOG_EVERY_RESPONSE = false;
 
 const interactWithCMP = async (page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP

@@ -13,6 +13,8 @@ import {
 
 // -- Original code from Robert ------------------------------------------------
 
+/*
+
 const checkCmpIsHidden = async (page: Page) => {
 	const getSpMessageDisplayProperty = function () {
 		const querySelector = document.querySelector(
@@ -32,16 +34,6 @@ const checkCmpIsHidden = async (page: Page) => {
 		throw Error('CMP still present on page');
 	}
 };
-
-/*
-const checkCMPDidNotLoad = async (page: Page) => {
-	const spMessageContainer = await page.$('[id*="sp_message_container"]');
-
-	if (spMessageContainer !== null) {
-		throw Error('CMP present on page');
-	}
-};
-*/
 
 export const checkPage_old = async function (
 	config: Config,
@@ -109,15 +101,12 @@ export const checkPage_old = async function (
 	await checkCMPDidNotLoad(page);
 };
 
-// -- Code adapted from the tcfv2 canary ------------------------------------------------
-
-/*
-const synthetics = require('Synthetics');
-const log = require('SyntheticsLogger');
 */
 
-const LOG_EVERY_REQUEST = false;
-const LOG_EVERY_RESPONSE = false;
+// -- Code adapted from the tcfv2 canary ------------------------------------------------
+
+// const LOG_EVERY_REQUEST = false;
+// const LOG_EVERY_RESPONSE = false;
 
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Start`);

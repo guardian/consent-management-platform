@@ -13,6 +13,8 @@ import {
 
 // -- Original code from Robert ------------------------------------------------
 
+/*
+
 const checkCmpIsHidden = async (page: Page) => {
 	const getSpMessageDisplayProperty = function () {
 		const querySelector = document.querySelector(
@@ -102,10 +104,9 @@ export const checkPage_old = async function (
 	await checkCMPDidNotLoad(page);
 };
 
-// -- Code adapted from the aus canary ------------------------------------------------
+*/
 
-//const synthetics = require('Synthetics');
-//const log = require('SyntheticsLogger');
+// -- Code adapted from the aus canary ------------------------------------------------
 
 //const LOG_EVERY_REQUEST = false;
 //const LOG_EVERY_RESPONSE = false;
