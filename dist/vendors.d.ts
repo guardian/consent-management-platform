@@ -1,0 +1,27 @@
+export declare const VendorIDs: {
+    a9: string[];
+    acast: string[];
+    braze: string[];
+    comscore: string[];
+    fb: string[];
+    'google-analytics': string[];
+    'google-mobile-ads': string[];
+    'google-tag-manager': string[];
+    googletag: string[];
+    ias: string[];
+    inizio: string[];
+    ipsos: string[];
+    linkedin: string[];
+    lotame: string[];
+    nielsen: string[];
+    ophan: string[];
+    permutive: string[];
+    prebid: string[];
+    redplanet: string[];
+    remarketing: string[];
+    sentry: string[];
+    teads: string[];
+    twitter: string[];
+    'youtube-player': string[];
+};
+export declare type VendorName = keyof typeof VendorIDs;
