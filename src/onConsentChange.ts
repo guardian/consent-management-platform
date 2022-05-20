@@ -48,7 +48,7 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
  * @returns Promise<ConsentState>
  */
 const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
-	const gpcSet = getGpcSignal();
+	const gpcSignal = getGpcSignal();
 
 	if (consentState.tcfv2) {
 		const consents = consentState.tcfv2.consents;
@@ -58,28 +58,28 @@ const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
 				Object.keys(consents).length > 0 &&
 				Object.values(consents).every(Boolean),
 			framework: 'tcfv2',
-			gpcSignal: gpcSet,
+			gpcSignal,
 		};
 	} else if (consentState.ccpa) {
 		return {
 			...consentState,
 			canTarget: !consentState.ccpa.doNotSell,
 			framework: 'ccpa',
-			gpcSignal: gpcSet,
+			gpcSignal,
 		};
 	} else if (consentState.aus) {
 		return {
 			...consentState,
 			canTarget: consentState.aus.personalisedAdvertising,
 			framework: 'aus',
-			gpcSignal: gpcSet,
+			gpcSignal,
 		};
 	}
 	return {
 		...consentState,
 		canTarget: false,
 		framework: null,
-		gpcSignal: gpcSet,
+		gpcSignal,
 	};
 };
 
