@@ -108,9 +108,6 @@ export const checkPage_old = async function (
 
 // -- Code adapted from the aus canary ------------------------------------------------
 
-//const LOG_EVERY_REQUEST = false;
-//const LOG_EVERY_RESPONSE = false;
-
 const interactWithCMP = async (page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
@@ -195,45 +192,19 @@ const checkPages = async (url: string, nextUrl: string) => {
 	}
 };
 
-export const checkPage = async function (
+export const mainCheck = async function (
 	config: Config,
 	browser: Browser,
 ): Promise<void> {
 	log_info('checkPage, new version (aus)');
-	// Todo: adapt pageLoadBlueprint
+	await checkPages(
+		'https://www.theguardian.com/au?adtest=fixed-puppies',
+		'https://www.theguardian.com/us-news/2021/jul/05/gray-wolves-wisconsin-hunting-population?adtest=fixed-puppies',
+	);
+	await checkPages(
+		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
+		'',
+	);
 	const page: Page = await browser.newPage();
 	page;
 };
-
-//const pageLoadBlueprint = async function () {
-//	const synConfig = synthetics.getConfiguration();
-
-/**
- * Setting these to true will log all requests/responses in the Cloudwatch logs.
- * There are ~1000 of each, which makes it difficult to search through Cloudwatch
- * when set to true, yet may be helpful for extra debugging.
- */
-//	synConfig.setConfig({
-//		logRequest: LOG_EVERY_REQUEST,
-//		logResponse: LOG_EVERY_RESPONSE
-//	});
-
-/**
- * Check front as first navigation. Then, check that ads load when viewing an article.
- */
-//	 await checkPages(
-//		'https://www.theguardian.com/au?adtest=fixed-puppies',
-//		'https://www.theguardian.com/us-news/2021/jul/05/gray-wolves-wisconsin-hunting-population?adtest=fixed-puppies'
-//	);
-
-/**
- * Check Article as first navigation.
- */
-//	await checkPages(
-//		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
-//	);
-//};
-
-//exports.handler = async () => {
-//	return await pageLoadBlueprint();
-//};

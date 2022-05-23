@@ -5,7 +5,7 @@ import { run } from './puppeteer';
 
 export const handler = async (): Promise<void> => {
 	console.log(
-		`Starting cmp-monitoring for stage: ${envConfig.stage}, jurisdiction: ${envConfig.jurisdiction}`,
+		`(cmp monitoring) Starting cmp-monitoring for stage: ${envConfig.stage}, jurisdiction: ${envConfig.jurisdiction}`,
 	);
 
 	try {
@@ -14,7 +14,7 @@ export const handler = async (): Promise<void> => {
 		if (!debugMode) {
 			await browser.close();
 		}
-		console.log('Finished cmp-monitoring');
+		console.log('(cmp monitoring) Finished cmp-monitoring');
 	} catch (error) {
 		console.log(error);
 	}

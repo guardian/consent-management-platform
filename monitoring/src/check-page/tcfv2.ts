@@ -105,9 +105,6 @@ export const checkPage_old = async function (
 
 // -- Code adapted from the tcfv2 canary ------------------------------------------------
 
-// const LOG_EVERY_REQUEST = false;
-// const LOG_EVERY_RESPONSE = false;
-
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Start`);
 
@@ -235,50 +232,19 @@ const checkPages = async (url: string, nextUrl: string) => {
 	}
 };
 
-export const checkPage = async function (
+export const mainCheck = async function (
 	config: Config,
 	browser: Browser,
 ): Promise<void> {
 	log_info('checkPage, new version (tcfv2)');
-	// Todo: adapt pageLoadBlueprint
+	await checkPages(
+		'https://www.theguardian.com?adtest=fixed-puppies',
+		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
+	);
+	await checkPages(
+		'https://www.theguardian.com/environment/2022/apr/22/disbanding-of-dorset-wildlife-team-puts-birds-pray-at-risk?adtest=fixed-puppies',
+		'',
+	);
 	const page: Page = await browser.newPage();
 	page;
 };
-
-// ----------------------------------------------------------------------------------
-
-//const pageLoadBlueprint = async function () {
-//	const synConfig = synthetics.getConfiguration();
-
-/**
- * Setting these to true will log all requests/responses in the Cloudwatch logs.
- * There are ~1000 of each, which makes it difficult to search through Cloudwatch
- * when set to true, yet may be helpful for extra debugging.
- */
-//	synConfig.setConfig({
-//		logRequest: LOG_EVERY_REQUEST,
-//		logResponse: LOG_EVERY_RESPONSE
-//	});
-
-/**
- * Check front as first navigation. Then check that ads load when viewing an article.
- */
-//	await checkPages(
-//		// The query param "adtest=fixed-puppies" is used to ensure that GAM provides us with an ad for our slot
-//		'https://www.theguardian.com?adtest=fixed-puppies',
-//		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
-//	);
-
-/**
- * Check Article as first navigation.
- */
-//	await checkPages(
-//		'https://www.theguardian.com/environment/2022/apr/22/disbanding-of-dorset-wildlife-team-puts-birds-pray-at-risk?adtest=fixed-puppies',
-//	);
-//};
-
-/*
-exports.handler = async () => {
-	return await pageLoadBlueprint();
-};
-*/
