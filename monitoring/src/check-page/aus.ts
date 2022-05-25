@@ -1,5 +1,4 @@
 import type { Browser, Page } from 'puppeteer-core';
-import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -192,10 +191,7 @@ const checkPages = async (url: string, nextUrl: string) => {
 	}
 };
 
-export const mainCheck = async function (
-	config: Config,
-	browser: Browser,
-): Promise<void> {
+export const mainCheck = async function (): Promise<void> {
 	log_info('checkPage, new version (aus)');
 	await checkPages(
 		'https://www.theguardian.com/au?adtest=fixed-puppies',
@@ -205,6 +201,4 @@ export const mainCheck = async function (
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
 		'',
 	);
-	const page: Page = await browser.newPage();
-	page;
 };

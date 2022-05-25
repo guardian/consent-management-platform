@@ -7,7 +7,7 @@ import type { Config } from './types';
 type JurisdictionOpt = string | undefined;
 type AwsRegionOpt = string | undefined;
 
-const decideJurisdition = (
+const decideJurisdiction = (
 	jurisdiction: JurisdictionOpt,
 	awsRegion: AwsRegionOpt,
 ): string => {
@@ -98,7 +98,7 @@ const availableEnvConfig = [
 ];
 
 export const envConfig: Config = (() => {
-	const jurisdiction = decideJurisdition(envJurisdiction, envAwsRegion);
+	const jurisdiction = decideJurisdiction(envJurisdiction, envAwsRegion);
 	const foundConfig = availableEnvConfig.find(
 		(value) =>
 			value.stage == envStage.toLowerCase() &&

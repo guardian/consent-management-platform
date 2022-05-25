@@ -1,5 +1,4 @@
 import type { Browser, Page } from 'puppeteer-core';
-import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -232,10 +231,7 @@ const checkPages = async (url: string, nextUrl: string) => {
 	}
 };
 
-export const mainCheck = async function (
-	config: Config,
-	browser: Browser,
-): Promise<void> {
+export const mainCheck = async function (): Promise<void> {
 	log_info('checkPage, new version (tcfv2)');
 	await checkPages(
 		'https://www.theguardian.com?adtest=fixed-puppies',
@@ -245,6 +241,4 @@ export const mainCheck = async function (
 		'https://www.theguardian.com/environment/2022/apr/22/disbanding-of-dorset-wildlife-team-puts-birds-pray-at-risk?adtest=fixed-puppies',
 		'',
 	);
-	const page: Page = await browser.newPage();
-	page;
 };

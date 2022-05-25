@@ -1,4 +1,4 @@
-import type { Browser, Viewport } from 'puppeteer-core';
+import type { Viewport } from 'puppeteer-core';
 
 export type CustomPuppeteerOptions = {
 	headless: boolean;
@@ -18,5 +18,5 @@ export type Config = {
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;
-	checkFunction: (config: Config, browser: Browser) => Promise<void>;
+	checkFunction: () => Promise<void>;
 };

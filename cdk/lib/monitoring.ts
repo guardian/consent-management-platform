@@ -10,6 +10,8 @@ export class Monitoring extends GuStack {
 	constructor(scope: App, id: string, props: GuStackProps) {
 		super(scope, id, props);
 
+		// new GuSnsTopic(this, 'SnsTopic');
+
 		const stage = this.stage;
 
 		const region = props.env?.region ?? 'eu-west-1';
