@@ -1,5 +1,17 @@
 stacks: [frontend]
 deployments:
+    # -----------------------------------------------------------------------
+    # This file is in two parts.
+    #
+    # The first part is commented out and contains the code that was used to initiate the Lambdas.
+    # The sequence for initialization is uploading the lambda artifact and firing up the cdk.
+    #
+    # The second part is the active part that contains the deployment process after initialization.
+	# The sequence is firing up the cdk and then upload and update the Lambda.
+	#
+	# Technically, the *best* sequence is described here: https://github.com/guardian/projen-test-usage/blob/jsii/riff-raff.yaml
+	# But I could not get it working
+    # -----------------------------------------------------------------------
     #    cmp-monitoring-lambda-eu-west-1:
     #        app: cmp-monitoring-lambda-eu-west-1
     #        regions: [eu-west-1]
