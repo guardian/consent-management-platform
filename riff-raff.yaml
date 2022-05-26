@@ -1,7 +1,7 @@
 stacks: [frontend]
 deployments:
     cmp-monitoring-lambda-eu-west-1:
-        #dependencies: [cmp-monitoring-cdk-eu-west-1]
+        app: cmp-monitoring-lambda-eu-west-1
         regions: [eu-west-1]
         type: aws-lambda
         actions: [uploadLambda]
@@ -9,17 +9,18 @@ deployments:
             prefixStack: false
             bucket: com-gu-frontend-artifacts
             fileName: cmp-monitoring-lambda-eu-west-1.zip
-            functionNames: [cmp-monitoring-]
-#    cmp-monitoring-cdk-eu-west-1:
-#        regions: [eu-west-1]
-#        type: cloud-formation
-#        parameters:
-#            prependStackToCloudFormationStackName: false
-#            cloudFormationStackName: cmp-monitoring
-#            templatePath: CmpMonitoringStackEU.template.json
-#            cloudFormationStackByTags: false
-#            manageStackPolicy: false
-
+            #functionNames: [cmp-monitoring-]
+            lookupByTags: true
+    cmp-monitoring-cdk-eu-west-1:
+        dependencies: [cmp-monitoring-lambda-eu-west-1]
+        regions: [eu-west-1]
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templatePath: CmpMonitoringStackEU.template.json
+            cloudFormationStackByTags: false
+            manageStackPolicy: false
 #    cmp-monitoring-cdk-us-west-1:
 #        regions: [us-west-1]
 #        type: cloud-formation

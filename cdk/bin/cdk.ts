@@ -8,7 +8,7 @@ const app = new App();
 type AwsRegion = 'eu-west-1' | 'us-west-1' | 'ap-southeast-2';
 
 function stackProps(awsRegion: AwsRegion): GuStackProps {
-	const stackName = 'playground';
+	const stackName = 'frontend';
 
 	return {
 		stack: stackName,
