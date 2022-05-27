@@ -50,7 +50,8 @@ export const init = (framework: Framework, pubData = {}): void => {
 		config: {
 			baseEndpoint: ENDPOINT,
 			accountId: ACCOUNT_ID,
-			propertyHref: getProperty(framework),
+			propertyHref: "http://ui-dev",
+			//propertyHref: getProperty(framework),
 			targetingParams: {
 				framework,
 			},
