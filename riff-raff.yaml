@@ -1,4 +1,7 @@
 stacks: [frontend]
+allowedStages:
+  - CODE
+  - PROD
 deployments:
     # -----------------------------------------------------------------------
     # This file is in two parts.
