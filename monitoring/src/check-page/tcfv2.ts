@@ -1,4 +1,5 @@
 import type { Browser, Page } from 'puppeteer-core';
+import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -25,14 +26,14 @@ const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Complete`);
 };
 
-const interactWithCMP = async (page: Page) => {
+const interactWithCMP = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Yes I'm Happy" on CMP`);
 	const frame = page
 		.frames()
-		.find((f) => f.url().startsWith('https://sourcepoint.theguardian.com'));
+		.find((f) => f.url().startsWith(config.iframeDomain));
 	if (frame === undefined) {
 		return;
 	}
@@ -71,7 +72,7 @@ const reloadPage = async (page: Page) => {
  * when visiting the site, with respect to and interaction with the CMP.
  */
 
-const checkSubsequentPage = async (url: string) => {
+const checkSubsequentPage = async (config: Config, url: string) => {
 	// const page = await synthetics.getPage();
 	const browser: Browser = await makeNewBrowser();
 	const page: Page = await browser.newPage();
@@ -90,7 +91,7 @@ const checkSubsequentPage = async (url: string) => {
 
 	await checkTopAdDidNotLoad(page);
 
-	await interactWithCMP(page);
+	await interactWithCMP(config, page);
 
 	await checkCMPIsNotVisible(page);
 
@@ -102,7 +103,7 @@ const checkSubsequentPage = async (url: string) => {
  * the site, with respect to and interaction with the CMP.
  */
 
-const checkPages = async (url: string, nextUrl: string) => {
+const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser();
@@ -118,7 +119,7 @@ const checkPages = async (url: string, nextUrl: string) => {
 
 	await checkTopAdDidNotLoad(page);
 
-	await interactWithCMP(page);
+	await interactWithCMP(config, page);
 
 	await checkCMPIsNotVisible(page);
 
@@ -131,18 +132,16 @@ const checkPages = async (url: string, nextUrl: string) => {
 	await checkCMPDidNotLoad(page);
 
 	if (nextUrl) {
-		await checkSubsequentPage(nextUrl);
+		await checkSubsequentPage(config, nextUrl);
 	}
 };
 
-export const mainCheck = async function (): Promise<void> {
-	log_info('checkPage, new version (tcfv2)');
+export const mainCheck = async function (config: Config): Promise<void> {
+	log_info('checkPage (tcfv2)');
 	await checkPages(
-		'https://www.theguardian.com?adtest=fixed-puppies',
-		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
+		config,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
-	await checkPages(
-		'https://www.theguardian.com/environment/2022/apr/22/disbanding-of-dorset-wildlife-team-puts-birds-pray-at-risk?adtest=fixed-puppies',
-		'',
-	);
+	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
 };

@@ -1,4 +1,5 @@
 import type { Browser, Page } from 'puppeteer-core';
+import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -10,14 +11,14 @@ import {
 	makeNewBrowser,
 } from './common-functions';
 
-const interactWithCMP = async (page: Page) => {
+const interactWithCMP = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
 	const frame = page
 		.frames()
-		.find((f) => f.url().startsWith('https://ccpa-notice.sp-prod.net'));
+		.find((f) => f.url().startsWith(config.iframeDomain));
 	if (frame === undefined) {
 		return;
 	}
@@ -61,7 +62,7 @@ const checkSubsequentPage = async (url: string) => {
  * the site, with respect to and interaction with the CMP.
  */
 
-const checkPages = async (url: string, nextUrl: string) => {
+const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	// const page = await synthetics.getPage();
 	log_info(`Start checking Page URL: ${url}`);
 
@@ -78,7 +79,7 @@ const checkPages = async (url: string, nextUrl: string) => {
 
 	await checkCMPIsOnPage(page);
 
-	await interactWithCMP(page);
+	await interactWithCMP(config, page);
 
 	await checkCMPIsNotVisible(page);
 
@@ -91,14 +92,12 @@ const checkPages = async (url: string, nextUrl: string) => {
 	}
 };
 
-export const mainCheck = async function (): Promise<void> {
-	log_info('checkPage, new version (ccpa)');
+export const mainCheck = async function (config: Config): Promise<void> {
+	log_info('checkPage (ccpa)');
 	await checkPages(
-		'https://www.theguardian.com/us?adtest=fixed-puppies',
-		'https://www.theguardian.com/us-news/2021/jul/05/gray-wolves-wisconsin-hunting-population?adtest=fixed-puppies',
+		config,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
-	await checkPages(
-		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?adtest=fixed-puppies',
-		'',
-	);
+	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
 };

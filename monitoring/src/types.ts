@@ -18,5 +18,5 @@ export type Config = {
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;
-	checkFunction: () => Promise<void>;
+	checkFunction: (config: Config) => Promise<void>;
 };

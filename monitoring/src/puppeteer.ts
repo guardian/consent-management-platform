@@ -23,7 +23,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
 const run = async (config: Config, isDebugMode: boolean): Promise<Browser> => {
 	const ops = await initialiseOptions(isDebugMode);
 	const browser = await launchBrowser(ops);
-	await config.checkFunction();
+	await config.checkFunction(config);
 	return browser;
 };
 
