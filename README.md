@@ -339,7 +339,7 @@ type: `string`
 -   `"youtube-player"`
 
 </details>
-If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
+If the vendor you need is missing, please [raise an issue](https://github.com/guardian/consent-management-platform/issues) (or a PR!).
 
 #### `consentState`
 

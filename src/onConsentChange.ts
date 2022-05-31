@@ -1,6 +1,7 @@
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
+import { getGpcSignal } from './lib/signals';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
 import type { CallbackQueueItem, ConsentState, OnConsentChange } from './types';
 import type { AUSConsentState } from './types/aus';
@@ -41,11 +42,14 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
  *
  * - `canTarget`: if the user can be targeted for personalisation according to the active consent framework
  * - `framework`: the active consent framework
+ * - `gpcSet`: is the JS indicator of the GPC signal
  *
  * @param consentState
  * @returns Promise<ConsentState>
  */
 const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
+	const gpcSignal = getGpcSignal();
+
 	if (consentState.tcfv2) {
 		const consents = consentState.tcfv2.consents;
 		return {
@@ -54,30 +58,34 @@ const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
 				Object.keys(consents).length > 0 &&
 				Object.values(consents).every(Boolean),
 			framework: 'tcfv2',
+			gpcSignal,
 		};
 	} else if (consentState.ccpa) {
 		return {
 			...consentState,
 			canTarget: !consentState.ccpa.doNotSell,
 			framework: 'ccpa',
+			gpcSignal,
 		};
 	} else if (consentState.aus) {
 		return {
 			...consentState,
 			canTarget: consentState.aus.personalisedAdvertising,
 			framework: 'aus',
+			gpcSignal,
 		};
 	}
 	return {
 		...consentState,
 		canTarget: false,
 		framework: null,
+		gpcSignal,
 	};
 };
 
 const getConsentState: () => Promise<ConsentState> = async () => {
 	if (window.__uspapi) {
-		// in USA or AUS - https://git.io/JUOdq
+		// in USA or AUS - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
 		if (getCurrentFramework() === 'aus')
 			return enhanceConsentState({ aus: await getAUSConsentState() });
 
@@ -85,7 +93,7 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 	}
 
 	if (window.__tcfapi) {
-		// in RoW - https://git.io/JfrZr
+		// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
 		return enhanceConsentState({ tcfv2: await getTCFv2ConsentState() });
 	}
 

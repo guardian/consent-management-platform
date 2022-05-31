@@ -49,6 +49,10 @@ const setAPI = (framework: Framework | null) => {
 	}
 };
 
+const setGpc = (globalPrivacyControl: undefined | boolean) => {
+	navigator.globalPrivacyControl = globalPrivacyControl;
+};
+
 describe('onConsentChange enhances basic consent state', () => {
 	test('tcfv2 can target', async () => {
 		(getTCFv2ConsentState as jest.Mock).mockImplementation(() =>
@@ -141,5 +145,21 @@ describe('onConsentChange enhances basic consent state', () => {
 		await expect(_.getConsentState()).rejects.toEqual(
 			new Error('no IAB consent framework found on the page'),
 		);
+	});
+	test('notices a GPC signal', async () => {
+		setGpc(true);
+		(getCCPAConsentState as jest.Mock).mockImplementation(() =>
+			Promise.resolve<CCPAConsentState>(ccpaConsentState),
+		);
+		setAPI('ccpa');
+		const expectedConsentState: ConsentState = {
+			ccpa: ccpaConsentState,
+			canTarget: true,
+			framework: 'ccpa',
+			gpcSignal: true,
+		};
+
+		const consentState = await _.getConsentState();
+		expect(consentState).toEqual(expectedConsentState);
 	});
 });
