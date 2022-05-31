@@ -29,8 +29,6 @@ const interactWithCMP = async (page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
-	// When AWS Synthetics use a more up-to-date version of Puppeteer,
-	// we can make use of waitForFrame(), and remove the timeout above.
 	log_info(`Clicking on "Yes I'm Happy" on CMP`);
 	const frame = page
 		.frames()
