@@ -14,25 +14,25 @@ and TCFv2 to everyone else.
 
 <!-- toc -->
 
-- [Installation](#installation)
-  * [Bundling](#bundling)
-- [Managing Consent](#managing-consent)
-  * [`cmp.init(options)`](#cmpinitoptions)
-  * [`cmp.hasInitialised()`](#cmphasinitialised)
-  * [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
-  * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
-  * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
-- [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
-  * [`onConsent()`](#onconsent)
-  * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
-- [Disabling Consent](#disabling-consent)
-  * [`cmp.__disable()`](#cmp__disable)
-  * [`cmp.__enable()`](#cmp__enable)
-  * [`cmp.__isDisabled()`](#cmp__isdisabled)
-  * [Manually](#manually)
-  * [Using Cypress](#using-cypress)
-- [Development](#development)
+-   [Installation](#installation)
+    -   [Bundling](#bundling)
+-   [Managing Consent](#managing-consent)
+    -   [`cmp.init(options)`](#cmpinitoptions)
+    -   [`cmp.hasInitialised()`](#cmphasinitialised)
+    -   [`cmp.willShowPrivacyMessage()`](#cmpwillshowprivacymessage)
+    -   [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
+    -   [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
+-   [Using Consent](#using-consent)
+    -   [`onConsentChange(callback)`](#onconsentchangecallback)
+    -   [`onConsent()`](#onconsent)
+    -   [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
+-   [Disabling Consent](#disabling-consent)
+    -   [`cmp.__disable()`](#cmp__disable)
+    -   [`cmp.__enable()`](#cmp__enable)
+    -   [`cmp.__isDisabled()`](#cmp__isdisabled)
+    -   [Manually](#manually)
+    -   [Using Cypress](#using-cypress)
+-   [Development](#development)
 
 <!-- tocstop -->
 
@@ -262,9 +262,9 @@ If the user can be targeted for personalisation according to the active consent 
 
 For example `canTarget` would be `true` in the following scenarios:
 
-- for CCPA if the user has _not_ clicked "do not sell",
-- for AUS if the user has _not_ opted out of personalised advertising
-- for TCFv2 if the user has given consent for all purposes
+-   for CCPA if the user has _not_ clicked "do not sell",
+-   for AUS if the user has _not_ opted out of personalised advertising
+-   for TCFv2 if the user has given consent for all purposes
 
 ##### `consentState.framework`
 
@@ -428,4 +428,4 @@ To disable consent in Cypress tests, see their [`setCookie` documentation](https
 
 ## Development
 
-See the [developer docs](docs/01-development-instructions.md).
+See the [developer docs](docs/01-development-instructions.md)..
