@@ -64,7 +64,7 @@ const ConfigCCPACode: Config = {
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	iframeDomain: 'https://cdn.privacy-mgmt.com',
+	iframeDomain: 'https://ccpa-notice.sp-prod.net',
 	checkFunction: mainCheckCCPA,
 };
 
