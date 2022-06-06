@@ -72,29 +72,22 @@ const reloadPage = async (page: Page) => {
  * when visiting the site, with respect to and interaction with the CMP.
  */
 
-const checkSubsequentPage = async (config: Config, url: string) => {
-	// const page = await synthetics.getPage();
-	const browser: Browser = await makeNewBrowser();
-	const page: Page = await browser.newPage();
-
+const checkSubsequentPage = async (
+	browser: Browser,
+	config: Config,
+	url: string,
+) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-
+	const page: Page = await browser.newPage();
 	await loadPage(page, url);
-
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkTopAdHasLoaded(page);
-
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
-
 	await reloadPage(page);
-
 	await checkTopAdDidNotLoad(page);
-
 	await interactWithCMP(config, page);
-
 	await checkCMPIsNotVisible(page);
-
 	await checkTopAdHasLoaded(page);
 };
 
@@ -132,7 +125,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkCMPDidNotLoad(page);
 
 	if (nextUrl) {
-		await checkSubsequentPage(config, nextUrl);
+		await checkSubsequentPage(browser, config, nextUrl);
 	}
 };
 

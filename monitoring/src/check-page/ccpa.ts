@@ -43,17 +43,11 @@ const reloadPage = async (page: Page) => {
  * Checks that ads load correctly for the second page a user goes to
  * when visiting the site, with respect to and interaction with the CMP.
  */
-const checkSubsequentPage = async (url: string) => {
-	// const page = await synthetics.getPage();
-	const browser: Browser = await makeNewBrowser();
-	const page: Page = await browser.newPage();
-
+const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-
+	const page: Page = await browser.newPage();
 	await loadPage(page, url);
-
 	await checkCMPIsNotVisible(page);
-
 	await checkTopAdHasLoaded(page);
 };
 
@@ -63,7 +57,6 @@ const checkSubsequentPage = async (url: string) => {
  */
 
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
-	// const page = await synthetics.getPage();
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser();
@@ -88,7 +81,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkTopAdHasLoaded(page);
 
 	if (nextUrl) {
-		await checkSubsequentPage(nextUrl);
+		await checkSubsequentPage(browser, nextUrl);
 	}
 };
 
