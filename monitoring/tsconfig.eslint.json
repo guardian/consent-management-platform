@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*", "localRun.ts","node_modules/puppeteer-core/**/*"],
+  "exclude": ["node_modules"]
+}

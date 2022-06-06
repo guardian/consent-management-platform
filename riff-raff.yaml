@@ -1,0 +1,134 @@
+stacks: [frontend]
+allowedStages:
+    - CODE
+    - PROD
+deployments:
+    # -----------------------------------------------------------------------
+    # This file is in two parts.
+    #
+    # The first part is commented out and contains the code that was used to initiate the Lambdas.
+    # The sequence for initialization is uploading the lambda artifact and firing up the cdk.
+    #
+    # The second part is the active part that contains the deployment process after initialization.
+    # The sequence is firing up the cdk and then upload and update the Lambda.
+    #
+    # Technically, the *best* sequence is described here: https://github.com/guardian/projen-test-usage/blob/jsii/riff-raff.yaml
+    # But I could not get it working
+    # -----------------------------------------------------------------------
+    #    cmp-monitoring-lambda-eu-west-1:
+    #        app: cmp-monitoring-lambda-eu-west-1
+    #        regions: [eu-west-1]
+    #        type: aws-lambda
+    #        actions: [uploadLambda]
+    #        parameters:
+    #            prefixStack: false
+    #            bucket: com-gu-frontend-artifacts
+    #            fileName: cmp-monitoring-lambda-eu-west-1.zip
+    #            lookupByTags: true
+    #    cmp-monitoring-cdk-eu-west-1:
+    #        dependencies: [cmp-monitoring-lambda-eu-west-1]
+    #        regions: [eu-west-1]
+    #        type: cloud-formation
+    #        parameters:
+    #            prependStackToCloudFormationStackName: false
+    #            cloudFormationStackName: cmp-monitoring
+    #            templatePath: CmpMonitoringStackEU.template.json
+    #            cloudFormationStackByTags: false
+    #            manageStackPolicy: false
+    #    cmp-monitoring-lambda-us-west-1:
+    #        app: cmp-monitoring-lambda-us-west-1
+    #        regions: [us-west-1]
+    #        type: aws-lambda
+    #        actions: [uploadLambda]
+    #        parameters:
+    #            prefixStack: false
+    #            bucket: com-gu-frontend-artifacts-us-west-1
+    #            fileName: cmp-monitoring-lambda-us-west-1.zip
+    #            lookupByTags: true
+    #    cmp-monitoring-cdk-us-west-1:
+    #        dependencies: [cmp-monitoring-lambda-us-west-1]
+    #        regions: [us-west-1]
+    #        type: cloud-formation
+    #        parameters:
+    #            prependStackToCloudFormationStackName: false
+    #            cloudFormationStackName: cmp-monitoring
+    #            templatePath: CmpMonitoringStackUS.template.json
+    #            cloudFormationStackByTags: false
+    #            manageStackPolicy: false
+    #    cmp-monitoring-lambda-ap-southeast-2:
+    #        app: cmp-monitoring-lambda-ap-southeast-2
+    #        regions: [ap-southeast-2]
+    #        type: aws-lambda
+    #        actions: [uploadLambda]
+    #        parameters:
+    #            prefixStack: false
+    #            bucket: com-gu-frontend-artifacts-ap-southeast-2
+    #            fileName: cmp-monitoring-lambda-ap-southeast-2.zip
+    #            lookupByTags: true
+    #    cmp-monitoring-cdk-ap-southeast-2:
+    #        dependencies: [cmp-monitoring-lambda-ap-southeast-2]
+    #        regions: [ap-southeast-2]
+    #        type: cloud-formation
+    #        parameters:
+    #            prependStackToCloudFormationStackName: false
+    #            cloudFormationStackName: cmp-monitoring
+    #            templatePath: CmpMonitoringStackAU.template.json
+    #            cloudFormationStackByTags: false
+    #            manageStackPolicy: false
+    cmp-monitoring-cdk-eu-west-1:
+        regions: [eu-west-1]
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templatePath: CmpMonitoringStackEU.template.json
+            cloudFormationStackByTags: false
+            manageStackPolicy: false
+    cmp-monitoring-lambda-eu-west-1:
+        dependencies: [cmp-monitoring-cdk-eu-west-1]
+        regions: [eu-west-1]
+        type: aws-lambda
+        actions: [uploadLambda, updateLambda]
+        parameters:
+            prefixStack: false
+            bucket: com-gu-frontend-artifacts
+            fileName: cmp-monitoring-lambda-eu-west-1.zip
+            lookupByTags: true
+    cmp-monitoring-cdk-us-west-1:
+        regions: [us-west-1]
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templatePath: CmpMonitoringStackUS.template.json
+            cloudFormationStackByTags: false
+            manageStackPolicy: false
+    cmp-monitoring-lambda-us-west-1:
+        dependencies: [cmp-monitoring-cdk-us-west-1]
+        regions: [us-west-1]
+        type: aws-lambda
+        actions: [uploadLambda, updateLambda]
+        parameters:
+            prefixStack: false
+            bucket: com-gu-frontend-artifacts-us-west-1
+            fileName: cmp-monitoring-lambda-us-west-1.zip
+            lookupByTags: true
+    cmp-monitoring-cdk-ap-southeast-2:
+        regions: [ap-southeast-2]
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templatePath: CmpMonitoringStackAU.template.json
+            cloudFormationStackByTags: false
+            manageStackPolicy: false
+    cmp-monitoring-lambda-ap-southeast-2:
+        dependencies: [cmp-monitoring-cdk-ap-southeast-2]
+        regions: [ap-southeast-2]
+        type: aws-lambda
+        actions: [uploadLambda, updateLambda]
+        parameters:
+            prefixStack: false
+            bucket: com-gu-frontend-artifacts-ap-southeast-2
+            fileName: cmp-monitoring-lambda-ap-southeast-2.zip
+            lookupByTags: true
