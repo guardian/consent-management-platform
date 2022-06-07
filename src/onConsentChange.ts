@@ -1,8 +1,18 @@
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
+import { getGpcSignal } from './lib/signals';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
 import type { CallbackQueueItem, ConsentState, OnConsentChange } from './types';
+import type { AUSConsentState } from './types/aus';
+import type { CCPAConsentState } from './types/ccpa';
+import type { TCFv2ConsentState } from './types/tcfv2';
+
+interface ConsentStateBasic {
+	tcfv2?: TCFv2ConsentState;
+	ccpa?: CCPAConsentState;
+	aus?: AUSConsentState;
+}
 
 // callbacks cache
 const callBackQueue: CallbackQueueItem[] = [];
@@ -27,14 +37,60 @@ const invokeCallback = (callback: CallbackQueueItem, state: ConsentState) => {
 	}
 };
 
+/**
+ * Adds properties for convenience on consent state:
+ *
+ * - `canTarget`: if the user can be targeted for personalisation according to the active consent framework
+ * - `framework`: the active consent framework
+ * - `gpcSet`: is the JS indicator of the GPC signal
+ *
+ * @param consentState
+ * @returns Promise<ConsentState>
+ */
+const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
+	const gpcSignal = getGpcSignal();
+
+	if (consentState.tcfv2) {
+		const consents = consentState.tcfv2.consents;
+		return {
+			...consentState,
+			canTarget:
+				Object.keys(consents).length > 0 &&
+				Object.values(consents).every(Boolean),
+			framework: 'tcfv2',
+			gpcSignal,
+		};
+	} else if (consentState.ccpa) {
+		return {
+			...consentState,
+			canTarget: !consentState.ccpa.doNotSell,
+			framework: 'ccpa',
+			gpcSignal,
+		};
+	} else if (consentState.aus) {
+		return {
+			...consentState,
+			canTarget: consentState.aus.personalisedAdvertising,
+			framework: 'aus',
+			gpcSignal,
+		};
+	}
+	return {
+		...consentState,
+		canTarget: false,
+		framework: null,
+		gpcSignal,
+	};
+};
+
 const getConsentState: () => Promise<ConsentState> = async () => {
 	switch (getCurrentFramework()) {
 		case 'aus':
-			return { aus: await getAUSConsentState() };
+			return enhanceConsentState({ aus: await getAUSConsentState() });
 		case 'ccpa':
-			return { ccpa: await getCCPAConsentState() };
+			return enhanceConsentState({ ccpa: await getCCPAConsentState() });
 		case 'tcfv2':
-			return { tcfv2: await getTCFv2ConsentState() };
+			return enhanceConsentState({ tcfv2: await getTCFv2ConsentState() });
 		default:
 			throw new Error('no IAB consent framework found on the page');
 	}

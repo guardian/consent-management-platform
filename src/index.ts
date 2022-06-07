@@ -3,11 +3,13 @@ import { CMP as UnifiedCMP } from './cmp';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as clientGetConsentFor } from './getConsentFor';
 import { getFramework } from './getFramework';
+import { onConsent as clientOnConsent } from './onConsent';
 import { onConsentChange as clientOnConsentChange } from './onConsentChange';
 import {
 	isServerSide,
 	cmp as serverCmp,
 	getConsentFor as serverGetConsentFor,
+	onConsent as serverOnConsent,
 	onConsentChange as serverOnConsentChange,
 } from './server';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
@@ -97,6 +99,9 @@ export const cmp: CMP = isServerSide
 			__disable: disable,
 	  });
 
+export const onConsent = isServerSide
+	? serverOnConsent
+	: (window.guCmpHotFix.onConsent ||= clientOnConsent);
 export const onConsentChange = isServerSide
 	? serverOnConsentChange
 	: (window.guCmpHotFix.onConsentChange ||= clientOnConsentChange);

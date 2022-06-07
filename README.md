@@ -24,6 +24,7 @@ and TCFv2 to everyone else.
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
   * [`onConsentChange(callback)`](#onconsentchangecallback)
+  * [`onConsent()`](#onconsent)
   * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
 - [Disabling Consent](#disabling-consent)
   * [`cmp.__disable()`](#cmp__disable)
@@ -165,6 +166,7 @@ cmp.showPrivacyManager();
 
 ```js
 import {
+    onConsent,
     onConsentChange,
     getConsentFor,
 } from '@guardian/consent-management-platform';
@@ -252,6 +254,24 @@ If the user is not in Australia, it will be `undefined`.
 }
 ```
 
+##### `consentState.canTarget`
+
+type: `boolean`
+
+If the user can be targeted for personalisation according to the active consent framework.
+
+For example `canTarget` would be `true` in the following scenarios:
+
+- for CCPA if the user has _not_ clicked "do not sell",
+- for AUS if the user has _not_ opted out of personalised advertising
+- for TCFv2 if the user has given consent for all purposes
+
+##### `consentState.framework`
+
+type: `string` | null
+
+The active consent framework e.g. `"ccpa"`, `"aus"`, `"tcfv2"` or `null`.
+
 #### Example
 
 ```js
@@ -271,6 +291,14 @@ onConsentChange(({ tcfv2, ccpa, aus }) => {
     }
 });
 ```
+
+### `onConsent()`
+
+A promise wrapper around `onConsentChange` that resolves the initial consent state.
+
+This will only resolve once whereas callbacks passed to `onConsentChange` are executed each time consent state changes. Avoid using this function in contexts where subsequent consent states must be listened for.
+
+returns: `Promise<ConsentState>`
 
 ### `getConsentFor(vendor, consentState)`
 
@@ -311,7 +339,7 @@ type: `string`
 -   `"youtube-player"`
 
 </details>
-If the vendor you need is missing, please [raise an issue](https://git.io/JUzVL) (or a PR!).
+If the vendor you need is missing, please [raise an issue](https://github.com/guardian/consent-management-platform/issues) (or a PR!).
 
 #### `consentState`
 

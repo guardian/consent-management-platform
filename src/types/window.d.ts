@@ -1,6 +1,7 @@
 import type { getConsentFor } from '../getConsentFor';
 import type { Property } from '../lib/property';
 import type { EndPoint } from '../lib/sourcepointConfig';
+import type { onConsent } from '../onConsent';
 import type { onConsentChange } from '../onConsentChange';
 import type { CCPAData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
@@ -18,6 +19,7 @@ declare global {
 		guCmpHotFix: {
 			initialised?: boolean;
 			cmp?: CMP;
+			onConsent?: typeof onConsent;
 			onConsentChange?: typeof onConsentChange;
 			getConsentFor?: typeof getConsentFor;
 		};

@@ -1,3 +1,4 @@
+import type { onConsent as OnConsent } from './onConsent';
 import type {
 	CMP,
 	ConsentState,
@@ -35,6 +36,14 @@ export const cmp: CMP = {
 	version: 'n/a',
 	willShowPrivacyMessage: serverSideWarnAndReturn(Promise.resolve(false)),
 	willShowPrivacyMessageSync: serverSideWarnAndReturn(false),
+};
+
+export const onConsent = (): ReturnType<typeof OnConsent> => {
+	serverSideWarn();
+	return Promise.resolve({
+		canTarget: false,
+		framework: null,
+	});
 };
 
 export const onConsentChange: OnConsentChange = () => {
