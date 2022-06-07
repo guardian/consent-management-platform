@@ -270,6 +270,13 @@ const cmp$1 = {
     willShowPrivacyMessage: serverSideWarnAndReturn(Promise.resolve(false)),
     willShowPrivacyMessageSync: serverSideWarnAndReturn(false),
 };
+const onConsent$2 = () => {
+    serverSideWarn();
+    return Promise.resolve({
+        canTarget: false,
+        framework: null,
+    });
+};
 const onConsentChange$2 = () => {
     return serverSideWarn();
 };
@@ -341,6 +348,10 @@ const getConsentState$2 = async () => {
     };
 };
 
+const getGpcSignal = () => {
+    return isServerSide ? undefined : navigator.globalPrivacyControl;
+};
+
 const api = (command) => new Promise((resolve, reject) => {
     if (window.__tcfapi) {
         window.__tcfapi(command, 2, (result, success) => success
@@ -406,14 +417,49 @@ const invokeCallback = (callback, state) => {
         callback.lastState = stateString;
     }
 };
+const enhanceConsentState = (consentState) => {
+    const gpcSignal = getGpcSignal();
+    if (consentState.tcfv2) {
+        const consents = consentState.tcfv2.consents;
+        return {
+            ...consentState,
+            canTarget: Object.keys(consents).length > 0 &&
+                Object.values(consents).every(Boolean),
+            framework: 'tcfv2',
+            gpcSignal,
+        };
+    }
+    else if (consentState.ccpa) {
+        return {
+            ...consentState,
+            canTarget: !consentState.ccpa.doNotSell,
+            framework: 'ccpa',
+            gpcSignal,
+        };
+    }
+    else if (consentState.aus) {
+        return {
+            ...consentState,
+            canTarget: consentState.aus.personalisedAdvertising,
+            framework: 'aus',
+            gpcSignal,
+        };
+    }
+    return {
+        ...consentState,
+        canTarget: false,
+        framework: null,
+        gpcSignal,
+    };
+};
 const getConsentState = async () => {
     switch (getCurrentFramework()) {
         case 'aus':
-            return { aus: await getConsentState$3() };
+            return enhanceConsentState({ aus: await getConsentState$3() });
         case 'ccpa':
-            return { ccpa: await getConsentState$2() };
+            return enhanceConsentState({ ccpa: await getConsentState$2() });
         case 'tcfv2':
-            return { tcfv2: await getConsentState$1() };
+            return enhanceConsentState({ tcfv2: await getConsentState$1() });
         default:
             throw new Error('no IAB consent framework found on the page');
     }
@@ -982,6 +1028,7 @@ const VendorIDs = {
     ias: ['5e7ced57b8e05c485246ccf3'],
     inizio: ['5e37fc3e56a5e6615502f9c9'],
     ipsos: ['5f745ab96f3aae0163740409'],
+    linkedin: ['5f2d22a6b8e05c02aa283b3c'],
     lotame: ['5ed6aeb1b8e05c241a63c71f'],
     nielsen: ['5ef5c3a5b8e05c69980eaa5b'],
     ophan: ['5f203dbeeaaaa8768fd3226a'],
@@ -999,7 +1046,7 @@ const getConsentFor$1 = (vendor, consent) => {
     const sourcepointIds = VendorIDs[vendor];
     if (typeof sourcepointIds === 'undefined' || sourcepointIds === []) {
         throw new Error(`Vendor '${vendor}' not found, or with no Sourcepoint ID. ` +
-            'If it should be added, raise an issue at https://git.io/JUzVL');
+            'If it should be added, raise an issue at https://github.com/guardian/consent-management-platform/issues');
     }
     if (consent.ccpa) {
         return !consent.ccpa.doNotSell;
@@ -1037,7 +1084,16 @@ const getFramework = (countryCode) => {
     return framework;
 };
 
-var _a, _b, _c;
+const onConsent$1 = () => new Promise((resolve, reject) => {
+    onConsentChange$1((consentState) => {
+        if (consentState.tcfv2 || consentState.ccpa || consentState.aus) {
+            resolve(consentState);
+        }
+        reject('Unknown framework');
+    });
+});
+
+var _a, _b, _c, _d;
 if (!isServerSide) {
     window.guCmpHotFix || (window.guCmpHotFix = {});
 }
@@ -1095,13 +1151,17 @@ const cmp = isServerSide
         __enable: enable,
         __disable: disable,
     }));
+const onConsent = isServerSide
+    ? onConsent$2
+    : ((_b = window.guCmpHotFix).onConsent || (_b.onConsent = onConsent$1));
 const onConsentChange = isServerSide
     ? onConsentChange$2
-    : ((_b = window.guCmpHotFix).onConsentChange || (_b.onConsentChange = onConsentChange$1));
+    : ((_c = window.guCmpHotFix).onConsentChange || (_c.onConsentChange = onConsentChange$1));
 const getConsentFor = isServerSide
     ? getConsentFor$2
-    : ((_c = window.guCmpHotFix).getConsentFor || (_c.getConsentFor = getConsentFor$1));
+    : ((_d = window.guCmpHotFix).getConsentFor || (_d.getConsentFor = getConsentFor$1));
 
 exports.cmp = cmp;
 exports.getConsentFor = getConsentFor;
+exports.onConsent = onConsent;
 exports.onConsentChange = onConsentChange;

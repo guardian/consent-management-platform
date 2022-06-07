@@ -1,6 +1,6 @@
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
-import { setCurrentFramework } from './getCurrentFramework';
+import { setCurrentFramework, unsetFramework } from './getCurrentFramework';
 import { _ } from './onConsentChange';
 import { getConsentState as getTCFv2ConsentState } from './tcfv2/getConsentState';
 import type { ConsentState, Framework } from './types';
@@ -32,20 +32,17 @@ const ausConsentState: AUSConsentState = {
 };
 
 const setAPI = (framework: Framework | null) => {
-	(window.__uspapi as unknown) = null;
-	(window.__tcfapi as unknown) = null;
 	if (framework === 'ccpa') {
-		(window.__uspapi as unknown) = true;
 		setCurrentFramework('ccpa');
 		return;
 	} else if (framework === 'aus') {
-		(window.__uspapi as unknown) = true;
 		setCurrentFramework('aus');
 		return;
 	} else if (framework === 'tcfv2') {
-		(window.__tcfapi as unknown) = true;
 		setCurrentFramework('tcfv2');
 		return;
+	} else {
+		unsetFramework();
 	}
 };
 

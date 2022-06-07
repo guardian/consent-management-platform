@@ -11,6 +11,7 @@ export declare const VendorIDs: {
     ias: string[];
     inizio: string[];
     ipsos: string[];
+    linkedin: string[];
     lotame: string[];
     nielsen: string[];
     ophan: string[];
