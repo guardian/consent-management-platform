@@ -1,8 +1,8 @@
 name: CI Monitoring
 on:
   push:
-    branches:
-      - add-cdk
+    branches-ignore:
+      - 'gh-pages'
 
 jobs:
   CI:
