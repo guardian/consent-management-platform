@@ -132,3 +132,22 @@ deployments:
             bucket: com-gu-frontend-artifacts-ap-southeast-2
             fileName: cmp-monitoring-lambda-ap-southeast-2.zip
             lookupByTags: true
+    cmp-monitoring-cdk-ca-central-1:
+        regions: [ca-central-1]
+        type: cloud-formation
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templatePath: CmpMonitoringStackCA.template.json
+            cloudFormationStackByTags: false
+            manageStackPolicy: false
+    cmp-monitoring-lambda-ca-central-1:
+        dependencies: [cmp-monitoring-cdk-ca-central-1]
+        regions: [ca-central-1]
+        type: aws-lambda
+        actions: [uploadLambda, updateLambda]
+        parameters:
+            prefixStack: false
+            bucket: com-gu-frontend-artifacts-ca-central-1
+            fileName: cmp-monitoring-lambda-ca-central-1.zip
+            lookupByTags: true

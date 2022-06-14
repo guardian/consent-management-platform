@@ -36,6 +36,16 @@
 			"action": "cmp-monitoring-lambda-ap-southeast-2",
 			"path": "monitoring/dist",
 			"compress": "zip"
+		},
+		{
+			"action": "cmp-monitoring-cdk-ca-central-1",
+			"path": "cdk/cdk.out/CmpMonitoringStackCA.template.json",
+			"compress": false
+		},
+		{
+			"action": "cmp-monitoring-lambda-ca-central-1",
+			"path": "monitoring/dist",
+			"compress": "zip"
 		}
 	]
 }
