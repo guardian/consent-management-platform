@@ -22,6 +22,9 @@ const decideJurisdiction = (
 	if (awsRegion === 'us-west-1') {
 		return 'ccpa';
 	}
+	if (awsRegion === 'ca-central-1') {
+		return 'tcfv2';
+	}
 	if (awsRegion === 'ap-southeast-2') {
 		return 'aus';
 	}

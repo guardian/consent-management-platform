@@ -25,7 +25,12 @@ function processResult(result: InvokeCommandOutput) {
 }
 
 async function main() {
-	const regionsToCheck = ['us-west-1', 'eu-west-1', 'ap-southeast-2'];
+	const regionsToCheck = [
+		'us-west-1',
+		'eu-west-1',
+		'ap-southeast-2',
+		'ca-central-1',
+	];
 
 	const invokeSettledResults = await Promise.allSettled(
 		regionsToCheck.map((region) =>
