@@ -4,13 +4,10 @@ import { Duration } from '@aws-cdk/core';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
-// import { GuSnsTopic } from '@guardian/cdk/lib/constructs/sns';
 
 export class Monitoring extends GuStack {
 	constructor(scope: App, id: string, props: GuStackProps) {
 		super(scope, id, props);
-
-		// new GuSnsTopic(this, 'SnsTopic');
 
 		const stage = this.stage;
 
