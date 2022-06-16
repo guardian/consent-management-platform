@@ -1,33 +1,18 @@
 import waitForExpect from 'wait-for-expect';
-import { AUS as actualAUS } from './aus';
-import { CCPA as actualCCPA } from './ccpa';
+import { CMP as actualCMP } from './cmp';
 import { disable, enable } from './disable';
 import { getCurrentFramework } from './getCurrentFramework';
-import { TCFv2 as actualTCFv2 } from './tcfv2';
 import { cmp } from '.';
 
-const CCPA = {
-	init: jest.spyOn(actualCCPA, 'init'),
-	showPrivacyManager: jest.spyOn(actualCCPA, 'showPrivacyManager'),
-	willShowPrivacyMessage: jest.spyOn(actualCCPA, 'willShowPrivacyMessage'),
-};
-
-const TCFv2 = {
-	init: jest.spyOn(actualTCFv2, 'init'),
-	showPrivacyManager: jest.spyOn(actualTCFv2, 'showPrivacyManager'),
-};
-
-const AUS = {
-	init: jest.spyOn(actualAUS, 'init'),
-	showPrivacyManager: jest.spyOn(actualAUS, 'showPrivacyManager'),
+const CMP = {
+	init: jest.spyOn(actualCMP, 'init'),
+	showPrivacyManager: jest.spyOn(actualCMP, 'showPrivacyManager'),
 };
 
 beforeEach(() => {
 	window._sp_ = undefined;
-	window._sp_ccpa = undefined;
 	window.guCmpHotFix.initialised = false;
-	TCFv2.init.mockClear();
-	CCPA.init.mockClear();
+	CMP.init.mockClear();
 });
 
 describe('cmp.init', () => {
@@ -37,8 +22,7 @@ describe('cmp.init', () => {
 		cmp.init({ country: 'GB' });
 		cmp.init({ country: 'US' });
 
-		expect(TCFv2.init).not.toHaveBeenCalled();
-		expect(CCPA.init).not.toHaveBeenCalled();
+		expect(CMP.init).not.toHaveBeenCalled();
 
 		enable();
 	});
@@ -49,19 +33,19 @@ describe('cmp.init', () => {
 		}).toThrow('required');
 	});
 
-	it('initializes CCPA when in the US', () => {
+	it('initializes CMP when in the US', () => {
 		cmp.init({ country: 'US' });
-		expect(CCPA.init).toHaveBeenCalledTimes(1);
+		expect(CMP.init).toHaveBeenCalledTimes(1);
 	});
 
-	it('initializes CCPA when in Australia', () => {
+	it('initializes CMP when in Australia', () => {
 		cmp.init({ country: 'AU' });
-		expect(AUS.init).toHaveBeenCalledTimes(1);
+		expect(CMP.init).toHaveBeenCalledTimes(1);
 	});
 
 	it('initializes TCF when neither in the US or Australia', () => {
 		cmp.init({ country: 'GB' });
-		expect(TCFv2.init).toHaveBeenCalledTimes(1);
+		expect(CMP.init).toHaveBeenCalledTimes(1);
 	});
 });
 
@@ -72,7 +56,7 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ country: 'GB' });
 		cmp.init({ country: 'GB' });
 		cmp.init({ country: 'GB' });
-		expect(TCFv2.init).toHaveBeenCalledTimes(1);
+		expect(CMP.init).toHaveBeenCalledTimes(1);
 		expect(window.guCmpHotFix.initialised).toBe(true);
 	});
 
@@ -175,23 +159,23 @@ describe('cmp.hasInitialised', () => {
 });
 
 describe('cmp.showPrivacyManager', () => {
-	it('shows CCPA privacy manager when in the US', () => {
+	it('shows CMP privacy manager when in the US', () => {
 		cmp.init({ country: 'US' });
 
 		cmp.showPrivacyManager();
 
 		return waitForExpect(() =>
-			expect(CCPA.showPrivacyManager).toHaveBeenCalledTimes(1),
+			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
 		);
 	});
 
-	it('shows AUS privacy manager when in Australia', () => {
+	it('shows CMP privacy manager when in Australia', () => {
 		cmp.init({ country: 'AU' });
 
 		cmp.showPrivacyManager();
 
 		return waitForExpect(() =>
-			expect(AUS.showPrivacyManager).toHaveBeenCalledTimes(1),
+			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
 		);
 	});
 	it('shows TCF privacy manager when neither in the US or Australia', () => {
@@ -200,7 +184,7 @@ describe('cmp.showPrivacyManager', () => {
 		cmp.showPrivacyManager();
 
 		return waitForExpect(() =>
-			expect(TCFv2.showPrivacyManager).toHaveBeenCalledTimes(1),
+			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
 		);
 	});
 });

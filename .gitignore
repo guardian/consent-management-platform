@@ -5,7 +5,6 @@
 node_modules
 
 # Built files
-dist
 .dev
 .gh-pages
 /coverage

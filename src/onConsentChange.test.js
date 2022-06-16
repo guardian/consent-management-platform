@@ -138,6 +138,7 @@ describe('under TCFv2', () => {
 			if (command === 'getCustomVendorConsents')
 				callback(customVendorConsents, true);
 		});
+		setCurrentFramework('tcfv2');
 	});
 
 	it('invokes callbacks correctly', async () => {

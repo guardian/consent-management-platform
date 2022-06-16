@@ -84,24 +84,21 @@ const enhanceConsentState = (consentState: ConsentStateBasic): ConsentState => {
 };
 
 const getConsentState: () => Promise<ConsentState> = async () => {
-	if (window.__uspapi) {
-		// in USA or AUS - https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/USP%20API.md
-		if (getCurrentFramework() === 'aus')
+	switch (getCurrentFramework()) {
+		case 'aus':
 			return enhanceConsentState({ aus: await getAUSConsentState() });
-
-		return enhanceConsentState({ ccpa: await getCCPAConsentState() });
+		case 'ccpa':
+			return enhanceConsentState({ ccpa: await getCCPAConsentState() });
+		case 'tcfv2':
+			return enhanceConsentState({ tcfv2: await getTCFv2ConsentState() });
+		default:
+			throw new Error('no IAB consent framework found on the page');
 	}
-
-	if (window.__tcfapi) {
-		// in RoW - https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md
-		return enhanceConsentState({ tcfv2: await getTCFv2ConsentState() });
-	}
-
-	throw new Error('no IAB consent framework found on the page');
 };
 
 // invokes all stored callbacks with the current consent state
 export const invokeCallbacks = (): void => {
+	if (callBackQueue.length === 0) return;
 	void getConsentState().then((state) => {
 		if (awaitingUserInteractionInTCFv2(state)) return;
 
