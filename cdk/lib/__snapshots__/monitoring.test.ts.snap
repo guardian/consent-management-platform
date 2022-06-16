@@ -63,7 +63,7 @@ Object {
           ],
         },
         "Handler": "index.handler",
-        "MemorySize": 1024,
+        "MemorySize": 4096,
         "Role": Object {
           "Fn::GetAtt": Array [
             "cmpmonitoringServiceRole3F7FDCEC",
