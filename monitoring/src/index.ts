@@ -1,6 +1,4 @@
-import type { Browser } from 'puppeteer-core';
 import { envConfig } from './config';
-import { debugMode } from './env';
 import { run } from './puppeteer';
 
 export const handler = async (): Promise<void> => {
@@ -9,11 +7,7 @@ export const handler = async (): Promise<void> => {
 	);
 
 	try {
-		const browser: Browser = await run(envConfig, debugMode);
-
-		if (!debugMode) {
-			await browser.close();
-		}
+		await run(envConfig);
 		console.log('(cmp monitoring) Finished cmp-monitoring');
 	} catch (error) {
 		console.log(error);
