@@ -1,5 +1,4 @@
 import { envConfig } from './config';
-import { run } from './puppeteer';
 
 export const handler = async (): Promise<void> => {
 	console.log(
@@ -7,7 +6,7 @@ export const handler = async (): Promise<void> => {
 	);
 
 	try {
-		await run(envConfig);
+		await envConfig.checkFunction(envConfig);
 		console.log('(cmp monitoring) Finished cmp-monitoring');
 	} catch (error) {
 		console.log(error);
