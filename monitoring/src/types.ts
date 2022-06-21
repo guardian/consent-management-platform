@@ -20,3 +20,14 @@ export type Config = {
 	iframeDomain: string;
 	checkFunction: (config: Config) => Promise<void>;
 };
+
+export type SuccessfulCheck = {
+	key: 'success';
+};
+
+export type FailedCheck = {
+	key: 'failure';
+	errorMessage: string;
+};
+
+export type CheckStatus = SuccessfulCheck | FailedCheck;
