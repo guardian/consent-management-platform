@@ -1,8 +1,9 @@
-enum LogMessageType {
-	INFO,
-	ERROR
-}
 
+/**
+ *
+ *
+ * @class Logger
+ */
 class Logger {
 
 	/**
@@ -73,5 +74,9 @@ class Logger {
 	}
 }
 
+enum LogMessageType {
+	INFO,
+	ERROR
+}
 
-export default Logger;
+export {Logger, LogMessageType};
