@@ -16,3 +16,9 @@ dist
 cypress/dist
 cypress/screenshots
 cypress/videos
+
+
+target
+.bsp
+.metals
+package-lock.json
