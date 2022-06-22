@@ -4,16 +4,39 @@ enum LogMessageType {
 }
 
 class Logger {
+
+	/**
+	 *
+	 *
+	 * @static
+	 * @param {string} message
+	 * @memberof Logger
+	 */
 	static info = (message: string) : void => {
 		console.log(message)
 	}
 
 
+	/**
+	 *
+	 *
+	 * @static
+	 * @param {string} error
+	 * @memberof Logger
+	 */
 	static error = (error: string) : void => {
 		console.log(error)
 	}
 
 
+	/**
+	 *
+	 *
+	 * @static
+	 * @param {string} message
+	 * @param {LogMessageType} logMessageType
+	 * @memberof Logger
+	 */
 	static constructMessage = (message: string, logMessageType: LogMessageType) : string => {
 
 		return `(cmp monitoring): ${Logger.getMessageType(logMessageType)}: ${message}`
@@ -25,7 +48,7 @@ class Logger {
 	 * @static
 	 * @memberof Logger
 	 */
-	static constructLoggerObject = () => {
+	static constructObject = () => {
 		return {
 
 		}
