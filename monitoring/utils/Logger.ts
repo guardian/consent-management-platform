@@ -19,12 +19,25 @@ class Logger {
 		return `(cmp monitoring): ${Logger.getMessageType(logMessageType)}: ${message}`
 	}
 
+	/**
+	 * To be finished. Need to understand object
+	 *
+	 * @static
+	 * @memberof Logger
+	 */
 	static constructLoggerObject = () => {
 		return {
 
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @static
+	 * @param {LogMessageType} logMessageType
+	 * @memberof Logger
+	 */
 	static getMessageType = (logMessageType: LogMessageType) : string  => {
 		switch(logMessageType){
 			case LogMessageType.INFO:
