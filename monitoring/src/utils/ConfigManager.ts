@@ -1,4 +1,4 @@
-import type { Config } from '../types';
+import type { Config, T_Config } from '../types';
 import { mainCheck as mainCheckAus } from '../check-page/aus';
 import { mainCheck as mainCheckCCPA } from '../check-page/ccpa';
 import { mainCheck as mainCheckTcfV2 } from '../check-page/tcfv2';
@@ -8,7 +8,7 @@ import { E_Jurisdiction, E_Stage } from '../enums';
 
 class ConfigManager {
 
-	static getEnvConfig = (stage: E_Stage, jurisdiction: E_Jurisdiction) : Config => {
+	static getEnvConfig = (stage: E_Stage, jurisdiction: E_Jurisdiction) : T_Config => {
 		switch(jurisdiction){
 			case E_Jurisdiction.AUS:
 				return ConfigManager.getAus(stage);
@@ -20,7 +20,7 @@ class ConfigManager {
 	}
 
 
-	private static getAus = (stage: E_Stage) : Config => {
+	private static getAus = (stage: E_Stage) : T_Config => {
 		switch(stage){
 			case E_Stage.CODE:
 				return ConfigAusCode;
@@ -29,7 +29,7 @@ class ConfigManager {
 		}
 	}
 
-	private static getTcfv = (stage: E_Stage) : Config => {
+	private static getTcfv = (stage: E_Stage) : T_Config => {
 		switch(stage){
 			case E_Stage.CODE:
 				return ConfigTcfv2Code;
@@ -38,7 +38,7 @@ class ConfigManager {
 		}
 	}
 
-	static getCCPA = (stage: E_Stage) : Config => {
+	static getCCPA = (stage: E_Stage) : T_Config => {
 		switch(stage){
 			case E_Stage.CODE:
 				return ConfigCCPACode;
@@ -50,9 +50,9 @@ class ConfigManager {
 
 
 
-const ConfigTcfv2Prod: Config = {
-	stage: 'prod',
-	jurisdiction: 'tcfv2',
+const ConfigTcfv2Prod: T_Config = {
+	stage: E_Stage.PROD,
+	jurisdiction: E_Jurisdiction.TCFV2,
 	frontUrl: 'https://www.theguardian.com',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -60,9 +60,9 @@ const ConfigTcfv2Prod: Config = {
 	checkFunction: mainCheckTcfV2,
 };
 
-const ConfigTcfv2Code: Config = {
-	stage: 'code',
-	jurisdiction: 'tcfv2',
+const ConfigTcfv2Code: T_Config = {
+	stage: E_Stage.CODE,
+	jurisdiction: E_Jurisdiction.TCFV2,
 	frontUrl: 'https://m.code.dev-theguardian.com',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -70,9 +70,9 @@ const ConfigTcfv2Code: Config = {
 	checkFunction: mainCheckTcfV2,
 };
 
-const ConfigCCPAProd: Config = {
-	stage: 'prod',
-	jurisdiction: 'ccpa',
+const ConfigCCPAProd: T_Config = {
+	stage: E_Stage.PROD,
+	jurisdiction: E_Jurisdiction.CCPA,
 	frontUrl: 'https://www.theguardian.com/us',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -80,9 +80,9 @@ const ConfigCCPAProd: Config = {
 	checkFunction: mainCheckCCPA,
 };
 
-const ConfigCCPACode: Config = {
-	stage: 'code',
-	jurisdiction: 'ccpa',
+const ConfigCCPACode: T_Config = {
+	stage: E_Stage.CODE,
+	jurisdiction: E_Jurisdiction.CCPA,
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -90,9 +90,9 @@ const ConfigCCPACode: Config = {
 	checkFunction: mainCheckCCPA,
 };
 
-const ConfigAusProd: Config = {
-	stage: 'prod',
-	jurisdiction: 'aus',
+const ConfigAusProd: T_Config = {
+	stage: E_Stage.PROD,
+	jurisdiction: E_Jurisdiction.AUS,
 	frontUrl: 'https://www.theguardian.com/au',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -100,13 +100,16 @@ const ConfigAusProd: Config = {
 	checkFunction: mainCheckAus,
 };
 
-const ConfigAusCode: Config = {
-	stage: 'code',
-	jurisdiction: 'aus',
+const ConfigAusCode: T_Config = {
+	stage: E_Stage.CODE,
+	jurisdiction: E_Jurisdiction.AUS,
 	frontUrl: 'https://m.code.dev-theguardian.com/au',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://ccpa-notice.sp-prod.net',
 	checkFunction: mainCheckAus,
 };
+
+
+export {ConfigManager}
 
