@@ -83,6 +83,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
 	}
+
+	await browser.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
