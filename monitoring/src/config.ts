@@ -1,7 +1,7 @@
 import { mainCheck as mainCheckAus } from './check-page/aus';
 import { mainCheck as mainCheckCCPA } from './check-page/ccpa';
 import { mainCheck as mainCheckTcfV2 } from './check-page/tcfv2';
-import { envAwsRegion, envJurisdiction, envStage } from './env';
+import { debugMode, envAwsRegion, envJurisdiction, envStage } from './env';
 import type { Config } from './types';
 
 type JurisdictionOpt = string | undefined;
@@ -38,6 +38,7 @@ const ConfigTcfv2Prod: Config = {
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://sourcepoint.theguardian.com',
+	debugMode: debugMode,
 	checkFunction: mainCheckTcfV2,
 };
 
@@ -48,6 +49,7 @@ const ConfigTcfv2Code: Config = {
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://cdn.privacy-mgmt.com',
+	debugMode: debugMode,
 	checkFunction: mainCheckTcfV2,
 };
 
@@ -58,6 +60,7 @@ const ConfigCCPAProd: Config = {
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	debugMode: debugMode,
 	checkFunction: mainCheckCCPA,
 };
 
@@ -68,6 +71,7 @@ const ConfigCCPACode: Config = {
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	debugMode: debugMode,
 	checkFunction: mainCheckCCPA,
 };
 
@@ -78,6 +82,7 @@ const ConfigAusProd: Config = {
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	debugMode: debugMode,
 	checkFunction: mainCheckAus,
 };
 
@@ -88,6 +93,7 @@ const ConfigAusCode: Config = {
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	debugMode: debugMode,
 	checkFunction: mainCheckAus,
 };
 
