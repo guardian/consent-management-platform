@@ -106,19 +106,86 @@ const availableEnvConfig = [
 	ConfigAusCode,
 ];
 
-export const envConfig: Config = (() => {
-	const jurisdiction = decideJurisdiction(envJurisdiction, envAwsRegion);
-	const foundConfig = availableEnvConfig.find(
-		(value) =>
-			value.stage == envStage.toLowerCase() &&
-			value.jurisdiction == jurisdiction,
-	);
+// export const envConfig: Config = ((
+// 	_envJurisdiction: string,
+// 	_envAwsRegion: string,
+// ) => {
+// 	const jurisdiction = decideJurisdiction(_envJurisdiction, envAwsRegion);
+// 	const foundConfig = availableEnvConfig.find(
+// 		(value) =>
+// 			value.stage == envStage.toLowerCase() &&
+// 			value.jurisdiction == jurisdiction,
+// 	);
 
-	if (foundConfig === undefined) {
-		const j = envJurisdiction ?? 'missing';
-		const r = envAwsRegion ?? 'missing';
-		throw `No config found for (env)stage: ${envStage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
+// 	if (foundConfig === undefined) {
+// 		const j = envJurisdiction ?? 'missing';
+// 		const r = envAwsRegion ?? 'missing';
+// 		throw `No config found for (env)stage: ${envStage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
+// 	}
+
+// 	return foundConfig;
+// })();
+
+export class ConfigWrapper {
+	public _jurisdiction: JurisdictionOpt;
+	public _stage: string;
+
+	private _awsRegion: AwsRegionOpt;
+	private _config: Config | undefined;
+
+	constructor(
+		_envJurisdiction: JurisdictionOpt = envJurisdiction,
+		_envAwsRegion: AwsRegionOpt = envAwsRegion,
+		_envStage: string = envStage,
+	) {
+		this._jurisdiction = _envJurisdiction;
+		this._awsRegion = _envAwsRegion;
+		this._stage = _envStage;
 	}
 
-	return foundConfig;
-})();
+	async run(): Promise<void> {
+		this.generateConfig();
+		await this._config.checkFunction(this._config);
+	}
+
+	private generateConfig(): void {
+		const jurisdiction = this.decideJurisdiction(
+			this._jurisdiction,
+			this._awsRegion,
+		);
+
+		this._config = availableEnvConfig.find(
+			(value) =>
+				value.stage == this._stage.toLowerCase() &&
+				value.jurisdiction == jurisdiction,
+		);
+
+		if (this._config === undefined) {
+			const j = this._jurisdiction ?? 'missing';
+			const r = this._awsRegion ?? 'missing';
+			throw `No config found for (env)stage: ${this._stage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
+		}
+	}
+
+	private decideJurisdiction(
+		jurisdiction: JurisdictionOpt,
+		awsRegion: AwsRegionOpt,
+	): string {
+		if (jurisdiction) {
+			return jurisdiction;
+		}
+		if (awsRegion === 'eu-west-1') {
+			return 'tcfv2';
+		}
+		if (awsRegion === 'us-west-1') {
+			return 'ccpa';
+		}
+		if (awsRegion === 'ca-central-1') {
+			return 'tcfv2';
+		}
+		if (awsRegion === 'ap-southeast-2') {
+			return 'aus';
+		}
+		return 'tcfv2'; // default value
+	}
+}
