@@ -12,7 +12,14 @@ export const log_error = (message: string): void => {
 
 export const clearCookies = async (client: CDPSession): Promise<void> => {
 	await client.send('Network.clearBrowserCookies');
+
 	log_info(`Cleared Cookies`);
+};
+
+export const clearLocalStorage = async (page: Page): Promise<void> => {
+	await page.evaluate(() => localStorage.clear());
+
+	log_info(`Cleared LocalStorage`);
 };
 
 const initialiseOptions = async (
@@ -33,8 +40,8 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
 	return await Chromium.puppeteer.launch(ops);
 };
 
-export const makeNewBrowser = async (): Promise<Browser> => {
-	const ops = await initialiseOptions(false);
+export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
 };
