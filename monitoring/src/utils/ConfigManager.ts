@@ -5,7 +5,6 @@ import { mainCheck as mainCheckTcfV2 } from '../check-page/tcfv2';
 import { E_Jurisdiction, E_Stage } from '../enums';
 
 
-
 class ConfigManager {
 
 	static getEnvConfig = (stage: E_Stage, jurisdiction: E_Jurisdiction) : T_Config => {
