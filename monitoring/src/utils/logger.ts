@@ -44,8 +44,8 @@ class Logger {
 	 * @static
 	 * @memberof Logger
 	 */
-	static constructObject = () => {
-		return {};
+	static constructObject = () : void => {
+
 	};
 
 	/**
