@@ -8,9 +8,3 @@ export enum E_Jurisdiction {
 	CCPA,
 	AUS,
 }
-
-export enum E_Status {
-	STARTED,
-	SUCCESS,
-	FAIL,
-}
