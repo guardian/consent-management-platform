@@ -48,7 +48,7 @@ const ConfigTcfv2Code: Config = {
 	frontUrl: 'https://m.code.dev-theguardian.com',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	iframeDomain: 'https://cdn.privacy-mgmt.com',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
 	debugMode: debugMode,
 	checkFunction: mainCheckTcfV2,
 };
@@ -59,7 +59,7 @@ const ConfigCCPAProd: Config = {
 	frontUrl: 'https://www.theguardian.com/us',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
 	debugMode: debugMode,
 	checkFunction: mainCheckCCPA,
 };
@@ -70,7 +70,7 @@ const ConfigCCPACode: Config = {
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
 	debugMode: debugMode,
 	checkFunction: mainCheckCCPA,
 };
@@ -81,7 +81,7 @@ const ConfigAusProd: Config = {
 	frontUrl: 'https://www.theguardian.com/au',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
 	debugMode: debugMode,
 	checkFunction: mainCheckAus,
 };
@@ -92,7 +92,7 @@ const ConfigAusCode: Config = {
 	frontUrl: 'https://m.code.dev-theguardian.com/au',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	iframeDomain: 'https://ccpa-notice.sp-prod.net',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
 	debugMode: debugMode,
 	checkFunction: mainCheckAus,
 };
