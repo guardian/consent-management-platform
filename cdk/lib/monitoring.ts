@@ -1,4 +1,4 @@
-import { Rule, Schedule } from '@aws-cdk/aws-events';
+import { Rule, RuleTargetInput, Schedule } from '@aws-cdk/aws-events';
 import { LambdaFunction } from '@aws-cdk/aws-events-targets';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import type { App } from '@aws-cdk/core';
@@ -31,10 +31,16 @@ export class Monitoring extends GuStack {
 			},
 		);
 
-		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction);
+		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
+			event: RuleTargetInput.fromObject({
+				jurisdiction: 'JURISDICTION',
+				stage: 'STATE',
+				region: 'REGION',
+			}),
+		});
 
 		new Rule(this, 'cmp monitoring schedule', {
-			schedule: Schedule.cron({ hour: '23', minute: '4' }),
+			schedule: Schedule.rate(Duration.minutes(5)), // Every 5 minutes for test and every 2 minutes.
 			targets: [lambdaEventTarget],
 		});
 	}
