@@ -5,6 +5,7 @@ import {
 	checkCMPIsOnPage,
 	checkTopAdHasLoaded,
 	clearCookies,
+	clearLocalStorage,
 	loadPage,
 	log_error,
 	log_info,
@@ -84,6 +85,7 @@ const checkSubsequentPage = async (
 	await checkTopAdHasLoaded(page);
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
+	await clearLocalStorage(page);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
 	await interactWithCMP(config, page);
@@ -99,7 +101,7 @@ const checkSubsequentPage = async (
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await makeNewBrowser();
+	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const page: Page = await browser.newPage();
 
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
