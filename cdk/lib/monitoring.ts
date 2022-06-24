@@ -33,9 +33,9 @@ export class Monitoring extends GuStack {
 
 		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
 			event: RuleTargetInput.fromObject({
-				jurisdiction: 'JURISDICTION',
-				stage: 'STATE',
-				region: 'REGION',
+				// jurisdiction: 'JURISDICTION',
+				stage: stage,
+				region: region,
 			}),
 		});
 
