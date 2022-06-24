@@ -44,8 +44,8 @@ class Logger {
 	 * @static
 	 * @memberof Logger
 	 */
-	static constructObject = () : void => {
-
+	static constructObject = (): void => {
+		console.log('TODO');
 	};
 
 	/**
