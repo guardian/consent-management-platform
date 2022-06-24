@@ -23,4 +23,4 @@ jobs:
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
           BUILD_DIR: 'test-page/dist/'
-        uses: maxheld83/ghpages@v0.3.0
+        uses: guardian/ghpages@v0.4.0
