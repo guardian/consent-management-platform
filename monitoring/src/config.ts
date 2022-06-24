@@ -127,7 +127,7 @@ const availableEnvConfig = [
 // })();
 
 export class ConfigWrapper {
-	public _jurisdiction: JurisdictionOpt;
+	public _jurisdiction: JurisdictionOpt | null;
 	public _stage: string;
 
 	private _awsRegion: AwsRegionOpt;
@@ -149,7 +149,7 @@ export class ConfigWrapper {
 	}
 
 	private generateConfig(): void {
-		const jurisdiction = this.decideJurisdiction(
+		this._jurisdiction = this.decideJurisdiction(
 			this._jurisdiction,
 			this._awsRegion,
 		);
@@ -157,11 +157,11 @@ export class ConfigWrapper {
 		this._config = availableEnvConfig.find(
 			(value) =>
 				value.stage == this._stage.toLowerCase() &&
-				value.jurisdiction == jurisdiction,
+				value.jurisdiction == this._jurisdiction,
 		);
 
 		if (this._config === undefined) {
-			const j = this._jurisdiction ?? 'missing';
+			const j = this._jurisdiction;
 			const r = this._awsRegion ?? 'missing';
 			throw `No config found for (env)stage: ${this._stage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
 		}
