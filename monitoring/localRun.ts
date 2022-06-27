@@ -28,9 +28,10 @@ async function main() {
 				stage: userInput.stage,
 				jurisdiction: jurisdiction,
 			};
-			handler(event).catch(console.error);
+			handler(event)
+				.then((r) => console.log(r))
+				.catch(console.error);
 		});
 	});
 }
-
 void main();
