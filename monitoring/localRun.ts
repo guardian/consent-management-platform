@@ -1,7 +1,7 @@
 import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
 
-type UserInput = {
+type CLIUserInput = {
 	stage: string;
 	jurisdiction: string[];
 };
@@ -22,7 +22,7 @@ async function main() {
 				'Which jurisdiction would you like to test? (Use the up and down keys to move ,space bar to select the jurisdiction)',
 			choices: ['aus', 'ccpa', 'tcfv2'],
 		},
-	]).then((userInput: UserInput) => {
+	]).then((userInput: CLIUserInput) => {
 		userInput.jurisdiction.forEach((jurisdiction) => {
 			const event: CustomScheduleEventContent = {
 				stage: userInput.stage,
