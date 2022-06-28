@@ -20,4 +20,3 @@ cypress/videos
 target
 .bsp
 .metals
-package-lock.json
