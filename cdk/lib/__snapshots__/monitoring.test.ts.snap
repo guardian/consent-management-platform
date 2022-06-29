@@ -262,6 +262,55 @@ Object {
       },
       "Type": "AWS::IAM::Policy",
     },
+    "cmpmonitoringscheduleAllowEventRuleCmpMonitoringStackcmpmonitoring0A19AA24A7F368FB": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "cmpmonitoring2CD05B94",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "cmpmonitoringscheduleFB1DBC53",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "cmpmonitoringscheduleFB1DBC53": Object {
+      "Properties": Object {
+        "ScheduleExpression": "rate(5 minutes)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "cmpmonitoring2CD05B94",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+            "Input": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "{\\"stage\\":\\"",
+                  Object {
+                    "Ref": "Stage",
+                  },
+                  "\\",\\"region\\":\\"eu-west-1\\"}",
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
   },
 }
 `;
