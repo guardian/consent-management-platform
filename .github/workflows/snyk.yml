@@ -4,11 +4,9 @@
 name: Snyk
 
 on:
-  schedule:
-    - cron: '0 6 * * *'
   push:
     branches:
-      - add-snyk-workflow
+      - main
   workflow_dispatch:
 
 jobs:
