@@ -6,17 +6,7 @@ type CLIUserInput = {
 	stage: string;
 	jurisdictions: string[];
 };
-const handleUserInput = async (
-	userInput: CLIUserInput,
-	jurisdiction: string,
-	callback: (event: CustomScheduleEventContent) => Promise<CheckStatus>,
-) => {
-	const event: CustomScheduleEventContent = {
-		stage: userInput.stage,
-		jurisdiction: jurisdiction,
-	};
-	await callback(event);
-};
+
 async function main() {
 	const { handler } = await import('./src');
 
@@ -30,9 +20,15 @@ async function main() {
 		{
 			type: 'checkbox',
 			name: 'jurisdictions',
-			message:
-				'Which jurisdiction would you like to test? (Use the up and down keys to move ,space bar to select the jurisdiction)',
+			message: 'Which jurisdiction would you like to test?',
 			choices: ['aus', 'ccpa', 'tcfv2'],
+			validate(input: string[]) {
+				// console.log('OI', input);
+				if (input.length === 0) {
+					return 'Please select a jurisdiction';
+				}
+				return true;
+			},
 		},
 	]).then(async (userInput: CLIUserInput) => {
 		for (const jurisdiction of userInput.jurisdictions) {
