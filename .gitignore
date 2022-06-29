@@ -12,7 +12,9 @@ dist
 .idea/
 
 # Cypress Tests
-
 cypress/dist
 cypress/screenshots
 cypress/videos
+
+# Yarn
+.yarn/*
