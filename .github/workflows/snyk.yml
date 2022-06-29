@@ -12,6 +12,6 @@ jobs:
     with:
       SKIP_SBT: true
       DEBUG: true
-      ORG: guardian-people
+      ORG: guardian-consent
     secrets:
        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
