@@ -1,3 +1,5 @@
+// import { Alarm } from '@aws-cdk/aws-cloudwatch';
+
 import { Rule, RuleTargetInput, Schedule } from '@aws-cdk/aws-events';
 import { LambdaFunction } from '@aws-cdk/aws-events-targets';
 import { Runtime } from '@aws-cdk/aws-lambda';
@@ -43,5 +45,7 @@ export class Monitoring extends GuStack {
 			schedule: Schedule.rate(Duration.minutes(5)), // Every 5 minutes for test and every 2 minutes.
 			targets: [lambdaEventTarget],
 		});
+
+		// const cloudWatchAlarm = new Alarm(this, )
 	}
 }
