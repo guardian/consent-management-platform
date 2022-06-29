@@ -2623,10 +2623,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@guardian/cdk@37.1.1":
-  version "37.1.1"
-  resolved "https://registry.yarnpkg.com/@guardian/cdk/-/cdk-37.1.1.tgz#bbf7eb688073f7f47e7361a550b6357e537f3196"
-  integrity sha512-zbfeTfGF3dFvBZ8ikHK+TmM79lRGbzmO1mt6GcV+9oTrPAMZcOUSMLN2jYb3zGznv/S9jQ6BajQTJP2kB61Hkw==
+"@guardian/cdk@38.2.1":
+  version "38.2.1"
+  resolved "https://registry.yarnpkg.com/@guardian/cdk/-/cdk-38.2.1.tgz#86044a64fc918b73391eca2b846b8d208da86af0"
+  integrity sha512-YqXXxhRQ5yUHx9IPE54GxcGPuoGvad3ciEiBaeOtQm1BiBjmaPxrM6BdJpZRh4KcNGJwUmA9/3OQgi1/oyJbFw==
   dependencies:
     "@aws-cdk/assert" "1.147.0"
     "@aws-cdk/aws-apigateway" "1.147.0"
@@ -2652,7 +2652,7 @@
     cli-ux "^5.6.6"
     codemaker "^1.54.0"
     git-url-parse "^11.6.0"
-    inquirer "^8.2.0"
+    inquirer "^8.2.1"
     lodash.camelcase "^4.3.0"
     lodash.kebabcase "^4.1.1"
     lodash.upperfirst "^4.3.1"
@@ -4675,10 +4675,10 @@ inherits@2, inherits@^2.0.3, inherits@^2.0.4:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-inquirer@^8.2.0:
-  version "8.2.1"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.2.1.tgz#e00022e3e8930a92662f760f020686530a84671d"
-  integrity sha512-pxhBaw9cyTFMjwKtkjePWDhvwzvrNGAw7En4hottzlPvz80GZaMZthdDU35aA6/f5FRZf3uhE057q8w1DE3V2g==
+inquirer@^8.2.1:
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.2.4.tgz#ddbfe86ca2f67649a67daa6f1051c128f684f0b4"
+  integrity sha512-nn4F01dxU8VeKfq192IjLsxu0/OmMZ4Lg3xKAns148rCaXP6ntAoEkVYZThWjwON8AlzdZZi6oqnhNbxUG9hVg==
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^4.1.1"
@@ -4694,6 +4694,7 @@ inquirer@^8.2.0:
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
     through "^2.3.6"
+    wrap-ansi "^7.0.0"
 
 internal-slot@^1.0.3:
   version "1.0.3"
