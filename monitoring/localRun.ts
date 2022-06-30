@@ -1,7 +1,7 @@
 import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
 
-type CLIUserInput = {
+type LocalRunCLIUserInput = {
 	stage: string;
 	jurisdictions: string[];
 };
@@ -29,7 +29,7 @@ async function main() {
 				return true;
 			},
 		},
-	]).then(async (userInput: CLIUserInput) => {
+	]).then(async (userInput: LocalRunCLIUserInput) => {
 		for (const jurisdiction of userInput.jurisdictions) {
 			// await handleUserInput(userInput, jurisdiction, handler);
 			const event: CustomScheduleEventContent = {
