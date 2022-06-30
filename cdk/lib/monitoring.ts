@@ -33,16 +33,17 @@ export class Monitoring extends GuStack {
 			},
 		);
 
-		// Both scheduled cmp-monitoring-CODE and cmp-monitoring-PROD are monitoring prod versions
 		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
 			event: RuleTargetInput.fromObject({
-				stage: 'PROD',
+				stage: 'PROD', // Both scheduled cmp-monitoring-CODE and cmp-monitoring-PROD are monitoring prod versions
 				region: region,
 			}),
 		});
 
+		const monitoringDuration: number = stage === 'PROD' ? 2 : 5; // Every 5 minutes for CODE; Every 2 minutes for PROD.
+
 		new Rule(this, 'cmp monitoring schedule', {
-			schedule: Schedule.rate(Duration.minutes(5)), // Every 5 minutes for test and every 2 minutes.
+			schedule: Schedule.rate(Duration.minutes(monitoringDuration)),
 			targets: [lambdaEventTarget],
 		});
 
