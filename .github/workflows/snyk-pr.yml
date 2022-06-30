@@ -3,7 +3,7 @@ name: Snyk PR
 on:
   pull_request:
     paths:
-      - 'package.json'
+      - '**/package.json'
 
 jobs:
   security:
