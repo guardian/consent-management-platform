@@ -1,5 +1,6 @@
 import type { InvokeCommandOutput } from '@aws-sdk/client-lambda';
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
+import type { CustomScheduleEventContent } from './src';
 
 const decode = (str: string) => Buffer.from(str, 'base64').toString();
 
@@ -7,9 +8,14 @@ async function invokeInRegion(
 	region: string,
 	functionName: string,
 ): Promise<InvokeCommandOutput> {
+	const payload: CustomScheduleEventContent = {
+		region: region,
+		stage: 'code',
+	};
 	const command = new InvokeCommand({
 		FunctionName: functionName,
 		LogType: 'Tail',
+		Payload: Buffer.from(JSON.stringify(payload)),
 	});
 
 	const client = new LambdaClient({ region: region });
