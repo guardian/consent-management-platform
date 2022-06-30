@@ -294,18 +294,7 @@ Object {
               ],
             },
             "Id": "Target0",
-            "Input": Object {
-              "Fn::Join": Array [
-                "",
-                Array [
-                  "{\\"stage\\":\\"",
-                  Object {
-                    "Ref": "Stage",
-                  },
-                  "\\",\\"region\\":\\"eu-west-1\\"}",
-                ],
-              ],
-            },
+            "Input": "{\\"stage\\":\\"PROD\\",\\"region\\":\\"eu-west-1\\"}",
           },
         ],
       },
