@@ -1,6 +1,5 @@
 import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
-import type { CheckStatus } from './src/types';
 
 type CLIUserInput = {
 	stage: string;
