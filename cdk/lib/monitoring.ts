@@ -33,10 +33,10 @@ export class Monitoring extends GuStack {
 			},
 		);
 
+		// Both scheduled cmp-monitoring-CODE and cmp-monitoring-PROD are monitoring prod versions
 		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
 			event: RuleTargetInput.fromObject({
-				// jurisdiction: 'JURISDICTION',
-				stage: stage,
+				stage: 'PROD',
 				region: region,
 			}),
 		});
