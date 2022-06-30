@@ -1,16 +1,22 @@
 import type { InvokeCommandOutput } from '@aws-sdk/client-lambda';
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
+import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
+
+type RemoteRunCLIUserInput = {
+	stage: string;
+};
 
 const decode = (str: string) => Buffer.from(str, 'base64').toString();
 
 async function invokeInRegion(
 	region: string,
 	functionName: string,
+	stage: string,
 ): Promise<InvokeCommandOutput> {
 	const payload: CustomScheduleEventContent = {
 		region: region,
-		stage: 'code',
+		stage: stage,
 	};
 	const command = new InvokeCommand({
 		FunctionName: functionName,
@@ -38,18 +44,27 @@ async function main() {
 		'ca-central-1',
 	];
 
-	const invokeSettledResults = await Promise.allSettled(
-		regionsToCheck.map((region) =>
-			invokeInRegion(region, 'cmp-monitoring-CODE'),
-		),
-	);
+	await prompt([
+		{
+			type: 'list',
+			name: 'stage',
+			message: 'Which environment would you like to test?',
+			choices: ['prod', 'code'],
+		},
+	]).then(async (userInput: RemoteRunCLIUserInput) => {
+		const invokeSettledResults = await Promise.allSettled(
+			regionsToCheck.map((region) =>
+				invokeInRegion(region, 'cmp-monitoring-CODE', userInput.stage),
+			),
+		);
 
-	invokeSettledResults.map((result) => {
-		if (result.status == 'fulfilled') {
-			processResult(result.value);
-		} else {
-			console.log('Failed to get response: ', result.reason);
-		}
+		invokeSettledResults.map((result) => {
+			if (result.status == 'fulfilled') {
+				processResult(result.value);
+			} else {
+				console.log('Failed to get response: ', result.reason);
+			}
+		});
 	});
 }
 
