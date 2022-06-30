@@ -100,10 +100,11 @@ export class ConfigWrapper {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
 		this._stage = _envStage;
+
+		this.generateConfig();
 	}
 
 	async run(): Promise<void> {
-		this.generateConfig();
 		if (this._config) {
 			await this._config.checkFunction(this._config);
 		}
