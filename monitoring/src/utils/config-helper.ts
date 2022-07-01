@@ -42,15 +42,4 @@ export class ConfigHelper {
 				return undefined;
 		}
 	}
-
-	public static checkJurisdiction(jurisdiction: JurisdictionOpt): boolean {
-		let isAJurisdiction = false;
-
-		Object.values(JURISDICTIONS).every((val) => {
-			isAJurisdiction = val.toLowerCase() === jurisdiction;
-			return !isAJurisdiction;
-		});
-
-		return isAJurisdiction;
-	}
 }
