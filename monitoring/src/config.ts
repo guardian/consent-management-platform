@@ -114,13 +114,13 @@ export class ConfigWrapper {
 		// If no jurisdiction assign using aws region (Scheduled)
 		if (!this._jurisdiction && this._awsRegion) {
 			this._jurisdiction = ConfigHelper.getJurisdiction(this._awsRegion);
-			log_info(`generating config for scheduled trigger`);
+			log_info(`Generating config for scheduled trigger`);
 		}
 
 		// If no aws Region assign using jurisdiction (Adhoc)
 		if (!this._awsRegion && this._jurisdiction) {
 			this._awsRegion = ConfigHelper.getRegion(this._jurisdiction);
-			log_info(`generating config for adhoc trigger`);
+			log_info(`Generating config for adhoc trigger`);
 		}
 
 		// Get the appropriate config file
