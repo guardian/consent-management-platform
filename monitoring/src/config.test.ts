@@ -1,3 +1,4 @@
+import type { AwsRegionOpt, JurisdictionOpt } from './config';
 import { ConfigWrapper } from './config';
 import {
 	AWS_REGIONS,
@@ -24,14 +25,17 @@ describe('ConfigWrapper', () => {
 	});
 
 	describe('generateConfig', () => {
-		const awsRegion = AWS_REGIONS.US_WEST_1;
-		const stage = 'code';
-		const jurisdiction = JURISDICTIONS.CCPA;
+		let awsRegion: AwsRegionOpt = AWS_REGIONS.US_WEST_1;
+		let jurisdiction: JurisdictionOpt = JURISDICTIONS.CCPA;
+		const stage: string = 'code';
 		it('should assign jurisdiction if there is an awsRegion and no jurisdiction ', () => {
+			jurisdiction = undefined;
+			awsRegion = AWS_REGIONS.US_WEST_1;
+
 			const configWrapper = new ConfigWrapper(
 				awsRegion,
 				stage,
-				undefined,
+				jurisdiction,
 			);
 
 			expect(configWrapper.jurisdiction).toBeUndefined();
@@ -48,8 +52,11 @@ describe('ConfigWrapper', () => {
 		});
 
 		it('should assign awsRegion if there is an jurisdiction and no awsRegion ', () => {
+			awsRegion = undefined;
+			jurisdiction = JURISDICTIONS.AUS;
+
 			const configWrapper = new ConfigWrapper(
-				undefined,
+				awsRegion,
 				stage,
 				jurisdiction,
 			);
@@ -65,6 +72,20 @@ describe('ConfigWrapper', () => {
 				ConfigHelper.getRegion(jurisdiction),
 			);
 			expect(configWrapper.config).not.toBeUndefined();
+		});
+
+		it('should throw error if it cant find the appropriate config file ', () => {
+			jurisdiction = 'JURISDICTION_THAT_DOES _NOT_EXIST';
+			awsRegion = undefined;
+			const configWrapper = new ConfigWrapper(
+				awsRegion,
+				stage,
+				jurisdiction,
+			);
+
+			// configWrapper.generateConfig();
+
+			expect(() => configWrapper.generateConfig()).toThrowError();
 		});
 	});
 });
