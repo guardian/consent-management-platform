@@ -1,5 +1,6 @@
 import type { AwsRegionOpt, JurisdictionOpt } from './config';
 import { ConfigWrapper } from './config';
+import type { Config } from './types';
 import {
 	AWS_REGIONS,
 	ConfigHelper,
@@ -86,6 +87,35 @@ describe('ConfigWrapper', () => {
 			// configWrapper.generateConfig();
 
 			expect(() => configWrapper.generateConfig()).toThrowError();
+		});
+	});
+	describe('run', () => {
+		const awsRegion: AwsRegionOpt = AWS_REGIONS.US_WEST_1;
+		const jurisdiction: JurisdictionOpt = JURISDICTIONS.CCPA;
+		const stage: string = 'code';
+
+		it('should call config.checkFunction if config is defined', async () => {
+			const configWrapper = new ConfigWrapper(
+				awsRegion,
+				stage,
+				jurisdiction,
+			);
+
+			const mockCheckFunction = jest.fn();
+			const mockConfig: Config = {
+				stage: 'code',
+				jurisdiction: 'ccpa',
+				frontUrl: '',
+				articleUrl: '',
+				iframeDomain: '',
+				debugMode: true,
+				checkFunction: mockCheckFunction,
+			};
+
+			configWrapper.config = mockConfig;
+
+			await configWrapper.run();
+			expect(mockCheckFunction).toBeCalled();
 		});
 	});
 });
