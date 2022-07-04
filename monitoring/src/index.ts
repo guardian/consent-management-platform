@@ -16,6 +16,8 @@ export const handler = async (
 	const region: AwsRegionOpt = event.region;
 
 	const configWrapper = new ConfigWrapper(region, stage, jurisdiction);
+	configWrapper.generateConfig();
+
 	console.log(
 		`(cmp monitoring) Starting cmp-monitoring for stage: ${
 			configWrapper._stage
