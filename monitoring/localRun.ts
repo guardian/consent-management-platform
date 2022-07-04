@@ -31,7 +31,6 @@ async function main() {
 		},
 	]).then(async (userInput: LocalRunCLIUserInput) => {
 		for (const jurisdiction of userInput.jurisdictions) {
-			// await handleUserInput(userInput, jurisdiction, handler);
 			const event: CustomScheduleEventContent = {
 				stage: userInput.stage,
 				jurisdiction: jurisdiction,
