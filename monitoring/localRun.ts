@@ -37,6 +37,7 @@ async function main() {
 			};
 			await handler(event);
 		}
+		process.exit(0);
 	});
 }
 
