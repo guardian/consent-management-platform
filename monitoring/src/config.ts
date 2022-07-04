@@ -101,7 +101,7 @@ export class ConfigWrapper {
 		this._awsRegion = _envAwsRegion;
 		this._stage = _envStage;
 
-		this.generateConfig();
+		// this.generateConfig();
 	}
 
 	async run(): Promise<void> {
@@ -110,7 +110,7 @@ export class ConfigWrapper {
 		}
 	}
 
-	private generateConfig(): void {
+	public generateConfig(): void {
 		// If no jurisdiction assign using aws region (Scheduled)
 		if (!this._jurisdiction && this._awsRegion) {
 			this._jurisdiction = ConfigHelper.getJurisdiction(this._awsRegion);
