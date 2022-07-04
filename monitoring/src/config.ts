@@ -103,6 +103,10 @@ export class ConfigWrapper {
 		return this._awsRegion;
 	}
 
+	get config(): Config | undefined {
+		return this._config;
+	}
+
 	constructor(
 		_envAwsRegion: AwsRegionOpt = envAwsRegion,
 		_envStage: string = envStage,
