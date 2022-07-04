@@ -107,6 +107,10 @@ export class ConfigWrapper {
 		return this._config;
 	}
 
+	set config(value: Config | undefined) {
+		this._config = value;
+	}
+
 	constructor(
 		_envAwsRegion: AwsRegionOpt = envAwsRegion,
 		_envStage: string = envStage,
