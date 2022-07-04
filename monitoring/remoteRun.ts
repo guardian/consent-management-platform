@@ -65,6 +65,8 @@ async function main() {
 				console.log('Failed to get response: ', result.reason);
 			}
 		});
+
+		process.exit(0);
 	});
 }
 
