@@ -283,7 +283,7 @@ Object {
     },
     "cmpmonitoringscheduleFB1DBC53": Object {
       "Properties": Object {
-        "ScheduleExpression": "rate(5 minutes)",
+        "ScheduleExpression": "rate(1 day)",
         "State": "ENABLED",
         "Targets": Array [
           Object {
