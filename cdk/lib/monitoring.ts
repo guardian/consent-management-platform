@@ -38,10 +38,11 @@ export class Monitoring extends GuStack {
 			}),
 		});
 
-		const monitoringDuration: number = stage === 'PROD' ? 2 : 5; // Every 5 minutes for CODE; Every 2 minutes for PROD.
+		const monitoringDuration: Duration =
+			stage === 'PROD' ? Duration.minutes(2) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
-			schedule: Schedule.rate(Duration.minutes(monitoringDuration)),
+			schedule: Schedule.rate(monitoringDuration),
 			targets: [lambdaEventTarget],
 		});
 	}
