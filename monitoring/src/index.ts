@@ -16,13 +16,13 @@ export const handler = async (
 	const region: AwsRegionOpt = event.region;
 
 	const configWrapper = new ConfigWrapper(region, stage, jurisdiction);
+	configWrapper.generateConfig();
+
 	console.log(
 		`(cmp monitoring) Starting cmp-monitoring for stage: ${
-			configWrapper._stage
+			configWrapper.stage
 		}, jurisdiction: ${
-			configWrapper._jurisdiction
-				? configWrapper._jurisdiction
-				: 'missing '
+			configWrapper.jurisdiction ? configWrapper.jurisdiction : 'missing '
 		}`,
 	);
 

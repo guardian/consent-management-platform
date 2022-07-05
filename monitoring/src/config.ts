@@ -86,11 +86,30 @@ const availableEnvConfig = [
 ];
 
 export class ConfigWrapper {
-	public _jurisdiction: JurisdictionOpt;
-	public _stage: string;
-
+	private _jurisdiction: JurisdictionOpt;
+	private _stage: string;
 	private _awsRegion: AwsRegionOpt;
 	private _config: Config | undefined;
+
+	get stage(): string {
+		return this._stage;
+	}
+
+	get jurisdiction(): JurisdictionOpt {
+		return this._jurisdiction;
+	}
+
+	get awsRegion(): AwsRegionOpt {
+		return this._awsRegion;
+	}
+
+	get config(): Config | undefined {
+		return this._config;
+	}
+
+	set config(value: Config | undefined) {
+		this._config = value;
+	}
 
 	constructor(
 		_envAwsRegion: AwsRegionOpt = envAwsRegion,
@@ -100,8 +119,6 @@ export class ConfigWrapper {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
 		this._stage = _envStage;
-
-		this.generateConfig();
 	}
 
 	async run(): Promise<void> {
@@ -110,7 +127,7 @@ export class ConfigWrapper {
 		}
 	}
 
-	private generateConfig(): void {
+	public generateConfig(): void {
 		// If no jurisdiction assign using aws region (Scheduled)
 		if (!this._jurisdiction && this._awsRegion) {
 			this._jurisdiction = ConfigHelper.getJurisdiction(this._awsRegion);
