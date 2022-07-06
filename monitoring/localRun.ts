@@ -1,44 +1,95 @@
+import { program } from 'commander';
 import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
 
 type LocalRunCLIUserInput = {
-	stage: string;
-	jurisdictions: string[];
+	env: string;
+	jurisdiction: string;
 };
 
-async function main() {
+type LocalRunCliArguments = {
+	env?: string;
+	jurisdiction?: string;
+};
+
+class NoArgumentsError extends Error {
+	constructor(
+		message: string = 'Arguments provided are missing or incorrect',
+	) {
+		super(message);
+		this.name = 'NoArgumentsError';
+	}
+}
+
+const stages: string[] = ['code', 'prod'];
+const jurisdictions: string[] = ['aus', 'ccpa', 'tcfv2'];
+
+function isArgumentValid(args: LocalRunCliArguments): boolean {
+	if (!args.env || !args.jurisdiction) {
+		return false;
+	}
+
+	return (
+		stages.includes(args.env) && jurisdictions.includes(args.jurisdiction)
+	);
+}
+
+async function handleEvent(options: LocalRunCLIUserInput) {
 	const { handler } = await import('./src');
 
-	await prompt([
+	const event: CustomScheduleEventContent = {
+		stage: options.env,
+		jurisdiction: options.jurisdiction,
+	};
+	console.log('EVENT', event);
+	await handler(event);
+	process.exit(0);
+}
+
+async function argumentBasedCLI() {
+	program
+		.option('-e, --env [environment]')
+		.option('-j, --jurisdiction [environment]')
+		.parse();
+
+	const options: LocalRunCLIUserInput = program.opts();
+	console.log(options);
+	if (isArgumentValid(options)) {
+		await handleEvent(options);
+	} else {
+		throw new NoArgumentsError();
+	}
+}
+
+async function interactiveCLI() {
+	const questions = [
 		{
 			type: 'list',
-			name: 'stage',
+			name: 'env',
 			message: 'Which environment would you like to test?',
-			choices: ['code', 'prod'],
+			choices: stages,
 		},
 		{
-			type: 'checkbox',
-			name: 'jurisdictions',
+			type: 'list',
+			name: 'jurisdiction',
 			message: 'Which jurisdiction would you like to test?',
-			choices: ['aus', 'ccpa', 'tcfv2'],
-			validate(input: string[]) {
-				// console.log('OI', input);
-				if (input.length === 0) {
-					return 'Please select a jurisdiction';
-				}
-				return true;
-			},
+			choices: jurisdictions,
 		},
-	]).then(async (userInput: LocalRunCLIUserInput) => {
-		for (const jurisdiction of userInput.jurisdictions) {
-			const event: CustomScheduleEventContent = {
-				stage: userInput.stage,
-				jurisdiction: jurisdiction,
-			};
-			await handler(event);
-		}
-		process.exit(0);
+	];
+
+	await prompt(questions).then(async (userInput: LocalRunCLIUserInput) => {
+		await handleEvent(userInput);
 	});
+}
+
+async function main() {
+	try {
+		await argumentBasedCLI();
+	} catch (error) {
+		if (error instanceof NoArgumentsError) {
+			await interactiveCLI();
+		}
+	}
 }
 
 void main();
