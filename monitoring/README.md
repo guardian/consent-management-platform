@@ -8,7 +8,7 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
 -   `yarn run test:dev` to run the Jest unit tests in watch mode
 -   `yarn run lint` to lint the code using ESLint
 -   `yarn start` to run lambda handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
--   `yarn run remote` to execute lambda functions in all regions. This is an interactive CLI which permits the user to select the Environment/Stage.
+-   `yarn run remote` to execute lambda functions in all regions. This is an interactive CLI which permits the user to select the Environment/Stage and AWS Region.
 
 ### Local Run Command
 
