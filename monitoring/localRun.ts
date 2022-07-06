@@ -41,7 +41,6 @@ async function handleEvent(options: LocalRunCLIUserInput) {
 		stage: options.env,
 		jurisdiction: options.jurisdiction,
 	};
-	console.log('EVENT', event);
 	await handler(event);
 	process.exit(0);
 }
@@ -53,7 +52,6 @@ async function argumentBasedCLI() {
 		.parse();
 
 	const options: LocalRunCLIUserInput = program.opts();
-	console.log(options);
 	if (isArgumentValid(options)) {
 		await handleEvent(options);
 	} else {
@@ -88,6 +86,8 @@ async function main() {
 	} catch (error) {
 		if (error instanceof NoArgumentsError) {
 			await interactiveCLI();
+		} else {
+			process.exit(1);
 		}
 	}
 }
