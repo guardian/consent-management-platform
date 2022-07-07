@@ -16,5 +16,10 @@ cypress/dist
 cypress/screenshots
 cypress/videos
 
+
+target
+.bsp
+.metals
+
 # Yarn
 .yarn/*

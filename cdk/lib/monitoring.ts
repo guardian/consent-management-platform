@@ -1,3 +1,5 @@
+import { Rule, RuleTargetInput, Schedule } from '@aws-cdk/aws-events';
+import { LambdaFunction } from '@aws-cdk/aws-events-targets';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import type { App } from '@aws-cdk/core';
 import { Duration } from '@aws-cdk/core';
@@ -15,14 +17,33 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
-		new GuLambdaFunction(this, lambdaBaseName, {
-			app: `${lambdaBaseName}-lambda-${region}`,
-			functionName: `${lambdaBaseName}-${stage}`,
-			fileName: `${lambdaBaseName}-lambda-${region}.zip`,
-			handler: 'index.handler',
-			runtime: Runtime.NODEJS_14_X,
-			timeout: Duration.seconds(300),
-			memorySize: 2048,
+		const monitoringLambdaFunction = new GuLambdaFunction(
+			this,
+			lambdaBaseName,
+			{
+				app: `${lambdaBaseName}-lambda-${region}`,
+				functionName: `${lambdaBaseName}-${stage}`,
+				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
+				handler: 'index.handler',
+				runtime: Runtime.NODEJS_14_X,
+				timeout: Duration.seconds(300),
+				memorySize: 2048,
+			},
+		);
+
+		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
+			event: RuleTargetInput.fromObject({
+				stage: 'PROD', // Both scheduled cmp-monitoring-CODE and cmp-monitoring-PROD are monitoring prod versions
+				region: region,
+			}),
+		});
+
+		const monitoringDuration: Duration =
+			stage === 'PROD' ? Duration.minutes(2) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
+
+		new Rule(this, 'cmp monitoring schedule', {
+			schedule: Schedule.rate(monitoringDuration),
+			targets: [lambdaEventTarget],
 		});
 	}
 }
