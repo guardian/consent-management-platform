@@ -12,9 +12,13 @@ export type CustomPuppeteerOptions = {
 	dumpio?: boolean;
 };
 
+export type Stage = 'prod' | 'code' | 'local';
+
+export type Jurisdiction = 'tcfv2' | 'ccpa' | 'aus';
+
 export type Config = {
-	stage: 'prod' | 'code';
-	jurisdiction: 'tcfv2' | 'ccpa' | 'aus';
+	stage: Stage;
+	jurisdiction: Jurisdiction;
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;
