@@ -4,7 +4,7 @@ import { log_info } from './check-page/common-functions';
 import { mainCheck as mainCheckTcfV2 } from './check-page/tcfv2';
 import { debugMode, envAwsRegion, envJurisdiction, envStage } from './env';
 import type { Config } from './types';
-import { ConfigHelper } from './utils/config-helper';
+import { ConfigHelper } from './utils/config-helper/config-helper';
 
 export type JurisdictionOpt = string | undefined;
 
@@ -32,6 +32,17 @@ const ConfigTcfv2Code: Config = {
 	checkFunction: mainCheckTcfV2,
 };
 
+const ConfigTcfv2Local: Config = {
+	stage: 'local',
+	jurisdiction: 'tcfv2',
+	frontUrl: 'https://m.code.dev-theguardian.com',
+	articleUrl:
+		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
+	debugMode: debugMode,
+	checkFunction: mainCheckTcfV2,
+};
+
 const ConfigCCPAProd: Config = {
 	stage: 'prod',
 	jurisdiction: 'ccpa',
@@ -45,6 +56,17 @@ const ConfigCCPAProd: Config = {
 
 const ConfigCCPACode: Config = {
 	stage: 'code',
+	jurisdiction: 'ccpa',
+	frontUrl: 'https://m.code.dev-theguardian.com/us',
+	articleUrl:
+		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
+	debugMode: debugMode,
+	checkFunction: mainCheckCCPA,
+};
+
+const ConfigCCPALocal: Config = {
+	stage: 'local',
 	jurisdiction: 'ccpa',
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
 	articleUrl:
