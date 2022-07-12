@@ -3,10 +3,13 @@ import { mainCheck as mainCheckCCPA } from '../../check-page/ccpa';
 import { mainCheck as mainCheckTcfV2 } from '../../check-page/tcfv2';
 import { debugMode } from '../../env';
 import type { Config, Jurisdiction, Stage } from '../../types';
-import { JURISDICTIONS, STAGES } from '../config-helper/config-helper';
+import { JURISDICTIONS, STAGES } from '../../types';
 
-export class JurisdictionConfigManager {
-	static constructConfig(stage: Stage, jurisdiction: Jurisdiction): Config {
+export class ConfigBuilder {
+	static construct(
+		stage: Stage,
+		jurisdiction: Jurisdiction,
+	): Config | undefined {
 		const config: Config = {
 			stage: stage,
 			jurisdiction: jurisdiction,
