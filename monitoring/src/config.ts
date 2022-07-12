@@ -169,7 +169,7 @@ export class ConfigWrapper {
 
 		// If the Jurisdiction or Stage value is not in the enum then throw an error
 		if (
-			!Validator.isStageJurisidiction(this._jurisdiction) ||
+			!Validator.isStageJurisdiction(this._jurisdiction) ||
 			!Validator.isStageValid(this._stage)
 		) {
 			const j = this._jurisdiction ? this._jurisdiction : 'missing';

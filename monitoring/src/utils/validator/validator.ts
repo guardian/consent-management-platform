@@ -6,7 +6,7 @@ export class Validator {
 		return Object.values(STAGES).includes(value as STAGES);
 	};
 
-	static isStageJurisidiction = (value: JurisdictionOpt): boolean => {
+	static isStageJurisdiction = (value: JurisdictionOpt): boolean => {
 		return Object.values(JURISDICTIONS).includes(value as JURISDICTIONS);
 	};
 }
