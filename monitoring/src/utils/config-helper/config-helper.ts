@@ -1,23 +1,5 @@
-import type { AwsRegionOpt, JurisdictionOpt } from '../../config';
-
-export const AWS_REGIONS = {
-	EU_WEST_1: 'eu-west-1',
-	US_WEST_1: 'us-west-1',
-	CA_CENTRAL_1: 'ca-central-1',
-	AP_SOUTHEAST_2: 'ap-southeast-2',
-};
-
-export const JURISDICTIONS = {
-	TCFV2: 'tcfv2',
-	CCPA: 'ccpa',
-	AUS: 'aus',
-};
-
-export const STAGES = {
-	PROD: 'prod',
-	CODE: 'code',
-	LOCAL: 'local',
-};
+import type { AwsRegionOpt, JurisdictionOpt } from '../../types';
+import { AWS_REGIONS, JURISDICTIONS } from '../../types';
 
 export class ConfigHelper {
 	public static getJurisdiction(awsRegion: AwsRegionOpt): JurisdictionOpt {
