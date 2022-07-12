@@ -1,6 +1,5 @@
-import type { AwsRegionOpt, JurisdictionOpt } from './config';
 import { ConfigWrapper } from './config';
-import type { CheckStatus } from './types';
+import type { AwsRegionOpt, CheckStatus, JurisdictionOpt } from './types';
 
 export interface CustomScheduleEventContent {
 	jurisdiction?: string;
