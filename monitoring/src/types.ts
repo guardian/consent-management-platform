@@ -12,9 +12,35 @@ export type CustomPuppeteerOptions = {
 	dumpio?: boolean;
 };
 
-export type Stage = 'prod' | 'code' | 'local';
+export type JurisdictionOpt = string | undefined;
 
-export type Jurisdiction = 'tcfv2' | 'ccpa' | 'aus';
+export type AwsRegionOpt = string | undefined;
+
+export enum JURISDICTIONS {
+	TCFV2 = 'tcfv2',
+	CCPA = 'ccpa',
+	AUS = 'aus',
+}
+
+export enum STAGES {
+	PROD = 'prod',
+	CODE = 'code',
+	LOCAL = 'local',
+}
+
+export const AWS_REGIONS = {
+	EU_WEST_1: 'eu-west-1',
+	US_WEST_1: 'us-west-1',
+	CA_CENTRAL_1: 'ca-central-1',
+	AP_SOUTHEAST_2: 'ap-southeast-2',
+};
+
+export type Stage = STAGES.PROD | STAGES.CODE | STAGES.LOCAL;
+
+export type Jurisdiction =
+	| JURISDICTIONS.AUS
+	| JURISDICTIONS.CCPA
+	| JURISDICTIONS.TCFV2;
 
 export type Config = {
 	stage: Stage;
