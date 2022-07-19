@@ -12,8 +12,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -37,8 +39,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -52,8 +56,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -67,8 +73,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -82,8 +90,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -109,8 +119,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
