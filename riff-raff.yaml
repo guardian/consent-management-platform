@@ -19,7 +19,7 @@ deployments:
         actions: [uploadLambda, updateLambda]
         parameters:
             prefixStack: false
-            bucket: com-gu-frontend-artifacts
+            bucketSsmLookup: true
             fileName: cmp-monitoring-lambda-eu-west-1.zip
             lookupByTags: true
     cmp-monitoring-cdk-us-west-1:
@@ -38,7 +38,7 @@ deployments:
         actions: [uploadLambda, updateLambda]
         parameters:
             prefixStack: false
-            bucket: com-gu-frontend-artifacts-us-west-1
+            bucketSsmLookup: true
             fileName: cmp-monitoring-lambda-us-west-1.zip
             lookupByTags: true
     cmp-monitoring-cdk-ap-southeast-2:
@@ -57,7 +57,7 @@ deployments:
         actions: [uploadLambda, updateLambda]
         parameters:
             prefixStack: false
-            bucket: com-gu-frontend-artifacts-ap-southeast-2
+            bucketSsmLookup: true
             fileName: cmp-monitoring-lambda-ap-southeast-2.zip
             lookupByTags: true
     cmp-monitoring-cdk-ca-central-1:
@@ -76,6 +76,6 @@ deployments:
         actions: [uploadLambda, updateLambda]
         parameters:
             prefixStack: false
-            bucket: com-gu-frontend-artifacts-ca-central-1
+            bucketSsmLookup: true
             fileName: cmp-monitoring-lambda-ca-central-1.zip
             lookupByTags: true
