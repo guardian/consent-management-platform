@@ -7,18 +7,55 @@ const app = new App();
 
 type AwsRegion = 'eu-west-1' | 'us-west-1' | 'ap-southeast-2' | 'ca-central-1';
 
-function stackProps(awsRegion: AwsRegion): GuStackProps {
+function stackProps(awsRegion: AwsRegion, stage: string): GuStackProps {
 	const stackName = 'frontend';
 
 	return {
 		stack: stackName,
+		stage: stage,
 		env: {
 			region: awsRegion,
 		},
 	};
 }
 
-new Monitoring(app, 'CmpMonitoringStackEU', stackProps('eu-west-1'));
-new Monitoring(app, 'CmpMonitoringStackUS', stackProps('us-west-1'));
-new Monitoring(app, 'CmpMonitoringStackAU', stackProps('ap-southeast-2'));
-new Monitoring(app, 'CmpMonitoringStackCA', stackProps('ca-central-1'));
+new Monitoring(
+	app,
+	'CmpMonitoringStackEUCode',
+	stackProps('eu-west-1', 'CODE'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackEUProd',
+	stackProps('eu-west-1', 'PROD'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackUSCode',
+	stackProps('us-west-1', 'CODE'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackUSProd',
+	stackProps('us-west-1', 'PROD'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackAUCode',
+	stackProps('ap-southeast-2', 'CODE'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackAUProd',
+	stackProps('ap-southeast-2', 'PROD'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackCACode',
+	stackProps('ca-central-1', 'CODE'),
+);
+new Monitoring(
+	app,
+	'CmpMonitoringStackCAProd',
+	stackProps('ca-central-1', 'PROD'),
+);

@@ -81,7 +81,10 @@ deployments:
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackEU.template.json
+            contentDirectory: 'cloud-formation'
+            templateStagePaths:
+                CODE: CmpMonitoringStackEUCode.template.json
+                PROD: CmpMonitoringStackEUProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-eu-west-1:
@@ -100,7 +103,10 @@ deployments:
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackUS.template.json
+            contentDirectory: 'cloud-formation'
+            templateStagePaths:
+                CODE: CmpMonitoringStackUSCode.template.json
+                PROD: CmpMonitoringStackUSProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-us-west-1:
@@ -119,7 +125,10 @@ deployments:
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackAU.template.json
+            contentDirectory: 'cloud-formation'
+            templateStagePaths:
+                CODE: CmpMonitoringStackAUCode.template.json
+                PROD: CmpMonitoringStackAUProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-ap-southeast-2:
@@ -138,7 +147,10 @@ deployments:
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackCA.template.json
+            contentDirectory: 'cloud-formation'
+            templateStagePaths:
+                CODE: CmpMonitoringStackCACode.template.json
+                PROD: CmpMonitoringStackCAProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-ca-central-1:
