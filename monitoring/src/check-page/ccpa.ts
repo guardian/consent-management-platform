@@ -1,5 +1,5 @@
 import type { Browser, Page } from 'puppeteer-core';
-import type { Config } from '../types';
+import type { Config, UspData } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -51,6 +51,37 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	await checkTopAdHasLoaded(page);
 };
 
+const checkGpcRespected = async (browser: Browser, url: string) => {
+	log_info(`Start checking subsequent Page URL: ${url}`);
+	const page: Page = await browser.newPage();
+
+	await page.setExtraHTTPHeaders({
+		'Sec-GPC': '1',
+	});
+
+	await loadPage(page, url);
+
+	await checkCMPIsNotVisible(page);
+
+	const invokeUspApi = () => {
+		return new Promise<UspData>((resolve) => {
+			const uspApiCallback = (uspData: UspData) => {
+				resolve(uspData);
+			};
+
+			if (typeof window.__uspapi === 'function') {
+				window.__uspapi('getUSPData', 1, uspApiCallback);
+			}
+		});
+	};
+
+	const invokeUspApiResults = await page.evaluate(invokeUspApi);
+
+	if (!invokeUspApiResults.gpcEnabled) {
+		throw new Error('GPC Signal not respected!');
+	}
+};
+
 /**
  * Checks that ads load correctly for the first time a user goes to
  * the site, with respect to and interaction with the CMP.
@@ -79,6 +110,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await reloadPage(page);
 
 	await checkTopAdHasLoaded(page);
+
+	await checkGpcRespected(browser, url);
 
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);

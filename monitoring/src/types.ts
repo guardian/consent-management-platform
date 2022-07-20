@@ -1,5 +1,15 @@
 import type { Viewport } from 'puppeteer-core';
 
+declare global {
+	interface Window {
+		__uspapi: (
+			command: string,
+			version: number,
+			callback: (uspData: UspData) => void,
+		) => undefined;
+	}
+}
+
 export type CustomPuppeteerOptions = {
 	headless: boolean;
 	args: string[];
@@ -29,6 +39,14 @@ export type SuccessfulCheck = {
 export type FailedCheck = {
 	key: 'failure';
 	errorMessage: string;
+};
+
+export type UspData = {
+	version: number;
+	uspString: string;
+	newUser: boolean;
+	dateCreated: string;
+	gpcEnabled: boolean;
 };
 
 export type CheckStatus = SuccessfulCheck | FailedCheck;
