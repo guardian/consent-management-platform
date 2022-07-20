@@ -78,10 +78,10 @@ deployments:
     cmp-monitoring-cdk-eu-west-1:
         regions: [eu-west-1]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            contentDirectory: 'cloud-formation'
             templateStagePaths:
                 CODE: CmpMonitoringStackEUCode.template.json
                 PROD: CmpMonitoringStackEUProd.template.json
@@ -100,10 +100,10 @@ deployments:
     cmp-monitoring-cdk-us-west-1:
         regions: [us-west-1]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            contentDirectory: 'cloud-formation'
             templateStagePaths:
                 CODE: CmpMonitoringStackUSCode.template.json
                 PROD: CmpMonitoringStackUSProd.template.json
@@ -122,10 +122,10 @@ deployments:
     cmp-monitoring-cdk-ap-southeast-2:
         regions: [ap-southeast-2]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            contentDirectory: 'cloud-formation'
             templateStagePaths:
                 CODE: CmpMonitoringStackAUCode.template.json
                 PROD: CmpMonitoringStackAUProd.template.json
@@ -144,10 +144,10 @@ deployments:
     cmp-monitoring-cdk-ca-central-1:
         regions: [ca-central-1]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            contentDirectory: 'cloud-formation'
             templateStagePaths:
                 CODE: CmpMonitoringStackCACode.template.json
                 PROD: CmpMonitoringStackCAProd.template.json
