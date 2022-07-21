@@ -8,8 +8,8 @@
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk-eu-west-1",
-			"path": "cdk/cdk.out/CmpMonitoringStackEU.template.json",
+			"action": "cloud-formation",
+			"path": "cdk/cdk.out/",
 			"compress": false
 		},
 		{
@@ -18,29 +18,14 @@
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk-us-west-1",
-			"path": "cdk/cdk.out/CmpMonitoringStackUS.template.json",
-			"compress": false
-		},
-		{
 			"action": "cmp-monitoring-lambda-us-west-1",
 			"path": "monitoring/dist",
 			"compress": "zip"
 		},
 		{
-			"action": "cmp-monitoring-cdk-ap-southeast-2",
-			"path": "cdk/cdk.out/CmpMonitoringStackAU.template.json",
-			"compress": false
-		},
-		{
 			"action": "cmp-monitoring-lambda-ap-southeast-2",
 			"path": "monitoring/dist",
 			"compress": "zip"
-		},
-		{
-			"action": "cmp-monitoring-cdk-ca-central-1",
-			"path": "cdk/cdk.out/CmpMonitoringStackCA.template.json",
-			"compress": false
 		},
 		{
 			"action": "cmp-monitoring-lambda-ca-central-1",

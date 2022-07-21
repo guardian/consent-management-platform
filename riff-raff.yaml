@@ -6,10 +6,13 @@ deployments:
     cmp-monitoring-cdk-eu-west-1:
         regions: [eu-west-1]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackEU.template.json
+            templateStagePaths:
+                CODE: CmpMonitoringStackEUCode.template.json
+                PROD: CmpMonitoringStackEUProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-eu-west-1:
@@ -25,10 +28,13 @@ deployments:
     cmp-monitoring-cdk-us-west-1:
         regions: [us-west-1]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackUS.template.json
+            templateStagePaths:
+                CODE: CmpMonitoringStackUSCode.template.json
+                PROD: CmpMonitoringStackUSProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-us-west-1:
@@ -44,10 +50,13 @@ deployments:
     cmp-monitoring-cdk-ap-southeast-2:
         regions: [ap-southeast-2]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackAU.template.json
+            templateStagePaths:
+                CODE: CmpMonitoringStackAUCode.template.json
+                PROD: CmpMonitoringStackAUProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-ap-southeast-2:
@@ -63,10 +72,13 @@ deployments:
     cmp-monitoring-cdk-ca-central-1:
         regions: [ca-central-1]
         type: cloud-formation
+        contentDirectory: 'cloud-formation'
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
-            templatePath: CmpMonitoringStackCA.template.json
+            templateStagePaths:
+                CODE: CmpMonitoringStackCACode.template.json
+                PROD: CmpMonitoringStackCAProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-ca-central-1:

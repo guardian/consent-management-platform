@@ -12,11 +12,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn --frozen-lockfile
 
       - name: Run unit tests
         uses: mattallty/jest-github-action@v1.0.3
@@ -37,11 +40,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn --frozen-lockfile
 
       - name: Run e2e tests on dist with Cypress
         run: yarn test:e2e
@@ -52,11 +58,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn --frozen-lockfile
 
       - name: Lint files
         run: yarn lint
@@ -67,11 +76,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn --frozen-lockfile
 
       - name: Check types
         run: yarn tsc
@@ -82,11 +94,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn --frozen-lockfile
 
       - name: Build package
         run: yarn build
@@ -109,11 +124,14 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup node
-        uses: guardian/actions-setup-node@main
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn --frozen-lockfile
 
       - name: Fetch build
         uses: actions/download-artifact@v2

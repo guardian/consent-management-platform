@@ -24,13 +24,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            monitoring/yarn.lock
+            cdk/yarn.lock
 
       - name: Install Root dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
-        run: yarn
+        run: yarn --frozen-lockfile
 
       - name: Lambda lint
         working-directory: './monitoring'
@@ -42,7 +47,7 @@ jobs:
 
       - name: CDK Install CDK dependencies
         working-directory: './cdk'
-        run: yarn
+        run: yarn --frozen-lockfile
 
       - name: CDK Test
         working-directory: './cdk'
