@@ -32,7 +32,7 @@
   "dependencies": {
     "@aws-cdk/cloudformation-include": "1.147.0",
     "@aws-cdk/core": "1.147.0",
-    "@guardian/cdk": "38.2.1",
+    "@guardian/cdk": "39.0.0",
     "source-map-support": "^0.5.20"
   }
 }
