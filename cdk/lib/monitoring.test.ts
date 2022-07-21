@@ -1,6 +1,5 @@
-import '@aws-cdk/assert/jest';
-import { SynthUtils } from '@aws-cdk/assert';
-import { App, Stage } from '@aws-cdk/core';
+import { App, Stage } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 import { Monitoring } from './monitoring';
 
 describe('The Monitoring stack', () => {
@@ -10,6 +9,6 @@ describe('The Monitoring stack', () => {
 			stack: 'cmp-monitoring',
 			stage: 'PROD',
 		});
-		expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
+		expect(Template.fromStack(stack).toJSON()).toMatchSnapshot();
 	});
 });
