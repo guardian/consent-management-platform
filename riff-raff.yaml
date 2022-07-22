@@ -55,8 +55,8 @@ deployments:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templateStagePaths:
-                CODE: CmpMonitoringStackAUCode.template.json
-                PROD: CmpMonitoringStackAUProd.template.json
+                CODE: CmpMonitoringStackAPCode.template.json
+                PROD: CmpMonitoringStackAPProd.template.json
             cloudFormationStackByTags: false
             manageStackPolicy: false
     cmp-monitoring-lambda-ap-southeast-2:

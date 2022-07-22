@@ -5,9 +5,21 @@ import { Monitoring } from '../lib/monitoring';
 
 const app = new App();
 
-type AwsRegion = 'eu-west-1' | 'us-west-1' | 'ap-southeast-2' | 'ca-central-1';
+const regionNames = [
+	'eu-west-1',
+	'us-west-1',
+	'ap-southeast-2',
+	'ca-central-1',
+] as const;
+type AwsRegion = typeof regionNames[number];
 
-function stackProps(awsRegion: AwsRegion, stage: string): GuStackProps {
+const deployableEnvs = ['CODE', 'PROD'] as const;
+type DeployableEnvironments = typeof deployableEnvs[number];
+
+function stackProps(
+	awsRegion: AwsRegion,
+	stage: DeployableEnvironments,
+): GuStackProps {
 	const stackName = 'frontend';
 
 	return {
@@ -19,43 +31,15 @@ function stackProps(awsRegion: AwsRegion, stage: string): GuStackProps {
 	};
 }
 
-new Monitoring(
-	app,
-	'CmpMonitoringStackEUCode',
-	stackProps('eu-west-1', 'CODE'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackEUProd',
-	stackProps('eu-west-1', 'PROD'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackUSCode',
-	stackProps('us-west-1', 'CODE'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackUSProd',
-	stackProps('us-west-1', 'PROD'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackAUCode',
-	stackProps('ap-southeast-2', 'CODE'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackAUProd',
-	stackProps('ap-southeast-2', 'PROD'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackCACode',
-	stackProps('ca-central-1', 'CODE'),
-);
-new Monitoring(
-	app,
-	'CmpMonitoringStackCAProd',
-	stackProps('ca-central-1', 'PROD'),
-);
+for (const region of regionNames) {
+	for (const stage of deployableEnvs) {
+		const zoneCode = region.substring(0, 2).toUpperCase();
+		const stageName = stage.charAt(0) + stage.slice(1).toLowerCase();
+
+		new Monitoring(
+			app,
+			'CmpMonitoringStack' + zoneCode + stageName,
+			stackProps(region, stage),
+		);
+	}
+}
