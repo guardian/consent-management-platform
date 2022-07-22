@@ -1,6 +1,6 @@
 import 'source-map-support/register';
-import { App } from '@aws-cdk/core';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
+import { App } from 'aws-cdk-lib';
 import { Monitoring } from '../lib/monitoring';
 
 const app = new App();
