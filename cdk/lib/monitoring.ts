@@ -1,13 +1,13 @@
-import { Alarm, ComparisonOperator } from '@aws-cdk/aws-cloudwatch';
-import { Rule, RuleTargetInput, Schedule } from '@aws-cdk/aws-events';
-import { LambdaFunction } from '@aws-cdk/aws-events-targets';
-import type { Alias } from '@aws-cdk/aws-lambda';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import type { App } from '@aws-cdk/core';
-import { Duration } from '@aws-cdk/core';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
+import type { App } from 'aws-cdk-lib';
+import { Duration } from 'aws-cdk-lib';
+import { Alarm, ComparisonOperator } from 'aws-cdk-lib/aws-cloudwatch';
+import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import type { Alias } from 'aws-cdk-lib/aws-lambda';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 
 export class Monitoring extends GuStack {
 	constructor(scope: App, id: string, props: GuStackProps) {
