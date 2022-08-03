@@ -5,6 +5,7 @@ import type { CustomScheduleEventContent } from './src';
 
 type RemoteRunCLIUserInput = {
 	stage: string;
+	regions: string[];
 };
 
 const decode = (str: string) => Buffer.from(str, 'base64').toString();
@@ -51,23 +52,46 @@ async function main() {
 			message: 'Which environment would you like to test?',
 			choices: ['prod', 'code'],
 		},
-	]).then(async (userInput: RemoteRunCLIUserInput) => {
-		const invokeSettledResults = await Promise.allSettled(
-			regionsToCheck.map((region) =>
-				invokeInRegion(region, 'cmp-monitoring-CODE', userInput.stage),
-			),
-		);
+		{
+			type: 'checkbox',
+			name: 'regions',
+			message: 'Which environment would you like to test?',
+			choices: regionsToCheck,
+			default: regionsToCheck,
+			validate(input: string[]) {
+				if (input.length === 0) {
+					return 'Please select a region';
+				}
+				return true;
+			},
+		},
+	])
+		.then(async (userInput: RemoteRunCLIUserInput) => {
+			const invokeSettledResults = await Promise.allSettled(
+				userInput.regions.map((region) =>
+					invokeInRegion(
+						region,
+						'cmp-monitoring-CODE',
+						userInput.stage,
+					),
+				),
+			);
 
-		invokeSettledResults.map((result) => {
-			if (result.status == 'fulfilled') {
-				processResult(result.value);
-			} else {
-				console.log('Failed to get response: ', result.reason);
-			}
+			invokeSettledResults.map((result) => {
+				if (result.status == 'fulfilled') {
+					processResult(result.value);
+				} else {
+					console.log('------------------------------------------');
+					console.log('Failed to get response: ', result.reason);
+					console.log('------------------------------------------');
+				}
+			});
+
+			process.exit(0);
+		})
+		.catch((error: Error) => {
+			process.exit(1);
 		});
-
-		process.exit(0);
-	});
 }
 
 void main();

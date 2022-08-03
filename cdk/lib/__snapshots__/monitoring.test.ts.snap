@@ -8,15 +8,6 @@ Object {
       "Description": "SSM parameter containing the S3 bucket name holding distribution artifacts",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
-    "Stage": Object {
-      "AllowedValues": Array [
-        "CODE",
-        "PROD",
-      ],
-      "Default": "CODE",
-      "Description": "Stage name",
-      "Type": "String",
-    },
   },
   "Resources": Object {
     "cmpmonitoring2CD05B94": Object {
@@ -29,39 +20,16 @@ Object {
           "S3Bucket": Object {
             "Ref": "DistributionBucketName",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "cmp-monitoring/",
-                Object {
-                  "Ref": "Stage",
-                },
-                "/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda-eu-west-1.zip",
-              ],
-            ],
-          },
+          "S3Key": "cmp-monitoring/PROD/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda-eu-west-1.zip",
         },
         "Environment": Object {
           "Variables": Object {
             "APP": "cmp-monitoring-lambda-eu-west-1",
             "STACK": "cmp-monitoring",
-            "STAGE": Object {
-              "Ref": "Stage",
-            },
+            "STAGE": "PROD",
           },
         },
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "cmp-monitoring-",
-              Object {
-                "Ref": "Stage",
-              },
-            ],
-          ],
-        },
+        "FunctionName": "cmp-monitoring-PROD",
         "Handler": "index.handler",
         "MemorySize": 2048,
         "Role": Object {
@@ -90,9 +58,7 @@ Object {
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "PROD",
           },
         ],
         "Timeout": 300,
@@ -146,9 +112,7 @@ Object {
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "PROD",
           },
         ],
       },
@@ -214,11 +178,7 @@ Object {
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    ":parameter/",
-                    Object {
-                      "Ref": "Stage",
-                    },
-                    "/cmp-monitoring/cmp-monitoring-lambda-eu-west-1",
+                    ":parameter/PROD/cmp-monitoring/cmp-monitoring-lambda-eu-west-1",
                   ],
                 ],
               },
@@ -241,11 +201,7 @@ Object {
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    ":parameter/",
-                    Object {
-                      "Ref": "Stage",
-                    },
-                    "/cmp-monitoring/cmp-monitoring-lambda-eu-west-1/*",
+                    ":parameter/PROD/cmp-monitoring/cmp-monitoring-lambda-eu-west-1/*",
                   ],
                 ],
               },
@@ -283,6 +239,7 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
+
     "cmpmonitoringscheduleAllowEventRuleCmpMonitoringStackcmpmonitoring0A19AA24A7F368FB": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
@@ -304,7 +261,7 @@ Object {
     },
     "cmpmonitoringscheduleFB1DBC53": Object {
       "Properties": Object {
-        "ScheduleExpression": "rate(5 minutes)",
+        "ScheduleExpression": "rate(2 minutes)",
         "State": "ENABLED",
         "Targets": Array [
           Object {

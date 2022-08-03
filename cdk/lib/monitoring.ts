@@ -8,6 +8,11 @@ import { Duration } from '@aws-cdk/core';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
+import type { App } from 'aws-cdk-lib';
+import { Duration } from 'aws-cdk-lib';
+import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 
 export class Monitoring extends GuStack {
 	constructor(scope: App, id: string, props: GuStackProps) {
@@ -45,13 +50,13 @@ export class Monitoring extends GuStack {
 			}),
 		});
 
-		const monitoringDuration: number = stage === 'PROD' ? 2 : 5; // Every 5 minutes for CODE; Every 2 minutes for PROD.
+		const monitoringDuration: Duration =
+			stage === 'PROD' ? Duration.minutes(2) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
-			schedule: Schedule.rate(Duration.minutes(monitoringDuration)),
+			schedule: Schedule.rate(monitoringDuration),
 			targets: [lambdaEventTarget],
 		});
-
 		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
