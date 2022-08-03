@@ -239,7 +239,6 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-
     "cmpmonitoringscheduleAllowEventRuleCmpMonitoringStackcmpmonitoring0A19AA24A7F368FB": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
