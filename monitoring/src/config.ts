@@ -110,6 +110,8 @@ const availableEnvConfig = [
 	ConfigCCPACode,
 	ConfigAusProd,
 	ConfigAusCode,
+	ConfigCCPALocal,
+	ConfigTcfv2Local,
 ];
 
 export class ConfigWrapper {
