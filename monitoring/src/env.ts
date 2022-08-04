@@ -5,3 +5,6 @@ export const envStage: string = process.env['STAGE']
 export const envJurisdiction: string | undefined =
 	process.env['CMP_JURISDICTION'];
 export const envAwsRegion: string | undefined = process.env['AWS_REGION'];
+export const localBaseURL: string = process.env['LOCAL_BASE_URL']
+	? process.env['LOCAL_BASE_URL']
+	: 'http://localhost:3030';
