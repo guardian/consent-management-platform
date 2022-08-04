@@ -18,7 +18,7 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
   yarn start --env={ENVIRONMENT} --jurisdiction={JURISDICTION}
 ```
 
-where ENVIRONMENT = code or prod
+where ENVIRONMENT = local, code or prod
 and JURISDICTION = aus, ccpa or tcfv2
 
 e.g.
@@ -32,3 +32,5 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
 ```sh
     yarn start
 ```
+
+To run locally, change the localBaseURL variable to local endpoint of DCR
