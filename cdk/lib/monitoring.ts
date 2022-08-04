@@ -38,6 +38,11 @@ export class Monitoring extends GuStack {
 			period: Duration.minutes(1),
 		});
 
+		// Defining metric for lambda errors each minute
+		const invocationMetric = monitoringLambdaFunction.metricInvocations({
+			period: Duration.minutes(1),
+		});
+
 		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
 			event: RuleTargetInput.fromObject({
 				stage: 'PROD', // Both scheduled cmp-monitoring-CODE and cmp-monitoring-PROD are monitoring prod versions
@@ -53,7 +58,8 @@ export class Monitoring extends GuStack {
 			targets: [lambdaEventTarget],
 		});
 
-		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
+		// Error Alarm
+		new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
 			evaluationPeriods: 1,
