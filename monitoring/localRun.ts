@@ -21,7 +21,7 @@ class NoArgumentsError extends Error {
 	}
 }
 
-const stages: string[] = ['code', 'prod'];
+const stages: string[] = ['local', 'code', 'prod'];
 const jurisdictions: string[] = ['aus', 'ccpa', 'tcfv2'];
 
 function isArgumentValid(args: LocalRunCliArguments): boolean {

@@ -1,11 +1,7 @@
-import type { AwsRegionOpt, JurisdictionOpt } from './config';
 import { ConfigWrapper } from './config';
-import type { Config } from './types';
-import {
-	AWS_REGIONS,
-	ConfigHelper,
-	JURISDICTIONS,
-} from './utils/config-helper';
+import type { AwsRegionOpt, Config, JurisdictionOpt } from './types';
+import { AWS_REGIONS, JURISDICTIONS, STAGES } from './types';
+import { ConfigHelper } from './utils/config-helper/config-helper';
 
 describe('ConfigWrapper', () => {
 	describe('Constructor', () => {
@@ -103,8 +99,8 @@ describe('ConfigWrapper', () => {
 
 			const mockCheckFunction = jest.fn();
 			const mockConfig: Config = {
-				stage: 'code',
-				jurisdiction: 'ccpa',
+				stage: STAGES.CODE,
+				jurisdiction: JURISDICTIONS.AUS,
 				frontUrl: '',
 				articleUrl: '',
 				iframeDomain: '',
