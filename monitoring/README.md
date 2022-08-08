@@ -18,7 +18,7 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
   yarn start --env={ENVIRONMENT} --jurisdiction={JURISDICTION}
 ```
 
-where ENVIRONMENT = code or prod
+where ENVIRONMENT = local, code or prod
 and JURISDICTION = aus, ccpa or tcfv2
 
 e.g.
@@ -32,3 +32,5 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
 ```sh
     yarn start
 ```
+
+To run 'local' environment, frontend and dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of frontend is http://localhost:9000. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.
