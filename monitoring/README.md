@@ -33,4 +33,4 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
     yarn start
 ```
 
-To run 'local' environment, dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of dotcom-rendering is http://localhost:3030. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.
+To run 'local' environment, frontend and dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of frontend is http://localhost:9000. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.

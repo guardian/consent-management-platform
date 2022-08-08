@@ -80,17 +80,17 @@ export class ConfigBuilder {
 export const ConfigArticleUrl = {
 	PROD: 'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
 	CODE: 'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
-	LOCAL: `${localBaseURL}/Article?url=https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake`,
+	LOCAL: `${localBaseURL}/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake`,
 };
 
 export const ConfigFrontUrl = {
 	PROD: 'https://www.theguardian.com',
 	CODE: 'https://m.code.dev-theguardian.com',
-	LOCAL: `${localBaseURL}/Article?url=https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake`,
+	LOCAL: `${localBaseURL}/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake`,
 };
 
 export const IframeDomainUrl = {
 	PROD: 'https://sourcepoint.theguardian.com',
 	CODE: 'https://sourcepoint.theguardian.com',
-	LOCAL: `${localBaseURL}/Article?url=https://sourcepoint.theguardian.com`,
+	LOCAL: `https://cdn.privacy-mgmt.com`,
 };
