@@ -91,6 +91,6 @@ export const ConfigFrontUrl = {
 
 export const IframeDomainUrl = {
 	PROD: 'https://sourcepoint.theguardian.com',
-	CODE: 'https://sourcepoint.theguardian.com',
+	CODE: 'https://cdn.privacy-mgmt.com',
 	LOCAL: `https://cdn.privacy-mgmt.com`,
 };
