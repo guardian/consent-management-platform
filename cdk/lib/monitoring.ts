@@ -38,7 +38,7 @@ export class Monitoring extends GuStack {
 		});
 
 		// Defining metric for lambda errors each minute
-		const invocationMetric = monitoringLambdaFunction.metricInvocations({
+		monitoringLambdaFunction.metricInvocations({
 			period: Duration.minutes(1),
 		});
 
