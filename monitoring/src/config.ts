@@ -3,16 +3,21 @@ import { mainCheck as mainCheckCCPA } from './check-page/ccpa';
 import { log_info } from './check-page/common-functions';
 import { mainCheck as mainCheckTcfV2 } from './check-page/tcfv2';
 import { debugMode, envAwsRegion, envJurisdiction, envStage } from './env';
-import type { Config } from './types';
-import { ConfigHelper } from './utils/config-helper';
-
-export type JurisdictionOpt = string | undefined;
-
-export type AwsRegionOpt = string | undefined;
+import type {
+	AwsRegionOpt,
+	Config,
+	Jurisdiction,
+	JurisdictionOpt,
+	Stage,
+} from './types';
+import { JURISDICTIONS, STAGES } from './types';
+import { ConfigBuilder } from './utils/config-builder/config-builder';
+import { ConfigHelper } from './utils/config-helper/config-helper';
+import { Validator } from './utils/validator/validator';
 
 const ConfigTcfv2Prod: Config = {
-	stage: 'prod',
-	jurisdiction: 'tcfv2',
+	stage: STAGES.PROD,
+	jurisdiction: JURISDICTIONS.TCFV2,
 	frontUrl: 'https://www.theguardian.com',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -22,8 +27,19 @@ const ConfigTcfv2Prod: Config = {
 };
 
 const ConfigTcfv2Code: Config = {
-	stage: 'code',
-	jurisdiction: 'tcfv2',
+	stage: STAGES.CODE,
+	jurisdiction: JURISDICTIONS.TCFV2,
+	frontUrl: 'https://m.code.dev-theguardian.com',
+	articleUrl:
+		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
+	debugMode: debugMode,
+	checkFunction: mainCheckTcfV2,
+};
+
+const ConfigTcfv2Local: Config = {
+	stage: STAGES.LOCAL,
+	jurisdiction: JURISDICTIONS.TCFV2,
 	frontUrl: 'https://m.code.dev-theguardian.com',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -33,8 +49,8 @@ const ConfigTcfv2Code: Config = {
 };
 
 const ConfigCCPAProd: Config = {
-	stage: 'prod',
-	jurisdiction: 'ccpa',
+	stage: STAGES.PROD,
+	jurisdiction: JURISDICTIONS.CCPA,
 	frontUrl: 'https://www.theguardian.com/us',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -44,8 +60,19 @@ const ConfigCCPAProd: Config = {
 };
 
 const ConfigCCPACode: Config = {
-	stage: 'code',
-	jurisdiction: 'ccpa',
+	stage: STAGES.CODE,
+	jurisdiction: JURISDICTIONS.CCPA,
+	frontUrl: 'https://m.code.dev-theguardian.com/us',
+	articleUrl:
+		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	iframeDomain: 'https://sourcepoint.theguardian.com',
+	debugMode: debugMode,
+	checkFunction: mainCheckCCPA,
+};
+
+const ConfigCCPALocal: Config = {
+	stage: STAGES.LOCAL,
+	jurisdiction: JURISDICTIONS.CCPA,
 	frontUrl: 'https://m.code.dev-theguardian.com/us',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -55,8 +82,8 @@ const ConfigCCPACode: Config = {
 };
 
 const ConfigAusProd: Config = {
-	stage: 'prod',
-	jurisdiction: 'aus',
+	stage: STAGES.PROD,
+	jurisdiction: JURISDICTIONS.AUS,
 	frontUrl: 'https://www.theguardian.com/au',
 	articleUrl:
 		'https://www.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -66,8 +93,8 @@ const ConfigAusProd: Config = {
 };
 
 const ConfigAusCode: Config = {
-	stage: 'code',
-	jurisdiction: 'aus',
+	stage: STAGES.CODE,
+	jurisdiction: JURISDICTIONS.AUS,
 	frontUrl: 'https://m.code.dev-theguardian.com/au',
 	articleUrl:
 		'https://m.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
@@ -83,6 +110,8 @@ const availableEnvConfig = [
 	ConfigCCPACode,
 	ConfigAusProd,
 	ConfigAusCode,
+	ConfigCCPALocal,
+	ConfigTcfv2Local,
 ];
 
 export class ConfigWrapper {
@@ -118,7 +147,7 @@ export class ConfigWrapper {
 	) {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
-		this._stage = _envStage;
+		this._stage = _envStage.toLowerCase();
 	}
 
 	async run(): Promise<void> {
@@ -140,18 +169,20 @@ export class ConfigWrapper {
 			log_info(`Generating config for adhoc trigger`);
 		}
 
-		// Get the appropriate config file
-		this._config = availableEnvConfig.find(
-			(value) =>
-				value.stage == this._stage.toLowerCase() &&
-				value.jurisdiction == this._jurisdiction,
-		);
-
-		// If the config doesn't exist then throw error
-		if (this._config === undefined) {
+		// If the Jurisdiction or Stage value is not in the enum then throw an error
+		if (
+			!Validator.isStageJurisdiction(this._jurisdiction) ||
+			!Validator.isStageValid(this._stage)
+		) {
 			const j = this._jurisdiction ? this._jurisdiction : 'missing';
 			const r = this._awsRegion ? this._awsRegion : 'missing';
 			throw `No config found for (env)stage: ${this._stage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
 		}
+
+		// Get the appropriate config
+		this._config = ConfigBuilder.construct(
+			<Stage>this._stage.toLowerCase(),
+			<Jurisdiction>this._jurisdiction,
+		);
 	}
 }
