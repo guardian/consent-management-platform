@@ -147,7 +147,7 @@ export class ConfigWrapper {
 	) {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
-		this._stage = _envStage;
+		this._stage = _envStage.toLowerCase();
 	}
 
 	async run(): Promise<void> {
