@@ -39,7 +39,6 @@ describe('Document', () => {
 	it('should have the SP iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
-
 	it('should have the correct script URL', () => {
 		cy.get('script#sourcepoint-lib').should(
 			'have.attr',

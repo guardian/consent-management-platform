@@ -34,7 +34,7 @@
     "types": "tsc --project ./tsconfig.build.json",
     "validate": "npm-run-all tsc test lint build",
     "prepare": "husky install",
-		"ci:monitoring": "yarn run node-riffraff-artifact"
+    "ci:monitoring": "yarn run node-riffraff-artifact"
   },
   "prettier": "@guardian/prettier",
   "devDependencies": {
@@ -61,8 +61,8 @@
     "@typescript-eslint/parser": "^4.33.0",
     "axios": "^0.25.0",
     "conventional-changelog-conventionalcommits": "^4.6.0",
-    "cypress": "^8",
-    "cypress-wait-until": "^1",
+    "cypress": "10.4.0",
+    "cypress-wait-until": "^1.7.2",
     "eslint": "^7",
     "eslint-config-airbnb-typescript": "^12",
     "eslint-config-prettier": "^8",
