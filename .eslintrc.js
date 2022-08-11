@@ -11,6 +11,9 @@ module.exports = {
 		// a lot of the 3rd party code uses these
 		'no-underscore-dangle': 0,
 	},
+	parserOptions: {
+		project: ['cypress.config.ts'],
+	},
 	overrides: [
 		{
 			// tests and config files sometimes do unorthodox things, and that's ok
