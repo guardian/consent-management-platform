@@ -6,7 +6,7 @@ module.exports = {
 	},
 	extends: ['@guardian/eslint-config-typescript'],
 	globals: { __PACKAGE_VERSION__: 'readonly' },
-	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring'],
+	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', '*.ts', '*.*.ts'],
 	rules: {
 		// a lot of the 3rd party code uses these
 		'no-underscore-dangle': 0,
