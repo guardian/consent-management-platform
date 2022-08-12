@@ -20,7 +20,7 @@ function stackProps(
 	awsRegion: AwsRegion,
 	stage: DeployableEnvironments,
 ): GuStackProps {
-	const stackName = 'frontend';
+	const stackName = 'cmp-monitoring';
 
 	return {
 		stack: stackName,
