@@ -1,4 +1,4 @@
-stacks: [frontend]
+stacks: [cmp-monitoring]
 allowedStages:
     - CODE
     - PROD
