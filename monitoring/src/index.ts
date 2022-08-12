@@ -43,9 +43,6 @@ export const handler = async (
 
 		console.log(`(cmp monitoring) Finished with failure: ${errorMessage}`);
 
-		return {
-			key: 'failure',
-			errorMessage: errorMessage,
-		};
+		throw new Error(errorMessage);
 	}
 };
