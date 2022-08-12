@@ -1,8 +1,0 @@
-{
-  "viewportWidth": 1440,
-  "viewportHeight": 768,
-  "baseUrl": "http://localhost:10001/",
-  "video": false,
-  "chromeWebSecurity": false,
-  "retries": 2
-}
