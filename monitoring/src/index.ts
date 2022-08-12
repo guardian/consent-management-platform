@@ -1,6 +1,5 @@
-import type { AwsRegionOpt, JurisdictionOpt } from './config';
 import { ConfigWrapper } from './config';
-import type { CheckStatus } from './types';
+import type { AwsRegionOpt, CheckStatus, JurisdictionOpt } from './types';
 
 export interface CustomScheduleEventContent {
 	jurisdiction?: string;
@@ -44,9 +43,6 @@ export const handler = async (
 
 		console.log(`(cmp monitoring) Finished with failure: ${errorMessage}`);
 
-		return {
-			key: 'failure',
-			errorMessage: errorMessage,
-		};
+		throw new Error(errorMessage);
 	}
 };
