@@ -53,6 +53,7 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 
 const checkGpcRespected = async (page: Page, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
+	log_info(`GPC signal: Start`);
 
 	await page.setExtraHTTPHeaders({
 		'Sec-GPC': '1',
@@ -79,6 +80,8 @@ const checkGpcRespected = async (page: Page, url: string) => {
 	if (!invokeUspApiResults.gpcEnabled) {
 		throw new Error('GPC Signal not respected!');
 	}
+
+	log_info(`GPC signal respected : Completed`);
 };
 
 /**
