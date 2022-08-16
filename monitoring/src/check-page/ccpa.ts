@@ -51,15 +51,14 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	await checkTopAdHasLoaded(page);
 };
 
-const checkGpcRespected = async (browser: Browser, url: string) => {
+const checkGpcRespected = async (page: Page, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	const page: Page = await browser.newPage();
 
 	await page.setExtraHTTPHeaders({
 		'Sec-GPC': '1',
 	});
 
-	await loadPage(page, url);
+	await reloadPage(page);
 
 	await checkCMPIsNotVisible(page);
 
@@ -111,7 +110,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkTopAdHasLoaded(page);
 
-	await checkGpcRespected(browser, url);
+	await checkGpcRespected(page, url);
 
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
