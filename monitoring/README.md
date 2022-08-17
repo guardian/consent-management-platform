@@ -40,3 +40,5 @@ To run 'local' environment, frontend and dotcom-rendering must be setup and runn
 There are 4 panels in the Transparency and Consent dashboard illustrating the invocation and error metrics from the lambdas.
 
 https://metrics.gutools.co.uk/d/18KPX0C7k/transparency-and-consent?orgId=1
+
+(This link can only be viewed in the office or using the VPN)
