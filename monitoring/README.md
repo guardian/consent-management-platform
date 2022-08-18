@@ -34,3 +34,11 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
 ```
 
 To run 'local' environment, frontend and dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of frontend is http://localhost:9000. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.
+
+## Transparency and Consent Monitoring Dashboard
+
+There are 4 panels in the Transparency and Consent dashboard illustrating the invocation and error metrics from the lambdas.
+
+https://metrics.gutools.co.uk/d/18KPX0C7k/transparency-and-consent?orgId=1
+
+(This link can only be viewed in the office or using the VPN)
