@@ -35,7 +35,7 @@
     "types": "tsc --project ./tsconfig.build.json",
     "validate": "npm-run-all tsc test lint build",
     "prepare": "husky install",
-    "ci:monitoring": "yarn run node-riffraff-artifact"
+    "ci:monitoring": "cp cdk/cdk.out/riff-raff.yaml riff-raff.yaml && yarn run node-riffraff-artifact"
   },
   "prettier": "@guardian/prettier",
   "devDependencies": {

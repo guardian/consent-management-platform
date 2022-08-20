@@ -1,9 +1,9 @@
 import 'source-map-support/register';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
-import { App } from 'aws-cdk-lib';
+import { GuRootExperimental } from '@guardian/cdk/lib/experimental/constructs/root';
 import { Monitoring } from '../lib/monitoring';
 
-const app = new App();
+const app = new GuRootExperimental();
 
 const regionNames = [
 	'eu-west-1',

@@ -3,13 +3,8 @@
 	"vcsURL": "https://github.com/guardian/consent-management-platform",
 	"actions": [
 		{
-			"action": "cmp-monitoring-lambda-eu-west-1",
-			"path": "monitoring/dist",
-			"compress": "zip"
-		},
-		{
-			"action": "cloud-formation",
-			"path": "cdk/cdk.out/",
+			"action": "cdk.out",
+			"path": "cdk/cdk.out",
 			"compress": false
 		},
 		{
