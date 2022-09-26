@@ -39,7 +39,9 @@ const interactWithCMP = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click('button[title="Yes, I’m happy"]');
+	await frame.click(
+		'div.message-component.message-row > button.btn-primary.sp_choice_type_11',
+	);
 };
 
 const checkCMPDidNotLoad = async (page: Page) => {
