@@ -1,6 +1,6 @@
 import Chromium from 'chrome-aws-lambda';
 import type { Browser, CDPSession, Page } from 'puppeteer-core';
-import type { CustomPuppeteerOptions } from '../types';
+import type { Config, CustomPuppeteerOptions } from '../types';
 
 export const log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
@@ -44,6 +44,17 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
+};
+
+export const openPrivacySettingsPage = async (config: Config, page: Page) => {
+	const frame = page
+		.frames()
+		.find((f) => f.url().startsWith(config.iframeDomain));
+	if (frame === undefined) {
+		return;
+	}
+
+	await frame.click('button[class=""]');
 };
 
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
