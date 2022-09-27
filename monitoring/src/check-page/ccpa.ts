@@ -23,9 +23,7 @@ const interactWithCMP = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click(
-		'div.message-component.message-row > button.sp_choice_type_13',
-	);
+	await frame.click('div.message-component > button.sp_choice_type_13');
 };
 
 const reloadPage = async (page: Page) => {
@@ -78,7 +76,6 @@ const checkGpcRespected = async (page: Page, url: string) => {
 	};
 
 	const invokeUspApiResults = await page.evaluate(invokeUspApi);
-
 	if (!invokeUspApiResults.gpcEnabled) {
 		throw new Error('GPC Signal not respected!');
 	}
