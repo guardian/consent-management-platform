@@ -23,7 +23,9 @@ const interactWithCMP = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click('button[title="Continue"]');
+	await frame.click(
+		'div.message-component.message-row > button.sp_choice_type_11',
+	);
 };
 
 const reloadPage = async (page: Page) => {

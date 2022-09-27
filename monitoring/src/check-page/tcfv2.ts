@@ -40,7 +40,7 @@ const interactWithCMP = async (config: Config, page: Page) => {
 	}
 
 	await frame.click(
-		'div.message-component.message-row > button.btn-primary.sp_choice_type_11',
+		'div.message-component.message-row > button.sp_choice_type_11',
 	);
 };
 
