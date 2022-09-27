@@ -46,15 +46,32 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	return browser;
 };
 
-export const openPrivacySettingsPage = async (config: Config, page: Page) => {
+export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
+	log_info(`Loading privacy settings panel: Start`);
+	// Ensure that Sourcepoint has enough time to load the CMP
+	await page.waitForTimeout(5000);
+
 	const frame = page
 		.frames()
 		.find((f) => f.url().startsWith(config.iframeDomain));
 	if (frame === undefined) {
 		return;
 	}
+	await frame.click(
+		'div.message-component.message-row > button.sp_choice_type_12',
+	);
 
-	await frame.click('button[class=""]');
+	log_info(`Loading privacy settings panel: Finish`);
+};
+
+export const checkPrivacySettingsPanelIsOpen = async (
+	page: Page,
+): Promise<void> => {
+	log_info(`Waiting for Privacy Settings Panel: Start`);
+	await page.waitForSelector(
+		'div.message-component.message-row.pm-head > p.gu-privacy-headline',
+	);
+	log_info(`Waiting for CMP: Finish: Finish`);
 };
 
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
