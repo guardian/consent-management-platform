@@ -27,7 +27,7 @@ const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Complete`);
 };
 
-const interactWithCMP = async (config: Config, page: Page) => {
+const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
@@ -90,7 +90,7 @@ const checkSubsequentPage = async (
 	await clearLocalStorage(page);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
-	await interactWithCMP(config, page);
+	await clickAcceptAllCookies(config, page);
 	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
 };
@@ -116,7 +116,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkTopAdDidNotLoad(page);
 
-	await interactWithCMP(config, page);
+	await clickAcceptAllCookies(config, page);
 
 	await checkCMPIsNotVisible(page);
 
