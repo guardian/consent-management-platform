@@ -11,7 +11,7 @@ import {
 	makeNewBrowser,
 } from './common-functions';
 
-const interactWithCMP = async (config: Config, page: Page) => {
+const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
@@ -23,7 +23,7 @@ const interactWithCMP = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click('button[title="Do not sell my personal information"]');
+	await frame.click('div.message-component > button.sp_choice_type_13');
 };
 
 const reloadPage = async (page: Page) => {
@@ -76,7 +76,6 @@ const checkGpcRespected = async (page: Page, url: string) => {
 	};
 
 	const invokeUspApiResults = await page.evaluate(invokeUspApi);
-
 	if (!invokeUspApiResults.gpcEnabled) {
 		throw new Error('GPC Signal not respected!');
 	}
@@ -105,7 +104,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkCMPIsOnPage(page);
 
-	await interactWithCMP(config, page);
+	await clickDoNotSellMyInfo(config, page);
 
 	await checkCMPIsNotVisible(page);
 

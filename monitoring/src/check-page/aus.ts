@@ -11,7 +11,7 @@ import {
 	makeNewBrowser,
 } from './common-functions';
 
-const interactWithCMP = async (config: Config, page: Page) => {
+const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
@@ -23,7 +23,9 @@ const interactWithCMP = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click('button[title="Continue"]');
+	await frame.click(
+		'div.message-component.message-row > button.sp_choice_type_11',
+	);
 };
 
 const reloadPage = async (page: Page) => {
@@ -73,7 +75,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkCMPIsOnPage(page);
 
-	await interactWithCMP(config, page);
+	await clickAcceptAllCookies(config, page);
 
 	await checkCMPIsNotVisible(page);
 
