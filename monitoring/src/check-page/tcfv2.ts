@@ -1,8 +1,10 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config } from '../types';
+import { BUTTON_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkPrivacySettingsPanelIsOpen,
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
@@ -10,6 +12,7 @@ import {
 	log_error,
 	log_info,
 	makeNewBrowser,
+	openPrivacySettingsPanel,
 } from './common-functions';
 
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
@@ -35,13 +38,14 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	const frame = page
 		.frames()
 		.find((f) => f.url().startsWith(config.iframeDomain));
+
+	// console.log('FRAME', frame);
+	// console.log('iframeDomain', config.iframeDomain);
 	if (frame === undefined) {
 		return;
 	}
 
-	await frame.click(
-		'div.message-component.message-row > button.sp_choice_type_11',
-	);
+	await frame.click(BUTTON_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 };
 
 const checkCMPDidNotLoad = async (page: Page) => {
@@ -106,6 +110,19 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const page: Page = await browser.newPage();
 
+	// await firstLayerCheck(config, url, page, browser, nextUrl);
+	await secondLayerCheck(config, url, page, browser, nextUrl);
+
+	await browser.close();
+};
+
+export const firstLayerCheck = async function (
+	config: Config,
+	url: string,
+	page: Page,
+	browser: Browser,
+	nextUrl: string,
+): Promise<void> {
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
@@ -131,8 +148,22 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	if (nextUrl) {
 		await checkSubsequentPage(browser, config, nextUrl);
 	}
+};
 
-	await browser.close();
+export const secondLayerCheck = async function (
+	config: Config,
+	url: string,
+	page: Page,
+	browser: Browser,
+	nextUrl: string,
+): Promise<void> {
+	const client = await page.target().createCDPSession();
+	await clearCookies(client);
+	await loadPage(page, url);
+	await checkCMPIsOnPage(page);
+	await checkTopAdDidNotLoad(page);
+	await openPrivacySettingsPanel(config, page);
+	await checkPrivacySettingsPanelIsOpen(page);
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
