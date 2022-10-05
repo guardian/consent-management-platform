@@ -54,7 +54,11 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	const frame = page
 		.frames()
 		.find((f) => f.url().startsWith(config.iframeDomain));
+
+	// console.log('FRAME', frame?.url());
 	if (frame === undefined) {
+		log_error('iframe not found');
+		throw new Error('iframe not found');
 		return;
 	}
 	await frame.click(
@@ -68,10 +72,8 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	page: Page,
 ): Promise<void> => {
 	log_info(`Waiting for Privacy Settings Panel: Start`);
-	await page.waitForSelector(
-		'div.message-component.message-row.pm-head > p.gu-privacy-headline',
-	);
-	log_info(`Waiting for CMP: Finish: Finish`);
+	await page.waitForSelector('p.gu-privacy-headline');
+	log_info(`Waiting for Privacy Settings Panel: Finish`);
 };
 
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
