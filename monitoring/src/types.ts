@@ -38,6 +38,13 @@ export enum STAGES {
 	LOCAL = 'local',
 }
 
+export const BUTTON_ID = {
+	TCFV2_FIRST_LAYER_ACCEPT_ALL:
+		'div.message-component.message-row > button.sp_choice_type_11',
+	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
+		'div.message-component.message-row > button.sp_choice_type_12',
+};
+
 export const AWS_REGIONS = {
 	EU_WEST_1: 'eu-west-1',
 	US_WEST_1: 'us-west-1',
