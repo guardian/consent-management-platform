@@ -75,7 +75,6 @@ export const clickSaveAndCloseSecondLayer = async (
 
 	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
 
-	console.log('FRAME', frame?.url());
 	if (frame === undefined) {
 		log_error('iframe not found'); // TODO refactor.
 		throw new Error('iframe not found');
@@ -148,6 +147,8 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
+
+	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',

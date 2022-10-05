@@ -38,8 +38,6 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 		.frames()
 		.find((f) => f.url().startsWith(config.iframeDomain));
 
-	// console.log('FRAME', frame);
-	// console.log('iframeDomain', config.iframeDomain);
 	if (frame === undefined) {
 		return;
 	}
@@ -63,7 +61,7 @@ const checkCMPDidNotLoad = async (page: Page) => {
 const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
-		waitUntil: ['networkidle0', 'domcontentloaded'],
+		waitUntil: ['domcontentloaded'], // removed 'networkidle0',
 		timeout: 30000,
 	});
 	if (!reloadResponse) {
