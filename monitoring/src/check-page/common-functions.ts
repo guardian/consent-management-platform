@@ -1,5 +1,5 @@
 import Chromium from 'chrome-aws-lambda';
-import type { Browser, CDPSession, Page } from 'puppeteer-core';
+import type { Browser, CDPSession, Frame, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 
 export const log_info = (message: string): void => {
@@ -51,35 +51,72 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
 
-	const frame = page
-		.frames()
-		.find((f) => f.url().startsWith(config.iframeDomain));
+	const frame = getFrame(page, config.iframeDomain);
 
 	// console.log('FRAME', frame?.url());
 	if (frame === undefined) {
-		log_error('iframe not found');
+		log_error('iframe not found'); // TODO refactor.
 		throw new Error('iframe not found');
 		return;
 	}
 	await frame.click(
-		'div.message-component.message-row > button.sp_choice_type_12',
+		'div.message-component.message-row > button.sp_choice_type_12', // REFACTOR this into types
 	);
 
 	log_info(`Loading privacy settings panel: Finish`);
 };
 
+export const clickSaveAndCloseSecondLayer = async (
+	config: Config,
+	page: Page,
+) => {
+	log_info(`Clicking on save and exit button: Start`);
+	// Ensure that Sourcepoint has enough time to load the CMP
+	await page.waitForTimeout(5000);
+
+	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
+
+	console.log('FRAME', frame?.url());
+	if (frame === undefined) {
+		log_error('iframe not found'); // TODO refactor.
+		throw new Error('iframe not found');
+		return;
+	}
+	await frame.click(
+		'button.sp_choice_type_SAVE_AND_EXIT', // REFACTOR this into types
+	);
+
+	log_info(`Clicking on save and exit button: Finish`);
+};
+
+// TODO: consider better approach for getting frame - expensive?
+const getFrame = (page: Page, iframeDomainUrl: string): Frame | undefined => {
+	const frame = page
+		.frames()
+		.find((f) => f.url().startsWith(iframeDomainUrl));
+
+	return frame;
+};
+
 export const checkPrivacySettingsPanelIsOpen = async (
+	config: Config,
 	page: Page,
 ): Promise<void> => {
+	const frame = getFrame(page, config.iframeDomain);
+	if (frame === undefined) {
+		log_error('iframe not found'); // TODO refactor.
+		throw new Error('iframe not found');
+		return;
+	}
 	log_info(`Waiting for Privacy Settings Panel: Start`);
-	await page.waitForSelector('p.gu-privacy-headline');
+	await frame.waitForSelector('.gu-privacy-headline'); // REFACTOR this into types
 	log_info(`Waiting for Privacy Settings Panel: Finish`);
 };
 
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Start`);
 	await page.waitForSelector(
-		'.ad-slot--top-above-nav .ad-slot__content iframe',
+		'.ad-slot--top-above-nav .ad-slot__content iframe', // REFACTOR this into types
 		{ timeout: 30000 },
 	);
 	log_info(`Waiting for ads to load: Complete`);
@@ -87,7 +124,7 @@ export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-	await page.waitForSelector('[id*="sp_message_container"]');
+	await page.waitForSelector('[id*="sp_message_container"]'); // REFACTOR this into types
 	log_info(`Waiting for CMP: Finish`);
 };
 
@@ -95,7 +132,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
 	const getSpMessageDisplayProperty = function () {
-		const element = document.querySelector('[id*="sp_message_container"]');
+		const element = document.querySelector('[id*="sp_message_container"]'); // REFACTOR this into types
 		if (element) {
 			const computedStyle = window.getComputedStyle(element);
 			return computedStyle.getPropertyValue('display');

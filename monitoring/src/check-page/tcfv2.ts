@@ -8,6 +8,7 @@ import {
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
+	clickSaveAndCloseSecondLayer,
 	loadPage,
 	log_error,
 	log_info,
@@ -110,7 +111,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const page: Page = await browser.newPage();
 
-	// await firstLayerCheck(config, url, page, browser, nextUrl);
+	await firstLayerCheck(config, url, page, browser, nextUrl);
+
 	await secondLayerCheck(config, url, page, browser, nextUrl);
 
 	await browser.close();
@@ -159,11 +161,20 @@ export const secondLayerCheck = async function (
 ): Promise<void> {
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
+
 	await loadPage(page, url);
+
 	await checkCMPIsOnPage(page);
-	await checkTopAdDidNotLoad(page);
+
 	await openPrivacySettingsPanel(config, page);
-	await checkPrivacySettingsPanelIsOpen(page);
+
+	await checkPrivacySettingsPanelIsOpen(config, page);
+
+	await clickSaveAndCloseSecondLayer(config, page);
+
+	await checkCMPIsNotVisible(page);
+
+	await checkTopAdDidNotLoad(page);
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
