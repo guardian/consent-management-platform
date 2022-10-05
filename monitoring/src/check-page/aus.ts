@@ -1,5 +1,6 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config } from '../types';
+import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -23,9 +24,7 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click(
-		'div.message-component.message-row > button.sp_choice_type_11',
-	);
+	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 };
 
 const reloadPage = async (page: Page) => {

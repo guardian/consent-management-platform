@@ -1,6 +1,7 @@
 import Chromium from 'chrome-aws-lambda';
 import type { Browser, CDPSession, Frame, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
+import { ELEMENT_ID } from '../types';
 
 export const log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
@@ -59,9 +60,7 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 		throw new Error('iframe not found');
 		return;
 	}
-	await frame.click(
-		'div.message-component.message-row > button.sp_choice_type_12', // REFACTOR this into types
-	);
+	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Finish`);
 };
@@ -82,9 +81,7 @@ export const clickSaveAndCloseSecondLayer = async (
 		throw new Error('iframe not found');
 		return;
 	}
-	await frame.click(
-		'button.sp_choice_type_SAVE_AND_EXIT', // REFACTOR this into types
-	);
+	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
 	log_info(`Clicking on save and exit button: Finish`);
 };
@@ -109,37 +106,37 @@ export const checkPrivacySettingsPanelIsOpen = async (
 		return;
 	}
 	log_info(`Waiting for Privacy Settings Panel: Start`);
-	await frame.waitForSelector('.gu-privacy-headline'); // REFACTOR this into types
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 	log_info(`Waiting for Privacy Settings Panel: Finish`);
 };
 
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(
-		'.ad-slot--top-above-nav .ad-slot__content iframe', // REFACTOR this into types
-		{ timeout: 30000 },
-	);
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-	await page.waitForSelector('[id*="sp_message_container"]'); // REFACTOR this into types
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
 	log_info(`Waiting for CMP: Finish`);
 };
 
 export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
-	const getSpMessageDisplayProperty = function () {
-		const element = document.querySelector('[id*="sp_message_container"]'); // REFACTOR this into types
+	const getSpMessageDisplayProperty = function (selector: string) {
+		const element = document.querySelector(selector);
 		if (element) {
 			const computedStyle = window.getComputedStyle(element);
 			return computedStyle.getPropertyValue('display');
 		}
 	};
 
-	const display = await page.evaluate(getSpMessageDisplayProperty);
+	const display = await page.evaluate(
+		getSpMessageDisplayProperty,
+		ELEMENT_ID.CMP_CONTAINER,
+	);
 
 	// Use `!=` rather than `!==` here because display is a DOMString type
 	if (display && display != 'none') {

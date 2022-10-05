@@ -38,11 +38,16 @@ export enum STAGES {
 	LOCAL = 'local',
 }
 
-export const BUTTON_ID = {
+export const ELEMENT_ID = {
 	TCFV2_FIRST_LAYER_ACCEPT_ALL:
 		'div.message-component.message-row > button.sp_choice_type_11',
 	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
 		'div.message-component.message-row > button.sp_choice_type_12',
+	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content iframe',
+	CMP_CONTAINER: '[id*="sp_message_container"]',
+	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: 'button.sp_choice_type_SAVE_AND_EXIT',
+	TCFV2_SECOND_LAYER_HEADLINE: '.gu-privacy-headline',
+	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',
 };
 
 export const AWS_REGIONS = {

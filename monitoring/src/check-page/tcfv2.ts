@@ -1,6 +1,6 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config } from '../types';
-import { BUTTON_ID } from '../types';
+import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -19,9 +19,7 @@ import {
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Start`);
 
-	const frame = await page.$(
-		'.ad-slot--top-above-nav .ad-slot__content iframe',
-	);
+	const frame = await page.$(ELEMENT_ID.TOP_ADVERT);
 
 	if (frame !== null) {
 		log_error(`Checking ads do not load: Failed`);
@@ -46,13 +44,13 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click(BUTTON_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 };
 
 const checkCMPDidNotLoad = async (page: Page) => {
 	log_info(`Checking CMP does not load: Start`);
 
-	const spMessageContainer = await page.$('[id*="sp_message_container"]');
+	const spMessageContainer = await page.$(ELEMENT_ID.CMP_CONTAINER);
 
 	if (spMessageContainer !== null) {
 		log_error(`Checking CMP does not load: Failed`);
@@ -129,6 +127,8 @@ export const firstLayerCheck = async function (
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
 
+	log_info('Checking first layer: Start');
+
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
@@ -150,6 +150,7 @@ export const firstLayerCheck = async function (
 	if (nextUrl) {
 		await checkSubsequentPage(browser, config, nextUrl);
 	}
+	log_info('Checking first layer: Complete');
 };
 
 export const secondLayerCheck = async function (
@@ -161,6 +162,8 @@ export const secondLayerCheck = async function (
 ): Promise<void> {
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
+
+	log_info('Checking second layer: Start');
 
 	await loadPage(page, url);
 
@@ -175,6 +178,8 @@ export const secondLayerCheck = async function (
 	await checkCMPIsNotVisible(page);
 
 	await checkTopAdDidNotLoad(page);
+
+	log_info('Checking second layer: Complete');
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {

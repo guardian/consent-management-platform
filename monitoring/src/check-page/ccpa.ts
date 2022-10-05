@@ -1,5 +1,6 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config, UspData } from '../types';
+import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -23,7 +24,7 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 		return;
 	}
 
-	await frame.click('div.message-component > button.sp_choice_type_13');
+	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 };
 
 const reloadPage = async (page: Page) => {
