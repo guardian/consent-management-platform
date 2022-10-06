@@ -71,18 +71,37 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	log_info(`Clicking on save and exit button: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(5000);
+	await page.waitForTimeout(1000);
 
 	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
 
 	if (frame === undefined) {
 		log_error('iframe not found'); // TODO refactor.
 		throw new Error('iframe not found');
-		return;
 	}
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
 	log_info(`Clicking on save and exit button: Finish`);
+};
+
+export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
+	log_info(`Clicking on reject all button: Start`);
+
+	await page.waitForTimeout(1000);
+
+	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
+	if (frame === undefined) {
+		log_error(
+			'Clicking on reject all button: Could not find frame : Failed',
+		);
+		throw new Error(
+			'Clicking on reject all button: Could not find frame : Failed',
+		);
+	}
+
+	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+
+	log_info(`Clicking on reject all button: Finish`);
 };
 
 // TODO: consider better approach for getting frame - expensive?
