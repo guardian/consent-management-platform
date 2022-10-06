@@ -8,6 +8,7 @@ import {
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
+	clickRejectAllSecondLayer,
 	clickSaveAndCloseSecondLayer,
 	loadPage,
 	log_error,
@@ -127,6 +128,7 @@ export const firstLayerCheck = async function (
 
 	log_info('Checking first layer: Start');
 
+	// Testing the Accept All button hides the CMP and loads Ads
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
@@ -163,6 +165,9 @@ export const secondLayerCheck = async function (
 
 	log_info('Checking second layer: Start');
 
+	// Testing the Save and Close button hides the CMP and does not load Ads
+	// Accepting default consent state (Essential only)
+
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
@@ -177,15 +182,35 @@ export const secondLayerCheck = async function (
 
 	await checkTopAdDidNotLoad(page);
 
+	// Testing the Reject All button hides the CMP and does not load Ads
+	await clearCookies(client);
+
+	await reloadPage(page);
+
+	await checkCMPIsOnPage(page);
+
+	await openPrivacySettingsPanel(config, page);
+
+	await checkPrivacySettingsPanelIsOpen(config, page);
+
+	await clickRejectAllSecondLayer(config, page);
+
+	await checkCMPIsNotVisible(page);
+
+	await checkTopAdDidNotLoad(page);
+
 	log_info('Checking second layer: Complete');
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
+	// Testing the user first visits home page then an article page
 	await checkPages(
 		config,
 		`${config.frontUrl}?adtest=fixed-puppies`,
 		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
+
+	// Testing the user first visits only an article page
 	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
 };
