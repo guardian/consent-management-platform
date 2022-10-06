@@ -14,7 +14,6 @@ deployments:
                 CODE: CmpMonitoringStackEUCode.template.json
                 PROD: CmpMonitoringStackEUProd.template.json
             cloudFormationStackByTags: false
-            manageStackPolicy: false
     cmp-monitoring-lambda-eu-west-1:
         dependencies: [cmp-monitoring-cdk-eu-west-1]
         regions: [eu-west-1]
@@ -36,7 +35,6 @@ deployments:
                 CODE: CmpMonitoringStackUSCode.template.json
                 PROD: CmpMonitoringStackUSProd.template.json
             cloudFormationStackByTags: false
-            manageStackPolicy: false
     cmp-monitoring-lambda-us-west-1:
         dependencies: [cmp-monitoring-cdk-us-west-1]
         regions: [us-west-1]
@@ -58,7 +56,6 @@ deployments:
                 CODE: CmpMonitoringStackAPCode.template.json
                 PROD: CmpMonitoringStackAPProd.template.json
             cloudFormationStackByTags: false
-            manageStackPolicy: false
     cmp-monitoring-lambda-ap-southeast-2:
         dependencies: [cmp-monitoring-cdk-ap-southeast-2]
         regions: [ap-southeast-2]
@@ -80,7 +77,6 @@ deployments:
                 CODE: CmpMonitoringStackCACode.template.json
                 PROD: CmpMonitoringStackCAProd.template.json
             cloudFormationStackByTags: false
-            manageStackPolicy: false
     cmp-monitoring-lambda-ca-central-1:
         dependencies: [cmp-monitoring-cdk-ca-central-1]
         regions: [ca-central-1]
