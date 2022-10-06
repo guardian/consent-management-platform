@@ -71,7 +71,7 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	log_info(`Clicking on save and exit button: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(1000);
+	await page.waitForTimeout(5000);
 
 	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
 
@@ -87,7 +87,7 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	await page.waitForTimeout(1000);
+	await page.waitForTimeout(5000);
 
 	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
 	if (frame === undefined) {
