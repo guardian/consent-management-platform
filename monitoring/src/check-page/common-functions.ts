@@ -53,16 +53,6 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	await page.waitForTimeout(5000);
 
 	const frame = getFrame(page, config.iframeDomain);
-
-	if (frame === undefined) {
-		log_error(
-			'Loading privacy settings panel: Could not find frame : Failed',
-		);
-
-		throw new Error(
-			'Loading privacy settings panel: Could not find frame : Failed',
-		);
-	}
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Complete`);
@@ -77,15 +67,6 @@ export const clickSaveAndCloseSecondLayer = async (
 	await page.waitForTimeout(5000);
 
 	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
-
-	if (frame === undefined) {
-		log_error(
-			'Clicking on save and exit button: Could not find frame : Failed',
-		);
-		throw new Error(
-			'Clicking on save and exit button: Could not find frame : Failed',
-		);
-	}
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
 	log_info(`Clicking on save and exit button: Complete`);
@@ -97,14 +78,6 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	await page.waitForTimeout(5000);
 
 	const frame = getFrame(page, config.iframeDomain + '/privacy-manager');
-	if (frame === undefined) {
-		log_error(
-			'Clicking on reject all button: Could not find frame : Failed',
-		);
-		throw new Error(
-			'Clicking on reject all button: Could not find frame : Failed',
-		);
-	}
 
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
@@ -112,13 +85,14 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 };
 
 // TODO: consider better approach for getting frame - expensive?
-export const getFrame = (
-	page: Page,
-	iframeDomainUrl: string,
-): Frame | undefined => {
+export const getFrame = (page: Page, iframeDomainUrl: string): Frame => {
 	const frame = page
 		.frames()
 		.find((f) => f.url().startsWith(iframeDomainUrl));
+
+	if (frame === undefined) {
+		throw new Error(`Could not find frame ${iframeDomainUrl} : Failed`);
+	}
 
 	return frame;
 };
@@ -127,16 +101,8 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
 ): Promise<void> => {
-	const frame = getFrame(page, config.iframeDomain);
-	if (frame === undefined) {
-		log_error(
-			'Waiting for Privacy Settings Panel: Could not find frame : Failed',
-		);
-		throw new Error(
-			'Waiting for Privacy Settings Panel: Could not find frame : Failed',
-		);
-	}
 	log_info(`Waiting for Privacy Settings Panel: Start`);
+	const frame = getFrame(page, config.iframeDomain);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };

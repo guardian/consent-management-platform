@@ -1179,7 +1179,7 @@
     source-map "^0.6.1"
     write-file-atomic "^3.0.0"
 
-"@jest/types@^27.5.1":
+"@jest/types@>=24 <=27", "@jest/types@^27.5.1":
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/@jest/types/-/types-27.5.1.tgz#3c79ec4a8ba61c170bf937bcf9e98a9df175ec80"
   integrity sha512-Cx46iJ9QpwQTjIdq5VJu2QTMMs3QlEjI0x1QbBP5W1+nMzyc2XmimiRR/CbX9TO0cPTeUlxWMOu8mslYsJ8DEw==
@@ -1391,6 +1391,15 @@
   integrity sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==
   dependencies:
     "@types/istanbul-lib-report" "*"
+
+"@types/jest-environment-puppeteer@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/jest-environment-puppeteer/-/jest-environment-puppeteer-5.0.2.tgz#604370c20b3c62e40d155b19eb544d1580dbc69e"
+  integrity sha512-YCdegQnDou6aIK8wqygDDctHgJZtlXd03fI9Bgbqkdu66EFKnImmt7auiR9OkxkSSiqS9smn0joX2pGpVs7ErA==
+  dependencies:
+    "@jest/types" ">=24 <=27"
+    "@types/puppeteer" "*"
+    jest-environment-node ">=24 <=27"
 
 "@types/jest@^28.1.6":
   version "28.1.6"
@@ -3656,7 +3665,7 @@ jest-environment-jsdom@^27.5.1:
     jest-util "^27.5.1"
     jsdom "^16.6.0"
 
-jest-environment-node@^27.4.4, jest-environment-node@^27.5.1:
+"jest-environment-node@>=24 <=27", jest-environment-node@^27.4.4, jest-environment-node@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-27.5.1.tgz#dedc2cfe52fab6b8f5714b4808aefa85357a365e"
   integrity sha512-Jt4ZUnxdOsTGwSRAfKEnE6BcwsSPNOijjwifq5sDFSA2kesnXTvNqKHYgM0hDq3549Uf/KzdXNYn4wMZJPlFLw==

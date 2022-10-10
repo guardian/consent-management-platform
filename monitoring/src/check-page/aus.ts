@@ -6,6 +6,7 @@ import {
 	checkCMPIsOnPage,
 	checkTopAdHasLoaded,
 	clearCookies,
+	getFrame,
 	loadPage,
 	log_error,
 	log_info,
@@ -17,14 +18,11 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Continue" on CMP`);
-	const frame = page
-		.frames()
-		.find((f) => f.url().startsWith(config.iframeDomain));
-	if (frame === undefined) {
-		return;
-	}
 
+	const frame = getFrame(page, config.iframeDomain);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+
+	log_info(`Clicked on "Continue" on CMP`);
 };
 
 const reloadPage = async (page: Page) => {

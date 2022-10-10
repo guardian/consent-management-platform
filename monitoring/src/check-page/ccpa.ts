@@ -6,6 +6,7 @@ import {
 	checkCMPIsOnPage,
 	checkTopAdHasLoaded,
 	clearCookies,
+	getFrame,
 	loadPage,
 	log_error,
 	log_info,
@@ -17,14 +18,9 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
-	const frame = page
-		.frames()
-		.find((f) => f.url().startsWith(config.iframeDomain));
-	if (frame === undefined) {
-		return;
-	}
-
+	const frame = getFrame(page, config.iframeDomain);
 	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
 
 const reloadPage = async (page: Page) => {
