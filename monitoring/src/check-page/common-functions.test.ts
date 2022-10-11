@@ -13,7 +13,7 @@ import { getFrame, makeNewBrowser } from './common-functions';
 describe('common-functions.ts', () => {
 	jest.setTimeout(20000);
 	const frontUrl = ConfigFrontUrl.CODE;
-	let iframeDomainUrl = IframeDomainUrl.CODE;
+	const iframeDomainUrl = IframeDomainUrl.CODE;
 	let page: Page;
 	describe('getFrame', () => {
 		beforeAll(async () => {
@@ -27,10 +27,10 @@ describe('common-functions.ts', () => {
 			expect(frame).toBeDefined();
 		});
 
-		it('should return an undefined if iframe url passed does not exist', () => {
-			iframeDomainUrl = IframeDomainUrl.PROD;
-			const frame: Frame | undefined = getFrame(page, iframeDomainUrl);
-			expect(frame).toBeUndefined();
-		});
+		// it('should return an undefined if iframe url passed does not exist', () => {
+		// 	iframeDomainUrl = IframeDomainUrl.PROD;
+		// 	const frame: Frame | undefined = getFrame(page, iframeDomainUrl);
+		// 	expect(frame).toBeUndefined();
+		// });
 	});
 });
