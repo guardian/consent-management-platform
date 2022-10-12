@@ -12,25 +12,25 @@ import { getFrame, makeNewBrowser } from './common-functions';
 
 describe('common-functions.ts', () => {
 	jest.setTimeout(20000);
-	const frontUrl = ConfigFrontUrl.CODE;
+	//const frontUrl = ConfigFrontUrl.CODE;
 	const iframeDomainUrl = IframeDomainUrl.CODE;
 	let page: Page;
+	let browser: Browser;
 	describe('getFrame', () => {
 		beforeAll(async () => {
-			const browser: Browser = await makeNewBrowser(false);
+			browser = await makeNewBrowser(false);
 			page = await browser.newPage();
-			await page.goto(frontUrl);
+			await page.goto(iframeDomainUrl);
+		});
+
+		afterAll(async () => {
+			await page.close();
+			await browser.close();
 		});
 
 		it('should return a frame', () => {
-			const frame: Frame | undefined = getFrame(page, iframeDomainUrl);
+			const frame: Frame = getFrame(page, iframeDomainUrl);
 			expect(frame).toBeDefined();
 		});
-
-		// it('should return an undefined if iframe url passed does not exist', () => {
-		// 	iframeDomainUrl = IframeDomainUrl.PROD;
-		// 	const frame: Frame | undefined = getFrame(page, iframeDomainUrl);
-		// 	expect(frame).toBeUndefined();
-		// });
 	});
 });
