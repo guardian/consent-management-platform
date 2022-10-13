@@ -104,6 +104,7 @@ describe('ConfigWrapper', () => {
 				frontUrl: '',
 				articleUrl: '',
 				iframeDomain: '',
+				iframeDomainSecondLayer: '',
 				debugMode: true,
 				checkFunction: mockCheckFunction,
 			};

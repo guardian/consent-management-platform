@@ -71,6 +71,7 @@ export type Config = {
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;
+	iframeDomainSecondLayer: string;
 	debugMode: boolean;
 	checkFunction: (config: Config) => Promise<void>;
 };

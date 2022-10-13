@@ -5,13 +5,16 @@
 import 'expect-puppeteer';
 import path from 'path';
 import type { Browser, Frame, Page } from 'puppeteer-core';
-import { IframeDomainUrl } from '../utils/config-builder/config-builder';
+import {
+	IframeDomainUrl,
+	IframeDomainUrlSecondLayer,
+} from '../utils/config-builder/config-builder';
 import { getFrame, makeNewBrowser } from './common-functions';
 
 describe('common-functions.ts', () => {
 	jest.setTimeout(20000);
 	const firstLayerIframeDomain = IframeDomainUrl.CODE;
-	const secondLayerIframeDomain = IframeDomainUrl.CODE + '/privacy-manager';
+	const secondLayerIframeDomain = IframeDomainUrlSecondLayer.CODE;
 	let browser: Browser;
 	let page: Page;
 	const staticFile = `file:${path.join(
