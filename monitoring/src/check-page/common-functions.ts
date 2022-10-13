@@ -50,7 +50,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(5000);
+	await page.waitForTimeout(3000);
 
 	const frame = getFrame(page, config.iframeDomain);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
@@ -62,8 +62,9 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
 ): Promise<void> => {
+	await page.waitForTimeout(3000);
 	log_info(`Waiting for Privacy Settings Panel: Start`);
-	const frame = getFrame(page, config.iframeDomain); // TODO: should this be checking for iframeDomainSecondLayer?
+	const frame = getFrame(page, config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
