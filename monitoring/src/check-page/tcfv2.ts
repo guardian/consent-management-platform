@@ -162,6 +162,7 @@ export const secondLayerCheck = async function (
 
 	// Testing the Save and Close button hides the CMP and does not load Ads
 	// Accepting default consent state (Essential only)
+	log_info('Starting Save and Close check');
 
 	await loadPage(page, url);
 
@@ -177,6 +178,7 @@ export const secondLayerCheck = async function (
 
 	await checkTopAdDidNotLoad(page);
 
+	log_info('Starting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
 	await clearCookies(client);
 
