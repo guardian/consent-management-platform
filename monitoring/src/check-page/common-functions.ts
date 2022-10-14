@@ -129,8 +129,8 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 		}
 	};
 	// make sure everything has finished loading before testing for existence of CMP
-	// otherwise we may be prone to false negatives.
-	await page.waitForTimeout(3000); // for testing AUS timeout issue
+	// otherwise we may be prone to false positives.
+	await page.waitForTimeout(1000); // for testing AUS timeout issue
 	const display = await page.evaluate(
 		getSpMessageDisplayProperty,
 		ELEMENT_ID.CMP_CONTAINER,
