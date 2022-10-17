@@ -50,37 +50,71 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
 };
-
-const checkGpcRespected = async (page: Page, url: string) => {
+const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
+	await page.setExtraHTTPHeaders({
+		'Sec-GPC': gpcHeader ? '1' : '0',
+	});
+};
+const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
+	page: Page,
+	url: string,
+) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	log_info(`GPC signal: Start`);
 
-	await page.setExtraHTTPHeaders({
-		'Sec-GPC': '1',
-	});
+	await setGPCHeader(page, true);
+
+	// await page.setExtraHTTPHeaders({
+	// 	'Sec-GPC': '1',
+	// });
 
 	await reloadPage(page);
 
 	await checkCMPIsNotVisible(page);
 
-	const invokeUspApi = () => {
-		return new Promise<UspData>((resolve) => {
-			const uspApiCallback = (uspData: UspData) => {
-				resolve(uspData);
-			};
+	// const invokeUspApi = () => {
+	// 	return new Promise<UspData>((resolve) => {
+	// 		const uspApiCallback = (uspData: UspData) => {
+	// 			resolve(uspData);
+	// 		};
 
-			if (typeof window.__uspapi === 'function') {
-				window.__uspapi('getUSPData', 1, uspApiCallback);
-			}
-		});
-	};
+	// 		if (typeof window.__uspapi === 'function') {
+	// 			window.__uspapi('getUSPData', 1, uspApiCallback);
+	// 		}
+	// 	});
+	// };
 
-	const invokeUspApiResults = await page.evaluate(invokeUspApi);
-	if (!invokeUspApiResults.gpcEnabled) {
-		throw new Error('GPC Signal not respected!');
-	}
+	// const invokeUspApiResults = await page.evaluate(invokeUspApi);
+	// if (!invokeUspApiResults.gpcEnabled) {
+	// 	throw new Error('GPC Signal not respected!');
+	// }
 
 	log_info(`GPC signal respected : Completed`);
+};
+
+const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
+	page: Page,
+	url: string,
+) => {
+	log_info(`Start checking subsequent Page URL: ${url}`);
+	log_info(
+		`Check banner is visible after setting GPC Header to False: Start`,
+	);
+
+	await setGPCHeader(page, false);
+
+	// await page.setExtraHTTPHeaders({
+	// 	'Sec-GPC': '0',
+	// });
+
+	await reloadPage(page);
+
+	// await checkCMPIsNotVisible(page);
+	await checkCMPIsOnPage(page);
+
+	log_info(
+		`Check banner is visible after setting GPC Header to False : Completed`,
+	);
 };
 
 /**
@@ -112,8 +146,9 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkTopAdHasLoaded(page);
 
-	await checkGpcRespected(page, url);
+	await checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue(page, url);
 
+	await checkBannerIsVisibleAfterSettingGPCHeaderToFalse(page, url);
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
 	}
