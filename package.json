@@ -88,8 +88,8 @@
     "rollup-plugin-terser": "^7",
     "semantic-release": "~17.4.7",
     "serve": "^11",
-    "start-server-and-test": "^1",
-    "svelte": "~3.50.1",
+    "start-server-and-test": "~1.14.0",
+    "svelte": "~3.52.0",
     "tslib": "^2.3.1",
     "typescript": "^4",
     "wait-for-expect": "^3"
