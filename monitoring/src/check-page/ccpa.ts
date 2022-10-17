@@ -64,10 +64,6 @@ const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
 
 	await setGPCHeader(page, true);
 
-	// await page.setExtraHTTPHeaders({
-	// 	'Sec-GPC': '1',
-	// });
-
 	await reloadPage(page);
 
 	await checkCMPIsNotVisible(page);
@@ -97,24 +93,15 @@ const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
 	url: string,
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	log_info(
-		`Check banner is visible after setting GPC Header to False: Start`,
-	);
+	log_info(`GPC Header is set to false: Start`);
 
 	await setGPCHeader(page, false);
 
-	// await page.setExtraHTTPHeaders({
-	// 	'Sec-GPC': '0',
-	// });
-
 	await reloadPage(page);
 
-	// await checkCMPIsNotVisible(page);
 	await checkCMPIsOnPage(page);
 
-	log_info(
-		`Check banner is visible after setting GPC Header to False : Completed`,
-	);
+	log_info(`GPC Header is set to false: Completed`);
 };
 
 /**
