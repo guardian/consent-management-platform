@@ -128,9 +128,9 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 			return computedStyle.getPropertyValue('display');
 		}
 	};
-	// make sure everything has finished loading before testing for existence of CMP
-	// otherwise we may be prone to false positives.
-	await page.waitForTimeout(1000); // for testing AUS timeout issue
+	// When testing AUS locally over a VPN we need to make sure everything has finished
+	// loading before testing for existence of CMP otherwise we are prone to false positives.
+	// await page.waitForTimeout(3000); // for testing AUS over a VPN
 	const display = await page.evaluate(
 		getSpMessageDisplayProperty,
 		ELEMENT_ID.CMP_CONTAINER,
