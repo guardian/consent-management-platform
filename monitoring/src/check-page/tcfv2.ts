@@ -16,6 +16,7 @@ import {
 	log_info,
 	makeNewBrowser,
 	openPrivacySettingsPanel,
+	reloadPage,
 } from './common-functions';
 
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
@@ -52,19 +53,6 @@ const checkCMPDidNotLoad = async (page: Page) => {
 	}
 
 	log_info(`Checking CMP does not load: Complete`);
-};
-
-const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['domcontentloaded'], // removed 'networkidle0',
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
 };
 
 /**

@@ -73,9 +73,9 @@ export const clickSaveAndCloseSecondLayer = async (
 	config: Config,
 	page: Page,
 ) => {
-	log_info(`Clicking on save and exit button: Start`);
+	log_info(`Clicking on save and close button: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(5000);
+	await page.waitForTimeout(3000);
 
 	const frame = getFrame(page, config.iframeDomainSecondLayer);
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
@@ -86,7 +86,7 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	await page.waitForTimeout(5000);
+	await page.waitForTimeout(3000);
 
 	const frame = getFrame(page, config.iframeDomainSecondLayer);
 
@@ -95,7 +95,6 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Complete`);
 };
 
-// TODO: consider better approach for getting frame - expensive?
 export const getFrame = (page: Page, iframeUrl: string): Frame => {
 	const frame = page.frames().find((f) => f.url().startsWith(iframeUrl));
 
@@ -168,4 +167,17 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	}
 
 	log_info(`Loading page: Complete`);
+};
+
+export const reloadPage = async (page: Page) => {
+	log_info(`Reloading page: Start`);
+	const reloadResponse = await page.reload({
+		waitUntil: ['domcontentloaded'],
+		timeout: 3000,
+	});
+	if (!reloadResponse) {
+		log_error(`Reloading page: Failed`);
+		throw 'Failed to refresh page!';
+	}
+	log_info(`Reloading page: Complete`);
 };

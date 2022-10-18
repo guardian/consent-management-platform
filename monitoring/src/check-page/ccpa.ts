@@ -8,9 +8,9 @@ import {
 	clearCookies,
 	getFrame,
 	loadPage,
-	log_error,
 	log_info,
 	makeNewBrowser,
+	reloadPage,
 } from './common-functions';
 
 const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
@@ -21,19 +21,6 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	const frame = getFrame(page, config.iframeDomain);
 	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
-};
-
-const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['networkidle0', 'domcontentloaded'],
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
 };
 
 /**

@@ -8,9 +8,9 @@ import {
 	clearCookies,
 	getFrame,
 	loadPage,
-	log_error,
 	log_info,
 	makeNewBrowser,
+	reloadPage,
 } from './common-functions';
 
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
@@ -23,19 +23,6 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
 	log_info(`Clicked on "Continue" on CMP`);
-};
-
-const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['networkidle0', 'domcontentloaded'],
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
 };
 
 /**
