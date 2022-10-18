@@ -171,7 +171,7 @@ export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
 		waitUntil: ['domcontentloaded'],
-		timeout: 3000,
+		timeout: 30000,
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
