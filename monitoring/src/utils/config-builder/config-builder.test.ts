@@ -4,6 +4,7 @@ import {
 	ConfigBuilder,
 	ConfigFrontUrl,
 	IframeDomainUrl,
+	IframeDomainUrlSecondLayer,
 } from './config-builder';
 
 describe('ConfigBuilder', () => {
@@ -55,6 +56,29 @@ describe('ConfigBuilder', () => {
 		it('should return the string IframeDomainUrl.LOCAL if the Local stage is passed', () => {
 			const response = ConfigBuilder.getIframeDomain(STAGES.LOCAL);
 			expect(response).toBe(IframeDomainUrl.LOCAL);
+		});
+	});
+
+	describe('getIframeDomainSecondLayer', () => {
+		it('should return the string IframeDomainUrl.PROD if the Prod stage is passed', () => {
+			const response = ConfigBuilder.getIframeDomainSecondLayer(
+				STAGES.PROD,
+			);
+			expect(response).toBe(IframeDomainUrlSecondLayer.PROD);
+		});
+
+		it('should return the string IframeDomainUrl.CODE if the Code stage is passed', () => {
+			const response = ConfigBuilder.getIframeDomainSecondLayer(
+				STAGES.CODE,
+			);
+			expect(response).toBe(IframeDomainUrlSecondLayer.CODE);
+		});
+
+		it('should return the string IframeDomainUrl.LOCAL if the Local stage is passed', () => {
+			const response = ConfigBuilder.getIframeDomainSecondLayer(
+				STAGES.LOCAL,
+			);
+			expect(response).toBe(IframeDomainUrlSecondLayer.LOCAL);
 		});
 	});
 });

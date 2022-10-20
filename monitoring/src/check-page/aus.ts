@@ -1,14 +1,16 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config } from '../types';
+import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkTopAdHasLoaded,
 	clearCookies,
+	getFrame,
 	loadPage,
-	log_error,
 	log_info,
 	makeNewBrowser,
+	reloadPage,
 } from './common-functions';
 
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
@@ -16,29 +18,11 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Continue" on CMP`);
-	const frame = page
-		.frames()
-		.find((f) => f.url().startsWith(config.iframeDomain));
-	if (frame === undefined) {
-		return;
-	}
 
-	await frame.click(
-		'div.message-component.message-row > button.sp_choice_type_11',
-	);
-};
+	const frame = getFrame(page, config.iframeDomain);
+	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
-const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['networkidle0', 'domcontentloaded'],
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
+	log_info(`Clicked on "Continue" on CMP`);
 };
 
 /**
