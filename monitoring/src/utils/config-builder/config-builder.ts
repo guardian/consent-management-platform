@@ -16,6 +16,7 @@ export class ConfigBuilder {
 			frontUrl: this.getFrontUrl(stage),
 			articleUrl: this.getArticleUrl(stage),
 			iframeDomain: this.getIframeDomain(stage),
+			iframeDomainSecondLayer: this.getIframeDomainSecondLayer(stage),
 			checkFunction: this.getCheckFunction(jurisdiction),
 			debugMode: debugMode,
 		};
@@ -61,6 +62,18 @@ export class ConfigBuilder {
 				return IframeDomainUrl.CODE;
 		}
 	}
+	static getIframeDomainSecondLayer(stage: Stage): string {
+		switch (stage) {
+			case STAGES.PROD:
+				return IframeDomainUrlSecondLayer.PROD;
+			case STAGES.CODE:
+				return IframeDomainUrlSecondLayer.CODE;
+			case STAGES.LOCAL:
+				return IframeDomainUrlSecondLayer.LOCAL;
+			default:
+				return IframeDomainUrlSecondLayer.CODE;
+		}
+	}
 	static getCheckFunction(
 		jurisdiction: Jurisdiction,
 	): (config: Config) => Promise<void> {
@@ -92,5 +105,11 @@ export const ConfigFrontUrl = {
 export const IframeDomainUrl = {
 	PROD: 'https://sourcepoint.theguardian.com',
 	CODE: 'https://cdn.privacy-mgmt.com',
-	LOCAL: `https://cdn.privacy-mgmt.com`,
+	LOCAL: 'https://cdn.privacy-mgmt.com',
+};
+
+export const IframeDomainUrlSecondLayer = {
+	PROD: `${IframeDomainUrl.PROD}/privacy-manager`,
+	CODE: `${IframeDomainUrl.CODE}/privacy-manager`,
+	LOCAL: `${IframeDomainUrl.LOCAL}/privacy-manager`,
 };

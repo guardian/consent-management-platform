@@ -1,14 +1,16 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config, UspData } from '../types';
+import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkTopAdHasLoaded,
 	clearCookies,
+	getFrame,
 	loadPage,
-	log_error,
 	log_info,
 	makeNewBrowser,
+	reloadPage,
 } from './common-functions';
 
 const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
@@ -16,27 +18,9 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
-	const frame = page
-		.frames()
-		.find((f) => f.url().startsWith(config.iframeDomain));
-	if (frame === undefined) {
-		return;
-	}
-
-	await frame.click('div.message-component > button.sp_choice_type_13');
-};
-
-const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['networkidle0', 'domcontentloaded'],
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
+	const frame = getFrame(page, config.iframeDomain);
+	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
 
 /**
