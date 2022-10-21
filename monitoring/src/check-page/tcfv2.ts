@@ -19,6 +19,12 @@ import {
 	reloadPage,
 } from './common-functions';
 
+/**
+ * This function checks the ad is not on the page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Start`);
 
@@ -32,6 +38,13 @@ const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Complete`);
 };
 
+/**
+ * This function waits for the page to load
+ * clicks the accept all button
+ *
+ * @param {Config} config
+ * @param {Page} page
+ */
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
 	await page.waitForTimeout(5000);
@@ -42,6 +55,12 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	log_info(`Clicked on "Yes I'm Happy" on CMP`);
 };
 
+/**
+ * This function searches for the CMP container and throws an error
+ * if it's on the page
+ *
+ * @param {Page} page
+ */
 const checkCMPDidNotLoad = async (page: Page) => {
 	log_info(`Checking CMP does not load: Start`);
 
@@ -58,8 +77,11 @@ const checkCMPDidNotLoad = async (page: Page) => {
 /**
  * Checks that ads load correctly for the second page a user goes to
  * when visiting the site, with respect to and interaction with the CMP.
+ *
+ * @param {Browser} browser
+ * @param {Config} config
+ * @param {string} url
  */
-
 const checkSubsequentPage = async (
 	browser: Browser,
 	config: Config,
@@ -85,6 +107,14 @@ const checkSubsequentPage = async (
  * the site, with respect to and interaction with the CMP.
  */
 
+/**
+ * Creates a browser and page.
+ * Performs the tests for each layer.
+ *
+ * @param {Config} config
+ * @param {string} url
+ * @param {string} nextUrl
+ */
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
@@ -98,6 +128,18 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await browser.close();
 };
 
+/**
+ *
+ * This function performs a series of tests to check
+ * the first panel.
+ *
+ * @param {Config} config
+ * @param {string} url
+ * @param {Page} page
+ * @param {Browser} browser
+ * @param {string} nextUrl
+ * @return {*}  {Promise<void>}
+ */
 export const firstLayerCheck = async function (
 	config: Config,
 	url: string,
@@ -136,6 +178,17 @@ export const firstLayerCheck = async function (
 	log_info('Checking first layer: Complete');
 };
 
+/**
+ * This function performs a series of tests to check
+ * the privacy settings panel.
+ *
+ * @param {Config} config
+ * @param {string} url
+ * @param {Page} page
+ * @param {Browser} browser
+ * @param {string} nextUrl
+ * @return {*}  {Promise<void>}
+ */
 export const secondLayerCheck = async function (
 	config: Config,
 	url: string,
@@ -187,6 +240,15 @@ export const secondLayerCheck = async function (
 	log_info('Checking second layer: Complete');
 };
 
+/**
+ * This is the function tests the page for two different scenarios:
+ * 1. A user visits the home page (uses the frontend repo) and navigates
+ * to an article page (uses dotcom-rendering)
+ * 2. A user visit only the article page
+ *
+ * @param {Config} config
+ * @return {*}  {Promise<void>}
+ */
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
 	// Testing the user first visits home page then an article page
