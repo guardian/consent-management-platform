@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
   security:
-    uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@main
+    uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@revert-39-rk/pin-snyk-to-fix-in-main
     with:
       SKIP_SBT: true
       DEBUG: true
