@@ -52,24 +52,26 @@ const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
 
 	await checkCMPIsNotVisible(page);
 
-	// const invokeUspApi = () => {
-	// 	return new Promise<UspData>((resolve) => {
-	// 		const uspApiCallback = (uspData: UspData) => {
-	// 			resolve(uspData);
-	// 		};
-
-	// 		if (typeof window.__uspapi === 'function') {
-	// 			window.__uspapi('getUSPData', 1, uspApiCallback);
-	// 		}
-	// 	});
-	// };
-
-	// const invokeUspApiResults = await page.evaluate(invokeUspApi);
-	// if (!invokeUspApiResults.gpcEnabled) {
-	// 	throw new Error('GPC Signal not respected!');
-	// }
+	await checkTopAdHasLoaded(page);
 
 	log_info(`GPC signal respected : Completed`);
+};
+
+/**
+ * This function should be used within page.evaluate
+ *
+ * @return {*}
+ */
+const invokeUspApi = () => {
+	return new Promise<UspData>((resolve) => {
+		const uspApiCallback = (uspData: UspData) => {
+			resolve(uspData);
+		};
+
+		if (typeof window.__uspapi === 'function') {
+			window.__uspapi('getUSPData', 1, uspApiCallback);
+		}
+	});
 };
 
 const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
@@ -84,6 +86,8 @@ const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
 	await reloadPage(page);
 
 	await checkCMPIsOnPage(page);
+
+	await checkTopAdHasLoaded(page);
 
 	log_info(`GPC Header is set to false: Completed`);
 };
@@ -120,6 +124,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue(page, url);
 
 	await checkBannerIsVisibleAfterSettingGPCHeaderToFalse(page, url);
+
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
 	}
