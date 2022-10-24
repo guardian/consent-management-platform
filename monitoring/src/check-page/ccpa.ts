@@ -92,6 +92,11 @@ const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
 	log_info(`GPC Header is set to false: Completed`);
 };
 
+const checkGPCRespected = async (page: Page, url: string) => {
+	await checkBannerIsVisibleAfterSettingGPCHeaderToFalse(page, url);
+	await checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue(page, url);
+};
+
 /**
  * Checks that ads load correctly for the first time a user goes to
  * the site, with respect to and interaction with the CMP.
@@ -121,13 +126,11 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkTopAdHasLoaded(page);
 
-	await checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue(page, url);
-
-	await checkBannerIsVisibleAfterSettingGPCHeaderToFalse(page, url);
-
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
 	}
+
+	await checkGPCRespected(page, url);
 
 	await browser.close();
 };
