@@ -38,6 +38,19 @@ export enum STAGES {
 	LOCAL = 'local',
 }
 
+export const ELEMENT_ID = {
+	TCFV2_FIRST_LAYER_ACCEPT_ALL:
+		'div.message-component.message-row > button.sp_choice_type_11',
+	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
+		'div.message-component.message-row > button.sp_choice_type_12',
+	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content iframe',
+	CMP_CONTAINER: '[id*="sp_message_container"]',
+	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: 'button.sp_choice_type_SAVE_AND_EXIT',
+	TCFV2_SECOND_LAYER_HEADLINE: 'p.gu-privacy-headline',
+	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',
+	TCFV2_SECOND_LAYER_REJECT_ALL: 'button.sp_choice_type_REJECT_ALL',
+};
+
 export const AWS_REGIONS = {
 	EU_WEST_1: 'eu-west-1',
 	US_WEST_1: 'us-west-1',
@@ -58,6 +71,7 @@ export type Config = {
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;
+	iframeDomainSecondLayer: string;
 	debugMode: boolean;
 	checkFunction: (config: Config) => Promise<void>;
 };
