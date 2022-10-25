@@ -28,11 +28,12 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
  * when visiting the site, with respect to and interaction with the CMP.
  */
 const checkSubsequentPage = async (browser: Browser, url: string) => {
-	log_info(`Start checking subsequent Page URL: ${url}`);
+	log_info(`Checking subsequent Page URL: ${url} Start`);
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
 	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
+	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
 	await page.setExtraHTTPHeaders({
@@ -44,7 +45,9 @@ const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
 	url: string,
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	log_info(`GPC signal: Start`);
+	log_info(
+		`Check Banner Is Not Visible After Setting GPC Header To True: Start`,
+	);
 
 	await setGPCHeader(page, true);
 
@@ -54,7 +57,9 @@ const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
 
 	await checkTopAdHasLoaded(page);
 
-	log_info(`GPC signal respected : Completed`);
+	log_info(
+		`Check Banner Is Not Visible After Setting GPC Header To True : Completed`,
+	);
 };
 
 /**
