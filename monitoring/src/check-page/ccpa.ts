@@ -44,7 +44,6 @@ const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
 	page: Page,
 	url: string,
 ) => {
-	log_info(`Start checking subsequent Page URL: ${url}`);
 	log_info(
 		`Check Banner Is Not Visible After Setting GPC Header To True: Start`,
 	);
@@ -83,8 +82,9 @@ const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
 	page: Page,
 	url: string,
 ) => {
-	log_info(`Start checking subsequent Page URL: ${url}`);
-	log_info(`GPC Header is set to false: Start`);
+	log_info(
+		`Check Banner Is Visible After Setting GPC Header To False: Start`,
+	);
 
 	await setGPCHeader(page, false);
 
@@ -94,7 +94,9 @@ const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
 
 	await checkTopAdHasLoaded(page);
 
-	log_info(`GPC Header is set to false: Completed`);
+	log_info(
+		`Check Banner Is Visible After Setting GPC Header To False: Completed`,
+	);
 };
 
 const checkGPCRespected = async (page: Page, url: string) => {
