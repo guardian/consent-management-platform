@@ -23,7 +23,9 @@ jobs:
         run: yarn build
 
       - name: Deploy
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          yarn github-pages-deploy
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-          BUILD_DIR: 'test-page/dist/'
-        uses: guardian/ghpages@v0.4.0
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
