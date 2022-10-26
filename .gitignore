@@ -10,6 +10,7 @@ dist
 .gh-pages
 /coverage
 .idea/
+test-page/dist
 
 # Cypress Tests
 cypress/dist
