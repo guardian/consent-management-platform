@@ -3,26 +3,54 @@ import type { Browser, CDPSession, Frame, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
+/**
+ * This function console logs an info message.
+ *
+ * @param {string} message
+ */
 export const log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
 };
 
+/**
+ * This function console logs an error message.
+ *
+ * @param {string} message
+ */
 export const log_error = (message: string): void => {
 	console.log(`(cmp monitoring): error: ${message}`);
 };
 
+/**
+ * This function will clear the cookies for a chromium client
+ *
+ * @param {CDPSession} client
+ * @return {*}  {Promise<void>}
+ */
 export const clearCookies = async (client: CDPSession): Promise<void> => {
 	await client.send('Network.clearBrowserCookies');
 
 	log_info(`Cleared Cookies`);
 };
 
+/**
+ * This function clears the local storage of a page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
 	await page.evaluate(() => localStorage.clear());
 
 	log_info(`Cleared LocalStorage`);
 };
 
+/**
+ * This function creates an object for the chromium browser options
+ *
+ * @param {boolean} isDebugMode
+ * @return {*}  {Promise<CustomPuppeteerOptions>}
+ */
 const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
@@ -37,16 +65,34 @@ const initialiseOptions = async (
 	};
 };
 
+/**
+ * This function launches the chromium browser.
+ *
+ * @param {CustomPuppeteerOptions} ops
+ * @return {*}  {Promise<Browser>}
+ */
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
 	return await Chromium.puppeteer.launch(ops);
 };
 
+/**
+ * This function creates a new chromium browser
+ * with defined options
+ * @param {boolean} debugMode
+ * @return {*}  {Promise<Browser>}
+ */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
 };
 
+/**
+ * This function waits for the page to load
+ * clicks the manage cookies button to open the privacy settings panel
+ * @param {Config} config
+ * @param {Page} page
+ */
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
@@ -58,6 +104,14 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Complete`);
 };
 
+/**
+ * This function waits for the page to load
+ * Then finds the headline on the second layer
+ *
+ * @param {Config} config
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
@@ -69,6 +123,13 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
 
+/**
+ * This function gets the frame and
+ * clicks the save and exit button
+ *
+ * @param {Config} config
+ * @param {Page} page
+ */
 export const clickSaveAndCloseSecondLayer = async (
 	config: Config,
 	page: Page,
@@ -83,6 +144,13 @@ export const clickSaveAndCloseSecondLayer = async (
 	log_info(`Clicking on save and exit button: Complete`);
 };
 
+/**
+ * This function gets the frame on the second layer  and
+ * clicks the reject all button
+ *
+ * @param {Config} config
+ * @param {Page} page
+ */
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
@@ -95,6 +163,14 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Complete`);
 };
 
+/**
+ * This function find an iframe on a provided page
+ * using the iframeUrl
+ *
+ * @param {Page} page
+ * @param {string} iframeUrl
+ * @return {*}  {Frame}
+ */
 export const getFrame = (page: Page, iframeUrl: string): Frame => {
 	const frame = page.frames().find((f) => f.url().startsWith(iframeUrl));
 
@@ -105,18 +181,37 @@ export const getFrame = (page: Page, iframeUrl: string): Frame => {
 	return frame;
 };
 
+/**
+ * This function searches for the ad located at
+ * the top of the page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Start`);
 	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
+/**
+ * This function checks for the CMP banner on the page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
 	log_info(`Waiting for CMP: Complete`);
 };
 
+/**
+ * This function checks whether the CMP banner display is none
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
@@ -141,6 +236,13 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info('CMP hidden or removed from page');
 };
 
+/**
+ * This function loads a url onto a chromium page
+ *
+ * @param {Page} page
+ * @param {string} url
+ * @return {*}  {Promise<void>}
+ */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
 
@@ -167,6 +269,11 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Complete`);
 };
 
+/**
+ * This function reloads the chromium page
+ *
+ * @param {Page} page
+ */
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({

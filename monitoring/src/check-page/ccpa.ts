@@ -28,43 +28,80 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
  * when visiting the site, with respect to and interaction with the CMP.
  */
 const checkSubsequentPage = async (browser: Browser, url: string) => {
-	log_info(`Start checking subsequent Page URL: ${url}`);
+	log_info(`Checking subsequent Page URL: ${url} Start`);
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
 	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
+	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
-
-const checkGpcRespected = async (page: Page, url: string) => {
-	log_info(`Start checking subsequent Page URL: ${url}`);
-	log_info(`GPC signal: Start`);
-
+const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
 	await page.setExtraHTTPHeaders({
-		'Sec-GPC': '1',
+		'Sec-GPC': gpcHeader ? '1' : '0',
 	});
+};
+const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
+	page: Page,
+	url: string,
+) => {
+	log_info(
+		`Check Banner Is Not Visible After Setting GPC Header To True: Start`,
+	);
+
+	await setGPCHeader(page, true);
 
 	await reloadPage(page);
 
 	await checkCMPIsNotVisible(page);
 
-	const invokeUspApi = () => {
-		return new Promise<UspData>((resolve) => {
-			const uspApiCallback = (uspData: UspData) => {
-				resolve(uspData);
-			};
+	await checkTopAdHasLoaded(page);
 
-			if (typeof window.__uspapi === 'function') {
-				window.__uspapi('getUSPData', 1, uspApiCallback);
-			}
-		});
-	};
+	log_info(
+		`Check Banner Is Not Visible After Setting GPC Header To True : Completed`,
+	);
+};
 
-	const invokeUspApiResults = await page.evaluate(invokeUspApi);
-	if (!invokeUspApiResults.gpcEnabled) {
-		throw new Error('GPC Signal not respected!');
-	}
+/**
+ * This function should be used within page.evaluate
+ *
+ * @return {*}
+ */
+const invokeUspApi = () => {
+	return new Promise<UspData>((resolve) => {
+		const uspApiCallback = (uspData: UspData) => {
+			resolve(uspData);
+		};
 
-	log_info(`GPC signal respected : Completed`);
+		if (typeof window.__uspapi === 'function') {
+			window.__uspapi('getUSPData', 1, uspApiCallback);
+		}
+	});
+};
+
+const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
+	page: Page,
+	url: string,
+) => {
+	log_info(
+		`Check Banner Is Visible After Setting GPC Header To False: Start`,
+	);
+
+	await setGPCHeader(page, false);
+
+	await reloadPage(page);
+
+	await checkCMPIsOnPage(page);
+
+	await checkTopAdHasLoaded(page);
+
+	log_info(
+		`Check Banner Is Visible After Setting GPC Header To False: Completed`,
+	);
+};
+
+const checkGPCRespected = async (page: Page, url: string) => {
+	await checkBannerIsVisibleAfterSettingGPCHeaderToFalse(page, url);
+	await checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue(page, url);
 };
 
 /**
@@ -96,11 +133,11 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkTopAdHasLoaded(page);
 
-	await checkGpcRespected(page, url);
-
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
 	}
+
+	await checkGPCRespected(page, url);
 
 	await browser.close();
 };
