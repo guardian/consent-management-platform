@@ -3,7 +3,12 @@ import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
 import type { App } from 'aws-cdk-lib';
 import { Duration } from 'aws-cdk-lib';
-import { Alarm, ComparisonOperator } from 'aws-cdk-lib/aws-cloudwatch';
+import {
+	Alarm,
+	ComparisonOperator,
+	Metric,
+	Unit,
+} from 'aws-cdk-lib/aws-cloudwatch';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
@@ -31,6 +36,14 @@ export class Monitoring extends GuStack {
 				memorySize: 2048,
 			},
 		);
+
+		const CMPLoadingTimeMetric = new Metric({
+			namespace: 'cmp',
+			metricName: 'cmp-loading-time',
+			period: Duration.minutes(1),
+			region: region,
+			unit: Unit.SECONDS,
+		});
 
 		// Defining metric for lambda errors each minute
 		const errorMetric = monitoringLambdaFunction.metricErrors({
