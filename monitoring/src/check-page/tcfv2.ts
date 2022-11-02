@@ -1,9 +1,10 @@
-import type { Browser, Page } from 'puppeteer-core';
+import type { Browser, Metrics, Page } from 'puppeteer-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCMPLoadingTime,
 	checkPrivacySettingsPanelIsOpen,
 	checkTopAdHasLoaded,
 	clearCookies,
@@ -124,6 +125,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await firstLayerCheck(config, url, page, browser, nextUrl);
 
 	await secondLayerCheck(config, url, page, browser, nextUrl);
+
+	await checkCMPLoadingTime(page, config.frontUrl);
 
 	await browser.close();
 };
