@@ -1,5 +1,5 @@
 import Chromium from 'chrome-aws-lambda';
-import type { Browser, CDPSession, Frame, Page } from 'puppeteer-core';
+import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -267,6 +267,30 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	}
 
 	log_info(`Loading page: Complete`);
+};
+
+/**
+ * This function returns the Metrics object
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<Metrics>}
+ */
+export const getPageMetrics = async (page: Page): Promise<Metrics> => {
+	return await page.metrics();
+};
+
+/**
+ * This function compares the current timestamp to a previous start time and logs
+ *
+ * @param {Page} page
+ * @param {Metrics} startMetrics
+ */
+export const logCMPLoadTime = async (page: Page, startMetrics: Metrics) => {
+	const metrics = await page.metrics();
+
+	if (metrics.Timestamp && startMetrics.Timestamp) {
+		console.log('TIMESTAMP', metrics.Timestamp - startMetrics.Timestamp);
+	}
 };
 
 /**
