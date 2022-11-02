@@ -276,6 +276,8 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  * @return {*}  {Promise<Metrics>}
  */
 export const getPageMetrics = async (page: Page): Promise<Metrics> => {
+	log_info(`Getting Page Metrics: Complete`);
+
 	return await page.metrics();
 };
 
@@ -286,11 +288,43 @@ export const getPageMetrics = async (page: Page): Promise<Metrics> => {
  * @param {Metrics} startMetrics
  */
 export const logCMPLoadTime = async (page: Page, startMetrics: Metrics) => {
+	log_info(`Logging Timestamp: Start`);
+
 	const metrics = await page.metrics();
 
 	if (metrics.Timestamp && startMetrics.Timestamp) {
+		// console.log('START METRICS', startMetrics);
 		console.log('TIMESTAMP', metrics.Timestamp - startMetrics.Timestamp);
+		// console.log('METRICS', metrics);
 	}
+
+	log_info(`Logging Timestamp: Complete`);
+
+};
+
+/**
+ *
+ *
+ * @param {Page} page
+ * @param {string} url
+ */
+export const checkCMPLoadingTime = async (page: Page, url: string) => {
+	await clearCookies(await getClient(page));
+	await clearLocalStorage(page);
+	const metrics = await getPageMetrics(page);
+	await loadPage(page, url);
+	await checkCMPIsOnPage(page);
+	await logCMPLoadTime(page, metrics);
+};
+
+/**
+ *
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<CDPSession>}
+ */
+export const getClient = async (page: Page): Promise<CDPSession> => {
+	return await page.target().createCDPSession();
 };
 
 /**
