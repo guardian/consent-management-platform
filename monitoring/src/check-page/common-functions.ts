@@ -299,11 +299,8 @@ export const logCMPLoadTime = async (
 	log_info(`Logging Timestamp: Start`);
 
 	const metrics = await page.metrics();
-
 	if (metrics.Timestamp && startMetrics.Timestamp) {
 		const timeDiff = metrics.Timestamp - startMetrics.Timestamp;
-		const region = ConfigHelper.getRegion(config.jurisdiction);
-		log_info('TIMESTAMP: ' + timeDiff.toString());
 		await sendMetricData(config, timeDiff);
 	}
 
