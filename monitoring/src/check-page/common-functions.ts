@@ -335,7 +335,7 @@ export const sendMetricData = async (
 				Value: timeToLoadInSeconds,
 			},
 		],
-		Namespace: 'CMP',
+		Namespace: 'AWS/Lambda',
 	};
 
 	const command = new PutMetricDataCommand(params);
