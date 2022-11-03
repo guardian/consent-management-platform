@@ -38,8 +38,8 @@ export class Monitoring extends GuStack {
 		);
 
 		const CMPLoadingTimeMetric = new Metric({
-			namespace: 'cmp',
-			metricName: 'cmp-loading-time',
+			namespace: 'CMP',
+			metricName: 'CmpLoadingTime',
 			period: Duration.minutes(1),
 			region: region,
 			unit: Unit.SECONDS,
