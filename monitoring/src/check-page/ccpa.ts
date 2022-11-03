@@ -4,6 +4,7 @@ import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
 	getFrame,
@@ -138,6 +139,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	}
 
 	await checkGPCRespected(page, url);
+
+	await checkCMPLoadingTime(page, config);
 
 	await browser.close();
 };

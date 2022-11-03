@@ -4,6 +4,7 @@ import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
 	getFrame,
@@ -70,6 +71,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
 	}
+
+	await checkCMPLoadingTime(page, config);
 
 	await browser.close();
 };
