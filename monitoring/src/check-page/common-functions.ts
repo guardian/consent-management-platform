@@ -355,14 +355,14 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	await clearCookies(await getClient(page));
 	await clearLocalStorage(page);
 
-	const metrics = await getPageMetrics(page);
+	const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
 	await loadPage(page, config.frontUrl);
-	await checkCMPIsOnPage(page);
-	await logCMPLoadTime(page, config, metrics);
+	await checkCMPIsOnPage(page); // Wait for CMP to appear
+	await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
 };
 
 /**
- *
+ * This function retrieves the client
  *
  * @param {Page} page
  * @return {*}  {Promise<CDPSession>}
