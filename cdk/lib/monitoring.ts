@@ -39,7 +39,7 @@ export class Monitoring extends GuStack {
 		);
 
 		const CMPLoadingTimeMetric = new Metric({
-			namespace: `aws/lambda/${lambdaBaseName}-${stage}`,
+			namespace: `Application`,
 			metricName: 'CmpLoadingTime',
 			period: Duration.minutes(1),
 			region: region,
