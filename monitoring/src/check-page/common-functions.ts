@@ -1,8 +1,12 @@
+import {
+	CloudWatchClient,
+	PutMetricDataCommand,
+} from '@aws-sdk/client-cloudwatch';
 import Chromium from 'chrome-aws-lambda';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
-import type { Config, CustomPuppeteerOptions } from '../types';
+import type { AwsRegionOpt, Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
-
+import { ConfigHelper } from '../utils/config-helper/config-helper';
 /**
  * This function console logs an info message.
  *
@@ -287,19 +291,56 @@ export const getPageMetrics = async (page: Page): Promise<Metrics> => {
  * @param {Page} page
  * @param {Metrics} startMetrics
  */
-export const logCMPLoadTime = async (page: Page, startMetrics: Metrics) => {
+export const logCMPLoadTime = async (
+	page: Page,
+	config: Config,
+	startMetrics: Metrics,
+) => {
 	log_info(`Logging Timestamp: Start`);
 
 	const metrics = await page.metrics();
 
 	if (metrics.Timestamp && startMetrics.Timestamp) {
-		// console.log('START METRICS', startMetrics);
-		console.log('TIMESTAMP', metrics.Timestamp - startMetrics.Timestamp);
-		// console.log('METRICS', metrics);
+		const timeDiff = metrics.Timestamp - startMetrics.Timestamp;
+		const region = ConfigHelper.getRegion(config.jurisdiction);
+		log_info('TIMESTAMP: ' + timeDiff.toString());
+		await sendMetricData(region, timeDiff);
 	}
 
 	log_info(`Logging Timestamp: Complete`);
+};
 
+/**
+ *
+ *
+ * @param {string} region
+ * @param {number} timeToLoadInSeconds
+ */
+export const sendMetricData = async (
+	region: AwsRegionOpt,
+	timeToLoadInSeconds: number,
+) => {
+	const client = new CloudWatchClient({ region: region });
+	const params = {
+		MetricData: [
+			{
+				MetricName: 'CmpLoadingTime',
+				Dimensions: [
+					{
+						Name: 'CmpLoadingTime',
+						Value: 'TimeInSeconds',
+					},
+				],
+				Unit: 'Seconds',
+				Value: timeToLoadInSeconds,
+			},
+		],
+		Namespace: 'CMP',
+	};
+
+	const command = new PutMetricDataCommand(params);
+
+	await client.send(command);
 };
 
 /**
@@ -308,13 +349,14 @@ export const logCMPLoadTime = async (page: Page, startMetrics: Metrics) => {
  * @param {Page} page
  * @param {string} url
  */
-export const checkCMPLoadingTime = async (page: Page, url: string) => {
+export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	await clearCookies(await getClient(page));
 	await clearLocalStorage(page);
+
 	const metrics = await getPageMetrics(page);
-	await loadPage(page, url);
+	await loadPage(page, config.frontUrl);
 	await checkCMPIsOnPage(page);
-	await logCMPLoadTime(page, metrics);
+	await logCMPLoadTime(page, config, metrics);
 };
 
 /**
