@@ -1,5 +1,6 @@
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
+import { GuPutCloudwatchMetricsPolicy } from '@guardian/cdk/lib/constructs/iam';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
 import type { App } from 'aws-cdk-lib';
 import { Duration } from 'aws-cdk-lib';
@@ -38,7 +39,7 @@ export class Monitoring extends GuStack {
 		);
 
 		const CMPLoadingTimeMetric = new Metric({
-			namespace: 'AWS/Lambda',
+			namespace: `aws/lambda/${lambdaBaseName}-${stage}`,
 			metricName: 'CmpLoadingTime',
 			period: Duration.minutes(1),
 			region: region,
