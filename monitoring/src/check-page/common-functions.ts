@@ -304,7 +304,7 @@ export const logCMPLoadTime = async (
 		const timeDiff = metrics.Timestamp - startMetrics.Timestamp;
 		const region = ConfigHelper.getRegion(config.jurisdiction);
 		log_info('TIMESTAMP: ' + timeDiff.toString());
-		await sendMetricData(region, timeDiff);
+		await sendMetricData(config, timeDiff);
 	}
 
 	log_info(`Logging Timestamp: Complete`);
@@ -317,9 +317,10 @@ export const logCMPLoadTime = async (
  * @param {number} timeToLoadInSeconds
  */
 export const sendMetricData = async (
-	region: AwsRegionOpt,
+	config: Config,
 	timeToLoadInSeconds: number,
 ) => {
+	const region = ConfigHelper.getRegion(config.jurisdiction);
 	const client = new CloudWatchClient({ region: region });
 	const params = {
 		MetricData: [
@@ -327,15 +328,19 @@ export const sendMetricData = async (
 				MetricName: 'CmpLoadingTime',
 				Dimensions: [
 					{
-						Name: 'CmpLoadingTime',
-						Value: 'TimeInSeconds',
+						Name: 'ApplicationName',
+						Value: 'consent-management-platform',
+					},
+					{
+						Name: 'Stage',
+						Value: config.stage.toUpperCase(),
 					},
 				],
 				Unit: 'Seconds',
 				Value: timeToLoadInSeconds,
 			},
 		],
-		Namespace: 'aws/lambda',
+		Namespace: 'Application',
 	};
 
 	const command = new PutMetricDataCommand(params);
