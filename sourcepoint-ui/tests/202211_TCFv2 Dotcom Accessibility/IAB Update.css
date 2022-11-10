@@ -199,6 +199,13 @@
 	outline: 4px solid #0077B6;
 }
 
+.message-stacks:focus {
+	border: unset;
+	outline: unset;
+	outline-offset: -4px !important; /*added*/
+	outline: 4px solid #0077B6 !important; /*added*/
+}
+
 /*------------------------ HERE ------------------------------*/
 
 .message-stacks .stack {
