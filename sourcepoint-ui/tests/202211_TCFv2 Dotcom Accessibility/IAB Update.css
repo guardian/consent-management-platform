@@ -226,11 +226,11 @@
 	outline-offset: -4px;
 } /* !! adds button focus double outline issue */
 
-/*------------------------ HERE ------------------------------*/
-
 .message-stacks .stack:hover {
 	background-color: transparent;
 }
+
+/*------------------------ HERE ------------------------------*/
 
 /* ADDED and changed to focus-visible - what is this doing? */
 /* .message-stacks button:focus-visible {
@@ -256,9 +256,9 @@
 } */
 
 /* testing to see if padding causing layoutshift */
-.message-stacks .stack {
+/* .message-stacks .stack {
 	padding: 5px;
-}
+} */
 
 
 
