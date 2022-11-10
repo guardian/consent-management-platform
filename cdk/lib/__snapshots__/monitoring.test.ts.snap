@@ -130,6 +130,11 @@ Object {
         "PolicyDocument": Object {
           "Statement": Array [
             Object {
+              "Action": "cloudwatch:PutMetricData",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
               "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
