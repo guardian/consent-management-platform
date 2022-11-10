@@ -177,6 +177,17 @@
 	font-weight: bold;
 }
 
+.main-text .cta-description:focus {
+	border: none;
+	outline: unset;
+	outline: 4px solid #0077B6;
+}
+
+.main-text a:-webkit-any-link:focus-visible {
+	outline: 4px solid #0077B6;
+	outline-offset: 1px;
+}
+
 /*------------------------ HERE ------------------------------*/
 
 .message-stacks .accordion {
@@ -227,12 +238,6 @@
 .stack-container {
 	overflow: visible !important;
 
-}
-
-/* HERE */
-.main-text a:-webkit-any-link:focus-visible {
-	outline: 4px solid #0077B6;
-	outline-offset: 1px;
 }
 
 .message-stacks .panel {
