@@ -206,13 +206,20 @@
 	outline: 4px solid #0077B6 !important; /*added*/
 }
 
-/*------------------------ HERE ------------------------------*/
+.message-stacks .panel {
+	background: #052962;
+	border-bottom: 0px;
+}
 
 .message-stacks .stack {
 	width: 100%;
 	background-color: #052962;
-	margin-bottom: 5px;
-}
+	margin-bottom: 5px; /* added */
+	padding: 4px !important;
+} /* fixes the mobile overlapping bottom outline issue in mobile */
+
+
+/*------------------------ HERE ------------------------------*/
 
 .message-stacks .stack:hover {
 	background-color: transparent;
@@ -252,11 +259,6 @@
 .stack-container {
 	overflow: visible !important;
 
-}
-
-.message-stacks .panel {
-	background: #052962;
-	border-bottom: 0px;
 }
 
 .panel {
