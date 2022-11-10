@@ -140,6 +140,9 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkGPCRespected(page, url);
 
+	// Previous test sets the GPC header
+	await setGPCHeader(page, false);
+
 	await checkCMPLoadingTime(page, config);
 
 	await browser.close();
