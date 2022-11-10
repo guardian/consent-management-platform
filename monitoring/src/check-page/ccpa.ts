@@ -140,7 +140,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkGPCRespected(page, url);
 
-	// Previous test sets the GPC header
+	// Clear GPC header before loading CMP banner as previous tests hides the banner.
 	await setGPCHeader(page, false);
 
 	await checkCMPLoadingTime(page, config);
