@@ -188,11 +188,18 @@
 	outline-offset: 1px;
 }
 
-/*------------------------ HERE ------------------------------*/
-
 .message-stacks .accordion {
 	background: #052962;
 }
+
+.message-stacks button:focus {
+	border: unset;
+	box-shadow: none;
+	outline-offset: -4px;
+	outline: 4px solid #0077B6;
+}
+
+/*------------------------ HERE ------------------------------*/
 
 .message-stacks .stack {
 	width: 100%;
@@ -205,11 +212,11 @@
 }
 
 /* ADDED and changed to focus-visible - what is this doing? */
-.message-stacks button:focus-visible {
+/* .message-stacks button:focus-visible {
 	outline-offset: -4px;
 	outline: 4px solid #0077B6 !important;
 	padding: 10px;
-}
+} */
 
 /* added ZI*/
 /*.message-stacks button {*/
