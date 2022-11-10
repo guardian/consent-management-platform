@@ -346,7 +346,8 @@ export const sendMetricData = async (
 };
 
 /**
- *
+ * This function checks the timestamp, loads a page and checks how long it took for the CMP
+ * banner to appear.
  *
  * @param {Page} page
  * @param {string} url
