@@ -12,6 +12,7 @@ import {
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 
 export class Monitoring extends GuStack {
@@ -24,6 +25,12 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
+		const policyStatement = new PolicyStatement({
+			effect: Effect.ALLOW,
+			actions: ['cloudwatch:PutMetricData'],
+			resources: ['*'],
+		});
+
 		const monitoringLambdaFunction = new GuLambdaFunction(
 			this,
 			lambdaBaseName,
@@ -35,6 +42,7 @@ export class Monitoring extends GuStack {
 				runtime: Runtime.NODEJS_14_X,
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
+				initialPolicy: [policyStatement],
 			},
 		);
 
