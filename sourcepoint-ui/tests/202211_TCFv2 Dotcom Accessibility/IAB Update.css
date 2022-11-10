@@ -172,6 +172,13 @@
 	padding-bottom: 90px !important;
 }
 
+.main-text .cta-description em {
+	font-style: normal;
+	font-weight: bold;
+}
+
+/*------------------------ HERE ------------------------------*/
+
 .message-stacks .accordion {
 	background: #052962;
 }
@@ -180,12 +187,6 @@
 	width: 100%;
 	background-color: #052962;
 	margin-bottom: 5px;
-}
-
-/* added */
-.message-stacks > .stack:focus-visible {
-	/*outline-offset: -4px !important; */ /*added */
-	/*outline: 4px solid #0077B6 !important;*/ /*added*/
 }
 
 .message-stacks .stack:hover {
@@ -221,10 +222,6 @@
 }
 
 
-.main-text .cta-description em {
-	font-style: normal;
-	font-weight: bold;
-}
 
 /*ADDED - Dom W's suggestion*/
 .stack-container {
