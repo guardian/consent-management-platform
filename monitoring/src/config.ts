@@ -16,6 +16,7 @@ export class ConfigWrapper {
 	private _stage: string;
 	private _awsRegion: AwsRegionOpt;
 	private _config: Config | undefined;
+	private _isRunningAdhoc: boolean;
 
 	get stage(): string {
 		return this._stage;
@@ -27,6 +28,10 @@ export class ConfigWrapper {
 
 	get awsRegion(): AwsRegionOpt {
 		return this._awsRegion;
+	}
+
+	get isRunningAdhoc(): boolean {
+		return this._isRunningAdhoc;
 	}
 
 	get config(): Config | undefined {
@@ -45,6 +50,7 @@ export class ConfigWrapper {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
 		this._stage = _envStage.toLowerCase();
+		this._isRunningAdhoc = true;
 	}
 
 	async run(): Promise<void> {
@@ -57,12 +63,14 @@ export class ConfigWrapper {
 		// If no jurisdiction assign using aws region (Scheduled)
 		if (!this._jurisdiction && this._awsRegion) {
 			this._jurisdiction = ConfigHelper.getJurisdiction(this._awsRegion);
+			this._isRunningAdhoc = false;
 			log_info(`Generating config for scheduled trigger`);
 		}
 
 		// If no aws Region assign using jurisdiction (Adhoc)
 		if (!this._awsRegion && this._jurisdiction) {
 			this._awsRegion = ConfigHelper.getRegion(this._jurisdiction);
+			this._isRunningAdhoc = true;
 			log_info(`Generating config for adhoc trigger`);
 		}
 
@@ -80,6 +88,8 @@ export class ConfigWrapper {
 		this._config = ConfigBuilder.construct(
 			<Stage>this._stage.toLowerCase(),
 			<Jurisdiction>this._jurisdiction,
+			this._awsRegion,
+			this.isRunningAdhoc,
 		);
 	}
 }
