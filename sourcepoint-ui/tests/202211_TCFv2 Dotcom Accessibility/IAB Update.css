@@ -232,40 +232,9 @@
 
 /*------------------------ HERE ------------------------------*/
 
-/* ADDED and changed to focus-visible - what is this doing? */
-/* .message-stacks button:focus-visible {
-	outline-offset: -4px;
-	outline: 4px solid #0077B6 !important;
-	padding: 10px;
-} */
-
-/* added ZI*/
-/*.message-stacks button {*/
-/*    width: calc(100% - 11px);*/
-/*    margin: 5px;*/
-/*    top: 5px;*/
-/*}*/
-
-/* added ZI*/
-/* .message-stacks .stack:focus {
-	outline: unset;
-	border: unset;
-	outline: 4px solid #0077B6 !important;
-	outline-offset: -4px;
-	padding-bottom: 5px;
-} */
-
-/* testing to see if padding causing layoutshift */
-/* .message-stacks .stack {
-	padding: 5px;
-} */
-
-
-
 /*ADDED - Dom W's suggestion*/
 .stack-container {
 	overflow: visible !important;
-
 }
 
 .panel {
