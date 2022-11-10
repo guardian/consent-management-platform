@@ -317,7 +317,7 @@ export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
 ) => {
-	const region = ConfigHelper.getRegion(config.jurisdiction);
+	const region = config.region;
 	const client = new CloudWatchClient({ region: region });
 	const params = {
 		MetricData: [
@@ -352,13 +352,14 @@ export const sendMetricData = async (
  * @param {string} url
  */
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
-	await clearCookies(await getClient(page));
-	await clearLocalStorage(page);
-
-	const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
-	await loadPage(page, config.frontUrl);
-	await checkCMPIsOnPage(page); // Wait for CMP to appear
-	await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
+	if (!config.isRunningAdhoc) {
+		await clearCookies(await getClient(page));
+		await clearLocalStorage(page);
+		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
+		await loadPage(page, config.frontUrl);
+		await checkCMPIsOnPage(page); // Wait for CMP to appear
+		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
+	}
 };
 
 /**
