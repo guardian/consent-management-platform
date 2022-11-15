@@ -199,7 +199,7 @@ or when others overwrite your work accidentally.
 	background: #052962;
 }
 
- .message-stacks button:focus {
+.message-stacks button:focus {
 	border: unset;
 	box-shadow: none;
 }
