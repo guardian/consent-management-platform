@@ -61,7 +61,7 @@
 	background: #ffe500;
 	color: #121212;
 }
-/* 
+/*
 button:focus {
 	box-shadow: 0 0 0 4px #0077B6 !important;
 } */
@@ -222,23 +222,67 @@ button:focus {
 	padding-bottom: 90px !important;
 }
 
+/* added - needed? */
+/* .main-text .cta-description:focus {
+	border: none;
+	outline: unset;
+	outline: 4px solid #0077B6;
+} */
+
 .message-stacks .accordion {
 	background: #052962;
 }
+/* added */
+.message-stacks button:focus {
+	border: unset;
+	box-shadow: none;
+}
 
+/* added */
+.message-stacks:focus {
+	border: unset;
+	outline: unset;
+	outline-offset: -4px !important;
+	outline: 4px solid #0077B6 !important;
+}
+
+/* moved up */
+.message-stacks .panel {
+	background: #052962;
+	border-bottom: 0px;
+}
+
+/* added */
 .message-stacks .stack {
 	width: 100%;
 	background-color: #052962;
+	margin-bottom: 5px; /* added */
+	padding: 4px !important;
+}
+
+/* hidden in lieu of above */
+/* .message-stacks .stack {
+	width: 100%;
+	background-color: #052962;
+} */
+
+/* added */
+.message-stacks .stack:focus,
+.message-stacks .stack:focus-within {
+	border: unset;
+	outline: unset;
+	outline: 4px solid #0077B6 !important;
+	outline-offset: -4px;
 }
 
 .message-stacks .stack:hover {
 	background-color: transparent;
 }
-
-.message-stacks button:focus {
+/* hidden in lieu of above */
+/* .message-stacks button:focus {
 	outline-offset: -4px;
 	outline: 4px solid #0077B6;
-}
+} */
 
 .main-text .cta-description em {
 	font-style: normal;
@@ -248,11 +292,6 @@ button:focus {
 .main-text a:-webkit-any-link:focus-visible {
 	outline: 4px solid #0077B6;
 	outline-offset: 1px;
-}
-
-.message-stacks .panel {
-	background: #052962;
-	border-bottom: 0px;
 }
 
 .panel {
