@@ -246,6 +246,7 @@
 	width: 100%;
 	background-color: #052962;
 	margin-bottom: 5px; /* added */
+	margin-top: 5px; /* fixes bottom border for block above stacks */
 	padding: 4px !important;
 }
 /* hidden in lieu of above */
