@@ -62,9 +62,9 @@
 	color: #121212;
 }
 
-button:focus {
+/* button:focus {
 	box-shadow: 0 0 0 4px #0077B6 !important;
-}
+} */
 
 .accordion .chevron {
 	float: left;
@@ -81,7 +81,7 @@ button:focus {
 	font-size: 15px !important;
 	line-height: 20px;
 }
-
+/* ? */
 .body-copy > p {
 	margin-bottom: 8px !important;
 }
@@ -271,6 +271,11 @@ button:focus {
 
 .stack-container {
 	overflow: visible !important;
+}
+
+.tab-index-focus:focus-visible {
+	outline: 4px solid #0077B6;
+	outline-offset: 1px;
 }
 
 @media (max-width: 375px) {
