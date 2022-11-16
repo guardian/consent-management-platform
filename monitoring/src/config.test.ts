@@ -106,6 +106,8 @@ describe('ConfigWrapper', () => {
 				iframeDomain: '',
 				iframeDomainSecondLayer: '',
 				debugMode: true,
+				isRunningAdhoc: true,
+				region: AWS_REGIONS.AP_SOUTHEAST_2,
 				checkFunction: mockCheckFunction,
 			};
 

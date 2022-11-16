@@ -1,8 +1,12 @@
+import {
+	CloudWatchClient,
+	PutMetricDataCommand,
+} from '@aws-sdk/client-cloudwatch';
 import Chromium from 'chrome-aws-lambda';
-import type { Browser, CDPSession, Frame, Page } from 'puppeteer-core';
-import type { Config, CustomPuppeteerOptions } from '../types';
+import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
+import type { AwsRegionOpt, Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
-
+import { ConfigHelper } from '../utils/config-helper/config-helper';
 /**
  * This function console logs an info message.
  *
@@ -267,6 +271,106 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	}
 
 	log_info(`Loading page: Complete`);
+};
+
+/**
+ * This function returns the Metrics object
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<Metrics>}
+ */
+export const getPageMetrics = async (page: Page): Promise<Metrics> => {
+	log_info(`Getting Page Metrics: Complete`);
+
+	return await page.metrics();
+};
+
+/**
+ * This function compares the current timestamp to a previous start time and logs
+ *
+ * @param {Page} page
+ * @param {Metrics} startMetrics
+ */
+export const logCMPLoadTime = async (
+	page: Page,
+	config: Config,
+	startMetrics: Metrics,
+) => {
+	log_info(`Logging Timestamp: Start`);
+
+	const metrics = await page.metrics();
+	if (metrics.Timestamp && startMetrics.Timestamp) {
+		const timeDiff = metrics.Timestamp - startMetrics.Timestamp;
+		await sendMetricData(config, timeDiff);
+	}
+
+	log_info(`Logging Timestamp: Complete`);
+};
+
+/**
+ *
+ *
+ * @param {string} region
+ * @param {number} timeToLoadInSeconds
+ */
+export const sendMetricData = async (
+	config: Config,
+	timeToLoadInSeconds: number,
+) => {
+	const region = config.region;
+	const client = new CloudWatchClient({ region: region });
+	const params = {
+		MetricData: [
+			{
+				MetricName: 'CmpLoadingTime',
+				Dimensions: [
+					{
+						Name: 'ApplicationName',
+						Value: 'consent-management-platform',
+					},
+					{
+						Name: 'Stage',
+						Value: config.stage.toUpperCase(),
+					},
+				],
+				Unit: 'Seconds',
+				Value: timeToLoadInSeconds,
+			},
+		],
+		Namespace: 'Application',
+	};
+
+	const command = new PutMetricDataCommand(params);
+
+	await client.send(command);
+};
+
+/**
+ * This function checks the timestamp, loads a page and checks how long it took for the CMP
+ * banner to appear.
+ *
+ * @param {Page} page
+ * @param {string} url
+ */
+export const checkCMPLoadingTime = async (page: Page, config: Config) => {
+	if (!config.isRunningAdhoc) {
+		await clearCookies(await getClient(page));
+		await clearLocalStorage(page);
+		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
+		await loadPage(page, config.frontUrl);
+		await checkCMPIsOnPage(page); // Wait for CMP to appear
+		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
+	}
+};
+
+/**
+ * This function retrieves the client
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<CDPSession>}
+ */
+export const getClient = async (page: Page): Promise<CDPSession> => {
+	return await page.target().createCDPSession();
 };
 
 /**

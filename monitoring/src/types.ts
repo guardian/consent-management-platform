@@ -68,11 +68,13 @@ export type Jurisdiction =
 export type Config = {
 	stage: Stage;
 	jurisdiction: Jurisdiction;
+	region: AwsRegionOpt;
 	frontUrl: string;
 	articleUrl: string;
 	iframeDomain: string;
 	iframeDomainSecondLayer: string;
 	debugMode: boolean;
+	isRunningAdhoc: boolean;
 	checkFunction: (config: Config) => Promise<void>;
 };
 

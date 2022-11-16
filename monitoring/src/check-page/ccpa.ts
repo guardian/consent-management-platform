@@ -4,6 +4,7 @@ import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
 	getFrame,
@@ -138,6 +139,11 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	}
 
 	await checkGPCRespected(page, url);
+
+	// Clear GPC header before loading CMP banner as previous tests hides the banner.
+	await setGPCHeader(page, false);
+
+	await checkCMPLoadingTime(page, config);
 
 	await browser.close();
 };

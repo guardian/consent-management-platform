@@ -2,13 +2,15 @@ import { mainCheck as mainCheckAus } from '../../check-page/aus';
 import { mainCheck as mainCheckCCPA } from '../../check-page/ccpa';
 import { mainCheck as mainCheckTcfV2 } from '../../check-page/tcfv2';
 import { debugMode, localBaseURL } from '../../env';
-import type { Config, Jurisdiction, Stage } from '../../types';
+import type { AwsRegionOpt, Config, Jurisdiction, Stage } from '../../types';
 import { JURISDICTIONS, STAGES } from '../../types';
 
 export class ConfigBuilder {
 	static construct(
 		stage: Stage,
 		jurisdiction: Jurisdiction,
+		region: AwsRegionOpt,
+		isRunningAdhoc: boolean,
 	): Config | undefined {
 		const config: Config = {
 			stage: stage,
@@ -18,6 +20,8 @@ export class ConfigBuilder {
 			iframeDomain: this.getIframeDomain(stage),
 			iframeDomainSecondLayer: this.getIframeDomainSecondLayer(stage),
 			checkFunction: this.getCheckFunction(jurisdiction),
+			region: region,
+			isRunningAdhoc: isRunningAdhoc,
 			debugMode: debugMode,
 		};
 
