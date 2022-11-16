@@ -189,6 +189,11 @@
 	font-weight: 700 !important;
 }
 
+/* This adds the padding I need - is it ok though? */
+.gu-privacy-matters {
+	padding: 2px 5px 5px 0px !important
+}
+
 .gu-privacy-matters > em {
 	font-family: "Guardian Headline", "Times New Roman", Times, serif !important;
 	font-weight: 300 !important;
