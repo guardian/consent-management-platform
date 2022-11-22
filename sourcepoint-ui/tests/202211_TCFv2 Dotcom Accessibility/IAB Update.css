@@ -65,6 +65,11 @@ or when others overwrite your work accidentally.
 	color: #121212;
 }
 
+/* needed for safari buttons? No knock on effect with Chrome at least*/
+button:focus {
+	box-shadow: 0 0 0 4px #0077B6 !important;
+}
+
 .accordion .chevron {
 	float: left;
 	position: absolute;
@@ -258,6 +263,15 @@ or when others overwrite your work accidentally.
 .tab-index-focus:focus-visible {
 	outline: 4px solid #0077B6;
 	outline-offset: 1px;
+}
+
+/* TEST - Added as potential fix for older Firefox lack of focus-visible */
+@supports not selector(:focus-visible) {
+	.tab-index-focus:focus {
+	  /* Fallback for browsers without :focus-visible support */
+	  outline: 4px solid #0077B6;
+	  outline-offset: 1px;
+	}
 }
 
 @media (max-width: 375px) {
