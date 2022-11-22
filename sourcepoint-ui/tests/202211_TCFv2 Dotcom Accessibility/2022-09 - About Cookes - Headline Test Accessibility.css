@@ -62,9 +62,10 @@
 	color: #121212;
 }
 
-/* button:focus {
+/* needed for safari buttons? No knock on effect with Chrome at least*/
+button:focus {
 	box-shadow: 0 0 0 4px #0077B6 !important;
-} */
+}
 
 .accordion .chevron {
 	float: left;
@@ -305,6 +306,11 @@
 .stack-container {
 	overflow: visible !important;
 }
+
+.tab-index-focus{
+	padding-bottom: 5px !important; /*added*/
+	margin-bottom: 5px !important; /*added*/
+} /* removes overlap of div above 'Are you happy to accept cookies? */
 
 .tab-index-focus:focus-visible {
 	outline: 4px solid #0077B6;
