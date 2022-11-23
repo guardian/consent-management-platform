@@ -1395,6 +1395,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@guardian/consent-management-platform@^10.11.1":
+  version "10.11.1"
+  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-10.11.1.tgz#fa01a9262963ac07df9476e591d14601efbc4588"
+  integrity sha512-7dKcKZ3L/Y/hG9MB6i1invZmTVL6EepIv1ioGCW7uR9MVhWcuIGR1MJqKWMIzQgtZ2p0CXtSzKQOvbRtfX5fxQ==
+  dependencies:
+    "@guardian/libs" "^7.1.4"
+
 "@guardian/eslint-config-typescript@^0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-0.7.0.tgz#9b675639377bd71bc42f33741ea3bbbf20525c4a"

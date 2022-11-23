@@ -19,7 +19,7 @@
     "compile": "rollup --config",
     "dev": "yarn clean && yarn compile --watch",
     "fix": "yarn lint --fix",
-		"github-pages-deploy": "gh-pages -d test-page/dist -u \"github-actions-bot <support+actions@github.com>\"",
+    "github-pages-deploy": "gh-pages -d test-page/dist -u \"github-actions-bot <support+actions@github.com>\"",
     "lint": "eslint . --ext=js,ts,tsx",
     "prepublishOnly": "yarn build",
     "readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
@@ -97,6 +97,7 @@
     "wait-for-expect": "^3"
   },
   "dependencies": {
+    "@guardian/consent-management-platform": "^10.11.1",
     "@guardian/libs": "^7.1.4"
   }
 }
