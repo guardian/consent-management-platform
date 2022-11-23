@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import './App.css'
+import localCustomCSS from "./styles/local_custom_styling.css"
 
 const stylePattern = /(?<=<style id="custom-styles">)[\s\S]*?(?=<\/style>)/gm;
 const polyPattern = /src="\/polyfills/g;
@@ -27,7 +28,7 @@ export default function SingleMessage() {
 	let params = useParams();
 
 	const [messageID, setMessageID] = useState(params.message_id)
-	const [customCSS, setCustomCSS] = useState('')
+	const [customCSS, setCustomCSS] = useState(localCustomCSS)
 	const [apiCallURL, setApiCallURL] = useState(`/api/message/${messageID}`)
 	const [iframeSRCDOC, setIframeSRCDOC] = useState('<div>working</div>')
 
@@ -83,6 +84,9 @@ export default function SingleMessage() {
 	}, [messageID])
 
 	useEffect(() => {
+		setIframeSRCDOC(prev => {
+			return prev.replace(stylePattern, customCSS)
+		})
 
 	}, [customCSS])
 
