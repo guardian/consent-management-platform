@@ -192,9 +192,9 @@ button:focus {
 	font-weight: 700 !important;
 }
 
-/* This adds the padding I need - is it ok though? */
-.gu-privacy-matters {
-	padding: 2px 5px 5px 0px !important
+/* This adds the padding I need around the heading - is it ok though? */
+.gu-privacy-matters > h1 {
+	margin: 10px 15px 10px 0px !important
 }
 
 .gu-privacy-matters > em {
