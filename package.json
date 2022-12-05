@@ -19,7 +19,7 @@
     "compile": "rollup --config",
     "dev": "yarn clean && yarn compile --watch",
     "fix": "yarn lint --fix",
-		"github-pages-deploy": "gh-pages -d test-page/dist -u \"github-actions-bot <support+actions@github.com>\"",
+    "github-pages-deploy": "gh-pages -d test-page/dist -u \"github-actions-bot <support+actions@github.com>\"",
     "lint": "eslint . --ext=js,ts,tsx",
     "prepublishOnly": "yarn build",
     "readme-toc:commit": "git add README.md && git commit -m 'Update README toc' || true",
@@ -47,6 +47,7 @@
     "@babel/runtime": "^7",
     "@guardian/eslint-config": "^0.7.0",
     "@guardian/eslint-config-typescript": "^0.7.0",
+    "@guardian/libs": "10.0.0",
     "@guardian/node-riffraff-artifact": "^0.3.2",
     "@guardian/prettier": "^0.7.0",
     "@rollup/plugin-babel": "^5.3.1",
@@ -92,11 +93,11 @@
     "serve": "^11",
     "start-server-and-test": "~1.14.0",
     "svelte": "~3.52.0",
-    "tslib": "^2.3.1",
+    "tslib": "^2.4.0",
     "typescript": "^4",
     "wait-for-expect": "^3"
   },
-  "dependencies": {
-    "@guardian/libs": "^7.1.4"
+  "peerDependencies": {
+    "@guardian/libs": "^10.0.0"
   }
 }
