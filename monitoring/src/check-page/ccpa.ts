@@ -1,5 +1,5 @@
 import type { Browser, Page } from 'puppeteer-core';
-import type { Config, UspData } from '../types';
+import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
@@ -41,13 +41,8 @@ const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
 		'Sec-GPC': gpcHeader ? '1' : '0',
 	});
 };
-const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
-	page: Page,
-	url: string,
-) => {
-	log_info(
-		`Check Banner Is Not Visible After Setting GPC Header To True: Start`,
-	);
+const checkBannerIsNotVisibleAfterSettingGPCHeader = async (page: Page) => {
+	log_info(`Check Banner Is Not Visible After Setting GPC Header: Start`);
 
 	await setGPCHeader(page, true);
 
@@ -58,51 +53,29 @@ const checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue = async (
 	await checkTopAdHasLoaded(page);
 
 	log_info(
-		`Check Banner Is Not Visible After Setting GPC Header To True : Completed`,
+		`Check Banner Is Not Visible After Setting GPC Header : Completed`,
 	);
 };
 
 /**
  * This function should be used within page.evaluate
- *
+ * Not currently using this as not working consistently
  * @return {*}
  */
-const invokeUspApi = () => {
-	return new Promise<UspData>((resolve) => {
-		const uspApiCallback = (uspData: UspData) => {
-			resolve(uspData);
-		};
+// const invokeUspApi = () => {
+// 	return new Promise<UspData>((resolve) => {
+// 		const uspApiCallback = (uspData: UspData) => {
+// 			resolve(uspData);
+// 		};
 
-		if (typeof window.__uspapi === 'function') {
-			window.__uspapi('getUSPData', 1, uspApiCallback);
-		}
-	});
-};
+// 		if (typeof window.__uspapi === 'function') {
+// 			window.__uspapi('getUSPData', 1, uspApiCallback);
+// 		}
+// 	});
+// };
 
-const checkBannerIsVisibleAfterSettingGPCHeaderToFalse = async (
-	page: Page,
-	url: string,
-) => {
-	log_info(
-		`Check Banner Is Visible After Setting GPC Header To False: Start`,
-	);
-
-	await setGPCHeader(page, false);
-
-	await reloadPage(page);
-
-	await checkCMPIsOnPage(page);
-
-	await checkTopAdHasLoaded(page);
-
-	log_info(
-		`Check Banner Is Visible After Setting GPC Header To False: Completed`,
-	);
-};
-
-const checkGPCRespected = async (page: Page, url: string) => {
-	await checkBannerIsVisibleAfterSettingGPCHeaderToFalse(page, url);
-	await checkBannerIsNotVisibleAfterSettingGPCHeaderToTrue(page, url);
+const checkGPCRespected = async (page: Page) => {
+	await checkBannerIsNotVisibleAfterSettingGPCHeader(page);
 };
 
 /**
@@ -138,7 +111,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await checkSubsequentPage(browser, nextUrl);
 	}
 
-	await checkGPCRespected(page, url);
+	await checkGPCRespected(page);
 
 	// Clear GPC header before loading CMP banner as previous tests hides the banner.
 	await setGPCHeader(page, false);
