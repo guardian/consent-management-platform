@@ -5,10 +5,17 @@
 • Move blur from gs-container to cta-container √
 • Gu-content vs gs-container padding bottom ?
 •
-•
-
 
 --------------- End of TODO ----------------*/
+
+/*--------------- Start NOTE ----------------
+• Make your changes in relevant file in
+https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
+and then paste the whole of the file contents into sourcepoint's css window for the file
+you're working on to avoid losing work on refresh
+or when others overwrite your work accidentally.
+--------------- End of NOTE ----------------*/
+
 
 * {
 	box-sizing: border-box;
@@ -20,7 +27,7 @@
 
 .gu-overlay {
 	font-size: 16px;
-	line-height: 20px;
+	/*line-height: 20px;*/
 }
 
 @font-face {
@@ -56,6 +63,11 @@
 ::selection {
 	background: #ffe500;
 	color: #121212;
+}
+
+/* needed for safari buttons? No knock on effect with Chrome at least*/
+button:focus {
+	box-shadow: 0 0 0 4px #0077B6 !important;
 }
 
 .accordion .chevron {
@@ -151,7 +163,7 @@
 	flex-direction: row;
 }
 
-.gu-privacy-headline > p {
+.gu-privacy-headline > h1 {
 	font-family: "Guardian Titlepiece", serif !important;
 	font-size: 24px !important;
 }
@@ -172,31 +184,66 @@
 	padding-bottom: 90px !important;
 }
 
+.main-text .cta-description em {
+	font-style: normal;
+	font-weight: bold;
+}
+
+.main-text .cta-description:focus {
+	border: none;
+	outline: unset;
+	outline: 4px solid #0077B6;
+}
+
+.main-text a:-webkit-any-link:focus-visible {
+	outline: 4px solid #0077B6;
+	outline-offset: 1px;
+}
+
 .message-stacks .accordion {
 	background: #052962;
+}
+
+.message-stacks button:focus {
+	border: unset;
+	box-shadow: none;
+}
+
+.message-stacks:focus {
+	border: unset;
+	outline: unset;
+	outline-offset: -4px !important;
+	outline: 4px solid #0077B6 !important;
+}
+
+.message-stacks .panel {
+	background: #052962;
+	border-bottom: 0px;
 }
 
 .message-stacks .stack {
 	width: 100%;
 	background-color: #052962;
+	margin-bottom: 5px; /* added */
+	padding: 4px !important;
+}
+
+.message-stacks .stack:focus,
+.message-stacks .stack:focus-within {
+	border: unset;
+	outline: unset;
+	outline: 4px solid #0077B6 !important;
+	outline-offset: -4px;
 }
 
 .message-stacks .stack:hover {
 	background-color: transparent;
 }
 
-.message-stacks button:focus {
-	box-shadow: none !important;
-}
+/*------------------------ HERE ------------------------------*/
 
-.main-text .cta-description em {
-	font-style: normal;
-	font-weight: bold;
-}
-
-.message-stacks .panel {
-	background: #052962;
-	border-bottom: 0px;
+.stack-container {
+	overflow: visible !important;
 }
 
 .panel {
@@ -211,6 +258,20 @@
 	line-height: 20px !important;
 	padding-left: 24px !important;
 	padding-right: 8px !important;
+}
+
+.tab-index-focus:focus-visible {
+	outline: 4px solid #0077B6;
+	outline-offset: 1px;
+}
+
+/* TEST - Added as potential fix for older Firefox lack of focus-visible */
+@supports not selector(:focus-visible) {
+	.tab-index-focus:focus {
+	  /* Fallback for browsers without :focus-visible support */
+	  outline: 4px solid #0077B6;
+	  outline-offset: 1px;
+	}
 }
 
 @media (max-width: 375px) {
@@ -282,15 +343,14 @@
 	}
 
 	.gu-privacy-headline {
-		margin-bottom: 17px !important;
+		margin-bottom: 12px !important;
 	}
 
-	.gu-privacy-headline > p {
+	.gu-privacy-headline > h1 {
 		font-size: 42px !important;
 	}
 
-	.body-copy,
-	.gu-tcfv2-privacy-notice {
+	.body-copy {
 		font-size: 15px !important;
 		line-height: 20px !important;
 		width: 35rem;
@@ -316,7 +376,7 @@
 	.main-text {
 		flex-direction: row;
 		flex-wrap: nowrap;
-		padding-bottom: 0 !important;
+		padding-bottom: 5px !important;
 	}
 }
 

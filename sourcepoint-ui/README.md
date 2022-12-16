@@ -10,6 +10,6 @@ A better way to ensure your change are not lost is to take a copy of the full CS
 
 Ideally, in the longer term we hope to create a better way of testing locally before pushing the tested changes to Sourcepoint so that this repo becomes the source of truth rather than a (hopeful) reflection of it.
 
-For testing your message, make a note of the message id in SourcePoint's UI.  Alter the message_id field in MessageTester.html iFrame URL then spin up MessageTester.html via Live Server or similar and point your selected browser at localhost.
+For testing your message, make a note of the message id in SourcePoint's UI.  Alter the message_id field in MessageTester.html iFrame URL then spin up MessageTester.html in sourcepoint-ui via Live Server or similar and point your selected browser at localhost.
 
-As you change and save the message in the SourcePoint UI, those changes will reflect in the browser after a refresh.
+As you change and save the message in the SourcePoint Portal, those changes will reflect in the browser after a refresh.
