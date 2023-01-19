@@ -93,11 +93,11 @@
     "serve": "^11",
     "start-server-and-test": "~1.14.0",
     "svelte": "~3.52.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "typescript": "^4",
     "wait-for-expect": "^3"
   },
-  "peerDependencies": {
-    "@guardian/libs": "^10.0.0"
+  "dependencies": {
+    "@guardian/libs": "^12.0.0"
   }
 }
