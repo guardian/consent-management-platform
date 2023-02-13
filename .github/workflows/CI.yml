@@ -8,6 +8,10 @@ jobs:
   test-unit:
     name: Unit tests
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
