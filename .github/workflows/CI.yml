@@ -22,11 +22,10 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Run unit tests
-        uses: mattallty/jest-github-action@v1.0.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.0
         with:
-          test-command: 'yarn test:unit'
+          package-manager: yarn
+          test-script: yarn test:unit
 
       - name: Report coverage
         uses: coverallsapp/github-action@master
