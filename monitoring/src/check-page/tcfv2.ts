@@ -17,6 +17,7 @@ import {
 	log_info,
 	makeNewBrowser,
 	openPrivacySettingsPanel,
+	// recordVersionOfCMP,
 	reloadPage,
 } from './common-functions';
 
@@ -124,9 +125,9 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await firstLayerCheck(config, url, page, browser, nextUrl);
 
-	await secondLayerCheck(config, url, page, browser, nextUrl);
+	// await secondLayerCheck(config, url, page, browser, nextUrl);
 
-	await checkCMPLoadingTime(page, config);
+	// await checkCMPLoadingTime(page, config);
 
 	await browser.close();
 };

@@ -198,6 +198,15 @@ export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Complete`);
 };
 
+// TODO: work out why this doesn't work going around in circles between prettier and lint issues.
+export const recordVersionOfCMP = (page: Page) => {
+	log_info('*** Getting the version of Sourcepoint CMP ***');
+	//await page.evaluate(() => {
+	//eval(`console.log(window._sp_.version)`);
+	//});
+	//log_info(`current Sourcepoint version is ${getVersion}`);
+};
+
 /**
  * This function checks for the CMP banner on the page
  *
@@ -269,6 +278,8 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 		log_error(`Loading URL: Error: Status ${response.status()}`);
 		throw 'Failed to load page!';
 	}
+
+	await recordVersionOfCMP(page);
 
 	log_info(`Loading page: Complete`);
 };
