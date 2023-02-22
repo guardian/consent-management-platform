@@ -4,9 +4,8 @@ import {
 } from '@aws-sdk/client-cloudwatch';
 import Chromium from 'chrome-aws-lambda';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
-import type { AwsRegionOpt, Config, CustomPuppeteerOptions } from '../types';
+import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
-import { ConfigHelper } from '../utils/config-helper/config-helper';
 /**
  * This function console logs an info message.
  *
