@@ -2,11 +2,12 @@ import type { Viewport } from 'puppeteer-core';
 
 declare global {
 	interface Window {
-		__uspapi: (
-			command: string,
-			version: number,
-			callback: (uspData: UspData) => void,
-		) => undefined;
+		// 		__uspapi: (
+		// 			command: string,
+		// 			version: number,
+		// 			callback: (uspData: UspData) => void,
+		// 		) => undefined;
+		_sp_: { version: string };
 	}
 }
 

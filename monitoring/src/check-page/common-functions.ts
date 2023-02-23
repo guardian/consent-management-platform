@@ -197,6 +197,16 @@ export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Complete`);
 };
 
+export const recordVersionOfCMP = async (page: Page) => {
+	log_info('* Getting the version of Sourcepoint CMP');
+
+	const functionToGetVersion = function () {
+		return window._sp_.version;
+	};
+
+	log_info(await page.evaluate(functionToGetVersion));
+};
+
 /**
  * This function checks for the CMP banner on the page
  *
@@ -206,6 +216,7 @@ export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
+	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 	log_info(`Waiting for CMP: Complete`);
 };
 
