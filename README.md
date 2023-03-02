@@ -428,4 +428,4 @@ To disable consent in Cypress tests, see their [`setCookie` documentation](https
 
 ## Development
 
-See the [developer docs](docs/01-development-instructions.md).
+See the [developer docs](docs/01-development-instructions.md)
