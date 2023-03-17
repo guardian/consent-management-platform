@@ -1576,10 +1576,10 @@
     eslint-plugin-import "2.24.0"
     eslint-plugin-prettier "3.4.0"
 
-"@guardian/libs@12.0.1":
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-12.0.1.tgz#1ee66f0943feb7b128b96b5858819e6d854de341"
-  integrity sha512-6KLhRRZHY69uMHi/9LwbE2GPdNgpAReKNu4IXIqHtCHZszRmdMfaYd+Im5VbX0x8v1rch9A2SZUnRs5P+QDbQg==
+"@guardian/libs@14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-14.0.0.tgz#07022b652430a1c5d6b16f8aa105ae3d73da4e7c"
+  integrity sha512-rB4h4FlD3EcoCY66f3xjO7alnXiimPOynL9znvX/xP2nAVpG4UyedJnIpupw4KPqJuB0lZMih6EeXq0a1XnI3w==
 
 "@guardian/node-riffraff-artifact@^0.3.2":
   version "0.3.2"
