@@ -20,7 +20,9 @@ const doNotSellIs = (boolean) => {
 };
 
 describe('Window', () => {
-	loadPage(url);
+	beforeEach(() => {
+		cy.visit(url);
+	});
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
@@ -35,7 +37,9 @@ describe('Window', () => {
 });
 
 describe('Document', () => {
-	loadPage(url);
+	beforeEach(() => {
+		cy.visit(url);
+	});
 	it('should have the SP iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
@@ -49,7 +53,9 @@ describe('Document', () => {
 });
 
 describe('Interaction', () => {
-	loadPage(url);
+	beforeEach(() => {
+		cy.visit(url);
+	});
 	const buttonTitle = 'Do not sell my personal information';
 
 	it('should have DNS set to false by default', () => {
