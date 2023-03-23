@@ -4,7 +4,6 @@ import {
 	ENDPOINT,
 	PRIVACY_MANAGER_AUSTRALIA,
 } from '../../src/lib/sourcepointConfig';
-import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = `#sp_message_iframe_${PRIVACY_MANAGER_AUSTRALIA}`;
@@ -21,10 +20,14 @@ const personalisedAdvertisingIs = (boolean) => {
 };
 
 describe('Window', () => {
-	loadPage(url);
+	beforeEach(() => {
+		cy.visit(url);
+	});
+
 	it('has the guCmpHotFix object', () => {
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
+
 	it('has correct config params', () => {
 		cy.window()
 			.its('_sp_.config')
@@ -36,7 +39,9 @@ describe('Window', () => {
 });
 
 describe('Document', () => {
-	loadPage(url);
+	beforeEach(() => {
+		cy.visit(url);
+	});
 
 	it('should have the Sourcepoint iframe', () => {
 		cy.get('iframe').should('be.visible').get(iframeMessage);
@@ -52,17 +57,9 @@ describe('Document', () => {
 });
 
 describe('Interaction', () => {
-	loadPage(url);
-
-	// Cookies need to be kept for consent to be passed from one test to the next
 	beforeEach(() => {
+		cy.visit(url);
 		cy.setCookie('ccpaApplies', 'true');
-		Cypress.Cookies.preserveOnce(
-			'ccpaUUID',
-			'ccpaReject',
-			'ccpaConsentAll',
-			'consentStatus',
-		);
 	});
 
 	it('should have personalised advertising set to true by default', () => {
