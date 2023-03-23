@@ -59,6 +59,7 @@
     "@rollup/plugin-typescript": "^8",
     "@semantic-release/github": "^8",
     "@types/jest": "^27",
+    "@types/node": "^18.15.5",
     "@typescript-eslint/eslint-plugin": "~4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "axios": "^0.25.0",
