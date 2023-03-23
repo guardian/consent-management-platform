@@ -94,7 +94,7 @@
     "start-server-and-test": "~1.14.0",
     "svelte": "~3.52.0",
     "tslib": "^2.4.1",
-    "typescript": "^4",
+    "typescript": "~4.9.5",
     "wait-for-expect": "^3"
   },
   "peerDependencies": {
