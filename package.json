@@ -63,7 +63,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "axios": "^0.25.0",
     "conventional-changelog-conventionalcommits": "^5.0.0",
-    "cypress": "^11.2.0",
+    "cypress": "^12.8.1",
     "cypress-wait-until": "^1.7.2",
     "eslint": "^7",
     "eslint-config-airbnb-typescript": "^12",
