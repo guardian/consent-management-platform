@@ -47,7 +47,7 @@
     "@babel/runtime": "^7",
     "@guardian/eslint-config": "^0.7.0",
     "@guardian/eslint-config-typescript": "^0.7.0",
-    "@guardian/libs": "12.0.1",
+    "@guardian/libs": "14.0.0",
     "@guardian/node-riffraff-artifact": "^0.3.2",
     "@guardian/prettier": "^0.7.0",
     "@rollup/plugin-babel": "^5.3.1",
@@ -62,8 +62,8 @@
     "@typescript-eslint/eslint-plugin": "~4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "axios": "^0.25.0",
-    "conventional-changelog-conventionalcommits": "^4.6.0",
-    "cypress": "^10.4.0",
+    "conventional-changelog-conventionalcommits": "^5.0.0",
+    "cypress": "^11.2.0",
     "cypress-wait-until": "^1.7.2",
     "eslint": "^7",
     "eslint-config-airbnb-typescript": "^12",
@@ -76,7 +76,7 @@
     "eslint-plugin-svelte3": "^3",
     "gh-pages": "^4.0.0",
     "husky": "^7.0.0",
-    "jest": "^26",
+    "jest": "^27.3.1",
     "locate-character": "^2",
     "markdown-toc": "^1",
     "np": "^7",
@@ -98,6 +98,6 @@
     "wait-for-expect": "^3"
   },
   "peerDependencies": {
-    "@guardian/libs": "^12.0.0"
+    "@guardian/libs": "^14.0.0"
   }
 }

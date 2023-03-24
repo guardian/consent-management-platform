@@ -12,7 +12,7 @@
 		"build": "ncc build src/index.ts -o dist -e aws-sdk"
 	},
 	"dependencies": {
-		"@aws-sdk/client-cloudwatch": "^3.201.0",
+		"@aws-sdk/client-cloudwatch": "^3.276.0",
 		"@types/jest-environment-puppeteer": "^5.0.2",
 		"chrome-aws-lambda": "^10.1.0",
 		"commander": "^9.3.0",
