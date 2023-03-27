@@ -62,7 +62,7 @@ describe('Interaction', () => {
 		});
 	});
 
-	it(`should be able to only deactivate purpose 1`, () => {
+	it(`should deactivate purpose 1 only`, () => {
 		cy.visit(url);
 		cy.setCookie('ccpaApplies', 'false');
 		cy.setCookie('gdprApplies', 'true');
@@ -99,7 +99,7 @@ describe('Interaction', () => {
 		});
 	});
 
-	it(`should be able to refuse all but purpose 1`, () => {
+	it(`should deactivate all purposes except purpose 1`, () => {
 		cy.visit(url);
 		cy.setCookie('ccpaApplies', 'false');
 		cy.setCookie('gdprApplies', 'true');
