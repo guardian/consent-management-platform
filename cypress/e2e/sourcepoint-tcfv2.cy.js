@@ -1,5 +1,4 @@
 import { ENDPOINT } from '../../src/lib/sourcepointConfig';
-import { loadPage } from '../utils';
 
 const iframeMessage = `[id^="sp_message_iframe_"]`;
 const iframePrivacyManager = '#sp_message_iframe_106842';
@@ -8,11 +7,12 @@ const iframePrivacyManager = '#sp_message_iframe_106842';
 const url = `/#tcfv2`;
 
 describe('Window', () => {
-	loadPage(url);
 	it('has the guCmpHotFix object', () => {
+		cy.visit(url);
 		cy.window().should('have.property', 'guCmpHotFix');
 	});
 	it('has correct config params', () => {
+		cy.visit(url);
 		cy.window()
 			.its('_sp_.config')
 			.then((spConfig) => {
@@ -23,12 +23,13 @@ describe('Window', () => {
 });
 
 describe('Document', () => {
-	loadPage(url);
 	it('should have the SP iframe', () => {
+		cy.visit(url);
 		cy.get('iframe').should('be.visible').get(iframeMessage);
 	});
 
 	it('should have the correct script URL', () => {
+		cy.visit(url);
 		cy.get('script#sourcepoint-lib').should(
 			'have.attr',
 			'src',
@@ -38,22 +39,19 @@ describe('Document', () => {
 });
 
 describe('Interaction', () => {
-	loadPage(url);
 	const buttonTitle = 'Yes, I’m happy';
 
-	beforeEach(() => {
+	it(`should give all consents when clicking "${buttonTitle}"`, () => {
+		cy.visit(url);
 		cy.setCookie('ccpaApplies', 'false');
 		cy.setCookie('gdprApplies', 'true');
-		Cypress.Cookies.preserveOnce('consentUUID', 'euconsent-v2');
-	});
 
-	it(`should give all consents when clicking "${buttonTitle}"`, () => {
 		cy.getIframeBody(iframeMessage)
 			.find(`button[title="${buttonTitle}"]`)
 			.click();
 
 		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
-		cy.wait(1000);
+		cy.wait(2000);
 
 		[(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)].forEach((purpose) => {
 			cy.get(`[data-purpose="${purpose}"]`).should(
@@ -65,6 +63,17 @@ describe('Interaction', () => {
 	});
 
 	it(`should be able to only deactivate purpose 1`, () => {
+		cy.visit(url);
+		cy.setCookie('ccpaApplies', 'false');
+		cy.setCookie('gdprApplies', 'true');
+
+		cy.getIframeBody(iframeMessage)
+			.find(`button[title="${buttonTitle}"]`)
+			.click();
+
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
+		cy.wait(2000);
+
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
@@ -77,7 +86,7 @@ describe('Interaction', () => {
 			.click();
 
 		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
-		cy.wait(1000);
+		cy.wait(2000);
 
 		cy.get(`[data-purpose="1"]`)
 			.should('have.data', 'consent')
@@ -91,6 +100,14 @@ describe('Interaction', () => {
 	});
 
 	it(`should be able to refuse all but purpose 1`, () => {
+		cy.visit(url);
+		cy.setCookie('ccpaApplies', 'false');
+		cy.setCookie('gdprApplies', 'true');
+
+		cy.getIframeBody(iframeMessage)
+			.find(`button[title="${buttonTitle}"]`)
+			.click();
+
 		cy.get('[data-cy=pm]').click();
 
 		cy.getIframeBody(iframePrivacyManager)
@@ -107,16 +124,16 @@ describe('Interaction', () => {
 			.click();
 
 		// eslint-disable-next-line cypress/no-unnecessary-waiting -- should we do this?
-		cy.wait(1000);
+		cy.wait(2000);
 
 		cy.get(`[data-purpose="1"]`)
 			.should('have.data', 'consent')
-			.should('equal', false);
+			.should('equal', true);
 
 		[2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((purpose) => {
 			cy.get(`[data-purpose="${purpose}"]`)
 				.should('have.data', 'consent')
-				.should('equal', true);
+				.should('equal', false);
 		});
 	});
 });
