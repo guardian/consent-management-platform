@@ -5,7 +5,10 @@ export default defineConfig({
   viewportHeight: 768,
   video: false,
   chromeWebSecurity: false,
-  retries: 2,
+  retries: {
+    runMode: 2,
+    openMode: 0,
+  },
   defaultCommandTimeout: 5000,
   e2e: {
     // We've imported your old cypress plugins here.
