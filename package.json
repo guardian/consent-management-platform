@@ -46,7 +46,7 @@
     "@babel/preset-typescript": "^7",
     "@babel/runtime": "^7",
     "@guardian/eslint-config": "^0.7.0",
-    "@guardian/eslint-config-typescript": "^0.7.0",
+    "@guardian/eslint-config-typescript": "^5.0.0",
     "@guardian/libs": "14.0.0",
     "@guardian/node-riffraff-artifact": "^0.3.2",
     "@guardian/prettier": "^0.7.0",

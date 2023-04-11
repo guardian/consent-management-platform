@@ -135,8 +135,9 @@ describe('under TCFv2', () => {
 	beforeEach(() => {
 		window.__tcfapi = jest.fn((command, b, callback) => {
 			if (command === 'getTCData') callback(tcData, true);
-			if (command === 'getCustomVendorConsents')
+			if (command === 'getCustomVendorConsents') {
 				callback(customVendorConsents, true);
+			}
 		});
 		setCurrentFramework('tcfv2');
 	});
