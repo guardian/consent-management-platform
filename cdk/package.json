@@ -30,6 +30,10 @@
     "ts-node": "^10.4.0",
     "typescript": "~4.4.3"
   },
+	"resolutions":{
+		"//": "Once Jest upgrades its transitive dependency on json5 >=2.0.0, <2.2.2, remove this resolution",
+		"json5": "^2.2.2"
+	},
   "dependencies": {
     "@guardian/cdk": "48.0.1",
     "npm": "^8.15.0",
