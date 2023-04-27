@@ -32,7 +32,7 @@ jobs:
           test-script: yarn test:unit
 
       - name: Report coverage
-        uses: coverallsapp/github-action@v1
+        uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
