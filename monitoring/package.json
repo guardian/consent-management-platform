@@ -46,5 +46,9 @@
 	"prettier": "@guardian/prettier",
 	"overrides": {
 		"clone-deep": "4.0.1"
+	},
+	"resolutions":{
+		"//": "Once Jest upgrades its transitive dependency on json5 >=2.0.0, <2.2.2, remove this resolution",
+		"json5": "^2.2.2"
 	}
 }
