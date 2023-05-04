@@ -1,3 +1,15 @@
+
+/********************
+* The list of vendors in this file is used in the function 'getConsentfFor'
+* when additional checks on consent are used.
+* For example when loading an in-page audio player: getConsentFor('acast', state )
+* When vendors are added to Sourcepoint, they only need to be added here if additional consent check are used via the 'getConsentFor' function.
+* When vendors on this list are removed from Sourcepoint, all occurrences of 'getConsentFor( 'vendor' , .) need to be removed from code and then be removed from this list.
+* When a vendor id is changed in Sourcepoint, it also needs to be changed here.
+*
+* Important: Keep in sync with list of vendors in README.md
+*********************/
+
 export const VendorIDs = {
 	// keep the list in README.md up to date with these values
 	a9: ['5f369a02b8e05c308701f829'],
