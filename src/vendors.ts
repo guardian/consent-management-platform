@@ -1,29 +1,17 @@
-
-/********************
-* The list of vendors in this file is used in the function 'getConsentfFor'
-* when additional checks on consent are used.
-* For example when loading an in-page audio player: getConsentFor('acast', state )
-* When vendors are added to Sourcepoint, they only need to be added here if additional consent check are used via the 'getConsentFor' function.
-* When vendors on this list are removed from Sourcepoint, all occurrences of 'getConsentFor( 'vendor' , .) need to be removed from code and then be removed from this list.
-* When a vendor id is changed in Sourcepoint, it also needs to be changed here.
-*
-* When updates are made to this file, all users of the library need to be upgraded to pick up the changes.
-* Important: Keep in sync with list of vendors in README.md
-*********************/
-
 export const VendorIDs = {
 	// keep the list in README.md up to date with these values
 	a9: ['5f369a02b8e05c308701f829'],
 	acast: ['5f203dcb1f0dea790562e20f'],
 	braze: ['5ed8c49c4b8ce4571c7ad801'],
 	comscore: ['5efefe25b8e05c06542b2a77'],
+	fb: ['5e7e1298b8e05c54a85c52d2'],
 	'google-analytics': ['5e542b3a4cd8884eb41b5a72'],
 	'google-mobile-ads': ['5f1aada6b8e05c306c0597d7'],
 	'google-tag-manager': ['5e952f6107d9d20c88e7c975'],
 	googletag: ['5f1aada6b8e05c306c0597d7'],
 	ias: ['5e7ced57b8e05c485246ccf3'],
 	inizio: ['5e37fc3e56a5e6615502f9c9'],
-	ipsos: ['5fa51b29a228638b4a1980e4'],
+	ipsos: ['5f745ab96f3aae0163740409'],
 	linkedin: ['5f2d22a6b8e05c02aa283b3c'],
 	lotame: ['5ed6aeb1b8e05c241a63c71f'],
 	nielsen: ['5ef5c3a5b8e05c69980eaa5b'],

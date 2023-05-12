@@ -318,6 +318,7 @@ type: `string`
 -   `"acast"`
 -   `"braze"`
 -   `"comscore"`
+-   `"fb"`
 -   `"google-analytics"`
 -   `"google-mobile-ads"`
 -   `"google-tag-manager"`
@@ -325,13 +326,11 @@ type: `string`
 -   `"ias"`
 -   `"inizio"`
 -   `"ipsos"`
--   `"linkedin"`
 -   `"lotame"`
 -   `"nielsen"`
 -   `"ophan"`
 -   `"permutive"`
 -   `"prebid"`
--   `"qm"` (Quantum Metric)
 -   `"redplanet"`
 -   `"remarketing"`
 -   `"sentry"`
