@@ -7,6 +7,7 @@
 * When vendors on this list are removed from Sourcepoint, all occurrences of 'getConsentFor( 'vendor' , .) need to be removed from code and then be removed from this list.
 * When a vendor id is changed in Sourcepoint, it also needs to be changed here.
 *
+* When updates are made to this file, all users of the library need to be upgraded to pick up the changes.
 * Important: Keep in sync with list of vendors in README.md
 *********************/
 
