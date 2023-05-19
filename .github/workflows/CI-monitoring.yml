@@ -6,7 +6,7 @@ on:
 
 jobs:
   CI:
-    runs-on: 4core-ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
