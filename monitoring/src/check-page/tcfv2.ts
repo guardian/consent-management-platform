@@ -201,6 +201,7 @@ export const secondLayerCheck = async function (
 ): Promise<void> {
 	const client = await page.target().createCDPSession();
 	await clearCookies(client);
+	await clearLocalStorage(page);
 
 	log_info('Checking second layer: Start');
 
@@ -225,6 +226,7 @@ export const secondLayerCheck = async function (
 	log_info('Starting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
 	await clearCookies(client);
+	await clearLocalStorage(page);
 
 	await reloadPage(page);
 
