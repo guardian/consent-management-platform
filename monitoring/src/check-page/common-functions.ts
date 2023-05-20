@@ -275,9 +275,11 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	//}
 
 	// If the response status code is not a 2xx success code
-	if (response.status() < 200 || response.status() > 299) {
-		log_error(`Loading URL: Error: Status ${response.status()}`);
-		throw 'Failed to load page!';
+	if(response != null){
+		if (response.status() < 200 || response.status() > 299) {
+			log_error(`Loading URL: Error: Status ${response.status()}`);
+			throw 'Failed to load page!';
+		}
 	}
 
 	log_info(`Loading page: Complete`);
