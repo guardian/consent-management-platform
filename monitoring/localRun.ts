@@ -1,5 +1,5 @@
 import { program } from 'commander';
-import { prompt } from 'inquirer';
+import inquirer from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
 
 type LocalRunCLIUserInput = {
@@ -75,7 +75,7 @@ async function interactiveCLI() {
 		},
 	];
 
-	await prompt(questions).then(async (userInput: LocalRunCLIUserInput) => {
+	await inquirer.prompt(questions).then(async (userInput: LocalRunCLIUserInput) => {
 		await handleEvent(userInput);
 	});
 }

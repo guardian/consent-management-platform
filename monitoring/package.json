@@ -27,7 +27,7 @@
 		"@guardian/prettier": "^3.0.0",
 		"@tsconfig/node18": "^2.0.1",
 		"@types/aws-lambda": "^8.10.101",
-		"@types/inquirer": "^8.2.6",
+		"@types/inquirer": "^9.0.3",
 		"@types/jest": "^29.5.1",
 		"@types/node": "^20.2.1",
 		"@types/puppeteer-core": "^7.0.4",
