@@ -1,5 +1,5 @@
 import { program } from 'commander';
-import {prompt} from 'inquirer';
+import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
 
 type LocalRunCLIUserInput = {
