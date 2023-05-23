@@ -20,7 +20,9 @@ export default {
 		sourcemap: process.env.ROLLUP_WATCH ? 'inline' : true,
 	},
 	plugins: [
-		svelte(),
+		svelte({
+			emitCss: false
+		}),
 		css(),
 		babel({
 			babelHelpers: 'bundled',
