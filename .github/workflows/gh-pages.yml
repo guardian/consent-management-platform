@@ -5,6 +5,10 @@ on:
       - main
 jobs:
   deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
