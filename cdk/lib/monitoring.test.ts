@@ -11,4 +11,5 @@ describe('The Monitoring stack', () => {
 		});
 		expect(Template.fromStack(stack).toJSON()).toMatchSnapshot();
 	});
+  
 });
