@@ -2,10 +2,16 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
-import Chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chromium';
+import {launch} from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
+
+const timeout = 3000;
+chromium.setGraphicsMode = false;
+const isProd = process.env.STAGE === "PROD";
+
 /**
  * This function console logs an info message.
  *
@@ -59,9 +65,9 @@ const initialiseOptions = async (
 ): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : Chromium.args,
-		defaultViewport: Chromium.defaultViewport,
-		executablePath: await Chromium.executablePath,
+		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
+		defaultViewport: chromium.defaultViewport,
+		executablePath: isProd ? await chromium.executablePath() : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
@@ -75,7 +81,7 @@ const initialiseOptions = async (
  * @return {*}  {Promise<Browser>}
  */
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	return await Chromium.puppeteer.launch(ops);
+	return await launch(ops);
 };
 
 /**
@@ -99,7 +105,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(3000);
+	await new Promise( r => setTimeout(r,timeout));
 
 	const frame = getFrame(page, config.iframeDomain);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
@@ -119,7 +125,7 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
 ): Promise<void> => {
-	await page.waitForTimeout(3000);
+	await new Promise( r => setTimeout(r,timeout));
 	log_info(`Waiting for Privacy Settings Panel: Start`);
 	const frame = getFrame(page, config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
@@ -139,7 +145,7 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(3000);
+	await new Promise( r => setTimeout(r,timeout));
 
 	const frame = getFrame(page, config.iframeDomainSecondLayer);
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
@@ -157,7 +163,7 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	await page.waitForTimeout(3000);
+	await new Promise( r => setTimeout(r,timeout));
 
 	const frame = getFrame(page, config.iframeDomainSecondLayer);
 
@@ -275,9 +281,11 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	//}
 
 	// If the response status code is not a 2xx success code
-	if (response.status() < 200 || response.status() > 299) {
-		log_error(`Loading URL: Error: Status ${response.status()}`);
-		throw 'Failed to load page!';
+	if(response != null){
+		if (response.status() < 200 || response.status() > 299) {
+			log_error(`Loading URL: Error: Status ${response.status()}`);
+			throw 'Failed to load page!';
+		}
 	}
 
 	log_info(`Loading page: Complete`);
