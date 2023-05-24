@@ -11,8 +11,6 @@ import { ELEMENT_ID } from '../types';
 const timeout = 3000;
 chromium.setGraphicsMode = false;
 
-const isProd = process.env.STAGE === "PROD";
-
 /**
  * This function console logs an info message.
  *
@@ -68,7 +66,7 @@ const initialiseOptions = async (
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: isProd ? await chromium.executablePath() : '/opt/homebrew/bin/chromium',
+		executablePath: process.env.IS_LOCAL ? '/opt/homebrew/bin/chromium' : await chromium.executablePath(),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
