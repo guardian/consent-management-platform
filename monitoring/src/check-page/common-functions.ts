@@ -66,7 +66,7 @@ const initialiseOptions = async (
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: await chromium.executablePath(),
+		executablePath: await chromium.executablePath(`/var/task/bin`),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
