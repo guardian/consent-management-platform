@@ -66,7 +66,7 @@ const initialiseOptions = async (
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath(),
+		executablePath: (process.env.IS_LOCAL == 'false') ? await chromium.executablePath() : '/opt/homebrew/bin/chromium',
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
