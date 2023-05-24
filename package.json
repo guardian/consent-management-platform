@@ -82,7 +82,7 @@
     "markdown-toc": "^1",
     "np": "^7",
     "npm-run-all": "^4",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.8",
     "prettier-plugin-svelte": "^2.6.0",
     "rollup": "^2.70.1",
     "rollup-plugin-css-only": "^3",
@@ -101,8 +101,8 @@
   "peerDependencies": {
     "@guardian/libs": "^14.0.0"
   },
-	"resolutions":{
-		"//": "Once Jest upgrades its transitive dependency on json5 >=2.0.0, <2.2.2, remove this resolution",
-		"json5": "^2.2.2"
-	}
+  "resolutions": {
+    "//": "Once Jest upgrades its transitive dependency on json5 >=2.0.0, <2.2.2, remove this resolution",
+    "json5": "^2.2.2"
+  }
 }
