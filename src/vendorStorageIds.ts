@@ -12,6 +12,7 @@ export const vendorLocalStorageData = {
 		'cto_bundle',
 		'criteo_fast_bid',
 		'criteo_pt_cdb_mngr_metrics',
+		'__ansync3rdp_criteo',
 	],
 	ipsos: [
 		'DotmetricsSiteData',
@@ -42,7 +43,9 @@ export type VendorWithLocalStorageData = keyof typeof vendorLocalStorageData;
 
 export const vendorCookieData = {
 	criteo: ['cto_bundle'],
-	ipsos: ['DM_SitId1073', 'DM_SitId1073SecId5802'],
+	comscore: ['comScore'],
+	ipsos: ['DM_SitId1073', 'DM_SitId1073SecId5802', 'DotMetrics.AmpCookie'],
+	permutive: ['permutive-id'],
 	googletag: ['__gpi', '__gads'],
 	'google-analytics': ['_gid', '_ga'],
 } satisfies Partial<Record<VendorName, string[]>>;
