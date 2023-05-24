@@ -10,6 +10,7 @@ import { ELEMENT_ID } from '../types';
 
 const timeout = 3000;
 chromium.setGraphicsMode = false;
+
 const isProd = process.env.STAGE === "PROD";
 
 /**
@@ -67,7 +68,7 @@ const initialiseOptions = async (
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: isProd ? await chromium.executablePath() : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+		executablePath: isProd ? await chromium.executablePath() : '/opt/homebrew/bin/chromium',
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
