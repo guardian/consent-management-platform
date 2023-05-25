@@ -91,8 +91,11 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+	log_info(`In makeNewBrowser`);
 	const ops = await initialiseOptions(debugMode);
+	log_info(`In makeNewBrowser after initialiseOptions`);
 	const browser = await launchBrowser(ops);
+	log_info(`In makeNewBrowser after launchBrowser`);
 	return browser;
 };
 
