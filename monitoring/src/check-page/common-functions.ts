@@ -62,11 +62,12 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
+	log_info(`chromium executable path:` + ((process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath()))
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: await chromium.executablePath(`/var/task/bin`),
+		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath(),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,

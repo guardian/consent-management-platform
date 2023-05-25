@@ -4,13 +4,13 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
 
 ## Useful commands
 
-- make sure you've run `yarn install` in the parent directory!
-- you require `frontendDeveloper` janus access
-- `yarn install` to install dependencies
-- `yarn run test:dev` to run the Jest unit tests in watch mode
-- `yarn run lint` to lint the code using ESLint
-- `yarn start` to run lambda handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
-- `AWS_PROFILE=frontend yarn run remote` to execute lambda functions in all regions. This is an interactive CLI which permits the user to select the Environment/Stage and AWS Region.
+-   make sure you've run `yarn install` in the parent directory!
+-   you require `frontendDeveloper` janus access
+-   `yarn install` to install dependencies
+-   `yarn run test:dev` to run the Jest unit tests in watch mode
+-   `yarn run lint` to lint the code using ESLint
+-   `yarn start` to run lambda handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
+-   `AWS_PROFILE=frontend yarn run remote` to execute lambda functions in all regions. This is an interactive CLI which permits the user to select the Environment/Stage and AWS Region.
 
 ### Local Run Command
 
@@ -41,7 +41,9 @@ To test locally you will need Chromium installed:
 
 `brew reinstall --cask chromium --no-quarantine`
 
-With Chromium installed, you should be able to use `yarn test`.
+You also need to set the environment variable `export IS_LOCAL=true`.
+
+With Chromium installed and the environment variable set, you should be able to use `yarn test`.
 
 ## Chromium CI Quirk
 
