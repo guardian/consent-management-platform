@@ -2,7 +2,7 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
-import chromium from '@sparticuz/chromium';
+import chromium from '@sparticuz/chromium-min';
 import {launch} from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
@@ -61,12 +61,12 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
-	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath('/opt/nodejs/node_modules/@sparticuz/chromium/bin')}`)
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://www.example.com/chromiumPack.tar")}`)
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath('/opt/nodejs/node_modules/@sparticuz/chromium/bin'),
+		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://www.example.com/chromiumPack.tar"),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,

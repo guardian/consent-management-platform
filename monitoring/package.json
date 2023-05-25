@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@aws-sdk/client-cloudwatch": "^3.338.0",
-		"@sparticuz/chromium": "^113.0.1",
+		"@sparticuz/chromium-min": "^113.0.1",
 		"@types/jest-environment-puppeteer": "^5.0.2",
 		"commander": "^10.0.1",
 		"dotenv": "^16.0.3",
