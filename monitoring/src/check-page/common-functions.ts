@@ -9,7 +9,6 @@ import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
 const timeout = 3000;
-chromium.setGraphicsMode = false;
 
 /**
  * This function console logs an info message.
@@ -62,7 +61,7 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
-	log_info(`chromium executable path:` + ((process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath()))
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath()}`)
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
@@ -81,6 +80,7 @@ const initialiseOptions = async (
  * @return {*}  {Promise<Browser>}
  */
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
+	chromium.setGraphicsMode = false;
 	return await launch(ops);
 };
 

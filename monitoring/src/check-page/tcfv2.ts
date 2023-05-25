@@ -120,7 +120,10 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
+	log_info(`After Browser`);
 	const page: Page = await browser.newPage();
+	log_info(`After Page`);
+
 
 	await firstLayerCheck(config, url, page, browser, nextUrl);
 
