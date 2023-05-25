@@ -120,6 +120,9 @@ jobs:
     needs: [build, test-e2e, test-unit, lint, types]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
