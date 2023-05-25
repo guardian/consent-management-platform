@@ -68,7 +68,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Value": "PROD",
           },
         ],
-        "Timeout": 400,
+        "Timeout": 500,
       },
       "Type": "AWS::Lambda::Function",
     },
