@@ -63,9 +63,9 @@ const init: InitCMP = ({ pubData, country }) => {
 		log('cmp', 'initComplete');
 	});
 
-	initVendorDataManager();
-
 	resolveInitialised();
+
+	initVendorDataManager();
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
