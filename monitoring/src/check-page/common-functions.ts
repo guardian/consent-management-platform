@@ -199,7 +199,7 @@ export const getFrame = (page: Page, iframeUrl: string): Frame => {
  */
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 40000 });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
