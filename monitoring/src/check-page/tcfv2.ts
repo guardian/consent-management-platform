@@ -127,11 +127,20 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await firstLayerCheck(config, url, page, browser, nextUrl);
 
+	log_info('after first layer')
+
 	await secondLayerCheck(config, url, page);
+
+	log_info( 'after second layer')
 
 	await checkCMPLoadingTime(page, config);
 
+	log_info( 'Before closing')
+
+	await page.close();
+	log_info('closed page')
 	await browser.close();
+	log_info('closed browser')
 };
 
 /**
