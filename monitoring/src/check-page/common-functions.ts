@@ -9,6 +9,7 @@ import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
 const timeout = 3000;
+chromium.setGraphicsMode = false;
 
 /**
  * This function console logs an info message.
@@ -80,7 +81,6 @@ const initialiseOptions = async (
  * @return {*}  {Promise<Browser>}
  */
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	chromium.setGraphicsMode = false;
 	return await launch(ops);
 };
 
@@ -273,7 +273,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
-		timeout: 40000,
+		timeout: 30000,
 	});
 
 	// For some reason VSCode thinks the conditional is not needed, because `!response` is always falsy 🤔
@@ -403,7 +403,7 @@ export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
 		waitUntil: ['domcontentloaded'],
-		timeout: 40000,
+		timeout: 30000,
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
