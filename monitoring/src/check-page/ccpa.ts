@@ -16,7 +16,7 @@ import {
 
 const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(5000);
+	await new Promise( r => setTimeout(r,5000));
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
 	const frame = getFrame(page, config.iframeDomain);

@@ -48,7 +48,7 @@ const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
  */
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(5000);
+	await new Promise( r => setTimeout(r,5000));
 
 	log_info(`Clicking on "Yes I'm Happy" on CMP`);
 	const frame = getFrame(page, config.iframeDomain);
@@ -120,27 +120,15 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	log_info(`After Browser`);
 	const page: Page = await browser.newPage();
-	log_info(`After Page`);
-
 
 	await firstLayerCheck(config, url, page, browser, nextUrl);
 
-	log_info('after first layer')
-
 	await secondLayerCheck(config, url, page);
-
-	log_info( 'after second layer')
 
 	await checkCMPLoadingTime(page, config);
 
-	log_info( 'Before closing')
-
-	await page.close();
-	log_info('closed page')
 	await browser.close();
-	log_info('closed browser')
 };
 
 /**
