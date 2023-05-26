@@ -74,6 +74,10 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkCMPLoadingTime(page, config);
 
+	const pages = await browser.pages();
+	for (const page of pages) {
+		await page.close();
+	}
 	await browser.close();
 };
 
