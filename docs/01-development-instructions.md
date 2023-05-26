@@ -75,6 +75,11 @@ $ yarn validate
 
 2. Run yarn start and test against prod
 
+```
+$ cd monitoring
+$ yarn start --env=prod --jurisdiction=tcfv2
+```
+
 ### Symlink
 
 The npm link command is special because it allows you to load a module from anywhere on your computer.
