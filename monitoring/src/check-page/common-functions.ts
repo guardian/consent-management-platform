@@ -202,7 +202,7 @@ export const getFrame = (page: Page, iframeUrl: string): Frame => {
  */
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 40000 });
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
@@ -273,7 +273,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
-		timeout: 50000,
+		timeout: 40000,
 	});
 
 	// For some reason VSCode thinks the conditional is not needed, because `!response` is always falsy 🤔
@@ -403,7 +403,7 @@ export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
 		waitUntil: ['domcontentloaded'],
-		timeout: 50000,
+		timeout: 40000,
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
