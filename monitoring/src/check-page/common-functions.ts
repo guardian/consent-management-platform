@@ -273,7 +273,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
-		timeout: 30000,
+		timeout: 50000,
 	});
 
 	// For some reason VSCode thinks the conditional is not needed, because `!response` is always falsy 🤔
@@ -403,7 +403,7 @@ export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
 		waitUntil: ['domcontentloaded'],
-		timeout: 30000,
+		timeout: 50000,
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
