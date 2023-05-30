@@ -26,30 +26,6 @@ $ yarn
 $ yarn dev
 ```
 
-## Code Quality
-
-You can ensure your code passes code quality tests by running:
-
-```
-$ yarn validate
-```
-
-This runs our linting tool, the TypeScript compiler and our tests.
-
-You can also run these tasks individually:
-
-```
-$ yarn lint
-$ yarn tsc
-$ yarn test
-```
-
-If you get lint errors, you can attempt to automatically fix them with:
-
-```
-$ yarn fix
-```
-
 ## IDE setup
 
 We recommend using [VSCode](https://code.visualstudio.com/).
