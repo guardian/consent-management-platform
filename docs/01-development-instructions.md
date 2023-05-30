@@ -58,7 +58,7 @@ We recommend using [VSCode](https://code.visualstudio.com/).
 
 ### CMP App
 
-1. Run lint, test and build. The command below executes all the required commands
+1. Run yarn validate to check lint, test and build commands. The command below executes all the required commands
 
 ```
 $ yarn validate
@@ -66,7 +66,7 @@ $ yarn validate
 
 ### Monitoring Directory
 
-1. Change directory to monitoring and run lint, test and build
+1. Change directory to monitoring and run yarn validate to check lint, test and build commands
 
 ```
 $ cd monitoring
@@ -76,23 +76,20 @@ $ yarn validate
 2. Run yarn start and test against prod
 
 ```
-$ cd monitoring
 $ yarn start --env=prod --jurisdiction=tcfv2
 ```
 
 ### Symlink
 
-The npm link command is special because it allows you to load a module from anywhere on your computer.
+The npm link command allows you to load a module from anywhere on your computer.
 
-1. In the command line in your terminal, navigate to the consent-management-platform repo. Run"
+1. In the command line in your terminal, navigate to the base directory repo. Run:
 
 ```
-
 npm link
-
 ```
 
-This will create a global link allowing your component to be globally accessible by your other projects.
+This will create a global link allowing consent-management-platform to be globally accessible by your other projects.
 
 2. Navigate to the repo that will test your app. In the root of this folder, run
 
@@ -104,9 +101,15 @@ npm link @guardian/consent-management-platform
 
 This is where you link the repo to the dependent component. Note: The link name should be the dependency npm package name taken from the name property in package.json.
 
-3. Once you’ve developed your changes and tested them to your heart’s desire, you can unlink your projects.
+3. Once you’ve developed your changes and tested, you can unlink.
 
 In your parent project terminal, go ahead and run npm unlink fancy-button to unlink the dependency.
+
+```
+
+npm unlink @guardian/consent-management-platform
+
+```
 
 ### Extensions
 
