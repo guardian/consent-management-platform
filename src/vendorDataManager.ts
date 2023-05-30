@@ -8,25 +8,27 @@ import { VendorWithCookieData, VendorWithLocalStorageData, vendorCookieData, ven
  */
 export const initVendorDataManager = (): void => {
 	onConsentChange((consent) => {
-		(<VendorWithCookieData[]>Object.keys(vendorCookieData)).forEach((vendor) => {
-			const consentForVendor = getConsentFor(vendor, consent);
-			if (!consentForVendor) {
-				vendorCookieData[vendor].forEach((name) => {
-					removeCookie({name});
-				});
+		requestIdleCallback(() => {
+			(<VendorWithCookieData[]>Object.keys(vendorCookieData)).forEach((vendor) => {
+				const consentForVendor = getConsentFor(vendor, consent);
+				if (!consentForVendor) {
+					vendorCookieData[vendor].forEach((name) => {
+						removeCookie({name});
+					});
 
-			}
-		});
+				}
+			});
 
-		(<VendorWithLocalStorageData[]>Object.keys(vendorLocalStorageData)).forEach((vendor) => {
-			const consentForVendor = getConsentFor(vendor, consent);
-			if (!consentForVendor) {
-				vendorLocalStorageData[vendor].forEach((name) => {
-					storage.local.remove(name);
-					storage.session.remove(name);
-				});
+			(<VendorWithLocalStorageData[]>Object.keys(vendorLocalStorageData)).forEach((vendor) => {
+				const consentForVendor = getConsentFor(vendor, consent);
+				if (!consentForVendor) {
+					vendorLocalStorageData[vendor].forEach((name) => {
+						storage.local.remove(name);
+						storage.session.remove(name);
+					});
 
-			}
+				}
+			});
 		});
 	});
 };
