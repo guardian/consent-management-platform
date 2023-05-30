@@ -137,7 +137,3 @@ If necessary, it will then automatically release a new, [semver](https://semver.
 ### Pull requests
 
 Try to write PR titles in the conventional commit format, and [squash and merge](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits) when merging. That way your PR will trigger a release when you merge it (if necessary).
-
-```
-
-```
