@@ -53,6 +53,7 @@ export const vendorCookieData = {
 
 export type VendorWithCookieData = keyof typeof vendorCookieData;
 
+// Create a list of all the storage keys we know about so we can iterate over them and remove them when the user revokes consent.
 export const storageKeys: [VendorName, string, 'cookie' | 'localStorage'][] = [];
 
 Object.entries(vendorCookieData).forEach(([vendor, keys]) => keys.forEach((key) => storageKeys.push([vendor as VendorName, key, 'cookie'])));
