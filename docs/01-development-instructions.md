@@ -54,14 +54,30 @@ $ yarn fix
 
 We recommend using [VSCode](https://code.visualstudio.com/).
 
-## How To Thoroughly Test before merging
+## Testing
 
 ### CMP App
 
-1. In the base directory, Run yarn validate to check lint, test and build commands. The command below executes all the required commands
+1. In the base directory, Run yarn validate to check lint, test and build commands. The command below executes all the required commands to ensure your code passed code quality tests:
 
 ```
 $ yarn validate
+```
+
+This runs our linting tool, the TypeScript compiler and our tests.
+
+You can also run these tasks individually:
+
+```
+$ yarn lint
+$ yarn tsc
+$ yarn test
+```
+
+If you get lint errors, you can attempt to automatically fix them with:
+
+```
+$ yarn fix
 ```
 
 2. In the base directory, Run yarn start to serve the test-page.
