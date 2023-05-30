@@ -50,4 +50,12 @@ export const vendorCookieData = {
 	'google-analytics': ['_gid', '_ga'],
 } satisfies Partial<Record<VendorName, string[]>>;
 
+
 export type VendorWithCookieData = keyof typeof vendorCookieData;
+
+export const storageKeys: [VendorName, string, 'cookie' | 'localStorage'][] = [];
+
+Object.entries(vendorCookieData).forEach(([vendor, keys]) => keys.forEach((key) => storageKeys.push([vendor as VendorName, key, 'cookie'])));
+
+Object.entries(vendorLocalStorageData).forEach(([vendor, keys]) => keys.forEach((key) => storageKeys.push([vendor as VendorName, key, 'localStorage'])));
+

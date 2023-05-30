@@ -1,7 +1,7 @@
 import { removeCookie, storage } from "@guardian/libs";
 import { getConsentFor } from "./getConsentFor";
 import { onConsentChange } from "./onConsentChange";
-import { VendorWithCookieData, VendorWithLocalStorageData, vendorCookieData, vendorLocalStorageData } from "./vendorStorageIds";
+import { VendorWithCookieData, VendorWithLocalStorageData, storageKeys, vendorCookieData, vendorLocalStorageData } from "./vendorStorageIds";
 
 /**
  * This function is called when the CMP is initialised. It listens for consent changes and removes cookies and localStorage data for vendors that the user has not consented to.
@@ -9,24 +9,16 @@ import { VendorWithCookieData, VendorWithLocalStorageData, vendorCookieData, ven
 export const initVendorDataManager = (): void => {
 	onConsentChange((consent) => {
 		requestIdleCallback(() => {
-			(<VendorWithCookieData[]>Object.keys(vendorCookieData)).forEach((vendor) => {
+			storageKeys.forEach(([vendor, key, storageType]) => {
 				const consentForVendor = getConsentFor(vendor, consent);
+
 				if (!consentForVendor) {
-					vendorCookieData[vendor].forEach((name) => {
-						removeCookie({name});
-					});
-
-				}
-			});
-
-			(<VendorWithLocalStorageData[]>Object.keys(vendorLocalStorageData)).forEach((vendor) => {
-				const consentForVendor = getConsentFor(vendor, consent);
-				if (!consentForVendor) {
-					vendorLocalStorageData[vendor].forEach((name) => {
-						storage.local.remove(name);
-						storage.session.remove(name);
-					});
-
+					if (storageType === "cookie") {
+						removeCookie({name: key});
+					} else {
+						storage.local.remove(key);
+						storage.session.remove(key);
+					}
 				}
 			});
 		});
