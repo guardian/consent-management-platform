@@ -58,10 +58,16 @@ We recommend using [VSCode](https://code.visualstudio.com/).
 
 ### CMP App
 
-1. Run yarn validate to check lint, test and build commands. The command below executes all the required commands
+1. In the base directory, Run yarn validate to check lint, test and build commands. The command below executes all the required commands
 
 ```
 $ yarn validate
+```
+
+2. In the base directory, Run yarn start to serve the test-page.
+
+```
+$ yarn start
 ```
 
 ### Monitoring Directory
@@ -81,12 +87,12 @@ $ yarn start --env=prod --jurisdiction=tcfv2
 
 ### Symlink
 
-The npm link command allows you to load a module from anywhere on your computer.
+The yarn link command allows you to load a module from anywhere on your computer.
 
-1. In the command line in your terminal, navigate to the base directory repo. Run:
+1. In the command line in your terminal, navigate to the base directory. Run:
 
 ```
-npm link
+yarn link
 ```
 
 This will create a global link allowing consent-management-platform to be globally accessible by your other projects.
@@ -95,7 +101,7 @@ This will create a global link allowing consent-management-platform to be global
 
 ```
 
-npm link @guardian/consent-management-platform
+yarn link @guardian/consent-management-platform
 
 ```
 
@@ -106,8 +112,7 @@ This is where you link the repo to the dependent component. Note: The link name 
 In your parent project terminal, go ahead and run npm unlink fancy-button to unlink the dependency.
 
 ```
-
-npm unlink @guardian/consent-management-platform
+yarn unlink @guardian/consent-management-platform
 
 ```
 
