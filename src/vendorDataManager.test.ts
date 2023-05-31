@@ -7,6 +7,11 @@ import { TCFv2ConsentState } from './types/tcfv2';
 
 jest.mock('./onConsentChange');
 
+Object.defineProperty(window, 'requestIdleCallback', {
+	writable: false,
+	value: jest.fn().mockImplementation((cb) => cb()),
+});
+
 const tcfv2ConsentState: TCFv2ConsentState = {
 	consents: { 1: true },
 	eventStatus: 'tcloaded',
