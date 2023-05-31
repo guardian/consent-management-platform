@@ -26,9 +26,15 @@ $ yarn
 $ yarn dev
 ```
 
-## Code Quality
+## IDE setup
 
-You can ensure your code passes code quality tests by running:
+We recommend using [VSCode](https://code.visualstudio.com/).
+
+## Testing
+
+### CMP App
+
+1. In the base directory, Run yarn validate to check lint, test and build commands. The command below executes all the required commands to ensure your code passed code quality tests:
 
 ```
 $ yarn validate
@@ -50,9 +56,57 @@ If you get lint errors, you can attempt to automatically fix them with:
 $ yarn fix
 ```
 
-## IDE setup
+2. In the base directory, Run yarn start to serve the test-page.
 
-We recommend using [VSCode](https://code.visualstudio.com/).
+```
+$ yarn start
+```
+
+### Monitoring Directory
+
+1. Change directory to monitoring and run yarn validate to check lint, test and build commands
+
+```
+$ cd monitoring
+$ yarn validate
+```
+
+2. Run yarn start and test against prod
+
+```
+$ yarn start --env=prod --jurisdiction=tcfv2
+```
+
+### Symlink
+
+The yarn link command allows you to load a module from anywhere on your computer.
+
+1. In the command line in your terminal, navigate to the base directory. Run:
+
+```
+yarn link
+```
+
+This will create a global link allowing consent-management-platform to be globally accessible by your other projects.
+
+2. Navigate to the repo that will test your app. In the root of this folder, run
+
+```
+
+yarn link @guardian/consent-management-platform
+
+```
+
+This is where you link the repo to the dependent component. Note: The link name should be the dependency npm package name taken from the name property in package.json.
+
+3. Once you’ve developed your changes and tested, you can unlink.
+
+In your parent project terminal, go ahead and run npm unlink fancy-button to unlink the dependency.
+
+```
+yarn unlink @guardian/consent-management-platform
+
+```
 
 ### Extensions
 

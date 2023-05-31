@@ -9,7 +9,8 @@
 		"lint": "eslint src/** localRun.ts --ext .ts --no-error-on-unmatched-pattern",
 		"start": "ts-node-dev localRun.ts",
 		"remote": "ts-node-dev remoteRun.ts",
-		"build": "ncc build src/index.ts -o dist -e aws-sdk"
+		"build": "ncc build src/index.ts -o dist -e aws-sdk",
+		"validate": "npm-run-all test lint build"
 	},
 	"dependencies": {
 		"@aws-sdk/client-cloudwatch": "^3.276.0",
@@ -41,13 +42,14 @@
 		"puppeteer": "^10.2.0",
 		"ts-jest": "^27.0.7",
 		"ts-node-dev": "^2.0.0",
-		"typescript": "4.3.5"
+		"typescript": "4.3.5",
+		"npm-run-all": "^4.1.5"
 	},
 	"prettier": "@guardian/prettier",
 	"overrides": {
 		"clone-deep": "4.0.1"
 	},
-	"resolutions":{
+	"resolutions": {
 		"//": "Once Jest upgrades its transitive dependency on json5 >=2.0.0, <2.2.2, remove this resolution",
 		"json5": "^2.2.2"
 	}
