@@ -1,7 +1,7 @@
 import { initVendorDataManager } from './vendorDataManager';
 import { onConsentChange } from './onConsentChange';
 import { removeCookie, storage } from '@guardian/libs';
-import { vendorLocalStorageData, vendorCookieData } from './vendorStorageIds';
+import { vendorStorageIds } from './vendorStorageIds';
 import { Callback, ConsentState } from './types';
 import { TCFv2ConsentState } from './types/tcfv2';
 
@@ -17,7 +17,7 @@ const tcfv2ConsentState: TCFv2ConsentState = {
 	eventStatus: 'tcloaded',
 	vendorConsents: {
 		'5fa51b29a228638b4a1980e4': true, // ipsos
-		'5e98e7f1b8e05c111d01b462': false, // criteo
+		'5eff0d77969bfa03746427eb': false, // permutive
 	},
 	addtlConsent: 'xyz',
 	gdprApplies: true,
@@ -26,19 +26,23 @@ const tcfv2ConsentState: TCFv2ConsentState = {
 
 jest.mock('./vendors', () => ({
 	VendorIDs: {
-		criteo: ['5e98e7f1b8e05c111d01b462'],
+		permutive: ['5eff0d77969bfa03746427eb'],
 		ipsos: ['5fa51b29a228638b4a1980e4'],
 	},
 }));
 
 jest.mock('./vendorStorageIds', () => ({
-	vendorCookieData: {
-		criteo: ['criteoCookie1', 'criteoCookie2'],
-		ipsos: ['ipsosCookie1', 'ipsosCookie2'],
-	},
-	vendorLocalStorageData: {
-		criteo: ['criteoLocalStorage1', 'criteoLocalStorage2'],
-		ipsos: ['ipsosLocalStorage1', 'ipsosLocalStorage2'],
+	vendorStorageIds: {
+		permutive: {
+			cookies: ['permutiveCookie1', 'permutiveCookie2'],
+			localStorage: ['permutiveLocalStorage1', 'permutiveLocalStorage2'],
+			sessionStorage: ['permutiveSessionStorage1'],
+		},
+		ipsos: {
+			cookies: ['ipsosCookie1', 'ipsosCookie2'],
+			localStorage: ['ipsosLocalStorage1', 'ipsosLocalStorage2'],
+			sessionStorage: ['ipsosSessionStorage1'],
+		},
 	},
 }));
 
@@ -71,22 +75,24 @@ describe('initVendorDataManager', () => {
 
 		initVendorDataManager();
 
-		vendorCookieData.criteo.forEach((name) => {
+		vendorStorageIds.permutive.cookies.forEach((name) => {
 			expect(removeCookie).toHaveBeenCalledWith({ name });
 		});
 
-		vendorCookieData.ipsos.forEach((name) => {
+		vendorStorageIds.ipsos.cookies.forEach((name) => {
 			expect(removeCookie).not.toHaveBeenCalledWith({ name });
 		});
 
-		vendorLocalStorageData.criteo.forEach((name) => {
+		vendorStorageIds.permutive.localStorage.forEach((name) => {
 			expect(storage.local.remove).toHaveBeenCalledWith(name);
+		});
+
+		vendorStorageIds.permutive.sessionStorage.forEach((name) => {
 			expect(storage.session.remove).toHaveBeenCalledWith(name);
 		});
 
-		vendorLocalStorageData.ipsos.forEach((name) => {
+		vendorStorageIds.ipsos.localStorage.forEach((name) => {
 			expect(storage.local.remove).not.toHaveBeenCalledWith(name);
-			expect(storage.session.remove).not.toHaveBeenCalledWith(name);
 		});
 	});
 });
