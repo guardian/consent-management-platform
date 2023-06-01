@@ -32,6 +32,8 @@ export const initVendorDataManager = (): void => {
 					}
 				},
 			);
+		}, {
+			timeout: 2000,
 		});
 	});
 };
