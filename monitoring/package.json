@@ -13,7 +13,7 @@
 		"validate": "npm-run-all test lint build"
 	},
 	"dependencies": {
-		"@aws-sdk/client-cloudwatch": "^3.342.0",
+		"@aws-sdk/client-cloudwatch": "^3.344.0",
 		"@sparticuz/chromium-min": "^113.0.1",
 		"@types/jest-environment-puppeteer": "^5.0.2",
 		"commander": "^10.0.1",
@@ -24,7 +24,7 @@
 		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
-		"@aws-sdk/client-lambda": "^3.342.0",
+		"@aws-sdk/client-lambda": "^3.344.0",
 		"@guardian/eslint-config-typescript": "^5.0.0",
 		"@guardian/prettier": "^3.0.0",
 		"@tsconfig/node18": "^1.0.3",
