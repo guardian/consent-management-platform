@@ -62,12 +62,12 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
-	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v113.0.1/chromium-v113.0.1-pack.tar")}`)
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://aws-frontend-artifacts.s3.eu-west-1.amazonaws.com/cmp-monitoring/PROD/sparticuz_chromium/chromium-v113.0.1-pack.tar")}`)
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v113.0.1/chromium-v113.0.1-pack.tar"),
+		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://aws-frontend-artifacts.s3.eu-west-1.amazonaws.com/cmp-monitoring/PROD/sparticuz_chromium/chromium-v113.0.1-pack.tar"),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
