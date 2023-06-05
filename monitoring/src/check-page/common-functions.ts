@@ -2,7 +2,7 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
-import chromium from '@sparticuz/chromium-min';
+import chromium from '@sparticuz/chromium';
 import {launch} from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
@@ -63,12 +63,12 @@ const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
 	log_info(`in initialiseOptions`);
-	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://aws-frontend-artifacts.s3.eu-west-1.amazonaws.com/cmp-monitoring/PROD/sparticuz_chromium/chromium-v113.0.1-pack.tar")}`);
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath()}`);
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath("https://aws-frontend-artifacts.s3.eu-west-1.amazonaws.com/cmp-monitoring/PROD/sparticuz_chromium/chromium-v113.0.1-pack.tar"),
+		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath(),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
