@@ -95,6 +95,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+	chromium.setGraphicsMode = false;
 	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
@@ -203,7 +204,7 @@ export const getFrame = (page: Page, iframeUrl: string): Frame => {
  */
 export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 400000 });
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
@@ -274,7 +275,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
-		timeout: 40000,
+		timeout: 30000,
 	});
 
 	// For some reason VSCode thinks the conditional is not needed, because `!response` is always falsy 🤔
@@ -404,7 +405,7 @@ export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
 		waitUntil: ['domcontentloaded'],
-		timeout: 40000,
+		timeout: 30000,
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
