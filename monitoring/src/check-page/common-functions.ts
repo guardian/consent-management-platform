@@ -66,12 +66,12 @@ const initialiseOptions = async (
 
 	const cepath = './node_modules/@sparticuz/chromium/bin';
 	const clpath = '/opt/homebrew/bin/chromium';
-	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath)}`);
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath()}`);
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath),
+		executablePath: (process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
