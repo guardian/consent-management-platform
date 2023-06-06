@@ -63,12 +63,15 @@ const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
 	log_info(`in initialiseOptions`);
-	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath('/opt/nodejs/node_modules/@sparticuz/chromium/bin')}`);
+	//log_info(compilerOptions.baseUrl);
+	const cepath = './node_modules/@sparticuz/chromium/bin';//`(cmp monitoring) info: ${}`
+	const clpath = '/opt/homebrew/bin/chromium';
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath)}`);
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath('/opt/nodejs/node_modules/@sparticuz/chromium/bin'),
+		executablePath: (process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
