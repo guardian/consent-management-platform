@@ -64,31 +64,6 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 const initialiseOptions = async (
 	isDebugMode: boolean,
 ): Promise<CustomPuppeteerOptions> => {
-	log_info(`in initialiseOptions`);
-
-
-function* readAllFiles(dir: string): Generator<string> {
-		const files = fs.readdirSync(dir, { withFileTypes: true });
-
-		for (const file of files) {
-		  if (file.isDirectory()) {
-			yield* readAllFiles(path.join(dir, file.name));
-		  } else {
-			yield path.join(dir, file.name);
-		  }
-		}
-	  }
-
-	  for (const file of readAllFiles('./')) {
-		log_info(file);
-	  }
-
-	  for (const file of readAllFiles('./')) {
-		if(file.includes('chromium.br')){
-			log_info(file);
-		}
-	  }
-
 	const cepath = `/var/task/bin`;
 	const clpath = '/opt/homebrew/bin/chromium';
 	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath)}`);
