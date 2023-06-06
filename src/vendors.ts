@@ -17,6 +17,7 @@ export const VendorIDs = {
 	acast: ['5f203dcb1f0dea790562e20f'],
 	braze: ['5ed8c49c4b8ce4571c7ad801'],
 	comscore: ['5efefe25b8e05c06542b2a77'],
+	criteo: ['5e98e7f1b8e05c111d01b462'],
 	'google-analytics': ['5e542b3a4cd8884eb41b5a72'],
 	'google-mobile-ads': ['5f1aada6b8e05c306c0597d7'],
 	'google-tag-manager': ['5e952f6107d9d20c88e7c975'],

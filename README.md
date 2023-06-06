@@ -318,6 +318,7 @@ type: `string`
 -   `"acast"`
 -   `"braze"`
 -   `"comscore"`
+-   `"criteo"`
 -   `"google-analytics"`
 -   `"google-mobile-ads"`
 -   `"google-tag-manager"`
