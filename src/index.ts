@@ -13,6 +13,7 @@ import {
 	onConsentChange as serverOnConsentChange,
 } from './server';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
+import { initVendorDataManager } from './vendorDataManager';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -63,6 +64,8 @@ const init: InitCMP = ({ pubData, country }) => {
 	});
 
 	resolveInitialised();
+
+	initVendorDataManager();
 };
 
 const willShowPrivacyMessage: WillShowPrivacyMessage = () =>
