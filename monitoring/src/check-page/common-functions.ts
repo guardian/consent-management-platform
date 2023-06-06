@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import {
 	CloudWatchClient,
 	PutMetricDataCommand,
@@ -64,14 +66,37 @@ const initialiseOptions = async (
 ): Promise<CustomPuppeteerOptions> => {
 	log_info(`in initialiseOptions`);
 
-	const cepath = './node_modules/@sparticuz/chromium/bin';
+
+function* readAllFiles(dir: string): Generator<string> {
+		const files = fs.readdirSync(dir, { withFileTypes: true });
+
+		for (const file of files) {
+		  if (file.isDirectory()) {
+			yield* readAllFiles(path.join(dir, file.name));
+		  } else {
+			yield path.join(dir, file.name);
+		  }
+		}
+	  }
+
+	  for (const file of readAllFiles('./')) {
+		log_info(file);
+	  }
+
+	  for (const file of readAllFiles('./')) {
+		if(file.includes('chromium.br')){
+			log_info(file);
+		}
+	  }
+
+	const cepath = `/var/task/bin`;
 	const clpath = '/opt/homebrew/bin/chromium';
-	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath()}`);
+	log_info(`chromium executable path: ${(process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath)}`);
 	return {
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(),
+		executablePath: (process.env.IS_LOCAL == 'true') ? clpath : await chromium.executablePath(cepath),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
