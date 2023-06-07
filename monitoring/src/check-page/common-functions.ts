@@ -9,7 +9,6 @@ import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
 const timeout = 3000;
-chromium.setGraphicsMode = false;
 
 /**
  * This function console logs an info message.
@@ -93,7 +92,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	chromium.setGraphicsMode = false;
+	chromium.setGraphicsMode = false; //required for browser.close() not to hang
 	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
