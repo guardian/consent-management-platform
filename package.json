@@ -47,7 +47,7 @@
     "@babel/runtime": "^7",
     "@guardian/eslint-config": "^0.7.0",
     "@guardian/eslint-config-typescript": "^5.0.0",
-    "@guardian/libs": "14.0.0",
+    "@guardian/libs": "15.0.0",
     "@guardian/node-riffraff-artifact": "^0.3.2",
     "@guardian/prettier": "^0.7.0",
     "@rollup/plugin-babel": "^5.3.1",
@@ -99,7 +99,7 @@
     "wait-for-expect": "^3"
   },
   "peerDependencies": {
-    "@guardian/libs": "^14.0.0"
+    "@guardian/libs": "^15.0.0"
   },
   "resolutions": {
     "//": "Once Jest upgrades its transitive dependency on json5 >=2.0.0, <2.2.2, remove this resolution",
