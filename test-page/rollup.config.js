@@ -1,4 +1,4 @@
-import babel from '@rollup/plugin-babel';
+import pluginBabel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
@@ -24,7 +24,7 @@ export default {
 			emitCss: false
 		}),
 		css(),
-		babel({
+		pluginBabel({
 			babelHelpers: 'bundled',
 			presets: [
 				[
