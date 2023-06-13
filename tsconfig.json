@@ -1,4 +1,5 @@
 {
+	"extends": "@guardian/tsconfig",
 	"compilerOptions": {
 		"allowJs": true,
 		"esModuleInterop": true,

@@ -1177,6 +1177,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-4.0.0.tgz#1ad1d7d079194937bfd0107789dde7b0fb84fa11"
   integrity sha512-JvvnDnI04NcmpuD2mF5ZXTWI7tand1pj1s33fh4JxHNAV00QXwTWZBI2/QWS3ck7KjpYjpRaz8CDUcMz35hReg==
 
+"@guardian/tsconfig@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@guardian/tsconfig/-/tsconfig-0.2.0.tgz#b1dac8831d2ff7ac557229f350d4b2f8c9fc60b5"
+  integrity sha512-RauppalK+cQZDRK6IssVmDSnU/VyqMNuVOxPxhmI03kVRxEdwcmBuRqexHwDbnClVUxW/N9hYLbFNuAb9V/p+A==
+
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"

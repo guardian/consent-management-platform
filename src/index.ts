@@ -18,6 +18,7 @@ import { initVendorDataManager } from './vendorDataManager';
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 if (!isServerSide) {
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO: is this needed
 	window.guCmpHotFix ||= {};
 }
 
