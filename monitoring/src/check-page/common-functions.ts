@@ -240,6 +240,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 			const computedStyle = window.getComputedStyle(element);
 			return computedStyle.getPropertyValue('display');
 		}
+		return null;
 	};
 
 	const display = await page.evaluate(
