@@ -67,7 +67,7 @@ export const vendorStorageIds = {
 		cookies: ['_gid', '_ga'],
 	},
 } satisfies Partial<
-	Record<VendorName, { cookies?: string[]; localStorage?: string[], sessionStorage?: string[] }>
+	Record<VendorName, { cookies?: string[]; localStorage?: string[]; sessionStorage?: string[] }>
 >;
 
 export type VendorWithData = keyof typeof vendorStorageIds;

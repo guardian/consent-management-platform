@@ -1,4 +1,4 @@
-import { disable, enable, isDisabled } from './disable';
+import { disable, enable, isDisabled } from './disable.ts';
 
 describe('Disabling consent management', () => {
 	it('should be enabled by default', () => {
