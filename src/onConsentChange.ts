@@ -109,8 +109,6 @@ export const invokeCallbacks = (): void => {
 export const onConsentChange: OnConsentChange = (callBack) => {
 	const newCallback: CallbackQueueItem = { fn: callBack };
 
-	console.log('\n-------------\npicking up node 18 changes\n-------------\n');
-
 	callBackQueue.push(newCallback);
 
 	// if consentState is already available, invoke callback immediately
