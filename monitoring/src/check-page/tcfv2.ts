@@ -48,7 +48,7 @@ const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
  */
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	// Ensure that Sourcepoint has enough time to load the CMP
-	await new Promise( r => setTimeout(r,5000));
+	await new Promise((r) => setTimeout(r, 5000));
 
 	log_info(`Clicking on "Yes I'm Happy" on CMP`);
 	const frame = getFrame(page, config.iframeDomain);
