@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { VendorIDs } from './vendors';
+import { VendorIDs } from './vendors.ts';
 
 const cmpBaseUrl = 'sourcepoint.mgr.consensu.org';
 const guardianId = '5ec67f5bb8e05c4a1160fda1';

@@ -20,6 +20,7 @@
 		"@guardian/eslint-config": "^4.0.0",
 		"@guardian/eslint-config-typescript": "^6.0.0",
 		"@guardian/prettier": "^4.0.0",
+		"@guardian/tsconfig": "0.2.0",
 		"@types/jest": "^29.5.2",
 		"@types/node": "20.2.5",
 		"aws-cdk": "2.78.0",

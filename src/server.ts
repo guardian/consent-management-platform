@@ -16,7 +16,7 @@ export const serverSideWarn = (): void => {
 	);
 };
 
-export const serverSideWarnAndReturn = <T extends unknown>(
+export const serverSideWarnAndReturn = <T>(
 	arg: T,
 ): (() => T) => {
 	return () => {

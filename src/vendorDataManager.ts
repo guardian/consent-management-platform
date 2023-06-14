@@ -1,7 +1,8 @@
 import { removeCookie, storage } from '@guardian/libs';
 import { getConsentFor } from './getConsentFor';
 import { onConsentChange } from './onConsentChange';
-import { VendorWithData, vendorStorageIds } from './vendorStorageIds';
+import { vendorStorageIds } from './vendorStorageIds';
+import type { VendorWithData } from './vendorStorageIds';
 
 /**
  * This function is called when the CMP is initialised. It listens for consent changes and removes cookies and localStorage data for vendors that the user has not consented to.

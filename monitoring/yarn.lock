@@ -1163,7 +1163,7 @@
     eslint-import-resolver-typescript "3.5.5"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@4.0.0":
+"@guardian/eslint-config@4.0.0", "@guardian/eslint-config@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-4.0.0.tgz#6beb3ae4eec73418ee18a83160d87565a2ae3d0a"
   integrity sha512-OAazxlXgYjggVNE7scoSgb1g+CIz/yfhPenEKGSTM5fejeTRZNwfFPDcVl4h4jY5/17aCUxaLxG+Nc0r4V94kQ==
@@ -1176,6 +1176,11 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-4.0.0.tgz#1ad1d7d079194937bfd0107789dde7b0fb84fa11"
   integrity sha512-JvvnDnI04NcmpuD2mF5ZXTWI7tand1pj1s33fh4JxHNAV00QXwTWZBI2/QWS3ck7KjpYjpRaz8CDUcMz35hReg==
+
+"@guardian/tsconfig@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@guardian/tsconfig/-/tsconfig-0.2.0.tgz#b1dac8831d2ff7ac557229f350d4b2f8c9fc60b5"
+  integrity sha512-RauppalK+cQZDRK6IssVmDSnU/VyqMNuVOxPxhmI03kVRxEdwcmBuRqexHwDbnClVUxW/N9hYLbFNuAb9V/p+A==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
