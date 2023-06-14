@@ -15,12 +15,14 @@ import {
 } from './common-functions';
 
 const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await new Promise( r => setTimeout(r,5000));
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
-	const frame = getFrame(page, config.iframeDomain);
+
+	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomain));
+	await frame.waitForSelector(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+
+	config.iframeDomain
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
 
@@ -119,7 +121,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkCMPLoadingTime(page, config);
 
 	await page.close();
-	
+
 	const pages = await browser.pages();
 	for (const page of pages) {
 		await page.close();

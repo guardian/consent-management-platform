@@ -103,10 +103,9 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
  */
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await new Promise( r => setTimeout(r,timeout));
 
-	const frame = getFrame(page, config.iframeDomain);
+	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomain));
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Complete`);
@@ -124,10 +123,12 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
 ): Promise<void> => {
-	await new Promise( r => setTimeout(r,timeout));
+
 	log_info(`Waiting for Privacy Settings Panel: Start`);
-	const frame = getFrame(page, config.iframeDomainSecondLayer);
+
+	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomainSecondLayer));
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
 
@@ -143,10 +144,9 @@ export const clickSaveAndCloseSecondLayer = async (
 	page: Page,
 ) => {
 	log_info(`Clicking on save and close button: Start`);
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await new Promise( r => setTimeout(r,timeout));
 
-	const frame = getFrame(page, config.iframeDomainSecondLayer);
+	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomainSecondLayer));
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
 	log_info(`Clicking on save and exit button: Complete`);
@@ -162,10 +162,8 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	await new Promise( r => setTimeout(r,timeout));
-
-	const frame = getFrame(page, config.iframeDomainSecondLayer);
-
+	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomainSecondLayer));
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
 	log_info(`Clicking on reject all button: Complete`);

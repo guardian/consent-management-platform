@@ -15,12 +15,11 @@ import {
 } from './common-functions';
 
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await new Promise( r => setTimeout(r,5000));
 
 	log_info(`Clicking on "Continue" on CMP`);
 
-	const frame = getFrame(page, config.iframeDomain);
+	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomain));
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
 	log_info(`Clicked on "Continue" on CMP`);
