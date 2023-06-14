@@ -38,7 +38,7 @@ export class Monitoring extends GuStack {
 				functionName: `${lambdaBaseName}-${stage}`,
 				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
 				handler: 'index.handler',
-				runtime: Runtime.NODEJS_14_X,
+				runtime: Runtime.NODEJS_18_X,
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
