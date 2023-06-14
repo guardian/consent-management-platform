@@ -27,11 +27,5 @@
 		"typeRoots": ["./node_modules/@types"],
 		"outDir": "dist"
 	},
-	"include": ["lib/**/*", "bin/**/*"],
-	"exclude": [
-		"node_modules",
-		"cdk.out",
-		"lib/**/*.test.ts",
-		"lib/**/__snapshots__/**"
-	]
+	"exclude": ["dist", "node_modules", "lib/**/__snapshots__/**"]
 }
