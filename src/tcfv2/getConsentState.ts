@@ -38,7 +38,7 @@ export const getConsentState: () => Promise<TCFv2ConsentState> = async () => {
 
 	const vendorConsents: TCFv2ConsentList = Object.keys(grants)
 		.sort()
-		.reduce((acc, cur) => ({ ...acc, [cur]: grants[cur].vendorGrant }), {});
+		.reduce((acc, cur) =>  ({ ...acc, [cur]: grants[cur].vendorGrant }), {});
 
 	return {
 		consents,

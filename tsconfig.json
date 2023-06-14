@@ -11,5 +11,6 @@
 		"strict": true,
 		"target": "ES2020"
 	},
-	"include": ["*.js", "src", ".eslintrc.js"]
+	"include": [".eslintrc.js"],
+	"exclude": ["./cypress.config.ts"]
 }
