@@ -11,6 +11,7 @@ dist
 /coverage
 .idea/
 test-page/dist
+tsconfig.build.tsbuildinfo
 
 # Cypress Tests
 cypress/dist
