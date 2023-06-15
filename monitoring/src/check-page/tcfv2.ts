@@ -91,18 +91,19 @@ const checkSubsequentPage = async (
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
-	await loadPage(page, url);
+	await Promise.all([
+		await loadPage(page, url),
 	// There is no CMP since this we have already accepted this on a previous page.
-	await checkTopAdHasLoaded(page);
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
-	await clearLocalStorage(page);
-	await reloadPage(page);
-	await checkTopAdDidNotLoad(page);
-	await clickAcceptAllCookies(config, page);
-	await checkCMPIsNotVisible(page);
-	await checkTopAdHasLoaded(page);
-	await page.close();
+		await checkTopAdHasLoaded(page),
+		await clearCookies(await page.target().createCDPSession()),
+		await clearLocalStorage(page),
+		await reloadPage(page),
+		await checkTopAdDidNotLoad(page),
+		await clickAcceptAllCookies(config, page),
+		await checkCMPIsNotVisible(page),
+		await checkTopAdHasLoaded(page),
+		await page.close(),
+	]);
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 

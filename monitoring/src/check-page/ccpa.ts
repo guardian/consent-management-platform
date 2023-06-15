@@ -32,10 +32,12 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Checking subsequent Page URL: ${url} Start`);
 	const page: Page = await browser.newPage();
-	await loadPage(page, url);
-	await checkCMPIsNotVisible(page);
-	await checkTopAdHasLoaded(page);
-	await page.close();
+	await Promise.all([
+		await loadPage(page, url),
+		await checkCMPIsNotVisible(page),
+		await checkTopAdHasLoaded(page),
+		await page.close()
+	]);
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
