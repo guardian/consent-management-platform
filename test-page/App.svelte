@@ -20,7 +20,7 @@
 			break;
 	}
 
-	window.guardian.logger.subscribeTo("cmp")
+	window.guardian.logger.subscribeTo('cmp');
 
 	// allow us to listen to changes on window.guCmpHotFix
 	window.guCmpHotFix = new Proxy(window.guCmpHotFix, {
@@ -97,7 +97,6 @@
 		cmp.init({ country });
 		cmp.init({ country });
 	});
-
 </script>
 
 <main>
@@ -310,5 +309,4 @@
 	* + h2 {
 		margin-top: 1rem;
 	}
-
 </style>

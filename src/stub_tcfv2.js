@@ -260,7 +260,7 @@ export const stub_tcfv2 = () => {
 					n('object' == typeof self && self) ||
 					n('object' == typeof e && e) ||
 					Function('return this')();
-			}.call(this, n(9)));
+			}).call(this, n(9));
 		},
 		function (t, e) {
 			var n;

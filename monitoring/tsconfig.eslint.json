@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["src/**/*", "*.ts","node_modules/puppeteer-core/**/*"],
-  "exclude": ["node_modules"]
+	"extends": "./tsconfig.json",
+	"include": ["src/**/*", "*.ts", "node_modules/puppeteer-core/**/*"],
+	"exclude": ["node_modules"]
 }
