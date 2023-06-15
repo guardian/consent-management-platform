@@ -93,6 +93,6 @@
 		"wait-for-expect": "^3"
 	},
 	"peerDependencies": {
-		"@guardian/libs": "^14.0.0"
+		"@guardian/libs": "^15.0.0"
 	}
 }
