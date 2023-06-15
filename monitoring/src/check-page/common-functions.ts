@@ -8,8 +8,6 @@ import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
-const timeout = 3000;
-
 /**
  * This function console logs an info message.
  *
@@ -104,7 +102,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
-	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomain));
+	const frame = await getFrame(page, config.iframeDomain);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
@@ -126,7 +124,7 @@ export const checkPrivacySettingsPanelIsOpen = async (
 
 	log_info(`Waiting for Privacy Settings Panel: Start`);
 
-	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomainSecondLayer));
+	const frame = await getFrame(page, config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
@@ -145,7 +143,7 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 
-	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomainSecondLayer));
+	const frame = await getFrame(page, config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
@@ -162,7 +160,7 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomainSecondLayer));
+	const frame = await getFrame(page,config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
@@ -177,14 +175,14 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
  * @param {string} iframeUrl
  * @return {*}  {Frame}
  */
-export const getFrame = (page: Page, iframeUrl: string): Frame => {
-	const frame = page.frames().find((f) => f.url().startsWith(iframeUrl));
-
-	if (frame === undefined) {
-		throw new Error(`Could not find frame ${iframeUrl} : Failed`);
-	}
-
+export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 30000): Promise<Frame> => {
+ try {
+	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
 	return frame;
+ } catch (error) {
+	console.error(error);
+	throw new Error(`Could not find frame "${iframeUrl}" : Failed`);
+ }
 };
 
 /**

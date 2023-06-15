@@ -50,7 +50,7 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 
 	log_info(`Clicking on "Yes I'm Happy" on CMP`);
 
-	const frame = await page.waitForFrame( f => f.url().startsWith(config.iframeDomain));
+	const frame = await getFrame(page, config.iframeDomain);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
