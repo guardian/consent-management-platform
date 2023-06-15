@@ -1152,7 +1152,7 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.42.0.tgz#484a1d638de2911e6f5a30c12f49c7e4a3270fb6"
   integrity sha512-6SWlXpWU5AvId8Ac7zjzmIOqMOba/JWY8XZ4A7q7Gn1Vlfg/SFFIlrtHXt9nPn4op9ZPAkl91Jao+QQv3r/ukw==
 
-"@guardian/eslint-config-typescript@^6.0.0":
+"@guardian/eslint-config-typescript@6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-6.0.0.tgz#a2080acca102f7d77e5173dcc9a751209a695ff1"
   integrity sha512-L1KpAnxLw9fX5YW0PrMRdirZVkb/IK5s/JBIE61Gx8AxIa3PNTnVS/v6xS/okbBb1nXa30xV2ty0RX6CG78t8A==
@@ -1163,7 +1163,7 @@
     eslint-import-resolver-typescript "3.5.5"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@4.0.0", "@guardian/eslint-config@^4.0.0":
+"@guardian/eslint-config@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-4.0.0.tgz#6beb3ae4eec73418ee18a83160d87565a2ae3d0a"
   integrity sha512-OAazxlXgYjggVNE7scoSgb1g+CIz/yfhPenEKGSTM5fejeTRZNwfFPDcVl4h4jY5/17aCUxaLxG+Nc0r4V94kQ==
@@ -1172,12 +1172,12 @@
     eslint-plugin-eslint-comments "3.2.0"
     eslint-plugin-import "2.27.5"
 
-"@guardian/prettier@^4.0.0":
+"@guardian/prettier@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-4.0.0.tgz#1ad1d7d079194937bfd0107789dde7b0fb84fa11"
   integrity sha512-JvvnDnI04NcmpuD2mF5ZXTWI7tand1pj1s33fh4JxHNAV00QXwTWZBI2/QWS3ck7KjpYjpRaz8CDUcMz35hReg==
 
-"@guardian/tsconfig@^0.2.0":
+"@guardian/tsconfig@0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@guardian/tsconfig/-/tsconfig-0.2.0.tgz#b1dac8831d2ff7ac557229f350d4b2f8c9fc60b5"
   integrity sha512-RauppalK+cQZDRK6IssVmDSnU/VyqMNuVOxPxhmI03kVRxEdwcmBuRqexHwDbnClVUxW/N9hYLbFNuAb9V/p+A==
@@ -1642,11 +1642,6 @@
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.4.tgz#0b92dcc0cc1c81f6f306a381f28e31b1a56536e9"
   integrity sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==
-
-"@tsconfig/node18@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@tsconfig/node18/-/node18-1.0.3.tgz#b14aed11bda116950a57fb5d223dd050e47f4fe1"
-  integrity sha512-RbwvSJQsuN9TB04AQbGULYfOGE/RnSFk/FLQ5b0NmDf5Kx2q/lABZbHQPKCO1vZ6Fiwkplu+yb9pGdLy1iGseQ==
 
 "@types/aws-lambda@^8.10.117":
   version "8.10.117"
