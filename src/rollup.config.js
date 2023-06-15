@@ -1,3 +1,4 @@
+/* eslint-disable import/no-default-export -- it's what rollup likes */
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -6,7 +7,6 @@ import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import pkg from '../package.json';
 
-// eslint-disable-next-line import/no-default-export -- This is what rollup expects
 export default {
 	input: './src/index.ts',
 	external: (id) => !/^[./]/.test(id),
