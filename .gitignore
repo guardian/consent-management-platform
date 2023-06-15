@@ -12,6 +12,7 @@ dist
 .idea/
 test-page/dist
 tsconfig.build.tsbuildinfo
+.rollup.cache
 
 # Cypress Tests
 cypress/dist

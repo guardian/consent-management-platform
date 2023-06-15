@@ -26,5 +26,5 @@
 		"typeRoots": ["./node_modules/@types"],
 		"outDir": "dist"
 	},
-	"exclude": ["dist", "node_modules", "lib/**/__snapshots__/**"]
+	"exclude": ["dist", "node_modules"]
 }
