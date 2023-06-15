@@ -103,6 +103,7 @@ const checkSubsequentPage = async (
 	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
 	await page.close();
+	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 
 /**
