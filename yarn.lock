@@ -1102,7 +1102,7 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@guardian/eslint-config-typescript@^6.0.0":
+"@guardian/eslint-config-typescript@6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-6.0.0.tgz#a2080acca102f7d77e5173dcc9a751209a695ff1"
   integrity sha512-L1KpAnxLw9fX5YW0PrMRdirZVkb/IK5s/JBIE61Gx8AxIa3PNTnVS/v6xS/okbBb1nXa30xV2ty0RX6CG78t8A==
@@ -1113,7 +1113,7 @@
     eslint-import-resolver-typescript "3.5.5"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@4.0.0", "@guardian/eslint-config@^4.0.0":
+"@guardian/eslint-config@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-4.0.0.tgz#6beb3ae4eec73418ee18a83160d87565a2ae3d0a"
   integrity sha512-OAazxlXgYjggVNE7scoSgb1g+CIz/yfhPenEKGSTM5fejeTRZNwfFPDcVl4h4jY5/17aCUxaLxG+Nc0r4V94kQ==
@@ -1127,7 +1127,7 @@
   resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-15.0.0.tgz#c3fbb1d7fdafaefe156232b7088f43e2ff4cd18b"
   integrity sha512-UnNxcJHYDfpElrxc7sbfwSJ82erH3mjdKsALAgevggsbhOSAkE9yoCn+XMBPN7iQ14bEHZPYyOMt0y1hNCItyg==
 
-"@guardian/node-riffraff-artifact@^0.3.2":
+"@guardian/node-riffraff-artifact@0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@guardian/node-riffraff-artifact/-/node-riffraff-artifact-0.3.2.tgz#6a71bdd9a0d9ca95516d838a135daf0906a604fb"
   integrity sha512-N4A2tnGesFby9Um8BvOo+Q5x2ETReXocveuBULpII53FJUXGjCcnr9PYNcIIExRYkFfMLrX3V6VCob9TfFrSYg==
@@ -1141,7 +1141,7 @@
     yaml "^1.7.2"
     yargs "^15.4.1"
 
-"@guardian/prettier@^4.0.0":
+"@guardian/prettier@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-4.0.0.tgz#1ad1d7d079194937bfd0107789dde7b0fb84fa11"
   integrity sha512-JvvnDnI04NcmpuD2mF5ZXTWI7tand1pj1s33fh4JxHNAV00QXwTWZBI2/QWS3ck7KjpYjpRaz8CDUcMz35hReg==
