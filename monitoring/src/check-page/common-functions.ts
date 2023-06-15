@@ -61,7 +61,7 @@ const initialiseOptions = async (
 ): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args,
+		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args.concat( '--disable-dev-shm-usage'),
 		defaultViewport: chromium.defaultViewport,
 		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath(`/var/task/bin`),
 		ignoreHTTPSErrors: true,
