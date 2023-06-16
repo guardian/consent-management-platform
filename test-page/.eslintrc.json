@@ -1,19 +1,19 @@
 {
-  "root": true,
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "plugins": ["svelte3"],
-  "extends": ["@guardian/eslint-config"],
-  "ignorePatterns": ["dist"],
-  "overrides": [
-    {
-      "files": ["*.svelte"],
-      "processor": "svelte3/svelte3"
-    }
-  ],
-  "rules": {
-    "import/no-default-export": 0
-  }
+	"root": true,
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module"
+	},
+	"plugins": ["svelte3"],
+	"extends": ["@guardian/eslint-config"],
+	"ignorePatterns": ["dist"],
+	"overrides": [
+		{
+			"files": ["*.svelte"],
+			"processor": "svelte3/svelte3"
+		}
+	],
+	"rules": {
+		"import/no-default-export": 0
+	}
 }

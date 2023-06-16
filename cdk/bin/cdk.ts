@@ -11,10 +11,10 @@ const regionNames = [
 	'ap-southeast-2',
 	'ca-central-1',
 ] as const;
-type AwsRegion = typeof regionNames[number];
+type AwsRegion = (typeof regionNames)[number];
 
 const deployableEnvs = ['CODE', 'PROD'] as const;
-type DeployableEnvironments = typeof deployableEnvs[number];
+type DeployableEnvironments = (typeof deployableEnvs)[number];
 
 function stackProps(
 	awsRegion: AwsRegion,

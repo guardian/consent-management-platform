@@ -14,4 +14,4 @@ jobs:
       DEBUG: true
       ORG: guardian-consent
     secrets:
-       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

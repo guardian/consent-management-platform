@@ -21,7 +21,7 @@ export default {
 	},
 	plugins: [
 		svelte({
-			emitCss: false
+			emitCss: false,
 		}),
 		css(),
 		pluginBabel({

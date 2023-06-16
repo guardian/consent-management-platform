@@ -3,7 +3,7 @@ import {
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
 import chromium from '@sparticuz/chromium';
-import {launch} from 'puppeteer-core';
+import { launch } from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
@@ -63,7 +63,10 @@ const initialiseOptions = async (
 		headless: !isDebugMode,
 		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args.concat( '--disable-dev-shm-usage'),
 		defaultViewport: chromium.defaultViewport,
-		executablePath: (process.env.IS_LOCAL == 'true') ? '/opt/homebrew/bin/chromium' : await chromium.executablePath(`/var/task/bin`),
+		executablePath:
+			process.env.IS_LOCAL == 'true'
+				? '/opt/homebrew/bin/chromium'
+				: await chromium.executablePath(`/var/task/bin`),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
@@ -269,7 +272,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	});
 
 	// If the response status code is not a 2xx success code
-	if(response != null){
+	if (response != null) {
 		if (response.status() < 200 || response.status() > 299) {
 			log_error(`Loading URL: Error: Status ${response.status()}`);
 			throw 'Failed to load page!';

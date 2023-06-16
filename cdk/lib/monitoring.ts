@@ -80,7 +80,8 @@ export class Monitoring extends GuStack {
 
 		// Error Alarm
 		new Alarm(this, 'cmp-monitoring-alarms', {
-			comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
 			evaluationPeriods: 1,
 			metric: errorMetric,
