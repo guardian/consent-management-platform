@@ -94,22 +94,16 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const page: Page = await browser.newPage();
 
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
-
-	await loadPage(page, url);
-
-	await checkTopAdHasLoaded(page);
-
-	await checkCMPIsOnPage(page);
-
-	await clickDoNotSellMyInfo(config, page);
-
-	await checkCMPIsNotVisible(page);
-
-	await reloadPage(page);
-
-	await checkTopAdHasLoaded(page);
+	await Promise.all([
+		await clearCookies(await page.target().createCDPSession()),
+		await loadPage(page, url),
+		await checkTopAdHasLoaded(page),
+		await checkCMPIsOnPage(page),
+		await clickDoNotSellMyInfo(config, page),
+		await checkCMPIsNotVisible(page),
+		await reloadPage(page),
+		await checkTopAdHasLoaded(page)
+	]);
 
 	if (nextUrl) {
 		await checkSubsequentPage(browser, nextUrl);
