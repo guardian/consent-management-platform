@@ -15,12 +15,13 @@ import {
 } from './common-functions';
 
 const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(5000);
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
-	const frame = getFrame(page, config.iframeDomain);
+
+	const frame = await getFrame(page, config.iframeDomain);
+	await frame.waitForSelector(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
 
@@ -31,9 +32,12 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Checking subsequent Page URL: ${url} Start`);
 	const page: Page = await browser.newPage();
-	await loadPage(page, url);
-	await checkCMPIsNotVisible(page);
-	await checkTopAdHasLoaded(page);
+	await Promise.all([
+		await loadPage(page, url),
+		await checkCMPIsNotVisible(page),
+		await checkTopAdHasLoaded(page),
+		await page.close()
+	]);
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
@@ -118,6 +122,12 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await checkCMPLoadingTime(page, config);
 
+	await page.close();
+
+	const pages = await browser.pages();
+	for (const page of pages) {
+		await page.close();
+	}
 	await browser.close();
 };
 

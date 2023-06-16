@@ -5,6 +5,10 @@ on:
       - main
 jobs:
   deploy:
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -28,4 +32,3 @@ jobs:
           yarn github-pages-deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

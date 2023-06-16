@@ -2,10 +2,12 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
-import Chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chromium';
+import { launch } from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
+
 /**
  * This function console logs an info message.
  *
@@ -59,9 +61,12 @@ const initialiseOptions = async (
 ): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : Chromium.args,
-		defaultViewport: Chromium.defaultViewport,
-		executablePath: await Chromium.executablePath,
+		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args.concat( '--disable-dev-shm-usage'),
+		defaultViewport: chromium.defaultViewport,
+		executablePath:
+			process.env.IS_LOCAL == 'true'
+				? '/opt/homebrew/bin/chromium'
+				: await chromium.executablePath(`/var/task/bin`),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
@@ -75,7 +80,7 @@ const initialiseOptions = async (
  * @return {*}  {Promise<Browser>}
  */
 const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	return await Chromium.puppeteer.launch(ops);
+	return await launch(ops);
 };
 
 /**
@@ -85,6 +90,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+	chromium.setGraphicsMode = false; //required for browser.close() not to hang
 	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
@@ -98,10 +104,9 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
  */
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(3000);
 
-	const frame = getFrame(page, config.iframeDomain);
+	const frame = await getFrame(page, config.iframeDomain);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Complete`);
@@ -119,10 +124,12 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
 ): Promise<void> => {
-	await page.waitForTimeout(3000);
+
 	log_info(`Waiting for Privacy Settings Panel: Start`);
-	const frame = getFrame(page, config.iframeDomainSecondLayer);
+
+	const frame = await getFrame(page, config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
 
@@ -138,10 +145,9 @@ export const clickSaveAndCloseSecondLayer = async (
 	page: Page,
 ) => {
 	log_info(`Clicking on save and close button: Start`);
-	// Ensure that Sourcepoint has enough time to load the CMP
-	await page.waitForTimeout(3000);
 
-	const frame = getFrame(page, config.iframeDomainSecondLayer);
+	const frame = await getFrame(page, config.iframeDomainSecondLayer);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
 	log_info(`Clicking on save and exit button: Complete`);
@@ -157,10 +163,8 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	await page.waitForTimeout(3000);
-
-	const frame = getFrame(page, config.iframeDomainSecondLayer);
-
+	const frame = await getFrame(page,config.iframeDomainSecondLayer);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
 	log_info(`Clicking on reject all button: Complete`);
@@ -174,14 +178,14 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
  * @param {string} iframeUrl
  * @return {*}  {Frame}
  */
-export const getFrame = (page: Page, iframeUrl: string): Frame => {
-	const frame = page.frames().find((f) => f.url().startsWith(iframeUrl));
-
-	if (frame === undefined) {
-		throw new Error(`Could not find frame ${iframeUrl} : Failed`);
-	}
-
+export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 30000): Promise<Frame> => {
+ try {
+	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
 	return frame;
+ } catch (error) {
+	console.error(error);
+	throw new Error(`Could not find frame "${iframeUrl}" : Failed`);
+ }
 };
 
 /**
@@ -191,9 +195,9 @@ export const getFrame = (page: Page, iframeUrl: string): Frame => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const checkTopAdHasLoaded = async (page: Page): Promise<void> => {
+export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000, visible: true });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
@@ -267,17 +271,12 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 		timeout: 30000,
 	});
 
-	// For some reason VSCode thinks the conditional is not needed, because `!response` is always falsy 🤔
-	// TODO: clarify that...
-	//if (!response) {
-	//	log_error('Loading URL: Failed');
-	//	throw 'Failed to load page!';
-	//}
-
 	// If the response status code is not a 2xx success code
-	if (response.status() < 200 || response.status() > 299) {
-		log_error(`Loading URL: Error: Status ${response.status()}`);
-		throw 'Failed to load page!';
+	if (response != null) {
+		if (response.status() < 200 || response.status() > 299) {
+			log_error(`Loading URL: Error: Status ${response.status()}`);
+			throw 'Failed to load page!';
+		}
 	}
 
 	log_info(`Loading page: Complete`);

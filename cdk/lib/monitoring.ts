@@ -38,7 +38,7 @@ export class Monitoring extends GuStack {
 				functionName: `${lambdaBaseName}-${stage}`,
 				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
 				handler: 'index.handler',
-				runtime: Runtime.NODEJS_14_X,
+				runtime: Runtime.NODEJS_18_X,
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
@@ -80,7 +80,8 @@ export class Monitoring extends GuStack {
 
 		// Error Alarm
 		new Alarm(this, 'cmp-monitoring-alarms', {
-			comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
 			evaluationPeriods: 1,
 			metric: errorMetric,

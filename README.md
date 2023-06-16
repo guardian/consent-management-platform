@@ -96,10 +96,10 @@ Will be used to link back to a `browserId` for further reporting; if possible th
 
 ```js
 cmp.init({
-    country: 'GB',
-    pubData: {
-        pageViewId: 'jkao3u2kcbaqk',
-    },
+	country: 'GB',
+	pubData: {
+		pageViewId: 'jkao3u2kcbaqk',
+	},
 });
 ```
 
@@ -145,9 +145,9 @@ Throws an error if the CMP has not been initialised.
 
 ```js
 if (cmp.hasInitialised()) {
-    if (cmp.willShowPrivacyMessageSync()) {
-        // do something
-    }
+	if (cmp.willShowPrivacyMessageSync()) {
+		// do something
+	}
 }
 ```
 
@@ -166,9 +166,9 @@ cmp.showPrivacyManager();
 
 ```js
 import {
-    onConsent,
-    onConsentChange,
-    getConsentFor,
+	onConsent,
+	onConsentChange,
+	getConsentFor,
 } from '@guardian/consent-management-platform';
 ```
 
@@ -235,7 +235,7 @@ If the user is not in the USA, it will be `undefined`.
 
 ```js
 {
-    doNotSell: Boolean;
+	doNotSell: Boolean;
 }
 ```
 
@@ -262,9 +262,9 @@ If the user can be targeted for personalisation according to the active consent 
 
 For example `canTarget` would be `true` in the following scenarios:
 
-- for CCPA if the user has _not_ clicked "do not sell",
-- for AUS if the user has _not_ opted out of personalised advertising
-- for TCFv2 if the user has given consent for all purposes
+-   for CCPA if the user has _not_ clicked "do not sell",
+-   for AUS if the user has _not_ opted out of personalised advertising
+-   for TCFv2 if the user has given consent for all purposes
 
 ##### `consentState.framework`
 
@@ -278,17 +278,17 @@ The active consent framework e.g. `"ccpa"`, `"aus"`, `"tcfv2"` or `null`.
 import { onConsentChange } from '@guardian/consent-management-platform';
 
 onConsentChange(({ tcfv2, ccpa, aus }) => {
-    if (tcfv2) {
-        console.log(tcfv2); // { 1: true || false, 1: true || false, ... }
-    }
+	if (tcfv2) {
+		console.log(tcfv2); // { 1: true || false, 1: true || false, ... }
+	}
 
-    if (ccpa) {
-        console.log(ccpa); // { doNotSell: true || false }
-    }
+	if (ccpa) {
+		console.log(ccpa); // { doNotSell: true || false }
+	}
 
-    if (aus) {
-        console.log(aus); // { personalisedAdvertising: true || false }
-    }
+	if (aus) {
+		console.log(aus); // { personalisedAdvertising: true || false }
+	}
 });
 ```
 
@@ -318,6 +318,7 @@ type: `string`
 -   `"acast"`
 -   `"braze"`
 -   `"comscore"`
+-   `"criteo"`
 -   `"google-analytics"`
 -   `"google-mobile-ads"`
 -   `"google-tag-manager"`
@@ -352,22 +353,22 @@ The consent object passed to the `onConsentChange` callback.
 
 ```js
 import {
-    onConsentChange,
-    getConsentFor,
+	onConsentChange,
+	getConsentFor,
 } from '@guardian/consent-management-platform';
 
 onConsentChange((consentState) => {
-    const ga = getConsentFor('google-analytics', consentState); // true
-    const comscore = getConsentFor('comscore', consentState); // false
+	const ga = getConsentFor('google-analytics', consentState); // true
+	const comscore = getConsentFor('comscore', consentState); // false
 
-    // throws error
-    const eowifnwoeifjoweinf = getConsentFor(
-        'eowifnwoeifjoweinf',
-        consentState,
-    );
+	// throws error
+	const eowifnwoeifjoweinf = getConsentFor(
+		'eowifnwoeifjoweinf',
+		consentState,
+	);
 
-    // you can still use the consent state for a more complicated task
-    const complexConsentCondition = myComplexConsentTask(consentState);
+	// you can still use the consent state for a more complicated task
+	const complexConsentCondition = myComplexConsentTask(consentState);
 });
 ```
 

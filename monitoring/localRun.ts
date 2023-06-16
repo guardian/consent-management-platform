@@ -75,9 +75,7 @@ async function interactiveCLI() {
 		},
 	];
 
-	await prompt(questions).then(async (userInput: LocalRunCLIUserInput) => {
-		await handleEvent(userInput);
-	});
+	await prompt(questions).then(handleEvent);
 }
 
 async function main() {

@@ -1,13 +1,13 @@
-import babel from '@rollup/plugin-babel';
+import pluginBabel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import terser from '@rollup/plugin-terser';
 import css from 'rollup-plugin-css-only';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import svelte from 'rollup-plugin-svelte';
-import { terser } from 'rollup-plugin-terser';
 import pkg from '../package.json';
 
 const dist = 'test-page/dist';
@@ -20,9 +20,11 @@ export default {
 		sourcemap: process.env.ROLLUP_WATCH ? 'inline' : true,
 	},
 	plugins: [
-		svelte(),
+		svelte({
+			emitCss: false,
+		}),
 		css(),
-		babel({
+		pluginBabel({
 			babelHelpers: 'bundled',
 			presets: [
 				[
