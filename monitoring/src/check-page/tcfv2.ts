@@ -95,16 +95,15 @@ const checkSubsequentPage = async (
 	// There is no CMP since this we have already accepted this on a previous page.
 		await checkTopAdHasLoaded(page);
 	await Promise.all([
-		await clearCookies(await page.target().createCDPSession()),
-		await clearLocalStorage(page)
+		clearCookies(await page.target().createCDPSession()),
+		clearLocalStorage(page)
 	]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
 	await clickAcceptAllCookies(config, page);
 	await Promise.all([
-		await checkCMPIsNotVisible(page),
-		await checkTopAdHasLoaded(page),
-
+		checkCMPIsNotVisible(page),
+		checkTopAdHasLoaded(page),
 	]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);

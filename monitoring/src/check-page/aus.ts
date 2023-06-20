@@ -37,8 +37,8 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
 	await Promise.all([
-		await checkCMPIsNotVisible(page),
-		await checkTopAdHasLoaded(page, topAdTimeout),
+		checkCMPIsNotVisible(page),
+		checkTopAdHasLoaded(page, topAdTimeout),
 	]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
