@@ -55,35 +55,35 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 
 	try {
-	const page: Page = await browser.newPage();
+		const page: Page = await browser.newPage();
 
-	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	await clearCookies(await page.target().createCDPSession());
-	await loadPage(page, url);
-	await checkTopAdHasLoaded(page, topAdTimeout);
-	await checkCMPIsOnPage(page);
-	await clickAcceptAllCookies(config, page);
-	await checkCMPIsNotVisible(page);
-	await reloadPage(page);
-	await checkTopAdHasLoaded(page, topAdTimeout);
+		// Clear cookies before starting testing, to ensure the CMP is displayed.
+		await clearCookies(await page.target().createCDPSession());
+		await loadPage(page, url);
+		await checkTopAdHasLoaded(page, topAdTimeout);
+		await checkCMPIsOnPage(page);
+		await clickAcceptAllCookies(config, page);
+		await checkCMPIsNotVisible(page);
+		await reloadPage(page);
+		await checkTopAdHasLoaded(page, topAdTimeout);
 
-	if (nextUrl) {
-		await checkSubsequentPage(browser, nextUrl);
-	}
+		if (nextUrl) {
+			await checkSubsequentPage(browser, nextUrl);
+		}
 
-	await checkCMPLoadingTime(page, config);
+		await checkCMPLoadingTime(page, config);
 
-	await page.close();
-
-} catch (e) {
-	console.log(e);
-  } finally {
-	const pages = await browser.pages();
-	for (const page of pages) {
 		await page.close();
+
+	} catch (e) {
+		console.log(e);
+	} finally {
+		const pages = await browser.pages();
+		for (const page of pages) {
+			await page.close();
+		}
+		await browser.close();
 	}
-	await browser.close();
-}
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {

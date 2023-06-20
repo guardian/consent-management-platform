@@ -92,41 +92,39 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	try {
-	const page: Page = await browser.newPage();
+		const page: Page = await browser.newPage();
 
-	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	await clearCookies(await page.target().createCDPSession());
-	await loadPage(page, url);
-	await checkTopAdHasLoaded(page);
-	await checkCMPIsOnPage(page);
-	await clickDoNotSellMyInfo(config, page);
-	await checkCMPIsNotVisible(page);
-	await reloadPage(page);
-	await checkTopAdHasLoaded(page);
+		// Clear cookies before starting testing, to ensure the CMP is displayed.
+		await clearCookies(await page.target().createCDPSession());
+		await loadPage(page, url);
+		await checkTopAdHasLoaded(page);
+		await checkCMPIsOnPage(page);
+		await clickDoNotSellMyInfo(config, page);
+		await checkCMPIsNotVisible(page);
+		await reloadPage(page);
+		await checkTopAdHasLoaded(page);
 
-	if (nextUrl) {
-		await checkSubsequentPage(browser, nextUrl);
-	}
+		if (nextUrl) {
+			await checkSubsequentPage(browser, nextUrl);
+		}
 
-	await checkGPCRespected(page);
+		await checkGPCRespected(page);
 
-	// Clear GPC header before loading CMP banner as previous tests hides the banner.
-	await setGPCHeader(page, false);
+		// Clear GPC header before loading CMP banner as previous tests hides the banner.
+		await setGPCHeader(page, false);
 
-	await checkCMPLoadingTime(page, config);
+		await checkCMPLoadingTime(page, config);
 
-	await page.close();
-} catch (e) {
-	console.log(e);
-  } finally {
-
-
-	const pages = await browser.pages();
-	for (const page of pages) {
 		await page.close();
+	} catch (e) {
+		console.log(e);
+  	} finally {
+		const pages = await browser.pages();
+		for (const page of pages) {
+			await page.close();
+		}
+		await browser.close();
 	}
-	await browser.close();
-}
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {

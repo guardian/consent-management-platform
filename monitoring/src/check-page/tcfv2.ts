@@ -128,24 +128,24 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 
 	try {
-	const page: Page = await browser.newPage();
+		const page: Page = await browser.newPage();
 
-	await firstLayerCheck(config, url, page, browser, nextUrl);
+		await firstLayerCheck(config, url, page, browser, nextUrl);
 
-	await secondLayerCheck(config, url, page);
+		await secondLayerCheck(config, url, page);
 
-	await checkCMPLoadingTime(page, config);
+		await checkCMPLoadingTime(page, config);
 
-	await page.close();
-} catch (e) {
-	console.log(e);
-  } finally {
-	const pages = await browser.pages();
-	for (const page of pages) {
 		await page.close();
+	} catch (e) {
+		console.log(e);
+	} finally {
+		const pages = await browser.pages();
+		for (const page of pages) {
+			await page.close();
+		}
+		await browser.close();
 	}
-	await browser.close();
-}
 };
 
 /**
