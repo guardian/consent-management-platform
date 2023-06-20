@@ -91,19 +91,22 @@ const checkSubsequentPage = async (
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
-	await Promise.all([
-		await loadPage(page, url),
+		await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
-		await checkTopAdHasLoaded(page),
+		await checkTopAdHasLoaded(page);
+	await Promise.all([
 		await clearCookies(await page.target().createCDPSession()),
-		await clearLocalStorage(page),
-		await reloadPage(page),
-		await checkTopAdDidNotLoad(page),
-		await clickAcceptAllCookies(config, page),
+		await clearLocalStorage(page)
+	]);
+	await reloadPage(page);
+	await checkTopAdDidNotLoad(page);
+	await clickAcceptAllCookies(config, page);
+	await Promise.all([
 		await checkCMPIsNotVisible(page),
 		await checkTopAdHasLoaded(page),
-		await page.close(),
+
 	]);
+	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 
@@ -124,6 +127,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
+
+	try {
 	const page: Page = await browser.newPage();
 
 	await firstLayerCheck(config, url, page, browser, nextUrl);
@@ -133,12 +138,15 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkCMPLoadingTime(page, config);
 
 	await page.close();
-
+} catch (e) {
+	console.log(e);
+  } finally {
 	const pages = await browser.pages();
 	for (const page of pages) {
 		await page.close();
 	}
 	await browser.close();
+}
 };
 
 /**
