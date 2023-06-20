@@ -14,7 +14,7 @@ import {
 	reloadPage,
 } from './common-functions';
 
-const topAdTimeout: number = 50000;
+const topAdTimeout: number = 30000;
 
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
 
