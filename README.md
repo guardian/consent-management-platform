@@ -326,7 +326,6 @@ type: `string`
 -   `"ias"`
 -   `"inizio"`
 -   `"ipsos"`
--   `"linkedin"`
 -   `"lotame"`
 -   `"nielsen"`
 -   `"ophan"`
