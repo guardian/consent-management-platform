@@ -195,9 +195,9 @@ export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const checkTopAdHasLoaded = async (page: Page) => {
+export const checkTopAdHasLoaded = async (page: Page, timeout: number = 30000) => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000, visible: true });
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: timeout, visible: true });
 	log_info(`Waiting for ads to load: Complete`);
 };
 
