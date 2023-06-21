@@ -14,8 +14,6 @@ import {
 	reloadPage,
 } from './common-functions';
 
-const topAdTimeout: number = 30000;
-
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
 
 	log_info(`Clicking on "Continue" on CMP`);
@@ -38,7 +36,7 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	await loadPage(page, url);
 	await Promise.all([
 		checkCMPIsNotVisible(page),
-		checkTopAdHasLoaded(page, topAdTimeout),
+		checkTopAdHasLoaded(page),
 	]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
@@ -60,12 +58,12 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		// Clear cookies before starting testing, to ensure the CMP is displayed.
 		await clearCookies(await page.target().createCDPSession());
 		await loadPage(page, url);
-		await checkTopAdHasLoaded(page, topAdTimeout);
+		await checkTopAdHasLoaded(page);
 		await checkCMPIsOnPage(page);
 		await clickAcceptAllCookies(config, page);
 		await checkCMPIsNotVisible(page);
 		await reloadPage(page);
-		await checkTopAdHasLoaded(page, topAdTimeout);
+		await checkTopAdHasLoaded(page);
 
 		if (nextUrl) {
 			await checkSubsequentPage(browser, nextUrl);
