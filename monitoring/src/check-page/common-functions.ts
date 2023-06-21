@@ -363,8 +363,10 @@ export const sendMetricData = async (
  */
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
-		await clearCookies(await getClient(page));
-		await clearLocalStorage(page);
+		await Promise.all([
+			clearCookies(await getClient(page)),
+			clearLocalStorage(page)
+		]);
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear

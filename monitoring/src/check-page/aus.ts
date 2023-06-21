@@ -33,12 +33,12 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
+	await loadPage(page, url);
 	await Promise.all([
-		await loadPage(page, url),
-		await checkCMPIsNotVisible(page),
-		await checkTopAdHasLoaded(page),
-		await page.close()
+		checkCMPIsNotVisible(page),
+		checkTopAdHasLoaded(page),
 	]);
+	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
 
@@ -51,39 +51,37 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const page: Page = await browser.newPage();
 
-	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
+	try {
+		const page: Page = await browser.newPage();
 
-	await loadPage(page, url);
+		// Clear cookies before starting testing, to ensure the CMP is displayed.
+		await clearCookies(await page.target().createCDPSession());
+		await loadPage(page, url);
+		await checkTopAdHasLoaded(page);
+		await checkCMPIsOnPage(page);
+		await clickAcceptAllCookies(config, page);
+		await checkCMPIsNotVisible(page);
+		await reloadPage(page);
+		await checkTopAdHasLoaded(page);
 
-	await checkTopAdHasLoaded(page);
+		if (nextUrl) {
+			await checkSubsequentPage(browser, nextUrl);
+		}
 
-	await checkCMPIsOnPage(page);
+		await checkCMPLoadingTime(page, config);
 
-	await clickAcceptAllCookies(config, page);
-
-	await checkCMPIsNotVisible(page);
-
-	await reloadPage(page);
-
-	await checkTopAdHasLoaded(page);
-
-	if (nextUrl) {
-		await checkSubsequentPage(browser, nextUrl);
-	}
-
-	await checkCMPLoadingTime(page, config);
-
-	await page.close();
-
-	const pages = await browser.pages();
-	for (const page of pages) {
 		await page.close();
+
+	} catch (e) {
+		console.log(e);
+	} finally {
+		const pages = await browser.pages();
+		for (const page of pages) {
+			await page.close();
+		}
+		await browser.close();
 	}
-	await browser.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
