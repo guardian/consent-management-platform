@@ -14,6 +14,11 @@ import {
 	reloadPage,
 } from './common-functions';
 
+/**
+ * Clicks the accept all button and then waits for the choice to be persisted.
+ * @param config
+ * @param page
+ */
 const clickAcceptAllCookies = async (config: Config, page: Page) => {
 
 	log_info(`Clicking on "Continue" on CMP`);
@@ -21,8 +26,10 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	const frame = await getFrame(page, config.iframeDomain);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-
 	log_info(`Clicked on "Continue" on CMP`);
+	log_info(`Waiting for the choice to be persisted.`);
+	await new Promise(r => setTimeout(r, 5000));
+
 };
 
 /**
