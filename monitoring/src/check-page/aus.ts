@@ -28,6 +28,8 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 	log_info(`Clicked on "Continue" on CMP`);
 	log_info(`Waiting for the choice to be persisted.`);
+	/* As there is a long delay in persisting the user's consent to the browser in Australia,
+	 * we are adding a sleep at this point to delay the page reload until that is likely complete. */
 	await new Promise(r => setTimeout(r, 5000));
 
 };
