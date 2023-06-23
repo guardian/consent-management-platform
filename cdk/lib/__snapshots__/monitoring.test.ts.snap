@@ -283,7 +283,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
               ],
             },
             "Id": "Target0",
-            "Input": "{"stage":"PROD","region":"eu-west-1"}",
+            "Input": "{"stage":"CODE","region":"eu-west-1"}",
           },
         ],
       },
