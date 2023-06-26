@@ -71,7 +71,7 @@ export class Monitoring extends GuStack {
 		});
 
 		const monitoringDuration: Duration =
-			stage === 'PROD' ? Duration.minutes(2) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
+			stage === 'PROD' ? Duration.minutes(2) : Duration.minutes(2); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
 			schedule: Schedule.rate(monitoringDuration),
