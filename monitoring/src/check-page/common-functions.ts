@@ -106,7 +106,7 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
 	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Complete`);

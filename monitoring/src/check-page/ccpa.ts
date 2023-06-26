@@ -19,7 +19,7 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
 
 	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+	await frame.waitForSelector(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON, {visible: true});
 	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
