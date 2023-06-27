@@ -204,7 +204,7 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 	catch(e) {
 		console.error("Failed checkCMPIsOnPage. Retrying once.");
 		console.error(e);
-		await checkTopAdHasLoaded(page);
+		await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 15000, visible: true });
 	}
 
 	log_info(`Waiting for ads to load: Complete`);
@@ -234,7 +234,7 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	catch(e) {
 		console.error("Failed checkCMPIsOnPage. Retrying once.");
 		console.error(e);
-		await checkCMPIsOnPage(page);
+		await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 15000});
 	}
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 	log_info(`Waiting for CMP: Complete`);
