@@ -197,7 +197,16 @@ export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 
  */
 export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000, visible: true });
+
+	try {
+		await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 15000, visible: true });
+	}
+	catch(e) {
+		console.error("Failed checkCMPIsOnPage. Retrying once.");
+		console.error(e);
+		await checkTopAdHasLoaded(page);
+	}
+
 	log_info(`Waiting for ads to load: Complete`);
 };
 
@@ -226,7 +235,7 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 		console.error("Failed checkCMPIsOnPage. Retrying once.");
 		console.error(e);
 		await checkCMPIsOnPage(page);
-		}
+	}
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 	log_info(`Waiting for CMP: Complete`);
 };
