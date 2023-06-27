@@ -43,7 +43,10 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
     .on('response', response =>
       console.log(`${response.status()} ${response.url()}`))
     .on('requestfailed', request =>
-      console.log(`${request.failure()!.errorText} ${request.url()}`));
+      console.log(`${request.failure()!.errorText} ${request.url()}`))
+	.on('error', error =>
+		console.log(`${error.name} ${error.message} ${error.stack!}`)
+	);
 	await checkTopAdHasLoaded(page);
 	await checkCMPIsNotVisible(page);
 	//await Promise.all([
