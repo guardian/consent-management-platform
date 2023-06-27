@@ -198,14 +198,7 @@ export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 
 export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Start`);
 
-	try {
-		await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 15000, visible: true });
-	}
-	catch(e) {
-		console.error("Failed checkTopAdHasLoaded. Retrying once.");
-		console.error(e);
-		await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 15000, visible: true });
-	}
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000, visible: true });
 
 	log_info(`Waiting for ads to load: Complete`);
 };
@@ -295,7 +288,27 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 		}
 	}
 
+	await page.bringToFront();
+
 	log_info(`Loading page: Complete`);
+};
+
+/**
+ * This function reloads the chromium page
+ *
+ * @param {Page} page
+ */
+export const reloadPage = async (page: Page) => {
+	log_info(`Reloading page: Start`);
+	const reloadResponse = await page.reload({
+		waitUntil: ['domcontentloaded'],
+		timeout: 30000,
+	});
+	if (!reloadResponse) {
+		log_error(`Reloading page: Failed`);
+		throw 'Failed to refresh page!';
+	}
+	log_info(`Reloading page: Complete`);
 };
 
 /**
@@ -398,22 +411,4 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
  */
 export const getClient = async (page: Page): Promise<CDPSession> => {
 	return await page.target().createCDPSession();
-};
-
-/**
- * This function reloads the chromium page
- *
- * @param {Page} page
- */
-export const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['domcontentloaded'],
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
 };
