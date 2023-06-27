@@ -220,7 +220,7 @@ export const recordVersionOfCMP = async (page: Page) => {
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 	try {
-		await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 30000})
+		await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 15000})
 	}
 	catch(e) {
 		console.error("Failed checkCMPIsOnPage. Retrying once.");
