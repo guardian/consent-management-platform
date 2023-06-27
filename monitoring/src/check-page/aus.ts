@@ -22,6 +22,8 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL), {visible: true};
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
+	//await new Promise(r => setTimeout(r, 5000)); //wait for 5 seconds to hope that sourcepoint has persisted the
+
 	log_info(`Clicked on "Continue" on CMP`);
 };
 
@@ -34,6 +36,7 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
+	await page.bringToFront();
 	await Promise.all([
 		checkCMPIsNotVisible(page),
 		checkTopAdHasLoaded(page),
