@@ -7,6 +7,7 @@ import { launch } from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
+import { TIMEOUT } from 'dns';
 
 /**
  * This function console logs an info message.
@@ -219,7 +220,7 @@ export const recordVersionOfCMP = async (page: Page) => {
  */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true});
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 	log_info(`Waiting for CMP: Complete`);
 };
