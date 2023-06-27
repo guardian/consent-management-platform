@@ -40,7 +40,7 @@ export class Monitoring extends GuStack {
 				handler: 'index.handler',
 				runtime: Runtime.NODEJS_18_X,
 				timeout: Duration.seconds(300),
-				memorySize: 3072,
+				memorySize: 3584,
 				initialPolicy: [policyStatement],
 			},
 		);
