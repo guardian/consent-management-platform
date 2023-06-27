@@ -7,7 +7,6 @@ import { launch } from 'puppeteer-core';
 import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
-import { TIMEOUT } from 'dns';
 
 /**
  * This function console logs an info message.
