@@ -202,7 +202,7 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 		await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 15000, visible: true });
 	}
 	catch(e) {
-		console.error("Failed checkCMPIsOnPage. Retrying once.");
+		console.error("Failed checkTopAdHasLoaded. Retrying once.");
 		console.error(e);
 		await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 15000, visible: true });
 	}
