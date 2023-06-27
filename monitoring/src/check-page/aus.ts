@@ -37,11 +37,11 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
 	page
-    //.on('console', message =>
-    //  console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+    .on('console', message =>
+      console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
     .on('pageerror', ({ message }) => console.log(message))
-    //.on('response', response =>
-    //  console.log(`${response.status()} ${response.url()}`))
+    .on('response', response =>
+      console.log(`${response.status()} ${response.url()}`))
     .on('requestfailed', request =>
       console.log(`${request.failure()!.errorText} ${request.url()}`));
 	await checkTopAdHasLoaded(page);
