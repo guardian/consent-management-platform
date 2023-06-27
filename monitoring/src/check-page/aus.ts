@@ -50,6 +50,7 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 		//checkCMPIsNotVisible(page),
 		//checkTopAdHasLoaded(page),
 	//]);
+	console.log("About to close the page")
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
