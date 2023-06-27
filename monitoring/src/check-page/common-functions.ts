@@ -276,7 +276,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
-		waitUntil: 'domcontentloaded',
+		waitUntil: 'networkidle0',
 		timeout: 30000,
 	});
 
@@ -301,7 +301,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
-		waitUntil: ['domcontentloaded'],
+		waitUntil: ['networkidle0'],
 		timeout: 30000,
 	});
 	if (!reloadResponse) {
