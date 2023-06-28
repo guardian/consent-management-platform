@@ -227,6 +227,7 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 
 	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER)
+	log_info('cmp loaded, going to record the version')
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 
 	log_info(`Waiting for CMP: Complete`);
