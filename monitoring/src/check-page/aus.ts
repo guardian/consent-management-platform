@@ -80,7 +80,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await checkCMPIsNotVisible(page);
 		await reloadPage(page);
 		await checkTopAdHasLoaded(page);
-		
+
 
 		if (nextUrl) {
 			await checkSubsequentPage(browser, nextUrl);
@@ -103,8 +103,8 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (aus)');
 	await checkPages(
 		config,
-		`${config.frontUrl}/au?adtest=fixed-puppies`,
-		`${config.articleUrl}/au?adtest=fixed-puppies`,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
-	await checkPages(config, `${config.articleUrl}/au?adtest=fixed-puppies`, '');
+	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
 };
