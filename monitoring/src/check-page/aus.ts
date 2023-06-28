@@ -19,7 +19,7 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 	log_info(`Clicking on "Continue" on CMP`);
 
 	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL), {visible: true};
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
 	//await new Promise(r => setTimeout(r, 5000)); //wait for 5 seconds to hope that sourcepoint has persisted the
