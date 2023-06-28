@@ -76,8 +76,9 @@ const checkSubsequentPage = async (
 	await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkTopAdHasLoaded(page);
+	const client = await page.target().createCDPSession();
 	await Promise.all([
-		clearCookies(await page.target().createCDPSession()),
+		clearCookies(client),
 		clearLocalStorage(page)
 	]);
 	await reloadPage(page);
