@@ -102,8 +102,8 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (aus)');
 	await checkPages(
 		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
+		`${config.frontUrl}/au?adtest=fixed-puppies`,
+		`${config.articleUrl}/au?adtest=fixed-puppies`,
 	);
-	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+	await checkPages(config, `${config.articleUrl}/au?adtest=fixed-puppies`, '');
 };
