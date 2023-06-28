@@ -6,7 +6,6 @@ import {
 	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
-	clearLocalStorage,
 	clickAcceptAllCookies,
 	loadPage,
 	log_info,
@@ -47,10 +46,9 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		const page: Page = await browser.newPage();
 
 		// Clear cookies before starting testing, to ensure the CMP is displayed.
+		const client = await page.target().createCDPSession();
+		await clearCookies(client);
 		await loadPage(page, url);
-		await clearCookies(await page.target().createCDPSession());
-		await clearLocalStorage(page);
-		await reloadPage(page);
 
 		await checkTopAdHasLoaded(page);
 		await checkCMPIsOnPage(page);

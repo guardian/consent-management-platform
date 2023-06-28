@@ -22,7 +22,7 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	await frame.waitForSelector(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON, {visible: true});
 	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 
-	await new Promise(r => setTimeout(r, 500)); //wait in the hope that sourcepoint has persisted the choice
+	await new Promise(r => setTimeout(r, 1000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
