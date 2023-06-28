@@ -392,8 +392,9 @@ export const sendMetricData = async (
  */
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
+		const client = await getClient(page);
 		await Promise.all([
-			clearCookies(await getClient(page)),
+			clearCookies(client),
 			clearLocalStorage(page)
 		]);
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
