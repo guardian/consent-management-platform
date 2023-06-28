@@ -150,7 +150,7 @@ export const clickSaveAndCloseSecondLayer = async (
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
-	await new Promise(r => setTimeout(r,500)); //wait for 2 seconds to hope that sourcepoint has persisted the choice
+	await new Promise(r => setTimeout(r,500)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -226,7 +226,7 @@ export const recordVersionOfCMP = async (page: Page) => {
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 
-	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 30000})
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER)
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 
 	log_info(`Waiting for CMP: Complete`);
@@ -413,7 +413,7 @@ export const getClient = async (page: Page): Promise<CDPSession> => {
 };
 
 /**
- * This function clicks the accept all button and waits a fixed time to give sourcepoint time to persist the choise
+ * This function clicks the accept button and waits a fixed time to give sourcepoint time to persist the choise
  *
  * @param {Page} page
  * @return {*}  {Promise<CDPSession>}
