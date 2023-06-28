@@ -9,9 +9,9 @@ import {
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
+	clickAcceptAllCookies,
 	clickRejectAllSecondLayer,
 	clickSaveAndCloseSecondLayer,
-	getFrame,
 	loadPage,
 	log_error,
 	log_info,
@@ -37,26 +37,6 @@ const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	}
 
 	log_info(`Checking ads do not load: Complete`);
-};
-
-/**
- * This function waits for the page to load
- * clicks the accept all button
- *
- * @param {Config} config
- * @param {Page} page
- */
-const clickAcceptAllCookies = async (config: Config, page: Page) => {
-
-	log_info(`Clicking on "Yes I'm Happy" on CMP`);
-
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, {visible: true} );
-	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-
-	await new Promise(r => setTimeout(r, 2000)); //wait for 2 seconds to hope that sourcepoint has persisted the
-
-	log_info(`Clicked on "Yes I'm Happy" on CMP`);
 };
 
 /**
@@ -102,7 +82,7 @@ const checkSubsequentPage = async (
 	]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
-	await clickAcceptAllCookies(config, page);
+	await clickAcceptAllCookies(config, page, `Yes I'm Happy`);
 	await Promise.all([
 		checkCMPIsNotVisible(page),
 		checkTopAdHasLoaded(page),
@@ -181,7 +161,7 @@ export const firstLayerCheck = async function (
 
 	await checkTopAdDidNotLoad(page);
 
-	await clickAcceptAllCookies(config, page);
+	await clickAcceptAllCookies(config, page, `Yes I'm Happy`);
 
 	await checkCMPIsNotVisible(page);
 

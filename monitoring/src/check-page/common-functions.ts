@@ -106,7 +106,7 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
 	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES, {visible: true});
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Complete`);
@@ -150,7 +150,7 @@ export const clickSaveAndCloseSecondLayer = async (
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
-	await new Promise(r => setTimeout(r,2000)); //wait for 2 seconds to hope that sourcepoint has persisted the
+	await new Promise(r => setTimeout(r,500)); //wait for 2 seconds to hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -166,10 +166,10 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
 	const frame = await getFrame(page,config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
-	await new Promise(r => setTimeout(r, 2000)); //wait for 2 seconds to hope that sourcepoint has persisted the
+	await new Promise(r => setTimeout(r, 500)); //wait for 2 seconds to hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on reject all button: Complete`);
 };
@@ -225,15 +225,10 @@ export const recordVersionOfCMP = async (page: Page) => {
  */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-	try {
-		await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 15000})
-	}
-	catch(e) {
-		console.error("Failed checkCMPIsOnPage. Retrying once.");
-		console.error(e);
-		await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 15000});
-	}
+
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, {visible: true, timeout: 30000})
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
+
 	log_info(`Waiting for CMP: Complete`);
 };
 
@@ -415,4 +410,23 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
  */
 export const getClient = async (page: Page): Promise<CDPSession> => {
 	return await page.target().createCDPSession();
+};
+
+/**
+ * This function clicks the accept all button and waits a fixed time to give sourcepoint time to persist the choise
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<CDPSession>}
+ */
+export const clickAcceptAllCookies = async (config: Config, page: Page, buttonText: string) => {
+
+	log_info(`Clicking on "${buttonText}" on CMP`);
+
+	const frame = await getFrame(page, config.iframeDomain);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+
+	await new Promise(r => setTimeout(r, 500)); //wait in the hope that sourcepoint has persisted the choice
+
+	log_info(`Clicked on "${buttonText}" on CMP`);
 };

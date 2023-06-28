@@ -1,31 +1,18 @@
 import type { Browser, Page } from 'puppeteer-core';
 import type { Config } from '../types';
-import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
-	getFrame,
+	clearLocalStorage,
+	clickAcceptAllCookies,
 	loadPage,
 	log_info,
 	makeNewBrowser,
 	reloadPage,
 } from './common-functions';
-
-const clickAcceptAllCookies = async (config: Config, page: Page) => {
-
-	log_info(`Clicking on "Continue" on CMP`);
-
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, {visible: true});
-	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-
-	await new Promise(r => setTimeout(r, 5000)); //wait for 5 seconds to hope that sourcepoint has persisted the
-
-	log_info(`Clicked on "Continue" on CMP`);
-};
 
 /**
  * Checks that ads load correctly for the second page a user goes to
@@ -36,24 +23,15 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
-	page
-    .on('console', message =>
-      console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
-    .on('pageerror', ({ message }) => console.log(message))
-    .on('response', response =>
-      console.log(`${response.status()} ${response.url()}`))
-    .on('requestfailed', request =>
-      console.log(`${request.failure()!.errorText} ${request.url()}`))
-	.on('error', error =>
-		console.log(`${error.name} ${error.message} ${error.stack!}`)
-	);
-	await checkTopAdHasLoaded(page);
-	await checkCMPIsNotVisible(page);
-	//await Promise.all([
-		//checkCMPIsNotVisible(page),
-		//checkTopAdHasLoaded(page),
-	//]);
-	console.log("About to close the page")
+	await clearCookies(await page.target().createCDPSession());
+	await clearLocalStorage(page);
+	await reloadPage(page);
+
+	await Promise.all([
+		checkCMPIsNotVisible(page),
+		checkTopAdHasLoaded(page),
+	]);
+
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
@@ -72,15 +50,17 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		const page: Page = await browser.newPage();
 
 		// Clear cookies before starting testing, to ensure the CMP is displayed.
-		await clearCookies(await page.target().createCDPSession());
 		await loadPage(page, url);
+		await clearCookies(await page.target().createCDPSession());
+		await clearLocalStorage(page);
+		await reloadPage(page);
+
 		await checkTopAdHasLoaded(page);
 		await checkCMPIsOnPage(page);
-		await clickAcceptAllCookies(config, page);
+		await clickAcceptAllCookies(config, page, `Continue`);
 		await checkCMPIsNotVisible(page);
 		await reloadPage(page);
 		await checkTopAdHasLoaded(page);
-
 
 		if (nextUrl) {
 			await checkSubsequentPage(browser, nextUrl);

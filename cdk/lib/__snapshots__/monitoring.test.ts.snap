@@ -38,7 +38,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         },
         "FunctionName": "cmp-monitoring-PROD",
         "Handler": "index.handler",
-        "MemorySize": 3072,
+        "MemorySize": 2048,
         "Role": {
           "Fn::GetAtt": [
             "cmpmonitoringServiceRole3F7FDCEC",
@@ -68,7 +68,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Value": "PROD",
           },
         ],
-        "Timeout": 500,
+        "Timeout": 300,
       },
       "Type": "AWS::Lambda::Function",
     },
