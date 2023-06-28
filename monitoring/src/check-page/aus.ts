@@ -23,9 +23,6 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
 	await loadPage(page, url);
-	await clearCookies(await page.target().createCDPSession());
-	await clearLocalStorage(page);
-	await reloadPage(page);
 
 	await Promise.all([
 		checkCMPIsNotVisible(page),
