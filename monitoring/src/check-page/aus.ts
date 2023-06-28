@@ -80,6 +80,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await checkCMPIsNotVisible(page);
 		await reloadPage(page);
 		await checkTopAdHasLoaded(page);
+		
 
 		if (nextUrl) {
 			await checkSubsequentPage(browser, nextUrl);
