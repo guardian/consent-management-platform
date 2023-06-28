@@ -150,6 +150,8 @@ export const clickSaveAndCloseSecondLayer = async (
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
+	await new Promise(r => setTimeout(r,2000)); //wait for 2 seconds to hope that sourcepoint has persisted the
+
 	log_info(`Clicking on save and exit button: Complete`);
 };
 
@@ -166,6 +168,8 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	const frame = await getFrame(page,config.iframeDomainSecondLayer);
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+
+	await new Promise(r => setTimeout(r, 2000)); //wait for 2 seconds to hope that sourcepoint has persisted the
 
 	log_info(`Clicking on reject all button: Complete`);
 };
