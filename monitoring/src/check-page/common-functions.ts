@@ -106,7 +106,7 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
 	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 
 	log_info(`Loading privacy settings panel: Complete`);
@@ -166,7 +166,7 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
 	const frame = await getFrame(page,config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
 	await new Promise(r => setTimeout(r, 500)); //wait for 2 seconds to hope that sourcepoint has persisted the choice
@@ -423,7 +423,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, buttonTe
 	log_info(`Clicking on "${buttonText}" on CMP`);
 
 	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
 	await new Promise(r => setTimeout(r, 500)); //wait in the hope that sourcepoint has persisted the choice
