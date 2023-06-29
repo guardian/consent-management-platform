@@ -37,7 +37,7 @@ export const log_error = (message: string): void => {
  * @return {*}  {Promise<void>}
  */
 export const clearCookies = async (page: Page): Promise<void> => {
-	const client = await page.target().createCDPSession();
+	const client: CDPSession = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
 	await new Promise(r => setTimeout(r, 500)); //seen page load errors after clearingCookies
 	await client.detach();
@@ -417,15 +417,6 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	}
 };
 
-/**
- * This function retrieves the client
- *
- * @param {Page} page
- * @return {*}  {Promise<CDPSession>}
- */
-export const getClient = async (page: Page): Promise<CDPSession> => {
-	return await page.target().createCDPSession();
-};
 
 /**
  * This function clicks the accept button and waits a fixed time to give sourcepoint time to persist the choise
