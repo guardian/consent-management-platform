@@ -280,7 +280,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
-		waitUntil: 'networkidle2',
+		waitUntil: 'load',
 		timeout: elementTimeout,
 	});
 
@@ -308,7 +308,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
-		waitUntil: ['networkidle2'],
+		waitUntil: ['load'],
 		timeout: elementTimeout,
 	});
 	if (!reloadResponse) {
@@ -408,7 +408,6 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 			clearCookies(client),
 			clearLocalStorage(page)
 		]);
-		await new Promise(r => setTimeout(r, waitAfterCMPTimeout)); //wait in the hope that ??
 
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
 		await loadPage(page, config.frontUrl);
