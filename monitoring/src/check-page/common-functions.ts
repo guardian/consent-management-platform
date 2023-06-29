@@ -8,6 +8,10 @@ import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
+const waitAfterLoadTimeout = 3000; //seeing errors if not waiting after page load and
+const waitAfterCMPTimeout = 1000; //wait in the hope that sourcpoint has persisted the choice
+const elementTimeout = 30000; //timeout for all loads etc
+
 /**
  * This function console logs an info message.
  *
@@ -150,7 +154,7 @@ export const clickSaveAndCloseSecondLayer = async (
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
-	await new Promise(r => setTimeout(r,1000)); //wait in the hope that sourcepoint has persisted the choice
+	await new Promise(r => setTimeout(r, waitAfterCMPTimeout)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -169,7 +173,7 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 
-	await new Promise(r => setTimeout(r, 1000)); //wait for 2 seconds to hope that sourcepoint has persisted the choice
+	await new Promise(r => setTimeout(r, waitAfterCMPTimeout)); //wait for 2 seconds to hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on reject all button: Complete`);
 };
@@ -182,7 +186,7 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
  * @param {string} iframeUrl
  * @return {*}  {Frame}
  */
-export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 30000): Promise<Frame> => {
+export const getFrame = async (page: Page, iframeUrl: string, timeout: number = elementTimeout): Promise<Frame> => {
  try {
 	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
 	return frame;
@@ -202,7 +206,7 @@ export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 
 export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Start`);
 
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000 });
+	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: elementTimeout });
 
 	log_info(`Waiting for ads to load: Complete`);
 };
@@ -277,7 +281,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
-		timeout: 30000,
+		timeout: elementTimeout,
 	});
 
 	// If the response status code is not a 2xx success code
@@ -289,6 +293,9 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	}
 
 	await page.bringToFront();
+
+	// We see some run failures if we do not include a wait time after a page load
+	await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
 
 	log_info(`Loading page: Complete`);
 };
@@ -302,12 +309,16 @@ export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
 		waitUntil: ['domcontentloaded'],
-		timeout: 30000,
+		timeout: elementTimeout,
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
 		throw 'Failed to refresh page!';
 	}
+
+	// We see some run failures if we do not include a wait time after a page reload
+	await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
+
 	log_info(`Reloading page: Complete`);
 };
 
@@ -397,7 +408,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 			clearCookies(client),
 			clearLocalStorage(page)
 		]);
-		await new Promise(r => setTimeout(r,1000)); //wait in the hope that ??
+		await new Promise(r => setTimeout(r, waitAfterCMPTimeout)); //wait in the hope that ??
 
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
 		await loadPage(page, config.frontUrl);
@@ -430,7 +441,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, buttonTe
 	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, {visible: true});
 	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
-	await new Promise(r => setTimeout(r, 1000)); //wait in the hope that sourcepoint has persisted the choice
+	await new Promise(r => setTimeout(r, waitAfterCMPTimeout)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicked on "${buttonText}" on CMP`);
 };
