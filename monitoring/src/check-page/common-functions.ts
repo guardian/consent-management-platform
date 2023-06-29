@@ -10,7 +10,7 @@ import { ELEMENT_ID } from '../types';
 
 //const waitAfterLoadTimeout = 3000; //seeing errors if not waiting after page load and
 const waitAfterCMPTimeout = 2000; //wait in the hope that sourcpoint has persisted the choice
-const elementTimeout = 30000; //timeout for all loads etc
+const elementTimeout = 50000; //timeout for all loads etc
 
 /**
  * This function console logs an info message.
