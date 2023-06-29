@@ -411,6 +411,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 		]);
 
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
+		await new Promise(r => setTimeout(r, 500)); //seen page load errors in Sydney
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
 		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
