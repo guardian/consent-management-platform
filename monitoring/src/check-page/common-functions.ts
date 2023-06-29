@@ -40,6 +40,7 @@ export const clearCookies = async (page: Page): Promise<void> => {
 	const client = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
 	await new Promise(r => setTimeout(r, 500)); //seen page load errors after clearingCookies
+	await client.detach();
 	log_info(`Cleared Cookies`);
 };
 
