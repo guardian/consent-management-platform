@@ -36,8 +36,9 @@ export const log_error = (message: string): void => {
  * @param {CDPSession} client
  * @return {*}  {Promise<void>}
  */
-export const clearCookies = async (client: CDPSession): Promise<void> => {
-	await client.send('Network.clearBrowserCookies');
+export const clearCookies = async (page: Page): Promise<void> => {
+	const allCookies = await page.cookies();
+	await page.deleteCookie(...allCookies);
 
 	log_info(`Cleared Cookies`);
 };
@@ -403,13 +404,10 @@ export const sendMetricData = async (
  */
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
-		const client = await getClient(page);
 		await Promise.all([
-			clearCookies(client),
+			clearCookies(page),
 			clearLocalStorage(page)
 		]);
-
-		await new Promise(r => setTimeout(r, 500)); //have seen pageload failures if not waiting here for a bit
 
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
 		await loadPage(page, config.frontUrl);

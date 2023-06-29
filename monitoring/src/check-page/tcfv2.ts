@@ -76,9 +76,8 @@ const checkSubsequentPage = async (
 	await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkTopAdHasLoaded(page);
-	const client = await page.target().createCDPSession();
 	await Promise.all([
-		clearCookies(client),
+		clearCookies(page),
 		clearLocalStorage(page)
 	]);
 	await reloadPage(page);
@@ -150,8 +149,7 @@ export const firstLayerCheck = async function (
 	nextUrl: string,
 ): Promise<void> {
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
+	await clearCookies(page);
 
 	log_info('Checking first layer: Start');
 
@@ -198,8 +196,7 @@ export const secondLayerCheck = async function (
 	// browser: Browser,
 	// nextUrl: string,
 ): Promise<void> {
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
+	await clearCookies(page);
 	await clearLocalStorage(page);
 
 	log_info('Checking second layer: Start');
@@ -224,7 +221,7 @@ export const secondLayerCheck = async function (
 
 	log_info('Starting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
-	await clearCookies(client);
+	await clearCookies(page);
 	await clearLocalStorage(page);
 
 	await reloadPage(page);

@@ -97,7 +97,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		const page: Page = await browser.newPage();
 
 		// Clear cookies before starting testing, to ensure the CMP is displayed.
-		await clearCookies(await page.target().createCDPSession());
+		await clearCookies(page);
 		await loadPage(page, url);
 		await checkTopAdHasLoaded(page);
 		await checkCMPIsOnPage(page);
