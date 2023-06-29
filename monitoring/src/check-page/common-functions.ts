@@ -409,6 +409,8 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 			clearLocalStorage(page)
 		]);
 
+		await new Promise(r => setTimeout(r, 500)); //have seen pageload failures if not waiting here for a bit
+
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
