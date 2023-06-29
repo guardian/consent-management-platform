@@ -8,8 +8,8 @@ import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
-const waitAfterLoadTimeout = 3000; //seeing errors if not waiting after page load and
-const waitAfterCMPTimeout = 1000; //wait in the hope that sourcpoint has persisted the choice
+//const waitAfterLoadTimeout = 3000; //seeing errors if not waiting after page load and
+const waitAfterCMPTimeout = 2000; //wait in the hope that sourcpoint has persisted the choice
 const elementTimeout = 30000; //timeout for all loads etc
 
 /**
@@ -280,7 +280,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
-		waitUntil: 'domcontentloaded',
+		waitUntil: 'networkidle2',
 		timeout: elementTimeout,
 	});
 
@@ -295,7 +295,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	await page.bringToFront();
 
 	// We see some run failures if we do not include a wait time after a page load
-	await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
+	//await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
 
 	log_info(`Loading page: Complete`);
 };
@@ -308,7 +308,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
-		waitUntil: ['domcontentloaded'],
+		waitUntil: ['networkidle2'],
 		timeout: elementTimeout,
 	});
 	if (!reloadResponse) {
@@ -317,7 +317,7 @@ export const reloadPage = async (page: Page) => {
 	}
 
 	// We see some run failures if we do not include a wait time after a page reload
-	await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
+	//await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
 
 	log_info(`Reloading page: Complete`);
 };
