@@ -253,7 +253,6 @@ export const secondLayerCheck = async function (
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
 	// Testing the user first visits home page then an article page
-	if(config.region) log_info(`region ${config.region}`);
 	await checkPages(
 		config,
 		`${config.frontUrl}?adtest=fixed-puppies`,

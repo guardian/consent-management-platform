@@ -8,9 +8,9 @@ import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
 import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
-//const waitAfterLoadTimeout = 3000; //seeing errors if not waiting after page load and
 const waitAfterCMPTimeout = 2000; //wait in the hope that sourcepoint has persisted the choice
-const elementTimeout = 50000; //timeout for all loads etc
+const elementTimeout = 50000; //timeout for all loads etc. Longer than default 30000 because AUS is really slow.
+const waitAfterCookieClear = 500; //seen page load errors after clearingCookies
 
 /**
  * This function console logs an info message.
@@ -39,7 +39,7 @@ export const log_error = (message: string): void => {
 export const clearCookies = async (page: Page): Promise<void> => {
 	const client: CDPSession = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
-	await new Promise(r => setTimeout(r, 500)); //seen page load errors after clearingCookies
+	await new Promise(r => setTimeout(r, waitAfterCookieClear)); //seen page load errors after clearingCookies
 	await client.detach();
 	log_info(`Cleared Cookies`);
 };
@@ -234,7 +234,6 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 
 	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER)
-	log_info('cmp loaded, going to record the version')
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 
 	log_info(`Waiting for CMP: Complete`);
@@ -297,9 +296,6 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 
 	await page.bringToFront();
 
-	// We see some run failures if we do not include a wait time after a page load
-	//await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
-
 	log_info(`Loading page: Complete`);
 };
 
@@ -318,9 +314,6 @@ export const reloadPage = async (page: Page) => {
 		log_error(`Reloading page: Failed`);
 		throw 'Failed to refresh page!';
 	}
-
-	// We see some run failures if we do not include a wait time after a page reload
-	//await new Promise(r => setTimeout(r, waitAfterLoadTimeout));
 
 	log_info(`Reloading page: Complete`);
 };
