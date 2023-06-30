@@ -63,7 +63,7 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<CustomPuppeteerOptions>}
  */
 const initialiseOptions = async (
-	isDebugMode: boolean,
+	isDebugMode: boolean, slowMo: number
 ): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
@@ -76,6 +76,7 @@ const initialiseOptions = async (
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
+		slowMo: slowMo,
 	};
 };
 
@@ -95,9 +96,9 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 0): Promise<Browser> => {
 	chromium.setGraphicsMode = false; //required for browser.close() not to hang
-	const ops = await initialiseOptions(debugMode);
+	const ops = await initialiseOptions(debugMode, slowMo);
 	const browser = await launchBrowser(ops);
 	return browser;
 };
@@ -411,7 +412,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 		]);
 
 		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
-		await new Promise(r => setTimeout(r, 500)); //seen page load errors in Sydney
+
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
 		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
