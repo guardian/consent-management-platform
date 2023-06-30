@@ -34,8 +34,6 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 const checkSubsequentPage = async (browser: Browser, url: string) => {
 	log_info(`Checking subsequent Page URL: ${url} Start`);
 	const page: Page = await browser.newPage();
-	await new Promise(r => setTimeout(r, 500));
-	
 	await loadPage(page, url);
 	await Promise.all([
 		checkCMPIsNotVisible(page),

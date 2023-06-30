@@ -10,7 +10,7 @@ import { ELEMENT_ID } from '../types';
 
 const waitAfterCMPTimeout = 2000; //wait in the hope that sourcepoint has persisted the choice
 const elementTimeout = 50000; //timeout for all loads etc. Longer than default 30000 because AUS is really slow.
-const waitAfterCookieClear = 500; //seen page load errors after clearingCookies
+//const waitAfterCookieClear = 500; //seen page load errors after clearingCookies
 
 /**
  * This function console logs an info message.
@@ -39,7 +39,7 @@ export const log_error = (message: string): void => {
 export const clearCookies = async (page: Page): Promise<void> => {
 	const client: CDPSession = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
-	await new Promise(r => setTimeout(r, waitAfterCookieClear)); //seen page load errors after clearingCookies
+	//await new Promise(r => setTimeout(r, waitAfterCookieClear)); //seen page load errors after clearingCookies
 	await client.detach();
 	log_info(`Cleared Cookies`);
 };
@@ -96,7 +96,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 0): Promise<Browser> => {
+export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 200): Promise<Browser> => {
 	chromium.setGraphicsMode = false; //required for browser.close() not to hang
 	const ops = await initialiseOptions(debugMode, slowMo);
 	const browser = await launchBrowser(ops);
