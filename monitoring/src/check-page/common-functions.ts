@@ -96,7 +96,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 200): Promise<Browser> => {
+export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 500): Promise<Browser> => {
 	chromium.setGraphicsMode = false; //required for browser.close() not to hang
 	const ops = await initialiseOptions(debugMode, slowMo);
 	const browser = await launchBrowser(ops);
