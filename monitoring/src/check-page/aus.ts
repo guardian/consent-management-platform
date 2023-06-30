@@ -40,7 +40,7 @@ const checkSubsequentPage = async (browser: Browser, url: string) => {
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await makeNewBrowser(config.debugMode, 500);
+	const browser: Browser = await makeNewBrowser(config.debugMode, 1000);
 
 	try {
 		const page: Page = await browser.newPage();
