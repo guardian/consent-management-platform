@@ -73,6 +73,8 @@ const checkSubsequentPage = async (
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
+	await new Promise(r => setTimeout(r, 500));
+	
 	await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkTopAdHasLoaded(page);
