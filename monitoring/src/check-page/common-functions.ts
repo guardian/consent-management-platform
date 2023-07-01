@@ -278,7 +278,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
  */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start - ${url}`);
-	await new Promise(r => setTimeout(r, 1000));
+	//await new Promise(r => setTimeout(r, 1000));
 	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
