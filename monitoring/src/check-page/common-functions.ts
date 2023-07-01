@@ -294,7 +294,8 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 		}
 	}
 
-	await page.bringToFront();
+	//log_info(`Bringing page to front`);
+	//await page.bringToFront();
 
 	log_info(`Loading page: Complete`);
 };
