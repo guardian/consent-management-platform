@@ -96,7 +96,7 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 500): Promise<Browser> => {
+export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 0): Promise<Browser> => {
 	chromium.setGraphicsMode = false; //required for browser.close() not to hang
 	const ops = await initialiseOptions(debugMode, slowMo);
 	const browser = await launchBrowser(ops);
@@ -278,7 +278,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
  */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start - ${url}`);
-
+	await new Promise(r => setTimeout(r, 1000));
 	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
