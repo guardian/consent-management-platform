@@ -38,7 +38,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         },
         "FunctionName": "cmp-monitoring-PROD",
         "Handler": "index.handler",
-        "MemorySize": 2560,
+        "MemorySize": 2048,
         "Role": {
           "Fn::GetAtt": [
             "cmpmonitoringServiceRole3F7FDCEC",

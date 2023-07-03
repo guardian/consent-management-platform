@@ -9,8 +9,7 @@ import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
 const waitAfterCMPTimeout = 2000; //wait in the hope that sourcepoint has persisted the choice
-const elementTimeout = 50000; //timeout for all loads etc. Longer than default 30000 because AUS is really slow.
-//const waitAfterCookieClear = 500; //seen page load errors after clearingCookies
+const elementTimeout = 20000; //timeout for all loads etc. Default is 30000
 
 /**
  * This function console logs an info message.
