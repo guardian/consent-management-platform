@@ -106,15 +106,17 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await reloadPage(page);
 		await checkTopAdHasLoaded(page);
 
-		try{
-			await checkSubsequentPage(browser, nextUrl);
+		if (nextUrl) {
+			try{
+				await checkSubsequentPage(browser, nextUrl);
+			}
+			catch(e){
+				if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
+				else console.error(`Failed to checkSubsequentPage. Trying once again.`);
+				await checkSubsequentPage(browser, nextUrl);
+			}
 		}
-		catch(e){
-			if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
-			else console.error(`Failed to checkSubsequentPage. Trying once again.`);
-			await checkSubsequentPage(browser, nextUrl);
-		}
-
+		
 		await checkGPCRespected(page);
 
 		// Clear GPC header before loading CMP banner as previous tests hides the banner.
