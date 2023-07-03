@@ -54,11 +54,23 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await reloadPage(page);
 		await checkTopAdHasLoaded(page);
 
-		if (nextUrl) {
+		try{
+			await checkSubsequentPage(browser, nextUrl);
+		}
+		catch(e){
+			if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
+			else console.error(`Failed to checkSubsequentPage. Trying once again.`);
 			await checkSubsequentPage(browser, nextUrl);
 		}
 
-		await checkCMPLoadingTime(page, config);
+		try{
+			await checkCMPLoadingTime(page, config);
+		}
+		catch(e){
+			if (e instanceof Error) console.error(`Failed to checkCMPLoadingTime. Trying once again.\n${e.message}`)
+			else console.error(`Failed to checkCMPLoadingTime. Trying once again.`);
+			await checkCMPLoadingTime(page, config);
+		}
 
 		await page.close();
 

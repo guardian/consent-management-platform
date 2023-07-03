@@ -173,7 +173,14 @@ export const firstLayerCheck = async function (
 	await checkCMPDidNotLoad(page);
 
 	if (nextUrl) {
-		await checkSubsequentPage(browser, config, nextUrl);
+		try{
+			await checkSubsequentPage(browser, config, nextUrl);
+		}
+		catch(e){
+			if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
+			else console.error(`Failed to checkSubsequentPage. Trying once again.`);
+			await checkSubsequentPage(browser, config, nextUrl);
+		}
 	}
 	log_info('Checking first layer: Complete');
 };
