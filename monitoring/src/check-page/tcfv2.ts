@@ -177,11 +177,19 @@ export const firstLayerCheck = async function (
 			await checkSubsequentPage(browser, config, nextUrl);
 		}
 		catch(e){
-			if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
-			else console.error(`Failed to checkSubsequentPage. Trying once again.`);
+			if (e instanceof Error){
+				if( e.message == `Navigation failed because browser has disconnected!`) {
+					throw e
+				}
+				else {
+					console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
+				}
+			}
+			else console.error(`Failed to checkSubsequentPage for unknown reasons. Trying once again.`);
 			await checkSubsequentPage(browser, config, nextUrl);
 		}
 	}
+
 	log_info('Checking first layer: Complete');
 };
 

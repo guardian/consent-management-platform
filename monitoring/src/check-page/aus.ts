@@ -59,18 +59,25 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 				await checkSubsequentPage(browser, nextUrl);
 			}
 			catch(e){
-				if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
-				else console.error(`Failed to checkSubsequentPage. Trying once again.`);
+				if (e instanceof Error){
+					if( e.message == `Navigation failed because browser has disconnected!`) {
+						throw e
+					}
+					else {
+						console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
+					}
+				}
+				else console.error(`Failed to checkSubsequentPage for unknown reasons. Trying once again.`);
 				await checkSubsequentPage(browser, nextUrl);
 			}
 		}
-		
+
 		try{
 			await checkCMPLoadingTime(page, config);
 		}
 		catch(e){
 			if (e instanceof Error) console.error(`Failed to checkCMPLoadingTime. Trying once again.\n${e.message}`)
-			else console.error(`Failed to checkCMPLoadingTime. Trying once again.`);
+			else console.error(`Failed to checkCMPLoadingTime for unknown reason. Trying once again.`);
 			await checkCMPLoadingTime(page, config);
 		}
 

@@ -111,12 +111,20 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 				await checkSubsequentPage(browser, nextUrl);
 			}
 			catch(e){
-				if (e instanceof Error) console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
-				else console.error(`Failed to checkSubsequentPage. Trying once again.`);
+				if (e instanceof Error){
+					if( e.message == `Navigation failed because browser has disconnected!`) {
+						throw e
+					}
+					else {
+						console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
+					}
+				}
+				else console.error(`Failed to checkSubsequentPage for unknown reasons. Trying once again.`);
 				await checkSubsequentPage(browser, nextUrl);
 			}
 		}
-		
+
+
 		await checkGPCRespected(page);
 
 		// Clear GPC header before loading CMP banner as previous tests hides the banner.
