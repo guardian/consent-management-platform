@@ -111,16 +111,23 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 				await checkSubsequentPage(browser, nextUrl);
 			}
 			catch(e){
-				if (e instanceof Error){
-					if( e.message == `Navigation failed because browser has disconnected!`) {
+				if( !browser.isConnected()) {
+					if( e instanceof Error){
+						console.error("Browser is not connected.")
 						throw e
 					}
-					else {
-						console.error(`Failed to checkSubsequentPage. Trying once again.\n${e.message}`)
-					}
+					else throw "Unknown error while checkSubsequentPage and browser is not connected."
 				}
-				else console.error(`Failed to checkSubsequentPage for unknown reasons. Trying once again.`);
-				await checkSubsequentPage(browser, nextUrl);
+				else {
+					if (e instanceof Error){
+						console.error(`Error in to checkSubsequentPage. Trying once again.\n${e.message}`)
+					}
+					else{
+						console.error(`Unknown error in checkSubsequentPage. Trying once again.`)
+					}
+
+					await checkSubsequentPage(browser, nextUrl);
+				}
 			}
 		}
 

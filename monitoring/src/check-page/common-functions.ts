@@ -38,7 +38,6 @@ export const log_error = (message: string): void => {
 export const clearCookies = async (page: Page): Promise<void> => {
 	const client: CDPSession = await page.target().createCDPSession();
 	await client.send('Network.clearBrowserCookies');
-	//await new Promise(r => setTimeout(r, waitAfterCookieClear)); //seen page load errors after clearingCookies
 	await client.detach();
 	log_info(`Cleared Cookies`);
 };
@@ -277,7 +276,6 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
  */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start - ${url}`);
-	//await new Promise(r => setTimeout(r, 1000));
 	await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
