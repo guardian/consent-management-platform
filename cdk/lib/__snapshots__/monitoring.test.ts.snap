@@ -232,7 +232,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
     },
     "cmpmonitoringalarms68497862": {
       "Properties": {
-        "AlarmDescription": "Alarm if the SUM of Errors is greater than or equal to the threshold (1) for 1 evaluation period",
+        "AlarmDescription": "Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "Dimensions": [
           {
@@ -242,12 +242,12 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             },
           },
         ],
-        "EvaluationPeriods": 1,
+        "EvaluationPeriods": 5,
         "MetricName": "Errors",
         "Namespace": "AWS/Lambda",
         "Period": 60,
         "Statistic": "Sum",
-        "Threshold": 1,
+        "Threshold": 4,
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
