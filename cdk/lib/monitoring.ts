@@ -82,11 +82,11 @@ export class Monitoring extends GuStack {
 		new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-			threshold: 1,
-			evaluationPeriods: 1,
+			threshold: 4,
+			evaluationPeriods: 5,
 			metric: errorMetric,
 			alarmDescription:
-				'Alarm if the SUM of Errors is greater than or equal to the threshold (1) for 1 evaluation period',
+				'Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period',
 		});
 	}
 }
