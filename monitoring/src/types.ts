@@ -21,7 +21,7 @@ export type CustomPuppeteerOptions = {
 	timeout?: number;
 	waitUntil?: string;
 	dumpio?: boolean;
-	slowMo: number;
+	ignoreDefaultArgs: string[];
 };
 
 export type JurisdictionOpt = string | undefined;

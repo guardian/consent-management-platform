@@ -73,20 +73,77 @@ const checkSubsequentPage = async (
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await browser.newPage();
-	await loadPage(page, url);
-	// There is no CMP since this we have already accepted this on a previous page.
-	await checkTopAdHasLoaded(page);
-	await Promise.all([
-		clearCookies(page),
-		clearLocalStorage(page)
-	]);
-	await reloadPage(page);
-	await checkTopAdDidNotLoad(page);
-	await clickAcceptAllCookies(config, page, `Yes I'm Happy`);
-	await Promise.all([
-		checkCMPIsNotVisible(page),
-		checkTopAdHasLoaded(page),
-	]);
+	//Need to split the try catch into two parts as the cookies are cleared at some point after which the ads are not expected to load
+	try{
+		await loadPage(page, url);
+		// There is no CMP since this we have already accepted this on a previous page.
+		await checkTopAdHasLoaded(page);
+	}
+	catch(e){
+		if( !browser.isConnected()) {
+			if( e instanceof Error){
+				console.error("Browser is not connected.")
+				throw e
+			}
+			else throw "Unknown error while checkSubsequentPage while loading and waiting for top ad and browser is not connected."
+		}
+		else {
+			if (e instanceof Error){
+				console.error(`Error in to checkSubsequentPage while loading and waiting for top ad. Trying once again.\n${e.message}`)
+			}
+			else{
+				console.error(`Unknown error in checkSubsequentPage while loading and waiting for top ad. Trying once again.`)
+			}
+
+			await loadPage(page, url);
+			// There is no CMP since this we have already accepted this on a previous page.
+			await checkTopAdHasLoaded(page);
+		}
+	}
+
+	try{
+		await Promise.all([
+			clearCookies(page),
+			clearLocalStorage(page)
+		]);
+		await reloadPage(page);
+		await checkTopAdDidNotLoad(page);
+		await clickAcceptAllCookies(config, page, `Yes I'm Happy`);
+		await Promise.all([
+			checkCMPIsNotVisible(page),
+			checkTopAdHasLoaded(page),
+		]);
+	}
+	catch(e){
+		if( !browser.isConnected()) {
+			if( e instanceof Error){
+				console.error("Browser is not connected.")
+				throw e
+			}
+			else throw "Unknown error while checkSubsequentPage and browser is not connected."
+		}
+		else {
+			if (e instanceof Error){
+				console.error(`Error in to checkSubsequentPage. Trying once again.\n${e.message}`)
+			}
+			else{
+				console.error(`Unknown error in checkSubsequentPage. Trying once again.`)
+			}
+
+			await Promise.all([
+				clearCookies(page),
+				clearLocalStorage(page)
+			]);
+			await reloadPage(page);
+			await checkTopAdDidNotLoad(page);
+			await clickAcceptAllCookies(config, page, `Yes I'm Happy`);
+			await Promise.all([
+				checkCMPIsNotVisible(page),
+				checkTopAdHasLoaded(page),
+			]);
+		}
+	}
+
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
@@ -173,28 +230,7 @@ export const firstLayerCheck = async function (
 	await checkCMPDidNotLoad(page);
 
 	if (nextUrl) {
-		try{
-			await checkSubsequentPage(browser, config, nextUrl);
-		}
-		catch(e){
-			if( !browser.isConnected()) {
-				if( e instanceof Error){
-					console.error("Browser is not connected.")
-					throw e
-				}
-				else throw "Unknown error while checkSubsequentPage and browser is not connected."
-			}
-			else {
-				if (e instanceof Error){
-					console.error(`Error in to checkSubsequentPage. Trying once again.\n${e.message}`)
-				}
-				else{
-					console.error(`Unknown error in checkSubsequentPage. Trying once again.`)
-				}
-
-				await checkSubsequentPage(browser, config, nextUrl);
-			}
-		}
+		await checkSubsequentPage(browser, config, nextUrl);
 	}
 
 	log_info('Checking first layer: Complete');

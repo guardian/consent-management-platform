@@ -61,7 +61,7 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<CustomPuppeteerOptions>}
  */
 const initialiseOptions = async (
-	isDebugMode: boolean, slowMo: number
+	isDebugMode: boolean
 ): Promise<CustomPuppeteerOptions> => {
 	return {
 		headless: !isDebugMode,
@@ -74,7 +74,7 @@ const initialiseOptions = async (
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
 		timeout: 0,
-		slowMo: slowMo,
+		ignoreDefaultArgs: ['--disable-dev-shm-usage']
 	};
 };
 
@@ -94,9 +94,9 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (debugMode: boolean, slowMo: number = 0): Promise<Browser> => {
+export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	chromium.setGraphicsMode = false; //required for browser.close() not to hang
-	const ops = await initialiseOptions(debugMode, slowMo);
+	const ops = await initialiseOptions(debugMode);
 	const browser = await launchBrowser(ops);
 	return browser;
 };
