@@ -73,8 +73,7 @@ const initialiseOptions = async (
 				: await chromium.executablePath(`/var/task/bin`),
 		ignoreHTTPSErrors: true,
 		devtools: isDebugMode,
-		timeout: 0,
-		ignoreDefaultArgs: ['--disable-dev-shm-usage']
+		timeout: 0
 	};
 };
 
