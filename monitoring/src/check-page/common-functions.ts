@@ -9,7 +9,7 @@ import type { Config, CustomPuppeteerOptions } from '../types';
 import { ELEMENT_ID } from '../types';
 
 const waitAfterCMPTimeout = 2000; //wait in the hope that sourcepoint has persisted the choice
-const elementTimeout = 20000; //timeout for all loads etc. Default is 30000
+const elementTimeout = 30000; //timeout for all loads etc. Default is 30000
 
 /**
  * This function console logs an info message.
@@ -229,8 +229,7 @@ export const recordVersionOfCMP = async (page: Page) => {
  */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-
-	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER)
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
 	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 
 	log_info(`Waiting for CMP: Complete`);
@@ -289,9 +288,6 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 			throw 'Failed to load page!';
 		}
 	}
-
-	//log_info(`Bringing page to front`);
-	//await page.bringToFront();
 
 	log_info(`Loading page: Complete`);
 };
@@ -408,7 +404,6 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
 	}
 };
-
 
 /**
  * This function clicks the accept button and waits a fixed time to give sourcepoint time to persist the choise

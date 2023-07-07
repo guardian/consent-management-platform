@@ -55,42 +55,27 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await checkTopAdHasLoaded(page);
 
 		if (nextUrl) {
-			try{
-				await checkSubsequentPage(browser, nextUrl);
-			}
-			catch(e){
-				if( !browser.isConnected()) {
-					if( e instanceof Error){
-						console.error("Browser is not connected.")
-						throw e
-					}
-					else throw "Unknown error while checkSubsequentPage and browser is not connected."
-				}
-				else {
-					if (e instanceof Error){
-						console.error(`Error in to checkSubsequentPage. Trying once again.\n${e.message}`)
-					}
-					else{
-						console.error(`Unknown error in checkSubsequentPage. Trying once again.`)
-					}
-
-					await checkSubsequentPage(browser, nextUrl);
-				}
-			}
+			await checkSubsequentPage(browser, nextUrl);
 		}
 
-		try{
-			await checkCMPLoadingTime(page, config);
-		}
-		catch(e){
-			if (e instanceof Error) console.error(`Failed to checkCMPLoadingTime. Trying once again.\n${e.message}`)
-			else console.error(`Failed to checkCMPLoadingTime for unknown reason. Trying once again.`);
-			await checkCMPLoadingTime(page, config);
-		}
+		await checkCMPLoadingTime(page, config);
 
 		await page.close();
 
-	} finally {
+	}
+	catch(e) {
+		if(e instanceof Error){
+			if( !browser.isConnected()) {
+				console.error(`Browser is not connected. ${e.message}`)
+			}
+			else {
+				console.error(`${e.message}`)
+			}
+			throw e
+		}
+		else throw "Unknown error."
+	}
+	finally {
 		const pages = await browser.pages();
 		for (const page of pages) {
 			await page.close();
