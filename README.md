@@ -332,7 +332,6 @@ type: `string`
 -   `"permutive"`
 -   `"prebid"`
 -   `"qm"` (Quantum Metric)
--   `"redplanet"`
 -   `"remarketing"`
 -   `"sentry"`
 -   `"teads"`
