@@ -9,6 +9,7 @@ it('the vendor ids used must be a subset of those known by the IAB as our vendor
 	const iabGuardianVendorListResponse = await axios.get(
 		guardianVendorListUrl,
 	);
+
 	const vendorIds = Object.values(VendorIDs).flat();
 
 	const iabVendorIds = iabGuardianVendorListResponse.data['vendors'].map(
