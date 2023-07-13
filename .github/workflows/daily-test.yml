@@ -1,7 +1,7 @@
 name: Daily Test
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   CI: ubuntu-latest
@@ -24,8 +24,8 @@ jobs:
       run: yarn validate
 
     - name: Lambda Install CDK dependencies
-        working-directory: './monitoring'
-        run: yarn --frozen-lockfile
+      working-directory: './monitoring'
+      run: yarn --frozen-lockfile
 
     - name: ./monitoring test
       run: yarn validate
