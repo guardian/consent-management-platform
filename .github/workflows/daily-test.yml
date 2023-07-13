@@ -4,28 +4,29 @@ on:
     - cron: '*/5 * * * *'
 
 jobs:
-  CI: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version-file: '.nvmrc'
-        cache: yarn
-        cache-dependency-path: |
-          yarn.lock
-          monitoring/yarn.lock
-          cdk/yarn.lock
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            monitoring/yarn.lock
+            cdk/yarn.lock
 
-    - name: Install Root dependencies
-      run: yarn --frozen-lockfile
+      - name: Install Root dependencies
+        run: yarn --frozen-lockfile
 
-    - name: Root test
-      run: yarn validate
+      - name: Root test
+        run: yarn validate
 
-    - name: Lambda Install CDK dependencies
-      working-directory: './monitoring'
-      run: yarn --frozen-lockfile
+      - name: Lambda Install CDK dependencies
+        working-directory: './monitoring'
+        run: yarn --frozen-lockfile
 
-    - name: ./monitoring test
-      run: yarn validate
+      - name: ./monitoring test
+        run: yarn validate
