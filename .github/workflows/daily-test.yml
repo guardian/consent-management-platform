@@ -1,11 +1,7 @@
-name: Daily Test
+name: Execute Daily Test
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
-  push:
-    branches:
-      - al-run-daily-tests
+    - cron: '0 0 * * *'
 
 jobs:
   run-test:
@@ -22,15 +18,8 @@ jobs:
             monitoring/yarn.lock
             cdk/yarn.lock
 
-      - name: Install Root dependencies
+      - name: Install root(./) dependencies
         run: yarn --frozen-lockfile
 
-      - name: Root test
-        run: yarn validate
-
-      - name: Lambda Install CDK dependencies
-        working-directory: './monitoring'
-        run: yarn --frozen-lockfile
-
-      - name: ./monitoring test
+      - name: Execute root(./) test
         run: yarn validate
