@@ -1,8 +1,8 @@
 name: Daily Test
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '*/5 * * * *'
+  schedule:
+    - cron: '*/5 * * * *'
   push:
     branches:
       - al-run-daily-tests
