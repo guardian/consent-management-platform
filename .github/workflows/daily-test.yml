@@ -13,13 +13,10 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: yarn
-          cache-dependency-path: |
-            yarn.lock
-            monitoring/yarn.lock
-            cdk/yarn.lock
+          cache-dependency-path: yarn.lock
 
-      - name: Install root(./) dependencies
+      - name: Install dependencies at root (./)
         run: yarn --frozen-lockfile
 
-      - name: Execute root(./) test
-        run: yarn validate
+      - name: Test vendor list
+        run: yarn test:vendor-list
