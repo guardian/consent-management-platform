@@ -43,6 +43,16 @@ export const VendorIDs = {
 export type VendorName = keyof typeof VendorIDs;
 
 
-export const ListOfVendorsNotInTCFV2 = [
+ /** @type {*}
+	This list exists for AUS or CCPA vendors that are not included in the list of IAB vendors
+	returned by https://cdn.privacy-mgmt.com/consent/tcfv2/vendor-list.
+	When the function getConsentFor is invoked, it examines the consent state provided in the parameters,
+	prioritizing CCPA, AUS, and then TCFv2.
+	It verifies whether the user has consented to "doNotSell" or "personalisedAdvertising" and
+	returns the corresponding consent state.
+
+	This list is used for the test defined in the vendors.test.js
+*/
+export const ListOfVendorsNotIncludedInTCFV2IABList = [
 	'redplanet'
 ];
