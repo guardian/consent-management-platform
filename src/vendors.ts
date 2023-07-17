@@ -31,7 +31,7 @@ export const VendorIDs = {
 	permutive: ['5eff0d77969bfa03746427eb'],
 	prebid: ['5f92a62aa22863685f4daa4c'],
 	qm: ['5f295fa4b8e05c76a44c3149'],
-	redplanet: ['5f199c302425a33f3f090f51'],
+	redplanet: ['not-tcfv2-vendor'],
 	remarketing: ['5ed0eb688a76503f1016578f'],
 	sentry: ['5f0f39014effda6e8bbd2006'],
 	teads: ['5eab3d5ab8e05c2bbe33f399'],
@@ -39,4 +39,10 @@ export const VendorIDs = {
 	'youtube-player': ['5e7ac3fae30e7d1bc1ebf5e8'],
 };
 
+
 export type VendorName = keyof typeof VendorIDs;
+
+
+export const ListOfVendorsNotInTCFV2 = [
+	'redplanet'
+];
