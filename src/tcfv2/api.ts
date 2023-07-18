@@ -22,8 +22,11 @@ const api = (command: Command) =>
 		}
 	});
 
+// export const getTCData = (): Promise<TCData> =>
+// 	api('getTCData') as Promise<TCData>;
+
 export const getTCData = (): Promise<TCData> =>
-	api('getTCData') as Promise<TCData>;
+	api('addEventListener') as Promise<TCData>;
 
 export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
 	api('getCustomVendorConsents') as Promise<CustomVendorConsents>;
