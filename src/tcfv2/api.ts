@@ -25,8 +25,14 @@ const api = (command: Command) =>
 // export const getTCData = (): Promise<TCData> =>
 // 	api('getTCData') as Promise<TCData>;
 
-export const getTCData = (): Promise<TCData> =>
+export /**
+ * This function previously used getTCData. However, this has been deprecated.
+ * The documentation below suggests using the addEventListener which returns the same object
+ * @return {*}  {Promise<TCData>}
+ */
+const getTCData = (): Promise<TCData> =>
 	api('addEventListener') as Promise<TCData>;
+
 
 export const getCustomVendorConsents = (): Promise<CustomVendorConsents> =>
 	api('getCustomVendorConsents') as Promise<CustomVendorConsents>;
