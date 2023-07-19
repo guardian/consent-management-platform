@@ -31,6 +31,7 @@
 		"test:e2e:serve": "rollup --config --watch",
 		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:unit": "jest --coverage",
+		"test:vendor-list": "jest -i 'vendors.test.js'",
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build",

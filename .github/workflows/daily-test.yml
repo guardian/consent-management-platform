@@ -1,0 +1,22 @@
+name: Execute Daily Test
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies at root (./)
+        run: yarn --frozen-lockfile
+
+      - name: Test vendor list
+        run: yarn test:vendor-list
