@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ListOfVendorsNotIncludedInTCFV2IABList, VendorIDs } from './vendors';
+import { TCFV2VendorIDs } from './vendors';
 
 const cmpBaseUrl = 'cdn.privacy-mgmt.com';
 const guardianId = '5ec67f5bb8e05c4a1160fda1';
@@ -10,14 +10,14 @@ it('the vendor ids used must be a subset of those known by the IAB as our vendor
 		guardianVendorListUrl,
 	);
 
-	let vendorIds = Object.values(VendorIDs).flat();
+	const vendorIds = Object.values(TCFV2VendorIDs).flat();
 
 	// Remove vendors not part of TCFV2
-	ListOfVendorsNotIncludedInTCFV2IABList.forEach((vendor) => {
-		vendorIds = vendorIds.filter(
-			(vendorId) => VendorIDs[vendor] != vendorId,
-		);
-	});
+	// ListOfVendorsNotIncludedInTCFV2IABList.forEach((vendor) => {
+	// 	vendorIds = vendorIds.filter(
+	// 		(vendorId) => VendorIDs[vendor] != vendorId,
+	// 	);
+	// });
 
 	const iabVendorIds = iabGuardianVendorListResponse.data['vendors'].map(
 		(vendor) => vendor['_id'],
