@@ -22,15 +22,14 @@ const api = (command: Command) =>
 		}
 	});
 
-// export const getTCData = (): Promise<TCData> =>
-// 	api('getTCData') as Promise<TCData>;
 
-export /**
+ /**
  * This function previously used getTCData. However, this has been deprecated.
  * The documentation below suggests using the addEventListener which returns the same object
+ * https://docs.sourcepoint.com/hc/en-us/articles/17344938802707-IAB-GDPR-TCF-v2-2-Transition-readiness-
  * @return {*}  {Promise<TCData>}
  */
-const getTCData = (): Promise<TCData> =>
+export const getTCData = (): Promise<TCData> =>
 	api('addEventListener') as Promise<TCData>;
 
 
