@@ -191,7 +191,6 @@ export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 
 	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
 	return frame;
  } catch (error) {
-	console.error(error);
 	throw new Error(`Could not find frame "${iframeUrl}" : Failed`);
  }
 };
