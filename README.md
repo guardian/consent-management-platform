@@ -314,6 +314,8 @@ type: `string`
 
 <!-- keep this list up to date with the VendorIDs in src/getConsentFor.ts -->
 
+#### TCFV2 vendors
+
 -   `"a9"`
 -   `"acast"`
 -   `"braze"`
@@ -337,6 +339,10 @@ type: `string`
 -   `"teads"`
 -   `"twitter"`
 -   `"youtube-player"`
+
+#### Aus only Vendors
+
+-   `"redplanet"`
 
 </details>
 If the vendor you need is missing, please [raise an issue](https://github.com/guardian/consent-management-platform/issues) (or a PR!).
