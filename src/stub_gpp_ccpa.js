@@ -1,3 +1,6 @@
+/* eslint-disable -- this is third party code */
+/* istanbul ignore file */
+
 export const stub_gpp_ccpa = () => {
 	(window.__gpp_addFrame = function (e) {
 		if (!window.frames[e]) {
