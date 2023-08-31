@@ -9,7 +9,7 @@
     "lint": "eslint src/** localRun.ts --ext .ts --no-error-on-unmatched-pattern",
     "start": "ts-node-dev localRun.ts",
     "remote": "ts-node-dev remoteRun.ts",
-    "build": "ncc build src/index.ts -o dist -e aws-sdk",
+    "build": "ncc build src/index.ts -o dist -e aws-sdk && npx playwright install",
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
