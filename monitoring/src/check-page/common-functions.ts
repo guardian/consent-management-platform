@@ -211,6 +211,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
 	log_info(`Loading page ${url}`);
+	await page.route('**', route => route.continue());
 
 	//await page.setCacheEnabled(false);
 
@@ -228,6 +229,25 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	}
 
 	log_info(`Loading page: Complete`);
+};
+
+/**
+ * This function reloads the chromium page
+ *
+ * @param {Page} page
+ */
+export const reloadPage = async (page: Page) => {
+	log_info(`Reloading page: Start`);
+	await page.route('**', route => route.continue());
+	const reloadResponse = await page.reload({
+		waitUntil: 'domcontentloaded',
+		timeout: 30000,
+	});
+	if (!reloadResponse) {
+		log_error(`Reloading page: Failed`);
+		throw 'Failed to refresh page!';
+	}
+	log_info(`Reloading page: Complete`);
 };
 
 /**
@@ -310,20 +330,3 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	}
 };
 
-/**
- * This function reloads the chromium page
- *
- * @param {Page} page
- */
-export const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: 'domcontentloaded',
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
-};
