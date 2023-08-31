@@ -1,11 +1,11 @@
-import {
+/*import {
 	CloudWatchClient,
 	PutMetricDataCommand,
-} from '@aws-sdk/client-cloudwatch';
-import chromium from '@sparticuz/chromium';
-import { launch } from 'puppeteer-core';
-import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
-import type { Config, CustomPuppeteerOptions } from '../types';
+} from '@aws-sdk/client-cloudwatch';*/
+import { expect } from '@playwright/test';
+import { chromium} from 'playwright-core';
+import type { Browser, Page } from 'playwright-core';
+import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
 /**
@@ -32,9 +32,8 @@ export const log_error = (message: string): void => {
  * @param {CDPSession} client
  * @return {*}  {Promise<void>}
  */
-export const clearCookies = async (client: CDPSession): Promise<void> => {
-	await client.send('Network.clearBrowserCookies');
-
+export const clearCookies = async (page: Page): Promise<void> => {
+	await page.context().clearCookies();
 	log_info(`Cleared Cookies`);
 };
 
@@ -46,41 +45,7 @@ export const clearCookies = async (client: CDPSession): Promise<void> => {
  */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
 	await page.evaluate(() => localStorage.clear());
-
 	log_info(`Cleared LocalStorage`);
-};
-
-/**
- * This function creates an object for the chromium browser options
- *
- * @param {boolean} isDebugMode
- * @return {*}  {Promise<CustomPuppeteerOptions>}
- */
-const initialiseOptions = async (
-	isDebugMode: boolean,
-): Promise<CustomPuppeteerOptions> => {
-	return {
-		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args.concat( '--disable-dev-shm-usage'),
-		defaultViewport: chromium.defaultViewport,
-		executablePath:
-			process.env.IS_LOCAL == 'true'
-				? '/opt/homebrew/bin/chromium'
-				: await chromium.executablePath(`/var/task/bin`),
-		ignoreHTTPSErrors: true,
-		devtools: isDebugMode,
-		timeout: 0,
-	};
-};
-
-/**
- * This function launches the chromium browser.
- *
- * @param {CustomPuppeteerOptions} ops
- * @return {*}  {Promise<Browser>}
- */
-const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	return await launch(ops);
 };
 
 /**
@@ -89,10 +54,9 @@ const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	chromium.setGraphicsMode = false; //required for browser.close() not to hang
-	const ops = await initialiseOptions(debugMode);
-	const browser = await launchBrowser(ops);
+export const makeNewBrowser = async (): Promise<Browser> => {
+	//TODO: Need to handle headless and debug mode more dynamically
+	const browser = await chromium.launch({headless:true});
 	return browser;
 };
 
@@ -105,9 +69,9 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
-	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	const manageButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	await manageButton.click();
+	await checkPrivacySettingsPanelIsOpen(config, page);
 
 	log_info(`Loading privacy settings panel: Complete`);
 };
@@ -127,8 +91,10 @@ export const checkPrivacySettingsPanelIsOpen = async (
 
 	log_info(`Waiting for Privacy Settings Panel: Start`);
 
-	const frame = await getFrame(page, config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+
+	const second_layer =  page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	await second_layer.waitFor();
+	expect(await second_layer.isVisible()).toBeTruthy();
 
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
@@ -146,9 +112,8 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 
-	const frame = await getFrame(page, config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
-	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+	await page.frameLocator('#sp_message_iframe_106842').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
+	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -163,29 +128,11 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	const frame = await getFrame(page,config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
-	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+	await page.frameLocator('#sp_message_iframe_106842').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
+	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
+
 
 	log_info(`Clicking on reject all button: Complete`);
-};
-
-/**
- * This function find an iframe on a provided page
- * using the iframeUrl
- *
- * @param {Page} page
- * @param {string} iframeUrl
- * @return {*}  {Frame}
- */
-export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 30000): Promise<Frame> => {
- try {
-	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
-	return frame;
- } catch (error) {
-	console.error(error);
-	throw new Error(`Could not find frame "${iframeUrl}" : Failed`);
- }
 };
 
 /**
@@ -197,7 +144,11 @@ export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 
  */
 export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000, visible: true });
+
+	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
+  	await topAds.waitFor();
+  	expect(await topAds.count()).toEqual(1);
+
 	log_info(`Waiting for ads to load: Complete`);
 };
 
@@ -219,8 +170,11 @@ export const recordVersionOfCMP = async (page: Page) => {
  */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
-	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
+
+	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
+	await cmpl.waitFor();
+  	expect(await cmpl.isVisible()).toBeTruthy();
+
 	log_info(`Waiting for CMP: Complete`);
 };
 
@@ -233,23 +187,14 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
-	const getSpMessageDisplayProperty = function (selector: string) {
-		const element = document.querySelector(selector);
-		if (element) {
-			const computedStyle = window.getComputedStyle(element);
-			return computedStyle.getPropertyValue('display');
-		}
-	};
+	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
+	//await cmpl.waitFor();
 
-	const display = await page.evaluate(
-		getSpMessageDisplayProperty,
-		ELEMENT_ID.CMP_CONTAINER,
-	);
-
-	// Use `!=` rather than `!==` here because display is a DOMString type
-	if (display && display != 'none') {
+	if ((await cmpl.isVisible())) {
 		throw Error('CMP still present on page');
 	}
+
+	expect(await cmpl.isVisible()).toBeFalsy();
 
 	log_info('CMP hidden or removed from page');
 };
@@ -264,7 +209,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
 
-	await page.setCacheEnabled(false);
+	//await page.setCacheEnabled(false);
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
@@ -288,11 +233,11 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  * @param {Page} page
  * @return {*}  {Promise<Metrics>}
  */
-export const getPageMetrics = async (page: Page): Promise<Metrics> => {
+/*export const getPageMetrics = async (page: Page): Promise<Metrics> => {
 	log_info(`Getting Page Metrics: Complete`);
 
 	return await page.metrics();
-};
+};*/
 
 /**
  * This function compares the current timestamp to a previous start time and logs
@@ -300,7 +245,7 @@ export const getPageMetrics = async (page: Page): Promise<Metrics> => {
  * @param {Page} page
  * @param {Metrics} startMetrics
  */
-export const logCMPLoadTime = async (
+/*export const logCMPLoadTime = async (
 	page: Page,
 	config: Config,
 	startMetrics: Metrics,
@@ -314,7 +259,7 @@ export const logCMPLoadTime = async (
 	}
 
 	log_info(`Logging Timestamp: Complete`);
-};
+};*/
 
 /**
  *
@@ -322,7 +267,7 @@ export const logCMPLoadTime = async (
  * @param {string} region
  * @param {number} timeToLoadInSeconds
  */
-export const sendMetricData = async (
+/*export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
 ) => {
@@ -352,7 +297,7 @@ export const sendMetricData = async (
 	const command = new PutMetricDataCommand(params);
 
 	await client.send(command);
-};
+};*/
 
 /**
  * This function checks the timestamp, loads a page and checks how long it took for the CMP
@@ -361,7 +306,7 @@ export const sendMetricData = async (
  * @param {Page} page
  * @param {string} url
  */
-export const checkCMPLoadingTime = async (page: Page, config: Config) => {
+/*export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
 		await Promise.all([
 			clearCookies(await getClient(page)),
@@ -372,7 +317,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
 		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
 	}
-};
+};*/
 
 /**
  * This function retrieves the client
@@ -380,9 +325,9 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
  * @param {Page} page
  * @return {*}  {Promise<CDPSession>}
  */
-export const getClient = async (page: Page): Promise<CDPSession> => {
+/*export const getClient = async (page: Page): Promise<CDPSession> => {
 	return await page.target().createCDPSession();
-};
+};*/
 
 /**
  * This function reloads the chromium page
@@ -392,7 +337,7 @@ export const getClient = async (page: Page): Promise<CDPSession> => {
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
-		waitUntil: ['domcontentloaded'],
+		//waitUntil: ['domcontentloaded'],
 		timeout: 30000,
 	});
 	if (!reloadResponse) {

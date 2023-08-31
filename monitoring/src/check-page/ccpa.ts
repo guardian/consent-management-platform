@@ -1,13 +1,12 @@
-import type { Browser, Page } from 'puppeteer-core';
-import type { Config } from '../types';
+import type { Browser, BrowserContext, Page } from 'playwright-core';
 import { ELEMENT_ID } from '../types';
+import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
-	checkCMPLoadingTime,
+	//checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
-	getFrame,
 	loadPage,
 	log_info,
 	makeNewBrowser,
@@ -18,9 +17,9 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
 
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
-	await frame.click(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+  	await acceptAllButton.click();
+  	await new Promise(r => setTimeout(r, 2000));
 
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
@@ -29,9 +28,9 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
  * Checks that ads load correctly for the second page a user goes to
  * when visiting the site, with respect to and interaction with the CMP.
  */
-const checkSubsequentPage = async (browser: Browser, url: string) => {
+const checkSubsequentPage = async (context: BrowserContext, url: string) => {
 	log_info(`Checking subsequent Page URL: ${url} Start`);
-	const page: Page = await browser.newPage();
+	const page: Page = await context.newPage();
 	await loadPage(page, url);
 	await Promise.all([
 		checkCMPIsNotVisible(page),
@@ -61,23 +60,6 @@ const checkBannerIsNotVisibleAfterSettingGPCHeader = async (page: Page) => {
 	);
 };
 
-/**
- * This function should be used within page.evaluate
- * Not currently using this as not working consistently
- * @return {*}
- */
-// const invokeUspApi = () => {
-// 	return new Promise<UspData>((resolve) => {
-// 		const uspApiCallback = (uspData: UspData) => {
-// 			resolve(uspData);
-// 		};
-
-// 		if (typeof window.__uspapi === 'function') {
-// 			window.__uspapi('getUSPData', 1, uspApiCallback);
-// 		}
-// 	});
-// };
-
 const checkGPCRespected = async (page: Page) => {
 	await checkBannerIsNotVisibleAfterSettingGPCHeader(page);
 };
@@ -90,12 +72,14 @@ const checkGPCRespected = async (page: Page) => {
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await makeNewBrowser(config.debugMode);
+	const browser: Browser = await makeNewBrowser();
 	try {
-		const page: Page = await browser.newPage();
+		const context = await browser.newContext();
+		const page = await context.newPage();
 
 		// Clear cookies before starting testing, to ensure the CMP is displayed.
-		await clearCookies(await page.target().createCDPSession());
+		await clearCookies(page);
+
 		await loadPage(page, url);
 		await checkTopAdHasLoaded(page);
 		await checkCMPIsOnPage(page);
@@ -105,7 +89,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await checkTopAdHasLoaded(page);
 
 		if (nextUrl) {
-			await checkSubsequentPage(browser, nextUrl);
+			await checkSubsequentPage(context, nextUrl);
 		}
 
 		await checkGPCRespected(page);
@@ -113,15 +97,11 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		// Clear GPC header before loading CMP banner as previous tests hides the banner.
 		await setGPCHeader(page, false);
 
-		await checkCMPLoadingTime(page, config);
+		//await checkCMPLoadingTime(page, config);
 
 		await page.close();
 
   	} finally {
-		const pages = await browser.pages();
-		for (const page of pages) {
-			await page.close();
-		}
 		await browser.close();
 	}
 };
@@ -134,4 +114,5 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
 	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+
 };

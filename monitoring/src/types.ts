@@ -1,4 +1,4 @@
-import type { Viewport } from 'puppeteer-core';
+//import type { Viewport } from 'puppeteer-core';
 
 declare global {
 	interface Window {
@@ -10,18 +10,6 @@ declare global {
 		_sp_: { version: string };
 	}
 }
-
-export type CustomPuppeteerOptions = {
-	headless: boolean;
-	args: string[];
-	defaultViewport: Required<Viewport>;
-	executablePath: string;
-	ignoreHTTPSErrors: boolean;
-	devtools?: boolean;
-	timeout?: number;
-	waitUntil?: string;
-	dumpio?: boolean;
-};
 
 export type JurisdictionOpt = string | undefined;
 
@@ -50,6 +38,7 @@ export const ELEMENT_ID = {
 	TCFV2_SECOND_LAYER_HEADLINE: 'p.gu-privacy-headline',
 	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',
 	TCFV2_SECOND_LAYER_REJECT_ALL: 'button.sp_choice_type_REJECT_ALL',
+	TCFV2_SECOND_LAYER_ACCEPT_ALL: 'button.sp_choice_type_ACCEPT_ALL',
 };
 
 export const AWS_REGIONS = {

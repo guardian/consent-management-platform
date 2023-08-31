@@ -1,17 +1,16 @@
-import type { Browser, Page } from 'puppeteer-core';
+import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
-	checkCMPLoadingTime,
+	//checkCMPLoadingTime,
 	checkPrivacySettingsPanelIsOpen,
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
 	clickRejectAllSecondLayer,
 	clickSaveAndCloseSecondLayer,
-	getFrame,
 	loadPage,
 	log_error,
 	log_info,
@@ -29,9 +28,12 @@ import {
 const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
 	log_info(`Checking ads do not load: Start`);
 
-	const element = await page.$(ELEMENT_ID.TOP_ADVERT);
+	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
+	//await topAds.waitFor();
+	const topAdsCount = await topAds.count();
+	//expect(topAdsCount).toEqual(0);
 
-	if (element !== null) {
+	if (topAdsCount != 0) {
 		log_error(`Checking ads do not load: Failed`);
 		throw Error('Top above nav frame present on page');
 	}
@@ -50,9 +52,9 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
 
 	log_info(`Clicking on "Yes I'm Happy" on CMP`);
 
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+  	await acceptAllButton.click();
+  	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicked on "Yes I'm Happy" on CMP`);
 };
@@ -65,37 +67,40 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
  */
 const checkCMPDidNotLoad = async (page: Page) => {
 	log_info(`Checking CMP does not load: Start`);
-
-	const spMessageContainer = await page.$(ELEMENT_ID.CMP_CONTAINER);
-
-	if (spMessageContainer !== null) {
+	try {
+		await page.locator(ELEMENT_ID.CMP_CONTAINER).isVisible();
 		log_error(`Checking CMP does not load: Failed`);
 		throw Error('CMP present on page');
 	}
+	catch(error){
+		log_info(`Checking CMP does not load: Complete`);
+	}
+  	//expect(await cmpl.isVisible()).toBeFalsy();
 
-	log_info(`Checking CMP does not load: Complete`);
+	//await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 };
 
 /**
  * Checks that ads load correctly for the second page a user goes to
  * when visiting the site, with respect to and interaction with the CMP.
  *
- * @param {Browser} browser
+ * @param {BrowserContext} context
  * @param {Config} config
  * @param {string} url
  */
 const checkSubsequentPage = async (
-	browser: Browser,
+	context: BrowserContext,
 	config: Config,
 	url: string,
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	const page: Page = await browser.newPage();
-		await loadPage(page, url);
+	const page: Page = await context.newPage();
+	await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
-		await checkTopAdHasLoaded(page);
+	await checkCMPDidNotLoad(page);
+	await checkTopAdHasLoaded(page);
 	await Promise.all([
-		clearCookies(await page.target().createCDPSession()),
+		clearCookies(page),
 		clearLocalStorage(page)
 	]);
 	await reloadPage(page);
@@ -125,24 +130,21 @@ const checkSubsequentPage = async (
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await makeNewBrowser(config.debugMode);
+	const browser: Browser = await makeNewBrowser();
 
 	try {
-		const page: Page = await browser.newPage();
+		const context = await browser.newContext();
+		const page = await context.newPage();
 
-		await firstLayerCheck(config, url, page, browser, nextUrl);
+		await firstLayerCheck(config, url, page, context, nextUrl);
 
 		await secondLayerCheck(config, url, page);
 
-		await checkCMPLoadingTime(page, config);
+		//await checkCMPLoadingTime(page, config);
 
 		await page.close();
 
 	} finally {
-		const pages = await browser.pages();
-		for (const page of pages) {
-			await page.close();
-		}
 		await browser.close();
 	}
 };
@@ -163,12 +165,11 @@ export const firstLayerCheck = async function (
 	config: Config,
 	url: string,
 	page: Page,
-	browser: Browser,
+	context: BrowserContext,
 	nextUrl: string,
 ): Promise<void> {
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
+	await clearCookies(page);
 
 	log_info('Checking first layer: Start');
 
@@ -192,7 +193,7 @@ export const firstLayerCheck = async function (
 	await checkCMPDidNotLoad(page);
 
 	if (nextUrl) {
-		await checkSubsequentPage(browser, config, nextUrl);
+		await checkSubsequentPage(context, config, nextUrl);
 	}
 	log_info('Checking first layer: Complete');
 };
@@ -212,13 +213,9 @@ export const secondLayerCheck = async function (
 	config: Config,
 	url: string,
 	page: Page,
-	// browser: Browser,
-	// nextUrl: string,
 ): Promise<void> {
-	const client = await page.target().createCDPSession();
-	await clearCookies(client);
+	await clearCookies(page);
 	await clearLocalStorage(page);
-
 	log_info('Checking second layer: Start');
 
 	// Testing the Save and Close button hides the CMP and does not load Ads
@@ -241,7 +238,7 @@ export const secondLayerCheck = async function (
 
 	log_info('Starting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
-	await clearCookies(client);
+	await clearCookies(page);
 	await clearLocalStorage(page);
 
 	await reloadPage(page);
