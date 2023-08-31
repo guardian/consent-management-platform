@@ -7,9 +7,9 @@
     "test": "jest",
     "test:dev": "jest --watch",
     "lint": "eslint src/** localRun.ts --ext .ts --no-error-on-unmatched-pattern",
-    "start": "npx playwright install && ts-node-dev localRun.ts",
-    "remote": "npx playwright install && ts-node-dev remoteRun.ts",
-    "build": "ncc build src/index.ts -o dist -e aws-sdk && npx playwright install",
+    "start": "ts-node-dev localRun.ts",
+    "remote": "ts-node-dev remoteRun.ts",
+    "build": "ncc build src/index.ts -o dist -e aws-sdk",
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
@@ -17,7 +17,8 @@
     "commander": "^11.0.0",
     "dotenv": "^16.3.1",
     "inquirer": "^8.2.3",
-    "playwright": "^1.37.1",
+    "playwright-aws-lambda": "^0.10.0",
+    "playwright-core": "^1.37.1",
     "tslib": "^2.6.2",
     "uuid": "^9.0.0"
   },

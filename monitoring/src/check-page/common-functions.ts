@@ -3,8 +3,9 @@
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';*/
 import { expect } from '@playwright/test';
-import { chromium} from 'playwright';
-import type { Browser, Page } from 'playwright';
+//import { chromium} from 'playwright';
+import { launchChromium } from 'playwright-aws-lambda';
+import type { Browser, Page } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -57,12 +58,13 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 export const makeNewBrowser = async (): Promise<Browser> => {
 	//TODO: Need to handle headless and debug mode more dynamically
 
-	const browserStandardPath = chromium.executablePath();
+	//const browserStandardPath = chromium.executablePath();
 	//const path = browserStandardPath;
-	const suffix = browserStandardPath.split('/.cache/ms-playwright/')[1];
-	const path = `/home/pwuser/.cache/ms-playwright/${suffix}`
+	//const suffix = browserStandardPath.split('/.cache/ms-playwright/')[1];
+	//const path = `/home/pwuser/.cache/ms-playwright/${suffix}`
 
-	const browser = await chromium.launch({headless:true, executablePath: path});
+	//const browser = await chromium.launch({headless:true, executablePath: path});
+	const browser = await launchChromium({headless:true});
 	return browser;
 };
 
