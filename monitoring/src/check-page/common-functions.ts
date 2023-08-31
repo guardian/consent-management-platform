@@ -193,7 +193,6 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
 	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
-	//await cmpl.waitFor();
 
 	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
@@ -211,6 +210,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
  */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
+	log_info(`Loading page ${url}`);
 
 	//await page.setCacheEnabled(false);
 
@@ -296,6 +296,7 @@ export const sendMetricData = async (
  */
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
+		log_info('Checking CMP Loading Time: Start')
 		await Promise.all([
 			clearCookies(page),
 			clearLocalStorage(page)
@@ -305,6 +306,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
 		const endTimeStamp = Date.now();
 		await logCMPLoadTime(startTimeStamp, endTimeStamp, config);
+		log_info('Checking CMP Loading Time: Finished')
 	}
 };
 
@@ -316,7 +318,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
 	const reloadResponse = await page.reload({
-		//waitUntil: ['domcontentloaded'],
+		waitUntil: 'domcontentloaded',
 		timeout: 30000,
 	});
 	if (!reloadResponse) {
