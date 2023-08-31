@@ -56,7 +56,13 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  */
 export const makeNewBrowser = async (): Promise<Browser> => {
 	//TODO: Need to handle headless and debug mode more dynamically
-	const browser = await chromium.launch({headless:true});
+
+	const browserStandardPath = chromium.executablePath();
+	//const path = browserStandardPath;
+	const suffix = browserStandardPath.split('/.cache/ms-playwright/')[1];
+	const path = `/home/pwuser/.cache/ms-playwright/${suffix}`
+
+	const browser = await chromium.launch({headless:true, executablePath: path});
 	return browser;
 };
 
