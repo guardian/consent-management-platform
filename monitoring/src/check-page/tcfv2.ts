@@ -4,7 +4,7 @@ import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
-	//checkCMPLoadingTime,
+	checkCMPLoadingTime,
 	checkPrivacySettingsPanelIsOpen,
 	checkTopAdHasLoaded,
 	clearCookies,
@@ -16,6 +16,7 @@ import {
 	log_info,
 	makeNewBrowser,
 	openPrivacySettingsPanel,
+	recordVersionOfCMP,
 	reloadPage,
 } from './common-functions';
 
@@ -67,17 +68,12 @@ const clickAcceptAllCookies = async (config: Config, page: Page) => {
  */
 const checkCMPDidNotLoad = async (page: Page) => {
 	log_info(`Checking CMP does not load: Start`);
-	try {
-		await page.locator(ELEMENT_ID.CMP_CONTAINER).isVisible();
+	const cmp = await page.locator(ELEMENT_ID.CMP_CONTAINER).isVisible();
+	if(cmp)
+	{
 		log_error(`Checking CMP does not load: Failed`);
 		throw Error('CMP present on page');
 	}
-	catch(error){
-		log_info(`Checking CMP does not load: Complete`);
-	}
-  	//expect(await cmpl.isVisible()).toBeFalsy();
-
-	//await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 };
 
 /**
@@ -140,7 +136,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 		await secondLayerCheck(config, url, page);
 
-		//await checkCMPLoadingTime(page, config);
+		await checkCMPLoadingTime(page, config);
 
 		await page.close();
 
@@ -183,6 +179,8 @@ export const firstLayerCheck = async function (
 	await clickAcceptAllCookies(config, page);
 
 	await checkCMPIsNotVisible(page);
+
+	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 
 	await checkTopAdHasLoaded(page);
 

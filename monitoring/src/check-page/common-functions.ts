@@ -1,9 +1,7 @@
-/*import {
+import {
 	CloudWatchClient,
 	PutMetricDataCommand,
-} from '@aws-sdk/client-cloudwatch';*/
-import { expect } from '@playwright/test';
-//import { chromium} from 'playwright';
+} from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, Page } from 'playwright-core';
 import type { Config } from '../types';
@@ -57,13 +55,6 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  */
 export const makeNewBrowser = async (): Promise<Browser> => {
 	//TODO: Need to handle headless and debug mode more dynamically
-
-	//const browserStandardPath = chromium.executablePath();
-	//const path = browserStandardPath;
-	//const suffix = browserStandardPath.split('/.cache/ms-playwright/')[1];
-	//const path = `/home/pwuser/.cache/ms-playwright/${suffix}`
-
-	//const browser = await chromium.launch({headless:true, executablePath: path});
 	const browser = await launchChromium({headless:true});
 	return browser;
 };
@@ -99,10 +90,12 @@ export const checkPrivacySettingsPanelIsOpen = async (
 
 	log_info(`Waiting for Privacy Settings Panel: Start`);
 
+	const secondLayer =  page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	await secondLayer.waitFor();
 
-	const second_layer =  page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
-	await second_layer.waitFor();
-	expect(await second_layer.isVisible()).toBeTruthy();
+	if (!(await secondLayer.isVisible())) {
+		throw Error('Second Layer is not present on page');
+	}
 
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
@@ -139,7 +132,6 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	await page.frameLocator('#sp_message_iframe_106842').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
 	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
-
 	log_info(`Clicking on reject all button: Complete`);
 };
 
@@ -155,7 +147,10 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 
 	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
   	await topAds.waitFor();
-  	expect(await topAds.count()).toEqual(1);
+	const count = await topAds.count();
+	  if (count !=1) {
+		throw Error('TopAd has not loaded');
+	}
 
 	log_info(`Waiting for ads to load: Complete`);
 };
@@ -181,7 +176,9 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 
 	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
 	await cmpl.waitFor();
-  	expect(await cmpl.isVisible()).toBeTruthy();
+	if (!(await cmpl.isVisible())) {
+		throw Error('CMP is not present on page');
+	}
 
 	log_info(`Waiting for CMP: Complete`);
 };
@@ -198,11 +195,9 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
 	//await cmpl.waitFor();
 
-	if ((await cmpl.isVisible())) {
+	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
 	}
-
-	expect(await cmpl.isVisible()).toBeFalsy();
 
 	log_info('CMP hidden or removed from page');
 };
@@ -236,38 +231,23 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 };
 
 /**
- * This function returns the Metrics object
- *
- * @param {Page} page
- * @return {*}  {Promise<Metrics>}
- */
-/*export const getPageMetrics = async (page: Page): Promise<Metrics> => {
-	log_info(`Getting Page Metrics: Complete`);
-
-	return await page.metrics();
-};*/
-
-/**
  * This function compares the current timestamp to a previous start time and logs
  *
  * @param {Page} page
  * @param {Metrics} startMetrics
  */
-/*export const logCMPLoadTime = async (
-	page: Page,
+export const logCMPLoadTime = async (
+	startTimeStamp: number,
+	endTimeStamp: number,
 	config: Config,
-	startMetrics: Metrics,
 ) => {
 	log_info(`Logging Timestamp: Start`);
 
-	const metrics = await page.metrics();
-	if (metrics.Timestamp && startMetrics.Timestamp) {
-		const timeDiff = metrics.Timestamp - startMetrics.Timestamp;
-		await sendMetricData(config, timeDiff);
-	}
+	const timeDiff = endTimeStamp - startTimeStamp;
+	await sendMetricData(config, timeDiff);
 
 	log_info(`Logging Timestamp: Complete`);
-};*/
+};
 
 /**
  *
@@ -275,7 +255,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  * @param {string} region
  * @param {number} timeToLoadInSeconds
  */
-/*export const sendMetricData = async (
+export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
 ) => {
@@ -305,7 +285,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	const command = new PutMetricDataCommand(params);
 
 	await client.send(command);
-};*/
+};
 
 /**
  * This function checks the timestamp, loads a page and checks how long it took for the CMP
@@ -314,28 +294,19 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  * @param {Page} page
  * @param {string} url
  */
-/*export const checkCMPLoadingTime = async (page: Page, config: Config) => {
+export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
 		await Promise.all([
-			clearCookies(await getClient(page)),
+			clearCookies(page),
 			clearLocalStorage(page)
 		]);
-		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
+		const startTimeStamp = Date.now();
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
-		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
+		const endTimeStamp = Date.now();
+		await logCMPLoadTime(startTimeStamp, endTimeStamp, config);
 	}
-};*/
-
-/**
- * This function retrieves the client
- *
- * @param {Page} page
- * @return {*}  {Promise<CDPSession>}
- */
-/*export const getClient = async (page: Page): Promise<CDPSession> => {
-	return await page.target().createCDPSession();
-};*/
+};
 
 /**
  * This function reloads the chromium page

@@ -1,7 +1,7 @@
 
 //import 'expect-playwright';
 //import path from 'path';
-import { expect } from '@playwright/test';
+//import { expect } from '@playwright/test';
 //import type { Browser, Frame, Page } from 'puppeteer-core';
 //import type { Browser, Frame, Page } from 'playwright-core';
 /*import {
@@ -13,7 +13,7 @@ import { expect } from '@playwright/test';
 
 describe('common-functions.ts', () => {
 	it('should be true',  () => {
-		expect(true).toBeTruthy();
+		true;
 	});
 	/*jest.setTimeout(20000);
 	const firstLayerIframeDomain = IframeDomainUrl.CODE;

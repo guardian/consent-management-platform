@@ -4,7 +4,7 @@ import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
-	//checkCMPLoadingTime,
+	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
 	loadPage,
@@ -97,7 +97,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		// Clear GPC header before loading CMP banner as previous tests hides the banner.
 		await setGPCHeader(page, false);
 
-		//await checkCMPLoadingTime(page, config);
+		await checkCMPLoadingTime(page, config);
 
 		await page.close();
 
