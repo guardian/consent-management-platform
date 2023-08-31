@@ -3,8 +3,8 @@
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';*/
 import { expect } from '@playwright/test';
-import { chromium} from 'playwright-core';
-import type { Browser, Page } from 'playwright-core';
+import { chromium} from 'playwright';
+import type { Browser, Page } from 'playwright';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 

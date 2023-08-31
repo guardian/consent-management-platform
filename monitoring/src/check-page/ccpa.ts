@@ -1,4 +1,4 @@
-import type { Browser, BrowserContext, Page } from 'playwright-core';
+import type { Browser, BrowserContext, Page } from 'playwright';
 import { ELEMENT_ID } from '../types';
 import type { Config } from '../types';
 import {
