@@ -156,8 +156,8 @@ export const secondLayerCheck = async function (
 	url: string,
 	page: Page,
 ): Promise<void> {
-	await clearCookies(page);
 	await clearLocalStorage(page);
+	await clearCookies(page);
 	log_info('Checking second layer: Start');
 
 	// Testing the Save and Close button hides the CMP and does not load Ads
