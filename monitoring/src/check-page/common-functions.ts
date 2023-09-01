@@ -43,7 +43,8 @@ export const clearCookies = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
-	await page.evaluate(() => localStorage.clear());
+	await page.evaluate(() => window.localStorage.clear());
+	await page.evaluate(() => window.sessionStorage.clear());
 	log_info(`Cleared LocalStorage`);
 };
 
