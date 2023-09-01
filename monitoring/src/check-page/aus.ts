@@ -39,33 +39,28 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser();
+	const context = await browser.newContext();
+	const page = await context.newPage();
 
-	try {
-		const context = await browser.newContext();
-		const page = await context.newPage();
+	// Clear cookies before starting testing, to ensure the CMP is displayed.
+	await clearCookies(page);
 
-		// Clear cookies before starting testing, to ensure the CMP is displayed.
-		await clearCookies(page);
+	await loadPage(page, url);
+	await checkTopAdHasLoaded(page);
+	await checkCMPIsOnPage(page);
+	await clickAcceptAllCookies(config, page, 'Continue');
+	await checkCMPIsNotVisible(page);
+	await reloadPage(page);
+	await checkTopAdHasLoaded(page);
 
-		await loadPage(page, url);
-		await checkTopAdHasLoaded(page);
-		await checkCMPIsOnPage(page);
-		await clickAcceptAllCookies(config, page, 'Continue');
-		await checkCMPIsNotVisible(page);
-		await reloadPage(page);
-		await checkTopAdHasLoaded(page);
-
-		if (nextUrl) {
-			await checkSubsequentPage(context, nextUrl);
-		}
-
-		await checkCMPLoadingTime(page, config);
-
-		await page.close();
-
-	} finally {
-		await browser.close();
+	if (nextUrl) {
+		await checkSubsequentPage(context, nextUrl);
 	}
+
+	await checkCMPLoadingTime(page, config);
+
+	await page.close();
+	await browser.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {

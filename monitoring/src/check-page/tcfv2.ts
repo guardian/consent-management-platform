@@ -71,22 +71,17 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser();
+	const context = await browser.newContext();
+	const page = await context.newPage();
 
-	try {
-		const context = await browser.newContext();
-		const page = await context.newPage();
+	await firstLayerCheck(config, url, page, context, nextUrl);
 
-		await firstLayerCheck(config, url, page, context, nextUrl);
+	await secondLayerCheck(config, url, page);
 
-		await secondLayerCheck(config, url, page);
+	await checkCMPLoadingTime(page, config);
 
-		await checkCMPLoadingTime(page, config);
-
-		await page.close();
-
-	} finally {
-		await browser.close();
-	}
+	await page.close();
+	await browser.close();
 };
 
 /**
@@ -156,8 +151,10 @@ export const secondLayerCheck = async function (
 	url: string,
 	page: Page,
 ): Promise<void> {
-	await clearLocalStorage(page);
-	await clearCookies(page);
+	await Promise.all([
+		clearCookies(page),
+		clearLocalStorage(page)
+	]);
 	log_info('Checking second layer: Start');
 
 	// Testing the Save and Close button hides the CMP and does not load Ads
@@ -180,8 +177,10 @@ export const secondLayerCheck = async function (
 
 	log_info('Starting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
-	await clearCookies(page);
-	await clearLocalStorage(page);
+	await Promise.all([
+		clearCookies(page),
+		clearLocalStorage(page)
+	]);
 
 	await reloadPage(page);
 
