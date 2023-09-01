@@ -76,7 +76,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await firstLayerCheck(config, url, page, context, nextUrl);
 
-	await secondLayerCheck(config, url, page);
+	await secondLayerCheck(config, url, browser);
 
 	await checkCMPLoadingTime(page, config);
 
@@ -141,20 +141,15 @@ export const firstLayerCheck = async function (
  *
  * @param {Config} config
  * @param {string} url
- * @param {Page} page
  * @param {Browser} browser
- * @param {string} nextUrl
  * @return {*}  {Promise<void>}
  */
 export const secondLayerCheck = async function (
 	config: Config,
 	url: string,
-	page: Page,
+	browser: Browser,
 ): Promise<void> {
-	await Promise.all([
-		clearCookies(page),
-		clearLocalStorage(page)
-	]);
+	const page = await browser.newPage(); //instead of clearing cookies and local storage, use a new context
 	log_info('Checking second layer: Start');
 
 	// Testing the Save and Close button hides the CMP and does not load Ads
