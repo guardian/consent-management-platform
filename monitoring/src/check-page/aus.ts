@@ -1,28 +1,17 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
-import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
 	clearCookies,
+	clickAcceptAllCookies,
 	loadPage,
 	log_info,
 	makeNewBrowser,
 	reloadPage,
 } from './common-functions';
-
-const clickAcceptAllCookies = async (config: Config, page: Page) => {
-
-	log_info(`Clicking on "Continue" on CMP`);
-
-	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
-  	await new Promise(r => setTimeout(r, 2000));
-
-	log_info(`Clicked on "Continue" on CMP`);
-};
 
 /**
  * Checks that ads load correctly for the second page a user goes to
@@ -61,7 +50,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await loadPage(page, url);
 		await checkTopAdHasLoaded(page);
 		await checkCMPIsOnPage(page);
-		await clickAcceptAllCookies(config, page);
+		await clickAcceptAllCookies(config, page, 'Continue');
 		await checkCMPIsNotVisible(page);
 		await reloadPage(page);
 		await checkTopAdHasLoaded(page);

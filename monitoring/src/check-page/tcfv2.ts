@@ -1,80 +1,24 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
-import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTime,
 	checkPrivacySettingsPanelIsOpen,
+	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
+	clickAcceptAllCookies,
 	clickRejectAllSecondLayer,
 	clickSaveAndCloseSecondLayer,
 	loadPage,
-	log_error,
 	log_info,
 	makeNewBrowser,
 	openPrivacySettingsPanel,
 	recordVersionOfCMP,
 	reloadPage,
 } from './common-functions';
-
-/**
- * This function checks the ad is not on the page
- *
- * @param {Page} page
- * @return {*}  {Promise<void>}
- */
-const checkTopAdDidNotLoad = async (page: Page): Promise<void> => {
-	log_info(`Checking ads do not load: Start`);
-
-	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
-	//await topAds.waitFor();
-	const topAdsCount = await topAds.count();
-	//expect(topAdsCount).toEqual(0);
-
-	if (topAdsCount != 0) {
-		log_error(`Checking ads do not load: Failed`);
-		throw Error('Top above nav frame present on page');
-	}
-
-	log_info(`Checking ads do not load: Complete`);
-};
-
-/**
- * This function waits for the page to load
- * clicks the accept all button
- *
- * @param {Config} config
- * @param {Page} page
- */
-const clickAcceptAllCookies = async (config: Config, page: Page) => {
-
-	log_info(`Clicking on "Yes I'm Happy" on CMP`);
-
-	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
-  	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
-
-	log_info(`Clicked on "Yes I'm Happy" on CMP`);
-};
-
-/**
- * This function searches for the CMP container and throws an error
- * if it's on the page
- *
- * @param {Page} page
- */
-const checkCMPDidNotLoad = async (page: Page) => {
-	log_info(`Checking CMP does not load: Start`);
-	const cmp = await page.locator(ELEMENT_ID.CMP_CONTAINER).isVisible();
-	if(cmp)
-	{
-		log_error(`Checking CMP does not load: Failed`);
-		throw Error('CMP present on page');
-	}
-};
 
 /**
  * Checks that ads load correctly for the second page a user goes to
@@ -93,7 +37,7 @@ const checkSubsequentPage = async (
 	const page: Page = await context.newPage();
 	await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
-	await checkCMPDidNotLoad(page);
+	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
 	await Promise.all([
 		clearCookies(page),
@@ -101,7 +45,7 @@ const checkSubsequentPage = async (
 	]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
-	await clickAcceptAllCookies(config, page);
+	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
 	await Promise.all([
 		checkCMPIsNotVisible(page),
 		checkTopAdHasLoaded(page),
@@ -176,7 +120,7 @@ export const firstLayerCheck = async function (
 
 	await checkTopAdDidNotLoad(page);
 
-	await clickAcceptAllCookies(config, page);
+	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
 
 	await checkCMPIsNotVisible(page);
 
@@ -188,7 +132,7 @@ export const firstLayerCheck = async function (
 
 	await checkTopAdHasLoaded(page);
 
-	await checkCMPDidNotLoad(page);
+	await checkCMPIsNotVisible(page);
 
 	if (nextUrl) {
 		await checkSubsequentPage(context, config, nextUrl);

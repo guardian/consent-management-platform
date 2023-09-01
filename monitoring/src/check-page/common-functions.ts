@@ -62,6 +62,25 @@ export const makeNewBrowser = async (): Promise<Browser> => {
 
 /**
  * This function waits for the page to load
+ * clicks the accept all button
+ *
+ * @param {Config} config
+ * @param {Page} page
+ * @param {string} textToPrintToConsole
+ */
+export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
+
+	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
+
+	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+  	await acceptAllButton.click();
+  	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
+
+	log_info(`Clicked on "${textToPrintToConsole}"`);
+};
+
+/**
+ * This function waits for the page to load
  * clicks the manage cookies button to open the privacy settings panel
  * @param {Config} config
  * @param {Page} page
@@ -156,6 +175,27 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Complete`);
 };
 
+/**
+ * This function checks the ad is not on the page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
+export const checkTopAdDidNotLoad = async (page: Page) => {
+	log_info(`Checking ads do not load: Start`);
+
+	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
+	//await topAds.waitFor();
+	const topAdsCount = await topAds.count();
+
+	if (topAdsCount != 0) {
+		log_error(`Checking ads do not load: Failed`);
+		throw Error('Top above nav frame present on page');
+	}
+
+	log_info(`Checking ads do not load: Complete`);
+};
+
 export const recordVersionOfCMP = async (page: Page) => {
 	log_info('* Getting the version of Sourcepoint CMP');
 
@@ -202,6 +242,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info('CMP hidden or removed from page');
 };
 
+
 /**
  * This function loads a url onto a chromium page
  *
@@ -212,9 +253,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
 	log_info(`Loading page ${url}`);
-	await page.route('**', route => route.continue());
-
-	//await page.setCacheEnabled(false);
+	await page.route('**', route => route.continue()); //disable cache to avoid 304 errors
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
@@ -239,7 +278,6 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  */
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start`);
-	await page.route('**', route => route.continue());
 	const reloadResponse = await page.reload({
 		waitUntil: 'domcontentloaded',
 		timeout: 30000,
@@ -265,6 +303,7 @@ export const logCMPLoadTime = async (
 	log_info(`Logging Timestamp: Start`);
 
 	const timeDiff = endTimeStamp - startTimeStamp;
+	log_info(`CMP Loading Time: ${timeDiff}`);
 	await sendMetricData(config, timeDiff);
 
 	log_info(`Logging Timestamp: Complete`);
