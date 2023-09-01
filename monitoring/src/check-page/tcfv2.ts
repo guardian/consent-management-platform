@@ -76,15 +76,18 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await firstLayerCheck(config, url, page, context, nextUrl);
 
-	const context2 = await browser.newContext();
+	await page.close();
+	await browser.close();
+
+	const browser2: Browser = await makeNewBrowser();
+	const context2 = await browser2.newContext();
 	const page2 = await context2.newPage();
 	await secondLayerCheck(config, url, page2);
 
 	await checkCMPLoadingTime(page2, config);
 
-	await page.close();
 	await page2.close();
-	await browser.close();
+	await browser2.close();
 };
 
 /**
