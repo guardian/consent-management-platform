@@ -70,7 +70,7 @@ const checkSubsequentPage = async (
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await makeNewBrowser();
+	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext();
 	const page = await context.newPage();
 
@@ -79,7 +79,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await page.close();
 	await browser.close();
 
-	const browser2: Browser = await makeNewBrowser();
+	const browser2: Browser = await makeNewBrowser(config.debugMode);
 	const context2 = await browser2.newContext();
 	const page2 = await context2.newPage();
 	await secondLayerCheck(config, url, page2);

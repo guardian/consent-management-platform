@@ -54,9 +54,8 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const makeNewBrowser = async (): Promise<Browser> => {
-	//TODO: Need to handle headless and debug mode more dynamically
-	const browser = await launchChromium({headless:true});
+export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+	const browser = await launchChromium({headless:debugMode});
 	return browser;
 };
 
