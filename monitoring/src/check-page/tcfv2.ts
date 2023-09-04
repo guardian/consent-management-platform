@@ -10,8 +10,8 @@ import {
 	clearCookies,
 	clearLocalStorage,
 	clickAcceptAllCookies,
-	clickRejectAllSecondLayer,
-	clickSaveAndCloseSecondLayer,
+	clickRejectAllSecondLayerTCF,
+	clickSaveAndCloseSecondLayerTCF,
 	loadPage,
 	log_info,
 	makeNewBrowser,
@@ -79,6 +79,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await page.close();
 	await browser.close();
 
+
+	//Use a new Browser here as clearing cookies and local storage here hang flakily
 	const browser2: Browser = await makeNewBrowser(config.debugMode);
 	const context2 = await browser2.newContext();
 	const page2 = await context2.newPage();
@@ -170,7 +172,7 @@ export const secondLayerCheck = async function (
 
 	await checkPrivacySettingsPanelIsOpen(config, page);
 
-	await clickSaveAndCloseSecondLayer(config, page);
+	await clickSaveAndCloseSecondLayerTCF(config, page);
 
 	await checkCMPIsNotVisible(page);
 
@@ -191,7 +193,7 @@ export const secondLayerCheck = async function (
 
 	await checkPrivacySettingsPanelIsOpen(config, page);
 
-	await clickRejectAllSecondLayer(config, page);
+	await clickRejectAllSecondLayerTCF(config, page);
 
 	await checkCMPIsNotVisible(page);
 

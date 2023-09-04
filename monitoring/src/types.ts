@@ -1,5 +1,3 @@
-//import type { Viewport } from 'puppeteer-core';
-
 declare global {
 	interface Window {
 		// 		__uspapi: (
@@ -34,6 +32,8 @@ export const ELEMENT_ID = {
 		'div.message-component.message-row > button.sp_choice_type_12',
 	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content iframe',
 	CMP_CONTAINER: '[id*="sp_message_container"]',
+	CMP_IFRAME: '[id*="sp_message_iframe"]',
+	CMP_TCF_IFRAME: '#sp_message_iframe_106842',
 	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: 'button.sp_choice_type_SAVE_AND_EXIT',
 	TCFV2_SECOND_LAYER_HEADLINE: 'p.gu-privacy-headline',
 	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',

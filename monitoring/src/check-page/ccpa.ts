@@ -17,7 +17,7 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
 
-	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_IFRAME).locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
   	await acceptAllButton.click();
   	await new Promise(r => setTimeout(r, 2000));
 

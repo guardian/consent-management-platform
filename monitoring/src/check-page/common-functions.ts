@@ -71,7 +71,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
 
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
 
-	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_IFRAME).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
   	await acceptAllButton.click();
   	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
@@ -87,7 +87,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
-	const manageButton = page.frameLocator('[id*="sp_message_iframe"]').locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	const manageButton = page.frameLocator(ELEMENT_ID.CMP_IFRAME).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 	await manageButton.click();
 	await checkPrivacySettingsPanelIsOpen(config, page);
 
@@ -126,13 +126,13 @@ export const checkPrivacySettingsPanelIsOpen = async (
  * @param {Config} config
  * @param {Page} page
  */
-export const clickSaveAndCloseSecondLayer = async (
+export const clickSaveAndCloseSecondLayerTCF = async (
 	config: Config,
 	page: Page,
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 
-	await page.frameLocator('#sp_message_iframe_106842').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
+	await page.frameLocator(ELEMENT_ID.CMP_TCF_IFRAME).locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
 	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
@@ -145,10 +145,10 @@ export const clickSaveAndCloseSecondLayer = async (
  * @param {Config} config
  * @param {Page} page
  */
-export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
+export const clickRejectAllSecondLayerTCF = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	await page.frameLocator('#sp_message_iframe_106842').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
+	await page.frameLocator(ELEMENT_ID.CMP_TCF_IFRAME).locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
 	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on reject all button: Complete`);
@@ -184,7 +184,6 @@ export const checkTopAdDidNotLoad = async (page: Page) => {
 	log_info(`Checking ads do not load: Start`);
 
 	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
-	//await topAds.waitFor();
 	const topAdsCount = await topAds.count();
 
 	if (topAdsCount != 0) {
