@@ -10,8 +10,8 @@ import {
 	clearCookies,
 	clearLocalStorage,
 	clickAcceptAllCookies,
-	clickRejectAllSecondLayerTCF,
-	clickSaveAndCloseSecondLayerTCF,
+	clickRejectAllSecondLayer,
+	clickSaveAndCloseSecondLayer,
 	loadPage,
 	log_info,
 	makeNewBrowser,
@@ -172,7 +172,7 @@ export const secondLayerCheck = async function (
 
 	await checkPrivacySettingsPanelIsOpen(config, page);
 
-	await clickSaveAndCloseSecondLayerTCF(config, page);
+	await clickSaveAndCloseSecondLayer(config, page);
 
 	await checkCMPIsNotVisible(page);
 
@@ -193,7 +193,7 @@ export const secondLayerCheck = async function (
 
 	await checkPrivacySettingsPanelIsOpen(config, page);
 
-	await clickRejectAllSecondLayerTCF(config, page);
+	await clickRejectAllSecondLayer(config, page);
 
 	await checkCMPIsNotVisible(page);
 
