@@ -328,7 +328,6 @@ type: `string`
 -   `"ias"`
 -   `"inizio"`
 -   `"ipsos"`
--   `"lotame"`
 -   `"nielsen"`
 -   `"ophan"`
 -   `"permutive"`
