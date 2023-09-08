@@ -35,23 +35,6 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
 
 To run 'local' environment, frontend and dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of frontend is <http://localhost:9000>. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.
 
-### Testing locally
-
-To test locally you will need Chromium installed:
-
-`brew reinstall --cask chromium --no-quarantine`
-
-You also need to set the environment variable `export IS_LOCAL=true`.
-
-With Chromium installed and the environment variable set, you should be able to use `yarn test`.
-
-## Chromium CI Quirk
-
-In order for the Lambda to work correctly it requires a copy of a Chromium binary. This binary is currently provided by
-the build, copied from the `@sparticuz/chromium` node_module directory.
-
-It would be possible to achieve the same result using Lambda layers, however this setup was chosen to avoid complexity when upgrading from chrome-aws-lambda.
-
 ## Transparency and Consent Monitoring Dashboard
 
 There are 4 panels in the Transparency and Consent dashboard illustrating the invocation and error metrics from the lambdas.
