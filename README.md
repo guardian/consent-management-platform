@@ -334,6 +334,7 @@ type: `string`
 -   `"permutive"`
 -   `"prebid"`
 -   `"qm"` (Quantum Metric)
+-   `"redplanet"` (Australia only)
 -   `"remarketing"`
 -   `"sentry"`
 -   `"teads"`
