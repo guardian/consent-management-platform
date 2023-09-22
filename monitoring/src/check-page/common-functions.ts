@@ -166,10 +166,6 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 
 	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
   	await topAds.waitFor({state:'attached'});
-	const count = await topAds.count();
-	  if (count !=1) {
-		throw Error('TopAd has not loaded');
-	}
 
 	log_info(`Waiting for ads to load: Complete`);
 };
