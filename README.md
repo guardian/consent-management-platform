@@ -328,7 +328,6 @@ type: `string`
 -   `"ias"`
 -   `"inizio"`
 -   `"ipsos"`
--   `"lotame"`
 -   `"magnite"` (do not use until contract signed)
 -   `"nielsen"`
 -   `"ophan"`

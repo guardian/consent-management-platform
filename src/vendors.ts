@@ -30,7 +30,6 @@ export const TCFV2VendorIDs: VendorIDType = {
 	ias: ['5e7ced57b8e05c485246ccf3'],
 	inizio: ['5e37fc3e56a5e6615502f9c9'],
 	ipsos: ['5fa51b29a228638b4a1980e4'],
-	lotame: ['5ed6aeb1b8e05c241a63c71f'],
 	magnite: ['5e7ced57b8e05c485246cce5'],
 	nielsen: ['5ef5c3a5b8e05c69980eaa5b'],
 	ophan: ['5f203dbeeaaaa8768fd3226a'],
