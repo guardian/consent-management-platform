@@ -67,6 +67,7 @@ export class Monitoring extends GuStack {
 			event: RuleTargetInput.fromObject({
 				stage: 'PROD', // Both scheduled cmp-monitoring-CODE and cmp-monitoring-PROD are monitoring prod versions
 				region: region,
+				platform: stage.toUpperCase() //to save the cmp loading time in the appropriate place, either PROD or CODE
 			}),
 		});
 

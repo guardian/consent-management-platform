@@ -64,6 +64,7 @@ export type Config = {
 	debugMode: boolean;
 	isRunningAdhoc: boolean;
 	checkFunction: (config: Config) => Promise<void>;
+	platform: Stage;
 };
 
 export type SuccessfulCheck = {
