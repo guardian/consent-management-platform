@@ -16,7 +16,6 @@ import {
 	log_info,
 	makeNewBrowser,
 	openPrivacySettingsPanel,
-	recordVersionOfCMP,
 	reloadPage,
 } from './common-functions';
 
@@ -126,8 +125,6 @@ export const firstLayerCheck = async function (
 	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
 
 	await checkCMPIsNotVisible(page);
-
-	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
 
 	await checkTopAdHasLoaded(page);
 

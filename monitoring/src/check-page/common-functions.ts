@@ -211,6 +211,7 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 
 	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
 	await cmpl.waitFor();
+	await recordVersionOfCMP(page);
 	if (!(await cmpl.isVisible())) {
 		throw Error('CMP is not present on page');
 	}
@@ -296,7 +297,7 @@ export const logCMPLoadTime = async (
 ) => {
 	log_info(`Logging Timestamp: Start`);
 
-	const timeDiff = endTimeStamp - startTimeStamp;
+	const timeDiff = (endTimeStamp - startTimeStamp)/1000; //in seconds
 	log_info(`CMP Loading Time: ${timeDiff}`);
 	await sendMetricData(config, timeDiff);
 
