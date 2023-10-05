@@ -3,7 +3,7 @@ import {
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
-import type { Browser, Page } from 'playwright-core';
+import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -57,6 +57,18 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	const browser = await launchChromium({headless:debugMode});
 	return browser;
+};
+
+/**
+ * This function creates a new page
+ * with defined options
+ * @param {BrowserContext} context
+ * @return {*}  {Promise<Page>}
+ */
+export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
+	const page = await context.newPage();
+	await page.route('**', route => route.continue()); //disable cache to avoid 304 errors
+	return page;
 };
 
 /**
@@ -248,7 +260,6 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
 	log_info(`Loading page ${url}`);
-	await page.route('**', route => route.continue()); //disable cache to avoid 304 errors
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',

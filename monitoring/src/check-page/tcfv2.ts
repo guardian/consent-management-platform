@@ -15,6 +15,7 @@ import {
 	loadPage,
 	log_info,
 	makeNewBrowser,
+	makeNewPage,
 	openPrivacySettingsPanel,
 	reloadPage,
 } from './common-functions';
@@ -33,7 +34,7 @@ const checkSubsequentPage = async (
 	url: string,
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	const page: Page = await context.newPage();
+	const page: Page = await makeNewPage(context);
 	await loadPage(page, url);
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkCMPIsNotVisible(page);
@@ -71,7 +72,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext();
-	const page = await context.newPage();
+	const page = await makeNewPage(context);
 
 	await firstLayerCheck(config, url, page, context, nextUrl);
 
@@ -82,7 +83,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	//Use a new Browser here as clearing cookies and local storage here hang flakily
 	const browser2: Browser = await makeNewBrowser(config.debugMode);
 	const context2 = await browser2.newContext();
-	const page2 = await context2.newPage();
+	const page2 = await makeNewPage(context2);
 	await secondLayerCheck(config, url, page2);
 
 	await checkCMPLoadingTime(page2, config);

@@ -10,6 +10,7 @@ import {
 	loadPage,
 	log_info,
 	makeNewBrowser,
+	makeNewPage,
 	reloadPage,
 } from './common-functions';
 
@@ -20,7 +21,7 @@ import {
 
 const checkSubsequentPage = async (context: BrowserContext, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	const page: Page = await context.newPage();
+	const page: Page = await makeNewPage(context);
 	await loadPage(page, url);
 	await Promise.all([
 		checkCMPIsNotVisible(page),
@@ -40,7 +41,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext();
-	const page = await context.newPage();
+	const page = await makeNewPage(context);
 
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
 	await clearCookies(page);
