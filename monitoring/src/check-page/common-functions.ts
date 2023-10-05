@@ -313,7 +313,7 @@ export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
 ) => {
-	log_info(`config.stage.toUpperCase() ${config.platform.toUpperCase()})`);
+	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
 	const client = new CloudWatchClient({ region: region });
 	const params = {
