@@ -77,6 +77,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const context = await browser.newContext();
 	const page = await makeNewPage(context);
 
+	await checkCMPLoadingTime(page, config);
+
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
 	await clearCookies(page);
 
@@ -93,11 +95,6 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	}
 
 	await checkGPCRespected(page);
-
-	// Clear GPC header before loading CMP banner as previous tests hides the banner.
-	await setGPCHeader(page, false);
-
-	await checkCMPLoadingTime(page, config);
 
 	await page.close();
 	await browser.close();
