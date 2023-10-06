@@ -43,8 +43,6 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const context = await browser.newContext();
 	const page = await makeNewPage(context);
 
-	await checkCMPLoadingTime(page, config);
-
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
 	await clearCookies(page);
 
@@ -59,6 +57,8 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	if (nextUrl) {
 		await checkSubsequentPage(context, nextUrl);
 	}
+
+	await checkCMPLoadingTime(page, config);
 
 	await page.close();
 	await browser.close();

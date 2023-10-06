@@ -366,7 +366,7 @@ export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 		log_info('Checking CMP Loading Time: Start')
 		await Promise.all([
 			clearCookies(page),
-			//clearLocalStorage(page)
+			clearLocalStorage(page)
 		]);
 		const startTimeStamp = Date.now();
 		await loadPage(page, config.frontUrl);
