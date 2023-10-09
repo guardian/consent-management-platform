@@ -85,7 +85,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
 
 	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
   	await acceptAllButton.click();
-  	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
+  	//await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
@@ -145,7 +145,7 @@ export const clickSaveAndCloseSecondLayer = async (
 	log_info(`Clicking on save and close button: Start`);
 
 	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
-	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
+	//await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -161,7 +161,7 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
 	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
-	await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
+	//await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on reject all button: Complete`);
 };
