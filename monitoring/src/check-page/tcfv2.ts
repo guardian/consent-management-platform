@@ -86,10 +86,17 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const page2 = await makeNewPage(context2);
 	await secondLayerCheck(config, url, page2);
 
-	await checkCMPLoadingTime(page2, config);
-
 	await page2.close();
 	await browser2.close();
+
+	//Use a new Browser here as clearing cookies and local storage here hang flakily
+	const browser3: Browser = await makeNewBrowser(config.debugMode);
+	const context3 = await browser3.newContext();
+	const page3 = await makeNewPage(context3);
+	await checkCMPLoadingTime(page3, config);
+
+	await page3.close();
+	await browser3.close();
 };
 
 /**
@@ -171,6 +178,8 @@ export const secondLayerCheck = async function (
 	await checkPrivacySettingsPanelIsOpen(config, page);
 
 	await clickSaveAndCloseSecondLayer(config, page);
+
+	await reloadPage(page);
 
 	await checkCMPIsNotVisible(page);
 
