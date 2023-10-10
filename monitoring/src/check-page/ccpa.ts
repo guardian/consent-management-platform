@@ -97,10 +97,17 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	// Clear GPC header before loading CMP banner as previous tests hides the banner.
 	await setGPCHeader(page, false);
 
-	await checkCMPLoadingTime(page, config);
-
 	await page.close();
 	await browser.close();
+
+	//Use a new Browser here as clearing cookies and local storage here hang flakily
+	const browser2: Browser = await makeNewBrowser(config.debugMode);
+	const context2 = await browser2.newContext();
+	const page2 = await makeNewPage(context2);
+	await checkCMPLoadingTime(page2, config);
+
+	await page2.close();
+	await browser2.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
