@@ -58,13 +58,12 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 		await checkSubsequentPage(context, nextUrl);
 	}
 
-	await page.close();
-
 	//instead of clearing cookies and local storage, use a new context
 	const context2 = await browser.newContext();
 	const page2 = await makeNewPage(context2);
 	await checkCMPLoadingTime(page2, config);
 
+	await page.close();
 	await page2.close();
 	await browser.close();
 };
