@@ -98,16 +98,14 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await setGPCHeader(page, false);
 
 	await page.close();
-	await browser.close();
 
-	//Use a new Browser here as clearing cookies and local storage here hang flakily
-	const browser2: Browser = await makeNewBrowser(config.debugMode);
-	const context2 = await browser2.newContext();
+	//instead of clearing cookies and local storage, use a new context
+	const context2 = await browser.newContext();
 	const page2 = await makeNewPage(context2);
 	await checkCMPLoadingTime(page2, config);
 
 	await page2.close();
-	await browser2.close();
+	await browser.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {

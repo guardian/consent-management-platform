@@ -3,7 +3,7 @@ import {
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
-import type { Browser, BrowserContext, Page } from 'playwright-core';
+import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -176,8 +176,63 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 export const checkTopAdHasLoaded = async (page: Page) => {
 	log_info(`Waiting for ads to load: Start`);
 
-	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
-  	await topAds.waitFor({state:'attached'});
+	//Check interaction with GAM
+
+	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
+
+	const getEncodedParamsFromRequest = (
+		request: Request,
+		paramName: string,
+	): URLSearchParams | null => {
+		const url = new URL(request.url());
+		const param = url.searchParams.get(paramName);
+		if (!param) return null;
+		const paramDecoded = decodeURIComponent(param);
+		const searchParams = new URLSearchParams(paramDecoded);
+		return searchParams;
+	};
+
+	const assertOnSlotFromRequest = (request: Request, expectedSlot: string) => {
+		const isURL = request.url().match(gamUrl);
+		if (!isURL) return false;
+		const searchParams = getEncodedParamsFromRequest(request, 'prev_scp');
+		if (searchParams === null) return false;
+		const slot = searchParams.get('slot');
+		if (slot !== expectedSlot) return false;
+		return true;
+	};
+
+	const waitForGAMRequestForSlot = (page: Page, slotExpected: string) => {
+		return page.waitForRequest((request) =>
+			assertOnSlotFromRequest(request, slotExpected),
+		);
+	};
+
+	const gamRequestPromise = waitForGAMRequestForSlot(
+		page,
+		'top-above-nav',
+	);
+	await gamRequestPromise;
+
+
+	//check that ad slots are fulfilled
+
+	const waitForSlot = async (page: Page, slot: string) => {
+		const slotId = `#dfp-ad--${slot}`;
+		// create a locator for the slot
+		const slotLocator = page.locator(slotId);
+		// check that the ad slot is present on the page
+		await slotLocator.isVisible();
+		// scroll to it
+		await slotLocator.scrollIntoViewIfNeeded();
+		// iframe locator
+		const iframe = page.locator(`${slotId} iframe`);
+		// wait for the iframe
+		await iframe.waitFor({ state: 'visible', timeout: 120000 });
+	};
+
+	await waitForSlot(page, 'top-above-nav');
+
 
 	log_info(`Waiting for ads to load: Complete`);
 };

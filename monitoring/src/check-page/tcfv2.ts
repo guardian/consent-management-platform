@@ -77,26 +77,21 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await firstLayerCheck(config, url, page, context, nextUrl);
 
 	await page.close();
-	await browser.close();
 
-
-	//Use a new Browser here as clearing cookies and local storage here hang flakily
-	const browser2: Browser = await makeNewBrowser(config.debugMode);
-	const context2 = await browser2.newContext();
+	//instead of clearing cookies and local storage, use a new context
+	const context2 = await browser.newContext();
 	const page2 = await makeNewPage(context2);
 	await secondLayerCheck(config, url, page2);
 
 	await page2.close();
-	await browser2.close();
 
-	//Use a new Browser here as clearing cookies and local storage here hang flakily
-	const browser3: Browser = await makeNewBrowser(config.debugMode);
-	const context3 = await browser3.newContext();
+	//instead of clearing cookies and local storage, use a new context
+	const context3 = await browser.newContext();
 	const page3 = await makeNewPage(context3);
 	await checkCMPLoadingTime(page3, config);
 
 	await page3.close();
-	await browser3.close();
+	await browser.close();
 };
 
 /**
@@ -162,7 +157,6 @@ export const secondLayerCheck = async function (
 	url: string,
 	page: Page,
 ): Promise<void> {
-	 //instead of clearing cookies and local storage, use a new context
 	log_info('Checking second layer: Start');
 
 	// Testing the Save and Close button hides the CMP and does not load Ads
