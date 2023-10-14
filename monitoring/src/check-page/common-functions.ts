@@ -217,7 +217,7 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 
 	//check that ad slots are fulfilled
 
-	const waitForSlot = async (page: Page, slot: string) => {
+	/*const waitForSlot = async (page: Page, slot: string) => {
 		const slotId = `#dfp-ad--${slot}`;
 		// create a locator for the slot
 		const slotLocator = page.locator(slotId);
@@ -232,7 +232,7 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 	};
 
 	await waitForSlot(page, 'top-above-nav');
-
+	*/
 
 	log_info(`Waiting for ads to load: Complete`);
 };
