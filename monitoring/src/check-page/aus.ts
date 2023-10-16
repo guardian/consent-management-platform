@@ -43,9 +43,6 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const context = await browser.newContext();
 	const page = await makeNewPage(context);
 
-	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	//await clearCookies(page);
-
 	await loadPage(page, url);
 	await checkTopAdHasLoaded(page);
 	await checkCMPIsOnPage(page);
@@ -61,7 +58,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await page.close();
 	await browser.close();
 
-	//instead of clearing cookies and local storage, use a new context
+	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
 	const browser2: Browser = await makeNewBrowser(config.debugMode);
 	const context2 = await browser2.newContext();
 	const page2 = await makeNewPage(context2);

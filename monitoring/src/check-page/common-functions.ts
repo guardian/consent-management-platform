@@ -419,11 +419,6 @@ export const sendMetricData = async (
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
 		log_info('Checking CMP Loading Time: Start')
-		//Not required if checking after creating a new browser
-		/*await Promise.all([
-			clearCookies(page),
-			clearLocalStorage(page)
-		]);*/
 		const startTimeStamp = Date.now();
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear

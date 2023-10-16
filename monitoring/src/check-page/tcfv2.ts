@@ -80,7 +80,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await page.close();
 	await browser.close();
 
-	//instead of clearing cookies and local storage, use a new context
+	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
 	const browser2: Browser = await makeNewBrowser(config.debugMode);
 	const context2 = await browser2.newContext();
 	const page2 = await makeNewPage(context2);
@@ -89,7 +89,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await page2.close();
 	await browser2.close();
 
-	//instead of clearing cookies and local storage, use a new context
+	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
 	const browser3: Browser = await makeNewBrowser(config.debugMode);
 	const context3 = await browser3.newContext();
 	const page3 = await makeNewPage(context3);
