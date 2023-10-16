@@ -44,7 +44,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const page = await makeNewPage(context);
 
 	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	await clearCookies(page);
+	//await clearCookies(page);
 
 	await loadPage(page, url);
 	await checkTopAdHasLoaded(page);

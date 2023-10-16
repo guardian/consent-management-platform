@@ -71,9 +71,9 @@ const checkSubsequentPage = async (
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await launchChromium({headless:!config.debugMode});//await makeNewBrowser(config.debugMode);
+	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext();
-	const page = await context.newPage();//await makeNewPage(context);
+	const page = await makeNewPage(context);
 
 	await firstLayerCheck(config, url, page, context, nextUrl);
 
@@ -96,7 +96,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkCMPLoadingTime(page3, config);
 
 	await page3.close();
-	await browser.close();
+	await browser3.close();
 };
 
 /**
