@@ -1,3 +1,4 @@
+import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
@@ -70,9 +71,9 @@ const checkSubsequentPage = async (
 const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
-	const browser: Browser = await makeNewBrowser(config.debugMode);
+	const browser: Browser = await launchChromium({headless:!config.debugMode});//await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext();
-	const page = await makeNewPage(context);
+	const page = await context.newPage();//await makeNewPage(context);
 
 	await firstLayerCheck(config, url, page, context, nextUrl);
 
