@@ -67,7 +67,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
  */
 export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
 	const page = await context.newPage();
-	await page.route('**', route => route.continue()); //disable cache to avoid 304 errors
+	//await page.route('**', route => route.continue()); //disable cache to avoid 304 errors
 	return page;
 };
 
