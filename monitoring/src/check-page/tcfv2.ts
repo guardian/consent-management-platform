@@ -117,9 +117,6 @@ export const firstLayerCheck = async function (
 	context: BrowserContext,
 	nextUrl: string,
 ): Promise<void> {
-	// Clear cookies before starting testing, to ensure the CMP is displayed.
-	await clearCookies(page);
-
 	log_info('Checking first layer: Start');
 
 	// Testing the Accept All button hides the CMP and loads Ads
