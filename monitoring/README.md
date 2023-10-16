@@ -33,6 +33,16 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
     yarn start
 ```
 
+If you get the following error
+
+║ Looks like Playwright Test or Playwright was just installed or updated. ║
+║ Please run the following command to download new browsers:              ║
+║                                                                         ║
+║     yarn playwright install                                             ║
+
+delete the node_modules and run  `npx playwright install chromium`.
+
+
 To run 'local' environment, frontend and dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of frontend is <http://localhost:9000>. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.
 
 ## Transparency and Consent Monitoring Dashboard
@@ -40,5 +50,7 @@ To run 'local' environment, frontend and dotcom-rendering must be setup and runn
 There are 4 panels in the Transparency and Consent dashboard illustrating the invocation and error metrics from the lambdas.
 
 <https://metrics.gutools.co.uk/d/18KPX0C7k/transparency-and-consent?orgId=1>
+
+For the code version of the dashboard see: <https://metrics.gutools.co.uk/d/Jn8SigMSk/transparency-and-consent-code?orgId=1>
 
 (This link can only be viewed in the office or using the VPN)

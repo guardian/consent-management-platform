@@ -1,4 +1,3 @@
-import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {

@@ -6,7 +6,6 @@ import {
 	checkCMPIsOnPage,
 	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
-	clearCookies,
 	loadPage,
 	log_info,
 	makeNewBrowser,

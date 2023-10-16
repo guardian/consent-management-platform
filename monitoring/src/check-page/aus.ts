@@ -5,7 +5,6 @@ import {
 	checkCMPIsOnPage,
 	checkCMPLoadingTime,
 	checkTopAdHasLoaded,
-	clearCookies,
 	clickAcceptAllCookies,
 	loadPage,
 	log_info,
