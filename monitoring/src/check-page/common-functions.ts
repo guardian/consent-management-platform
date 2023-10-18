@@ -177,7 +177,7 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
  * @param {string} iframeUrl
  * @return {*}  {Frame}
  */
-export const getFrame = async (page: Page, iframeUrl: string, timeout: number = 30000): Promise<Frame> => {
+export const getFrame = async (page: Page, iframeUrl: string, timeout = 30000): Promise<Frame> => {
  try {
 	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
 	return frame;

@@ -12,9 +12,7 @@
  * *********************/
 
 
-type VendorIDType = {
-	[key: string]: string[]
-}
+type VendorIDType = Record<string, string[]>
 
 export const TCFV2VendorIDs: VendorIDType = {
 	// keep the list in README.md up to date with these values
