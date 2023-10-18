@@ -314,6 +314,8 @@ type: `string`
 
 <!-- keep this list up to date with the VendorIDs in src/getConsentFor.ts -->
 
+#### TCFV2 vendors
+
 -   `"a9"`
 -   `"acast"`
 -   `"braze"`
@@ -326,19 +328,22 @@ type: `string`
 -   `"ias"`
 -   `"inizio"`
 -   `"ipsos"`
--   `"linkedin"`
--   `"lotame"`
+-   `"magnite"` (do not use until contract signed)
 -   `"nielsen"`
 -   `"ophan"`
 -   `"permutive"`
 -   `"prebid"`
 -   `"qm"` (Quantum Metric)
--   `"redplanet"`
+-   `"redplanet"` (Australia only)
 -   `"remarketing"`
 -   `"sentry"`
 -   `"teads"`
 -   `"twitter"`
 -   `"youtube-player"`
+
+#### Aus only Vendors
+
+-   `"redplanet"`
 
 </details>
 If the vendor you need is missing, please [raise an issue](https://github.com/guardian/consent-management-platform/issues) (or a PR!).

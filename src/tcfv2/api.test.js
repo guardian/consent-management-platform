@@ -13,7 +13,7 @@ it('calls the correct IAB api with the correct methods', async () => {
 
 	expect(window.__tcfapi).toHaveBeenNthCalledWith(
 		1,
-		'getTCData',
+		'addEventListener',
 		expect.any(Number),
 		expect.any(Function),
 	);

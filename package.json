@@ -31,6 +31,7 @@
 		"test:e2e:serve": "rollup --config --watch",
 		"test:e2e:ui": "start-server-and-test 'yarn test:e2e:serve --watch' http://localhost:10001 'cypress open'",
 		"test:unit": "jest --coverage",
+		"test:vendor-list": "jest -i 'vendors.test.js'",
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build",
@@ -45,11 +46,11 @@
 		"@babel/preset-env": "^7.22.5",
 		"@babel/preset-typescript": "^7.22.5",
 		"@babel/runtime": "^7.22.5",
-		"@guardian/eslint-config": "4.0.0",
-		"@guardian/eslint-config-typescript": "6.0.0",
+		"@guardian/eslint-config": "^4.0.0",
+		"@guardian/eslint-config-typescript": "^6.0.0",
 		"@guardian/libs": "15.0.0",
-		"@guardian/node-riffraff-artifact": "0.3.2",
-		"@guardian/prettier": "4.0.0",
+		"@guardian/node-riffraff-artifact": "^0.3.2",
+		"@guardian/prettier": "^4.0.0",
 		"@guardian/tsconfig": "0.2.0",
 		"@rollup/plugin-babel": "^6.0.3",
 		"@rollup/plugin-commonjs": "^25.0.1",
@@ -62,12 +63,12 @@
 		"@semantic-release/github": "^9.0.3",
 		"@types/jest": "^29.5.2",
 		"@types/mime": "^3.0.1",
-		"@types/node": "^20.3.0",
+		"@types/node": "^20.3.3",
 		"axios": "^1.4.0",
 		"conventional-changelog-conventionalcommits": "^6.0.0",
 		"cypress": "^12.14.0",
 		"cypress-wait-until": "^1.7.2",
-		"eslint": "^8.42.0",
+		"eslint": "^8.44.0",
 		"eslint-plugin-cypress": "^2.13.3",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"gh-pages": "^5.0.0",
@@ -94,6 +95,6 @@
 		"wait-for-expect": "^3"
 	},
 	"peerDependencies": {
-		"@guardian/libs": "^14.0.0"
+		"@guardian/libs": "^15.0.0"
 	}
 }

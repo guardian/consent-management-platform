@@ -11,7 +11,12 @@
  * Important: Keep in sync with list of vendors in README.md
  * *********************/
 
-export const VendorIDs = {
+
+type VendorIDType = {
+	[key: string]: string[]
+}
+
+export const TCFV2VendorIDs: VendorIDType = {
 	// keep the list in README.md up to date with these values
 	a9: ['5f369a02b8e05c308701f829'],
 	acast: ['5f203dcb1f0dea790562e20f'],
@@ -25,19 +30,27 @@ export const VendorIDs = {
 	ias: ['5e7ced57b8e05c485246ccf3'],
 	inizio: ['5e37fc3e56a5e6615502f9c9'],
 	ipsos: ['5fa51b29a228638b4a1980e4'],
-	linkedin: ['5f2d22a6b8e05c02aa283b3c'],
-	lotame: ['5ed6aeb1b8e05c241a63c71f'],
+	magnite: ['5e7ced57b8e05c485246cce5'],
 	nielsen: ['5ef5c3a5b8e05c69980eaa5b'],
 	ophan: ['5f203dbeeaaaa8768fd3226a'],
-	permutive: ['5eff0d77969bfa03746427eb'],
+	permutive: ['5f369a02b8e05c2f2d546a40'],
 	prebid: ['5f92a62aa22863685f4daa4c'],
 	qm: ['5f295fa4b8e05c76a44c3149'],
-	redplanet: ['5f199c302425a33f3f090f51'],
 	remarketing: ['5ed0eb688a76503f1016578f'],
 	sentry: ['5f0f39014effda6e8bbd2006'],
 	teads: ['5eab3d5ab8e05c2bbe33f399'],
 	twitter: ['5e71760b69966540e4554f01'],
 	'youtube-player': ['5e7ac3fae30e7d1bc1ebf5e8'],
 };
+
+export const AusVendorIDs: VendorIDType = {
+	redplanet: ['not-tcfv2-vendor'],
+}
+
+export const VendorIDs: VendorIDType = {
+	...TCFV2VendorIDs,
+	...AusVendorIDs,
+}
+
 
 export type VendorName = keyof typeof VendorIDs;

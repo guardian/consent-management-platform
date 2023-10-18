@@ -33,14 +33,19 @@ describe('common-functions.ts', () => {
 			await browser.close();
 		});
 
-		it('should return a 1st layer frame in code', () => {
-			const frame: Frame = getFrame(page, firstLayerIframeDomain);
+		it('should return a 1st layer frame in code', async () => {
+			const frame: Frame = await getFrame(page, firstLayerIframeDomain);
 			expect(frame).toBeDefined();
 		});
 
-		it('should return a 2nd layer frame in code', () => {
-			const frame: Frame = getFrame(page, secondLayerIframeDomain);
+		it('should return a 2nd layer frame in code', async () => {
+			const frame: Frame = await getFrame(page, secondLayerIframeDomain);
 			expect(frame).toBeDefined();
 		});
+
+		it('should throw an error if called for a frame that does not exist', async() => {
+			const iframeUrl = "error";
+			await expect(getFrame(page, iframeUrl, 30)).rejects.toThrow(new Error('Could not find frame "error" : Failed'));
+		  });
 	});
 });
