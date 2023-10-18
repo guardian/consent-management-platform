@@ -1,6 +1,6 @@
 const COOKIE_NAME = 'gu-cmp-disabled';
 
-export const disable = () => {
+export const disable = (): void => {
 	document.cookie = `${COOKIE_NAME}=true`;
 };
 
