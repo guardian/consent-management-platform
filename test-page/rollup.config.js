@@ -4,6 +4,7 @@ import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
@@ -20,6 +21,7 @@ export default {
 		sourcemap: process.env.ROLLUP_WATCH ? 'inline' : true,
 	},
 	plugins: [
+		typescript(),
 		svelte({
 			emitCss: false,
 		}),
