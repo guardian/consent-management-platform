@@ -146,8 +146,11 @@ jobs:
           name: dist
           path: dist
 
-      - name: Release
+      - name: Create Release
+        uses: changesets/action@v1
+        with:
+          publish: yarn changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          HUSKY: 0
