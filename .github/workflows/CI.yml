@@ -146,7 +146,7 @@ jobs:
           name: dist
           path: dist
 
-      - name: Create Release
+      - name: Release
         uses: changesets/action@v1
         with:
           publish: yarn changeset publish
