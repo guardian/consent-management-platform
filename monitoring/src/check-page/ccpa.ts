@@ -97,13 +97,13 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await browser.close();
 
 	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
-	const browser2: Browser = await makeNewBrowser(config.debugMode);
-	const context2 = await browser2.newContext();
-	const page2 = await makeNewPage(context2);
-	await checkCMPLoadingTime(page2, config);
+	const browserForCMPLoadTime: Browser = await makeNewBrowser(config.debugMode);
+	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
+	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
+	await checkCMPLoadingTime(pageForCMPLoadTime, config);
 
-	await page2.close();
-	await browser2.close();
+	await pageForCMPLoadTime.close();
+	await browserForCMPLoadTime.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {

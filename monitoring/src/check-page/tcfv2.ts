@@ -80,22 +80,22 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await browser.close();
 
 	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
-	const browser2: Browser = await makeNewBrowser(config.debugMode);
-	const context2 = await browser2.newContext();
-	const page2 = await makeNewPage(context2);
-	await secondLayerCheck(config, url, page2);
+	const browserForSecondLayerCheck: Browser = await makeNewBrowser(config.debugMode);
+	const contextForSecondLayerCheck = await browserForSecondLayerCheck.newContext();
+	const pageForSecondLayerCheck = await makeNewPage(contextForSecondLayerCheck);
+	await secondLayerCheck(config, url, pageForSecondLayerCheck);
 
-	await page2.close();
-	await browser2.close();
+	await pageForSecondLayerCheck.close();
+	await browserForSecondLayerCheck.close();
 
 	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
-	const browser3: Browser = await makeNewBrowser(config.debugMode);
-	const context3 = await browser3.newContext();
-	const page3 = await makeNewPage(context3);
-	await checkCMPLoadingTime(page3, config);
+	const browserForCMPLoadTime: Browser = await makeNewBrowser(config.debugMode);
+	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
+	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
+	await checkCMPLoadingTime(pageForCMPLoadTime, config);
 
-	await page3.close();
-	await browser3.close();
+	await pageForCMPLoadTime.close();
+	await browserForCMPLoadTime.close();
 };
 
 /**
