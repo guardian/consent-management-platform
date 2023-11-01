@@ -46,6 +46,7 @@
 		"@babel/preset-env": "^7.23.2",
 		"@babel/preset-typescript": "^7.23.2",
 		"@babel/runtime": "^7.23.2",
+		"@changesets/cli": "^2.26.2",
 		"@guardian/eslint-config": "^4.0.0",
 		"@guardian/eslint-config-typescript": "^6.0.0",
 		"@guardian/libs": "15.0.0",
@@ -93,8 +94,5 @@
 	},
 	"peerDependencies": {
 		"@guardian/libs": "^15.0.0"
-	},
-	"dependencies": {
-		"@changesets/cli": "^2.26.2"
 	}
 }
