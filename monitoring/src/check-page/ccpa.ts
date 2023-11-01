@@ -19,7 +19,6 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 
 	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
   	await acceptAllButton.click();
-  	//await new Promise(r => setTimeout(r, 2000));
 
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
 };
@@ -91,7 +90,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkGPCRespected(page);
 
 	// Clear GPC header before loading CMP banner as previous tests hides the banner.
-	//await setGPCHeader(page, false);
+	//await setGPCHeader(page, false); --> not required if using new browser below as a new browser is cleared
 
 	await page.close();
 	await browser.close();

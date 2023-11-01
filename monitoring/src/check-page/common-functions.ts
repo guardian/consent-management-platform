@@ -22,7 +22,7 @@ export const log_info = (message: string): void => {
  * @param {string} message
  */
 export const log_error = (message: string): void => {
-	console.log(`(cmp monitoring): error: ${message}`);
+	console.error(`(cmp monitoring): error: ${message}`);
 };
 
 /**
@@ -50,7 +50,7 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
 
 /**
  * This function creates a new chromium browser
- * with defined options
+ *
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
@@ -61,13 +61,12 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 
 /**
  * This function creates a new page
- * with defined options
+ * 
  * @param {BrowserContext} context
  * @return {*}  {Promise<Page>}
  */
 export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
 	const page = await context.newPage();
-	//await page.route('**', route => route.continue()); //disable cache to avoid 304 errors
 	return page;
 };
 
@@ -85,7 +84,6 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
 
 	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
   	await acceptAllButton.click();
-  	//await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
@@ -145,7 +143,6 @@ export const clickSaveAndCloseSecondLayer = async (
 	log_info(`Clicking on save and close button: Start`);
 
 	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
-	//await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -161,22 +158,20 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
 	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
-	//await new Promise(r => setTimeout(r, 2000)); //wait in the hope that sourcepoint has persisted the choice
 
 	log_info(`Clicking on reject all button: Complete`);
 };
 
 /**
- * This function searches for the ad located at
- * the top of the page
+ * This function checks for interaction with GAM
+ * Using this after advice from Commercial to check that cookies were accepted as we otherwise do not interact with GAM
+ * This has to be adjusted if anything in the interaction with GAM changes or we stop using GAM
  *
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
 export const checkTopAdHasLoaded = async (page: Page) => {
-	log_info(`Waiting for ads to load: Start`);
-
-	//Check interaction with GAM
+	log_info(`Waiting for interaction with GAM: Start`);
 
 	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
 
@@ -214,31 +209,13 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 	);
 	await gamRequestPromise;
 
-
-	//check that ad slots are fulfilled
-
-	/*const waitForSlot = async (page: Page, slot: string) => {
-		const slotId = `#dfp-ad--${slot}`;
-		// create a locator for the slot
-		const slotLocator = page.locator(slotId);
-		// check that the ad slot is present on the page
-		await slotLocator.isVisible();
-		// scroll to it
-		await slotLocator.scrollIntoViewIfNeeded();
-		// iframe locator
-		const iframe = page.locator(`${slotId} iframe`);
-		// wait for the iframe
-		await iframe.waitFor({ state: 'visible', timeout: 120000 });
-	};
-
-	await waitForSlot(page, 'top-above-nav');
-	*/
-
-	log_info(`Waiting for ads to load: Complete`);
+	log_info(`Waiting for interaction with GAM: Complete`);
 };
 
 /**
  * This function checks the ad is not on the page
+ * This checks that the top ad frame does not appear on the page
+ * The top ad frame might start to appear if we use ads that do not require consent in which case this function has to be adjusted
  *
  * @param {Page} page
  * @return {*}  {Promise<void>}
