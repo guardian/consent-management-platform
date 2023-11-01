@@ -1,7 +1,7 @@
 {
-	"extends": "@tsconfig/node18/tsconfig.json",
-	"include": ["./*.ts"],
+	"extends": "@guardian/tsconfig",
 	"target": "es5",
+	"include": ["."],
 	"compilerOptions": {
 		"lib": ["DOM", "es2019"],
 		"moduleResolution": "node"
