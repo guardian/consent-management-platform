@@ -1,0 +1,59 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Monitoring - prod with tcfv2",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/monitoring",
+			"runtimeExecutable": "yarn",
+			"runtimeArgs": [
+				"start",
+				"--env=prod",
+				"--jurisdiction=tcfv2"
+			],
+			"console": "integratedTerminal",
+			"sourceMaps": true
+        },
+		{
+            "name": "Debug Monitoring - prod with ccpa (needs VPN)",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/monitoring",
+			"runtimeExecutable": "yarn",
+			"runtimeArgs": [
+				"start",
+				"--env=prod",
+				"--jurisdiction=ccpa"
+			],
+			"console": "integratedTerminal",
+			"sourceMaps": true
+        },
+		{
+            "name": "Debug Monitoring - prod with aus (needs VPN)",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/monitoring",
+			"runtimeExecutable": "yarn",
+			"runtimeArgs": [
+				"start",
+				"--env=prod",
+				"--jurisdiction=aus"
+			],
+			"console": "integratedTerminal",
+			"sourceMaps": true
+        }
+    ]
+}
