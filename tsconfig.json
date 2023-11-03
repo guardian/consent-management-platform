@@ -3,10 +3,8 @@
 	"compilerOptions": {
 		"allowJs": true,
 		"isolatedModules": true,
-		"module": "ES6",
 		"noEmit": true,
 		"removeComments": true,
-		"target": "ES2020",
 	},
 	"include": ["*.js", "src", ".eslintrc.js"]
 }

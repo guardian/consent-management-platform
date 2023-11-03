@@ -6,7 +6,6 @@
 		}
 	},
 	"compilerOptions": {
-		"target": "ES2020",
 		"lib": ["ES2020"],
 		"declaration": true,
 		"noImplicitAny": true,
@@ -23,7 +22,6 @@
 		"outDir": "dist",
 		"allowJs": true,
 		"isolatedModules": true,
-		"module": "ES6",
 		"noEmit": true,
 		"removeComments": true,
 	},
