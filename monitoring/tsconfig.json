@@ -1,6 +1,6 @@
 {
 	"extends": "@guardian/tsconfig",
-	"include": ["."],
+	"include": ["./*.ts"],
 	"compilerOptions": {
 		"lib": ["DOM", "es2019"],
 		"moduleResolution": "node"
