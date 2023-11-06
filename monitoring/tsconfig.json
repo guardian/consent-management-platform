@@ -2,7 +2,7 @@
 	"extends": "@guardian/tsconfig",
 	"include": ["./*.ts"],
 	"compilerOptions": {
-		"lib": ["DOM", "es2019"],
-		"moduleResolution": "node"
+		"moduleResolution": "node",
+		"module": "commonjs",
 	}
 }
