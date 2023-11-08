@@ -1,6 +1,6 @@
 {
 	"extends": "@guardian/tsconfig",
-	"include": ["./*.ts"],
+	"include": ["./*.ts", "./**/*.ts"],
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "commonjs",
