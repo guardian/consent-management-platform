@@ -11,6 +11,9 @@ dist
 /coverage
 .idea/
 test-page/dist
+tsconfig.build.tsbuildinfo
+tsconfig.tsbuildinfo
+.rollup.cache
 
 # Cypress Tests
 cypress/dist
