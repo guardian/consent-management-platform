@@ -4,17 +4,26 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
-	extends: ['@guardian/eslint-config-typescript'],
 	parserOptions: {
 		ecmaVersion: 2020,
 		tsconfigRootDir: __dirname,
 		sourceType: 'module',
 		project: ['./tsconfig.eslint.json'],
 	},
+	overrides: [
+		{
+			files: ['*.js', '*.jsx'],
+			extends: ['@guardian/eslint-config'],
+		},
+		{
+			files: ['*.ts', '*.tsx'],
+			extends: ['@guardian/eslint-config-typescript'],
+		},
+	],
 	plugins: ['@typescript-eslint'],
 	rules: {
 		'@typescript-eslint/no-inferrable-types': 0,
 		'import/no-namespace': 2,
 	},
-	ignorePatterns: ['**/*.js', 'node_modules'],
+	ignorePatterns: ['node_modules'],
 };
