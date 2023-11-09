@@ -900,6 +900,23 @@
   resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-5.0.0.tgz#0cd36b105512510192ea9fd18da3d3df2d7b3b72"
   integrity sha512-gJSQuuP7JVDOWQj4EUrwyJTnMt+frLkw0D2sLg70nHn76L3LmH2xTQtYMPUsqyqn37qocDPzgdvBdmATi50zRQ==
 
+"@guardian/tsconfig@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@guardian/tsconfig/-/tsconfig-0.2.0.tgz#b1dac8831d2ff7ac557229f350d4b2f8c9fc60b5"
+  integrity sha512-RauppalK+cQZDRK6IssVmDSnU/VyqMNuVOxPxhmI03kVRxEdwcmBuRqexHwDbnClVUxW/N9hYLbFNuAb9V/p+A==
+
+"@hapi/hoek@^9.0.0":
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
+  integrity sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==
+
+"@hapi/topo@^5.0.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-5.1.0.tgz#dc448e332c6c6e37a4dc02fd84ba8d44b9afb012"
+  integrity sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+
 "@humanwhocodes/config-array@^0.11.11":
   version "0.11.11"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.11.tgz#88a04c570dbbc7dd943e4712429c3df09bc32844"

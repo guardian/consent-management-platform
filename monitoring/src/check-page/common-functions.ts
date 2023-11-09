@@ -273,7 +273,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
 	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
-
+  
 	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
 	}

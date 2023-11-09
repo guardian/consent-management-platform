@@ -26,6 +26,7 @@
     "@aws-sdk/client-lambda": "^3.428.0",
     "@guardian/eslint-config-typescript": "^7.0.0",
     "@guardian/prettier": "^5.0.0",
+    "@guardian/tsconfig": "^0.2.0",
     "@tsconfig/node18": "^18.2.2",
     "@types/aws-lambda": "^8.10.124",
     "@types/inquirer": "^8.2.3",

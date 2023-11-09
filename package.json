@@ -1,6 +1,6 @@
 {
 	"name": "@guardian/consent-management-platform",
-	"version": "13.7.1",
+	"version": "13.7.2",
 	"description": "Consent management for *.theguardian.com.",
 	"homepage": "https://github.com/guardian/consent-management-platform.git",
 	"repository": "https://github.com/guardian/consent-management-platform.git",
@@ -52,6 +52,7 @@
 		"@guardian/libs": "15.0.0",
 		"@guardian/node-riffraff-artifact": "^0.3.2",
 		"@guardian/prettier": "^4.0.0",
+		"@guardian/tsconfig": "^0.2.0",
 		"@rollup/plugin-babel": "^6.0.3",
 		"@rollup/plugin-commonjs": "^25.0.1",
 		"@rollup/plugin-html": "^1.0.2",
