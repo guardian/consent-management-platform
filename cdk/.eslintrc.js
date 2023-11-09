@@ -20,7 +20,6 @@ module.exports = {
 			extends: ['@guardian/eslint-config-typescript'],
 		},
 	],
-	plugins: ['@typescript-eslint'],
 	rules: {
 		'@typescript-eslint/no-inferrable-types': 0,
 		'import/no-namespace': 2,
