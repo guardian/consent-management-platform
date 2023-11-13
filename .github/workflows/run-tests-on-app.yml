@@ -2,9 +2,6 @@ name: Run tests in base directory
 
 on:
   workflow_call:
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   test-unit:
