@@ -7,10 +7,10 @@ on:
 jobs:
   run-tests:
     name: Run unit and e2e tests
-    uses: ./.github/workflows/app-run-tests.yml
+    uses: ./.github/workflows/calls/app-run-tests.yml
   run-checks:
     name: Run lint and type checks
-    uses: ./.github/workflows/app-run-checks.yml
+    uses: ./.github/workflows/calls/app-run-checks.yml
   build:
     name: Build
     runs-on: ubuntu-latest
