@@ -7,43 +7,10 @@ on:
 jobs:
   run-tests:
     name: Run unit and e2e tests
-    uses: ./.github/workflows/run-tests-on-app.yml
-  lint:
-    name: Linting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Lint files
-        run: yarn lint
-  types:
-    name: Types
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Check types
-        run: yarn tsc
+    uses: ./.github/workflows/app-run-tests.yml
+  run-checks:
+    name: Run lint and type checks
+    uses: ./.github/workflows/app-run-checks.yml
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -71,7 +38,7 @@ jobs:
           path: dist
   release:
     name: Release
-    needs: [build, run-tests, lint, types]
+    needs: [build, run-tests, run-checks]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
