@@ -8,6 +8,8 @@ jobs:
   run-tests:
     name: Run unit and e2e tests
     uses: ./.github/workflows/run-tests-on-app.yml
+    with:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   lint:
     name: Linting
     runs-on: ubuntu-latest
