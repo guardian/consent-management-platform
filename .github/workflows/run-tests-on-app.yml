@@ -1,0 +1,55 @@
+name: Run tests in base directory
+
+on:
+  workflow_call:
+
+jobs:
+  test-unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Run unit tests
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.4
+        with:
+          package-manager: yarn
+          test-script: yarn test:unit
+
+      - name: Report coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  test-e2e:
+    name: e2e tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Run e2e tests on dist with Cypress
+        run: yarn test:e2e
