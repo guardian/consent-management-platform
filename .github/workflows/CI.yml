@@ -6,6 +6,7 @@ on:
 
 jobs:
   run-tests:
+    name: Run unit and e2e tests
     uses: ./.github/workflows/run-tests-on-app.yml
   lint:
     name: Linting
@@ -70,7 +71,7 @@ jobs:
           path: dist
   release:
     name: Release
-    needs: [build, test-e2e, test-unit, lint, types]
+    needs: [build, run-tests, lint, types]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
