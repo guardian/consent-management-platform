@@ -8,9 +8,9 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      checks: write
       pull-requests: write
-      id-token: write
+      contents: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
