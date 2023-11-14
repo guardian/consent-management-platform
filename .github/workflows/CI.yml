@@ -9,7 +9,7 @@ jobs:
     name: Run unit and e2e tests
     uses: ./.github/workflows/app-run-tests.yml
     permissions:
-      contents: write
+      contents: read
       pull-requests: write
       id-token: write
   run-checks:
