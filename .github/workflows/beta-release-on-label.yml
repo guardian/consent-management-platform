@@ -21,13 +21,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-app:
-    name: Build CMP
+    name: Build CMP App
     uses: ./.github/workflows/app-build.yml
   release:
-    name: '@guardian/consent-management-platform'
-    runs-on: ubuntu-latest
-    needs: has-permission
+    name: Release '@guardian/consent-management-platform'
+    needs: [has-permission, build-app]
     if: github.event.label.name == '[beta] @guardian/consent-management-platform'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,13 +37,17 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
+          node-version-file: '.nvmrc'
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - name: Build package
-        run: yarn build
+      - name: Fetch build
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
 
       - name: Version
         run: yarn changeset version --snapshot beta
@@ -56,6 +60,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          HUSKY: 0
 
       - uses: actions/github-script@v6
         with:
