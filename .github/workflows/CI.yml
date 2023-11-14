@@ -13,29 +13,7 @@ jobs:
     uses: ./.github/workflows/app-run-checks.yml
   build:
     name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Build package
-        run: yarn build
-
-      - name: Save build
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist
+    uses: ./.github/workflows/app-build.yml
   release:
     name: Release
     needs: [build, run-tests, run-checks]
