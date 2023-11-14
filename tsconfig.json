@@ -5,6 +5,7 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"removeComments": true,
+		"incremental": false,
 	},
 	"include": ["*.js", "src", ".eslintrc.js"]
 }
