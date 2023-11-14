@@ -10,7 +10,7 @@ jobs:
     permissions:
       checks: none
       contents: read
-      pull-requests: write
+      pull-requests: none
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
