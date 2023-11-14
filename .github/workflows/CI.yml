@@ -16,7 +16,7 @@ jobs:
     name: Run lint and type checks
     uses: ./.github/workflows/app-run-checks.yml
   build:
-    name: Build
+    name: Build CMP app
     uses: ./.github/workflows/app-build.yml
   release:
     name: Release
