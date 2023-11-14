@@ -20,6 +20,9 @@ jobs:
           permission: 'admin'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build-app:
+    name: Build CMP
+    uses: ./.github/workflows/app-build.yml
   release:
     name: '@guardian/consent-management-platform'
     runs-on: ubuntu-latest
