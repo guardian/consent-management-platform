@@ -29,6 +29,7 @@ jobs:
         with:
           package-manager: yarn
           test-script: yarn test:unit
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report coverage
         uses: coverallsapp/github-action@master
