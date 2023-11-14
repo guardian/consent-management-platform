@@ -8,6 +8,9 @@ jobs:
   run-tests:
     name: Run unit and e2e tests
     uses: ./.github/workflows/app-run-tests.yml
+    permissions:
+      contents: read
+      pull-requests: write
   run-checks:
     name: Run lint and type checks
     uses: ./.github/workflows/app-run-checks.yml
