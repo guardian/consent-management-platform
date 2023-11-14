@@ -8,9 +8,10 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     permissions:
-      checks: none
+      checks: read
       contents: read
       pull-requests: none
+      id-token: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
