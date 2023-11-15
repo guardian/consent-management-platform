@@ -17,43 +17,9 @@ jobs:
     uses: ./.github/workflows/cmp-run-checks.yml
   build:
     name: Build CMP
+    needs: [run-tests, run-checks]
     uses: ./.github/workflows/cmp-build.yml
-  release:
-    name: Release
-    needs: [build, run-tests, run-checks]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
     permissions:
-      contents: write # in order to write labels to main branch?
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Fetch build
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: dist
-
-      - name: Release
-        uses: changesets/action@v1
-        with:
-          publish: yarn changeset publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          HUSKY: 0
+      checks: write
+      pull-requests: write
+      contents: write
