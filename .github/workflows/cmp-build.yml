@@ -1,4 +1,4 @@
-name: Build App
+name: Build and/or Release CMP
 
 on:
   workflow_call:
@@ -69,3 +69,55 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           HUSKY: 0
+
+  release-beta:
+    name: Release '@guardian/consent-management-platform'
+    needs: [build]
+    if: github.event.label.name == '[beta] @guardian/consent-management-platform'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Fetch build
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+
+      - name: Version
+        run: yarn changeset version --snapshot beta
+
+      - name: Create Release
+        uses: changesets/action@v1
+        id: changeset
+        with:
+          publish: yarn changeset publish --tag beta
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          HUSKY: 0
+
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const publishedPackages = ${{ steps.changeset.outputs.publishedPackages }};
+            const version = publishedPackages[0].version;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🚀 ${version} published to npm as a beta release`
+            })
