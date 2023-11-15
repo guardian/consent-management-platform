@@ -23,3 +23,4 @@ jobs:
       checks: write
       pull-requests: write
       contents: write
+      id-token: write
