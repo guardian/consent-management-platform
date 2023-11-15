@@ -6,14 +6,14 @@ on:
 
 jobs:
   run-tests:
-    name: Run unit and e2e tests
+    name: Run tests
     uses: ./.github/workflows/app-run-tests.yml
     permissions:
       checks: write
       pull-requests: write
       contents: write
   run-checks:
-    name: Run lint and type checks
+    name: Run checks
     uses: ./.github/workflows/app-run-checks.yml
   build:
     name: Build CMP app
