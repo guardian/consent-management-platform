@@ -7,17 +7,17 @@ on:
 jobs:
   run-tests:
     name: Run tests
-    uses: ./.github/workflows/app-run-tests.yml
+    uses: ./.github/workflows/cmp-run-tests.yml
     permissions:
       checks: write
       pull-requests: write
       contents: write
   run-checks:
     name: Run checks
-    uses: ./.github/workflows/app-run-checks.yml
+    uses: ./.github/workflows/cmp-run-checks.yml
   build:
-    name: Build CMP app
-    uses: ./.github/workflows/app-build.yml
+    name: Build CMP
+    uses: ./.github/workflows/cmp-build.yml
   release:
     name: Release
     needs: [build, run-tests, run-checks]
