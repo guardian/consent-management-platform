@@ -1,4 +1,4 @@
-name: CI Monitoring
+name: Monitoring CI
 on:
   push:
     branches-ignore:
