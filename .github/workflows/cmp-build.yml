@@ -71,7 +71,7 @@ jobs:
           HUSKY: 0
 
   release-beta:
-    name: Release '@guardian/consent-management-platform'
+    name: Release Beta
     needs: [build]
     if: github.event.label.name == '[beta] @guardian/consent-management-platform'
     runs-on: ubuntu-latest
