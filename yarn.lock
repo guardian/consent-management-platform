@@ -1502,12 +1502,21 @@
     eslint-import-resolver-typescript "3.5.5"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@4.0.0", "@guardian/eslint-config@^4.0.0":
+"@guardian/eslint-config@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-4.0.0.tgz#6beb3ae4eec73418ee18a83160d87565a2ae3d0a"
   integrity sha512-OAazxlXgYjggVNE7scoSgb1g+CIz/yfhPenEKGSTM5fejeTRZNwfFPDcVl4h4jY5/17aCUxaLxG+Nc0r4V94kQ==
   dependencies:
     eslint-config-prettier "8.5.0"
+    eslint-plugin-eslint-comments "3.2.0"
+    eslint-plugin-import "2.27.5"
+
+"@guardian/eslint-config@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-5.0.0.tgz#a9652f78f057fa4f35420fea8f8e807737ae15d1"
+  integrity sha512-llm15aCWBFJQbMg/Douqf+fjvMC9qrcc2AfievoAoiHD/VGQf8ouR4ss2/X1i+2r3gcwYDZlvCOarXeXnIbZ+w==
+  dependencies:
+    eslint-config-prettier "8.8.0"
     eslint-plugin-eslint-comments "3.2.0"
     eslint-plugin-import "2.27.5"
 
@@ -4300,6 +4309,11 @@ eslint-config-prettier@8.5.0:
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
+
+eslint-config-prettier@8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.8.0.tgz#bfda738d412adc917fd7b038857110efe98c9348"
+  integrity sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==
 
 eslint-import-resolver-node@^0.3.7:
   version "0.3.7"
