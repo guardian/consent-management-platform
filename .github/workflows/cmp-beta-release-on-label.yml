@@ -20,6 +20,14 @@ jobs:
           permission: 'admin'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  run-tests:
+    name: Run tests
+    uses: ./.github/workflows/cmp-run-tests.yml
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
   build-app:
     name: Build CMP App
+    needs: [run-tests]
     uses: ./.github/workflows/app-build.yml
