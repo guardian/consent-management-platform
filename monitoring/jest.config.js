@@ -4,5 +4,4 @@ module.exports = {
 		'^.+\\.tsx?$': 'ts-jest',
 	},
 	setupFilesAfterEnv: ['./jest.setup.js'],
-	preset: 'jest-puppeteer',
 };

@@ -2,10 +2,9 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
-import chromium from '@sparticuz/chromium';
-import { launch } from 'puppeteer-core';
-import type { Browser, CDPSession, Frame, Metrics, Page } from 'puppeteer-core';
-import type { Config, CustomPuppeteerOptions } from '../types';
+import { launchChromium } from 'playwright-aws-lambda';
+import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
+import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
 /**
@@ -23,7 +22,7 @@ export const log_info = (message: string): void => {
  * @param {string} message
  */
 export const log_error = (message: string): void => {
-	console.log(`(cmp monitoring): error: ${message}`);
+	console.error(`(cmp monitoring): error: ${message}`);
 };
 
 /**
@@ -32,9 +31,9 @@ export const log_error = (message: string): void => {
  * @param {CDPSession} client
  * @return {*}  {Promise<void>}
  */
-export const clearCookies = async (client: CDPSession): Promise<void> => {
-	await client.send('Network.clearBrowserCookies');
-
+export const clearCookies = async (page: Page): Promise<void> => {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+	await page.context().clearCookies();
 	log_info(`Cleared Cookies`);
 };
 
@@ -45,55 +44,50 @@ export const clearCookies = async (client: CDPSession): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
-	await page.evaluate(() => localStorage.clear());
-
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+	await page.evaluate(() => window.localStorage.clear());
+	await page.evaluate(() => window.sessionStorage.clear());
 	log_info(`Cleared LocalStorage`);
 };
 
 /**
- * This function creates an object for the chromium browser options
- *
- * @param {boolean} isDebugMode
- * @return {*}  {Promise<CustomPuppeteerOptions>}
- */
-const initialiseOptions = async (
-	isDebugMode: boolean,
-): Promise<CustomPuppeteerOptions> => {
-	return {
-		headless: !isDebugMode,
-		args: isDebugMode ? ['--window-size=1920,1080'] : chromium.args.concat( '--disable-dev-shm-usage'),
-		defaultViewport: chromium.defaultViewport,
-		executablePath:
-			process.env.IS_LOCAL == 'true'
-				? '/opt/homebrew/bin/chromium'
-				: await chromium.executablePath(`/var/task/bin`),
-		ignoreHTTPSErrors: true,
-		devtools: isDebugMode,
-		timeout: 0,
-	};
-};
-
-/**
- * This function launches the chromium browser.
- *
- * @param {CustomPuppeteerOptions} ops
- * @return {*}  {Promise<Browser>}
- */
-const launchBrowser = async (ops: CustomPuppeteerOptions): Promise<Browser> => {
-	return await launch(ops);
-};
-
-/**
  * This function creates a new chromium browser
- * with defined options
+ *
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	chromium.setGraphicsMode = false; //required for browser.close() not to hang
-	const ops = await initialiseOptions(debugMode);
-	const browser = await launchBrowser(ops);
+	const browser = await launchChromium({headless:!debugMode});
 	return browser;
+};
+
+/**
+ * This function creates a new page
+ *
+ * @param {BrowserContext} context
+ * @return {*}  {Promise<Page>}
+ */
+export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
+	const page = await context.newPage();
+	return page;
+};
+
+/**
+ * This function waits for the page to load
+ * clicks the accept all button
+ *
+ * @param {Config} config
+ * @param {Page} page
+ * @param {string} textToPrintToConsole
+ */
+export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
+
+	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
+
+	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+  	await acceptAllButton.click();
+
+	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
 
 /**
@@ -105,9 +99,9 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 	log_info(`Loading privacy settings panel: Start`);
 
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
-	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	const manageButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	await manageButton.click();
+	await checkPrivacySettingsPanelIsOpen(config, page);
 
 	log_info(`Loading privacy settings panel: Complete`);
 };
@@ -127,8 +121,12 @@ export const checkPrivacySettingsPanelIsOpen = async (
 
 	log_info(`Waiting for Privacy Settings Panel: Start`);
 
-	const frame = await getFrame(page, config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	const secondLayer =  page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	await secondLayer.waitFor();
+
+	if (!(await secondLayer.isVisible())) {
+		throw Error('Second Layer is not present on page');
+	}
 
 	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
@@ -146,9 +144,7 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 
-	const frame = await getFrame(page, config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT, {visible: true});
-	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -163,42 +159,81 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	log_info(`Clicking on reject all button: Start`);
 
-	const frame = await getFrame(page,config.iframeDomainSecondLayer);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL, {visible: true});
-	await frame.click(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
 
 	log_info(`Clicking on reject all button: Complete`);
 };
 
 /**
- * This function find an iframe on a provided page
- * using the iframeUrl
- *
- * @param {Page} page
- * @param {string} iframeUrl
- * @return {*}  {Frame}
- */
-export const getFrame = async (page: Page, iframeUrl: string, timeout = 30000): Promise<Frame> => {
- try {
-	const frame = await page.waitForFrame( f => f.url().startsWith(iframeUrl), {timeout: timeout});
-	return frame;
- } catch (error) {
-	console.error(error);
-	throw new Error(`Could not find frame "${iframeUrl}" : Failed`);
- }
-};
-
-/**
- * This function searches for the ad located at
- * the top of the page
+ * This function checks for interaction with GAM
+ * Using this after advice from Commercial to check that cookies were accepted as we otherwise do not interact with GAM
+ * This has to be adjusted if anything in the interaction with GAM changes or we stop using GAM
  *
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
 export const checkTopAdHasLoaded = async (page: Page) => {
-	log_info(`Waiting for ads to load: Start`);
-	await page.waitForSelector(ELEMENT_ID.TOP_ADVERT, { timeout: 30000, visible: true });
-	log_info(`Waiting for ads to load: Complete`);
+	log_info(`Waiting for interaction with GAM: Start`);
+
+	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
+
+	const getEncodedParamsFromRequest = (
+		request: Request,
+		paramName: string,
+	): URLSearchParams | null => {
+		const url = new URL(request.url());
+		const param = url.searchParams.get(paramName);
+		if (!param) return null;
+		const paramDecoded = decodeURIComponent(param);
+		const searchParams = new URLSearchParams(paramDecoded);
+		return searchParams;
+	};
+
+	const assertOnSlotFromRequest = (request: Request, expectedSlot: string) => {
+		const isURL = request.url().match(gamUrl);
+		if (!isURL) return false;
+		const searchParams = getEncodedParamsFromRequest(request, 'prev_scp');
+		if (searchParams === null) return false;
+		const slot = searchParams.get('slot');
+		if (slot !== expectedSlot) return false;
+		return true;
+	};
+
+	const waitForGAMRequestForSlot = (page: Page, slotExpected: string) => {
+		return page.waitForRequest((request) =>
+			assertOnSlotFromRequest(request, slotExpected),
+		);
+	};
+
+	const gamRequestPromise = waitForGAMRequestForSlot(
+		page,
+		'top-above-nav',
+	);
+	await gamRequestPromise;
+
+	log_info(`Waiting for interaction with GAM: Complete`);
+};
+
+/**
+ * This function checks the ad is not on the page
+ * This checks that the top ad frame does not appear on the page
+ * The top ad frame might start to appear if we use ads that do not require consent in which case this function has to be adjusted
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
+export const checkTopAdDidNotLoad = async (page: Page) => {
+	log_info(`Checking ads do not load: Start`);
+
+	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
+	const topAdsCount = await topAds.count();
+
+	if (topAdsCount != 0) {
+		log_error(`Checking ads do not load: Failed`);
+		throw Error('Top above nav frame present on page');
+	}
+
+	log_info(`Checking ads do not load: Complete`);
 };
 
 export const recordVersionOfCMP = async (page: Page) => {
@@ -219,8 +254,14 @@ export const recordVersionOfCMP = async (page: Page) => {
  */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
-	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER);
-	await recordVersionOfCMP(page); // needs to be called here otherwise not yet loaded.
+
+	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
+	await cmpl.waitFor();
+	await recordVersionOfCMP(page);
+	if (!(await cmpl.isVisible())) {
+		throw Error('CMP is not present on page');
+	}
+
 	log_info(`Waiting for CMP: Complete`);
 };
 
@@ -233,28 +274,15 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
-	const getSpMessageDisplayProperty = function (selector: string) {
-		const element = document.querySelector(selector);
-		if (element) {
-			const computedStyle = window.getComputedStyle(element);
-			return computedStyle.getPropertyValue('display');
-		}
+	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
 
-		return null;
-	};
-
-	const display = await page.evaluate(
-		getSpMessageDisplayProperty,
-		ELEMENT_ID.CMP_CONTAINER,
-	);
-
-	// Use `!=` rather than `!==` here because display is a DOMString type
-	if (display && display != 'none') {
+	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
 	}
 
 	log_info('CMP hidden or removed from page');
 };
+
 
 /**
  * This function loads a url onto a chromium page
@@ -265,8 +293,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
  */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
 	log_info(`Loading page: Start`);
-
-	await page.setCacheEnabled(false);
+	log_info(`Loading page ${url}`);
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
@@ -285,15 +312,21 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 };
 
 /**
- * This function returns the Metrics object
+ * This function reloads the chromium page
  *
  * @param {Page} page
- * @return {*}  {Promise<Metrics>}
  */
-export const getPageMetrics = async (page: Page): Promise<Metrics> => {
-	log_info(`Getting Page Metrics: Complete`);
-
-	return await page.metrics();
+export const reloadPage = async (page: Page) => {
+	log_info(`Reloading page: Start`);
+	const reloadResponse = await page.reload({
+		waitUntil: 'domcontentloaded',
+		timeout: 30000,
+	});
+	if (!reloadResponse) {
+		log_error(`Reloading page: Failed`);
+		throw 'Failed to refresh page!';
+	}
+	log_info(`Reloading page: Complete`);
 };
 
 /**
@@ -303,17 +336,15 @@ export const getPageMetrics = async (page: Page): Promise<Metrics> => {
  * @param {Metrics} startMetrics
  */
 export const logCMPLoadTime = async (
-	page: Page,
+	startTimeStamp: number,
+	endTimeStamp: number,
 	config: Config,
-	startMetrics: Metrics,
 ) => {
 	log_info(`Logging Timestamp: Start`);
 
-	const metrics = await page.metrics();
-	if (metrics.Timestamp && startMetrics.Timestamp) {
-		const timeDiff = metrics.Timestamp - startMetrics.Timestamp;
-		await sendMetricData(config, timeDiff);
-	}
+	const timeDiff = (endTimeStamp - startTimeStamp)/1000; //in seconds
+	log_info(`CMP Loading Time: ${timeDiff}`);
+	await sendMetricData(config, timeDiff);
 
 	log_info(`Logging Timestamp: Complete`);
 };
@@ -328,6 +359,7 @@ export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
 ) => {
+	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
 	const client = new CloudWatchClient({ region: region });
 	const params = {
@@ -341,7 +373,7 @@ export const sendMetricData = async (
 					},
 					{
 						Name: 'Stage',
-						Value: config.stage.toUpperCase(),
+						Value: config.platform.toUpperCase(),
 					},
 				],
 				Unit: 'Seconds',
@@ -365,41 +397,13 @@ export const sendMetricData = async (
  */
 export const checkCMPLoadingTime = async (page: Page, config: Config) => {
 	if (!config.isRunningAdhoc) {
-		await Promise.all([
-			clearCookies(await getClient(page)),
-			clearLocalStorage(page)
-		]);
-		const metrics = await getPageMetrics(page); // Get page metrics before loading page (Timestamp is used)
+		log_info('Checking CMP Loading Time: Start')
+		const startTimeStamp = Date.now();
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
-		await logCMPLoadTime(page, config, metrics); // Calculate and log time to load CMP
+		const endTimeStamp = Date.now();
+		await logCMPLoadTime(startTimeStamp, endTimeStamp, config);
+		log_info('Checking CMP Loading Time: Finished')
 	}
 };
 
-/**
- * This function retrieves the client
- *
- * @param {Page} page
- * @return {*}  {Promise<CDPSession>}
- */
-export const getClient = async (page: Page): Promise<CDPSession> => {
-	return await page.target().createCDPSession();
-};
-
-/**
- * This function reloads the chromium page
- *
- * @param {Page} page
- */
-export const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: ['domcontentloaded'],
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
-};

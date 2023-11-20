@@ -109,6 +109,7 @@ describe('ConfigWrapper', () => {
 				isRunningAdhoc: true,
 				region: AWS_REGIONS.AP_SOUTHEAST_2,
 				checkFunction: mockCheckFunction,
+				platform: STAGES.CODE
 			};
 
 			configWrapper.config = mockConfig;
