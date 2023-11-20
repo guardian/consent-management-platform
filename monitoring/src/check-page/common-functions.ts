@@ -32,7 +32,6 @@ export const log_error = (message: string): void => {
  * @return {*}  {Promise<void>}
  */
 export const clearCookies = async (page: Page): Promise<void> => {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 	await page.context().clearCookies();
 	log_info(`Cleared Cookies`);
 };
@@ -44,7 +43,6 @@ export const clearCookies = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 	await page.evaluate(() => window.localStorage.clear());
 	await page.evaluate(() => window.sessionStorage.clear());
 	log_info(`Cleared LocalStorage`);
