@@ -4,10 +4,22 @@ This folder consists of the workflow/action files for continuous integration and
 
 Below are 4 workflows that are triggered by specific actions i.e pushing to a branch, scheduled trigger
 
--   `cmp-ci.yml` is triggered on pushing to a branch. This runs a series sub-workflows/workflow_calls that relate to the cmp app such as cmp-run-tests.yml, `cmp-run-checks.yml` and `cmp-build.yml`.
+1. `cmp-ci.yml`
 
--   `cmp-beta-release-on-label.yml` is triggered by adding a label to pull requests. This runs a series sub-workflows/workflow_calls that relate to the cmp app such as `cmp-run-tests.yml` and and `cmp-build.yml`
+-   Trigger: Pushing to a branch
+-   Description: Initiates a sequence of sub-workflows/workflow_calls (`cmp-run-tests.yml`, `cmp-run-checks.yml`, and `cmp-build.yml`) associated with the CMP app.
 
--   `monitoring-ci.yml` is triggered on pushing to a branch. This runs a series jobs that relate to the cdk and monitoring app such as running tests and checks in the `cdk` and `monitoring` directory.
+2. `cmp-beta-release-on-label.yml`
 
--   `daily-test.yml` is triggered daily using a cron scheduler. This runs a test `yarn test:vendor-list` to check the vendor list is up to date.
+-   Trigger: Adding a label to pull requests.
+-   Description: Initiates a sequence of sub-workflows/workflow_calls (`cmp-run-tests.yml` and `cmp-build.yml`) associated with the CMP app.
+
+3. `monitoring-ci.yml`
+
+-   Trigger: Adding a label to pull requests.
+-   Description: Initiates a series of jobs related to the `cdk` and `monitoring` app. This includes running tests and checks within the `cdk` and `monitoring` directories.
+
+4. `daily-test.yml`
+
+-   Trigger: Cron scheduler
+-   Description: This runs a test `yarn test:vendor-list` to check the vendor list is up to date.
