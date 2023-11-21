@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-lambda": "^3.428.0",
-		"@babel/parser": "^7.23.3",
+    "@babel/parser": "^7.23.3",
     "@guardian/eslint-config-typescript": "^7.0.0",
     "@guardian/prettier": "^5.0.0",
     "@guardian/tsconfig": "^0.2.0",
