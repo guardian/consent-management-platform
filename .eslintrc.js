@@ -16,7 +16,6 @@ module.exports = {
 		project: 'tsconfig.json',
 		sourceType: 'module',
 	},
-	// extends: ['@guardian/eslint-config-typescript'],
 	overrides: [
 		{
 			files: ['*.js', '*.jsx'],
