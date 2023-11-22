@@ -126,6 +126,10 @@ To release a new version with your changes, run `yarn changeset add` and follow 
 
 When your PR is merged, changeset will analyse the changes and create a PR to release the new version.
 
+### CI/CD
+
+This project also uses [github action workflow](../.github/workflows/README.md) to manage it's CI/CD.
+
 ### Pull requests
 
 Try to write PR titles in the conventional commit format, and [squash and merge](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits) when merging. That way your PR will trigger a release when you merge it (if necessary).
