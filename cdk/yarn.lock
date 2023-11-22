@@ -439,7 +439,7 @@
     eslint-import-resolver-typescript "3.5.5"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@5.0.0", "@guardian/eslint-config@^5.0.0":
+"@guardian/eslint-config@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-5.0.0.tgz#a9652f78f057fa4f35420fea8f8e807737ae15d1"
   integrity sha512-llm15aCWBFJQbMg/Douqf+fjvMC9qrcc2AfievoAoiHD/VGQf8ouR4ss2/X1i+2r3gcwYDZlvCOarXeXnIbZ+w==
