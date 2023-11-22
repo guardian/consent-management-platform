@@ -878,15 +878,6 @@
     eslint-plugin-eslint-comments "3.2.0"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-5.0.0.tgz#a9652f78f057fa4f35420fea8f8e807737ae15d1"
-  integrity sha512-llm15aCWBFJQbMg/Douqf+fjvMC9qrcc2AfievoAoiHD/VGQf8ouR4ss2/X1i+2r3gcwYDZlvCOarXeXnIbZ+w==
-  dependencies:
-    eslint-config-prettier "8.8.0"
-    eslint-plugin-eslint-comments "3.2.0"
-    eslint-plugin-import "2.27.5"
-
 "@guardian/prettier@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@guardian/prettier/-/prettier-5.0.0.tgz#0cd36b105512510192ea9fd18da3d3df2d7b3b72"
