@@ -14,7 +14,6 @@
 	},
 	"dependencies": {
 		"@aws-sdk/client-cloudwatch": "^3.428.0",
-		"@guardian/eslint-config": "^5.0.0",
 		"commander": "^11.1.0",
 		"dotenv": "^16.3.1",
 		"inquirer": "^8.2.3",
