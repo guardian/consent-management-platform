@@ -247,7 +247,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             },
           },
         ],
-        "EvaluationPeriods": 5,
+        "EvaluationPeriods": 10,
         "MetricName": "Errors",
         "Namespace": "AWS/Lambda",
         "Period": 60,
