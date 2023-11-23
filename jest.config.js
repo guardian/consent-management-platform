@@ -1,7 +1,7 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
-import pkg = require('./package.json');
+const pkg = require('./package.json');
 
 module.exports = {
 	globals: { __PACKAGE_VERSION__: pkg.version },

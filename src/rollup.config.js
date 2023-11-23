@@ -1,6 +1,4 @@
 /* eslint-disable import/no-default-export -- it's what rollup wants */
-/* eslint-disable  @typescript-eslint/no-unsafe-argument -- it's what rollup wants */
-/* eslint-disable  @typescript-eslint/no-unsafe-call -- it's what rollup wants */
 
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';

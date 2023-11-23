@@ -19,7 +19,7 @@ module.exports = {
 	extends: ['@guardian/eslint-config-typescript'],
 	overrides: [
 		{
-			files: ['**/*.test.*'],
+			files: ['**/*.test.*', '*.config.js'],
 			rules: {
 				'@typescript-eslint/no-unsafe-return': 0,
 				'@typescript-eslint/no-unsafe-call': 0,
