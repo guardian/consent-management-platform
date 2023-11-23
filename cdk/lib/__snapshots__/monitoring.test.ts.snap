@@ -240,7 +240,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         ],
         "AlarmDescription": "Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "DatapointsToAlarm": 4,
+        "DatapointsToAlarm": 5,
         "Dimensions": [
           {
             "Name": "FunctionName",
