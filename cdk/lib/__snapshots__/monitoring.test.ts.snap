@@ -232,6 +232,11 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
     },
     "cmpmonitoringalarms68497862": {
       "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "internalEmailRecipientA4594AC9",
+          },
+        ],
         "AlarmDescription": "Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "Dimensions": [
@@ -288,6 +293,39 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         ],
       },
       "Type": "AWS::Events::Rule",
+    },
+    "internalEmailRecipientA4594AC9": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/consent-management-platform",
+          },
+          {
+            "Key": "Stack",
+            "Value": "cmp-monitoring",
+          },
+          {
+            "Key": "Stage",
+            "Value": "PROD",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "internalEmailRecipienttransparencyandconsentguardiancoukAC07DD37": {
+      "Properties": {
+        "Endpoint": "transparency.and.consent@guardian.co.uk",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "internalEmailRecipientA4594AC9",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
     },
   },
 }
