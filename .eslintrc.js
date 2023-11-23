@@ -4,6 +4,7 @@ module.exports = {
 		jest: true,
 		browser: true,
 	},
+	extends: ['@guardian/eslint-config-typescript'],
 	globals: { __PACKAGE_VERSION__: 'readonly' },
 	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', '*.ts', '*.*.ts'],
 	rules: {
@@ -16,7 +17,6 @@ module.exports = {
 		project: 'tsconfig.json',
 		sourceType: 'module',
 	},
-	extends: ['@guardian/eslint-config-typescript'],
 	overrides: [
 		{
 			files: ['**/*.test.*', '*.config.js'],
