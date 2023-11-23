@@ -328,12 +328,13 @@ type: `string`
 -   `"ias"`
 -   `"inizio"`
 -   `"ipsos"`
--   `"lotame"`
+-   `"magnite"` (do not use until contract signed)
 -   `"nielsen"`
 -   `"ophan"`
 -   `"permutive"`
 -   `"prebid"`
 -   `"qm"` (Quantum Metric)
+-   `"redplanet"` (Australia only)
 -   `"remarketing"`
 -   `"sentry"`
 -   `"teads"`

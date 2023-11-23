@@ -120,11 +120,11 @@ Changes are automatically released to [NPM][].
 
 [npm]: https://www.npmjs.com/package/@guardian/consent-management-platform
 
-The `main` branch on GitHub is analysed by [semantic-release](https://semantic-release.gitbook.io/) after every push.
+This repository uses [changesets](https://github.com/changesets/changesets) for version management
 
-If a commit message follows the [conventional commit format](https://www.conventionalcommits.org/en/v1.0.0), semantic-release can determine what types of changes are included in that commit.
+To release a new version with your changes, run `yarn changeset add` and follow the prompts. This will create a new changeset file in the `.changeset` directory. Commit this file with your PR.
 
-If necessary, it will then automatically release a new, [semver](https://semver.org/)-compliant version of the package to NPM.
+When your PR is merged, changeset will analyse the changes and create a PR to release the new version.
 
 ### Pull requests
 

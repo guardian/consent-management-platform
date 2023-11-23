@@ -8,5 +8,6 @@
 		"rootDir": "src"
 	},
 	"files": ["src/index.ts"],
+	"exclude": ["src/rollup.config.js"],
 	"include": ["src"]
 }
