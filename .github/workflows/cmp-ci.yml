@@ -18,7 +18,7 @@ jobs:
   build:
     name: Build CMP
     needs: [run-tests, run-checks]
-    uses: ./.github/workflows/cmp-build.yml
+    uses: ./.github/workflows/cmp-build-release.yml
     permissions:
       checks: write
       pull-requests: write
