@@ -30,4 +30,4 @@ jobs:
   build-app:
     name: Build CMP App
     needs: [run-tests]
-    uses: ./.github/workflows/app-build.yml
+    uses: ./.github/workflows/cmp-build-release.yml
