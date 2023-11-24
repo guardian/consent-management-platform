@@ -319,9 +319,9 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
       },
       "Type": "AWS::SNS::Topic",
     },
-    "internalEmailRecipienttransparencyandconsentguardiancoukAC07DD37": {
+    "internalEmailRecipientakinsolalawansonguardiancouk154CD436": {
       "Properties": {
-        "Endpoint": "transparency.and.consent@guardian.co.uk",
+        "Endpoint": "akinsola.lawanson@guardian.co.uk",
         "Protocol": "email",
         "TopicArn": {
           "Ref": "internalEmailRecipientA4594AC9",
