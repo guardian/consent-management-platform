@@ -97,7 +97,7 @@ export class Monitoring extends GuStack {
 		});
 
 		const emailSubscription = new EmailSubscription(
-			"transparency.and.consent@guardian.co.uk"
+			"akinsola.lawanson@guardian.co.uk"
 		);
 
 		const internalEmailMessaging = new Topic(this, "internalEmailRecipient");
