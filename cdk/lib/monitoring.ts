@@ -88,9 +88,9 @@ export class Monitoring extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 4,
-			evaluationPeriods: 10,
+			evaluationPeriods: 5,
 			actionsEnabled: true,
-			datapointsToAlarm: 5,
+			datapointsToAlarm: 4,
 			metric: errorMetric,
 			alarmDescription:
 				'Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period',
