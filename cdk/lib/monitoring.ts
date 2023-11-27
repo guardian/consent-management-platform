@@ -87,7 +87,7 @@ export class Monitoring extends GuStack {
 		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-			threshold: 4,
+			threshold: 1,
 			evaluationPeriods: 10,
 			actionsEnabled: true,
 			datapointsToAlarm: 5,
