@@ -241,17 +241,25 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         "AlarmDescription": "Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 5,
-        "EvaluationPeriods": 5,
-        "MetricName": "SuccessPercent",
-        "Namespace": "Application",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "cmpmonitoring2CD05B94",
+            },
+          },
+        ],
+        "EvaluationPeriods": 10,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
         "OKActions": [
           {
             "Ref": "internalEmailRecipientA4594AC9",
           },
         ],
         "Period": 60,
-        "Statistic": "Average",
-        "Threshold": 80,
+        "Statistic": "Sum",
+        "Threshold": 4,
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
