@@ -9,7 +9,7 @@ import {
 	Alarm,
 	ComparisonOperator,
 	Metric,
-	Unit,
+	Unit
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
@@ -59,7 +59,7 @@ export class Monitoring extends GuStack {
 		});
 
 		// Defining metric for lambda errors each minute
-		const errorMetric = monitoringLambdaFunction.metricErrors({
+		monitoringLambdaFunction.metricErrors({
 			period: Duration.minutes(1),
 		});
 
@@ -87,14 +87,44 @@ export class Monitoring extends GuStack {
 		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-			threshold: 4,
+			threshold: 80,
 			evaluationPeriods: 5,
 			actionsEnabled: true,
-			datapointsToAlarm: 4,
-			metric: errorMetric,
+			datapointsToAlarm: 5,
+			// metric: errorMetric,
+			metric: new Metric({
+				namespace: 'Application',
+				metricName: 'SuccessPercent',
+				statistic: 'avg',
+				period: Duration.minutes(1),
+			}),
 			alarmDescription:
 				'Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period',
 		});
+
+		// const alarm = new Alarm(this, `Alarm`, {
+		// 	actionsEnabled: true,
+		// 	alarmDescription: 'Either a Front or an Article CMP has failed',
+		// 	alarmName: `Commercial canary`,
+		// 	comparisonOperator: ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
+		// 	datapointsToAlarm: 5,
+		// 	evaluationPeriods: 5,
+		// 	metric: new Metric({
+		// 		namespace: 'CloudWatchSynthetics',
+		// 		metricName: 'SuccessPercent',
+		// 		statistic: 'avg',
+		// 		period: Duration.minutes(1),
+		// 		dimensionsMap: {
+		// 			CanaryName: canaryName,
+		// 		},
+		// 	}),
+		// 	threshold: 80,
+		// 	treatMissingData: TreatMissingData.BREACHING,
+		// });
+
+		// alarm.addAlarmAction(new SnsAction(topic));
+		// alarm.addOkAction(new SnsAction(topic));
+
 
 		const emailSubscription = new EmailSubscription(
 			"akinsola.lawanson@guardian.co.uk"
@@ -106,5 +136,6 @@ export class Monitoring extends GuStack {
 		const alarmAction: IAlarmAction = new SnsAction(internalEmailMessaging);
 
 		alarm.addAlarmAction(alarmAction)
+		alarm.addOkAction(alarmAction)
 	}
 }
