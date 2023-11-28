@@ -29,6 +29,10 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
+		const prodDurationInMinutes = 2;
+
+		const codeDurationInDays = 1;
+
 		const policyStatement = new PolicyStatement({
 			effect: Effect.ALLOW,
 			actions: ['cloudwatch:PutMetricData'],
@@ -60,12 +64,12 @@ export class Monitoring extends GuStack {
 
 		// Defining metric for lambda errors each minute
 		const errorMetric = monitoringLambdaFunction.metricErrors({
-			period: Duration.minutes(1),
+			period: Duration.minutes(prodDurationInMinutes),
 		});
 
 		// Defining metric for lambda errors each minute
 		monitoringLambdaFunction.metricInvocations({
-			period: Duration.minutes(1),
+			period: Duration.minutes(prodDurationInMinutes),
 		});
 
 		const lambdaEventTarget = new LambdaFunction(monitoringLambdaFunction, {
@@ -75,50 +79,29 @@ export class Monitoring extends GuStack {
 			}),
 		});
 
+
 		const monitoringDuration: Duration =
-			stage === 'PROD' ? Duration.minutes(2) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
+			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.days(codeDurationInDays); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
 			schedule: Schedule.rate(monitoringDuration),
 			targets: [lambdaEventTarget],
 		});
 
+
 		// Error Alarm
 		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
-			evaluationPeriods: 10,
+			evaluationPeriods: 5 * prodDurationInMinutes, //10 // This value is the number of periods to watch. Here, we're evaluating 5 executions of the lambda.
 			actionsEnabled: true,
-			datapointsToAlarm: 5,
+			datapointsToAlarm: 4, //5 // This value is the number of failed data-points/executions that will trigger the alarm. so 4 out of 5
 			metric: errorMetric,
+			alarmName: `CMP Monitoring - ${stage} - ${region}`,
 			alarmDescription:
-				'Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period',
+				`This alarm is triggered if 4 out of 5 lambda executions fail in ${region} fail`,
 		});
-
-		// const alarm = new Alarm(this, `Alarm`, {
-		// 	actionsEnabled: true,
-		// 	alarmDescription: 'Either a Front or an Article CMP has failed',
-		// 	alarmName: `Commercial canary`,
-		// 	comparisonOperator: ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
-		// 	datapointsToAlarm: 5,
-		// 	evaluationPeriods: 5,
-		// 	metric: new Metric({
-		// 		namespace: 'CloudWatchSynthetics',
-		// 		metricName: 'SuccessPercent',
-		// 		statistic: 'avg',
-		// 		period: Duration.minutes(1),
-		// 		dimensionsMap: {
-		// 			CanaryName: canaryName,
-		// 		},
-		// 	}),
-		// 	threshold: 80,
-		// 	treatMissingData: TreatMissingData.BREACHING,
-		// });
-
-		// alarm.addAlarmAction(new SnsAction(topic));
-		// alarm.addOkAction(new SnsAction(topic));
-
 
 		const emailSubscription = new EmailSubscription(
 			"akinsola.lawanson@guardian.co.uk"

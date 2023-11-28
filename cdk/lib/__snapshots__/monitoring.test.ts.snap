@@ -238,9 +238,10 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Ref": "internalEmailRecipientA4594AC9",
           },
         ],
-        "AlarmDescription": "Alarm if the SUM of Errors is greater than or equal to the threshold (4) for 5 evaluation period",
+        "AlarmDescription": "This alarm is triggered if 4 out of 5 lambda executions fail in eu-west-1 fail",
+        "AlarmName": "CMP Monitoring - PROD - eu-west-1",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "DatapointsToAlarm": 5,
+        "DatapointsToAlarm": 4,
         "Dimensions": [
           {
             "Name": "FunctionName",
@@ -257,7 +258,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Ref": "internalEmailRecipientA4594AC9",
           },
         ],
-        "Period": 60,
+        "Period": 120,
         "Statistic": "Sum",
         "Threshold": 1,
       },
