@@ -25,7 +25,7 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Run unit tests
-        uses: ArtiomTr/jest-coverage-report-action@v2.2.4
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.6
         with:
           package-manager: yarn
           test-script: yarn test:unit
