@@ -35,8 +35,7 @@
 		"tsc": "tsc",
 		"types": "tsc --project ./tsconfig.build.json",
 		"validate": "npm-run-all tsc test lint build",
-		"prepare": "husky install",
-		"ci:monitoring": "yarn run node-riffraff-artifact --dryRun"
+		"prepare": "husky install"
 	},
 	"prettier": "@guardian/prettier",
 	"devDependencies": {
@@ -50,7 +49,6 @@
 		"@guardian/eslint-config": "^4.0.0",
 		"@guardian/eslint-config-typescript": "^6.0.0",
 		"@guardian/libs": "15.0.0",
-		"@guardian/node-riffraff-artifact": "^0.3.2",
 		"@guardian/prettier": "^4.0.0",
 		"@guardian/tsconfig": "^0.2.0",
 		"@rollup/plugin-babel": "^6.0.3",
