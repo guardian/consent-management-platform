@@ -67,3 +67,28 @@ jobs:
 
       - name: Generate riff-raff artifacts
         run: yarn ci:monitoring
+
+      - name: Upload to Riff Raff
+        uses: guardian/actions-riff-raff@v3
+        with:
+          app: cmp-monitoring
+          buildNumberOffset: 1463
+          configPath: riff-raff.yaml
+          contentDirectories: |
+            cmp-monitoring-lambda-eu-west-1:
+              - monitoring/dist/cmp-monitoring-lambda-eu-west-1.zip
+            cmp-monitoring-lambda-us-west-1:
+              - monitoring/dist/cmp-monitoring-lambda-us-west-1.zip
+            cmp-monitoring-lambda-ap-southeast-2:
+              - monitoring/dist/cmp-monitoring-lambda-ap-southeast-2.zip
+            cmp-monitoring-lambda-ca-central-1:
+              - monitoring/dist/cmp-monitoring-lambda-ca-central-1.zip
+            cloud-formation:
+              - cdk/cdk.out/CmpMonitoringStackEUCode.template.json
+              - cdk/cdk.out/CmpMonitoringStackEUProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackUSCode.template.json
+              - cdk/cdk.out/CmpMonitoringStackUSProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackAPCode.template.json
+              - cdk/cdk.out/CmpMonitoringStackAPProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackCACode.template.json
+              - cdk/cdk.out/CmpMonitoringStackCAProd.template.json
