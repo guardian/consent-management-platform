@@ -2,8 +2,14 @@
 
 set -e
 
-yarn install --frozen-lockfile
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+ROOT_DIR="${DIR}/../.."
+LAMBDA_REGIONS=("cmp-monitoring-lambda-eu-west-1" "cmp-monitoring-lambda-us-west-1" "cmp-monitoring-lambda-ap-southeast-2" "cmp-monitoring-lambda-ca-central-1")
 
-yarn lint
-yarn test
-yarn synth
+for region in "${LAMBDA_REGIONS[@]}"
+do
+	zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "${ROOT_DIR}/monitoring/dist"
+	echo "${region} done"
+done
+
+

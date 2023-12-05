@@ -65,6 +65,10 @@ jobs:
         working-directory: './cdk'
         run: yarn synth
 
+      - name: ZIP Lambda files
+        working-directory: './cdk'
+        run: ./script/ci
+
       - name: Generate riff-raff artifacts
         run: yarn ci:monitoring
 
@@ -78,13 +82,13 @@ jobs:
           configPath: riff-raff.yaml
           contentDirectories: |
             cmp-monitoring-lambda-eu-west-1:
-              - monitoring/dist/cmp-monitoring-lambda-eu-west-1.zip
+              - cdk/dist/cmp-monitoring-lambda-eu-west-1.zip
             cmp-monitoring-lambda-us-west-1:
-              - monitoring/dist/cmp-monitoring-lambda-us-west-1.zip
+              - cdk/dist/cmp-monitoring-lambda-us-west-1.zip
             cmp-monitoring-lambda-ap-southeast-2:
-              - monitoring/dist/cmp-monitoring-lambda-ap-southeast-2.zip
+              - cdk/dist/cmp-monitoring-lambda-ap-southeast-2.zip
             cmp-monitoring-lambda-ca-central-1:
-              - monitoring/dist/cmp-monitoring-lambda-ca-central-1.zip
+              - cdk/dist/cmp-monitoring-lambda-ca-central-1.zip
             cloud-formation:
               - cdk/cdk.out/CmpMonitoringStackEUCode.template.json
               - cdk/cdk.out/CmpMonitoringStackEUProd.template.json
