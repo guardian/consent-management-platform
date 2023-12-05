@@ -69,9 +69,6 @@ jobs:
         working-directory: './cdk'
         run: ./script/ci
 
-      - name: Generate riff-raff artifacts
-        run: yarn ci:monitoring
-
       - name: Upload to Riff Raff
         uses: guardian/actions-riff-raff@v3
         with:
