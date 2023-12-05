@@ -73,6 +73,7 @@ jobs:
         uses: guardian/actions-riff-raff@v3
         with:
           app: cmp-monitoring
+          projectName: consent::cmp-monitoring
           buildNumberOffset: 1463
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           configPath: riff-raff.yaml
