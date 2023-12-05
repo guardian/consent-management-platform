@@ -73,6 +73,8 @@ jobs:
         with:
           app: cmp-monitoring
           buildNumberOffset: 1463
+          dryRun: true
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           configPath: riff-raff.yaml
           contentDirectories: |
             cmp-monitoring-lambda-eu-west-1:
