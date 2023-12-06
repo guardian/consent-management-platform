@@ -67,7 +67,7 @@ jobs:
 
       - name: ZIP Lambda files
         working-directory: './cdk'
-        run: ./script/ci
+        run: ./script/export-monitoring-file
 
       - name: Upload to Riff Raff
         uses: guardian/actions-riff-raff@v3
