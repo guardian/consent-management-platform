@@ -75,7 +75,7 @@ jobs:
           app: cmp-monitoring
           projectName: consent::cmp-monitoring
           buildNumberOffset: 1463
-          dryRun: true
+          dryRun: false
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           configPath: riff-raff.yaml
           contentDirectories: |
