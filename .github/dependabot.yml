@@ -13,6 +13,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    labels:
+      - 'guardian'
     allow:
       - dependency-name: '@guardian*'
   - package-ecosystem: 'github-actions'
