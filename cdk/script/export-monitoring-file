@@ -17,6 +17,7 @@ then
 	src_file=$(find $INDEX_JS_BUILT_FILE) # Gets the index.js file generated in the monitoring/dist. Throws error if it doesn't exist
 	absolute_src_file_path=$(get_abs_filename "$src_file") # Gets the absolute path of the index.js file
 	absolute_src_directory=$(dirname "$absolute_src_file_path") # Gets the src directory name the absolute_src_file_path
+	echo "----------------------------"
 
 	for region in "${LAMBDA_REGIONS[@]}"
 	do
@@ -24,6 +25,7 @@ then
 		cd "${absolute_src_directory}" # Go to monitoring/dist folder
 		zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "." # Zip the monitoring/dist folder into cdk/dist
 		echo "zipped ${region}"
+		echo "----------------------------"
 	done
 	echo "Successfully zipped all regions"
 	exit 0 # Success
