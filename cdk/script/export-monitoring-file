@@ -4,6 +4,7 @@ set -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ROOT_DIR="${DIR}/../.."
+INDEX_JS_BUILT_FILE="${ROOT_DIR}/monitoring/dist/index.js"
 LAMBDA_REGIONS=("cmp-monitoring-lambda-eu-west-1" "cmp-monitoring-lambda-us-west-1" "cmp-monitoring-lambda-ap-southeast-2" "cmp-monitoring-lambda-ca-central-1")
 
 get_abs_filename() {
@@ -11,11 +12,9 @@ get_abs_filename() {
   echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 }
 
-
-
-if test -f "${ROOT_DIR}/monitoring/dist/index.js";
+if test -f "${INDEX_JS_BUILT_FILE}"; # Check if index js file is in the monitoring file
 then
-	src_file=$(find $ROOT_DIR/monitoring/dist/index.js) # Gets the index.js file generated in the monitoring/dist. Throws error if it doesn't exist
+	src_file=$(find $INDEX_JS_BUILT_FILE) # Gets the index.js file generated in the monitoring/dist. Throws error if it doesn't exist
 	absolute_src_file_path=$(get_abs_filename "$src_file") # Gets the absolute path of the index.js file
 	absolute_src_directory=$(dirname "$absolute_src_file_path") # Gets the src directory name the absolute_src_file_path
 
