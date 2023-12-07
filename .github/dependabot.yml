@@ -9,6 +9,12 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    allow:
+      - dependency-name: '@guardian*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
