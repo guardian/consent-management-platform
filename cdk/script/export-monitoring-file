@@ -11,13 +11,24 @@ get_abs_filename() {
   echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 }
 
-for region in "${LAMBDA_REGIONS[@]}"
-do
+
+
+if test -f "${ROOT_DIR}/monitoring/dist/index.js";
+then
 	src_file=$(find $ROOT_DIR/monitoring/dist/index.js) # Gets the index.js file generated in the monitoring/dist. Throws error if it doesn't exist
 	absolute_src_file_path=$(get_abs_filename "$src_file") # Gets the absolute path of the index.js file
 	absolute_src_directory=$(dirname "$absolute_src_file_path") # Gets the src directory name the absolute_src_file_path
-	cd "${absolute_src_directory}" # Go to monitoring/dist folder
-	zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "." # Zip the monitoring/dist folder into cdk/dist
-done
 
-
+	for region in "${LAMBDA_REGIONS[@]}"
+	do
+		echo "starting ${region}"
+		cd "${absolute_src_directory}" # Go to monitoring/dist folder
+		zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "." # Zip the monitoring/dist folder into cdk/dist
+		echo "zipped ${region}"
+	done
+	echo "Successfully zipped all regions"
+	exit 0 # Success
+else
+	echo "The monitoring/dist directory is empty"
+	exit 1 # Error
+fi
