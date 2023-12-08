@@ -34,7 +34,7 @@
 	},
 	"dependencies": {
 		"@guardian/cdk": "50.12.2",
-		"npm": "^9.8.0",
+		"npm": "^10.0.0",
 		"source-map-support": "^0.5.20"
 	},
 	"prettier": "@guardian/prettier"
