@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+ROOT_DIR="${DIR}/.."
+
+EXPECTED_BUILT_DIRECTORIES=("assets" "aus" "ccpa" "lib" "tcfv2" "types")
+
+get_abs_filename() {
+  # $1 : relative filename
+  echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+}
+
+BUILT_APP_DIR_PATH=$(get_abs_filename "${ROOT_DIR}/dist")
+echo "The expected folders are in the build directory"
+
+if test -d "${BUILT_APP_DIR_PATH}"; then
+  for dir in "${EXPECTED_BUILT_DIRECTORIES[@]}"; do
+    if [ ! -d "${BUILT_APP_DIR_PATH}/${dir}" ]; then
+    	echo "Directory '${dir}' does not exist in ${BUILT_APP_DIR_PATH}"
+    	exit 1
+    fi
+  done
+  echo "The expected folders are in the build directory"
+  exit 0
+else
+  echo "Can't find dist folder"
+  exit 1
+fi
+
+
