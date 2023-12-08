@@ -22,7 +22,7 @@ if test -d "${BUILT_APP_DIR_PATH}"; then
     	exit 1
     fi
   done
-  echo "The expected folders are in the build directory"
+  echo "The expected folders are in the dist directory"
   exit 0
 else
   echo "Can't find dist folder"
