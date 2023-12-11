@@ -18,13 +18,13 @@ echo "Checking Dist folder"
 if test -d "${BUILT_APP_DIR_PATH}"; then # If the dist folder exists
   for dir in "${EXPECTED_BUILT_DIRECTORIES[@]}"; do # Loop through EXPECTED_BUILT_DIRECTORIES array
     if [ ! -d "${BUILT_APP_DIR_PATH}/${dir}" ]; then # If the sub directory doesn't exist
-    	echo "Directory '${dir}' does not exist in ${BUILT_APP_DIR_PATH}"
+    	echo "Error: Directory '${dir}' does not exist in ${BUILT_APP_DIR_PATH}"
     	exit 1
     fi
   done
   echo "The expected folders are in the dist directory"
   exit 0
 else
-  echo "Can't find dist folder"
+  echo "Error: Can't find dist folder"
   exit 1
 fi
