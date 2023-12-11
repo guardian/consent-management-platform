@@ -5,31 +5,36 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ROOT_DIR="${DIR}/../.."
 INDEX_JS_BUILT_FILE="${ROOT_DIR}/monitoring/dist/index.js"
-LAMBDA_REGIONS=("cmp-monitoring-lambda-eu-west-1" "cmp-monitoring-lambda-us-west-1" "cmp-monitoring-lambda-ap-southeast-2" "cmp-monitoring-lambda-ca-central-1")
+# LAMBDA_REGIONS=("cmp-monitoring-lambda-eu-west-1" "cmp-monitoring-lambda-us-west-1" "cmp-monitoring-lambda-ap-southeast-2" "cmp-monitoring-lambda-ca-central-1")
 
-get_abs_filename() {
+get_absolute_path_directory() {
   # $1 : relative filename
-  echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  absolute_src_file_path="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"  # Gets the absolute path of the index.js file
+  echo $(dirname "$absolute_src_file_path") # Get directory name
 }
 
 if test -f "${INDEX_JS_BUILT_FILE}"; # Check if index js file is in the monitoring file
 then
 	src_file=$(find $INDEX_JS_BUILT_FILE) # Gets the index.js file generated in the monitoring/dist. Throws error if it doesn't exist
-	absolute_src_file_path=$(get_abs_filename "$src_file") # Gets the absolute path of the index.js file
-	absolute_src_directory=$(dirname "$absolute_src_file_path") # Gets the src directory name the absolute_src_file_path
-	echo "----------------------------"
+	absolute_src_directory=$(get_absolute_path_directory "$src_file") # Gets the directory of the index.js file monitoring/dist
 
-	for region in "${LAMBDA_REGIONS[@]}"
-	do
-		echo "starting ${region}"
-		cd "${absolute_src_directory}" # Go to monitoring/dist folder
-		zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "." # Zip the monitoring/dist folder into cdk/dist
-		echo "zipped ${region}"
-		echo "----------------------------"
-	done
-	echo "Successfully zipped all regions"
+	echo "Zipping Built Files"
+	cd "${absolute_src_directory}" # Go to monitoring/dist folder
+	zip -FSr "${ROOT_DIR}/cdk/dist/cmp-monitoring-lambda.zip" "." # Zip the monitoring/dist folder into cdk/dist
+	echo "File was successfully zipped ${region}"
+
+
+	# for region in "${LAMBDA_REGIONS[@]}"
+	# do
+	# 	echo "starting ${region}"
+	# 	cd "${absolute_src_directory}" # Go to monitoring/dist folder
+	# 	zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "." # Zip the monitoring/dist folder into cdk/dist
+	# 	echo "zipped ${region}"
+	# 	echo "----------------------------"
+	# done
+	# echo "Successfully zipped all regions"
 	exit 0 # Success
 else
-	echo "The monitoring/dist directory is empty"
+	echo "Error: The monitoring/dist directory is empty"
 	exit 1 # Error
 fi

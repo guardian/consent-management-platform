@@ -80,13 +80,13 @@ jobs:
           configPath: riff-raff.yaml
           contentDirectories: |
             cmp-monitoring-lambda-eu-west-1:
-              - cdk/dist/cmp-monitoring-lambda-eu-west-1.zip
+              - cdk/dist/cmp-monitoring-lambda.zip
             cmp-monitoring-lambda-us-west-1:
-              - cdk/dist/cmp-monitoring-lambda-us-west-1.zip
+              - cdk/dist/cmp-monitoring-lambda.zip
             cmp-monitoring-lambda-ap-southeast-2:
-              - cdk/dist/cmp-monitoring-lambda-ap-southeast-2.zip
+              - cdk/dist/cmp-monitoring-lambda.zip
             cmp-monitoring-lambda-ca-central-1:
-              - cdk/dist/cmp-monitoring-lambda-ca-central-1.zip
+              - cdk/dist/cmp-monitoring-lambda.zip
             cloud-formation:
               - cdk/cdk.out/CmpMonitoringStackEUCode.template.json
               - cdk/cdk.out/CmpMonitoringStackEUProd.template.json
