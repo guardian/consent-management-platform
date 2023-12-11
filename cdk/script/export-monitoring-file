@@ -5,7 +5,6 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ROOT_DIR="${DIR}/../.."
 INDEX_JS_BUILT_FILE="${ROOT_DIR}/monitoring/dist/index.js"
-# LAMBDA_REGIONS=("cmp-monitoring-lambda-eu-west-1" "cmp-monitoring-lambda-us-west-1" "cmp-monitoring-lambda-ap-southeast-2" "cmp-monitoring-lambda-ca-central-1")
 
 get_absolute_path_directory() {
   # $1 : relative filename
@@ -23,16 +22,6 @@ then
 	zip -FSr "${ROOT_DIR}/cdk/dist/cmp-monitoring-lambda.zip" "." # Zip the monitoring/dist folder into cdk/dist
 	echo "File was successfully zipped ${region}"
 
-
-	# for region in "${LAMBDA_REGIONS[@]}"
-	# do
-	# 	echo "starting ${region}"
-	# 	cd "${absolute_src_directory}" # Go to monitoring/dist folder
-	# 	zip -FSr "${ROOT_DIR}/cdk/dist/${region}.zip" "." # Zip the monitoring/dist folder into cdk/dist
-	# 	echo "zipped ${region}"
-	# 	echo "----------------------------"
-	# done
-	# echo "Successfully zipped all regions"
 	exit 0 # Success
 else
 	echo "Error: The monitoring/dist directory is empty"
