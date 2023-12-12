@@ -2,8 +2,8 @@
 
 set -e
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-ROOT_DIR="${DIR}/.."
+CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+ROOT_DIR="${CURRENT_DIR}/.."
 
 EXPECTED_BUILT_DIRECTORIES=("assets" "aus" "ccpa" "lib" "tcfv2" "types")
 
@@ -13,16 +13,16 @@ get_abs_filename() {
 }
 
 BUILT_APP_DIR_PATH=$(get_abs_filename "${ROOT_DIR}/dist") # Get absolute path to dist folder
-echo "Checking Dist folder"
 
+echo "Checking Dist folder for the different directories"
 if test -d "${BUILT_APP_DIR_PATH}"; then # If the dist folder exists
-  for dir in "${EXPECTED_BUILT_DIRECTORIES[@]}"; do # Loop through EXPECTED_BUILT_DIRECTORIES array
+  for dir in "${EXPECTED_BUILT_DIRECTORIES[@]}"; do # Loop through EXPECTED_BUILT_DIRECTORIES string array
     if [ ! -d "${BUILT_APP_DIR_PATH}/${dir}" ]; then # If the sub directory doesn't exist
     	echo "Error: Directory '${dir}' does not exist in ${BUILT_APP_DIR_PATH}"
     	exit 1
     fi
   done
-  echo "The expected folders are in the dist directory"
+  echo "The expected directories are in the dist directory"
   exit 0
 else
   echo "Error: Can't find dist folder"
