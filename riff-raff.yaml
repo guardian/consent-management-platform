@@ -22,7 +22,7 @@ deployments:
         parameters:
             prefixStack: false
             bucketSsmLookup: true
-            fileName: cmp-monitoring-lambda-eu-west-1.zip
+            fileName: cmp-monitoring-lambda.zip
             lookupByTags: true
     cmp-monitoring-cdk-us-west-1:
         regions: [us-west-1]
@@ -43,7 +43,7 @@ deployments:
         parameters:
             prefixStack: false
             bucketSsmLookup: true
-            fileName: cmp-monitoring-lambda-us-west-1.zip
+            fileName: cmp-monitoring-lambda.zip
             lookupByTags: true
     cmp-monitoring-cdk-ap-southeast-2:
         regions: [ap-southeast-2]
@@ -64,7 +64,7 @@ deployments:
         parameters:
             prefixStack: false
             bucketSsmLookup: true
-            fileName: cmp-monitoring-lambda-ap-southeast-2.zip
+            fileName: cmp-monitoring-lambda.zip
             lookupByTags: true
     cmp-monitoring-cdk-ca-central-1:
         regions: [ca-central-1]
@@ -85,5 +85,5 @@ deployments:
         parameters:
             prefixStack: false
             bucketSsmLookup: true
-            fileName: cmp-monitoring-lambda-ca-central-1.zip
+            fileName: cmp-monitoring-lambda.zip
             lookupByTags: true
