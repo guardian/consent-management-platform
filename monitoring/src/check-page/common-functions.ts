@@ -392,7 +392,7 @@ export const sendMetricData = async (
 						Value: config.platform.toUpperCase(),
 					},
 				],
-				Unit: 'VersionAsInteger',
+				Unit: 'None',
 				Value: cmpVersion,
 			},
 		],
