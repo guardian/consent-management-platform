@@ -20,7 +20,7 @@ then
 	echo "Zipping Built Files"
 	cd "${absolute_src_directory}" # Go to monitoring/dist folder
 	zip -FSr "${ROOT_DIR}/cdk/dist/cmp-monitoring-lambda.zip" "." # Zip the monitoring/dist folder into cdk/dist
-	echo "File was successfully zipped ${region}"
+	echo "File was successfully zipped"
 
 	exit 0 # Success
 else
