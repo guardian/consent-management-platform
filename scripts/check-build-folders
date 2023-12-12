@@ -7,12 +7,12 @@ ROOT_DIR="${CURRENT_DIR}/.."
 
 EXPECTED_BUILT_DIRECTORIES=("assets" "aus" "ccpa" "lib" "tcfv2" "types")
 
-get_abs_filename() {
+get_absolute_path() {
   # $1 : relative filename
   echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 }
 
-BUILT_APP_DIR_PATH=$(get_abs_filename "${ROOT_DIR}/dist") # Get absolute path to dist folder
+BUILT_APP_DIR_PATH=$(get_absolute_path "${ROOT_DIR}/dist") # Get absolute path to dist folder
 
 echo "Checking Dist folder for the different directories"
 if test -d "${BUILT_APP_DIR_PATH}"; then # If the dist folder exists
