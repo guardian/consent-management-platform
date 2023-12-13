@@ -9,6 +9,16 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'grouped_patch_updates'
+    groups:
+      patch:
+        update-types:
+          - 'patch'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
