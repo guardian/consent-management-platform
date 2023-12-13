@@ -12,16 +12,6 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
-    labels:
-      - 'grouped_patch_updates'
-    groups:
-      patch:
-        update-types:
-          - 'patch'
-  - package-ecosystem: 'npm'
-    directory: '/'
-    schedule:
       interval: 'daily'
     labels:
       - 'guardian'
