@@ -12,7 +12,7 @@ updates:
     labels:
       - 'grouped_patch_npm_updates'
     groups:
-      patch:
+      patch-minor-npm:
         update-types:
           - 'patch'
           - 'minor'
@@ -21,7 +21,7 @@ updates:
     schedule:
       interval: 'weekly'
     groups:
-      patch:
+      patch-minor-ga:
         update-types:
           - 'patch'
           - 'minor'
