@@ -12,6 +12,7 @@ import {
 	onConsent as serverOnConsent,
 	onConsentChange as serverOnConsentChange,
 } from './server';
+import { cmpGetLocalStorageItem as cmpGetLocalStorageItemLocal } from './cmpGetLocalStorageItem';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
 
@@ -111,3 +112,4 @@ export const onConsentChange = isServerSide
 export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
+export const cmpGetLocalStorageItem = cmpGetLocalStorageItemLocal;
