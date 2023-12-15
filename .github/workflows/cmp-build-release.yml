@@ -23,6 +23,9 @@ jobs:
       - name: Build package
         run: yarn build
 
+      - name: Check dist folder for files
+        run: ./scripts/check-build-folders
+
       - name: Save build
         if: github.ref == 'refs/heads/main' || github.event.label.name == '[beta] @guardian/consent-management-platform'
         uses: actions/upload-artifact@v3
