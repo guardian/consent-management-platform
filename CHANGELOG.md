@@ -1,5 +1,11 @@
 # @guardian/consent-management-platform
 
+## 0.0.0-beta-20231218154247
+
+### Patch Changes
+
+- 2584c95: Testing beta release
+
 ## 13.7.3
 
 ### Patch Changes
