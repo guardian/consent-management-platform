@@ -12,9 +12,10 @@ import {
 	onConsent as serverOnConsent,
 	onConsentChange as serverOnConsentChange,
 } from './server';
-import { cmpGetLocalStorageItem as cmpGetLocalStorageItemLocal, cmpSetLocalStorageItem as cmpSetLocalStorageItemLocal } from './cmpLocalStorage';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
+
+export {cmpGetLocalStorageItem, cmpSetLocalStorageItem, cmpGetSessionStorageItem, cmpSetSessionStorageItem, cmpGetCookie, cmpSetCookie} from './cmpStorage';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -112,5 +113,3 @@ export const onConsentChange = isServerSide
 export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
-export const cmpGetLocalStorageItem = cmpGetLocalStorageItemLocal;
-export const cmpSetLocalStorageItem = cmpSetLocalStorageItemLocal;
