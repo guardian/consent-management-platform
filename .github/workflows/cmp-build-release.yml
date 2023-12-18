@@ -99,13 +99,14 @@ jobs:
           name: dist
           path: dist
 
+      - name: Version
+        run: yarn changeset version --snapshot beta
+
       - name: Create Release
         uses: changesets/action@v1
         id: changeset
         with:
-          version: yarn changeset version --snapshot beta
           publish: yarn changeset publish --tag beta
-          title: Beta Version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
