@@ -7,8 +7,10 @@ export const UseCaseOptions = [
 ] as const;
 export type UseCases = typeof UseCaseOptions[number];
 
-const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
+export const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
 {
+	const consentState = await onConsent();
+
 	/*console.log(`consentState.tcfv2?.consents['1']: ${consentState.tcfv2?.consents['1']}`);
 	console.log(`consentState.tcfv2?.consents['2']: ${consentState.tcfv2?.consents['2']}`);
 	console.log(`consentState.tcfv2?.consents['3']: ${consentState.tcfv2?.consents['3']}`);
@@ -22,8 +24,6 @@ const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
 	console.log(`consentState.tcfv2?.consents['11']: ${consentState.tcfv2?.consents['11']}`);
 	console.log(`consentState.canTarget: ${consentState.canTarget}`);
 	*/
-
-	const consentState = await onConsent();
 
 	switch(useCase) {
 		case "Targeted advertising": return(consentState.canTarget)
