@@ -99,20 +99,23 @@ jobs:
           name: dist
           path: dist
 
-      - name: Version
-        run: yarn changeset version --snapshot beta
+      # - name: Version
+      #   run: yarn changeset version --snapshot beta
 
       - name: Create Release
         uses: changesets/action@v1
         id: changeset
         with:
+          version: yarn changeset version --snapshot beta
           publish: yarn changeset publish --tag beta
+          commit: Beta Release
+          title: Beta Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          HUSKY: 0
 
       - uses: actions/github-script@v6
+        if: steps.changesets.outputs.hasChangesets == 'false'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
