@@ -108,6 +108,9 @@ jobs:
       - name: Version
         run: yarn changeset version --snapshot beta
 
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
+
       - name: Create Release
         uses: changesets/action@v1
         id: changeset
