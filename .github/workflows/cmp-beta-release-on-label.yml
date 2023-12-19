@@ -26,3 +26,4 @@ jobs:
       pull-requests: write
       contents: write
       id-token: write
+      issues: write
