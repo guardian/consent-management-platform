@@ -26,3 +26,4 @@ jobs:
       issues: write
       checks: write
       security-events: write
+      packages: write

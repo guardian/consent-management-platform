@@ -28,3 +28,4 @@ jobs:
       id-token: write
       issues: write
       security-events: write
+      packages: write

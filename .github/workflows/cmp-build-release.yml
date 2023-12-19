@@ -85,6 +85,7 @@ jobs:
       issues: write
       checks: write
       security-events: write
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
