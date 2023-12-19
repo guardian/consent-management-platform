@@ -25,3 +25,4 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
       issues: write
       checks: write
+      security-events: write
