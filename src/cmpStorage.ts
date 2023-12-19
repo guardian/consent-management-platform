@@ -60,7 +60,7 @@ export const cmpSetLocalStorageItem = async (useCase: UseCases, storageItem: str
 
 	if(await hasConsentForUseCase(useCase))
 	{
-		return storage.local.set(storageItem, expires)
+		return storage.local.set(storageItem, value, expires)
 	}
 	else
 	{
@@ -89,7 +89,7 @@ export const cmpSetSessionStorageItem = async (useCase: UseCases, storageItem: s
 
 	if(await hasConsentForUseCase(useCase))
 	{
-		return storage.session.set(storageItem, expires)
+		return storage.session.set(storageItem, value, expires)
 	}
 	else
 	{

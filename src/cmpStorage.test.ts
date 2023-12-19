@@ -1,9 +1,25 @@
 import { onConsentChange } from './onConsentChange';
 import type { Callback, ConsentState } from './types';
 import type { TCFv2ConsentState } from './types/tcfv2';
-import {cmpGetLocalStorageItem, _private} from './cmpStorage';
+import {cmpGetLocalStorageItem, cmpSetLocalStorageItem, cmpGetSessionStorageItem, cmpSetSessionStorageItem, _private} from './cmpStorage';
+//import { getCookie as getCookie_ } from 'lib/cookies';
+import { storage as storageStub } from '@guardian/libs';
 
 jest.mock('./onConsentChange');
+jest.mock('@guardian/libs', () => ({
+    getCookie: jest.fn(),
+	setCookie: jest.fn(),
+	storage: {
+        local: {
+            get: jest.fn(),
+            set: jest.fn(),
+        },
+		session: {
+            get: jest.fn(),
+            set: jest.fn(),
+        },
+    }
+}));
 
 const tcfv2ConsentState: TCFv2ConsentState = {
     consents: { 1: true },
@@ -26,69 +42,171 @@ const tcfv2ConsentStateNoConsent: TCFv2ConsentState = {
 };
 
 const mockOnConsentChange = (consentState: ConsentState) =>
-    (onConsentChange as jest.Mock).mockImplementation((cb: Callback) =>
-        cb(consentState),
-    );
+	(onConsentChange as jest.Mock).mockImplementation((cb: Callback) => cb(consentState));
 
 describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
-    test('Targeted advertising when canTarget is true', async () => {
-        const consentState: ConsentState = {
-            tcfv2: tcfv2ConsentState,
-            canTarget: true,
-            framework: 'tcfv2',
-        };
-        mockOnConsentChange(consentState);
-        const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
-        expect(hasConsent).toEqual(true);
+	test('Targeted advertising has consent when canTarget is true', async () => {
+		const consentState: ConsentState = {
+			tcfv2: tcfv2ConsentState,
+			canTarget: true,
+			framework: 'tcfv2',
+		};
+		mockOnConsentChange(consentState);
+		const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
+		expect(hasConsent).toEqual(true);
+	});
+	test('Targeted advertising has no consent when canTarget is false', async () => {
+		const consentState: ConsentState = {
+			tcfv2: tcfv2ConsentState,
+			canTarget: false,
+			framework: 'tcfv2',
+		};
+		mockOnConsentChange(consentState);
+		const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
+		expect(hasConsent).toEqual(false);
+	});
+	test('Essential has consent even when ConsentState has no consents', async () => {
+		const consentState: ConsentState = {
+			tcfv2: tcfv2ConsentStateNoConsent,
+			canTarget: false,
+			framework: 'tcfv2',
+		};
+		mockOnConsentChange(consentState);
+		const hasConsent = await _private.hasConsentForUseCase('Essential');
+		expect(hasConsent).toEqual(true);
+	});
+});
+
+
+describe('local storage returns the expected consent', () => {
+	let mockContains:any;
+
+	beforeEach(() => {
+        mockContains = 'someTestData';
+
+        (storageStub.local.get as jest.Mock).mockImplementation((key:string) => {
+            if (key === 'gu.mock') {return mockContains}
+			else {return(null)}
+        });
+
+        (storageStub.local.set as jest.Mock).mockImplementation((key:string, data:unknown) => {
+            if (key === 'gu.mock') {mockContains = data;}
+        });
     });
-    test('Targeted advertising when canTarget is false', async () => {
+
+    test('Targeted advertising get local storage returns null when canTarget is false', async () => {
         const consentState: ConsentState = {
             tcfv2: tcfv2ConsentState,
             canTarget: false,
             framework: 'tcfv2',
         };
         mockOnConsentChange(consentState);
-        const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
-        expect(hasConsent).toEqual(false);
-    });
-    test('Targeted advertising when canTarget is true', async () => {
-        const consentState: ConsentState = {
-            tcfv2: tcfv2ConsentState,
-            canTarget: true,
-            framework: 'tcfv2',
-        };
-        mockOnConsentChange(consentState);
-        const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
-        expect(hasConsent).toEqual(true);
-    });
-    test('Essential when no consents', async () => {
-        const consentState: ConsentState = {
-            tcfv2: tcfv2ConsentStateNoConsent,
-            canTarget: false,
-            framework: 'tcfv2',
-        };
-        mockOnConsentChange(consentState);
-        const hasConsent = await _private.hasConsentForUseCase('Essential');
-        expect(hasConsent).toEqual(true);
-    });
-    test('Targeted advertising local storage when canTarget is false', async () => {
-        const consentState: ConsentState = {
-            tcfv2: tcfv2ConsentState,
-            canTarget: false,
-            framework: 'tcfv2',
-        };
-        mockOnConsentChange(consentState);
-        const localStorageValue = await cmpGetLocalStorageItem('Targeted advertising', 'mockLocal');
+        const localStorageValue = await cmpGetLocalStorageItem('Targeted advertising', 'gu.mock');
         expect(localStorageValue).toEqual(null);
     });
-    test('Essential local storage when no consents', async () => {
+	test('Targeted advertising can set and get local storage value when canTarget is true', async () => {
+        const consentState: ConsentState = {
+            tcfv2: tcfv2ConsentState,
+            canTarget: true,
+            framework: 'tcfv2',
+        };
+        mockOnConsentChange(consentState);
+		const localStorageValueDefault = await cmpGetLocalStorageItem('Targeted advertising', 'gu.mock');
+        expect(localStorageValueDefault).toEqual('someTestData');
+		await cmpSetLocalStorageItem('Essential', 'gu.mock', 'testdataAd');
+        const localStorageValue = await cmpGetLocalStorageItem('Targeted advertising', 'gu.mock');
+        expect(localStorageValue).toEqual('testdataAd');
+    });
+    test('Essential can set and get local storage when no consents', async () => {
         const consentState: ConsentState = {
             tcfv2: tcfv2ConsentStateNoConsent,
             canTarget: false,
             framework: 'tcfv2',
         };
         mockOnConsentChange(consentState);
-        const localStorageValue = await cmpGetLocalStorageItem('Essential', 'mockLocal');
-        expect(localStorageValue).toEqual(null); //TODO: need to mock the call to localStorage
+		const localStorageValueDefault = await cmpGetLocalStorageItem('Essential', 'gu.mock');
+        expect(localStorageValueDefault).toEqual('someTestData');
+        await cmpSetLocalStorageItem('Essential', 'gu.mock', 'testdata');
+		const localStorageValue = await cmpGetLocalStorageItem('Essential', 'gu.mock');
+        expect(localStorageValue).toEqual('testdata');
     });
+	test('get null if local storage item does not exist', async () => {
+        const consentState: ConsentState = {
+            tcfv2: tcfv2ConsentStateNoConsent,
+            canTarget: false,
+            framework: 'tcfv2',
+        };
+        mockOnConsentChange(consentState);
+		const localStorageValue = await cmpGetLocalStorageItem('Essential', 'gu.does_not_exist');
+        expect(localStorageValue).toEqual(null);
+    });
+});
+
+
+describe('session storage returns the expected consent', () => {
+	let mockContains:any;
+
+	beforeEach(() => {
+        mockContains = 'someTestData';
+
+        (storageStub.session.get as jest.Mock).mockImplementation((key:string) => {
+            if (key === 'gu.mock') {return mockContains}
+			else {return(null)}
+        });
+
+        (storageStub.session.set as jest.Mock).mockImplementation((key:string, data:unknown) => {
+            if (key === 'gu.mock') {mockContains = data;}
+        });
+    });
+
+    test('Targeted advertising get session storage returns null when canTarget is false', async () => {
+        const consentState: ConsentState = {
+            tcfv2: tcfv2ConsentState,
+            canTarget: false,
+            framework: 'tcfv2',
+        };
+        mockOnConsentChange(consentState);
+        const sessionStorageValue = await cmpGetSessionStorageItem('Targeted advertising', 'gu.mock');
+        expect(sessionStorageValue).toEqual(null);
+    });
+	test('Targeted advertising can set and get session storage value when canTarget is true', async () => {
+        const consentState: ConsentState = {
+            tcfv2: tcfv2ConsentState,
+            canTarget: true,
+            framework: 'tcfv2',
+        };
+        mockOnConsentChange(consentState);
+		const sessionStorageValueDefault = await cmpGetSessionStorageItem('Targeted advertising', 'gu.mock');
+        expect(sessionStorageValueDefault).toEqual('someTestData');
+		await cmpSetSessionStorageItem('Essential', 'gu.mock', 'testdataAd');
+        const sessionStorageValue = await cmpGetSessionStorageItem('Targeted advertising', 'gu.mock');
+        expect(sessionStorageValue).toEqual('testdataAd');
+    });
+    test('Essential can set and get session storage when no consents', async () => {
+        const consentState: ConsentState = {
+            tcfv2: tcfv2ConsentStateNoConsent,
+            canTarget: false,
+            framework: 'tcfv2',
+        };
+        mockOnConsentChange(consentState);
+		const sessionStorageValueDefault = await cmpGetSessionStorageItem('Essential', 'gu.mock');
+        expect(sessionStorageValueDefault).toEqual('someTestData');
+        await cmpSetSessionStorageItem('Essential', 'gu.mock', 'testdata');
+		const sessionStorageValue = await cmpGetSessionStorageItem('Essential', 'gu.mock');
+        expect(sessionStorageValue).toEqual('testdata');
+    });
+	test('get null if session storage item does not exist', async () => {
+        const consentState: ConsentState = {
+            tcfv2: tcfv2ConsentStateNoConsent,
+            canTarget: false,
+            framework: 'tcfv2',
+        };
+        mockOnConsentChange(consentState);
+		const sessionStorageValue = await cmpGetSessionStorageItem('Essential', 'gu.does_not_exist');
+        expect(sessionStorageValue).toEqual(null);
+    });
+});
+
+
+describe('cookies return the expected consent', () => {
 });
