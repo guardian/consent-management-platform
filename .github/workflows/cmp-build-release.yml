@@ -78,12 +78,11 @@ jobs:
     needs: [build]
     if: github.event.label.name == '[beta] @guardian/consent-management-platform'
     runs-on: ubuntu-latest
-    permissions: write-all
-    # permissions:
-    #   contents: write # in order to write labels to main branch?
-    #   pull-requests: write # to be able to comment on released pull requests
-    #   id-token: write # to enable use of OIDC for npm provenance
-    #   issues: write
+    permissions:
+      contents: write # in order to write labels to main branch?
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+      issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
