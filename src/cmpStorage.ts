@@ -7,7 +7,7 @@ export const UseCaseOptions = [
 ] as const;
 export type UseCases = typeof UseCaseOptions[number];
 
-export const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
+const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
 {
 	const consentState = await onConsent();
 
@@ -134,6 +134,10 @@ export const cmpSetCookie = async ({ useCase, name, value, daysToLive, isCrossSu
 	{
 		console.error('cmp', `Cannot set cookie ${name} due to missing consent for use-case ${useCase}`)
 	}
+};
+
+export const _private = {
+	hasConsentForUseCase
 };
 
 
