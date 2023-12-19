@@ -21,8 +21,3 @@ jobs:
     name: Build CMP App
     needs: [run-tests]
     uses: ./.github/workflows/cmp-build-release.yml
-    permissions:
-      checks: write
-      pull-requests: write
-      contents: write
-      id-token: write
