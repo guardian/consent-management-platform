@@ -1,8 +1,17 @@
 import { storage, getCookie, setCookie } from '@guardian/libs';
 import { onConsent } from './onConsent';
 
+/**
+ * List of permitted use-cases for cookies/storage:
+ *
+ * - `Targeted advertising`: if the user can be targeted for personalised advertising according to the active consent framework
+ * - 'Targeted marketing': if the user can be targeted for personalised marketing, e.g. article count
+ * - `Essential`: if essential cookies/storage can be used according to the active consent framework
+ *
+ */
 export const UseCaseOptions = [
 	"Targeted advertising",
+	"Targeted marketing",
 	"Essential"
 ] as const;
 export type UseCases = typeof UseCaseOptions[number];
@@ -27,14 +36,18 @@ export const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> 
 
 	switch(useCase) {
 		case "Targeted advertising": return(consentState.canTarget)
-			//could be more granular than this, for example by using explicit tcf purposes:
-			//(consentState.tcfv2?.consents['1']
-			//	&& consentState.tcfv2.consents['2']
-			//	&& consentState.tcfv2.consents['3'])//Need the correct list of consents, this is just an example
-			//|| (!consentState.ccpa?.doNotSell)
-			//|| (consentState.aus?.personalisedAdvertising)
- 		case "Essential": return(true) //could check for allow-list of essential cookies/storage here in the future
-		default: return(false) //do I need this line given that use-case is essentially an enum?
+ 		case "Targeted marketing":{
+			if((
+					consentState.tcfv2?.consents['1']
+					&& consentState.tcfv2?.consents['3']
+					&& consentState.tcfv2?.consents['7'])
+				|| !consentState.ccpa?.doNotSell
+				|| consentState.aus?.personalisedAdvertising)
+				return(true)
+			else return(false)
+		}
+		case "Essential": return(true) //could check for allow-list of essential cookies/storage here in the future
+		default: return(false)
 	}
 
 }
