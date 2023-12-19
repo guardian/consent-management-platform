@@ -1,5 +1,5 @@
 import { storage, getCookie, setCookie } from '@guardian/libs';
-import { onConsent } from '.';
+import { onConsent } from './onConsent';
 
 export const UseCaseOptions = [
 	"Targeted advertising",
@@ -7,7 +7,7 @@ export const UseCaseOptions = [
 ] as const;
 export type UseCases = typeof UseCaseOptions[number];
 
-const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
+export const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
 {
 	const consentState = await onConsent();
 
@@ -33,8 +33,8 @@ const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
 			//	&& consentState.tcfv2.consents['3'])//Need the correct list of consents, this is just an example
 			//|| (!consentState.ccpa?.doNotSell)
 			//|| (consentState.aus?.personalisedAdvertising)
- 		case "Essential": return(true)
-		default: return(false)
+ 		case "Essential": return(true) //could check for allow-list of essential cookies/storage here in the future
+		default: return(false) //do I need this line given that use-case is essentially an enum?
 	}
 
 }
@@ -135,11 +135,6 @@ export const cmpSetCookie = async ({ useCase, name, value, daysToLive, isCrossSu
 		console.error('cmp', `Cannot set cookie ${name} due to missing consent for use-case ${useCase}`)
 	}
 };
-
-export const _private = {
-	hasConsentForUseCase
-};
-
 
 //await cmpGetLocalStorageItem("Targeted advertising", "dep")
 //await cmpGetLocalStorageItem("invalid", "dep")

@@ -1,7 +1,7 @@
 import { onConsentChange } from './onConsentChange';
 import type { Callback, ConsentState } from './types';
 import type { TCFv2ConsentState } from './types/tcfv2';
-import {cmpGetLocalStorageItem, cmpSetLocalStorageItem, cmpGetSessionStorageItem, cmpSetSessionStorageItem, cmpGetCookie, cmpSetCookie, _private } from './cmpStorage';
+import {cmpGetLocalStorageItem, cmpSetLocalStorageItem, cmpGetSessionStorageItem, cmpSetSessionStorageItem, cmpGetCookie, cmpSetCookie, hasConsentForUseCase } from './cmpStorage';
 import { getCookie as getCookie_, setCookie as setCookie_, storage as storageStub} from '@guardian/libs';
 
 jest.mock('./onConsentChange');
@@ -51,7 +51,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			framework: 'tcfv2',
 		};
 		mockOnConsentChange(consentState);
-		const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
+		const hasConsent = await hasConsentForUseCase('Targeted advertising');
 		expect(hasConsent).toEqual(true);
 	});
 	test('Targeted advertising has no consent when canTarget is false', async () => {
@@ -61,7 +61,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			framework: 'tcfv2',
 		};
 		mockOnConsentChange(consentState);
-		const hasConsent = await _private.hasConsentForUseCase('Targeted advertising');
+		const hasConsent = await hasConsentForUseCase('Targeted advertising');
 		expect(hasConsent).toEqual(false);
 	});
 	test('Essential has consent even when ConsentState has no consents', async () => {
@@ -71,7 +71,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			framework: 'tcfv2',
 		};
 		mockOnConsentChange(consentState);
-		const hasConsent = await _private.hasConsentForUseCase('Essential');
+		const hasConsent = await hasConsentForUseCase('Essential');
 		expect(hasConsent).toEqual(true);
 	});
 });
