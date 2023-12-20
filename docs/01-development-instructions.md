@@ -130,7 +130,7 @@ When your PR is merged, changeset will analyse the changes and create a PR to re
 
 To trigger a beta release, apply the `[beta] @guardian/consent-management-platform` label to your pull request. This action will automatically trigger the [`cmp-beta-release-on-label.yml`](../.github/workflows/cmp-beta-release-on-label.yml) workflow. Upon completion, the beta version will be posted by the `github-actions bot` in your pull request.
 
-To re-trigger a beta-release, remove the label and then reapply it.
+To re-trigger a beta-release on the same branch, remove the label and then reapply it.
 
 ### CI/CD
 
