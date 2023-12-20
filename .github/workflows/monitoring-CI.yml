@@ -72,9 +72,6 @@ jobs:
 
       - name: Upload to Riff Raff
         uses: guardian/actions-riff-raff@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
           app: cmp-monitoring
           projectName: consent::cmp-monitoring
