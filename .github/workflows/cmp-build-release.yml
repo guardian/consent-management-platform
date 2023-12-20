@@ -113,10 +113,10 @@ jobs:
       - name: Version
         run: yarn changeset version --snapshot beta
 
-      - name: Authenticate with npm
-        run: npm whoami && exit 1
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+      # - name: Authenticate with npm
+      #   run: npm whoami && exit 1
+      #   env:
+      #     NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Create Release
         uses: changesets/action@v1
