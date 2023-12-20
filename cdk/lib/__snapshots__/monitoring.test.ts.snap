@@ -241,7 +241,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         "AlarmDescription": "This alarm is triggered if 4 out of 5 lambda executions fail in eu-west-1 fail",
         "AlarmName": "CMP Monitoring - PROD - eu-west-1",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "DatapointsToAlarm": 1,
+        "DatapointsToAlarm": 4,
         "Dimensions": [
           {
             "Name": "FunctionName",
@@ -260,7 +260,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         ],
         "Period": 120,
         "Statistic": "Sum",
-        "Threshold": 4,
+        "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
