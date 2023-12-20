@@ -124,7 +124,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - uses: actions/github-script@v6
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.changeset.outputs.published == 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
