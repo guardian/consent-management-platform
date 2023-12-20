@@ -14,7 +14,6 @@ const onConsent = (): Promise<ConsentState> =>
 	new Promise<ConsentState>((resolve, reject) => {
 		onConsentChange((consentState) => {
 			if (consentState.tcfv2 || consentState.ccpa || consentState.aus) {
-				console.log(consentState); // REMOVE
 				resolve(consentState);
 			}
 			reject('Unknown framework');
