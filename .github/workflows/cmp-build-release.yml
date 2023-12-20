@@ -113,11 +113,6 @@ jobs:
       - name: Version
         run: yarn changeset version --snapshot beta
 
-      # - name: Authenticate with npm
-      #   run: npm whoami && exit 1
-      #   env:
-      #     NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-
       - name: Create Release
         uses: changesets/action@v1
         id: changeset
@@ -130,7 +125,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - uses: actions/github-script@v6
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.published == 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
