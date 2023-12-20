@@ -7,7 +7,12 @@ on:
   pull_request:
     types: [labeled]
 
-permissions: write-all
+permissions:
+  checks: write
+  pull-requests: write
+  contents: write
+  id-token: write
+  issues: write
 
 jobs:
   run-tests:
