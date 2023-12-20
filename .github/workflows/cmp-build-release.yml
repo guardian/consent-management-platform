@@ -2,6 +2,9 @@ name: Build and/or Release CMP
 
 on:
   workflow_call:
+    secrets:
+      NPM_TOKEN:
+        required: true
 
 jobs:
   build:
@@ -113,7 +116,7 @@ jobs:
       - name: Authenticate with npm
         run: npm whoami && exit 1
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Create Release
         uses: changesets/action@v1
