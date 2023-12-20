@@ -94,10 +94,10 @@ export class Monitoring extends GuStack {
 		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-			threshold: 4,
+			threshold: 1,
 			evaluationPeriods: 5, //10 // This value is the number of periods to watch. Here, we're evaluating 5 executions of the lambda.
 			actionsEnabled: true,
-			datapointsToAlarm: 1, //5 // This value is the number of failed data-points/executions that will trigger the alarm. so 4 out of 5
+			datapointsToAlarm: 4, //5 // This value is the number of failed data-points/executions that will trigger the alarm. so 4 out of 5
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 			metric: errorMetric,
 			alarmName: `CMP Monitoring - ${stage} - ${region}`,
