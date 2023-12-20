@@ -22,7 +22,6 @@ jobs:
     needs: [run-tests]
     uses: ./.github/workflows/cmp-build-release.yml
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     permissions:
       checks: write

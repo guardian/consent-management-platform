@@ -20,7 +20,6 @@ jobs:
     needs: [run-tests, run-checks]
     uses: ./.github/workflows/cmp-build-release.yml
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     permissions:
       contents: write # in order to write labels to main branch?
