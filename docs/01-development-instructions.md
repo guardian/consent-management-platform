@@ -126,6 +126,10 @@ To release a new version with your changes, run `yarn changeset add` and follow 
 
 When your PR is merged, changeset will analyse the changes and create a PR to release the new version.
 
+### Beta
+
+To trigger a beta release, apply the `[beta] @guardian/consent-management-platform` label to your pull request. This action will automatically trigger the [`cmp-beta-release-on-label.yml`](../.github/workflows/cmp-beta-release-on-label.yml) workflow. Upon completion, the beta version will be posted by the `github-actions bot` in your pull request.
+
 ### CI/CD
 
 This project also uses [github action workflow](../.github/workflows/README.md) to manage it's CI/CD.
