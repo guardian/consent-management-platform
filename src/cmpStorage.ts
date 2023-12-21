@@ -1,153 +1,185 @@
-import { storage, getCookie, setCookie } from '@guardian/libs';
-import { onConsent } from './onConsent';
+import { storage as libsStorage } from '@guardian/libs';
+import type { ConsentUseCases } from './types/consentUseCases';
+import { hasConsentForUseCase } from './hasConsentForUseCase';
 
-/**
- * List of permitted use-cases for cookies/storage:
- *
- * - `Targeted advertising`: if the user can be targeted for personalised advertising according to the active consent framework
- * - 'Targeted marketing': if the user can be targeted for personalised marketing, e.g. article count
- * - `Essential`: if essential cookies/storage can be used according to the active consent framework
- *
- */
-export const UseCaseOptions = [
-	"Targeted advertising",
-	"Targeted marketing",
-	"Essential"
+export const storageOptions = [
+	"localStorage",
+	"sessionStorage"
 ] as const;
-export type UseCases = typeof UseCaseOptions[number];
+export type StorageOptions = typeof storageOptions[number];
+class StorageFactory {
+	#storageHandler: StorageOptions;
 
-export const hasConsentForUseCase = async (useCase: UseCases): Promise<boolean> =>
-{
-	const consentState = await onConsent();
-
-	/*console.log(`consentState.tcfv2?.consents['1']: ${consentState.tcfv2?.consents['1']}`);
-	console.log(`consentState.tcfv2?.consents['2']: ${consentState.tcfv2?.consents['2']}`);
-	console.log(`consentState.tcfv2?.consents['3']: ${consentState.tcfv2?.consents['3']}`);
-	console.log(`consentState.tcfv2?.consents['4']: ${consentState.tcfv2?.consents['4']}`);
-	console.log(`consentState.tcfv2?.consents['5']: ${consentState.tcfv2?.consents['5']}`);
-	console.log(`consentState.tcfv2?.consents['6']: ${consentState.tcfv2?.consents['6']}`);
-	console.log(`consentState.tcfv2?.consents['7']: ${consentState.tcfv2?.consents['7']}`);
-	console.log(`consentState.tcfv2?.consents['8']: ${consentState.tcfv2?.consents['8']}`);
-	console.log(`consentState.tcfv2?.consents['9']: ${consentState.tcfv2?.consents['9']}`);
-	console.log(`consentState.tcfv2?.consents['10']: ${consentState.tcfv2?.consents['10']}`);
-	console.log(`consentState.tcfv2?.consents['11']: ${consentState.tcfv2?.consents['11']}`);
-	console.log(`consentState.canTarget: ${consentState.canTarget}`);
-	*/
-
-	switch(useCase) {
-		case "Targeted advertising": return(consentState.canTarget)
- 		case "Targeted marketing":{
-			if((
-					consentState.tcfv2?.consents['1']
-					&& consentState.tcfv2?.consents['3']
-					&& consentState.tcfv2?.consents['7'])
-				|| !consentState.ccpa?.doNotSell
-				|| consentState.aus?.personalisedAdvertising)
-				return(true)
-			else return(false)
-		}
-		case "Essential": return(true) //could check for allow-list of essential cookies/storage here in the future
-		default: return(false)
+	constructor(storageHandler: StorageOptions) {
+		this.#storageHandler = storageHandler;
 	}
 
+	/**
+	 * Check whether storage is available.
+	 */
+	isAvailable(): boolean {
+		switch(this.#storageHandler) {
+			case 'localStorage': {
+				return Boolean(libsStorage.local.isAvailable())
+			}
+			case 'sessionStorage': {
+				return Boolean(libsStorage.session.isAvailable())
+			}
+		}
+	}
+
+	/**
+	 * Retrieve an item from storage.
+	 *
+	 * @param key - the name of the item
+	 */
+	async get(useCase: ConsentUseCases, key: string): Promise<unknown> {
+		console.log('in cmp get storage');
+		if(await hasConsentForUseCase(useCase))
+		{
+			switch(this.#storageHandler) {
+				case 'localStorage': {
+					console.log('in cmp get local');
+					return libsStorage.local.get(key)
+				}
+				case 'sessionStorage': {
+					console.log('in cmp get session');
+					return libsStorage.session.get(key)
+				}
+			}
+		}
+		else
+		{
+			console.error('cmp', `Cannot get local storage item ${key} due to missing consent for use-case ${useCase}`)
+			return(null)
+		}
+	}
+
+	/**
+	 * Save a value to storage.
+	 *
+	 * @param key - the name of the item
+	 * @param value - the data to save
+	 * @param expires - optional date on which this data will expire
+	 */
+	async set(useCase:ConsentUseCases, key: string, value: unknown, expires?: string | number | Date): Promise<void> {
+		console.log('in cmp set storage');
+		if(await hasConsentForUseCase(useCase))
+		{
+			switch(this.#storageHandler) {
+				case 'localStorage': return libsStorage.local.set(key, value, expires)
+				case 'sessionStorage': return libsStorage.session.set(key, value, expires)
+			}
+		}
+		else
+		{
+			console.error('cmp', `Cannot set local storage item ${key} due to missing consent for use-case ${useCase}`)
+		}
+	}
+
+	/**
+	 * Remove an item from storage.
+	 *
+	 * @param key - the name of the item
+	 */
+	remove(key: string): void {
+
+		switch(this.#storageHandler) {
+			case 'localStorage': {
+				return libsStorage.local.remove(key);
+			}
+			case 'sessionStorage': {
+				return libsStorage.session.remove(key);
+			}
+		}
+	}
+
+	/**
+	 * Removes all items from storage.
+	 */
+	clear(): void {
+
+		switch(this.#storageHandler) {
+			case 'localStorage': {
+				return libsStorage.local.clear();
+			}
+			case 'sessionStorage': {
+				return libsStorage.session.clear();
+			}
+		}
+	}
+
+	/**
+	 * Retrieve an item from storage in its raw state.
+	 *
+	 * @param key - the name of the item
+	 */
+	async getRaw(useCase: ConsentUseCases, key: string): Promise<string | null> {
+		if(await hasConsentForUseCase(useCase))
+		{
+			switch(this.#storageHandler) {
+				case 'localStorage': {
+					return libsStorage.local.getRaw(key)
+				}
+				case 'sessionStorage': {
+					return libsStorage.session.getRaw(key)
+				}
+			}
+		}
+		else
+		{
+			console.error('cmp', `Cannot get local storage item ${key} due to missing consent for use-case ${useCase}`)
+			return(null)
+		}
+	}
+
+	/**
+	 * Save a raw value to storage.
+	 *
+	 * @param key - the name of the item
+	 * @param value - the data to save
+	 */
+	async setRaw(useCase: ConsentUseCases, key: string, value: string): Promise<void> {
+		if(await hasConsentForUseCase(useCase))
+		{
+			switch(this.#storageHandler) {
+				case 'localStorage': return libsStorage.local.setRaw(key, value)
+				case 'sessionStorage': return libsStorage.session.setRaw(key, value)
+			}
+		}
+		else
+		{
+			console.error('cmp', `Cannot set local storage item ${key} due to missing consent for use-case ${useCase}`)
+		}
+	}
 }
 
-export const cmpGetLocalStorageItem = async (useCase: UseCases, storageItem: string): Promise<unknown> =>
-{
-	console.log('in cmpGetLocalStorageItem');
+/**
+ * Manages using `localStorage` and `sessionStorage`.
+ *
+ * Has a few advantages over the native API, including
+ * - failing gracefully if storage is not available
+ * - you can save and retrieve any JSONable data
+ *
+ * All methods are available for both `localStorage` and `sessionStorage`.
+ */
+export const storage = new (class {
+	#local: StorageFactory | undefined;
+	#session: StorageFactory | undefined;
 
- 	if(await hasConsentForUseCase(useCase))
-	{
-		return storage.local.get(storageItem)
-	}
-	else
-	{
-		console.error('cmp', `Cannot get local storage item ${storageItem} due to missing consent for use-case ${useCase}`)
-		return(null)
-	}
-};
+	// creating the instance requires testing the native implementation
+	// which is blocking. therefore, only create new instances of the factory
+	// when it's accessed i.e. we know we're going to use it
 
-export const cmpSetLocalStorageItem = async (useCase: UseCases, storageItem: string, value:unknown, expires?: string | number | Date): Promise<void> =>
-{
-	console.log('in cmpSetLocalStorageItem');
+	get local() {
+		return (this.#local ||= new StorageFactory('localStorage'));
+	}
 
-	if(await hasConsentForUseCase(useCase))
-	{
-		return storage.local.set(storageItem, value, expires)
+	get session() {
+		return (this.#session ||= new StorageFactory('sessionStorage'));
 	}
-	else
-	{
-		console.error('cmp', `Cannot set local storage item ${storageItem} due to missing consent for use-case ${useCase}`)
-	}
-};
+})();
 
-export const cmpGetSessionStorageItem = async (useCase: UseCases, storageItem: string): Promise<unknown> =>
-{
-	console.log('in cmpGetSessionStorageItem');
-
-	if(await hasConsentForUseCase(useCase))
-	{
-		return storage.session.get(storageItem)
-	}
-	else
-	{
-		console.error('cmp', `Cannot get session storage item ${storageItem} due to missing consent for use-case ${useCase}`)
-		return(null)
-	}
-};
-
-export const cmpSetSessionStorageItem = async (useCase: UseCases, storageItem: string, value:unknown, expires?: string | number | Date): Promise<void> =>
-{
-	console.log('in cmpSetSessionStorageItem');
-
-	if(await hasConsentForUseCase(useCase))
-	{
-		return storage.session.set(storageItem, value, expires)
-	}
-	else
-	{
-		console.error('cmp', `Cannot set session storage item ${storageItem} due to missing consent for use-case ${useCase}`)
-	}
-};
-
-export const cmpGetCookie = async({ useCase, name, shouldMemoize, }: {
-	useCase: UseCases,
-	name: string;
-	shouldMemoize?: boolean | undefined;
-}): Promise<string | null> =>
-{
-	console.log('in cmpGetCookie');
-
-	if(await hasConsentForUseCase(useCase))
-	{
-		return getCookie({name: name, shouldMemoize: shouldMemoize})
-	}
-	else
-	{
-		console.error('cmp', `Cannot get cookie ${name} due to missing consent for use-case ${useCase}`)
-		return(null)
-	}
-};
-
-export const cmpSetCookie = async ({ useCase, name, value, daysToLive, isCrossSubdomain, }: {
-	useCase: UseCases,
-    name: string;
-    value: string;
-    daysToLive?: number | undefined;
-    isCrossSubdomain?: boolean | undefined;
-}): Promise<void> =>
-{
-	console.log('in cmpSetCookie');
-
-	if(await hasConsentForUseCase(useCase))
-	{
-		setCookie({name:name, value:value, daysToLive:daysToLive, isCrossSubdomain:isCrossSubdomain})
-	}
-	else
-	{
-		console.error('cmp', `Cannot set cookie ${name} due to missing consent for use-case ${useCase}`)
-	}
-};
 
 //await cmpGetLocalStorageItem("Targeted advertising", "dep")
 //await cmpGetLocalStorageItem("invalid", "dep")

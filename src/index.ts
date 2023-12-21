@@ -15,7 +15,8 @@ import {
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
 
-export {cmpGetLocalStorageItem, cmpSetLocalStorageItem, cmpGetSessionStorageItem, cmpSetSessionStorageItem, cmpGetCookie, cmpSetCookie} from './cmpStorage';
+export { cmpGetCookie, cmpSetCookie, cmpSetSessionCookie} from './cmpCookies';
+export { storage } from './cmpStorage'
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
