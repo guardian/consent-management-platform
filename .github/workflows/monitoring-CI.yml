@@ -10,18 +10,19 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      pull-requests: write # to be able to comment on released pull requests
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Setup AWS credentials to enable uploading to S3 for Riff-Raff.
       # See https://github.com/aws-actions/configure-aws-credentials
-      - uses: aws-actions/configure-aws-credentials@v2
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
           aws-region: eu-west-1
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: yarn
@@ -65,5 +66,34 @@ jobs:
         working-directory: './cdk'
         run: yarn synth
 
-      - name: Generate riff-raff artifacts
-        run: yarn ci:monitoring
+      - name: ZIP Lambda files
+        working-directory: './cdk'
+        run: ./script/export-monitoring-file
+
+      - name: Upload to Riff Raff
+        uses: guardian/actions-riff-raff@v3
+        with:
+          app: cmp-monitoring
+          projectName: consent::cmp-monitoring
+          buildNumberOffset: 1463
+          dryRun: false
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          configPath: riff-raff.yaml
+          contentDirectories: |
+            cmp-monitoring-lambda-eu-west-1:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-us-west-1:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-ap-southeast-2:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-ca-central-1:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cloud-formation:
+              - cdk/cdk.out/CmpMonitoringStackEUCode.template.json
+              - cdk/cdk.out/CmpMonitoringStackEUProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackUSCode.template.json
+              - cdk/cdk.out/CmpMonitoringStackUSProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackAPCode.template.json
+              - cdk/cdk.out/CmpMonitoringStackAPProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackCACode.template.json
+              - cdk/cdk.out/CmpMonitoringStackCAProd.template.json
