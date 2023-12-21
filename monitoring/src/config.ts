@@ -1,5 +1,5 @@
 import { log_info } from './check-page/common-functions';
-import { envAwsRegion, envJurisdiction, envStage } from './env';
+import { envAwsRegion, envJurisdiction, envPlatform, envStage } from './env';
 import type {
 	AwsRegionOpt,
 	Config,
@@ -17,6 +17,7 @@ export class ConfigWrapper {
 	private _awsRegion: AwsRegionOpt;
 	private _config: Config | undefined;
 	private _isRunningAdhoc: boolean;
+	private _platform: string;
 
 	get stage(): string {
 		return this._stage;
@@ -42,15 +43,22 @@ export class ConfigWrapper {
 		this._config = value;
 	}
 
+	get platform(): string {
+		return this._platform;
+	}
+
+
 	constructor(
 		_envAwsRegion: AwsRegionOpt = envAwsRegion,
 		_envStage: string = envStage,
 		_envJurisdiction: JurisdictionOpt = envJurisdiction,
+		_envPlatform: string = envPlatform
 	) {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
 		this._stage = _envStage.toLowerCase();
 		this._isRunningAdhoc = true;
+		this._platform = _envPlatform;
 	}
 
 	async run(): Promise<void> {
@@ -90,6 +98,7 @@ export class ConfigWrapper {
 			<Jurisdiction>this._jurisdiction,
 			this._awsRegion,
 			this.isRunningAdhoc,
+			<Stage>this._platform
 		);
 	}
 }
