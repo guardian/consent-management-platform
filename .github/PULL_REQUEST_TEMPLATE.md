@@ -2,7 +2,7 @@
 
 ### Production Release
 
-To trigger a production release:
+To add this PR to the next release:
     - Run `yarn changeset add` locally to create a changeset and follow the instructions.
     - Push these changes to your branch.
     - Once merged, changeset will create a new PR titled 'Version Packages'
