@@ -1,21 +1,25 @@
 <!--
 
-If this PR should trigger a release, make sure your title is prefixed with one of these:
+### Production Release
 
-- fix: (patch release)
-- feat: (minor release)
+To trigger a production release:
+    - Run `yarn changeset add` locally to create a changeset and follow the instructions.
+    - Push these changes to your branch.
+    - Once merged, changeset will create a new PR titled 'Version Packages'
 
-These can be used but will not trigger a release:
+### Beta Release
 
-build: | chore: | ci: | docs: | style: | refactor: | perf: | test:
+To trigger a beta release:
 
-To trigger a major release, add ! to the prefix. Any prefix can do this, e.g.:
-
-- refactor!: drop support for Node 6
-- fix!: remove old conflicting method
-
+    - Run `yarn changeset add` locally to create a changeset and follow the instructions.
+    - Push these changes to your branch
+    - Apply the `[beta] @guardian/consent-management-platform` label to your pull request. This action will automatically trigger the [`cmp-beta-release-on-label.yml`](../.github/workflows/cmp-beta-release-on-label.yml) workflow.
+    - Upon completion, the beta version will be posted by the `github-actions bot` in your pull request.
+    - After testing the published beta, feel free to delete the generated .yml file if you decide not to update the cmp version.
 -->
 
 ## What does this change?
 
 ## Why?
+
+## Link to Trello
