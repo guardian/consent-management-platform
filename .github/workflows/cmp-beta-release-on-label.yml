@@ -7,7 +7,12 @@ on:
   pull_request:
     types: [labeled]
 
-permissions: write-all
+permissions:
+  checks: write
+  pull-requests: write
+  contents: write
+  id-token: write
+  issues: write
 
 jobs:
   run-tests:
@@ -21,8 +26,11 @@ jobs:
     name: Build CMP App
     needs: [run-tests]
     uses: ./.github/workflows/cmp-build-release.yml
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     permissions:
       checks: write
       pull-requests: write
       contents: write
       id-token: write
+      issues: write
