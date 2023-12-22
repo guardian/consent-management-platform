@@ -238,7 +238,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Ref": "internalEmailRecipientA4594AC9",
           },
         ],
-        "AlarmDescription": "This alarm is triggered if 4 out of 5 lambda executions fail in eu-west-1 fail",
+        "AlarmDescription": "This alarm is triggered if 4 out of 5 lambda executions fail in eu-west-1",
         "AlarmName": "CMP Monitoring - PROD - eu-west-1",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "DatapointsToAlarm": 4,
@@ -326,9 +326,9 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
       },
       "Type": "AWS::SNS::Topic",
     },
-    "internalEmailRecipientakinsolalawansonguardiancouk154CD436": {
+    "internalEmailRecipienttransparencyandconsentguardiancoukAC07DD37": {
       "Properties": {
-        "Endpoint": "akinsola.lawanson@guardian.co.uk",
+        "Endpoint": "transparency.and.consent@guardian.co.uk",
         "Protocol": "email",
         "TopicArn": {
           "Ref": "internalEmailRecipientA4594AC9",
