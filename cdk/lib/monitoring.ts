@@ -95,18 +95,18 @@ export class Monitoring extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
-			evaluationPeriods: 5, //10 // This value is the number of periods to watch. Here, we're evaluating 5 executions of the lambda.
+			evaluationPeriods: 5, // This value is the number of periods to watch. Here, we're evaluating 5 executions of the lambda. The lambda is triggered every 2minutes so it's check over a 10 minute timeframe.
 			actionsEnabled: true,
-			datapointsToAlarm: 4, //5 // This value is the number of failed data-points/executions that will trigger the alarm. so 4 out of 5
+			datapointsToAlarm: 4, // This value is the number of failed data-points/executions that will trigger the alarm. so 4 out of 5
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 			metric: errorMetric,
 			alarmName: `CMP Monitoring - ${stage} - ${region}`,
 			alarmDescription:
-				`This alarm is triggered if 4 out of 5 lambda executions fail in ${region} fail`,
+				`This alarm is triggered if 4 out of 5 lambda executions fail in ${region}`,
 		});
 
 		const emailSubscription = new EmailSubscription(
-			"akinsola.lawanson@guardian.co.uk"
+			"transparency.and.consent@guardian.co.uk"
 		);
 
 		const internalEmailMessaging = new Topic(this, "internalEmailRecipient");
