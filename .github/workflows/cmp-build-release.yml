@@ -31,7 +31,7 @@ jobs:
 
       - name: Save build
         if: github.ref == 'refs/heads/main' || github.event.label.name == '[beta] @guardian/consent-management-platform'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
