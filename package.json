@@ -62,7 +62,7 @@
 		"@types/jest": "^29.5.2",
 		"@types/mime": "^3.0.1",
 		"@types/node": "^20.3.3",
-		"axios": "^1.4.0",
+		"axios": "^1.6.3",
 		"conventional-changelog-conventionalcommits": "^6.0.0",
 		"cypress": "^12.14.0",
 		"cypress-wait-until": "^3.0.1",
