@@ -4,7 +4,12 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
-	extends: ['@guardian/eslint-config-typescript'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+		'@guardian/eslint-config-typescript',
+	],
 	parserOptions: {
 		ecmaVersion: 2020,
 		tsconfigRootDir: __dirname,

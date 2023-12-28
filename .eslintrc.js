@@ -4,7 +4,12 @@ module.exports = {
 		jest: true,
 		browser: true,
 	},
-	extends: ['@guardian/eslint-config-typescript'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+		'@guardian/eslint-config-typescript',
+	],
 	globals: { __PACKAGE_VERSION__: 'readonly' },
 	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', '*.ts', '*.*.ts'],
 	rules: {
