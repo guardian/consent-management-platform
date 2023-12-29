@@ -15,8 +15,6 @@ updates:
       - 'javascript'
     groups:
       cmp-app:
-        patterns:
-          - '*'
         update-types:
           - 'minor'
           - 'patch'
@@ -30,8 +28,6 @@ updates:
       - 'javascript'
     groups:
       cdk:
-        patterns:
-          - '*'
         update-types:
           - 'minor'
           - 'patch'
@@ -45,8 +41,6 @@ updates:
       - 'javascript'
     groups:
       monitoring:
-        patterns:
-          - '*'
         update-types:
           - 'minor'
           - 'patch'
