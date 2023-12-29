@@ -14,7 +14,17 @@ updates:
       - 'dependencies'
       - 'javascript'
     groups:
-      cmp-app:
+      cdk-guardian:
+        patterns:
+          - '@guardian*'
+      cdk-rollup:
+        patterns:
+          - '@rollup*'
+          - 'rollup*'
+      cdk-babel:
+        patterns:
+          - '@babel*'
+      cmp-app-all:
         patterns:
           - '*'
   - package-ecosystem: 'npm'
@@ -46,7 +56,7 @@ updates:
     groups:
       monitoring-aws:
         patterns:
-          - '@guardian*'
+          - '@aws*'
       monitoring-guardian:
         patterns:
           - '@guardian*'
