@@ -26,7 +26,13 @@ updates:
       - 'dependencies'
       - 'javascript'
     groups:
-      cdk:
+      cdk-aws:
+        patterns:
+          - 'aws*'
+      cdk-guardian:
+        patterns:
+          - '@guardian*'
+      cdk-all:
         patterns:
           - '*'
   - package-ecosystem: 'npm'
@@ -38,7 +44,13 @@ updates:
       - 'dependencies'
       - 'javascript'
     groups:
-      monitoring:
+      monitoring-aws:
+        patterns:
+          - '@guardian*'
+      monitoring-guardian:
+        patterns:
+          - '@guardian*'
+      monitoring-all:
         patterns:
           - '*'
   - package-ecosystem: 'github-actions'
