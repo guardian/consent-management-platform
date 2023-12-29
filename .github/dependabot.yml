@@ -10,12 +10,31 @@ updates:
     schedule:
       interval: 'weekly'
     labels:
-      - 'grouped_patch_npm_updates'
+      - 'cmp_app_group'
     groups:
-      patch-minor-npm:
-        update-types:
-          - 'patch'
-          - 'minor'
+      cmp-app:
+        patterns:
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: '/cdk'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'cdk_group'
+    groups:
+      cdk:
+        patterns:
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: '/monitoring'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'monitoring_group'
+    groups:
+      monitoring:
+        patterns:
+          - '*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
