@@ -1,5 +1,3 @@
-import type { Viewport } from 'puppeteer-core';
-
 declare global {
 	interface Window {
 		// 		__uspapi: (
@@ -10,18 +8,6 @@ declare global {
 		_sp_: { version: string };
 	}
 }
-
-export type CustomPuppeteerOptions = {
-	headless: boolean;
-	args: string[];
-	defaultViewport: Required<Viewport>;
-	executablePath: string;
-	ignoreHTTPSErrors: boolean;
-	devtools?: boolean;
-	timeout?: number;
-	waitUntil?: string;
-	dumpio?: boolean;
-};
 
 export type JurisdictionOpt = string | undefined;
 
@@ -44,12 +30,13 @@ export const ELEMENT_ID = {
 		'div.message-component.message-row > button.sp_choice_type_11',
 	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
 		'div.message-component.message-row > button.sp_choice_type_12',
-	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content iframe',
-	CMP_CONTAINER: '[id*="sp_message_container"]',
+	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content',
+	CMP_CONTAINER: '[id*="sp_message_iframe"]',
 	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: 'button.sp_choice_type_SAVE_AND_EXIT',
 	TCFV2_SECOND_LAYER_HEADLINE: 'p.gu-privacy-headline',
 	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',
 	TCFV2_SECOND_LAYER_REJECT_ALL: 'button.sp_choice_type_REJECT_ALL',
+	TCFV2_SECOND_LAYER_ACCEPT_ALL: 'button.sp_choice_type_ACCEPT_ALL',
 };
 
 export const AWS_REGIONS = {
@@ -77,6 +64,7 @@ export type Config = {
 	debugMode: boolean;
 	isRunningAdhoc: boolean;
 	checkFunction: (config: Config) => Promise<void>;
+	platform: Stage;
 };
 
 export type SuccessfulCheck = {
