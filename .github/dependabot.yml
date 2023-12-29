@@ -17,6 +17,9 @@ updates:
       cmp-app:
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'npm'
     directory: '/cdk'
     schedule:
@@ -29,6 +32,9 @@ updates:
       cdk:
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'npm'
     directory: '/monitoring'
     schedule:
@@ -41,6 +47,9 @@ updates:
       monitoring:
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
