@@ -39,8 +39,9 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    labels:
+      - 'github_action_group'
     groups:
-      patch-minor-ga:
-        update-types:
-          - 'patch'
-          - 'minor'
+      github_action:
+        patterns:
+          - '*'
