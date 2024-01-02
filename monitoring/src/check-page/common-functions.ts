@@ -1,6 +1,8 @@
+import type {
+	PutMetricDataCommandInput} from '@aws-sdk/client-cloudwatch';
 import {
 	CloudWatchClient,
-	PutMetricDataCommand,
+	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
@@ -61,7 +63,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 
 /**
  * This function creates a new page
- * 
+ *
  * @param {BrowserContext} context
  * @return {*}  {Promise<Page>}
  */
@@ -273,7 +275,7 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
 	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
-  
+
 	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
 	}
@@ -360,7 +362,7 @@ export const sendMetricData = async (
 	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
 	const client = new CloudWatchClient({ region: region });
-	const params = {
+	const params: PutMetricDataCommandInput = {
 		MetricData: [
 			{
 				MetricName: 'CmpLoadingTime',
