@@ -363,7 +363,7 @@ export const sendMetricData = async (
 	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
 	const client = new CloudWatchClient({ region: region });
-	const params = {
+	const params: PutMetricDataCommandInput = {
 		MetricData: [
 			{
 				MetricName: 'CmpLoadingTime',
