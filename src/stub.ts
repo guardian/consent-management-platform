@@ -8,9 +8,17 @@ export const stub = (framework: Framework): void => {
 	// for the framework currently in use. The presence of __tcfapi on the window object signals to GPT
 	// that it should take precedence over __uspapi
 	// documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
-	if (framework === 'tcfv2') stub_tcfv2();
-	else {
-		stub_ccpa();
-		stub_gpp_ccpa();
-	};
+
+	switch (framework) {
+		case 'tcfv2':
+			stub_tcfv2()
+			break;
+		case 'ccpa':
+			stub_ccpa();
+			stub_gpp_ccpa();
+		case 'aus':
+			stub_ccpa();
+		default:
+			break;
+	}
 };
