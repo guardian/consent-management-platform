@@ -1,6 +1,8 @@
+import type {
+	PutMetricDataCommandInput} from '@aws-sdk/client-cloudwatch';
 import {
 	CloudWatchClient,
-	PutMetricDataCommand,
+	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
@@ -363,7 +365,7 @@ export const sendMetricData = async (
 	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
 	const client = new CloudWatchClient({ region: region });
-	const params = {
+	const params: PutMetricDataCommandInput = {
 		MetricData: [
 			{
 				MetricName: 'CmpLoadingTime',
