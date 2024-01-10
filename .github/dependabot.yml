@@ -9,7 +9,47 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    labels:
+      - 'cmp_app_group'
+      - 'dependencies'
+      - 'javascript'
+    groups:
+      cmp-app:
+        patterns:
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: '/cdk'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'cdk_group'
+      - 'dependencies'
+      - 'javascript'
+    groups:
+      cdk:
+        patterns:
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: '/monitoring'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'monitoring_group'
+      - 'dependencies'
+      - 'javascript'
+    groups:
+      monitoring:
+        patterns:
+          - '*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
+    labels:
+      - 'github_action_group'
+      - 'dependencies'
+      - 'github_actions'
+    groups:
+      github_action:
+        patterns:
+          - '*'
