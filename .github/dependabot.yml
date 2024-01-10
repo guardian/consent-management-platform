@@ -41,6 +41,9 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+    ignore:
+      - dependency-name: 'inquirer'
+      - dependency-name: '@types/inquirer'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
