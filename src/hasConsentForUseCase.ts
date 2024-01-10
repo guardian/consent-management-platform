@@ -1,9 +1,9 @@
-import { onConsent } from './onConsent';
+//import { onConsent } from './onConsent';
+import { ConsentState } from './types';
 import type { ConsentUseCases } from './types/consentUseCases';
 
-export const hasConsentForUseCase = async (useCase: ConsentUseCases): Promise<boolean> =>
+export const hasConsentForUseCase = (useCase: ConsentUseCases, consentState: ConsentState): boolean =>
 {
-	const consentState = await onConsent();
 
 	/*console.log(`consentState.tcfv2?.consents['1']: ${consentState.tcfv2?.consents['1']}`);
 	console.log(`consentState.tcfv2?.consents['2']: ${consentState.tcfv2?.consents['2']}`);

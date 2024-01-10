@@ -1,8 +1,10 @@
 import { getCookie, setCookie, setSessionCookie } from '@guardian/libs';
 import type { ConsentUseCases } from './types/consentUseCases';
 import { hasConsentForUseCase } from './hasConsentForUseCase';
+import { ConsentState } from './types';
+import { onConsent } from './onConsent';
 
-//TODO: Write wrappers for the other cookie functions in @guardian/libs
+//TODO?: Write wrappers for the other cookie functions in @guardian/libs
 
 export const cmpGetCookie = async({ useCase, name, shouldMemoize, }: {
 	useCase: ConsentUseCases,
@@ -10,9 +12,20 @@ export const cmpGetCookie = async({ useCase, name, shouldMemoize, }: {
 	shouldMemoize?: boolean | undefined;
 }): Promise<string | null> =>
 {
+	const consentState = await onConsent();
+	return(cmpGetCookieWithConsentState({useCase, consentState, name, shouldMemoize}))
+}
+
+export const cmpGetCookieWithConsentState = ({ useCase, consentState, name, shouldMemoize}: {
+	useCase: ConsentUseCases,
+	consentState: ConsentState,
+	name: string;
+	shouldMemoize?: boolean | undefined;
+}): string | null =>
+{
 	console.log('in cmpGetCookie');
 
-	if(await hasConsentForUseCase(useCase))
+	if(hasConsentForUseCase(useCase, consentState))
 	{
 		return getCookie({name: name, shouldMemoize: shouldMemoize})
 	}
@@ -31,9 +44,22 @@ export const cmpSetCookie = async ({ useCase, name, value, daysToLive, isCrossSu
     isCrossSubdomain?: boolean | undefined;
 }): Promise<void> =>
 {
+	const consentState = await onConsent();
+	return(cmpSetCookieWithConsentState({useCase, consentState, name, value, daysToLive, isCrossSubdomain}))
+}
+
+export const cmpSetCookieWithConsentState = ({ useCase, consentState, name, value, daysToLive, isCrossSubdomain, }: {
+	useCase: ConsentUseCases,
+	consentState: ConsentState,
+    name: string;
+    value: string;
+    daysToLive?: number | undefined;
+    isCrossSubdomain?: boolean | undefined;
+}): void =>
+{
 	console.log('in cmpSetCookie');
 
-	if(await hasConsentForUseCase(useCase))
+	if(hasConsentForUseCase(useCase, consentState))
 	{
 		setCookie({name:name, value:value, daysToLive:daysToLive, isCrossSubdomain:isCrossSubdomain})
 	}
@@ -49,9 +75,20 @@ export const cmpSetSessionCookie = async ({ useCase, name, value }: {
     value: string;
 }): Promise<void> =>
 {
+	const consentState = await onConsent();
+	return(cmpSetSessionCookieWithConsentState({useCase, consentState, name, value}))
+};
+
+export const cmpSetSessionCookieWithConsentState= async ({ useCase, consentState, name, value }: {
+	useCase: ConsentUseCases,
+	consentState: ConsentState,
+    name: string;
+    value: string;
+}): Promise<void> =>
+{
 	console.log('in cmpSetSessionCookie');
 
-	if(await hasConsentForUseCase(useCase))
+	if(hasConsentForUseCase(useCase, consentState))
 	{
 		setSessionCookie({name:name, value:value})
 	}

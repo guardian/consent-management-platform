@@ -1,7 +1,6 @@
-import { onConsentChange } from './onConsentChange';
-import type { Callback, ConsentState } from './types';
 import type { TCFv2ConsentState } from './types/tcfv2';
 import { hasConsentForUseCase } from './hasConsentForUseCase';
+import { ConsentState } from './types';
 
 //TODO: add tests for all use-cases
 
@@ -41,9 +40,6 @@ const tcfv2ConsentStateNoConsent: TCFv2ConsentState = {
     tcString: 'YAAA',
 };
 
-const mockOnConsentChange = (consentState: ConsentState) =>
-	(onConsentChange as jest.Mock).mockImplementation((cb: Callback) => cb(consentState));
-
 describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 	test('Targeted advertising has consent when canTarget is true', async () => {
 		const consentState: ConsentState = {
@@ -51,8 +47,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			canTarget: true,
 			framework: 'tcfv2',
 		};
-		mockOnConsentChange(consentState);
-		const hasConsent = await hasConsentForUseCase('Targeted advertising');
+		const hasConsent = hasConsentForUseCase('Targeted advertising', consentState);
 		expect(hasConsent).toEqual(true);
 	});
 	test('Targeted advertising has no consent when canTarget is false', async () => {
@@ -61,8 +56,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			canTarget: false,
 			framework: 'tcfv2',
 		};
-		mockOnConsentChange(consentState);
-		const hasConsent = await hasConsentForUseCase('Targeted advertising');
+		const hasConsent = hasConsentForUseCase('Targeted advertising', consentState);
 		expect(hasConsent).toEqual(false);
 	});
 	test('Essential has consent even when ConsentState has no consents', async () => {
@@ -71,8 +65,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			canTarget: false,
 			framework: 'tcfv2',
 		};
-		mockOnConsentChange(consentState);
-		const hasConsent = await hasConsentForUseCase('Essential');
+		const hasConsent = hasConsentForUseCase('Essential', consentState);
 		expect(hasConsent).toEqual(true);
 	});
 });

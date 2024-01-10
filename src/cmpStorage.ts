@@ -1,6 +1,8 @@
 import { storage as libsStorage } from '@guardian/libs';
 import type { ConsentUseCases } from './types/consentUseCases';
 import { hasConsentForUseCase } from './hasConsentForUseCase';
+import { ConsentState } from './types';
+import { onConsent } from '.';
 
 export const storageOptions = [
 	"localStorage",
@@ -31,11 +33,24 @@ class StorageFactory {
 	/**
 	 * Retrieve an item from storage.
 	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
 	 * @param key - the name of the item
 	 */
 	async get(useCase: ConsentUseCases, key: string): Promise<unknown> {
+		const consentState = await onConsent();
+		return(this.getWithConsentState(useCase, consentState, key))
+	}
+
+	/**
+	 * Retrieve an item from storage.
+	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
+	 * @param consentState - the ConsentState to check if consent for the useCase has been given
+	 * @param key - the name of the item
+	 */
+	getWithConsentState(useCase: ConsentUseCases, consentState: ConsentState, key: string): unknown {
 		console.log('in cmp get storage');
-		if(await hasConsentForUseCase(useCase))
+		if(hasConsentForUseCase(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': {
@@ -55,16 +70,31 @@ class StorageFactory {
 		}
 	}
 
-	/**
+		/**
 	 * Save a value to storage.
 	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
 	 * @param key - the name of the item
 	 * @param value - the data to save
 	 * @param expires - optional date on which this data will expire
 	 */
 	async set(useCase:ConsentUseCases, key: string, value: unknown, expires?: string | number | Date): Promise<void> {
+		const consentState = await onConsent();
+		return(this.setWithConsentState(useCase, consentState, key, value, expires))
+	}
+
+	/**
+	 * Save a value to storage.
+	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
+	 * @param consentState - the ConsentState to check if consent for the useCase has been given
+	 * @param key - the name of the item
+	 * @param value - the data to save
+	 * @param expires - optional date on which this data will expire
+	 */
+	setWithConsentState(useCase:ConsentUseCases, consentState: ConsentState, key: string, value: unknown, expires?: string | number | Date): void {
 		console.log('in cmp set storage');
-		if(await hasConsentForUseCase(useCase))
+		if(hasConsentForUseCase(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': return libsStorage.local.set(key, value, expires)
@@ -112,10 +142,23 @@ class StorageFactory {
 	/**
 	 * Retrieve an item from storage in its raw state.
 	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
 	 * @param key - the name of the item
 	 */
 	async getRaw(useCase: ConsentUseCases, key: string): Promise<string | null> {
-		if(await hasConsentForUseCase(useCase))
+		const consentState = await onConsent();
+		return(this.getRawWithConsentState(useCase,consentState,key))
+	}
+
+	/**
+	 * Retrieve an item from storage in its raw state.
+	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
+	 * @param consentState - the ConsentState to check if consent for the useCase has been given
+	 * @param key - the name of the item
+	 */
+	getRawWithConsentState(useCase: ConsentUseCases, consentState: ConsentState, key: string): string | null {
+		if(hasConsentForUseCase(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': {
@@ -136,11 +179,25 @@ class StorageFactory {
 	/**
 	 * Save a raw value to storage.
 	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
 	 * @param key - the name of the item
 	 * @param value - the data to save
 	 */
 	async setRaw(useCase: ConsentUseCases, key: string, value: string): Promise<void> {
-		if(await hasConsentForUseCase(useCase))
+		const consentState = await onConsent();
+		return(this.setRawWithConsentState(useCase, consentState, key, value))
+	}
+
+	/**
+	 * Save a raw value to storage.
+	 *
+	 * @param useCase - the ConsentUseCase for which to get the data
+	 * @param consentState - the ConsentState to check if consent for the useCase has been given
+	 * @param key - the name of the item
+	 * @param value - the data to save
+	 */
+	setRawWithConsentState(useCase: ConsentUseCases, consentState: ConsentState, key: string, value: string): void {
+		if(hasConsentForUseCase(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': return libsStorage.local.setRaw(key, value)
@@ -180,6 +237,3 @@ export const storage = new (class {
 	}
 })();
 
-
-//await cmpGetLocalStorageItem("Targeted advertising", "dep")
-//await cmpGetLocalStorageItem("invalid", "dep")
