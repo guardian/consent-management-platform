@@ -9,6 +9,7 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
       - 'dependencies'
       - 'javascript'
@@ -21,6 +22,7 @@ updates:
     directory: '/cdk'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
       - 'dependencies'
       - 'javascript'
@@ -33,6 +35,7 @@ updates:
     directory: '/monitoring'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
       - 'dependencies'
       - 'javascript'
@@ -48,6 +51,7 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
       - 'dependencies'
       - 'github_actions'
