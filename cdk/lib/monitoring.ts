@@ -105,16 +105,19 @@ export class Monitoring extends GuStack {
 				`This alarm is triggered if 4 out of 5 lambda executions fail in ${region}`,
 		});
 
-		const emailSubscription = new EmailSubscription(
-			"transparency.and.consent@guardian.co.uk"
-		);
+		if(this.stage === "PROD"){
+			const emailSubscription = new EmailSubscription(
+				"transparency.and.consent@guardian.co.uk"
+			);
 
-		const internalEmailMessaging = new Topic(this, "internalEmailRecipient");
-		internalEmailMessaging.addSubscription(emailSubscription);
+			const internalEmailMessaging = new Topic(this, "internalEmailRecipient");
+			internalEmailMessaging.addSubscription(emailSubscription);
 
-		const alarmAction: IAlarmAction = new SnsAction(internalEmailMessaging);
+			const alarmAction: IAlarmAction = new SnsAction(internalEmailMessaging);
 
-		alarm.addAlarmAction(alarmAction)
-		alarm.addOkAction(alarmAction)
+			alarm.addAlarmAction(alarmAction)
+			alarm.addOkAction(alarmAction)
+		}
+
 	}
 }
