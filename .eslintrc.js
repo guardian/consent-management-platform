@@ -4,17 +4,26 @@ module.exports = {
 		jest: true,
 		browser: true,
 	},
-	extends: ['@guardian/eslint-config-typescript'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+		'@guardian/eslint-config-typescript',
+	],
 	globals: { __PACKAGE_VERSION__: 'readonly' },
 	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', '*.ts', '*.*.ts'],
 	rules: {
 		// a lot of the 3rd party code uses these
 		'no-underscore-dangle': 0,
 	},
-
+	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		ecmaVersion: 6,
+		project: 'tsconfig.json',
+		sourceType: 'module',
+	},
 	overrides: [
 		{
-			// tests and config files sometimes do unorthodox things, and that's ok
 			files: ['**/*.test.*', '*.config.js'],
 			rules: {
 				'@typescript-eslint/no-unsafe-return': 0,

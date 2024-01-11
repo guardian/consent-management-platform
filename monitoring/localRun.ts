@@ -14,7 +14,7 @@ type LocalRunCliArguments = {
 
 class NoArgumentsError extends Error {
 	constructor(
-		message: string = 'Arguments provided are missing or incorrect',
+		message = 'Arguments provided are missing or incorrect',
 	) {
 		super(message);
 		this.name = 'NoArgumentsError';

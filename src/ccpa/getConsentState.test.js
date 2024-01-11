@@ -1,6 +1,6 @@
 import uspData from './__fixtures__/api.getUSPData.json';
-import { getUSPData } from './api';
-import { getConsentState } from './getConsentState';
+import { getUSPData } from './api.ts';
+import { getConsentState } from './getConsentState.ts';
 
 jest.mock('./api');
 getUSPData.mockResolvedValue(uspData);
