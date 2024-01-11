@@ -333,19 +333,20 @@ export const reloadPage = async (page: Page) => {
 /**
  * This function compares the current timestamp to a previous start time and logs
  *
- * @param {Page} page
- * @param {Metrics} startMetrics
+ * @param {number} LoadingTime
+ * @param {number} cmpVersion
+ * @param {Config} config
  */
-export const logCMPLoadTime = async (
-	startTimeStamp: number,
-	endTimeStamp: number,
-	config: Config,
+export const logCMPLoadTimeAndVersion = async (
+	loadingTime: number,
+	cmpVersion: number,
+	config: Config
 ) => {
 	log_info(`Logging Timestamp: Start`);
+	log_info(`CMP Loading Time: ${loadingTime}`);
+	log_info(`CMP Version: ${cmpVersion}`);
 
-	const timeDiff = (endTimeStamp - startTimeStamp)/1000; //in seconds
-	log_info(`CMP Loading Time: ${timeDiff}`);
-	await sendMetricData(config, timeDiff);
+	await sendMetricData(config, loadingTime, cmpVersion);
 
 	log_info(`Logging Timestamp: Complete`);
 };
@@ -353,12 +354,14 @@ export const logCMPLoadTime = async (
 /**
  *
  *
- * @param {string} region
+ * @param {Config} config
  * @param {number} timeToLoadInSeconds
+ * @param {number} cmpVersion
  */
 export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
+	cmpVersion:number
 ) => {
 	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
@@ -380,6 +383,21 @@ export const sendMetricData = async (
 				Unit: 'Seconds',
 				Value: timeToLoadInSeconds,
 			},
+			{
+				MetricName: 'CmpVersion',
+				Dimensions: [
+					{
+						Name: 'ApplicationName',
+						Value: 'consent-management-platform',
+					},
+					{
+						Name: 'Stage',
+						Value: config.platform.toUpperCase(),
+					},
+				],
+				Unit: 'None',
+				Value: cmpVersion,
+			},
 		],
 		Namespace: 'Application',
 	} satisfies PutMetricDataCommandInput;
@@ -394,17 +412,24 @@ export const sendMetricData = async (
  * banner to appear.
  *
  * @param {Page} page
- * @param {string} url
+ * @param {Config} config
  */
-export const checkCMPLoadingTime = async (page: Page, config: Config) => {
-	if (!config.isRunningAdhoc) {
-		log_info('Checking CMP Loading Time: Start')
+export const checkCMPLoadingTimeAndVersion = async (page: Page, config: Config) => {
+	if (!config.isRunningAdhoc){
+		log_info('Checking CMP Loading Time and CMP Version: Start')
 		const startTimeStamp = Date.now();
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
 		const endTimeStamp = Date.now();
-		await logCMPLoadTime(startTimeStamp, endTimeStamp, config);
-		log_info('Checking CMP Loading Time: Finished')
+		const loadingTime = (endTimeStamp - startTimeStamp)/1000; //in seconds
+
+		const functionToGetVersion = function () {
+			return window._sp_.version;
+		};
+		const cmpVersionString = await page.evaluate(functionToGetVersion);
+		const cmpVersionDouble = parseFloat(cmpVersionString.replace(/\./g, ''));
+		await logCMPLoadTimeAndVersion(loadingTime, cmpVersionDouble, config);
+		log_info('Checking CMP Loading Time and CMP Version: Finished');
 	}
 };
 
