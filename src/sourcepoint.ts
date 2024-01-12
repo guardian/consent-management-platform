@@ -167,6 +167,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 		};
 	} else {
 		window._sp_.config.ccpa = {
+			includeGppApi: true,
 			targetingParams: {
 				framework,
 			},
