@@ -19,6 +19,16 @@ updates:
           - 'minor'
           - 'patch'
   - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    labels:
+      - 'dependencies'
+      - 'javascript'
+    target-branch: 'al-add-daily-check-for-guardian-apps'
+    allow:
+      - dependency-name: '@guardian/*'
+  - package-ecosystem: 'npm'
     directory: '/cdk'
     schedule:
       interval: 'weekly'
