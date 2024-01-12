@@ -1,7 +1,7 @@
 import http from 'http';
 import url from 'url';
-import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
-import { init } from './sourcepoint';
+import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig.ts';
+import { init } from './sourcepoint.ts';
 
 const frameworks = ['tcfv2', 'ccpa', 'aus'];
 
