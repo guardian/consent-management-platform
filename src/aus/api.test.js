@@ -1,4 +1,4 @@
-import { getUSPData } from './api';
+import { getUSPData } from './api.ts';
 
 jest.mock('../sourcepoint', () => ({
 	sourcepointLibraryLoaded: Promise.resolve(),

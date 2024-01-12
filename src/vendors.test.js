@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TCFV2VendorIDs } from './vendors';
+import { TCFV2VendorIDs } from './vendors.ts';
 
 const cmpBaseUrl = 'cdn.privacy-mgmt.com';
 const guardianId = '5ec67f5bb8e05c4a1160fda1';
