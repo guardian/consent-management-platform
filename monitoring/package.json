@@ -13,26 +13,26 @@
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch": "^3.484.0",
+    "@aws-sdk/client-cloudwatch": "^3.490.0",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
-    "inquirer": "^8.2.6",
+    "inquirer": "^9.2.12",
     "playwright-aws-lambda": "^0.10.0",
     "playwright-core": "^1.40.1",
     "tslib": "^2.6.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@aws-sdk/client-lambda": "^3.484.0",
+    "@aws-sdk/client-lambda": "^3.490.0",
 		"@babel/parser": "^7.23.6",
-    "@guardian/eslint-config-typescript": "^9.0.0",
+    "@guardian/eslint-config-typescript": "^9.0.1",
     "@guardian/prettier": "^7.0.0",
     "@guardian/tsconfig": "^0.2.0",
     "@tsconfig/node18": "^18.2.2",
-    "@types/aws-lambda": "^8.10.130",
-    "@types/inquirer": "^8.2.7",
+    "@types/aws-lambda": "^8.10.131",
+    "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.11",
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.11.0",
     "@vercel/ncc": "^0.38.1",
     "aws-lambda": "^1.0.7",
     "eslint": "^8.56.0",
@@ -41,7 +41,7 @@
     "npm-run-all": "^4.1.5",
     "ts-jest": "^29.1.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "5.1.3"
+    "typescript": "5.3.3"
   },
   "prettier": "@guardian/prettier",
   "overrides": {
