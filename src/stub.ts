@@ -12,12 +12,19 @@ export const stub = (framework: Framework): void => {
 	switch (framework) {
 		case 'tcfv2':
 			stub_tcfv2()
+			console.log("TCFV2")
 			break;
 		case 'ccpa':
 			stub_ccpa();
+			console.log("CCPA", "CCPA")
+
 			stub_gpp_ccpa();
+			console.log("GPP", "CCPA")
+
 		case 'aus':
 			stub_ccpa();
+			console.log("CCPA", "AUS")
+
 		default:
 			break;
 	}
