@@ -20,11 +20,11 @@ export const stub = (framework: Framework): void => {
 
 			stub_gpp_ccpa();
 			console.log("GPP", "CCPA")
-
+			break;
 		case 'aus':
 			stub_ccpa();
 			console.log("CCPA", "AUS")
-
+			break;
 		default:
 			break;
 	}
