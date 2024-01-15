@@ -35,6 +35,7 @@ declare global {
 					framework: Framework;
 				};
 				ccpa?: {
+					includeGppApi: boolean,
 					targetingParams?: {
 						framework: Framework;
 					};
