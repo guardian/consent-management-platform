@@ -3,7 +3,7 @@ import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
-	checkCMPLoadingTime,
+	checkCMPLoadingTimeAndVersion,
 	checkPrivacySettingsPanelIsOpen,
 	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
@@ -92,7 +92,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const browserForCMPLoadTime: Browser = await makeNewBrowser(config.debugMode);
 	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
 	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
-	await checkCMPLoadingTime(pageForCMPLoadTime, config);
+	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
 
 	await pageForCMPLoadTime.close();
 	await browserForCMPLoadTime.close();

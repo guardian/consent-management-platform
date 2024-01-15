@@ -1,7 +1,7 @@
 # To get started with Dependabot version updates, you'll need to specify which
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 updates:
@@ -9,44 +9,50 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
-      - 'cmp_app_group'
       - 'dependencies'
       - 'javascript'
     groups:
       cmp-app:
-        patterns:
-          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'npm'
     directory: '/cdk'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
-      - 'cdk_group'
       - 'dependencies'
       - 'javascript'
     groups:
       cdk:
-        patterns:
-          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'npm'
     directory: '/monitoring'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
-      - 'monitoring_group'
       - 'dependencies'
       - 'javascript'
     groups:
       monitoring:
-        patterns:
-          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    ignore:
+      - dependency-name: 'inquirer'
+      - dependency-name: '@types/inquirer'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'sunday'
     labels:
-      - 'github_action_group'
       - 'dependencies'
       - 'github_actions'
     groups:

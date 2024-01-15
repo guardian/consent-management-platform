@@ -1,6 +1,6 @@
 // cSpell:ignore doesnotexist
 
-import { getConsentFor } from './getConsentFor';
+import { getConsentFor } from './getConsentFor.ts';
 
 const vendorOne = 'd3b07384d113edec49eaa623';
 const vendorAlt = 'c157a79031e1c40f85931829';
