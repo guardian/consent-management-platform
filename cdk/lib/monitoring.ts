@@ -32,8 +32,6 @@ export class Monitoring extends GuStack {
 
 		const prodDurationInMinutes = 2;
 
-		const codeDurationInDays = 1;
-
 		const policyStatement = new PolicyStatement({
 			effect: Effect.ALLOW,
 			actions: ['cloudwatch:PutMetricData'],
@@ -82,7 +80,7 @@ export class Monitoring extends GuStack {
 
 
 		const monitoringDuration: Duration =
-			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.days(codeDurationInDays); // Every day for CODE; Every 2 minutes for PROD.
+			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
 			schedule: Schedule.rate(monitoringDuration),
