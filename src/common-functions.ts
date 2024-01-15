@@ -6,8 +6,8 @@ import {
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
-import type { Config } from '../types';
-import { ELEMENT_ID } from '../types';
+import type { Config } from '../monitoring/src/types';
+import { ELEMENT_ID } from '../monitoring/src/types';
 
 /**
  * This function console logs an info message.
@@ -240,7 +240,7 @@ export const recordVersionOfCMP = async (page: Page) => {
 	log_info('* Getting the version of Sourcepoint CMP');
 
 	const functionToGetVersion = function () {
-		return window._sp_.version;
+		return window?._sp_?.version;
 	};
 
 	log_info(await page.evaluate(functionToGetVersion));

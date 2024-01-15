@@ -1,4 +1,4 @@
-import { log_info } from './check-page/common-functions';
+import { log_info } from '../../src/common-functions';
 import { envAwsRegion, envJurisdiction, envPlatform, envStage } from './env';
 import type {
 	AwsRegionOpt,

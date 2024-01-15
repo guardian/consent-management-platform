@@ -1,6 +1,4 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
-import { ELEMENT_ID } from '../types';
-import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -11,7 +9,9 @@ import {
 	makeNewBrowser,
 	makeNewPage,
 	reloadPage,
-} from './common-functions';
+} from '../../../src/common-functions';
+import { ELEMENT_ID } from '../types';
+import type { Config } from '../types';
 
 const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 

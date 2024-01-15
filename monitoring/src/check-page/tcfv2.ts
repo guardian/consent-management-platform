@@ -1,5 +1,4 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
-import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
@@ -18,7 +17,8 @@ import {
 	makeNewPage,
 	openPrivacySettingsPanel,
 	reloadPage,
-} from './common-functions';
+} from '../../../src/common-functions';
+import type { Config } from '../types';
 
 /**
  * Checks that ads load correctly for the second page a user goes to
