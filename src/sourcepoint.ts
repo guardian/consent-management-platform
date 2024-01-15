@@ -183,6 +183,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					framework,
 				},
 			};
+			break;
 		default:
 			break;
 	}
