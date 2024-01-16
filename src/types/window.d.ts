@@ -26,6 +26,7 @@ declare global {
 		// *************** END commercial.dcr.js hotfix ***************
 		_sp_queue: [];
 		_sp_?: {
+			version?: string;
 			config: {
 				baseEndpoint: EndPoint;
 				accountId: number;
