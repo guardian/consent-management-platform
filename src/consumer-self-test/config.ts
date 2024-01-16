@@ -1,12 +1,12 @@
 import { log_info } from './common-functions';
-import { envAwsRegion, envJurisdiction, envPlatform, envStage } from '../../monitoring/src/env';
+import { envAwsRegion, envJurisdiction, envPlatform, envStage } from './env';
 import type {
 	AwsRegionOpt,
 	Config,
 	Jurisdiction,
 	JurisdictionOpt,
 	Stage,
-} from '../../monitoring/src/types';
+} from './types';
 import { ConfigBuilder } from './utils/config-builder/config-builder';
 import { ConfigHelper } from './utils/config-helper/config-helper';
 import { Validator } from './utils/validator/validator';

@@ -6,8 +6,8 @@ import {
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
-import type { Config } from '../../monitoring/src/types';
-import { ELEMENT_ID } from '../../monitoring/src/types';
+import type { Config } from './types';
+import { ELEMENT_ID } from './types';
 
 /**
  * This function console logs an info message.
