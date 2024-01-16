@@ -35,6 +35,7 @@ declare global {
 					framework: Framework;
 				};
 				ccpa?: {
+					includeGppApi?: boolean;
 					targetingParams?: {
 						framework: Framework;
 					};
@@ -96,6 +97,10 @@ declare global {
 			version: number,
 			callback: (tcData: TCData, success: boolean) => void,
 			vendorIDs?: number[],
+		) => void;
+		__gpp?: (
+			command: string,
+			callback: (gppData: any, success: boolean) => void,
 		) => void;
 	}
 }
