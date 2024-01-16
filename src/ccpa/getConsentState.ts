@@ -5,7 +5,6 @@ import { getUSPData } from './api';
 export const getConsentState: () => Promise<CCPAConsentState> = async () => {
 	const uspData = await getUSPData();
 
-	// TODO: GET GPP DATA AND COMPARE
 	return {
 		doNotSell: uspData.uspString.charAt(2) === 'Y',
 	};
