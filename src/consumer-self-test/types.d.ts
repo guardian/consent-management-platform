@@ -1,10 +1,10 @@
-declare global {
-    interface Window {
-        _sp_: {
-            version: string;
-        };
-    }
-}
+// declare global {
+//     interface Window {
+//         _sp_: {
+//             version: string;
+//         };
+//     }
+// }
 export type JurisdictionOpt = string | undefined;
 export type AwsRegionOpt = string | undefined;
 export declare enum JURISDICTIONS {

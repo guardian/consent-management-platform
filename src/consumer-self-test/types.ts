@@ -1,13 +1,13 @@
-declare global {
-	interface Window {
-		// 		__uspapi: (
-		// 			command: string,
-		// 			version: number,
-		// 			callback: (uspData: UspData) => void,
-		// 		) => undefined;
-		_sp_: { version: string };
-	}
-}
+// declare global {
+// 	interface Window {
+// 		// 		__uspapi: (
+// 		// 			command: string,
+// 		// 			version: number,
+// 		// 			callback: (uspData: UspData) => void,
+// 		// 		) => undefined;
+// 		_sp_: { version: string };
+// 	}
+// }
 
 export type JurisdictionOpt = string | undefined;
 
