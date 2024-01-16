@@ -3,12 +3,12 @@
   "[typescript]": {
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": false
-    }
+		"source.organizeImports": "never"
+	}
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
+	"source.fixAll.eslint": "explicit"
+},
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
 	"SP’s",
