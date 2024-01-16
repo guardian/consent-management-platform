@@ -178,7 +178,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 			break;
 		case 'aus':
 			window._sp_.config.ccpa = {
-				includeGppApi: false,
 				targetingParams: {
 					framework,
 				},
