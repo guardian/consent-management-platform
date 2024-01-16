@@ -17,7 +17,7 @@ import {
 	makeNewPage,
 	openPrivacySettingsPanel,
 	reloadPage,
-} from '../../../src/common-functions';
+} from '../common-functions';
 import type { Config } from '../types';
 
 /**

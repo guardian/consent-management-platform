@@ -1,7 +1,7 @@
 import { JURISDICTIONS, STAGES } from '../../types';
 import { Validator } from './validator';
 
-describe('Validator', () => {
+describe('Monitoring Validator', () => {
 	describe('isStageValid', () => {
 		it('should return false if a stage that does not exist within the STAGES enum is passed', () => {
 			const response: boolean = Validator.isStageValid('doesnotexist');

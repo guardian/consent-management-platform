@@ -7,7 +7,7 @@ import {
 	IframeDomainUrlSecondLayer,
 } from './config-builder';
 
-describe('ConfigBuilder', () => {
+describe('Monitoring ConfigBuilder', () => {
 	describe('getFrontUrl', () => {
 		it('should return the string ConfigFrontUrl.PROD if the Prod stage is passed', () => {
 			const response = ConfigBuilder.getFrontUrl(STAGES.PROD);

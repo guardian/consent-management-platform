@@ -3,7 +3,7 @@ import type { AwsRegionOpt, Config, JurisdictionOpt } from './types';
 import { AWS_REGIONS, JURISDICTIONS, STAGES } from './types';
 import { ConfigHelper } from './utils/config-helper/config-helper';
 
-describe('ConfigWrapper', () => {
+describe('Monitoring ConfigWrapper', () => {
 	describe('Constructor', () => {
 		const awsRegion = AWS_REGIONS.US_WEST_1;
 		const stage = 'code';

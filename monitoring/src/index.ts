@@ -1,4 +1,4 @@
-import { ConfigWrapper } from './config';
+import { ConfigWrapper } from '../../src/consumer-self-test/config';
 import type { AwsRegionOpt, CheckStatus, JurisdictionOpt } from './types';
 
 export interface CustomScheduleEventContent {

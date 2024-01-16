@@ -1,7 +1,7 @@
 import { AWS_REGIONS, JURISDICTIONS } from '../../types';
 import { ConfigHelper } from './config-helper';
 
-describe('Config Helper', () => {
+describe('Monitoring Config Helper', () => {
 	describe('getJurisdiction', () => {
 		it('should return tcfv2 if region= eu-west-1', () => {
 			const awsRegion = AWS_REGIONS.EU_WEST_1;
