@@ -37,6 +37,10 @@
 		"validate": "npm-run-all tsc test lint build",
 		"prepare": "husky install"
 	},
+	"dependencies": {
+    "playwright-aws-lambda": "^0.10.0",
+    "playwright-core": "^1.40.1"
+	},
 	"prettier": "@guardian/prettier",
 	"devDependencies": {
 		"@babel/core": "^7.23.2",

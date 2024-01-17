@@ -5,8 +5,24 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
-import { launchChromium } from 'playwright-aws-lambda';
-import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
+import type { Browser, BrowserContext, Page } from 'playwright-core';
+import {
+	selfCheckCMPIsNotVisible,
+	selfCheckCMPIsOnPage,
+	selfCheckPrivacySettingsPanelIsOpen,
+	selfCheckTopAdDidNotLoad,
+	selfCheckTopAdHasLoaded,
+	selfClearCookies,
+	selfClearLocalStorage,
+	selfClickAcceptAllCookies,
+	selfClickRejectAllSecondLayer,
+	selfClickSaveAndCloseSecondLayer,
+	selfLoadPage,
+	selfMakeNewBrowser,
+	selfMakeNewPage,
+	selfOpenPrivacySettingsPanel,
+	selfReloadPage
+} from '../../../src/consumer-self-test/consumer-self-test';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -35,8 +51,8 @@ export const log_error = (message: string): void => {
  * @return {*}  {Promise<void>}
  */
 export const clearCookies = async (page: Page): Promise<void> => {
-	await page.context().clearCookies();
-	log_info(`Cleared Cookies`);
+	await selfClearCookies(page);
+
 };
 
 /**
@@ -46,9 +62,8 @@ export const clearCookies = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
-	await page.evaluate(() => window.localStorage.clear());
-	await page.evaluate(() => window.sessionStorage.clear());
-	log_info(`Cleared LocalStorage`);
+	await selfClearLocalStorage(page);
+	//log_info(`Cleared LocalStorage`);
 };
 
 /**
@@ -58,7 +73,7 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	const browser = await launchChromium({headless:!debugMode});
+	const browser = await selfMakeNewBrowser(debugMode);
 	return browser;
 };
 
@@ -69,7 +84,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
  * @return {*}  {Promise<Page>}
  */
 export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
-	const page = await context.newPage();
+	const page = await selfMakeNewPage(context);
 	return page;
 };
 
@@ -85,8 +100,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
 
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
 
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
+  	await selfClickAcceptAllCookies(page, ELEMENT_ID.CMP_CONTAINER, ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
@@ -98,13 +112,9 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
  * @param {Page} page
  */
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
-	log_info(`Loading privacy settings panel: Start`);
 
-	const manageButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
-	await manageButton.click();
-	await checkPrivacySettingsPanelIsOpen(config, page);
+	await selfOpenPrivacySettingsPanel(config.iframeDomainSecondLayer, page, ELEMENT_ID.CMP_CONTAINER, ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE)
 
-	log_info(`Loading privacy settings panel: Complete`);
 };
 
 /**
@@ -120,16 +130,8 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	page: Page,
 ): Promise<void> => {
 
-	log_info(`Waiting for Privacy Settings Panel: Start`);
+	await selfCheckPrivacySettingsPanelIsOpen(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 
-	const secondLayer =  page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
-	await secondLayer.waitFor();
-
-	if (!(await secondLayer.isVisible())) {
-		throw Error('Second Layer is not present on page');
-	}
-
-	log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
 
 /**
@@ -143,11 +145,11 @@ export const clickSaveAndCloseSecondLayer = async (
 	config: Config,
 	page: Page,
 ) => {
-	log_info(`Clicking on save and close button: Start`);
+	//log_info(`Clicking on save and close button: Start`);
 
-	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
+	await selfClickSaveAndCloseSecondLayer(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
-	log_info(`Clicking on save and exit button: Complete`);
+	//log_info(`Clicking on save and exit button: Complete`);
 };
 
 /**
@@ -158,11 +160,11 @@ export const clickSaveAndCloseSecondLayer = async (
  * @param {Page} page
  */
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
-	log_info(`Clicking on reject all button: Start`);
+	//log_info(`Clicking on reject all button: Start`);
 
-	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
+	await selfClickRejectAllSecondLayer(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL)
 
-	log_info(`Clicking on reject all button: Complete`);
+	//log_info(`Clicking on reject all button: Complete`);
 };
 
 /**
@@ -174,45 +176,11 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
  * @return {*}  {Promise<void>}
  */
 export const checkTopAdHasLoaded = async (page: Page) => {
-	log_info(`Waiting for interaction with GAM: Start`);
+	//log_info(`Waiting for interaction with GAM: Start`);
 
-	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
+	await selfCheckTopAdHasLoaded(page);
 
-	const getEncodedParamsFromRequest = (
-		request: Request,
-		paramName: string,
-	): URLSearchParams | null => {
-		const url = new URL(request.url());
-		const param = url.searchParams.get(paramName);
-		if (!param) return null;
-		const paramDecoded = decodeURIComponent(param);
-		const searchParams = new URLSearchParams(paramDecoded);
-		return searchParams;
-	};
-
-	const assertOnSlotFromRequest = (request: Request, expectedSlot: string) => {
-		const isURL = request.url().match(gamUrl);
-		if (!isURL) return false;
-		const searchParams = getEncodedParamsFromRequest(request, 'prev_scp');
-		if (searchParams === null) return false;
-		const slot = searchParams.get('slot');
-		if (slot !== expectedSlot) return false;
-		return true;
-	};
-
-	const waitForGAMRequestForSlot = (page: Page, slotExpected: string) => {
-		return page.waitForRequest((request) =>
-			assertOnSlotFromRequest(request, slotExpected),
-		);
-	};
-
-	const gamRequestPromise = waitForGAMRequestForSlot(
-		page,
-		'top-above-nav',
-	);
-	await gamRequestPromise;
-
-	log_info(`Waiting for interaction with GAM: Complete`);
+	//log_info(`Waiting for interaction with GAM: Complete`);
 };
 
 /**
@@ -224,17 +192,11 @@ export const checkTopAdHasLoaded = async (page: Page) => {
  * @return {*}  {Promise<void>}
  */
 export const checkTopAdDidNotLoad = async (page: Page) => {
-	log_info(`Checking ads do not load: Start`);
+	//log_info(`Checking ads do not load: Start`);
 
-	const topAds = page.locator(ELEMENT_ID.TOP_ADVERT);
-	const topAdsCount = await topAds.count();
+	await selfCheckTopAdDidNotLoad(page, ELEMENT_ID.TOP_ADVERT);
 
-	if (topAdsCount != 0) {
-		log_error(`Checking ads do not load: Failed`);
-		throw Error('Top above nav frame present on page');
-	}
-
-	log_info(`Checking ads do not load: Complete`);
+	//log_info(`Checking ads do not load: Complete`);
 };
 
 export const recordVersionOfCMP = async (page: Page) => {
@@ -254,16 +216,11 @@ export const recordVersionOfCMP = async (page: Page) => {
  * @return {*}  {Promise<void>}
  */
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
-	log_info(`Waiting for CMP: Start`);
+	//log_info(`Waiting for CMP: Start`);
 
-	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
-	await cmpl.waitFor();
-	await recordVersionOfCMP(page);
-	if (!(await cmpl.isVisible())) {
-		throw Error('CMP is not present on page');
-	}
+	await selfCheckCMPIsOnPage(page, ELEMENT_ID.CMP_CONTAINER);
 
-	log_info(`Waiting for CMP: Complete`);
+	//log_info(`Waiting for CMP: Complete`);
 };
 
 /**
@@ -273,15 +230,11 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
-	log_info(`Checking CMP is Hidden: Start`);
+	//log_info(`Checking CMP is Hidden: Start`);
 
-	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
+	await selfCheckCMPIsNotVisible(page, ELEMENT_ID.CMP_CONTAINER);
 
-	if (await cmpl.isVisible()) {
-		throw Error('CMP still present on page');
-	}
-
-	log_info('CMP hidden or removed from page');
+	//log_info('CMP hidden or removed from page');
 };
 
 
@@ -293,23 +246,12 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const loadPage = async (page: Page, url: string): Promise<void> => {
-	log_info(`Loading page: Start`);
-	log_info(`Loading page ${url}`);
+	//log_info(`Loading page: Start`);
+	//log_info(`Loading page ${url}`);
 
-	const response = await page.goto(url, {
-		waitUntil: 'domcontentloaded',
-		timeout: 30000,
-	});
+	await selfLoadPage(page, url);
 
-	// If the response status code is not a 2xx success code
-	if (response != null) {
-		if (response.status() < 200 || response.status() > 299) {
-			log_error(`Loading URL: Error: Status ${response.status()}`);
-			throw 'Failed to load page!';
-		}
-	}
-
-	log_info(`Loading page: Complete`);
+	//log_info(`Loading page: Complete`);
 };
 
 /**
@@ -318,16 +260,11 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  * @param {Page} page
  */
 export const reloadPage = async (page: Page) => {
-	log_info(`Reloading page: Start`);
-	const reloadResponse = await page.reload({
-		waitUntil: 'domcontentloaded',
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
-	}
-	log_info(`Reloading page: Complete`);
+	//log_info(`Reloading page: Start`);
+
+	await selfReloadPage(page);
+
+	//log_info(`Reloading page: Complete`);
 };
 
 /**
