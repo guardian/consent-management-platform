@@ -7,6 +7,9 @@ module.exports = {
 	globals: { __PACKAGE_VERSION__: pkg.version },
 	clearMocks: true,
 	testPathIgnorePatterns: ['cypress', 'cdk', 'monitoring'],
+	moduleNameMapper: {
+		'^uuid$': require.resolve('uuid'),
+	  },
 
 	// All imported modules in your tests should be mocked automatically
 	// automock: false,

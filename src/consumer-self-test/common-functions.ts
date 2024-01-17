@@ -238,12 +238,7 @@ export const checkTopAdDidNotLoad = async (page: Page) => {
 
 export const recordVersionOfCMP = async (page: Page) => {
 	log_info('* Getting the version of Sourcepoint CMP');
-
-	const functionToGetVersion = function () {
-		return window?._sp_?.version ?? '';
-	};
-
-	log_info(await page.evaluate(functionToGetVersion));
+	log_info(await page.evaluate('window._sp_.version'));
 };
 
 /**
