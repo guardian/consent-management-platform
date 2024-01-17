@@ -1,4 +1,4 @@
-import { getCustomVendorConsents, getTCData } from './api';
+import { getCustomVendorConsents, getTCData } from './api.ts';
 
 it('calls the correct IAB api with the correct methods', async () => {
 	expect(getTCData()).rejects.toThrow();

@@ -1491,23 +1491,23 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.44.0.tgz#961a5903c74139390478bdc808bcde3fc45ab7af"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
 
-"@guardian/eslint-config-typescript@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-6.0.0.tgz#a2080acca102f7d77e5173dcc9a751209a695ff1"
-  integrity sha512-L1KpAnxLw9fX5YW0PrMRdirZVkb/IK5s/JBIE61Gx8AxIa3PNTnVS/v6xS/okbBb1nXa30xV2ty0RX6CG78t8A==
+"@guardian/eslint-config-typescript@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-7.0.0.tgz#b16fab129fb6e7fe9343143d9bdcbe1867117ab8"
+  integrity sha512-2XsjhVRmIK0nvjGHDcvTjMd4DNHsSHIkqDRc4cGEAUcKdPgXEtuWyxQeWEdBBvqLo0aNj6PH3ekyWpPsgZKo8g==
   dependencies:
-    "@guardian/eslint-config" "4.0.0"
+    "@guardian/eslint-config" "5.0.0"
     "@typescript-eslint/eslint-plugin" "5.59.9"
     "@typescript-eslint/parser" "5.59.9"
     eslint-import-resolver-typescript "3.5.5"
     eslint-plugin-import "2.27.5"
 
-"@guardian/eslint-config@4.0.0", "@guardian/eslint-config@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-4.0.0.tgz#6beb3ae4eec73418ee18a83160d87565a2ae3d0a"
-  integrity sha512-OAazxlXgYjggVNE7scoSgb1g+CIz/yfhPenEKGSTM5fejeTRZNwfFPDcVl4h4jY5/17aCUxaLxG+Nc0r4V94kQ==
+"@guardian/eslint-config@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-5.0.0.tgz#a9652f78f057fa4f35420fea8f8e807737ae15d1"
+  integrity sha512-llm15aCWBFJQbMg/Douqf+fjvMC9qrcc2AfievoAoiHD/VGQf8ouR4ss2/X1i+2r3gcwYDZlvCOarXeXnIbZ+w==
   dependencies:
-    eslint-config-prettier "8.5.0"
+    eslint-config-prettier "8.8.0"
     eslint-plugin-eslint-comments "3.2.0"
     eslint-plugin-import "2.27.5"
 
@@ -4171,10 +4171,10 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@8.5.0:
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
-  integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
+eslint-config-prettier@8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.8.0.tgz#bfda738d412adc917fd7b038857110efe98c9348"
+  integrity sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==
 
 eslint-import-resolver-node@^0.3.7:
   version "0.3.7"

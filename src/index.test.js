@@ -1,8 +1,8 @@
 import waitForExpect from 'wait-for-expect';
-import { CMP as actualCMP } from './cmp';
-import { disable, enable } from './disable';
-import { getCurrentFramework } from './getCurrentFramework';
-import { cmp } from '.';
+import { CMP as actualCMP } from './cmp.ts';
+import { disable, enable } from './disable.ts';
+import { getCurrentFramework } from './getCurrentFramework.ts';
+import { cmp } from './index.ts';
 
 const CMP = {
 	init: jest.spyOn(actualCMP, 'init'),
@@ -102,12 +102,12 @@ describe('hotfix cmp.init', () => {
 		};
 
 		jest.resetModules();
-		import('.').then((module) => {
+		import('./index.ts').then((module) => {
 			expect(module.cmp).toEqual(mockCmp);
 
 			delete window.guCmpHotFix;
 			jest.resetModules();
-			import('.');
+			import('./index.ts');
 		});
 	});
 });
