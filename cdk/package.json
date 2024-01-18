@@ -33,7 +33,7 @@
 		"typescript": "~5.1.6"
 	},
 	"dependencies": {
-		"@guardian/cdk": "53.0.0",
+		"@guardian/cdk": "53.0.3",
 		"npm": "^10.3.0",
 		"source-map-support": "^0.5.20"
 	},
