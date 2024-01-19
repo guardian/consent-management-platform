@@ -5,6 +5,7 @@
 	"bin": {
 		"cdk": "bin/cdk.js"
 	},
+	"packageManager": "pnpm@6.2.1",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"build": "tsc",

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+	"packageManager": "pnpm@6.2.1",
   "scripts": {
 		"preinstall": "npx only-allow pnpm",
     "test": "jest",

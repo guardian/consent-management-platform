@@ -11,6 +11,7 @@
 	"files": [
 		"dist/**/*"
 	],
+	"packageManager": "pnpm@6.2.1",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"build": "npm-run-all clean --parallel compile types",
