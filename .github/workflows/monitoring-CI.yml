@@ -21,10 +21,10 @@ jobs:
           role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
           aws-region: eu-west-1
 
-      - name: Set up pnpm 8.x
+      - name: Set up pnpm 6.x
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 6
 
       - name: Setup Node
         uses: actions/setup-node@v4
