@@ -20,7 +20,7 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies at root (./)
-        run: pnpm --frozen-lockfile
+        run: pnpm
 
       - name: Test vendor list
         run: pnpm test:vendor-list
