@@ -3,7 +3,7 @@ import type { Property } from '../lib/property';
 import type { EndPoint } from '../lib/sourcepointConfig';
 import type { onConsent } from '../onConsent';
 import type { onConsentChange } from '../onConsentChange';
-import type { CCPAData } from './ccpa';
+import type { CCPAData, GPPData } from './ccpa';
 import type { TCData } from './tcfv2/TCData';
 import type { CMP, Framework, PubData } from '.';
 
@@ -100,7 +100,7 @@ declare global {
 		) => void;
 		__gpp?: (
 			command: string,
-			callback: (gppData: any, success: boolean) => void,
+			callback: (gppData: GPPData, success: boolean) => void,
 		) => void;
 	}
 }
