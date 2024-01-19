@@ -26,7 +26,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Build package
         run: pnpm build
@@ -69,7 +69,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Fetch build
         uses: actions/download-artifact@v4
@@ -116,7 +116,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Fetch build
         uses: actions/download-artifact@v4

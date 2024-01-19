@@ -27,7 +27,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Run unit tests
         uses: ArtiomTr/jest-coverage-report-action@v2.2.6
@@ -60,7 +60,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Run e2e tests on dist with Cypress
         run: pnpm test:e2e

@@ -23,7 +23,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Lint files
         run: pnpm lint
@@ -47,7 +47,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Check types
         run: pnpm tsc
