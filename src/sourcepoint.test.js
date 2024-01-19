@@ -42,11 +42,22 @@ describe('Sourcepoint unified', () => {
 				expect(window._sp_.config.ccpa).toBeUndefined();
 				expect(window.__tcfapi).toBeDefined();
 				expect(window.__uspapi).toBeUndefined();
-			} else {
+				expect(window.__gpp).toBeUndefined();
+			} else if (framework == 'ccpa') {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);
 				expect(window._sp_.config.gdpr).toBeUndefined;
+				expect(window._sp_.config.ccpa.includeGppApi).toBeTruthy();
+				expect(window.__uspapi).toBeDefined();
+				expect(window.__gpp).toBeDefined();
+				expect(window.__tcfapi).toBeUndefined();
+			} else if (framework == 'aus') {
+				expect(
+					window._sp_.config.ccpa.targetingParams.framework,
+				).toEqual(framework);
+				expect(window._sp_.config.gdpr).toBeUndefined;
+				expect(window._sp_.config.ccpa.includeGppApi).toBeFalsy();
 				expect(window.__uspapi).toBeDefined();
 				expect(window.__tcfapi).toBeUndefined();
 			}
