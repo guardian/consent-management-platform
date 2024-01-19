@@ -37,11 +37,11 @@ jobs:
             cdk/pnpm-lock.yaml
 
       - name: Install Root dependencies
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: Lambda lint
         working-directory: './monitoring'
@@ -53,7 +53,7 @@ jobs:
 
       - name: CDK Install CDK dependencies
         working-directory: './cdk'
-        run: pnpm
+        run: pnpm install --frozen-lockfile
 
       - name: CDK Test
         working-directory: './cdk'
