@@ -14,10 +14,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up pnpm 8.x
+      - name: Set up pnpm 6.x
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 6
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -57,10 +57,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up pnpm 8.x
+      - name: Set up pnpm 6.x
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 6
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -104,10 +104,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up pnpm 8.x
+      - name: Set up pnpm 6.x
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 6
 
       - name: Setup node
         uses: actions/setup-node@v4
