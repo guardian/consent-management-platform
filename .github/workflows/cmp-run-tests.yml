@@ -19,16 +19,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm --frozen-lockfile
 
       - name: Run unit tests
         uses: ArtiomTr/jest-coverage-report-action@v2.2.6
         with:
-          package-manager: yarn
-          test-script: yarn test:unit
+          package-manager: pnpm
+          test-script: pnpm test:unit
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report coverage
@@ -47,10 +47,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm --frozen-lockfile
 
       - name: Run e2e tests on dist with Cypress
-        run: yarn test:e2e
+        run: pnpm test:e2e

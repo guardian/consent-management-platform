@@ -18,13 +18,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm --frozen-lockfile
 
       - name: Build package
-        run: yarn build
+        run: pnpm build
 
       - name: Check dist folder for files
         run: ./scripts/check-build-folders
@@ -56,10 +56,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm --frozen-lockfile
 
       - name: Fetch build
         uses: actions/download-artifact@v4
@@ -70,7 +70,7 @@ jobs:
       - name: Release
         uses: changesets/action@v1
         with:
-          publish: yarn changeset publish
+          publish: pnpm changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -98,10 +98,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm --frozen-lockfile
 
       - name: Fetch build
         uses: actions/download-artifact@v4
@@ -110,13 +110,13 @@ jobs:
           path: dist
 
       - name: Version
-        run: yarn changeset version --snapshot beta
+        run: pnpm changeset version --snapshot beta
 
       - name: Create Release
         uses: changesets/action@v1
         id: changeset
         with:
-          publish: yarn changeset publish --tag beta
+          publish: pnpm changeset publish --tag beta
           commit: Beta Release
           title: Beta Release
         env:

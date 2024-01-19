@@ -25,5 +25,3 @@ target
 .bsp
 .metals
 
-# Yarn
-.yarn/*

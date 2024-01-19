@@ -12,11 +12,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: yarn
-          cache-dependency-path: yarn.lock
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies at root (./)
-        run: yarn --frozen-lockfile
+        run: pnpm --frozen-lockfile
 
       - name: Test vendor list
-        run: yarn test:vendor-list
+        run: pnpm test:vendor-list

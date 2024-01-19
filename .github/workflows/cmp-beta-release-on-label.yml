@@ -1,7 +1,7 @@
 name: Publish Beta Package
 
 # This workflow is triggered on a label being added to a PR, and will publish a beta version of the bundle to npm
-# Use `yarn changeset add` to add a new change
+# Use `pnpm changeset add` to add a new change
 
 on:
   pull_request:

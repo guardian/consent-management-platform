@@ -41,13 +41,7 @@ and TCFv2 to everyone else.
 [![Generic badge](https://img.shields.io/badge/google-chat-259082.svg)](https://chat.google.com/room/AAAAhlhgDTU)
 
 ```bash
-yarn add @guardian/consent-management-platform
-```
-
-or
-
-```bash
-npm install @guardian/consent-management-platform
+pnpm add @guardian/consent-management-platform
 ```
 
 ### Bundling

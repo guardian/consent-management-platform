@@ -22,4 +22,4 @@ Below are 4 workflows that are triggered by specific actions i.e pushing to a br
 4. [`daily-test.yml`](daily-test.yml)
 
 -   Trigger: Cron scheduler
--   Description: This runs a test `yarn test:vendor-list` to check the vendor list is up to date.
+-   Description: This runs a test `pnpm test:vendor-list` to check the vendor list is up to date.

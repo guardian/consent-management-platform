@@ -6,6 +6,7 @@
 		"cdk": "bin/cdk.js"
 	},
 	"scripts": {
+		"preinstall": "npx only-allow pnpm",
 		"build": "tsc",
 		"watch": "tsc -w",
 		"test": "jest",
