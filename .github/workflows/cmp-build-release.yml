@@ -14,6 +14,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Set up pnpm 8.x
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -52,6 +57,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Set up pnpm 8.x
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -70,7 +80,7 @@ jobs:
       - name: Release
         uses: changesets/action@v1
         with:
-          publish: pnpm changeset publish
+          publish: pnpm run changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -94,6 +104,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up pnpm 8.x
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -116,7 +131,7 @@ jobs:
         uses: changesets/action@v1
         id: changeset
         with:
-          publish: pnpm changeset publish --tag beta
+          publish: pnpm run changeset publish --tag beta
           commit: Beta Release
           title: Beta Release
         env:
