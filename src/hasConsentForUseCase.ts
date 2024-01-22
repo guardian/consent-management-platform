@@ -45,7 +45,7 @@ export const hasConsentForUseCaseWithConsentState = (useCase: ConsentUseCases, c
 			else return(false)
 		}
 		case "Essential": return(true) //could check for allow-list of essential cookies/storage here in the future
-		case "No consent required": return(true)
+		//case "No consent required": return(true) //Would we want a use-case like this, perhaps for internal tools?
 		default: return(false)
 	}
 
