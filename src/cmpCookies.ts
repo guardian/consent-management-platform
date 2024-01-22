@@ -1,8 +1,8 @@
 import { getCookie, setCookie, setSessionCookie } from '@guardian/libs';
-import type { ConsentUseCases } from './types/consentUseCases';
-import { hasConsentForUseCase } from './hasConsentForUseCase';
-import { ConsentState } from './types';
+import { hasConsentForUseCaseWithConsentState } from './hasConsentForUseCase';
 import { onConsent } from './onConsent';
+import { ConsentState } from './types';
+import type { ConsentUseCases } from './types/consentUseCases';
 
 //TODO?: Write wrappers for the other cookie functions in @guardian/libs
 
@@ -25,7 +25,7 @@ export const cmpGetCookieWithConsentState = ({ useCase, consentState, name, shou
 {
 	console.log('in cmpGetCookie');
 
-	if(hasConsentForUseCase(useCase, consentState))
+	if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 	{
 		return getCookie({name: name, shouldMemoize: shouldMemoize})
 	}
@@ -59,7 +59,7 @@ export const cmpSetCookieWithConsentState = ({ useCase, consentState, name, valu
 {
 	console.log('in cmpSetCookie');
 
-	if(hasConsentForUseCase(useCase, consentState))
+	if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 	{
 		setCookie({name:name, value:value, daysToLive:daysToLive, isCrossSubdomain:isCrossSubdomain})
 	}
@@ -88,7 +88,7 @@ export const cmpSetSessionCookieWithConsentState= async ({ useCase, consentState
 {
 	console.log('in cmpSetSessionCookie');
 
-	if(hasConsentForUseCase(useCase, consentState))
+	if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 	{
 		setSessionCookie({name:name, value:value})
 	}

@@ -1,8 +1,9 @@
 import { storage as libsStorage } from '@guardian/libs';
-import type { ConsentUseCases } from './types/consentUseCases';
-import { hasConsentForUseCase } from './hasConsentForUseCase';
+import { hasConsentForUseCaseWithConsentState } from './hasConsentForUseCase';
+import { onConsent } from './onConsent';
 import { ConsentState } from './types';
-import { onConsent } from '.';
+import type { ConsentUseCases } from './types/consentUseCases';
+
 
 export const storageOptions = [
 	"localStorage",
@@ -37,7 +38,7 @@ class StorageFactory {
 	 * @param key - the name of the item
 	 */
 	async get(useCase: ConsentUseCases, key: string): Promise<unknown> {
-		const consentState = await onConsent();
+			const consentState = await onConsent();
 		return(this.getWithConsentState(useCase, consentState, key))
 	}
 
@@ -50,7 +51,7 @@ class StorageFactory {
 	 */
 	getWithConsentState(useCase: ConsentUseCases, consentState: ConsentState, key: string): unknown {
 		console.log('in cmp get storage');
-		if(hasConsentForUseCase(useCase, consentState))
+		if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': {
@@ -94,7 +95,7 @@ class StorageFactory {
 	 */
 	setWithConsentState(useCase:ConsentUseCases, consentState: ConsentState, key: string, value: unknown, expires?: string | number | Date): void {
 		console.log('in cmp set storage');
-		if(hasConsentForUseCase(useCase, consentState))
+		if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': return libsStorage.local.set(key, value, expires)
@@ -158,7 +159,7 @@ class StorageFactory {
 	 * @param key - the name of the item
 	 */
 	getRawWithConsentState(useCase: ConsentUseCases, consentState: ConsentState, key: string): string | null {
-		if(hasConsentForUseCase(useCase, consentState))
+		if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': {
@@ -197,7 +198,7 @@ class StorageFactory {
 	 * @param value - the data to save
 	 */
 	setRawWithConsentState(useCase: ConsentUseCases, consentState: ConsentState, key: string, value: string): void {
-		if(hasConsentForUseCase(useCase, consentState))
+		if(hasConsentForUseCaseWithConsentState(useCase, consentState))
 		{
 			switch(this.#storageHandler) {
 				case 'localStorage': return libsStorage.local.setRaw(key, value)
