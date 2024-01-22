@@ -1,8 +1,21 @@
 //import { onConsent } from './onConsent';
+import { cmp } from '.';
+import { onConsent } from './onConsent';
 import { ConsentState } from './types';
 import type { ConsentUseCases } from './types/consentUseCases';
 
-export const hasConsentForUseCase = (useCase: ConsentUseCases, consentState: ConsentState): boolean =>
+export const hasConsentForUseCase = async (useCase: ConsentUseCases): Promise<boolean> =>
+{
+	if(cmp.hasInitialised())
+	{
+		const consentState = await onConsent();
+		const hasconsent = hasConsentForUseCaseWithConsentState(useCase, consentState);
+		return(hasconsent);
+	}
+	else return(false);
+}
+
+export const hasConsentForUseCaseWithConsentState = (useCase: ConsentUseCases, consentState: ConsentState): boolean =>
 {
 
 	/*console.log(`consentState.tcfv2?.consents['1']: ${consentState.tcfv2?.consents['1']}`);
@@ -32,6 +45,7 @@ export const hasConsentForUseCase = (useCase: ConsentUseCases, consentState: Con
 			else return(false)
 		}
 		case "Essential": return(true) //could check for allow-list of essential cookies/storage here in the future
+		case "No consent required": return(true)
 		default: return(false)
 	}
 

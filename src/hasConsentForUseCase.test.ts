@@ -1,6 +1,6 @@
-import type { TCFv2ConsentState } from './types/tcfv2';
-import { hasConsentForUseCase } from './hasConsentForUseCase';
+import { hasConsentForUseCaseWithConsentState } from './hasConsentForUseCase';
 import { ConsentState } from './types';
+import type { TCFv2ConsentState } from './types/tcfv2';
 
 //TODO: add tests for all use-cases
 
@@ -47,7 +47,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			canTarget: true,
 			framework: 'tcfv2',
 		};
-		const hasConsent = hasConsentForUseCase('Targeted advertising', consentState);
+		const hasConsent = hasConsentForUseCaseWithConsentState('Targeted advertising', consentState);
 		expect(hasConsent).toEqual(true);
 	});
 	test('Targeted advertising has no consent when canTarget is false', async () => {
@@ -56,7 +56,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			canTarget: false,
 			framework: 'tcfv2',
 		};
-		const hasConsent = hasConsentForUseCase('Targeted advertising', consentState);
+		const hasConsent = hasConsentForUseCaseWithConsentState('Targeted advertising', consentState);
 		expect(hasConsent).toEqual(false);
 	});
 	test('Essential has consent even when ConsentState has no consents', async () => {
@@ -65,7 +65,7 @@ describe('cmpStorage.hasConsentForUseCase returns the expected consent', () => {
 			canTarget: false,
 			framework: 'tcfv2',
 		};
-		const hasConsent = hasConsentForUseCase('Essential', consentState);
+		const hasConsent = hasConsentForUseCaseWithConsentState('Essential', consentState);
 		expect(hasConsent).toEqual(true);
 	});
 });
