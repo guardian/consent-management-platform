@@ -1,5 +1,5 @@
 ---
-'@guardian/consent-management-platform': patch
+'@guardian/consent-management-platform': minor
 ---
 
 -   Adding the includeGppApi param to the sourcepoint config for CCPA.
