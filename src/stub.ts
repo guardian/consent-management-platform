@@ -21,6 +21,7 @@ export const stub = (framework: Framework): void => {
 			stub_uspapi_ccpa();
 			break;
 		default:
+			stub_tcfv2();
 			break;
 	}
 };
