@@ -183,8 +183,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 				},
 			};
 			break;
-		default:
-			break;
 	}
 
 	// TODO use libs function loadScript,
