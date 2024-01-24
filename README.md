@@ -23,7 +23,7 @@ and TCFv2 to everyone else.
   * [`cmp.willShowPrivacyMessageSync()`](#cmpwillshowprivacymessagesync)
   * [`cmp.showPrivacyManager()`](#cmpshowprivacymanager)
 - [Using Consent](#using-consent)
-  * [`onConsentChange(callback)`](#onconsentchangecallback)
+  * [`onConsentChange(callback, final?)`](#onconsentchangecallback-final)
   * [`onConsent()`](#onconsent)
   * [`getConsentFor(vendor, consentState)`](#getconsentforvendor-consentstate)
 - [Disabling Consent](#disabling-consent)
@@ -172,7 +172,7 @@ import {
 } from '@guardian/consent-management-platform';
 ```
 
-### `onConsentChange(callback)`
+### `onConsentChange(callback, final?)`
 
 returns: `void`
 
@@ -183,6 +183,11 @@ An event listener that invokes callbacks whenever the consent state:
 
 If the consent state has already been acquired when `onConsentChange` is called,
 the callback will be invoked immediately.
+
+Passing `true` for the optional `final` parameter guarantees that the callback
+will be executed after all other callbacks that haven't been registered with the flag when consent state changes.
+If more than one callback registered with `final = true`, they will be executed in the order in which they were registered
+when consent changes.
 
 #### `callback(consentState)`
 
