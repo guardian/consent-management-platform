@@ -14,6 +14,7 @@ import {
 } from './server';
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
+import { recordVersionOfCMP, selfCheckCMPIsNotVisible, selfCheckCMPIsOnPage, selfCheckPrivacySettingsPanelIsOpen, selfCheckTopAdDidNotLoad, selfCheckTopAdHasLoaded, selfClearCookies, selfClearLocalStorage, selfClickAcceptAllCookies, selfClickRejectAllSecondLayer, selfClickSaveAndCloseSecondLayer, selfLoadPage, selfMakeNewBrowser, selfMakeNewPage, selfOpenPrivacySettingsPanel, selfReloadPage } from './consumer-self-test/consumer-self-test';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -111,3 +112,22 @@ export const onConsentChange = isServerSide
 export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
+
+
+export const sharedClearCookies = selfClearCookies;
+export const sharedClearLocalStorage = selfClearLocalStorage;
+export const sharedMakeNewBrowser = selfMakeNewBrowser;
+export const sharedMakeNewPage = selfMakeNewPage;
+export const sharedClickAcceptAllCookies = selfClickAcceptAllCookies;
+export const sharedOpenPrivacySettingsPanel = selfOpenPrivacySettingsPanel;
+export const sharedCheckPrivacySettingsPanelIsOpen = selfCheckPrivacySettingsPanelIsOpen;
+export const sharedClickSaveAndCloseSecondLayer = selfClickSaveAndCloseSecondLayer;
+export const sharedClickRejectAllSecondLayer = selfClickRejectAllSecondLayer;
+export const sharedCheckTopAdHasLoaded = selfCheckTopAdHasLoaded;
+export const sharedCheckTopAdDidNotLoad = selfCheckTopAdDidNotLoad;
+export const sharedRecordVersionOfCMP = recordVersionOfCMP;
+export const sharedCheckCMPIsOnPage = selfCheckCMPIsOnPage;
+export const sharedCheckCMPIsNotVisible = selfCheckCMPIsNotVisible;
+export const sharedLoadPage = selfLoadPage;
+export const sharedReloadPage = selfReloadPage;
+

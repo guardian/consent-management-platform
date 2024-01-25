@@ -37,10 +37,6 @@
 		"validate": "npm-run-all tsc test lint build",
 		"prepare": "husky install"
 	},
-	"dependencies": {
-    "playwright-aws-lambda": "^0.10.0",
-    "playwright-core": "^1.40.1"
-	},
 	"prettier": "@guardian/prettier",
 	"devDependencies": {
 		"@babel/core": "^7.23.2",
@@ -80,6 +76,8 @@
 		"markdown-toc": "^1",
 		"np": "^8.0.4",
 		"npm-run-all": "^4",
+		"playwright-aws-lambda": "^0.10.0",
+    "playwright-core": "^1.40.1",
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.1",
 		"rollup": "^2.70.1",
@@ -95,6 +93,8 @@
 		"wait-for-expect": "^3"
 	},
 	"peerDependencies": {
-		"@guardian/libs": "^15.0.0"
+		"@guardian/libs": "^15.0.0",
+		"playwright-aws-lambda": "^0.10.0",
+    "playwright-core": "^1.40.1"
 	}
 }
