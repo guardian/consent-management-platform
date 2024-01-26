@@ -2,12 +2,14 @@
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 
+export class ConsumerSelfTest {
+
 /**
  * This function console logs an info message.
  *
  * @param {string} message
  */
-export const log_info = (message: string): void => {
+log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
 };
 
@@ -16,7 +18,7 @@ export const log_info = (message: string): void => {
  *
  * @param {string} message
  */
-export const log_error = (message: string): void => {
+log_error = (message: string): void => {
 	console.error(`(cmp monitoring): error: ${message}`);
 };
 
@@ -26,9 +28,9 @@ export const log_error = (message: string): void => {
  * @param {CDPSession} client
  * @return {*}  {Promise<void>}
  */
-export const selfClearCookies = async (page: Page): Promise<void> => {
+elfClearCookies = async (page: Page): Promise<void> => {
 	await page.context().clearCookies();
-	log_info(`Cleared Cookies`);
+	this.log_info(`Cleared Cookies`);
 };
 
 /**
@@ -37,10 +39,10 @@ export const selfClearCookies = async (page: Page): Promise<void> => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const selfClearLocalStorage = async (page: Page): Promise<void> => {
+selfClearLocalStorage = async (page: Page): Promise<void> => {
 	await page.evaluate(() => window.localStorage.clear());
 	await page.evaluate(() => window.sessionStorage.clear());
-	log_info(`Cleared LocalStorage`);
+	this.log_info(`Cleared LocalStorage`);
 
 };
 
@@ -50,7 +52,7 @@ export const selfClearLocalStorage = async (page: Page): Promise<void> => {
  * @param {boolean} debugMode
  * @return {*}  {Promise<Browser>}
  */
-export const selfMakeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
+selfMakeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	const browser = await launchChromium({headless:!debugMode});
 	return browser;
 };
@@ -61,7 +63,7 @@ export const selfMakeNewBrowser = async (debugMode: boolean): Promise<Browser> =
  * @param {BrowserContext} context
  * @return {*}  {Promise<Page>}
  */
-export const selfMakeNewPage = async (context: BrowserContext): Promise<Page> => {
+selfMakeNewPage = async (context: BrowserContext): Promise<Page> => {
 	const page = await context.newPage();
 	return page;
 };
@@ -74,7 +76,7 @@ export const selfMakeNewPage = async (context: BrowserContext): Promise<Page> =>
  * @param {Page} page
  * @param {string} textToPrintToConsole
  */
-export const selfClickAcceptAllCookies = async (page: Page, cmpContainer: string, firstLayerAcceptAll: string) => {
+selfClickAcceptAllCookies = async (page: Page, cmpContainer: string, firstLayerAcceptAll: string) => {
 
 	const acceptAllButton = page.frameLocator(cmpContainer).locator(firstLayerAcceptAll);
   	await acceptAllButton.click();
@@ -86,14 +88,14 @@ export const selfClickAcceptAllCookies = async (page: Page, cmpContainer: string
  * @param {Config} config
  * @param {Page} page
  */
-export const selfOpenPrivacySettingsPanel = async (iframeDomainSecondLayer: string, page: Page, cmpContainer: string, firstLayerManageCookies: string, secondLayerHeadLine: string) => {
-	log_info(`Loading privacy settings panel: Start`);
+selfOpenPrivacySettingsPanel = async (iframeDomainSecondLayer: string, page: Page, cmpContainer: string, firstLayerManageCookies: string, secondLayerHeadLine: string) => {
+	this.log_info(`Loading privacy settings panel: Start`);
 
 	const manageButton = page.frameLocator(cmpContainer).locator(firstLayerManageCookies);
 	await manageButton.click();
-	await selfCheckPrivacySettingsPanelIsOpen(iframeDomainSecondLayer, page, secondLayerHeadLine);
+	await this.selfCheckPrivacySettingsPanelIsOpen(iframeDomainSecondLayer, page, secondLayerHeadLine);
 
-	log_info(`Loading privacy settings panel: Complete`);
+	this.log_info(`Loading privacy settings panel: Complete`);
 };
 
 /**
@@ -104,13 +106,13 @@ export const selfOpenPrivacySettingsPanel = async (iframeDomainSecondLayer: stri
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const selfCheckPrivacySettingsPanelIsOpen = async (
+selfCheckPrivacySettingsPanelIsOpen = async (
 	iframeDomainSecondLayer: String,
 	page: Page,
 	secondLayerHeadline: string
 ): Promise<void> => {
 
-	log_info(`Waiting for Privacy Settings Panel: Start`);
+	this.log_info(`Waiting for Privacy Settings Panel: Start`);
 
 	const secondLayer =  page.frameLocator('[src*="' + iframeDomainSecondLayer + '"]').locator(secondLayerHeadline);
 	await secondLayer.waitFor();
@@ -119,7 +121,7 @@ export const selfCheckPrivacySettingsPanelIsOpen = async (
 		throw Error('Second Layer is not present on page');
 	}
 
-	log_info(`Waiting for Privacy Settings Panel: Complete`);
+	this.log_info(`Waiting for Privacy Settings Panel: Complete`);
 };
 
 /**
@@ -129,16 +131,16 @@ export const selfCheckPrivacySettingsPanelIsOpen = async (
  * @param {Config} config
  * @param {Page} page
  */
-export const selfClickSaveAndCloseSecondLayer = async (
+selfClickSaveAndCloseSecondLayer = async (
 	iframeDomainSecondLayer: string,
 	page: Page,
 	secondLayerSaveAndExit: string
 ) => {
-	log_info(`Clicking on save and close button: Start`);
+	this.log_info(`Clicking on save and close button: Start`);
 
 	await page.frameLocator('[src*="' + iframeDomainSecondLayer + '"]').locator(secondLayerSaveAndExit).click();
 
-	log_info(`Clicking on save and exit button: Complete`);
+	this.log_info(`Clicking on save and exit button: Complete`);
 };
 
 /**
@@ -148,12 +150,12 @@ export const selfClickSaveAndCloseSecondLayer = async (
  * @param {Config} config
  * @param {Page} page
  */
-export const selfClickRejectAllSecondLayer = async (iframeDomainSecondLayer: string, page: Page, secondLayerRejectAll: string) => {
-	log_info(`Clicking on reject all button: Start`);
+selfClickRejectAllSecondLayer = async (iframeDomainSecondLayer: string, page: Page, secondLayerRejectAll: string) => {
+	this.log_info(`Clicking on reject all button: Start`);
 
 	await page.frameLocator('[src*="' + iframeDomainSecondLayer + '"]').locator(secondLayerRejectAll).click();
 
-	log_info(`Clicking on reject all button: Complete`);
+	this.log_info(`Clicking on reject all button: Complete`);
 };
 
 /**
@@ -164,9 +166,9 @@ export const selfClickRejectAllSecondLayer = async (iframeDomainSecondLayer: str
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const selfCheckTopAdHasLoaded = async (page: Page) => {
+selfCheckTopAdHasLoaded = async (page: Page) => {
 
-	log_info(`Waiting for interaction with GAM: Start`);
+	this.log_info(`Waiting for interaction with GAM: Start`);
 
 	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
 
@@ -204,7 +206,7 @@ export const selfCheckTopAdHasLoaded = async (page: Page) => {
 	);
 	await gamRequestPromise;
 
-	log_info(`Waiting for interaction with GAM: Complete`);
+	this.log_info(`Waiting for interaction with GAM: Complete`);
 };
 
 /**
@@ -215,27 +217,27 @@ export const selfCheckTopAdHasLoaded = async (page: Page) => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const selfCheckTopAdDidNotLoad = async (page: Page, topAdvert: string) => {
+selfCheckTopAdDidNotLoad = async (page: Page, topAdvert: string) => {
 
-	log_info(`Checking ads do not load: Start`);
+	this.log_info(`Checking ads do not load: Start`);
 
 	const topAds = page.locator(topAdvert);
 	const topAdsCount = await topAds.count();
 
 	if (topAdsCount != 0) {
-		log_error(`Checking ads do not load: Failed`);
+		this.log_error(`Checking ads do not load: Failed`);
 		throw Error('Top above nav frame present on page');
 	}
 
-	log_info(`Checking ads do not load: Complete`);
+	this.log_info(`Checking ads do not load: Complete`);
 };
 
 // TODO: check version of cmp loaded in the page.
-export const recordVersionOfCMP = async (page: Page) => {
+recordVersionOfCMP = async (page: Page) => {
 
-	log_info('* Getting the version of Sourcepoint CMP');
+	this.log_info('* Getting the version of Sourcepoint CMP');
 
-	log_info(await page.evaluate('window.guCmpHotFix.cmp.version'));
+	this.log_info(await page.evaluate('window.guCmpHotFix.cmp.version'));
 
 };
 
@@ -245,18 +247,17 @@ export const recordVersionOfCMP = async (page: Page) => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const selfCheckCMPIsOnPage = async (page: Page, cmpContainer: string): Promise<void> => {
+selfCheckCMPIsOnPage = async (page: Page, cmpContainer: string): Promise<void> => {
 
-	log_info(`Waiting for CMP: Start`);
+	this.log_info(`Waiting for CMP: Start`);
 
 	const cmpl =  page.locator(cmpContainer);
 	await cmpl.waitFor();
-	await recordVersionOfCMP(page);
 	if (!(await cmpl.isVisible())) {
 		throw Error('CMP is not present on page');
 	}
 
-	log_info(`Waiting for CMP: Complete`);
+	this.log_info(`Waiting for CMP: Complete`);
 };
 
 /**
@@ -265,9 +266,9 @@ export const selfCheckCMPIsOnPage = async (page: Page, cmpContainer: string): Pr
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const selfCheckCMPIsNotVisible = async (page: Page, cmpContainer: string): Promise<void> => {
+selfCheckCMPIsNotVisible = async (page: Page, cmpContainer: string): Promise<void> => {
 
-	log_info(`Checking CMP is Hidden: Start`);
+	this.log_info(`Checking CMP is Hidden: Start`);
 
 	const cmpl = page.locator(cmpContainer);
 
@@ -275,7 +276,7 @@ export const selfCheckCMPIsNotVisible = async (page: Page, cmpContainer: string)
 		throw Error('CMP still present on page');
 	}
 
-	log_info('CMP hidden or removed from page');
+	this.log_info('CMP hidden or removed from page');
 };
 
 /**
@@ -285,10 +286,10 @@ export const selfCheckCMPIsNotVisible = async (page: Page, cmpContainer: string)
  * @param {string} url
  * @return {*}  {Promise<void>}
  */
-export const selfLoadPage = async (page: Page, url: string): Promise<void> => {
+selfLoadPage = async (page: Page, url: string): Promise<void> => {
 
-	log_info(`Loading page: Start`);
-	log_info(`Loading page ${url}`);
+	this.log_info(`Loading page: Start`);
+	this.log_info(`Loading page ${url}`);
 
 	const response = await page.goto(url, {
 		waitUntil: 'domcontentloaded',
@@ -298,12 +299,12 @@ export const selfLoadPage = async (page: Page, url: string): Promise<void> => {
 	// If the response status code is not a 2xx success code
 	if (response != null) {
 		if (response.status() < 200 || response.status() > 299) {
-			log_error(`Loading URL: Error: Status ${response.status()}`);
+			this.log_error(`Loading URL: Error: Status ${response.status()}`);
 			throw 'Failed to load page!';
 		}
 	}
 
-	log_info(`Loading page: Complete`);
+	this.log_info(`Loading page: Complete`);
 };
 
 /**
@@ -311,19 +312,19 @@ export const selfLoadPage = async (page: Page, url: string): Promise<void> => {
  *
  * @param {Page} page
  */
-export const selfReloadPage = async (page: Page) => {
+selfReloadPage = async (page: Page) => {
 
-	log_info(`Reloading page: Start`);
+	this.log_info(`Reloading page: Start`);
 
 	const reloadResponse = await page.reload({
 		waitUntil: 'domcontentloaded',
 		timeout: 30000,
 	});
 	if (!reloadResponse) {
-		log_error(`Reloading page: Failed`);
+		this.log_error(`Reloading page: Failed`);
 		throw 'Failed to refresh page!';
 	}
-	
-	log_info(`Reloading page: Complete`);
-};
 
+	this.log_info(`Reloading page: Complete`);
+};
+}
