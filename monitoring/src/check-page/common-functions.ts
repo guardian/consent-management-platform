@@ -5,24 +5,24 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
-import type { Browser, BrowserContext, Page } from 'playwright-core';
 import {
-	selfCheckCMPIsNotVisible,
-	selfCheckCMPIsOnPage,
-	selfCheckPrivacySettingsPanelIsOpen,
-	selfCheckTopAdDidNotLoad,
-	selfCheckTopAdHasLoaded,
-	selfClearCookies,
-	selfClearLocalStorage,
-	selfClickAcceptAllCookies,
-	selfClickRejectAllSecondLayer,
-	selfClickSaveAndCloseSecondLayer,
-	selfLoadPage,
-	selfMakeNewBrowser,
-	selfMakeNewPage,
-	selfOpenPrivacySettingsPanel,
-	selfReloadPage
-} from '../../../src/consumer-self-test/consumer-self-test';
+	sharedCheckCMPIsNotVisible,
+	sharedCheckCMPIsOnPage,
+	sharedCheckPrivacySettingsPanelIsOpen,
+	sharedCheckTopAdDidNotLoad,
+	sharedCheckTopAdHasLoaded,
+	sharedClearCookies,
+	sharedClearLocalStorage,
+	sharedClickAcceptAllCookies,
+	sharedClickRejectAllSecondLayer,
+	sharedClickSaveAndCloseSecondLayer,
+	sharedLoadPage,
+	sharedMakeNewBrowser,
+	sharedMakeNewPage,
+	sharedOpenPrivacySettingsPanel,
+	sharedReloadPage
+} from '@guardian/consent-management-platform';
+import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -51,7 +51,7 @@ export const log_error = (message: string): void => {
  * @return {*}  {Promise<void>}
  */
 export const clearCookies = async (page: Page): Promise<void> => {
-	await selfClearCookies(page);
+	await sharedClearCookies(page);
 
 };
 
@@ -62,7 +62,7 @@ export const clearCookies = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<void>}
  */
 export const clearLocalStorage = async (page: Page): Promise<void> => {
-	await selfClearLocalStorage(page);
+	await sharedClearLocalStorage(page);
 	//log_info(`Cleared LocalStorage`);
 };
 
@@ -73,7 +73,7 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	const browser = await selfMakeNewBrowser(debugMode);
+	const browser = await sharedMakeNewBrowser(debugMode);
 	return browser;
 };
 
@@ -84,7 +84,7 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
  * @return {*}  {Promise<Page>}
  */
 export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
-	const page = await selfMakeNewPage(context);
+	const page = await sharedMakeNewPage(context);
 	return page;
 };
 
@@ -100,7 +100,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
 
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
 
-  	await selfClickAcceptAllCookies(page, ELEMENT_ID.CMP_CONTAINER, ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+  	await sharedClickAcceptAllCookies(page, ELEMENT_ID.CMP_CONTAINER, ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
@@ -113,7 +113,7 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
  */
 export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 
-	await selfOpenPrivacySettingsPanel(config.iframeDomainSecondLayer, page, ELEMENT_ID.CMP_CONTAINER, ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE)
+	await sharedOpenPrivacySettingsPanel(config.iframeDomainSecondLayer, page, ELEMENT_ID.CMP_CONTAINER, ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL, ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE)
 
 };
 
@@ -130,7 +130,7 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	page: Page,
 ): Promise<void> => {
 
-	await selfCheckPrivacySettingsPanelIsOpen(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	await sharedCheckPrivacySettingsPanelIsOpen(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 
 };
 
@@ -147,7 +147,7 @@ export const clickSaveAndCloseSecondLayer = async (
 ) => {
 	//log_info(`Clicking on save and close button: Start`);
 
-	await selfClickSaveAndCloseSecondLayer(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+	await sharedClickSaveAndCloseSecondLayer(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 
 	//log_info(`Clicking on save and exit button: Complete`);
 };
@@ -162,7 +162,7 @@ export const clickSaveAndCloseSecondLayer = async (
 export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 	//log_info(`Clicking on reject all button: Start`);
 
-	await selfClickRejectAllSecondLayer(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL)
+	await sharedClickRejectAllSecondLayer(config.iframeDomainSecondLayer, page, ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL)
 
 	//log_info(`Clicking on reject all button: Complete`);
 };
@@ -178,7 +178,7 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
 export const checkTopAdHasLoaded = async (page: Page) => {
 	//log_info(`Waiting for interaction with GAM: Start`);
 
-	await selfCheckTopAdHasLoaded(page);
+	await sharedCheckTopAdHasLoaded(page);
 
 	//log_info(`Waiting for interaction with GAM: Complete`);
 };
@@ -194,7 +194,7 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 export const checkTopAdDidNotLoad = async (page: Page) => {
 	//log_info(`Checking ads do not load: Start`);
 
-	await selfCheckTopAdDidNotLoad(page, ELEMENT_ID.TOP_ADVERT);
+	await sharedCheckTopAdDidNotLoad(page, ELEMENT_ID.TOP_ADVERT);
 
 	//log_info(`Checking ads do not load: Complete`);
 };
@@ -218,7 +218,7 @@ export const recordVersionOfCMP = async (page: Page) => {
 export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 	//log_info(`Waiting for CMP: Start`);
 
-	await selfCheckCMPIsOnPage(page, ELEMENT_ID.CMP_CONTAINER);
+	await sharedCheckCMPIsOnPage(page, ELEMENT_ID.CMP_CONTAINER);
 
 	//log_info(`Waiting for CMP: Complete`);
 };
@@ -232,7 +232,7 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
 export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 	//log_info(`Checking CMP is Hidden: Start`);
 
-	await selfCheckCMPIsNotVisible(page, ELEMENT_ID.CMP_CONTAINER);
+	await sharedCheckCMPIsNotVisible(page, ELEMENT_ID.CMP_CONTAINER);
 
 	//log_info('CMP hidden or removed from page');
 };
@@ -249,7 +249,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	//log_info(`Loading page: Start`);
 	//log_info(`Loading page ${url}`);
 
-	await selfLoadPage(page, url);
+	await sharedLoadPage(page, url);
 
 	//log_info(`Loading page: Complete`);
 };
@@ -262,7 +262,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 export const reloadPage = async (page: Page) => {
 	//log_info(`Reloading page: Start`);
 
-	await selfReloadPage(page);
+	await sharedReloadPage(page);
 
 	//log_info(`Reloading page: Complete`);
 };
