@@ -88,9 +88,12 @@
 		"svelte": "~3.59.1",
 		"tslib": "^2.5.3",
 		"typescript": "~5.1.3",
-		"wait-for-expect": "^3"
+		"wait-for-expect": "^3",
+		"playwright-core": "^1.40.1"
 	},
 	"peerDependencies": {
-		"@guardian/libs": "^15.0.0"
-	}
+		"@guardian/libs": "^15.0.0",
+		"playwright-core": "^1.40.1"
+	},
+	"packageManager": "yarn@1.22.19"
 }
