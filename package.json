@@ -45,7 +45,7 @@
 		"@babel/preset-env": "^7.23.9",
 		"@babel/preset-typescript": "^7.23.3",
 		"@babel/runtime": "^7.23.9",
-		"@changesets/cli": "^2.26.2",
+		"@changesets/cli": "^2.27.1",
 		"@guardian/eslint-config-typescript": "^7.0.0",
 		"@guardian/libs": "15.0.0",
 		"@guardian/prettier": "^4.0.0",
