@@ -13,7 +13,8 @@
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch": "^3.490.0",
+		"@aws-sdk/client-cloudwatch": "^3.490.0",
+		"@guardian/consent-management-platform": "13.7.3",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "inquirer": "^8.2.6",

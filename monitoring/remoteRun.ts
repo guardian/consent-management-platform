@@ -90,6 +90,7 @@ async function main() {
 			process.exit(0);
 		})
 		.catch((error: Error) => {
+			console.log(error);
 			process.exit(1);
 		});
 }
