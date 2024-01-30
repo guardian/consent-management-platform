@@ -21,7 +21,7 @@ export const clickAcceptAllCookies = async (page: Page, textToPrintToConsole: st
 
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
 
-	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator('button.sp_choice_type_ACCEPT_ALL');
+	const acceptAllButton = page.frameLocator('[id*="sp_message_iframe"]').locator('button.sp_choice_type_11');
   	await acceptAllButton.click();
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
