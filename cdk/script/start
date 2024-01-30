@@ -2,4 +2,4 @@
 
 set -e
 
-yarn test:dev
+pnpm test:dev

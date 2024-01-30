@@ -4,18 +4,18 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
 
 ## Useful commands
 
--   make sure you've run `yarn install` in the parent directory!
+-   make sure you've run `pnpm install` in the parent directory!
 -   you require `frontendDeveloper` janus access
--   `yarn install` to install dependencies
--   `yarn run test:dev` to run the Jest unit tests in watch mode
--   `yarn run lint` to lint the code using ESLint
--   `yarn start` to run lambda handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
--   `AWS_PROFILE=frontend yarn run remote` to execute lambda functions in all regions. This is an interactive CLI which permits the user to select the Environment/Stage and AWS Region.
+-   `pnpm install` to install dependencies
+-   `pnpm run test:dev` to run the Jest unit tests in watch mode
+-   `pnpm run lint` to lint the code using ESLint
+-   `pnpm start` to run lambda handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
+-   `AWS_PROFILE=frontend pnpm run remote` to execute lambda functions in all regions. This is an interactive CLI which permits the user to select the Environment/Stage and AWS Region.
 
 ### Local Run Command
 
 ```sh
-  yarn start --env={ENVIRONMENT} --jurisdiction={JURISDICTION}
+  pnpm start --env={ENVIRONMENT} --jurisdiction={JURISDICTION}
 ```
 
 where ENVIRONMENT = local, code or prod
@@ -24,13 +24,13 @@ and JURISDICTION = aus, ccpa or tcfv2
 e.g.
 
 ```sh
-    yarn start --env=code --jurisdiction=ccpa
+    pnpm start --env=code --jurisdiction=ccpa
 ```
 
 This CLI tool falls back to an interactive tool if any of the parameters passed are incorrect or if the user runs
 
 ```sh
-    yarn start
+    pnpm start
 ```
 
 If you get the following error
@@ -38,7 +38,7 @@ If you get the following error
 ║ Looks like Playwright Test or Playwright was just installed or updated. ║
 ║ Please run the following command to download new browsers:              ║
 ║                                                                         ║
-║     yarn playwright install                                             ║
+║     pnpm playwright install                                             ║
 
 delete the node_modules and run  `npx playwright install chromium`.
 

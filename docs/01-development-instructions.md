@@ -8,22 +8,22 @@ Make sure you have installed [Node.js](https://nodejs.org). See the [`.nvmrc`](.
 
 We recommend using [nvm](https://github.com/creationix/nvm). It is great at managing multiple versions of Node.js on one machine, especially when [configured to automatically use the required version](https://github.com/nvm-sh/nvm#deeper-shell-integration).
 
-### Yarn
+### pnpm
 
-We use [Yarn](https://yarnpkg.com/en/) for managing our dependencies.
+We use [pnpm](https://pnpm.io/) for managing our dependencies.
 
 ## Running instructions
 
 ```
 $ git clone git@github.com:guardian/consent-management-platform.git
 $ cd consent-management-platform
-$ yarn
+$ pnpm
 ```
 
 ## Dev Server
 
 ```bash
-$ yarn dev
+$ pnpm dev
 ```
 
 ## IDE setup
@@ -34,10 +34,10 @@ We recommend using [VSCode](https://code.visualstudio.com/).
 
 ### CMP App
 
-1. In the base directory, Run yarn validate to check lint, test and build commands. The command below executes all the required commands to ensure your code passed code quality tests:
+1. In the base directory, Run pnpm validate to check lint, test and build commands. The command below executes all the required commands to ensure your code passed code quality tests:
 
 ```
-$ yarn validate
+$ pnpm validate
 ```
 
 This runs our linting tool, the TypeScript compiler and our tests.
@@ -45,46 +45,46 @@ This runs our linting tool, the TypeScript compiler and our tests.
 You can also run these tasks individually:
 
 ```
-$ yarn lint
-$ yarn tsc
-$ yarn test
+$ pnpm lint
+$ pnpm tsc
+$ pnpm test
 ```
 
 If you get lint errors, you can attempt to automatically fix them with:
 
 ```
-$ yarn fix
+$ pnpm fix
 ```
 
-2. In the base directory, Run yarn start to serve the test-page.
+2. In the base directory, Run pnpm start to serve the test-page.
 
 ```
-$ yarn start
+$ pnpm start
 ```
 
 ### Monitoring Directory
 
-1. Change directory to monitoring and run yarn validate to check lint, test and build commands
+1. Change directory to monitoring and run pnpm validate to check lint, test and build commands
 
 ```
 $ cd monitoring
-$ yarn validate
+$ pnpm validate
 ```
 
-2. Run yarn start and test against prod
+2. Run pnpm start and test against prod
 
 ```
-$ yarn start --env=prod --jurisdiction=tcfv2
+$ pnpm start --env=prod --jurisdiction=tcfv2
 ```
 
 ### Symlink
 
-The yarn link command allows you to load a module from anywhere on your computer.
+The pnpm link command allows you to load a module from anywhere on your computer.
 
 1. In the command line in your terminal, navigate to the base directory. Run:
 
 ```
-yarn link
+pnpm link
 ```
 
 This will create a global link allowing consent-management-platform to be globally accessible by your other projects.
@@ -93,7 +93,7 @@ This will create a global link allowing consent-management-platform to be global
 
 ```
 
-yarn link @guardian/consent-management-platform
+pnpm link @guardian/consent-management-platform
 
 ```
 
@@ -104,7 +104,7 @@ This is where you link the repo to the dependent component. Note: The link name 
 In your parent project terminal, go ahead and run npm unlink fancy-button to unlink the dependency.
 
 ```
-yarn unlink @guardian/consent-management-platform
+pnpm unlink @guardian/consent-management-platform
 
 ```
 
@@ -122,7 +122,7 @@ Changes are automatically released to [NPM][].
 
 This repository uses [changesets](https://github.com/changesets/changesets) for version management
 
-To release a new version with your changes, run `yarn changeset add` and follow the prompts. This will create a new changeset file in the `.changeset` directory. Commit this file with your PR.
+To release a new version with your changes, run `pnpm changeset add` and follow the prompts. This will create a new changeset file in the `.changeset` directory. Commit this file with your PR.
 
 When your PR is merged, changeset will analyse the changes and create a PR to release the new version.
 
