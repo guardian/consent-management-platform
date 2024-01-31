@@ -11,7 +11,7 @@ module.exports = {
 		'@guardian/eslint-config-typescript',
 	],
 	globals: { __PACKAGE_VERSION__: 'readonly' },
-	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', 'cypress.config.ts', 'rollup.config.js', 'countries.ts', 'index.ts'],
+	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', 'cypress.config.ts', 'rollup.config.js', 'countries.ts'],
 	rules: {
 		// a lot of the 3rd party code uses these
 		'no-underscore-dangle': 0,

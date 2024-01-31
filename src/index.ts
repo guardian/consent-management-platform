@@ -18,7 +18,7 @@ import { initVendorDataManager } from './vendorDataManager';
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 if (!isServerSide) {
-	window.guCmpHotFix ||= {};
+	if(typeof window.guCmpHotFix === 'undefined')  window.guCmpHotFix = {};
 }
 
 let _willShowPrivacyMessage: undefined | boolean;
