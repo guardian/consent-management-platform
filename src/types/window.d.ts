@@ -64,10 +64,7 @@ declare global {
 						message_type: string,
 						pmData: string,
 					) => void;
-					onMessageChoiceError: (
-						message_type: string,
-						err: string,
-					) => void;
+					onMessageChoiceError: (message_type: string, err: string) => void;
 					onPMCancel: (message_type: string) => void;
 					onSPPMObjectReady: () => void;
 					onError: (

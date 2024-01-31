@@ -34,11 +34,12 @@ const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled() || isServerSide) return;
 
 	if (window.guCmpHotFix.initialised) {
-		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
+		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__) {
 			console.warn('Two different versions of the CMP are running:', [
 				__PACKAGE_VERSION__,
 				window.guCmpHotFix.cmp?.version,
 			]);
+		}
 		return;
 	}
 
@@ -100,7 +101,7 @@ export const cmp: CMP = isServerSide
 			__isDisabled: isDisabled,
 			__enable: enable,
 			__disable: disable,
-	  });
+		});
 
 export const onConsent = isServerSide
 	? serverOnConsent
