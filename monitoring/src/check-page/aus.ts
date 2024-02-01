@@ -1,11 +1,10 @@
+import { checkTopAdHasLoaded, clickAcceptAllCookies } from '@guardian/consent-management-platform';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
-	checkTopAdHasLoaded,
-	clickAcceptAllCookies,
 	loadPage,
 	log_info,
 	makeNewBrowser,
@@ -45,7 +44,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await loadPage(page, url);
 	await checkTopAdHasLoaded(page);
 	await checkCMPIsOnPage(page);
-	await clickAcceptAllCookies(config, page, 'Continue');
+	await clickAcceptAllCookies(page, 'Continue');
 	await checkCMPIsNotVisible(page);
 	await reloadPage(page);
 	await checkTopAdHasLoaded(page);
