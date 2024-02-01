@@ -91,8 +91,8 @@
 		"wait-for-expect": "^3"
 	},
 	"peerDependencies": {
-		"@guardian/libs": "^15.0.0 || ^16.0.0"
-	"playwright-core": "^1.40.1"
+		"@guardian/libs": "^15.0.0 || ^16.0.0",
+		"playwright-core": "^1.40.1"
 	},
 	"packageManager": "yarn@1.22.19"
 }
