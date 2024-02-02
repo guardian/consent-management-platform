@@ -170,7 +170,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 			break;
 		case 'ccpa':
 			window._sp_.config.ccpa = {
-				includeGppApi: true,
+				// includeGppApi: true,
 				targetingParams: {
 					framework,
 				},
