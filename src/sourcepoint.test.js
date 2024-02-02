@@ -49,9 +49,7 @@ describe('Sourcepoint unified', () => {
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);
 				expect(window._sp_.config.gdpr).toBeUndefined;
-				// expect(window._sp_.config.ccpa.includeGppApi).toBeTruthy();
 				expect(window.__uspapi).toBeDefined();
-				// expect(window.__gpp).toBeDefined();
 				expect(window.__tcfapi).toBeUndefined();
 			} else if (framework == 'aus') {
 				expect(
