@@ -11,7 +11,7 @@
  * Important: Keep in sync with list of vendors in README.md
  * *********************/
 
-export type VendorIDType = Record<string, string[]>;
+type VendorIDType = Record<string, string[]>;
 
 export const TCFV2VendorIDs: VendorIDType = {
 	// keep the list in README.md up to date with these values
