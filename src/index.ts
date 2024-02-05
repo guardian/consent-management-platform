@@ -1,5 +1,5 @@
 import { log } from '@guardian/libs';
-import { version as __PACKAGE_VERSION__ } from '../package.json';
+import { version } from '../package.json';
 import { CMP as UnifiedCMP } from './cmp';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as clientGetConsentFor } from './getConsentFor';
@@ -35,9 +35,9 @@ const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled() || isServerSide) return;
 
 	if (window.guCmpHotFix.initialised) {
-		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__) {
+		if (window.guCmpHotFix.cmp?.version !== version) {
 			console.warn('Two different versions of the CMP are running:', [
-				__PACKAGE_VERSION__,
+				version,
 				window.guCmpHotFix.cmp?.version,
 			]);
 		}
@@ -96,7 +96,7 @@ export const cmp: CMP = isServerSide
 			willShowPrivacyMessageSync,
 			hasInitialised,
 			showPrivacyManager,
-			version: __PACKAGE_VERSION__,
+			version: version,
 
 			// special helper methods for disabling CMP
 			__isDisabled: isDisabled,
