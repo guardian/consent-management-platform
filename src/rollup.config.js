@@ -6,6 +6,7 @@ import replace from '@rollup/plugin-replace';
 import strip from '@rollup/plugin-strip';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import json from "@rollup/plugin-json";
 import pkg from '../package.json';
 
 export default {
@@ -23,6 +24,7 @@ export default {
 	],
 	plugins: [
 		typescript(),
+		json(),
 		css(),
 		resolve(),
 		replace({
