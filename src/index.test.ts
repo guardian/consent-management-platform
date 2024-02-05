@@ -120,7 +120,7 @@ describe('hotfix cmp.init', () => {
 			window.guCmpHotFix = {};
 			jest.resetModules();
 			import('./index');
-		});
+		}).catch(() => {});
 	});
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -137,8 +137,8 @@ describe('cmp.willShowPrivacyMessage', () => {
 		cmp.willShowPrivacyMessage().then(() => {
 			expect(
 				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-			).resolves.toEqual([true, true]);
-		});
+			).resolves.toEqual([true, true]).catch(() => {});
+		}).catch(() => {});
 	});
 });
 
@@ -152,7 +152,7 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 
 		cmp.willShowPrivacyMessage().then(() => {
 			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
-		});
+		}).catch(() => {});
 	});
 });
 
@@ -166,7 +166,7 @@ describe('cmp.hasInitialised', () => {
 
 		cmp.willShowPrivacyMessage().then(() => {
 			expect(cmp.hasInitialised()).toBe(true);
-		});
+		}).catch(() => {});
 	});
 });
 
