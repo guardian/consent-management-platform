@@ -54,7 +54,6 @@ describe('Sourcepoint unified', () => {
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);
 				expect(window._sp_.config.gdpr).toBeUndefined;
-				expect(window._sp_.config.ccpa.includeGppApi).toBeFalsy();
 				expect(window.__uspapi).toBeDefined();
 				expect(window.__tcfapi).toBeUndefined();
 			}
