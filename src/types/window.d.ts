@@ -98,9 +98,9 @@ declare global {
 			callback: (tcData: TCData, success: boolean) => void,
 			vendorIDs?: number[],
 		) => void;
-		__gpp?: (
-			command: string,
-			callback: (gppData: GPPData, success: boolean) => void,
-		) => void;
+		// __gpp?: (
+		// 	command: string,
+		// 	callback: (gppData: GPPData, success: boolean) => void,
+		// ) => void;
 	}
 }
