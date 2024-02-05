@@ -1,4 +1,5 @@
 import { log } from '@guardian/libs';
+import { version as __PACKAGE_VERSION__ } from '../package.json';
 import { CMP as UnifiedCMP } from './cmp';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as clientGetConsentFor } from './getConsentFor';
