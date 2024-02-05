@@ -1,12 +1,13 @@
 import type { ConsentState, GetConsentFor } from './types';
-import type { VendorName } from './vendors';
+import type { VendorIDType, VendorName } from './vendors';
 import { VendorIDs } from './vendors';
 
 export const getConsentFor: GetConsentFor = (
 	vendor: VendorName,
 	consent: ConsentState,
+	vendorIDs: VendorIDType = VendorIDs,
 ): boolean => {
-	const sourcepointIds = VendorIDs[vendor];
+	const sourcepointIds = vendorIDs[vendor];
 
 	if (
 		typeof sourcepointIds === 'undefined' ||

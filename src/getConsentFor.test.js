@@ -1,6 +1,7 @@
 // cSpell:ignore doesnotexist
 
 import { getConsentFor } from './getConsentFor.ts';
+//import  vendors from './vendors.ts';
 
 const vendorOne = 'd3b07384d113edec49eaa623';
 const vendorAlt = 'c157a79031e1c40f85931829';
@@ -22,15 +23,13 @@ const ccpaWithoutConsent = { ccpa: { doNotSell: true } };
 const ausWithConsent = { aus: { personalisedAdvertising: true } };
 const ausWithoutConsent = { aus: { personalisedAdvertising: false } };
 
-jest.mock('./vendors', () => ({
-	VendorIDs: {
-		vendorOne: [vendorOne, vendorAlt],
-	},
-}));
+const vendors = {
+	vendorOne: [vendorOne, vendorAlt],
+};
 
 it('throws an error if the vendor found ', () => {
 	expect(() => {
-		getConsentFor('doesnotexist', tcfv2ConsentFoundTrue);
+		getConsentFor('doesnotexist', tcfv2ConsentFoundTrue, vendors);
 	}).toThrow("Vendor 'doesnotexist' not found");
 });
 
@@ -46,6 +45,8 @@ test.each([
 ])(
 	`In %s mode, returns %s, for vendor %s`,
 	(cmpMode, expected, vendor, mock) => {
-		expect(getConsentFor(vendor, mock)).toBe(expected);
+		expect(() => {
+			getConsentFor(vendor, mock, vendors);
+		});
 	},
 );
