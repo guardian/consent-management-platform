@@ -1,5 +1,5 @@
-import type { Framework } from './types';
 import type { CountryCode } from '@guardian/libs';
+import type { Framework } from './types';
 
 export const getFramework = (countryCode: CountryCode): Framework => {
 	let framework: Framework;

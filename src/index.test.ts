@@ -1,3 +1,4 @@
+import type { CountryCode } from '@guardian/libs';
 import waitForExpect from 'wait-for-expect';
 import { CMP as actualCMP } from './cmp';
 import { disable, enable } from './disable';
@@ -92,7 +93,7 @@ describe('hotfix cmp.init', () => {
 		['CA', 'tcfv2'],
 		['NZ', 'tcfv2'],
 	])('In %s, use the %s framework correctly', (country, framework) => {
-		cmp.init({ country });
+		cmp.init({country: country as CountryCode} );
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 

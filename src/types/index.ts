@@ -1,7 +1,7 @@
+import type { CountryCode } from '@guardian/libs';
 import type { VendorName } from '../vendors';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
-import type { CountryCode } from '@guardian/libs';
 import type { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';
