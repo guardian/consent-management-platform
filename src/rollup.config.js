@@ -30,7 +30,6 @@ export default {
 		replace({
 			preventAssignment: true,
 			'process.env.NODE_ENV': JSON.stringify('production'),
-			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		commonjs(),
 		process.env.NODE_ENV === 'production' &&
