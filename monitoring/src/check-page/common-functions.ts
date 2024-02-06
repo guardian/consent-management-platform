@@ -73,7 +73,7 @@ export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
 	return page;
 };
 
-/**
+/**  SKB/copied to consumer-self-test
  * This function waits for the page to load
  * clicks the accept all button
  *
