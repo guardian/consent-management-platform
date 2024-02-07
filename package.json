@@ -83,6 +83,7 @@
 		"rollup-plugin-livereload": "^2",
 		"rollup-plugin-serve": "^2.0.2",
 		"rollup-plugin-svelte": "^7.1.6",
+		"@rollup/plugin-json": "^6.1.0",
 		"serve": "^14.2.1",
 		"start-server-and-test": "~2.0.3",
 		"svelte": "~3.59.1",
