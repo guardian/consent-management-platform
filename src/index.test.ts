@@ -93,7 +93,7 @@ describe('hotfix cmp.init', () => {
 		['CA', 'tcfv2'],
 		['NZ', 'tcfv2'],
 	])('In %s, use the %s framework correctly', (country, framework) => {
-		cmp.init({country: country as CountryCode} );
+		cmp.init({ country: country as CountryCode });
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 
@@ -115,13 +115,15 @@ describe('hotfix cmp.init', () => {
 		};
 
 		jest.resetModules();
-		import('./index').then((module) => {
-			expect(module.cmp).toEqual(mockCmp);
+		import('./index')
+			.then((module) => {
+				expect(module.cmp).toEqual(mockCmp);
 
-			window.guCmpHotFix = {};
-			jest.resetModules();
-			import('./index');
-		}).catch(() => {});
+				window.guCmpHotFix = {};
+				jest.resetModules();
+				import('./index');
+			})
+			.catch(() => {});
 	});
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -135,11 +137,14 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(
-				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-			).resolves.toEqual([true, true]).catch(() => {});
-		}).catch(() => {});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]))
+					.resolves.toEqual([true, true])
+					.catch(() => {});
+			})
+			.catch(() => {});
 	});
 });
 
@@ -151,9 +156,12 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 	it('does not throw if CMP is initialised', () => {
 		cmp.init({ country: 'GB' });
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
-		}).catch(() => {});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
+			})
+			.catch(() => {});
 	});
 });
 
@@ -165,9 +173,12 @@ describe('cmp.hasInitialised', () => {
 	it('returns true when CMP is initialised', () => {
 		cmp.init({ country: 'GB' });
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(cmp.hasInitialised()).toBe(true);
-		}).catch(() => {});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(cmp.hasInitialised()).toBe(true);
+			})
+			.catch(() => {});
 	});
 });
 

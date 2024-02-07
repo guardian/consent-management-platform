@@ -18,7 +18,10 @@ export type CMP = {
 	__enable: () => void;
 };
 
-export type InitCMP = (arg0: { pubData?: PubData; country?: CountryCode }) => void;
+export type InitCMP = (arg0: {
+	pubData?: PubData;
+	country?: CountryCode;
+}) => void;
 
 export type OnConsentChange = (fn: Callback) => void;
 export type GetConsentFor = (
