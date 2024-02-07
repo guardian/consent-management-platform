@@ -10,7 +10,7 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 		'@guardian/eslint-config-typescript',
 	],
-	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', 'cypress.config.ts', 'rollup.config.js', 'countries.ts'],
+	ignorePatterns: ['dist', 'coverage', 'cdk', 'monitoring', 'cypress.config.ts', 'rollup.config.js'],
 	rules: {
 		// a lot of the 3rd party code uses these
 		'no-underscore-dangle': 0,
