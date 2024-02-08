@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.490.0",
-		"@guardian/consent-management-platform": "0.0.0-beta-20240208103611",
+		"@guardian/consent-management-platform": "0.0.0-beta-20240208150434",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "inquirer": "^8.2.6",
     "playwright-aws-lambda": "^0.10.0",
-    "playwright-core": "^1.40.1",
+    "playwright-core": "1.40.1",
     "tslib": "^2.6.2",
     "uuid": "^9.0.1"
   },
