@@ -13,7 +13,7 @@ const CMP = {
 
 beforeEach(() => {
 	window._sp_ = undefined;
-	window.guCmpHotFix.initialised = false;
+	if (window.guCmpHotFix) window.guCmpHotFix.initialised = false;
 	CMP.init.mockClear();
 });
 
@@ -59,20 +59,19 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ country: 'GB' });
 		cmp.init({ country: 'GB' });
 		expect(CMP.init).toHaveBeenCalledTimes(1);
-		expect(window.guCmpHotFix.initialised).toBe(true);
+		expect(window.guCmpHotFix?.initialised).toBe(true);
 	});
 
 	it('warn if two versions are running simultaneously', () => {
 		const consoleWarn = jest.spyOn(global.console, 'warn');
-
 		cmp.init({ country: 'GB' });
-		const currentVersion = window.guCmpHotFix.cmp?.version;
+		const currentVersion = window.guCmpHotFix?.cmp.version;
 		const mockedVersion = 'X.X.X-mock';
 
 		const globalWithguCmpHotFix = global as typeof globalThis & {
 			guCmpHotFix: typeof window.guCmpHotFix;
 		};
-		if (globalWithguCmpHotFix.guCmpHotFix.cmp) {
+		if (globalWithguCmpHotFix.guCmpHotFix) {
 			globalWithguCmpHotFix.guCmpHotFix.cmp.version = mockedVersion;
 		}
 
@@ -110,9 +109,7 @@ describe('hotfix cmp.init', () => {
 			__enable: () => {},
 		};
 
-		window.guCmpHotFix = {
-			cmp: mockCmp,
-		};
+		if(window.guCmpHotFix) window.guCmpHotFix.cmp =  mockCmp;
 
 		jest.resetModules();
 		import('./index')
@@ -137,14 +134,11 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
-		cmp
-			.willShowPrivacyMessage()
-			.then(() => {
-				expect(Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]))
-					.resolves.toEqual([true, true])
-					.catch(() => {});
-			})
-			.catch(() => {});
+		cmp.willShowPrivacyMessage().then(() => {
+			expect(
+				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
+			).resolves.toEqual([true, true]);
+		}).catch(() => {});
 	});
 });
 
