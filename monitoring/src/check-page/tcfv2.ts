@@ -1,3 +1,4 @@
+import { clickAcceptAllCookies } from '@guardian/consent-management-platform';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
@@ -9,7 +10,6 @@ import {
 	checkTopAdHasLoaded,
 	clearCookies,
 	clearLocalStorage,
-	clickAcceptAllCookies,
 	clickRejectAllSecondLayer,
 	clickSaveAndCloseSecondLayer,
 	loadPage,
@@ -45,7 +45,7 @@ const checkSubsequentPage = async (
 	]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
-	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
+	await clickAcceptAllCookies(page, "Yes I'm Happy");
 	await Promise.all([
 		checkCMPIsNotVisible(page),
 		checkTopAdHasLoaded(page),
@@ -126,7 +126,7 @@ export const firstLayerCheck = async function (
 
 	await checkTopAdDidNotLoad(page);
 
-	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
+	await clickAcceptAllCookies(page, "Yes I'm Happy");
 
 	await checkCMPIsNotVisible(page);
 
