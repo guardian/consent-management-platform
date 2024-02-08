@@ -1,7 +1,4 @@
 import type { CountryCode } from '@guardian/libs';
-import type { getConsentFor } from '../getConsentFor';
-import type { onConsent } from '../onConsent';
-import type { onConsentChange } from '../onConsentChange';
 import type { VendorName } from '../vendors';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
@@ -67,11 +64,3 @@ export interface VendorConsents {
 }
 
 export type { VendorName };
-
-export type GuCmpHotFix = {
-	initialised: boolean;
-	cmp: CMP;
-	onConsent: typeof onConsent;
-	onConsentChange: typeof onConsentChange;
-	getConsentFor: typeof getConsentFor;
-};
