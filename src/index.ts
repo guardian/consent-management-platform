@@ -111,3 +111,5 @@ export const onConsentChange = isServerSide
 export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
+
+export { clickAcceptAllCookies } from './consumer-self-test';

@@ -5,10 +5,12 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
+// import { clickAcceptAllCookies as acceptAll }  from '@guardian/consent-management-platform';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
+// import { text } from 'stream/consumers';
 
 /**
  * This function console logs an info message.
@@ -73,23 +75,18 @@ export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
 	return page;
 };
 
-/**
- * This function waits for the page to load
- * clicks the accept all button
- *
- * @param {Config} config
- * @param {Page} page
- * @param {string} textToPrintToConsole
- */
-export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
+// /**  SKB/copied to consumer-self-test
+//  * This function waits for the page to load
+//  * clicks the accept all button
+//  *
+//  * @param {Config} config
+//  * @param {Page} page
+//  * @param {string} textToPrintToConsole
+//  */
+// export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
 
-	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
-
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
-
-	log_info(`Clicked on "${textToPrintToConsole}"`);
-};
+// 	await acceptAll(page, textToPrintToConsole);
+// };
 
 /**
  * This function waits for the page to load
