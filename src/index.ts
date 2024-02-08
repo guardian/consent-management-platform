@@ -92,17 +92,17 @@ const showPrivacyManager = () => {
 export const cmp: CMP = isServerSide
 	? serverCmp
 	: (window.guCmpHotFix.cmp ||= {
-			init,
-			willShowPrivacyMessage,
-			willShowPrivacyMessageSync,
-			hasInitialised,
-			showPrivacyManager,
-			version: version,
+	init,
+	willShowPrivacyMessage,
+	willShowPrivacyMessageSync,
+	hasInitialised,
+	showPrivacyManager,
+	version: version,
 
-			// special helper methods for disabling CMP
-			__isDisabled: isDisabled,
-			__enable: enable,
-			__disable: disable,
+	// special helper methods for disabling CMP
+	__isDisabled: isDisabled,
+	__enable: enable,
+	__disable: disable,
 		});
 
 export const onConsent = isServerSide

@@ -117,11 +117,11 @@ describe('hotfix cmp.init', () => {
 		jest.resetModules();
 		import('./index')
 			.then((module) => {
-				expect(module.cmp).toEqual(mockCmp);
+			expect(module.cmp).toEqual(mockCmp);
 
 				window.guCmpHotFix = {};
-				jest.resetModules();
-				import('./index');
+			jest.resetModules();
+			import('./index');
 			})
 			.catch(() => {});
 	});
@@ -159,7 +159,7 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 		cmp
 			.willShowPrivacyMessage()
 			.then(() => {
-				expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
+			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
 			})
 			.catch(() => {});
 	});
@@ -176,7 +176,7 @@ describe('cmp.hasInitialised', () => {
 		cmp
 			.willShowPrivacyMessage()
 			.then(() => {
-				expect(cmp.hasInitialised()).toBe(true);
+			expect(cmp.hasInitialised()).toBe(true);
 			})
 			.catch(() => {});
 	});

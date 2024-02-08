@@ -24,13 +24,7 @@ type GuCmpHotFix = {
 declare global {
 	interface Window {
 		// *************** START commercial.dcr.js hotfix ***************
-		guCmpHotFix: {
-			initialised?: boolean;
-			cmp?: CMP;
-			onConsent?: typeof onConsent;
-			onConsentChange?: typeof onConsentChange;
-			getConsentFor?: typeof getConsentFor;
-		};
+		guCmpHotFix: GuCmpHotFix;
 		// *************** END commercial.dcr.js hotfix ***************
 		_sp_queue: [];
 		_sp_?: {
