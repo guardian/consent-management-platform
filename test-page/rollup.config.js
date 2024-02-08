@@ -8,7 +8,6 @@ import css from 'rollup-plugin-css-only';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import svelte from 'rollup-plugin-svelte';
-import pkg from '../package.json';
 
 const dist = 'test-page/dist';
 
@@ -42,7 +41,6 @@ export default {
 		replace({
 			preventAssignment: true,
 			'process.env.NODE_ENV': JSON.stringify('development'),
-			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		!process.env.ROLLUP_WATCH && terser(),
 		html({ title: 'Guardian CMP' }),

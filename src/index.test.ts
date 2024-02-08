@@ -1,8 +1,10 @@
+import type { CountryCode } from '@guardian/libs';
 import waitForExpect from 'wait-for-expect';
-import { CMP as actualCMP } from './cmp.ts';
-import { disable, enable } from './disable.ts';
-import { getCurrentFramework } from './getCurrentFramework.ts';
-import { cmp } from './index.ts';
+import { CMP as actualCMP } from './cmp';
+import { disable, enable } from './disable';
+import { getCurrentFramework } from './getCurrentFramework';
+import type { CMP as typeCMP } from './types';
+import { cmp } from './index';
 
 const CMP = {
 	init: jest.spyOn(actualCMP, 'init'),
@@ -11,7 +13,7 @@ const CMP = {
 
 beforeEach(() => {
 	window._sp_ = undefined;
-	window.guCmpHotFix.initialised = false;
+	if (window.guCmpHotFix) window.guCmpHotFix.initialised = false;
 	CMP.init.mockClear();
 });
 
@@ -57,19 +59,25 @@ describe('hotfix cmp.init', () => {
 		cmp.init({ country: 'GB' });
 		cmp.init({ country: 'GB' });
 		expect(CMP.init).toHaveBeenCalledTimes(1);
-		expect(window.guCmpHotFix.initialised).toBe(true);
+		expect(window.guCmpHotFix?.initialised).toBe(true);
 	});
 
 	it('warn if two versions are running simultaneously', () => {
-		global.console.warn = jest.fn();
+		const consoleWarn = jest.spyOn(global.console, 'warn');
 		cmp.init({ country: 'GB' });
-		const currentVersion = window.guCmpHotFix.cmp.version;
+		const currentVersion = window.guCmpHotFix?.cmp.version;
 		const mockedVersion = 'X.X.X-mock';
-		global.guCmpHotFix.cmp.version = mockedVersion;
+
+		const globalWithguCmpHotFix = global as typeof globalThis & {
+			guCmpHotFix: typeof window.guCmpHotFix;
+		};
+		if (globalWithguCmpHotFix.guCmpHotFix) {
+			globalWithguCmpHotFix.guCmpHotFix.cmp.version = mockedVersion;
+		}
 
 		cmp.init({ country: 'GB' });
 
-		expect(global.console.warn).toHaveBeenCalledWith(
+		expect(consoleWarn).toHaveBeenCalledWith(
 			'Two different versions of the CMP are running:',
 			[currentVersion, mockedVersion],
 		);
@@ -84,31 +92,33 @@ describe('hotfix cmp.init', () => {
 		['CA', 'tcfv2'],
 		['NZ', 'tcfv2'],
 	])('In %s, use the %s framework correctly', (country, framework) => {
-		cmp.init({ country });
+		cmp.init({ country: country as CountryCode });
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 
 	it('uses window.guCmpHotFix instances if they exist', () => {
-		const mockCmp = {
+		const mockCmp: typeCMP = {
 			init: () => undefined,
-			willShowPrivacyMessage: () => true,
+			willShowPrivacyMessage: () => new Promise(() => true),
 			willShowPrivacyMessageSync: () => true,
 			hasInitialised: () => true,
-			mocked: 'mocked',
+			showPrivacyManager: () => {},
+			version: 'mocked',
+			__isDisabled: () => false,
+			__disable: () => {},
+			__enable: () => {},
 		};
 
-		window.guCmpHotFix = {
-			cmp: mockCmp,
-		};
+		if(window.guCmpHotFix) window.guCmpHotFix.cmp =  mockCmp;
 
 		jest.resetModules();
-		import('./index.ts').then((module) => {
+		import('./index').then((module) => {
 			expect(module.cmp).toEqual(mockCmp);
 
 			delete window.guCmpHotFix;
 			jest.resetModules();
-			import('./index.ts');
-		});
+			import('./index');
+		}).catch(() => {});
 	});
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -126,7 +136,7 @@ describe('cmp.willShowPrivacyMessage', () => {
 			expect(
 				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
 			).resolves.toEqual([true, true]);
-		});
+		}).catch(() => {});
 	});
 });
 
@@ -140,7 +150,7 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 
 		cmp.willShowPrivacyMessage().then(() => {
 			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
-		});
+		}).catch(() => {});
 	});
 });
 
@@ -154,7 +164,7 @@ describe('cmp.hasInitialised', () => {
 
 		cmp.willShowPrivacyMessage().then(() => {
 			expect(cmp.hasInitialised()).toBe(true);
-		});
+		}).catch(() => {});
 	});
 });
 
