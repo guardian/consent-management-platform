@@ -17,12 +17,6 @@ import {
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
 
-// Store some bits in the global scope for reuse, in case there's more
-// than one instance of the CMP on the page in different scopes.
-if (!isServerSide) {
-	if (typeof window.guCmpHotFix === 'undefined') window.guCmpHotFix = {};
-}
-
 let _willShowPrivacyMessage: undefined | boolean;
 let initComplete = false;
 
@@ -35,11 +29,11 @@ const initialised = new Promise((resolve) => {
 const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled() || isServerSide) return;
 
-	if (window.guCmpHotFix.initialised) {
-		if (window.guCmpHotFix.cmp?.version !== version) {
+	if (window.guCmpHotFix?.initialised) {
+		if (window.guCmpHotFix.cmp.version !== version) {
 			console.warn('Two different versions of the CMP are running:', [
 				version,
-				window.guCmpHotFix.cmp?.version,
+				window.guCmpHotFix.cmp.version,
 			]);
 		}
 		return;
@@ -48,7 +42,7 @@ const init: InitCMP = ({ pubData, country }) => {
 	// this is slightly different to initComplete - it's there to
 	// prevent another instance of CMP initialising, so we set this true asap.
 	// initComplete is set true once we have _finished_ initialising
-	window.guCmpHotFix.initialised = true;
+	if(window.guCmpHotFix) window.guCmpHotFix.initialised = true;
 
 	if (typeof country === 'undefined') {
 		throw new Error(
@@ -91,7 +85,7 @@ const showPrivacyManager = () => {
 
 export const cmp: CMP = isServerSide
 	? serverCmp
-	: (window.guCmpHotFix.cmp ||= {
+	: {
 			init,
 			willShowPrivacyMessage,
 			willShowPrivacyMessageSync,
@@ -103,14 +97,26 @@ export const cmp: CMP = isServerSide
 			__isDisabled: isDisabled,
 			__enable: enable,
 			__disable: disable,
-		});
+	  };
 
 export const onConsent = isServerSide
 	? serverOnConsent
-	: (window.guCmpHotFix.onConsent ||= clientOnConsent);
+	: clientOnConsent;
 export const onConsentChange = isServerSide
 	? serverOnConsentChange
-	: (window.guCmpHotFix.onConsentChange ||= clientOnConsentChange);
+	: clientOnConsentChange;
 export const getConsentFor = isServerSide
 	? serverGetConsentFor
-	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
+	: clientGetConsentFor;
+
+// Store some bits in the global scope for reuse, in case there's more
+// than one instance of the CMP on the page in different scopes.
+if (!isServerSide) {
+	if (typeof window.guCmpHotFix === 'undefined') {window.guCmpHotFix = {
+		initialised: hasInitialised(),
+		cmp: cmp,
+		onConsent: onConsent,
+		onConsentChange:  onConsentChange,
+		getConsentFor:  getConsentFor
+	};}
+};
