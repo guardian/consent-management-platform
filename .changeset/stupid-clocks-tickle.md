@@ -1,5 +1,5 @@
 ---
-"@guardian/consent-management-platform": minor
+'@guardian/consent-management-platform': minor
 ---
 
-Updating prebid vendor id
+Adding prebidCustom vendor
