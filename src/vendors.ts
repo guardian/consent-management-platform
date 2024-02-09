@@ -43,14 +43,18 @@ export const TCFV2VendorIDs: VendorIDType = {
 	'youtube-player': ['5e7ac3fae30e7d1bc1ebf5e8'],
 };
 
+export const MiscVendorID: VendorIDType = {
+	prebid: ['5f92a62aa22863685f4daa4c'],
+}
+
 export const AusVendorIDs: VendorIDType = {
 	redplanet: ['not-tcfv2-vendor'],
-	prebid: ['5f92a62aa22863685f4daa4c'],
 }
 
 export const VendorIDs: VendorIDType = {
 	...TCFV2VendorIDs,
 	...AusVendorIDs,
+	...MiscVendorID
 }
 
 
