@@ -45,7 +45,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await loadPage(page, url);
 	await checkTopAdHasLoaded(page);
 	await checkCMPIsOnPage(page);
-	await clickAcceptAllCookies(config, page, 'Continue');
+	await clickAcceptAllCookies(page, 'Continue');
 	await checkCMPIsNotVisible(page);
 	await reloadPage(page);
 	await checkTopAdHasLoaded(page);
