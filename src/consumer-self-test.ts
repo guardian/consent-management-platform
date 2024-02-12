@@ -41,3 +41,8 @@ export const clickAcceptAllCookies = async (page: Page, textToPrintToConsole: st
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
+
+export const getCMPVersionRunning = async (page: Page) => {
+	log_info(`Sourcepoint version: ${await page.evaluate('window._sp_.version')}`);
+	log_info(`CMP version: ${await page.evaluate('window.guCmpHotFix.cmp.version')}`);
+};

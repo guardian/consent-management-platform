@@ -5,7 +5,7 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
-import { clickAcceptAllCookies, log_error, log_info }  from '@guardian/consent-management-platform';
+import { clickAcceptAllCookies, getCMPVersionRunning, log_error, log_info }  from '@guardian/consent-management-platform';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 import type { Config } from '../types';
@@ -206,13 +206,9 @@ export const checkTopAdDidNotLoad = async (page: Page) => {
 };
 
 export const recordVersionOfCMP = async (page: Page) => {
-	log_info('* Getting the version of Sourcepoint CMP');
+	log_info('* Getting the versions:');
 
-	const functionToGetVersion = function () {
-		return window._sp_.version;
-	};
-
-	log_info(await page.evaluate(functionToGetVersion));
+	await getCMPVersionRunning(page);
 };
 
 /**
