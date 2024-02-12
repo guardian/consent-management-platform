@@ -11,9 +11,19 @@ const ELEMENT_ID = {
  *
  * @param {string} message
  */
-const log_info = (message: string): void => {
+export const log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
 };
+
+/**
+ * This function console logs an error message.
+ *
+ * @param {string} message
+ */
+export const log_error = (message: string): void => {
+	console.error(`(cmp monitoring): error: ${message}`);
+};
+
 /**
  * This function waits for the page to load
  * clicks the accept all button

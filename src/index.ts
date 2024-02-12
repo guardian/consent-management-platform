@@ -112,4 +112,4 @@ export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
 
-export { clickAcceptAllCookies } from './consumer-self-test';
+export { clickAcceptAllCookies, log_error, log_info } from './consumer-self-test';

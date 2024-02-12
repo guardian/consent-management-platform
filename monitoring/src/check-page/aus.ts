@@ -1,4 +1,3 @@
-import { clickAcceptAllCookies } from '@guardian/consent-management-platform';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
@@ -6,6 +5,7 @@ import {
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
 	checkTopAdHasLoaded,
+	clickAcceptAllCookies,
 	loadPage,
 	log_info,
 	makeNewBrowser,
