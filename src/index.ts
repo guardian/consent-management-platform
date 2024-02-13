@@ -112,4 +112,9 @@ export const getConsentFor = isServerSide
 	? serverGetConsentFor
 	: (window.guCmpHotFix.getConsentFor ||= clientGetConsentFor);
 
-export { clickAcceptAllCookies, log_error, log_info, getCMPVersionRunning } from './consumer-self-test';
+// CONSUMER SELF TEST CHANGES //
+
+export { clickAcceptAllCookies, log_error, log_info, getCMPVersionRunning } from './consumer-self-test-commons';
+
+// whenever this is exposed, it interferes with monitoring.
+// export { selfTest } from './consumer-self-test';

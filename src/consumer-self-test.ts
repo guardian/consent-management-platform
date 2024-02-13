@@ -1,48 +1,88 @@
-import type { Page } from 'playwright-core';
-
-const ELEMENT_ID = {
-	TCFV2_FIRST_LAYER_ACCEPT_ALL:
-		'div.message-component.message-row > button.sp_choice_type_11',
-	CMP_CONTAINER: '[id*="sp_message_iframe"]',
-};
+import { Browser, BrowserContext, Page } from "playwright-core";
+import { checkCMPIsOnPage, clickAcceptAllCookies, loadPage, log_info, makeNewBrowser, makeNewPage } from "./consumer-self-test-commons";
 
 /**
- * This function console logs an info message.
- *
- * @param {string} message
- */
-export const log_info = (message: string): void => {
-	console.log(`(cmp monitoring) info: ${message}`);
-};
-
-/**
- * This function console logs an error message.
- *
- * @param {string} message
- */
-export const log_error = (message: string): void => {
-	console.error(`(cmp monitoring): error: ${message}`);
-};
-
-/**
- * This function waits for the page to load
- * clicks the accept all button
+ * Creates a browser and page.
+ * Performs the tests for each layer.
  *
  * @param {Config} config
- * @param {Page} page
- * @param {string} textToPrintToConsole
+ * @param {string} url
+ * @param {string} nextUrl
  */
-export const clickAcceptAllCookies = async (page: Page, textToPrintToConsole: string) => {
+const checkFirstPage = async (url: string) => {
+	log_info(`self-check - checking Page URL: ${url}`);
 
-	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
+	const browser: Browser = await makeNewBrowser(true);
+	const context = await browser.newContext();
+	const page = await makeNewPage(context);
 
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
+	await firstLayerCheck(url, page, context);
 
-	log_info(`Clicked on "${textToPrintToConsole}"`);
+	await page.close();
+	await browser.close();
 };
 
-export const getCMPVersionRunning = async (page: Page) => {
-	log_info(`Sourcepoint version: ${await page.evaluate('window._sp_.version')}`);
-	log_info(`CMP version: ${await page.evaluate('window.guCmpHotFix.cmp.version')}`);
+/**
+ *
+ * This function performs a series of tests to check
+ * the first panel.
+ *
+ * @param {Config} config
+ * @param {string} url
+ * @param {Page} page
+ * @param {Browser} browser
+ * @param {string} nextUrl
+ * @return {*}  {Promise<void>}
+ */
+export const firstLayerCheck = async function (
+	url: string,
+	page: Page,
+	context: BrowserContext,
+): Promise<void> {
+	log_info('Checking first layer: Start');
+
+	// Testing the Accept All button hides the CMP and loads Ads
+	await loadPage(page, url);
+
+	await checkCMPIsOnPage(page);
+
+	// await checkTopAdDidNotLoad(page);
+
+	await clickAcceptAllCookies(page, "Yes I'm Happy");
+
+	// await checkCMPIsNotVisible(page);
+
+	// await checkTopAdHasLoaded(page);
+
+	// await reloadPage(page);
+
+	// await checkTopAdHasLoaded(page);
+
+	// await checkCMPIsNotVisible(page);
+
+	log_info('Checking first layer: Complete');
 };
+
+export async function selfTest(){
+
+	try {
+		console.log('(cmp-self-test) Starting)');
+		await checkFirstPage('https://theguardian.com');
+		console.log('(cmp-self-test) Finished successfully');
+		process.exit(0);
+	} catch (error) {
+		let errorMessage = 'Unknown Error!';
+
+		if (typeof error === 'string') {
+			errorMessage = error;
+		} else if (error instanceof Error) {
+			errorMessage = error.message;
+		}
+
+		console.log(`(cmp-self-test) Finished with failure: ${errorMessage}`);
+
+		process.exit(1);
+	}
+};
+
+void selfTest();
