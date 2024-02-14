@@ -34,7 +34,7 @@ const checkFirstPage = async (url: string) => {
  * @param {string} nextUrl
  * @return {*}  {Promise<void>}
  */
-export const firstLayerCheck = async function (
+ const firstLayerCheck = async function (
 	url: string,
 	page: Page,
 	context: BrowserContext,
@@ -63,11 +63,11 @@ export const firstLayerCheck = async function (
 	log_info('Checking first layer: Complete');
 };
 
-export async function selfTest(){
+export async function selfTest(url: string){
 
 	try {
 		console.log('(cmp-self-test) Starting)');
-		await checkFirstPage('https://theguardian.com');
+		await checkFirstPage(url);
 		console.log('(cmp-self-test) Finished successfully');
 		process.exit(0);
 	} catch (error) {
@@ -85,4 +85,4 @@ export async function selfTest(){
 	}
 };
 
-void selfTest();
+// void selfTest();
