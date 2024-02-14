@@ -118,3 +118,9 @@ export const getConsentFor = isServerSide
 
 // whenever this is exposed, it interferes with monitoring.
 // export { selfTest } from './consumer-self-test';
+
+// first attempt at code splitting.
+// export const callConsumerSelfTest = async () => {
+// 	const selfTest = await import('./consumer-self-test');
+// 	await selfTest.selfTest('https://theguardian.com');
+// };

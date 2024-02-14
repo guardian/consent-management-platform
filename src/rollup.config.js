@@ -15,10 +15,12 @@ export default {
 		{
 			file: pkg.main,
 			format: 'cjs',
+			// inlineDynamicImports: true
 		},
 		{
 			file: pkg.module,
 			format: 'esm',
+			// inlineDynamicImports: true
 		},
 	],
 	plugins: [
