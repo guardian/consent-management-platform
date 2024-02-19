@@ -5,28 +5,14 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
+import { clickAcceptAllCookies, getCMPVersionRunning, log_error, log_info }  from '@guardian/consent-management-platform';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
+// import { text } from 'stream/consumers';
 
-/**
- * This function console logs an info message.
- *
- * @param {string} message
- */
-export const log_info = (message: string): void => {
-	console.log(`(cmp monitoring) info: ${message}`);
-};
 
-/**
- * This function console logs an error message.
- *
- * @param {string} message
- */
-export const log_error = (message: string): void => {
-	console.error(`(cmp monitoring): error: ${message}`);
-};
 
 /**
  * This function will clear the cookies for a chromium client
@@ -71,24 +57,6 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
 	const page = await context.newPage();
 	return page;
-};
-
-/**
- * This function waits for the page to load
- * clicks the accept all button
- *
- * @param {Config} config
- * @param {Page} page
- * @param {string} textToPrintToConsole
- */
-export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
-
-	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
-
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
-
-	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
 
 /**
@@ -238,13 +206,9 @@ export const checkTopAdDidNotLoad = async (page: Page) => {
 };
 
 export const recordVersionOfCMP = async (page: Page) => {
-	log_info('* Getting the version of Sourcepoint CMP');
+	log_info('* Getting the versions:');
 
-	const functionToGetVersion = function () {
-		return window._sp_.version;
-	};
-
-	log_info(await page.evaluate(functionToGetVersion));
+	await getCMPVersionRunning(page);
 };
 
 /**
@@ -432,4 +396,6 @@ export const checkCMPLoadingTimeAndVersion = async (page: Page, config: Config) 
 		log_info('Checking CMP Loading Time and CMP Version: Finished');
 	}
 };
+
+export {clickAcceptAllCookies, log_info, log_error}
 
