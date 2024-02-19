@@ -871,10 +871,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
 
-"@guardian/consent-management-platform@0.0.0-beta-20240212113333":
-  version "0.0.0-beta-20240212113333"
-  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-0.0.0-beta-20240212113333.tgz#ffcd9cdc7146a9f03498a6204e0a1107eefcf7fa"
-  integrity sha512-clMExgPjDaH2CMChrlMvvTQDrAmk3B3zItDy/SNZICbGrCQ+j/4WQuvv286+pd2L/q/oXXYhXfQpoh1cn9yoRQ==
+"@guardian/consent-management-platform@0.0.0-beta-20240219152933":
+  version "0.0.0-beta-20240219152933"
+  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-0.0.0-beta-20240219152933.tgz#70a2d7e42a1560a600a75203c29b39449cda9c8c"
+  integrity sha512-h++oUjYpMm06jkFK9m69AGgMeex5dUM6yqxbupMnVwLARLr79CLa4ghRA9yeBBMY9YBzpqi3rGmQqGqs/L3Dag==
 
 "@guardian/eslint-config-typescript@^9.0.1":
   version "9.0.1"
@@ -895,6 +895,11 @@
     eslint-config-prettier "9.1.0"
     eslint-plugin-eslint-comments "3.2.0"
     eslint-plugin-import "2.29.1"
+
+"@guardian/libs@^16.0.0":
+  version "16.0.2"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-16.0.2.tgz#df739ffa67f938e125330b52587b33622f8ff797"
+  integrity sha512-GC3DTyRAWMYNOheSnQES24CA2k9WKZiv+WnZbe3hPu6MsZwjeSeRvylJ+VXk7d2ndX5uDW1OdwkWBX45fVXqsA==
 
 "@guardian/prettier@^7.0.0":
   version "7.0.0"

@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.490.0",
-		"@guardian/consent-management-platform": "0.0.0-beta-20240212113333",
+		"@guardian/libs": "^16.0.0",
+		"@guardian/consent-management-platform": "0.0.0-beta-20240219152933",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "inquirer": "^8.2.6",
