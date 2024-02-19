@@ -5,7 +5,7 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand
 } from '@aws-sdk/client-cloudwatch';
-import { clickAcceptAllCookies, getCMPVersionRunning, log_error, log_info }  from '@guardian/consent-management-platform';
+import { getCMPVersionRunning, log_error, log_info } from '@guardian/consent-management-platform/dist/index-self-test';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 import type { Config } from '../types';
@@ -397,5 +397,4 @@ export const checkCMPLoadingTimeAndVersion = async (page: Page, config: Config) 
 	}
 };
 
-export {clickAcceptAllCookies, log_info, log_error}
 
