@@ -12,10 +12,8 @@ import {
 	onConsent as serverOnConsent,
 	onConsentChange as serverOnConsentChange,
 } from './server';
-import type { CMP, ClickAcceptAllCookies, InitCMP, WillShowPrivacyMessage } from './types';
+import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
-import { clickAcceptAllCookies as mClickAcceptAllCookies } from './consumer-self-test-commons';
-//import { clickAcceptAllCookies, log_error, log_info, getCMPVersionRunning } from './consumer-self-test-commons';
 
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
@@ -87,10 +85,6 @@ const hasInitialised = () => initComplete;
 const showPrivacyManager = () => {
 	void initialised.then(UnifiedCMP.showPrivacyManager);
 };
-
-// testing what is causing the issue
-
-export const clickAcceptAllCookies: ClickAcceptAllCookies = mClickAcceptAllCookies;
 
 export const cmp: CMP = isServerSide
 	? serverCmp
