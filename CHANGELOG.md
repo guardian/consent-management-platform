@@ -1,5 +1,22 @@
 # @guardian/consent-management-platform
 
+## 13.10.0
+
+### Minor Changes
+
+- e506cd9: Adding prebidCustom vendor
+
+## 13.9.0
+
+### Minor Changes
+
+- 0f71443: Removing \_\_gpp stub load in CCPA
+
+### Patch Changes
+
+- 8f5e07c: Bump package version as recommended by Dependabot
+  Update peerDependencies - "@guardian/libs" to "^16.0.0"
+
 ## 13.8.0
 
 ### Minor Changes
