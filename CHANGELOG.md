@@ -1,5 +1,11 @@
 # @guardian/consent-management-platform
 
+## 13.10.0
+
+### Minor Changes
+
+- e506cd9: Adding prebidCustom vendor
+
 ## 13.9.0
 
 ### Minor Changes
