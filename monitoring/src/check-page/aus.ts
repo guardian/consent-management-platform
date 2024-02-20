@@ -1,38 +1,26 @@
-import type { Browser, Page } from 'puppeteer-core';
+import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
-import { ELEMENT_ID } from '../types';
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
-	checkCMPLoadingTime,
+	checkCMPLoadingTimeAndVersion,
 	checkTopAdHasLoaded,
-	clearCookies,
-	getFrame,
+	clickAcceptAllCookies,
 	loadPage,
 	log_info,
 	makeNewBrowser,
+	makeNewPage,
 	reloadPage,
 } from './common-functions';
-
-const clickAcceptAllCookies = async (config: Config, page: Page) => {
-
-	log_info(`Clicking on "Continue" on CMP`);
-
-	const frame = await getFrame(page, config.iframeDomain);
-	await frame.waitForSelector(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-	await frame.click(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-
-	log_info(`Clicked on "Continue" on CMP`);
-};
 
 /**
  * Checks that ads load correctly for the second page a user goes to
  * when visiting the site, with respect to and interaction with the CMP.
  */
 
-const checkSubsequentPage = async (browser: Browser, url: string) => {
+const checkSubsequentPage = async (context: BrowserContext, url: string) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
-	const page: Page = await browser.newPage();
+	const page: Page = await makeNewPage(context);
 	await loadPage(page, url);
 	await Promise.all([
 		checkCMPIsNotVisible(page),
@@ -51,35 +39,32 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
+	const context = await browser.newContext();
+	const page = await makeNewPage(context);
 
-	try {
-		const page: Page = await browser.newPage();
+	await loadPage(page, url);
+	await checkTopAdHasLoaded(page);
+	await checkCMPIsOnPage(page);
+	await clickAcceptAllCookies(config, page, 'Continue');
+	await checkCMPIsNotVisible(page);
+	await reloadPage(page);
+	await checkTopAdHasLoaded(page);
 
-		// Clear cookies before starting testing, to ensure the CMP is displayed.
-		await clearCookies(await page.target().createCDPSession());
-		await loadPage(page, url);
-		await checkTopAdHasLoaded(page);
-		await checkCMPIsOnPage(page);
-		await clickAcceptAllCookies(config, page);
-		await checkCMPIsNotVisible(page);
-		await reloadPage(page);
-		await checkTopAdHasLoaded(page);
-
-		if (nextUrl) {
-			await checkSubsequentPage(browser, nextUrl);
-		}
-
-		await checkCMPLoadingTime(page, config);
-
-		await page.close();
-
-	} finally {
-		const pages = await browser.pages();
-		for (const page of pages) {
-			await page.close();
-		}
-		await browser.close();
+	if (nextUrl) {
+		await checkSubsequentPage(context, nextUrl);
 	}
+
+	await page.close();
+	await browser.close();
+
+	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
+	const browserForCMPLoadTime: Browser = await makeNewBrowser(config.debugMode);
+	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
+	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
+	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
+
+	await pageForCMPLoadTime.close();
+	await browserForCMPLoadTime.close();
 };
 
 export const mainCheck = async function (config: Config): Promise<void> {
@@ -90,4 +75,6 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
 	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+
 };
+

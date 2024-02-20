@@ -10,3 +10,7 @@ export const envAwsRegion: string | undefined = process.env['AWS_REGION'];
 export const localBaseURL: string = process.env['LOCAL_BASE_URL']
 	? process.env['LOCAL_BASE_URL']
 	: 'http://localhost:9000';
+
+export const envPlatform: string = process.env['STAGE']
+	? process.env['STAGE']
+	: 'PROD';

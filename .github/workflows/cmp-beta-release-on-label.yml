@@ -1,0 +1,36 @@
+name: Publish Beta Package
+
+# This workflow is triggered on a label being added to a PR, and will publish a beta version of the bundle to npm
+# Use `yarn changeset add` to add a new change
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  checks: write
+  pull-requests: write
+  contents: write
+  id-token: write
+  issues: write
+
+jobs:
+  run-tests:
+    name: Run tests
+    uses: ./.github/workflows/cmp-run-tests.yml
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+  build-app:
+    name: Build CMP App
+    needs: [run-tests]
+    uses: ./.github/workflows/cmp-build-release.yml
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+      id-token: write
+      issues: write

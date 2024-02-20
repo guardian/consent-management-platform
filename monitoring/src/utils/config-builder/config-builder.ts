@@ -11,6 +11,7 @@ export class ConfigBuilder {
 		jurisdiction: Jurisdiction,
 		region: AwsRegionOpt,
 		isRunningAdhoc: boolean,
+		platform: Stage
 	): Config | undefined {
 		const config: Config = {
 			stage: stage,
@@ -23,6 +24,7 @@ export class ConfigBuilder {
 			region: region,
 			isRunningAdhoc: isRunningAdhoc,
 			debugMode: debugMode,
+			platform: platform
 		};
 
 		return config;

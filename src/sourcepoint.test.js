@@ -1,7 +1,7 @@
 import http from 'http';
 import url from 'url';
-import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig';
-import { init } from './sourcepoint';
+import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig.ts';
+import { init } from './sourcepoint.ts';
 
 const frameworks = ['tcfv2', 'ccpa', 'aus'];
 
@@ -42,7 +42,14 @@ describe('Sourcepoint unified', () => {
 				expect(window._sp_.config.ccpa).toBeUndefined();
 				expect(window.__tcfapi).toBeDefined();
 				expect(window.__uspapi).toBeUndefined();
-			} else {
+			} else if (framework == 'ccpa') {
+				expect(
+					window._sp_.config.ccpa.targetingParams.framework,
+				).toEqual(framework);
+				expect(window._sp_.config.gdpr).toBeUndefined;
+				expect(window.__uspapi).toBeDefined();
+				expect(window.__tcfapi).toBeUndefined();
+			} else if (framework == 'aus') {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);

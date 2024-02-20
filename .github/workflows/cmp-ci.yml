@@ -1,0 +1,29 @@
+name: CMP CI
+on:
+  push:
+    branches-ignore:
+      - 'gh-pages'
+
+jobs:
+  run-tests:
+    name: Run tests
+    uses: ./.github/workflows/cmp-run-tests.yml
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+  run-checks:
+    name: Run checks
+    uses: ./.github/workflows/cmp-run-checks.yml
+  build:
+    name: Build CMP
+    needs: [run-tests, run-checks]
+    uses: ./.github/workflows/cmp-build-release.yml
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    permissions:
+      contents: write # in order to write labels to main branch?
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+      issues: write
+      checks: write

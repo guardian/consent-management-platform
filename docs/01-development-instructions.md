@@ -126,6 +126,16 @@ To release a new version with your changes, run `yarn changeset add` and follow 
 
 When your PR is merged, changeset will analyse the changes and create a PR to release the new version.
 
+### Beta
+
+To trigger a beta release, apply the `[beta] @guardian/consent-management-platform` label to your pull request. This action will automatically trigger the [`cmp-beta-release-on-label.yml`](../.github/workflows/cmp-beta-release-on-label.yml) workflow. Upon completion, the beta version will be posted by the `github-actions bot` in your pull request.
+
+To re-trigger a beta-release on the same branch, remove the label and then reapply it.
+
+### CI/CD
+
+This project also uses [github action workflow](../.github/workflows/README.md) to manage it's CI/CD.
+
 ### Pull requests
 
 Try to write PR titles in the conventional commit format, and [squash and merge](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits) when merging. That way your PR will trigger a release when you merge it (if necessary).

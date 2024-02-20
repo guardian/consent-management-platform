@@ -24,7 +24,7 @@ describe('ConfigWrapper', () => {
 	describe('generateConfig', () => {
 		let awsRegion: AwsRegionOpt = AWS_REGIONS.US_WEST_1;
 		let jurisdiction: JurisdictionOpt = JURISDICTIONS.CCPA;
-		const stage: string = 'code';
+		const stage = 'code';
 		it('should assign jurisdiction if there is an awsRegion and no jurisdiction ', () => {
 			jurisdiction = undefined;
 			awsRegion = AWS_REGIONS.US_WEST_1;
@@ -88,7 +88,7 @@ describe('ConfigWrapper', () => {
 	describe('run', () => {
 		const awsRegion: AwsRegionOpt = AWS_REGIONS.US_WEST_1;
 		const jurisdiction: JurisdictionOpt = JURISDICTIONS.CCPA;
-		const stage: string = 'code';
+		const stage = 'code';
 
 		it('should call config.checkFunction if config is defined', async () => {
 			const configWrapper = new ConfigWrapper(
@@ -109,6 +109,7 @@ describe('ConfigWrapper', () => {
 				isRunningAdhoc: true,
 				region: AWS_REGIONS.AP_SOUTHEAST_2,
 				checkFunction: mockCheckFunction,
+				platform: STAGES.CODE
 			};
 
 			configWrapper.config = mockConfig;
