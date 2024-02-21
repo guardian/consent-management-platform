@@ -102,11 +102,11 @@ describe('hotfix cmp.init', () => {
 			willShowPrivacyMessage: () => new Promise(() => true),
 			willShowPrivacyMessageSync: () => true,
 			hasInitialised: () => true,
-			showPrivacyManager: () => {},
+			showPrivacyManager: () => {console.warn('This is a dummy for showPrivacyManager')},
 			version: 'mocked',
 			__isDisabled: () => false,
-			__disable: () => {},
-			__enable: () => {},
+			__disable: () => {console.warn('This is a dummy for __disable')},
+			__enable: () => {console.warn('This is a dummy for __enable')},
 		};
 
 		window.guCmpHotFix.cmp =  mockCmp;
@@ -120,7 +120,7 @@ describe('hotfix cmp.init', () => {
 			jest.resetModules();
 			import('./index');
 			})
-			.catch(() => {});
+			.catch(() => {fail});
 	});
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -137,8 +137,8 @@ describe('cmp.willShowPrivacyMessage', () => {
 		cmp.willShowPrivacyMessage().then(() => {
 			expect(
 				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-			).resolves.toEqual([true, true]);
-		}).catch(() => {});
+			).resolves.toEqual([true, true]).catch(() => {fail});
+		}).catch(() => {fail});
 	});
 });
 
@@ -155,7 +155,7 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 			.then(() => {
 			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
 			})
-			.catch(() => {});
+			.catch(() => {fail});
 	});
 });
 
@@ -172,7 +172,7 @@ describe('cmp.hasInitialised', () => {
 			.then(() => {
 			expect(cmp.hasInitialised()).toBe(true);
 			})
-			.catch(() => {});
+			.catch(() => {fail});
 	});
 });
 
