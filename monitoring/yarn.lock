@@ -871,6 +871,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
 
+"@guardian/consent-management-platform@0.0.0-beta-20240130083130":
+  version "0.0.0-beta-20240130083130"
+  resolved "https://registry.yarnpkg.com/@guardian/consent-management-platform/-/consent-management-platform-0.0.0-beta-20240130083130.tgz#b13564a4bb15c8d8119ddf1eecabb4bb940ae0c7"
+  integrity sha512-GEODdd7PiBPQUmtCcD6oQVQHbK7PFtW7xvQ21rj3kBWiNVwMAYW8IadzmHBZE0JON5PnLg4fVzmTz7fuuMN/WA==
+
 "@guardian/eslint-config-typescript@^9.0.1":
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-9.0.1.tgz#42d63f6b4d0c0414d5a7a6a4da3b288fa53df709"
@@ -4725,9 +4730,9 @@ playwright-aws-lambda@^0.10.0:
     lambdafs "^2.1.1"
 
 playwright-core@^1.40.1:
-  version "1.40.1"
-  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.40.1.tgz#442d15e86866a87d90d07af528e0afabe4c75c05"
-  integrity sha512-+hkOycxPiV534c4HhpfX6yrlawqVUzITRKwHAmYfmsVreltEl6fAZJ3DPfLMOODw0H3s1Itd6MDCWmP1fl/QvQ==
+  version "1.41.1"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.41.1.tgz#9c152670010d9d6f970f34b68e3e935d3c487431"
+  integrity sha512-/KPO5DzXSMlxSX77wy+HihKGOunh3hqndhqeo/nMxfigiKzogn8kfL0ZBDu0L1RKgan5XHCPmn6zXd2NUJgjhg==
 
 prelude-ls@^1.2.1:
   version "1.2.1"

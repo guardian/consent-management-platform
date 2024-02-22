@@ -1,3 +1,4 @@
+import {checkTopAdHasLoaded} from '@guardian/consent-management-platform';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import { ELEMENT_ID } from '../types';
 import type { Config } from '../types';
@@ -5,7 +6,6 @@ import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
-	checkTopAdHasLoaded,
 	loadPage,
 	log_info,
 	makeNewBrowser,

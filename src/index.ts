@@ -15,6 +15,8 @@ import {
 import type { CMP, InitCMP, WillShowPrivacyMessage } from './types';
 import { initVendorDataManager } from './vendorDataManager';
 
+export {checkTopAdHasLoaded, clickAcceptAllCookies} from './testing/common-functions';
+
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 if (!isServerSide) {
