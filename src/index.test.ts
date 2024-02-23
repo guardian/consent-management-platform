@@ -1,10 +1,12 @@
 import type { CountryCode } from '@guardian/libs';
-import waitForExpect from 'wait-for-expect';
 import { CMP as actualCMP } from './cmp';
 import { disable, enable } from './disable';
 import { getCurrentFramework } from './getCurrentFramework';
 import type { CMP as typeCMP } from './types';
 import { cmp } from './index';
+
+const resolveAllPromises = () =>
+	new Promise((resolve) => process.nextTick(resolve));
 
 const CMP = {
 	init: jest.spyOn(actualCMP, 'init'),
@@ -102,25 +104,33 @@ describe('hotfix cmp.init', () => {
 			willShowPrivacyMessage: () => new Promise(() => true),
 			willShowPrivacyMessageSync: () => true,
 			hasInitialised: () => true,
-			showPrivacyManager: () => {console.warn('This is a dummy for showPrivacyManager')},
+			showPrivacyManager: () => {
+				console.warn('This is a dummy for showPrivacyManager');
+			},
 			version: 'mocked',
 			__isDisabled: () => false,
-			__disable: () => {console.warn('This is a dummy for __disable')},
-			__enable: () => {console.warn('This is a dummy for __enable')},
+			__disable: () => {
+				console.warn('This is a dummy for __disable');
+			},
+			__enable: () => {
+				console.warn('This is a dummy for __enable');
+			},
 		};
 
-		window.guCmpHotFix.cmp =  mockCmp;
+		window.guCmpHotFix.cmp = mockCmp;
 
 		jest.resetModules();
 		import('./index')
 			.then((module) => {
-			expect(module.cmp).toEqual(mockCmp);
+				expect(module.cmp).toEqual(mockCmp);
 
-			window.guCmpHotFix = {};
-			jest.resetModules();
-			import('./index');
+				window.guCmpHotFix = {};
+				jest.resetModules();
+				import('./index');
 			})
-			.catch((error) => {console.error(error);});
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -134,11 +144,18 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(
-				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-			).resolves.toEqual([true, true]).catch((error) => {console.error(error)});
-		}).catch((error) => {console.error(error)});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]))
+					.resolves.toEqual([true, true])
+					.catch((error) => {
+						console.error(error);
+					});
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 
@@ -153,9 +170,11 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 		cmp
 			.willShowPrivacyMessage()
 			.then(() => {
-			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
+				expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
 			})
-			.catch((error) => {console.error(error)});
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 
@@ -170,39 +189,38 @@ describe('cmp.hasInitialised', () => {
 		cmp
 			.willShowPrivacyMessage()
 			.then(() => {
-			expect(cmp.hasInitialised()).toBe(true);
+				expect(cmp.hasInitialised()).toBe(true);
 			})
-			.catch((error) => {console.error(error)});
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 
 describe('cmp.showPrivacyManager', () => {
-	it('shows CMP privacy manager when in the US', () => {
+	it('shows CMP privacy manager when in the US', async () => {
 		cmp.init({ country: 'US' });
 
 		cmp.showPrivacyManager();
+		await resolveAllPromises();
 
-		return waitForExpect(() =>
-			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
-		);
+		expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1);
 	});
 
-	it('shows CMP privacy manager when in Australia', () => {
+	it('shows CMP privacy manager when in Australia', async () => {
 		cmp.init({ country: 'AU' });
 
 		cmp.showPrivacyManager();
+		await resolveAllPromises();
 
-		return waitForExpect(() =>
-			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
-		);
+		expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1);
 	});
-	it('shows TCF privacy manager when neither in the US or Australia', () => {
+	it('shows TCF privacy manager when neither in the US or Australia', async () => {
 		cmp.init({ country: 'GB' });
 
 		cmp.showPrivacyManager();
+		await resolveAllPromises();
 
-		return waitForExpect(() =>
-			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
-		);
+		expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1);
 	});
 });

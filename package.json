@@ -88,8 +88,7 @@
 		"start-server-and-test": "~2.0.3",
 		"svelte": "~3.59.1",
 		"tslib": "^2.6.2",
-		"typescript": "~5.3.3",
-		"wait-for-expect": "^3"
+		"typescript": "~5.3.3"
 	},
 	"peerDependencies": {
 		"@guardian/libs": "^15.0.0 || ^16.0.0"
