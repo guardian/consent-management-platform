@@ -5,12 +5,15 @@
 	"homepage": "https://github.com/guardian/consent-management-platform.git",
 	"repository": "https://github.com/guardian/consent-management-platform.git",
 	"license": "Apache-2.0",
-	"main": "dist/index.js",
-	"module": "dist/index.esm.js",
-	"types": "dist/index.d.ts",
-	"files": [
-		"dist/**/*"
-	],
+	"exports": {
+		"index-self-test.js": "./dist/index-self-test.mjs",
+		"module": "./dist/index.mjs",
+		"require": "./dist/index.cjs",
+		"types": "./dist/index.d.ts",
+		"files": [
+			"./dist/**/*"
+		]
+	},
 	"scripts": {
 		"build": "npm-run-all clean --parallel compile types",
 		"clean": "npm-run-all --parallel clean:*",
@@ -76,6 +79,8 @@
 		"markdown-toc": "^1",
 		"np": "^9.2.0",
 		"npm-run-all": "^4",
+		"playwright-core": "1.41.2",
+		"playwright-aws-lambda": "^0.10.0",
 		"prettier": "^3.2.4",
 		"prettier-plugin-svelte": "^3.1.2",
 		"rollup": "^2.79.1",
@@ -88,9 +93,11 @@
 		"svelte": "3.59.1",
 		"tslib": "^2.6.2",
 		"typescript": "~5.3.3",
-		"wait-for-expect": "^3"
+		"wait-for-expect": "^3",
+		"ts-node-dev": "^2.0.0"
 	},
 	"peerDependencies": {
+		"playwright-core": "1.41.2",
 		"@guardian/libs": "^15.0.0 || ^16.0.0"
 	}
 }

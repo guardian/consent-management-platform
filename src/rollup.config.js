@@ -5,20 +5,25 @@ import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import strip from '@rollup/plugin-strip';
 import typescript from '@rollup/plugin-typescript';
+import { defineConfig } from 'rollup';
 import css from 'rollup-plugin-css-only';
 import pkg from '../package.json';
 
-export default {
-	input: './src/index.ts',
+export default defineConfig ({
+	input: ['./src/index.ts', './src/index-self-test.ts'],
 	external: (id) => !/^[./]/.test(id),
 	output: [
 		{
-			file: pkg.main,
+			dir: 'dist',
+			entryFileNames: "[name].cjs",
 			format: 'cjs',
+			sourcemap: true,
 		},
 		{
-			file: pkg.module,
+			dir: 'dist',
+			entryFileNames: "[name].mjs",
 			format: 'esm',
+			sourcemap: true,
 		},
 	],
 	plugins: [
@@ -41,4 +46,4 @@ export default {
 	watch: {
 		clearScreen: false,
 	},
-};
+});

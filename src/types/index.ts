@@ -1,3 +1,4 @@
+import { Page } from 'playwright-core';
 import type { VendorName } from '../vendors';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
@@ -58,6 +59,8 @@ export interface VendorConsents {
 			vendorGrant: boolean;
 		}
 	>;
-}
+};
 
 export type { VendorName };
+
+export type ClickAcceptAllCookies = (page: Page, text: string) => void;

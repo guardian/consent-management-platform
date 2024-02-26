@@ -1,6 +1,6 @@
 <script>
 	// always use the dist version
-	import { cmp, onConsentChange } from '../';
+	import { cmp, onConsentChange } from '../dist/';
 	import { log } from '@guardian/libs';
 	import { onMount } from 'svelte';
 
