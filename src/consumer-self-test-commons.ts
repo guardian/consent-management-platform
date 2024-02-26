@@ -1,5 +1,6 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import { launchChromium } from 'playwright-aws-lambda';
+import type { ClickAcceptAllCookies, GetCMPVersionRunning, Log_error, Log_info } from './types/consumer-self-test';
 
 const ELEMENT_ID = {
 	TCFV2_FIRST_LAYER_ACCEPT_ALL:
@@ -12,7 +13,7 @@ const ELEMENT_ID = {
  *
  * @param {string} message
  */
-export const log_info = (message: string): void => {
+export const log_info: Log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
 };
 
@@ -21,7 +22,7 @@ export const log_info = (message: string): void => {
  *
  * @param {string} message
  */
-export const log_error = (message: string): void => {
+export const log_error: Log_error = (message: string): void => {
 	console.error(`(cmp monitoring): error: ${message}`);
 };
 
@@ -33,7 +34,7 @@ export const log_error = (message: string): void => {
  * @param {Page} page
  * @param {string} textToPrintToConsole
  */
-export const clickAcceptAllCookies = async (page: Page, textToPrintToConsole: string) => {
+export const clickAcceptAllCookies: ClickAcceptAllCookies = async (page: Page, textToPrintToConsole: string) => {
 
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
 
@@ -43,7 +44,7 @@ export const clickAcceptAllCookies = async (page: Page, textToPrintToConsole: st
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
 
-export const getCMPVersionRunning = async (page: Page) => {
+export const getCMPVersionRunning: GetCMPVersionRunning = async (page: Page) => {
 	log_info(`Sourcepoint version: ${await page.evaluate('window._sp_.version')}`);
 	log_info(`CMP version: ${await page.evaluate('window.guCmpHotFix.cmp.version')}`);
 };
