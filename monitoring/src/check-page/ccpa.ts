@@ -1,3 +1,4 @@
+import { log_info } from '@guardian/consent-management-platform/dist/index-self-test';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import { ELEMENT_ID } from '../types';
 import type { Config } from '../types';
@@ -7,7 +8,6 @@ import {
 	checkCMPLoadingTimeAndVersion,
 	checkTopAdHasLoaded,
 	loadPage,
-	log_info,
 	makeNewBrowser,
 	makeNewPage,
 	reloadPage,
