@@ -1,5 +1,17 @@
 # @guardian/consent-management-platform
 
+## 13.11.1
+
+### Patch Changes
+
+- bf6d150: Bump package versions as recommended by Dependabot
+
+## 13.11.0
+
+### Minor Changes
+
+- 8b3c987: Adding extra final parameter onConsentChange
+
 ## 13.10.0
 
 ### Minor Changes
