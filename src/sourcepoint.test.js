@@ -43,10 +43,10 @@ describe('Sourcepoint unified', () => {
 				expect(window.__tcfapi).toBeDefined();
 				expect(window.__uspapi).toBeUndefined();
 			} else if (framework == 'ccpa') {
-				expect(window._sp_.config.usnat.includeUspApi).toEqual(true);
-				expect(window._sp_.config.usnat.transitionCCPAAuth).toEqual(
-					true,
-				);
+				expect(window._sp_.config.usnat.includeUspApi).toBeTruthy();
+				expect(
+					window._sp_.config.usnat.transitionCCPAAuth,
+				).toBeTruthy();
 				expect(
 					window._sp_.config.usnat.targetingParams.framework,
 				).toEqual(framework);
