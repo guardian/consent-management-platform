@@ -151,7 +151,9 @@ export const init = (framework: Framework, pubData = {}): void => {
 			};
 			break;
 		case 'ccpa':
-			window._sp_.config.ccpa = {
+			window._sp_.config.usnat = {
+				includeUspApi: true,
+				transitionCCPAAuth: true,
 				targetingParams: {
 					framework,
 				},
