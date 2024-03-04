@@ -6,6 +6,7 @@ import replace from '@rollup/plugin-replace';
 import strip from '@rollup/plugin-strip';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import json from "@rollup/plugin-json";
 import pkg from '../package.json';
 
 export default {
@@ -23,12 +24,12 @@ export default {
 	],
 	plugins: [
 		typescript(),
+		json(),
 		css(),
 		resolve(),
 		replace({
 			preventAssignment: true,
 			'process.env.NODE_ENV': JSON.stringify('production'),
-			__PACKAGE_VERSION__: JSON.stringify(pkg.version),
 		}),
 		commonjs(),
 		process.env.NODE_ENV === 'production' &&
