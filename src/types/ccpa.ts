@@ -10,4 +10,5 @@ export interface CCPAData {
 export interface GPPData {
 	gppVersion: number;
 	gppString: string;
+	applicableSections: number[];
 }
