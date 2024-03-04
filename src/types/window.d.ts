@@ -41,6 +41,13 @@ declare global {
 						framework: Framework;
 					};
 				};
+				usnat?: {
+					includeUspApi: boolean;
+					transitionCCPAAuth: boolean;
+					targetingParams?: {
+						framework: Framework;
+					};
+				};
 				gdpr?: {
 					targetingParams?: {
 						framework: Framework;
@@ -77,6 +84,9 @@ declare global {
 				};
 			};
 			gdpr?: {
+				loadPrivacyManagerModal?: (id: number) => void;
+			};
+			usnat?: {
 				loadPrivacyManagerModal?: (id: number) => void;
 			};
 			ccpa?: {
