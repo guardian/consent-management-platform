@@ -42,8 +42,8 @@ declare global {
 					};
 				};
 				usnat?: {
-					includeUspApi: boolean;
-					transitionCCPAAuth: boolean;
+					includeUspApi?: boolean;
+					transitionCCPAAuth?: boolean;
 					targetingParams?: {
 						framework: Framework;
 					};
