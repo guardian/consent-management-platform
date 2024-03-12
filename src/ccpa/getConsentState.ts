@@ -1,8 +1,17 @@
 import type { CCPAConsentState } from '../types/ccpa';
-import { getUSPData } from './api';
+import { getGPPData, getUSPData } from './api';
 
 // get the current consent state using the official IAB method
 export const getConsentState: () => Promise<CCPAConsentState> = async () => {
+	const gppData = await getGPPData()
+
+	if(gppData.applicableSections.includes(7)) {
+		return {
+			doNotSell: gppData.parsedSections.usnatv1.SaleOptOut !== 2
+		}
+	}
+
+
 	const uspData = await getUSPData();
 
 	return {
