@@ -5,12 +5,11 @@ import { getGPPData, getUSPData } from './api';
 export const getConsentState: () => Promise<CCPAConsentState> = async () => {
 	const gppData = await getGPPData()
 
-	if(gppData.applicableSections.includes(7)) {
+	if(gppData.parsedSections && gppData.applicableSections.length > 0 && gppData.applicableSections.includes(7)) {
 		return {
 			doNotSell: gppData.parsedSections.usnatv1.SaleOptOut !== 2
 		}
 	}
-
 
 	const uspData = await getUSPData();
 
