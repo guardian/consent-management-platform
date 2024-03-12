@@ -33,6 +33,7 @@ declare global {
 				accountId: number;
 				propertyHref: Property;
 				propertyId?: string;
+				campaignEnv?: string;
 				targetingParams: {
 					framework: Framework;
 				};
