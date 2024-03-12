@@ -18,5 +18,5 @@ export interface GPPData {
 	gppVersion: number;
 	gppString: string;
 	applicableSections: number[];
-	parsedSections: GppParsedSections;
+	parsedSections?: GppParsedSections;
 }
