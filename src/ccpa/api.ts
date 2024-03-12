@@ -27,7 +27,7 @@ const gppapi = (command: GppApiCommand) =>
 						reject(new Error(`Unable to get ${command} data`)),
 			);
 		} else {
-			reject(new Error('No _gpp found on window'));
+			reject(new Error('No __gpp found on window'));
 		}
 	});
 
