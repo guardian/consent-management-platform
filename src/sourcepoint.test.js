@@ -9,6 +9,7 @@ describe('Sourcepoint unified', () => {
 	beforeEach(() => {
 		window.__tcfapi = undefined;
 		window.__uspapi = undefined;
+		window.__gpp = undefined;
 	});
 	afterEach(() => {
 		window._sp_ = undefined;
@@ -42,6 +43,7 @@ describe('Sourcepoint unified', () => {
 				expect(window._sp_.config.ccpa).toBeUndefined();
 				expect(window.__tcfapi).toBeDefined();
 				expect(window.__uspapi).toBeUndefined();
+				expect(window.__gpp).toBeUndefined();
 			} else if (framework == 'ccpa') {
 				expect(window._sp_.config.usnat.includeUspApi).toBeTruthy();
 				expect(
@@ -53,6 +55,7 @@ describe('Sourcepoint unified', () => {
 				expect(window._sp_.config.gdpr).toBeUndefined;
 				expect(window.__uspapi).toBeDefined();
 				expect(window.__tcfapi).toBeUndefined();
+				expect(window.__gpp).toBeDefined();
 			} else if (framework == 'aus') {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
@@ -60,6 +63,7 @@ describe('Sourcepoint unified', () => {
 				expect(window._sp_.config.gdpr).toBeUndefined;
 				expect(window.__uspapi).toBeDefined();
 				expect(window.__tcfapi).toBeUndefined();
+				expect(window._gpp).toBeUndefined();
 			}
 		},
 	);

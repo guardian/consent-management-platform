@@ -1,4 +1,5 @@
 import ausData from './aus/__fixtures__/api.getUSPData.json';
+import gppData from './ccpa/__fixtures__/api.getGPPData.success.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { setCurrentFramework } from './getCurrentFramework.ts';
 import { _, invokeCallbacks, onConsentChange } from './onConsentChange.ts';
@@ -24,6 +25,10 @@ describe('under CCPA', () => {
 	beforeEach(() => {
 		window.__uspapi = jest.fn((command, b, callback) => {
 			if (command === 'getUSPData') callback(uspData, true);
+		});
+
+		window.__gpp = jest.fn((command, gppCallback) => {
+			if (command === 'ping') gppCallback(gppData, true);
 		});
 
 		setCurrentFramework('ccpa');
@@ -63,7 +68,8 @@ describe('under CCPA', () => {
 
 		expect(callback).toHaveBeenCalledTimes(1);
 
-		uspData.uspString = '1YNN';
+		// uspData.uspString = '1YNN';
+		gppData.parsedSections.usnatv1.SaleOptOut = 1;
 		invokeCallbacks();
 		await resolveAllPromises();
 
@@ -81,7 +87,8 @@ describe('under CCPA', () => {
 		const callback3 = jest.fn(() => setCallbackLastExecuted(3));
 		const callback4 = jest.fn(() => setCallbackLastExecuted(4));
 
-		uspData.uspString = '1YYN';
+		// uspData.uspString = '1YYN';
+		gppData.parsedSections.usnatv1.SaleOptOut = 1;
 
 		// callback 3 and 4 registered first with final flag
 		onConsentChange(callback3, true);
@@ -96,18 +103,13 @@ describe('under CCPA', () => {
 		expect(callback4).toHaveBeenCalledTimes(1);
 
 		// callbacks initially executed in order they were registered in
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
-		expect(callbackLastExecuted[4]).toBeLessThan(
-			callbackLastExecuted[1],
-		);
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
+		expect(callbackLastExecuted[4]).toBeLessThan(callbackLastExecuted[1]);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
 
+		// uspData.uspString = '1YNN';
+		gppData.parsedSections.usnatv1.SaleOptOut = 2;
 
-		uspData.uspString = '1YNN';
 		invokeCallbacks();
 
 		await resolveAllPromises();
@@ -117,15 +119,9 @@ describe('under CCPA', () => {
 		expect(callback4).toHaveBeenCalledTimes(2);
 
 		// after consent state change, callbacks were executed in order 1, 2, 3, 4
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-		expect(callbackLastExecuted[2]).toBeLessThan(
-			callbackLastExecuted[3],
-		);
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
+		expect(callbackLastExecuted[2]).toBeLessThan(callbackLastExecuted[3]);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
 	});
 });
 
@@ -207,15 +203,9 @@ describe('under AUS', () => {
 		expect(callback4).toHaveBeenCalledTimes(1);
 
 		// callbacks initially executed in order they were registered in
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
-		expect(callbackLastExecuted[4]).toBeLessThan(
-			callbackLastExecuted[1],
-		);
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
+		expect(callbackLastExecuted[4]).toBeLessThan(callbackLastExecuted[1]);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
 
 		ausData.uspString = '1YNN';
 		invokeCallbacks();
@@ -227,15 +217,9 @@ describe('under AUS', () => {
 		expect(callback4).toHaveBeenCalledTimes(2);
 
 		// after consent state change, callbacks were executed in order 1, 2, 3, 4
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-		expect(callbackLastExecuted[2]).toBeLessThan(
-			callbackLastExecuted[3],
-		);
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
+		expect(callbackLastExecuted[2]).toBeLessThan(callbackLastExecuted[3]);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
 	});
 });
 
@@ -353,14 +337,8 @@ describe('under TCFv2', () => {
 		expect(callback4).toHaveBeenCalledTimes(1);
 
 		// callbacks were executed in order 1, 2, 3, 4
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-		expect(callbackLastExecuted[2]).toBeLessThan(
-			callbackLastExecuted[3],
-		);
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
+		expect(callbackLastExecuted[2]).toBeLessThan(callbackLastExecuted[3]);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
 	});
 });
