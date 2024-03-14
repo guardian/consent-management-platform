@@ -13,8 +13,8 @@ export const stub = (framework: Framework): void => {
 			stub_tcfv2();
 			break;
 		case 'ccpa':
-			stub_uspapi_ccpa();
 			stub_gpp_ccpa();
+			stub_uspapi_ccpa();
 			break;
 		case 'aus':
 			stub_uspapi_ccpa();
