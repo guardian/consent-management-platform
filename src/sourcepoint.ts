@@ -109,7 +109,6 @@ export const init = (framework: Framework, pubData = {}): void => {
 
 				onMessageChoiceSelect: (message_type, choice_id, choiceTypeID) => {
 					log('cmp', `onMessageChoiceSelect message_type: ${message_type}`);
-					console.log();
 					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `onMessageChoiceSelect choice_id: ${choice_id}`);
