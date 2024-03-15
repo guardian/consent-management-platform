@@ -8,7 +8,7 @@ export interface CCPAData {
 }
 
 interface GppParsedSections {
-	usnatv1: {
+	usnatv1?: {
 		Version: number;
 		SaleOptOut: number;
 	};
@@ -18,5 +18,5 @@ export interface GPPData {
 	gppVersion: number;
 	gppString: string;
 	applicableSections: number[];
-	parsedSections?: GppParsedSections;
+	parsedSections: GppParsedSections;
 }
