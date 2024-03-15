@@ -1,8 +1,6 @@
 import { isGuardianDomain } from './domain';
 
 export const ACCOUNT_ID = 1257;
-// export const PRIVACY_MANAGER_CCPA = 540252;
-// export const PRIVACY_MANAGER_CCPA = 1070285;
 export const PRIVACY_MANAGER_CCPA = 1068329;
 
 export const PRIVACY_MANAGER_TCFV2 = 106842;
