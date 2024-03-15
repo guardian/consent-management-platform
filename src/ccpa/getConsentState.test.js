@@ -1,12 +1,9 @@
 import gppDataFail from './__fixtures__/api.getGPPData.fail.json';
 import gppDataSuccess from './__fixtures__/api.getGPPData.success.json';
-import uspData from './__fixtures__/api.getUSPData.json';
-import { getGPPData, getUSPData } from './api.ts';
+import { getGPPData } from './api.ts';
 import { getConsentState } from './getConsentState.ts';
 
 jest.mock('./api');
-getUSPData.mockResolvedValue(uspData);
-// getGPPData.mockResolvedValue(gppDataSuccess);
 
 describe('getConsentState', () => {
 	it('gets the gpp consent state correctly', async () => {
