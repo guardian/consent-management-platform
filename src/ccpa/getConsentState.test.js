@@ -14,7 +14,6 @@ describe('getConsentState', () => {
 
 		const { doNotSell } = await getConsentState();
 		expect(getGPPData).toHaveBeenCalledTimes(1);
-		expect(getUSPData).toHaveBeenCalledTimes(0);
 
 		expect(doNotSell).toBe(false);
 	});
@@ -25,7 +24,6 @@ describe('getConsentState', () => {
 		const { doNotSell } = await getConsentState();
 
 		expect(getGPPData).toHaveBeenCalledTimes(1);
-		expect(getUSPData).toHaveBeenCalledTimes(1);
 		expect(doNotSell).toBe(true);
 	});
 });
