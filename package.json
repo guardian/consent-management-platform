@@ -41,7 +41,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.23.9",
 		"@babel/plugin-proposal-class-properties": "^7",
-		"@babel/plugin-transform-runtime": "~7.23.9",
+		"@babel/plugin-transform-runtime": "~7.24.0",
 		"@babel/preset-env": "^7.23.9",
 		"@babel/preset-typescript": "^7.23.3",
 		"@babel/runtime": "^7.23.9",
@@ -74,21 +74,21 @@
 		"jest-environment-jsdom": "^29.5.0",
 		"locate-character": "^3.0.0",
 		"markdown-toc": "^1",
-		"np": "^9.2.0",
+		"np": "^10.0.1",
 		"npm-run-all": "^4",
 		"prettier": "^3.2.4",
 		"prettier-plugin-svelte": "^3.1.2",
-		"rollup": "^2.79.1",
+		"rollup": "^4.13.0",
 		"rollup-plugin-css-only": "^4.5.2",
 		"rollup-plugin-livereload": "^2",
-		"rollup-plugin-serve": "^2.0.3",
+		"rollup-plugin-serve": "^3.0.0",
 		"rollup-plugin-svelte": "^7.1.6",
 		"@rollup/plugin-json": "^6.1.0",
 		"serve": "^14.2.1",
 		"start-server-and-test": "~2.0.3",
-		"svelte": "3.59.1",
+		"svelte": "4.2.12",
 		"tslib": "^2.6.2",
-		"typescript": "~5.3.3"
+		"typescript": "~5.4.2"
 	},
 	"peerDependencies": {
 		"@guardian/libs": "^15.0.0 || ^16.0.0"
