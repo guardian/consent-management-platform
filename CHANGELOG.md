@@ -1,5 +1,11 @@
 # @guardian/consent-management-platform
 
+## 13.12.1
+
+### Patch Changes
+
+- a602daf: Add new comscore cookie to vendorStorageIds
+
 ## 13.12.0
 
 ### Minor Changes
