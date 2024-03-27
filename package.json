@@ -1,6 +1,6 @@
 {
 	"name": "@guardian/consent-management-platform",
-	"version": "13.11.1",
+	"version": "13.12.1",
 	"description": "Consent management for *.theguardian.com.",
 	"homepage": "https://github.com/guardian/consent-management-platform.git",
 	"repository": "https://github.com/guardian/consent-management-platform.git",
@@ -83,12 +83,12 @@
 		"rollup-plugin-livereload": "^2",
 		"rollup-plugin-serve": "^2.0.3",
 		"rollup-plugin-svelte": "^7.1.6",
+		"@rollup/plugin-json": "^6.1.0",
 		"serve": "^14.2.1",
 		"start-server-and-test": "~2.0.3",
 		"svelte": "3.59.1",
 		"tslib": "^2.6.2",
-		"typescript": "~5.3.3",
-		"wait-for-expect": "^3"
+		"typescript": "~5.3.3"
 	},
 	"peerDependencies": {
 		"@guardian/libs": "^15.0.0 || ^16.0.0"

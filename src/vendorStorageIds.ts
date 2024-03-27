@@ -22,15 +22,11 @@ export const vendorStorageIds = {
 		],
 	},
 	comscore: {
-		cookies: ['comScore'],
+		cookies: ['comScore','_scor_uid'],
 	},
 
 	ipsos: {
-		cookies: [
-			'DM_SitId1073',
-			'DM_SitId1073SecId5802',
-			'DotMetrics.AmpCookie',
-		],
+		cookies: ['DM_SitId1073', 'DM_SitId1073SecId5802', 'DotMetrics.AmpCookie'],
 		localStorage: [
 			'DotmetricsSiteData',
 			'DotMetricsTimeOnPage',

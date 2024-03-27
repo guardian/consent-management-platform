@@ -1,10 +1,12 @@
-import waitForExpect from 'wait-for-expect';
 import ausData from './aus/__fixtures__/api.getUSPData.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { setCurrentFramework } from './getCurrentFramework.ts';
 import { _, invokeCallbacks, onConsentChange } from './onConsentChange.ts';
 import customVendorConsents from './tcfv2/__fixtures__/api.getCustomVendorConsents.json';
 import tcData from './tcfv2/__fixtures__/api.getTCData.json';
+
+const resolveAllPromises = () =>
+	new Promise((resolve) => process.nextTick(resolve));
 
 beforeEach(() => {
 	window.__uspapi = undefined;
@@ -36,17 +38,15 @@ describe('under CCPA', () => {
 		expect(callback).toHaveBeenCalledTimes(0);
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		onConsentChange(instantCallback);
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-			expect(instantCallback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
+		expect(instantCallback).toHaveBeenCalledTimes(1);
 	});
 
 	it('invokes callbacks only if there is a new state', async () => {
@@ -54,25 +54,21 @@ describe('under CCPA', () => {
 
 		onConsentChange(callback);
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		uspData.uspString = '1YNN';
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(2);
-		});
+		expect(callback).toHaveBeenCalledTimes(2);
 	});
-
 
 	it('callbacks executed in correct order', async () => {
 		let callbackLastExecuted = {};
@@ -93,44 +89,43 @@ describe('under CCPA', () => {
 		onConsentChange(callback1);
 		onConsentChange(callback2);
 
-		await waitForExpect(() => {
-			expect(callback1).toHaveBeenCalledTimes(1);
-			expect(callback2).toHaveBeenCalledTimes(1);
-			expect(callback3).toHaveBeenCalledTimes(1);
-			expect(callback4).toHaveBeenCalledTimes(1);
+		await resolveAllPromises();
+		expect(callback1).toHaveBeenCalledTimes(1);
+		expect(callback2).toHaveBeenCalledTimes(1);
+		expect(callback3).toHaveBeenCalledTimes(1);
+		expect(callback4).toHaveBeenCalledTimes(1);
 
-			// callbacks initially executed in order they were registered in
-			expect(callbackLastExecuted[3]).toBeLessThan(
-				callbackLastExecuted[4],
-			);
-			expect(callbackLastExecuted[4]).toBeLessThan(
-				callbackLastExecuted[1],
-			);
-			expect(callbackLastExecuted[1]).toBeLessThan(
-				callbackLastExecuted[2],
-			);
-		});
+		// callbacks initially executed in order they were registered in
+		expect(callbackLastExecuted[3]).toBeLessThan(
+			callbackLastExecuted[4],
+		);
+		expect(callbackLastExecuted[4]).toBeLessThan(
+			callbackLastExecuted[1],
+		);
+		expect(callbackLastExecuted[1]).toBeLessThan(
+			callbackLastExecuted[2],
+		);
+
 
 		uspData.uspString = '1YNN';
 		invokeCallbacks();
 
-		await waitForExpect(() => {
-			expect(callback1).toHaveBeenCalledTimes(2);
-			expect(callback2).toHaveBeenCalledTimes(2);
-			expect(callback3).toHaveBeenCalledTimes(2);
-			expect(callback4).toHaveBeenCalledTimes(2);
+		await resolveAllPromises();
+		expect(callback1).toHaveBeenCalledTimes(2);
+		expect(callback2).toHaveBeenCalledTimes(2);
+		expect(callback3).toHaveBeenCalledTimes(2);
+		expect(callback4).toHaveBeenCalledTimes(2);
 
-			// after consent state change, callbacks were executed in order 1, 2, 3, 4
-			expect(callbackLastExecuted[1]).toBeLessThan(
-				callbackLastExecuted[2],
-			);
-			expect(callbackLastExecuted[2]).toBeLessThan(
-				callbackLastExecuted[3],
-			);
-			expect(callbackLastExecuted[3]).toBeLessThan(
-				callbackLastExecuted[4],
-			);
-		});
+		// after consent state change, callbacks were executed in order 1, 2, 3, 4
+		expect(callbackLastExecuted[1]).toBeLessThan(
+			callbackLastExecuted[2],
+		);
+		expect(callbackLastExecuted[2]).toBeLessThan(
+			callbackLastExecuted[3],
+		);
+		expect(callbackLastExecuted[3]).toBeLessThan(
+			callbackLastExecuted[4],
+		);
 	});
 });
 
@@ -153,17 +148,15 @@ describe('under AUS', () => {
 		expect(callback).toHaveBeenCalledTimes(0);
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		onConsentChange(instantCallback);
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-			expect(instantCallback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
+		expect(instantCallback).toHaveBeenCalledTimes(1);
 	});
 
 	it('invokes callbacks only if there is a new state', async () => {
@@ -171,25 +164,22 @@ describe('under AUS', () => {
 
 		onConsentChange(callback);
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		ausData.uspString = '1YYN';
+
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(2);
-		});
+		expect(callback).toHaveBeenCalledTimes(2);
 	});
-
 
 	it('callbacks executed in correct order', async () => {
 		let callbackLastExecuted = {};
@@ -210,44 +200,42 @@ describe('under AUS', () => {
 		onConsentChange(callback1);
 		onConsentChange(callback2);
 
-		await waitForExpect(() => {
-			expect(callback1).toHaveBeenCalledTimes(1);
-			expect(callback2).toHaveBeenCalledTimes(1);
-			expect(callback3).toHaveBeenCalledTimes(1);
-			expect(callback4).toHaveBeenCalledTimes(1);
+		await resolveAllPromises();
+		expect(callback1).toHaveBeenCalledTimes(1);
+		expect(callback2).toHaveBeenCalledTimes(1);
+		expect(callback3).toHaveBeenCalledTimes(1);
+		expect(callback4).toHaveBeenCalledTimes(1);
 
-			// callbacks initially executed in order they were registered in
-			expect(callbackLastExecuted[3]).toBeLessThan(
-				callbackLastExecuted[4],
-			);
-			expect(callbackLastExecuted[4]).toBeLessThan(
-				callbackLastExecuted[1],
-			);
-			expect(callbackLastExecuted[1]).toBeLessThan(
-				callbackLastExecuted[2],
-			);
-		});
+		// callbacks initially executed in order they were registered in
+		expect(callbackLastExecuted[3]).toBeLessThan(
+			callbackLastExecuted[4],
+		);
+		expect(callbackLastExecuted[4]).toBeLessThan(
+			callbackLastExecuted[1],
+		);
+		expect(callbackLastExecuted[1]).toBeLessThan(
+			callbackLastExecuted[2],
+		);
 
 		ausData.uspString = '1YNN';
 		invokeCallbacks();
 
-		await waitForExpect(() => {
-			expect(callback1).toHaveBeenCalledTimes(2);
-			expect(callback2).toHaveBeenCalledTimes(2);
-			expect(callback3).toHaveBeenCalledTimes(2);
-			expect(callback4).toHaveBeenCalledTimes(2);
+		await resolveAllPromises();
+		expect(callback1).toHaveBeenCalledTimes(2);
+		expect(callback2).toHaveBeenCalledTimes(2);
+		expect(callback3).toHaveBeenCalledTimes(2);
+		expect(callback4).toHaveBeenCalledTimes(2);
 
-			// after consent state change, callbacks were executed in order 1, 2, 3, 4
-			expect(callbackLastExecuted[1]).toBeLessThan(
-				callbackLastExecuted[2],
-			);
-			expect(callbackLastExecuted[2]).toBeLessThan(
-				callbackLastExecuted[3],
-			);
-			expect(callbackLastExecuted[3]).toBeLessThan(
-				callbackLastExecuted[4],
-			);
-		});
+		// after consent state change, callbacks were executed in order 1, 2, 3, 4
+		expect(callbackLastExecuted[1]).toBeLessThan(
+			callbackLastExecuted[2],
+		);
+		expect(callbackLastExecuted[2]).toBeLessThan(
+			callbackLastExecuted[3],
+		);
+		expect(callbackLastExecuted[3]).toBeLessThan(
+			callbackLastExecuted[4],
+		);
 	});
 });
 
@@ -271,17 +259,15 @@ describe('under TCFv2', () => {
 		expect(callback).toHaveBeenCalledTimes(0);
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		onConsentChange(instantCallback);
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-			expect(instantCallback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
+		expect(instantCallback).toHaveBeenCalledTimes(1);
 	});
 
 	it('invokes callbacks only if there is a new state', async () => {
@@ -289,23 +275,20 @@ describe('under TCFv2', () => {
 
 		onConsentChange(callback);
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		tcData.purpose.consents['1'] = false;
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(2);
-		});
+		expect(callback).toHaveBeenCalledTimes(2);
 	});
 
 	it('invokes callbacks only if there is a user action', async () => {
@@ -315,26 +298,23 @@ describe('under TCFv2', () => {
 
 		onConsentChange(callback);
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(0);
-		});
+		expect(callback).toHaveBeenCalledTimes(0);
 
 		tcData.eventStatus = 'useractioncomplete';
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(1);
-		});
+		expect(callback).toHaveBeenCalledTimes(1);
 
 		tcData.eventStatus = 'tcloaded';
 
 		invokeCallbacks();
+		await resolveAllPromises();
 
-		await waitForExpect(() => {
-			expect(callback).toHaveBeenCalledTimes(2);
-		});
+		expect(callback).toHaveBeenCalledTimes(2);
 	});
 
 	it('callbacks executed in correct order', async () => {
@@ -356,33 +336,31 @@ describe('under TCFv2', () => {
 		onConsentChange(callback1);
 		onConsentChange(callback2);
 
-		await waitForExpect(() => {
-			expect(callback1).toHaveBeenCalledTimes(0);
-			expect(callback2).toHaveBeenCalledTimes(0);
-			expect(callback3).toHaveBeenCalledTimes(0);
-			expect(callback4).toHaveBeenCalledTimes(0);
-		});
+		await resolveAllPromises();
+		expect(callback1).toHaveBeenCalledTimes(0);
+		expect(callback2).toHaveBeenCalledTimes(0);
+		expect(callback3).toHaveBeenCalledTimes(0);
+		expect(callback4).toHaveBeenCalledTimes(0);
 
 		tcData.eventStatus = 'useractioncomplete';
 
 		invokeCallbacks();
 
-		await waitForExpect(() => {
-			expect(callback1).toHaveBeenCalledTimes(1);
-			expect(callback2).toHaveBeenCalledTimes(1);
-			expect(callback3).toHaveBeenCalledTimes(1);
-			expect(callback4).toHaveBeenCalledTimes(1);
+		await resolveAllPromises();
+		expect(callback1).toHaveBeenCalledTimes(1);
+		expect(callback2).toHaveBeenCalledTimes(1);
+		expect(callback3).toHaveBeenCalledTimes(1);
+		expect(callback4).toHaveBeenCalledTimes(1);
 
-			// callbacks were executed in order 1, 2, 3, 4
-			expect(callbackLastExecuted[1]).toBeLessThan(
-				callbackLastExecuted[2],
-			);
-			expect(callbackLastExecuted[2]).toBeLessThan(
-				callbackLastExecuted[3],
-			);
-			expect(callbackLastExecuted[3]).toBeLessThan(
-				callbackLastExecuted[4],
-			);
-		});
+		// callbacks were executed in order 1, 2, 3, 4
+		expect(callbackLastExecuted[1]).toBeLessThan(
+			callbackLastExecuted[2],
+		);
+		expect(callbackLastExecuted[2]).toBeLessThan(
+			callbackLastExecuted[3],
+		);
+		expect(callbackLastExecuted[3]).toBeLessThan(
+			callbackLastExecuted[4],
+		);
 	});
 });

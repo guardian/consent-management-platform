@@ -87,10 +87,10 @@ export const stub_gpp_ccpa = () => {
 							supportedAPIs: ['tcfeuv2', 'tcfva', 'usnat'],
 							cmpId: 31,
 						},
-				  }
+					}
 				: 'hasSection' === t || 'getSection' === t || 'getField' === t
-				? null
-				: void __gpp.queue.push([].slice.apply(e));
+					? null
+					: void __gpp.queue.push([].slice.apply(e));
 		}),
 		(window.__gpp_msghandler = function (e) {
 			var t = 'string' == typeof e.data;
