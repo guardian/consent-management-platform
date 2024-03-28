@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Monitoring - prod with tcfv2",
+            "name": "CMP Debug Monitoring - prod with tcfv2",
             "type": "node",
             "request": "launch",
             "skipFiles": [
@@ -22,7 +22,7 @@
 			"sourceMaps": true
         },
 		{
-            "name": "Debug Monitoring - prod with ccpa (needs VPN)",
+            "name": "CMP Debug Monitoring - prod with ccpa (needs VPN)",
             "type": "node",
             "request": "launch",
             "skipFiles": [
@@ -39,7 +39,7 @@
 			"sourceMaps": true
         },
 		{
-            "name": "Debug Monitoring - prod with aus (needs VPN)",
+            "name": "CMP Debug Monitoring - prod with aus (needs VPN)",
             "type": "node",
             "request": "launch",
             "skipFiles": [
