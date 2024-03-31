@@ -41,7 +41,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.23.9",
 		"@babel/plugin-proposal-class-properties": "^7",
-		"@babel/plugin-transform-runtime": "~7.23.9",
+		"@babel/plugin-transform-runtime": "~7.24.3",
 		"@babel/preset-env": "^7.23.9",
 		"@babel/preset-typescript": "^7.23.3",
 		"@babel/runtime": "^7.23.9",
@@ -88,7 +88,7 @@
 		"start-server-and-test": "~2.0.3",
 		"svelte": "3.59.1",
 		"tslib": "^2.6.2",
-		"typescript": "~5.3.3"
+		"typescript": "~5.4.3"
 	},
 	"peerDependencies": {
 		"@guardian/libs": "^15.0.0 || ^16.0.0"
