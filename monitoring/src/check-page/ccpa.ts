@@ -79,6 +79,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkTopAdHasLoaded(page);
 	await checkCMPIsOnPage(page);
 	await clickDoNotSellMyInfo(config, page);
+	await page.waitForLoadState('domcontentloaded');
 	await checkCMPIsNotVisible(page);
 	await reloadPage(page);
 	await checkTopAdHasLoaded(page);
