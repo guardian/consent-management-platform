@@ -320,10 +320,14 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start ${page.url()}`);
 	try{
-		await page.reload({
+		const reloadResponse = await page.reload({
 			waitUntil: 'domcontentloaded',
 			timeout: 30000,
 		});
+		if (!reloadResponse) {
+			log_error(`Reloading page: Failed ${page.url()}`);
+			throw new Error(`Failed to refresh page ${page.url()}!`);
+		}
 		log_info(`Reloading page: Complete`);
 	}
 	catch(error)
