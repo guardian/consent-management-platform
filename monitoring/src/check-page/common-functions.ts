@@ -319,15 +319,26 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
  */
 export const reloadPage = async (page: Page) => {
 	log_info(`Reloading page: Start ${page.url()}`);
-	const reloadResponse = await page.reload({
-		waitUntil: 'domcontentloaded',
-		timeout: 30000,
-	});
-	if (!reloadResponse) {
-		log_error(`Reloading page ${page.url()}: Failed`);
-		throw `Failed to refresh page ${page.url()}!`;
+	try{
+		await page.reload({
+			waitUntil: 'domcontentloaded',
+			timeout: 30000,
+		});
+		log_info(`Reloading page: Complete`);
 	}
-	log_info(`Reloading page: Complete`);
+	catch(error)
+	{
+		let errorMessage = 'Unknown Error!';
+
+		if (typeof error === 'string') {
+			errorMessage = error;
+		} else if (error instanceof Error) {
+			errorMessage = error.message;
+		}
+
+		log_error(`Reloading page ${page.url()}: Failed with error with message "${errorMessage}"`);
+		throw new Error(`Failed to refresh page ${page.url()}!`);
+	};
 };
 
 /**
