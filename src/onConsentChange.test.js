@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import ausData from './aus/__fixtures__/api.getUSPData.json';
 import uspData from './ccpa/__fixtures__/api.getUSPData.json';
 import { setCurrentFramework } from './getCurrentFramework.ts';
@@ -96,16 +104,9 @@ describe('under CCPA', () => {
 		expect(callback4).toHaveBeenCalledTimes(1);
 
 		// callbacks initially executed in order they were registered in
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
-		expect(callbackLastExecuted[4]).toBeLessThan(
-			callbackLastExecuted[1],
-		);
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
+		expect(callbackLastExecuted[4]).toBeLessThan(callbackLastExecuted[1]);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
 
 		uspData.uspString = '1YNN';
 		invokeCallbacks();
@@ -117,15 +118,9 @@ describe('under CCPA', () => {
 		expect(callback4).toHaveBeenCalledTimes(2);
 
 		// after consent state change, callbacks were executed in order 1, 2, 3, 4
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-		expect(callbackLastExecuted[2]).toBeLessThan(
-			callbackLastExecuted[3],
-		);
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
+		expect(callbackLastExecuted[2]).toBeLessThan(callbackLastExecuted[3]);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
 	});
 });
 
@@ -207,15 +202,9 @@ describe('under AUS', () => {
 		expect(callback4).toHaveBeenCalledTimes(1);
 
 		// callbacks initially executed in order they were registered in
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
-		expect(callbackLastExecuted[4]).toBeLessThan(
-			callbackLastExecuted[1],
-		);
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
+		expect(callbackLastExecuted[4]).toBeLessThan(callbackLastExecuted[1]);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
 
 		ausData.uspString = '1YNN';
 		invokeCallbacks();
@@ -227,15 +216,9 @@ describe('under AUS', () => {
 		expect(callback4).toHaveBeenCalledTimes(2);
 
 		// after consent state change, callbacks were executed in order 1, 2, 3, 4
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-		expect(callbackLastExecuted[2]).toBeLessThan(
-			callbackLastExecuted[3],
-		);
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
+		expect(callbackLastExecuted[2]).toBeLessThan(callbackLastExecuted[3]);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
 	});
 });
 
@@ -353,14 +336,8 @@ describe('under TCFv2', () => {
 		expect(callback4).toHaveBeenCalledTimes(1);
 
 		// callbacks were executed in order 1, 2, 3, 4
-		expect(callbackLastExecuted[1]).toBeLessThan(
-			callbackLastExecuted[2],
-		);
-		expect(callbackLastExecuted[2]).toBeLessThan(
-			callbackLastExecuted[3],
-		);
-		expect(callbackLastExecuted[3]).toBeLessThan(
-			callbackLastExecuted[4],
-		);
+		expect(callbackLastExecuted[1]).toBeLessThan(callbackLastExecuted[2]);
+		expect(callbackLastExecuted[2]).toBeLessThan(callbackLastExecuted[3]);
+		expect(callbackLastExecuted[3]).toBeLessThan(callbackLastExecuted[4]);
 	});
 });
