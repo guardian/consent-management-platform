@@ -80,7 +80,6 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkCMPIsOnPage(page);
 	await clickDoNotSellMyInfo(config, page);
 	await checkCMPIsNotVisible(page);
-	//await reloadPage(page); // this is now happening as part of the process so do we need this?
 	await checkTopAdHasLoaded(page);
 
 	if (nextUrl) {
