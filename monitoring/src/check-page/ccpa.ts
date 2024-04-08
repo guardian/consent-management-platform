@@ -80,7 +80,6 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await checkCMPIsOnPage(page);
 	await clickDoNotSellMyInfo(config, page);
 	await checkCMPIsNotVisible(page);
-	await reloadPage(page);
 	await checkTopAdHasLoaded(page);
 
 	if (nextUrl) {
