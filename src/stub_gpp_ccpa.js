@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 // Reference : https://docs.sourcepoint.com/hc/en-us/articles/18007731422099-Enable-GPP-Multi-State-Privacy-String-MSPS-with-U-S-Privacy-CCPA-solution

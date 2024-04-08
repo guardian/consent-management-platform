@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 // https://documentation.sourcepoint.com/web-implementation/sourcepoint-gdpr-and-tcf-v2-support/__tcfapi-getcustomvendorconsents-api#data-the-__tcfapi-getcustomconsentdata-api-returns
 
 export interface CustomVendorConsents {

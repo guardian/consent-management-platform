@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 // cSpell:ignore doesnotexist
 
 import { getConsentFor } from './getConsentFor.ts';
@@ -28,9 +36,9 @@ jest.mock('./vendors', () => ({
 }));
 
 it('throws an error if the vendor found ', () => {
-	jest
-		.spyOn(vendors, 'VendorIDs')
-		.mockReturnValue({ vendorOne: [vendorOne, vendorAlt] });
+	jest.spyOn(vendors, 'VendorIDs').mockReturnValue({
+		vendorOne: [vendorOne, vendorAlt],
+	});
 	expect(() => {
 		getConsentFor('doesnotexist', tcfv2ConsentFoundTrue);
 	}).toThrow("Vendor 'doesnotexist' not found");
@@ -48,9 +56,9 @@ test.each([
 ])(
 	`In %s mode, returns %s, for vendor %s`,
 	(cmpMode, expected, vendor, mock) => {
-		jest
-			.spyOn(vendors, 'VendorIDs')
-			.mockReturnValue({ vendorOne: [vendorOne, vendorAlt] });
+		jest.spyOn(vendors, 'VendorIDs').mockReturnValue({
+			vendorOne: [vendorOne, vendorAlt],
+		});
 		expect(() => {
 			getConsentFor(vendor, mock);
 		});
