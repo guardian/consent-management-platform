@@ -6,7 +6,6 @@
  * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
  */
 
-import type { CountryCode } from '@guardian/libs';
 import { log } from '@guardian/libs';
 import { version } from '../package.json';
 import { CMP as UnifiedCMP } from './cmp';
@@ -64,7 +63,7 @@ const init: InitCMP = ({ pubData, country }) => {
 		);
 	}
 
-	const framework = getFramework(country as CountryCode);
+	const framework = getFramework(country);
 
 	UnifiedCMP.init(framework, pubData ?? {});
 
