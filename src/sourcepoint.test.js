@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import http from 'http';
 import url from 'url';
 import { ACCOUNT_ID, ENDPOINT } from './lib/sourcepointConfig.ts';
@@ -42,7 +50,14 @@ describe('Sourcepoint unified', () => {
 				expect(window._sp_.config.ccpa).toBeUndefined();
 				expect(window.__tcfapi).toBeDefined();
 				expect(window.__uspapi).toBeUndefined();
-			} else {
+			} else if (framework == 'ccpa') {
+				expect(
+					window._sp_.config.ccpa.targetingParams.framework,
+				).toEqual(framework);
+				expect(window._sp_.config.gdpr).toBeUndefined;
+				expect(window.__uspapi).toBeDefined();
+				expect(window.__tcfapi).toBeUndefined();
+			} else if (framework == 'aus') {
 				expect(
 					window._sp_.config.ccpa.targetingParams.framework,
 				).toEqual(framework);

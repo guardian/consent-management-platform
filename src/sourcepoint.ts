@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import { log } from '@guardian/libs';
 import { setCurrentFramework } from './getCurrentFramework';
 import { isGuardianDomain } from './lib/domain';
@@ -89,23 +97,13 @@ export const init = (framework: Framework, pubData = {}): void => {
 					void resolveWillShowPrivacyMessage(data.messageId !== 0);
 				},
 
-				onMessageChoiceSelect: (
-					message_type,
-					choice_id,
-					choiceTypeID,
-				) => {
-					log(
-						'cmp',
-						`onMessageChoiceSelect message_type: ${message_type}`,
-					);
+				onMessageChoiceSelect: (message_type, choice_id, choiceTypeID) => {
+					log('cmp', `onMessageChoiceSelect message_type: ${message_type}`);
 					console.log();
 					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `onMessageChoiceSelect choice_id: ${choice_id}`);
-					log(
-						'cmp',
-						`onMessageChoiceSelect choice_type_id: ${choiceTypeID}`,
-					);
+					log('cmp', `onMessageChoiceSelect choice_type_id: ${choiceTypeID}`);
 					if (
 						// https://documentation.sourcepoint.com/web-implementation/web-implementation/multi-campaign-web-implementation/event-callbacks#choice-type-id-descriptions
 						choiceTypeID === 11 ||
@@ -116,10 +114,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 					}
 				},
 				onPrivacyManagerAction: function (message_type, pmData) {
-					log(
-						'cmp',
-						`onPrivacyManagerAction message_type: ${message_type}`,
-					);
+					log('cmp', `onPrivacyManagerAction message_type: ${message_type}`);
 					if (message_type != frameworkMessageType) return;
 
 					log('cmp', `onPrivacyManagerAction ${pmData}`);
@@ -137,12 +132,7 @@ export const init = (framework: Framework, pubData = {}): void => {
 				onSPPMObjectReady: function () {
 					log('cmp', 'onSPPMObjectReady');
 				},
-				onError: function (
-					message_type,
-					errorCode,
-					errorObject,
-					userReset,
-				) {
+				onError: function (message_type, errorCode, errorObject, userReset) {
 					log('cmp', `errorCode: ${message_type}`);
 					if (message_type != frameworkMessageType) return;
 
@@ -159,18 +149,29 @@ export const init = (framework: Framework, pubData = {}): void => {
 	// __tcfapi or __uspapi to the window object respectively. If both of these functions appear on the window,
 	// advertisers seem to assume that __tcfapi is the one to use, breaking CCPA consent.
 	// https://documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#implementation-code-snippet-overview
-	if (framework === 'tcfv2') {
-		window._sp_.config.gdpr = {
-			targetingParams: {
-				framework,
-			},
-		};
-	} else {
-		window._sp_.config.ccpa = {
-			targetingParams: {
-				framework,
-			},
-		};
+
+	switch (framework) {
+		case 'tcfv2':
+			window._sp_.config.gdpr = {
+				targetingParams: {
+					framework,
+				},
+			};
+			break;
+		case 'ccpa':
+			window._sp_.config.ccpa = {
+				targetingParams: {
+					framework,
+				},
+			};
+			break;
+		case 'aus':
+			window._sp_.config.ccpa = {
+				targetingParams: {
+					framework,
+				},
+			};
+			break;
 	}
 
 	// TODO use libs function loadScript,

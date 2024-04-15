@@ -1,7 +1,15 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
+import type { CountryCode } from '@guardian/libs';
 import type { VendorName } from '../vendors';
 import type { AUSConsentState } from './aus';
 import type { CCPAConsentState } from './ccpa';
-import type { Country } from './countries';
 import type { TCFv2ConsentState } from './tcfv2';
 
 export type Framework = 'tcfv2' | 'ccpa' | 'aus';
@@ -18,9 +26,12 @@ export type CMP = {
 	__enable: () => void;
 };
 
-export type InitCMP = (arg0: { pubData?: PubData; country?: Country }) => void;
+export type InitCMP = (arg0: {
+	pubData?: PubData;
+	country?: CountryCode;
+}) => void;
 
-export type OnConsentChange = (fn: Callback) => void;
+export type OnConsentChange = (fn: Callback, final?: boolean) => void;
 export type GetConsentFor = (
 	vendor: VendorName,
 	consent: ConsentState,

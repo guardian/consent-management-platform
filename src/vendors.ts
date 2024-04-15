@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 /*********************
  * The list of vendors in this file is used in the function 'getConsentfFor'
  * when additional checks on consent are used.
@@ -11,10 +19,7 @@
  * Important: Keep in sync with list of vendors in README.md
  * *********************/
 
-
-type VendorIDType = {
-	[key: string]: string[]
-}
+type VendorIDType = Record<string, string[]>;
 
 export const TCFV2VendorIDs: VendorIDType = {
 	// keep the list in README.md up to date with these values
@@ -34,7 +39,7 @@ export const TCFV2VendorIDs: VendorIDType = {
 	nielsen: ['5ef5c3a5b8e05c69980eaa5b'],
 	ophan: ['5f203dbeeaaaa8768fd3226a'],
 	permutive: ['5f369a02b8e05c2f2d546a40'],
-	prebid: ['5f92a62aa22863685f4daa4c'],
+	prebidCustom: ['5f22bfd82a6b6c1afd1181a9'],
 	qm: ['5f295fa4b8e05c76a44c3149'],
 	remarketing: ['5ed0eb688a76503f1016578f'],
 	sentry: ['5f0f39014effda6e8bbd2006'],
@@ -43,14 +48,18 @@ export const TCFV2VendorIDs: VendorIDType = {
 	'youtube-player': ['5e7ac3fae30e7d1bc1ebf5e8'],
 };
 
+export const MiscVendorID: VendorIDType = {
+	prebid: ['5f92a62aa22863685f4daa4c'],
+};
+
 export const AusVendorIDs: VendorIDType = {
 	redplanet: ['not-tcfv2-vendor'],
-}
+};
 
 export const VendorIDs: VendorIDType = {
 	...TCFV2VendorIDs,
 	...AusVendorIDs,
-}
-
+	...MiscVendorID,
+};
 
 export type VendorName = keyof typeof VendorIDs;

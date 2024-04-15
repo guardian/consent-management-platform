@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import { onConsentChange } from './onConsentChange';
 import type { ConsentState } from './types';
 
@@ -13,7 +21,7 @@ import type { ConsentState } from './types';
 const onConsent = (): Promise<ConsentState> =>
 	new Promise<ConsentState>((resolve, reject) => {
 		onConsentChange((consentState) => {
-			if (consentState.tcfv2 || consentState.ccpa || consentState.aus) {
+			if (consentState.tcfv2 ?? consentState.ccpa ?? consentState.aus) {
 				resolve(consentState);
 			}
 			reject('Unknown framework');

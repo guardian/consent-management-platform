@@ -1,4 +1,14 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
+import type { CountryCode } from '@guardian/libs';
 import { log } from '@guardian/libs';
+import { version } from '../package.json';
 import { CMP as UnifiedCMP } from './cmp';
 import { disable, enable, isDisabled } from './disable';
 import { getConsentFor as clientGetConsentFor } from './getConsentFor';
@@ -18,7 +28,7 @@ import { initVendorDataManager } from './vendorDataManager';
 // Store some bits in the global scope for reuse, in case there's more
 // than one instance of the CMP on the page in different scopes.
 if (!isServerSide) {
-	window.guCmpHotFix ||= {};
+	if (typeof window.guCmpHotFix === 'undefined') window.guCmpHotFix = {};
 }
 
 let _willShowPrivacyMessage: undefined | boolean;
@@ -34,11 +44,12 @@ const init: InitCMP = ({ pubData, country }) => {
 	if (isDisabled() || isServerSide) return;
 
 	if (window.guCmpHotFix.initialised) {
-		if (window.guCmpHotFix.cmp?.version !== __PACKAGE_VERSION__)
+		if (window.guCmpHotFix.cmp?.version !== version) {
 			console.warn('Two different versions of the CMP are running:', [
-				__PACKAGE_VERSION__,
+				version,
 				window.guCmpHotFix.cmp?.version,
 			]);
+		}
 		return;
 	}
 
@@ -53,7 +64,7 @@ const init: InitCMP = ({ pubData, country }) => {
 		);
 	}
 
-	const framework = getFramework(country);
+	const framework = getFramework(country as CountryCode);
 
 	UnifiedCMP.init(framework, pubData ?? {});
 
@@ -94,13 +105,13 @@ export const cmp: CMP = isServerSide
 			willShowPrivacyMessageSync,
 			hasInitialised,
 			showPrivacyManager,
-			version: __PACKAGE_VERSION__,
+			version: version,
 
 			// special helper methods for disabling CMP
 			__isDisabled: isDisabled,
 			__enable: enable,
 			__disable: disable,
-	  });
+		});
 
 export const onConsent = isServerSide
 	? serverOnConsent

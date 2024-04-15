@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
@@ -8,7 +16,7 @@ See the documentation on how to retrieve the latest version:
 https://documentation.sourcepoint.com/implementation/web-implementation/multi-campaign-web-implementation#stub-file
 */
 
-export const stub_ccpa = () => {
+export const stub_uspapi_ccpa = () => {
 	(function () {
 		var e = false;
 		var c = window;

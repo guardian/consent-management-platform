@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import { getConsentState as getAUSConsentState } from './aus/getConsentState';
 import { getConsentState as getCCPAConsentState } from './ccpa/getConsentState';
 import { getCurrentFramework } from './getCurrentFramework';
@@ -16,6 +24,7 @@ interface ConsentStateBasic {
 
 // callbacks cache
 const callBackQueue: CallbackQueueItem[] = [];
+const finalCallbackQueue: CallbackQueueItem[] = [];
 
 /**
  * In TCFv2, check whether the event status anything but `cmpuishown`, i.e.:
@@ -98,18 +107,23 @@ const getConsentState: () => Promise<ConsentState> = async () => {
 
 // invokes all stored callbacks with the current consent state
 export const invokeCallbacks = (): void => {
-	if (callBackQueue.length === 0) return;
+	const callbacksToInvoke = callBackQueue.concat(finalCallbackQueue)
+	if (callbacksToInvoke.length === 0) return;
 	void getConsentState().then((state) => {
 		if (awaitingUserInteractionInTCFv2(state)) return;
 
-		callBackQueue.forEach((callback) => invokeCallback(callback, state));
+		callbacksToInvoke.forEach((callback) => invokeCallback(callback, state));
 	});
 };
 
-export const onConsentChange: OnConsentChange = (callBack) => {
+export const onConsentChange: OnConsentChange = (callBack, final = false) => {
 	const newCallback: CallbackQueueItem = { fn: callBack };
 
-	callBackQueue.push(newCallback);
+	if (final) {
+		finalCallbackQueue.push(newCallback);
+	} else {
+		callBackQueue.push(newCallback)
+	}
 
 	// if consentState is already available, invoke callback immediately
 	void getConsentState()

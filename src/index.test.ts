@@ -1,8 +1,20 @@
-import waitForExpect from 'wait-for-expect';
-import { CMP as actualCMP } from './cmp.ts';
-import { disable, enable } from './disable.ts';
-import { getCurrentFramework } from './getCurrentFramework.ts';
-import { cmp } from './index.ts';
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
+import type { CountryCode } from '@guardian/libs';
+import { CMP as actualCMP } from './cmp';
+import { disable, enable } from './disable';
+import { getCurrentFramework } from './getCurrentFramework';
+import type { CMP as typeCMP } from './types';
+import { cmp } from './index';
+
+const resolveAllPromises = () =>
+	new Promise((resolve) => process.nextTick(resolve));
 
 const CMP = {
 	init: jest.spyOn(actualCMP, 'init'),
@@ -61,15 +73,21 @@ describe('hotfix cmp.init', () => {
 	});
 
 	it('warn if two versions are running simultaneously', () => {
-		global.console.warn = jest.fn();
+		const consoleWarn = jest.spyOn(global.console, 'warn');
 		cmp.init({ country: 'GB' });
-		const currentVersion = window.guCmpHotFix.cmp.version;
+		const currentVersion = window.guCmpHotFix.cmp?.version;
 		const mockedVersion = 'X.X.X-mock';
-		global.guCmpHotFix.cmp.version = mockedVersion;
+
+		const globalWithguCmpHotFix = global as typeof globalThis & {
+			guCmpHotFix: typeof window.guCmpHotFix;
+		};
+		if (globalWithguCmpHotFix.guCmpHotFix.cmp) {
+			globalWithguCmpHotFix.guCmpHotFix.cmp.version = mockedVersion;
+		}
 
 		cmp.init({ country: 'GB' });
 
-		expect(global.console.warn).toHaveBeenCalledWith(
+		expect(consoleWarn).toHaveBeenCalledWith(
 			'Two different versions of the CMP are running:',
 			[currentVersion, mockedVersion],
 		);
@@ -84,31 +102,43 @@ describe('hotfix cmp.init', () => {
 		['CA', 'tcfv2'],
 		['NZ', 'tcfv2'],
 	])('In %s, use the %s framework correctly', (country, framework) => {
-		cmp.init({ country });
+		cmp.init({ country: country as CountryCode });
 		expect(getCurrentFramework()).toEqual(framework);
 	});
 
 	it('uses window.guCmpHotFix instances if they exist', () => {
-		const mockCmp = {
+		const mockCmp: typeCMP = {
 			init: () => undefined,
-			willShowPrivacyMessage: () => true,
+			willShowPrivacyMessage: () => new Promise(() => true),
 			willShowPrivacyMessageSync: () => true,
 			hasInitialised: () => true,
-			mocked: 'mocked',
+			showPrivacyManager: () => {
+				console.warn('This is a dummy for showPrivacyManager');
+			},
+			version: 'mocked',
+			__isDisabled: () => false,
+			__disable: () => {
+				console.warn('This is a dummy for __disable');
+			},
+			__enable: () => {
+				console.warn('This is a dummy for __enable');
+			},
 		};
 
-		window.guCmpHotFix = {
-			cmp: mockCmp,
-		};
+		window.guCmpHotFix.cmp = mockCmp;
 
 		jest.resetModules();
-		import('./index.ts').then((module) => {
-			expect(module.cmp).toEqual(mockCmp);
+		import('./index')
+			.then((module) => {
+				expect(module.cmp).toEqual(mockCmp);
 
-			delete window.guCmpHotFix;
-			jest.resetModules();
-			import('./index.ts');
-		});
+				window.guCmpHotFix = {};
+				jest.resetModules();
+				import('./index');
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 // *************** END commercial.dcr.js hotfix ***************
@@ -122,11 +152,18 @@ describe('cmp.willShowPrivacyMessage', () => {
 
 		const willShowPrivacyMessage2 = cmp.willShowPrivacyMessage();
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(
-				Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]),
-			).resolves.toEqual([true, true]);
-		});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(Promise.all([willShowPrivacyMessage1, willShowPrivacyMessage2]))
+					.resolves.toEqual([true, true])
+					.catch((error) => {
+						console.error(error);
+					});
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 
@@ -138,9 +175,14 @@ describe('cmp.willShowPrivacyMessageSync', () => {
 	it('does not throw if CMP is initialised', () => {
 		cmp.init({ country: 'GB' });
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
-		});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(() => cmp.willShowPrivacyMessageSync()).not.toThrow();
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 
@@ -152,39 +194,41 @@ describe('cmp.hasInitialised', () => {
 	it('returns true when CMP is initialised', () => {
 		cmp.init({ country: 'GB' });
 
-		cmp.willShowPrivacyMessage().then(() => {
-			expect(cmp.hasInitialised()).toBe(true);
-		});
+		cmp
+			.willShowPrivacyMessage()
+			.then(() => {
+				expect(cmp.hasInitialised()).toBe(true);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	});
 });
 
 describe('cmp.showPrivacyManager', () => {
-	it('shows CMP privacy manager when in the US', () => {
+	it('shows CMP privacy manager when in the US', async () => {
 		cmp.init({ country: 'US' });
 
 		cmp.showPrivacyManager();
+		await resolveAllPromises();
 
-		return waitForExpect(() =>
-			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
-		);
+		expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1);
 	});
 
-	it('shows CMP privacy manager when in Australia', () => {
+	it('shows CMP privacy manager when in Australia', async () => {
 		cmp.init({ country: 'AU' });
 
 		cmp.showPrivacyManager();
+		await resolveAllPromises();
 
-		return waitForExpect(() =>
-			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
-		);
+		expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1);
 	});
-	it('shows TCF privacy manager when neither in the US or Australia', () => {
+	it('shows TCF privacy manager when neither in the US or Australia', async () => {
 		cmp.init({ country: 'GB' });
 
 		cmp.showPrivacyManager();
+		await resolveAllPromises();
 
-		return waitForExpect(() =>
-			expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1),
-		);
+		expect(CMP.showPrivacyManager).toHaveBeenCalledTimes(1);
 	});
 });

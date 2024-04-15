@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import type { VendorName } from './vendors';
 
 /**
@@ -22,15 +30,11 @@ export const vendorStorageIds = {
 		],
 	},
 	comscore: {
-		cookies: ['comScore'],
+		cookies: ['comScore','_scor_uid'],
 	},
 
 	ipsos: {
-		cookies: [
-			'DM_SitId1073',
-			'DM_SitId1073SecId5802',
-			'DotMetrics.AmpCookie',
-		],
+		cookies: ['DM_SitId1073', 'DM_SitId1073SecId5802', 'DotMetrics.AmpCookie'],
 		localStorage: [
 			'DotmetricsSiteData',
 			'DotMetricsTimeOnPage',
