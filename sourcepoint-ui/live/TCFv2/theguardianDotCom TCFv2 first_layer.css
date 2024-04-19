@@ -87,7 +87,8 @@ button:focus {
 }
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-tertiary {
 	font-family: "Guardian Text Sans Web", Arial, sans-serif !important;
 }
 
@@ -135,6 +136,12 @@ button:focus {
 	padding: 0.625rem calc(1.25rem - 11px) 0 1.25rem !important;
 	max-width: calc(100% - 11px);
 	width: 100%;
+}
+
+.cta-button-row {
+    display: flex;
+    flex-direction: row;
+	justify-content: space-between;
 }
 
 .gu-content {
@@ -276,7 +283,8 @@ button:focus {
 
 @media (max-width: 375px) {
 	.btn-primary,
-	.btn-secondary {
+	.btn-secondary,
+    .btn-tertiary {
 		font-size: 15px !important;
 		padding: 8px 12px !important;
 	}
@@ -284,6 +292,26 @@ button:focus {
 	.btn-secondary {
 		margin-left: 8px !important;
 	}
+
+}
+
+@media (max-width: 46.19rem) {
+
+	.cta-button-row {
+        flex-direction: column;
+    }
+
+    .btn-primary, .btn-secondary, .btn-tertiary {
+        width: 100% !important;
+        padding: 0 ;
+        margin-left: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .btn-secondary {
+        order: 3;
+    }
+
 }
 
 @media (min-width: 46.25rem) {
