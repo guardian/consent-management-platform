@@ -139,8 +139,8 @@ button:focus {
 }
 
 .cta-button-row {
-    display: flex;
-    flex-direction: row;
+	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 }
 
@@ -177,7 +177,6 @@ button:focus {
 
 .gs-container {
 	margin: 0 auto !important;
-
 }
 
 .main-text .message-column {
@@ -247,8 +246,6 @@ button:focus {
 	background-color: transparent;
 }
 
-/*------------------------ HERE ------------------------------*/
-
 .stack-container {
 	overflow: visible !important;
 }
@@ -275,16 +272,16 @@ button:focus {
 /* TEST - Added as potential fix for older Firefox lack of focus-visible */
 @supports not selector(:focus-visible) {
 	.tab-index-focus:focus {
-	  /* Fallback for browsers without :focus-visible support */
-	  outline: 4px solid #0077B6;
-	  outline-offset: 1px;
+		/* Fallback for browsers without :focus-visible support */
+		outline: 4px solid #0077B6;
+		outline-offset: 1px;
 	}
 }
 
 @media (max-width: 375px) {
 	.btn-primary,
 	.btn-secondary,
-    .btn-tertiary {
+	.btn-tertiary {
 		font-size: 15px !important;
 		padding: 8px 12px !important;
 	}
@@ -298,19 +295,19 @@ button:focus {
 @media (max-width: 46.19rem) {
 
 	.cta-button-row {
-        flex-direction: column;
-    }
+		flex-direction: column;
+	}
 
-    .btn-primary, .btn-secondary, .btn-tertiary {
-        width: 100% !important;
-        padding: 0 ;
-        margin-left: 0 !important;
-        margin-bottom: 0 !important;
-    }
+	.btn-primary, .btn-secondary, .btn-tertiary {
+		width: 100% !important;
+		padding: 0 ;
+		margin-left: 0 !important;
+		margin-bottom: 0 !important;
+	}
 
-    .btn-secondary {
-        order: 3;
-    }
+	.btn-secondary {
+		order: 3;
+	}
 
 }
 
