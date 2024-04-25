@@ -18,7 +18,7 @@
 		"dotenv": "^16.3.1",
 		"inquirer": "^8.2.6",
 		"playwright-aws-lambda": "^0.10.0",
-		"playwright-core": "^1.43.1",
+		"playwright-core": "^1.42.1",
 		"tslib": "^2.6.2",
 		"uuid": "^9.0.1"
 	},
