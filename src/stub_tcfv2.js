@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 /* eslint-disable -- this is third party code */
 /* istanbul ignore file */
 
@@ -58,10 +66,10 @@ export const stub_tcfv2 = () => {
 					t && t.__esModule
 						? function () {
 								return t.default;
-						  }
+							}
 						: function () {
 								return t;
-						  };
+							};
 				return n.d(e, 'a', e), e;
 			}),
 			(n.o = function (t, e) {
@@ -221,7 +229,7 @@ export const stub_tcfv2 = () => {
 						if ('get' in n || 'set' in n)
 							throw TypeError('Accessors not supported');
 						return 'value' in n && (t[e] = n.value), t;
-				  };
+					};
 		},
 		function (t, e, n) {
 			var r = n(0),

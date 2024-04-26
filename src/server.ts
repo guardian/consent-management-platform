@@ -1,3 +1,11 @@
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import type { onConsent as OnConsent } from './onConsent';
 import type {
 	CMP,
@@ -16,9 +24,7 @@ export const serverSideWarn = (): void => {
 	);
 };
 
-export const serverSideWarnAndReturn = <T extends unknown>(
-	arg: T,
-): (() => T) => {
+export const serverSideWarnAndReturn = <T>(arg: T): (() => T) => {
 	return () => {
 		serverSideWarn();
 		return arg;
@@ -55,9 +61,7 @@ export const getConsentFor: GetConsentFor = (
 	consent: ConsentState,
 ) => {
 	console.log(
-		`Server-side call for getConsentFor(${vendor}, ${JSON.stringify(
-			consent,
-		)})`,
+		`Server-side call for getConsentFor(${vendor}, ${JSON.stringify(consent)})`,
 		'getConsentFor will always return false server-side',
 	);
 	serverSideWarn();

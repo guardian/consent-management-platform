@@ -1,4 +1,4 @@
-import { getFramework } from './getFramework';
+import { getFramework } from './getFramework.ts';
 
 /* cSpell:disable */
 const countries = {

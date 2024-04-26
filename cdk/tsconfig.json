@@ -30,6 +30,7 @@
 		"node_modules",
 		"cdk.out",
 		"lib/**/*.test.ts",
-		"lib/**/__snapshots__/**"
+		"lib/**/__snapshots__/**",
+		"**/*.d.ts"
 	]
 }

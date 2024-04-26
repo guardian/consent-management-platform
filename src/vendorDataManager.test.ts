@@ -1,16 +1,19 @@
-import { initVendorDataManager } from './vendorDataManager';
-import { onConsentChange } from './onConsentChange';
+/**
+ * THIS FILE IS NO LONGER USED. IT IS KEPT FOR REFERENCE ONLY AND WILL BE
+ * DELETED SOON.
+ *
+ * THE EQUIVALENT FILE IS NOW LOCATED AT:
+ * https://github.com/guardian/csnx/tree/main/libs/%40guardian/libs/src/consent-management-platform
+ */
+
 import { removeCookie, storage } from '@guardian/libs';
+import { onConsentChange } from './onConsentChange';
+import type { Callback, ConsentState } from './types';
+import type { TCFv2ConsentState } from './types/tcfv2';
+import { initVendorDataManager } from './vendorDataManager';
 import { vendorStorageIds } from './vendorStorageIds';
-import { Callback, ConsentState } from './types';
-import { TCFv2ConsentState } from './types/tcfv2';
 
 jest.mock('./onConsentChange');
-
-Object.defineProperty(window, 'requestIdleCallback', {
-	writable: false,
-	value: jest.fn().mockImplementation((cb) => cb()),
-});
 
 const tcfv2ConsentState: TCFv2ConsentState = {
 	consents: { 1: true },
@@ -64,7 +67,7 @@ jest.mock('@guardian/libs', () => ({
 }));
 
 describe('initVendorDataManager', () => {
-	it('should remove cookies and localStorage data only for vendors that the user has not consented to', async () => {
+	it('should remove cookies and localStorage data only for vendors that the user has not consented to', () => {
 		const consentState: ConsentState = {
 			tcfv2: tcfv2ConsentState,
 			canTarget: true,
