@@ -5,6 +5,25 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 
 */
 
+/*--------------- Start TODO ----------------
+
+• Media query to base css √
+• Turn off sticky at break point √
+• Move blur from gs-container to cta-container √
+• Gu-content vs gs-container padding bottom ?
+•
+
+--------------- End of TODO ----------------*/
+
+/*--------------- Start NOTE ----------------
+• Make your changes in relevant file in
+https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
+and then paste the whole of the file contents into sourcepoint's css window for the file
+you're working on to avoid losing work on refresh
+or when others overwrite your work accidentally.
+--------------- End of NOTE ----------------*/
+
+
 * {
 	box-sizing: border-box;
 }
@@ -15,7 +34,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 
 .gu-overlay {
 	font-size: 16px;
-	line-height: 20px;
+	/*line-height: 20px;*/
 }
 
 @font-face {
@@ -36,7 +55,6 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	font-style: normal;
 	font-stretch: normal;
 	font-display: swap;
-
 }
 
 @font-face {
@@ -52,6 +70,11 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 ::selection {
 	background: #ffe500;
 	color: #121212;
+}
+
+/* needed for safari buttons? No knock on effect with Chrome at least*/
+button:focus {
+	box-shadow: 0 0 0 4px #0077B6 !important;
 }
 
 .accordion .chevron {
@@ -71,7 +94,8 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-tertiary {
 	font-family: "Guardian Text Sans Web", Arial, sans-serif !important;
 }
 
@@ -121,13 +145,19 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	width: 100%;
 }
 
+.cta-button-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .gu-content {
 	border-top: 1px solid rgb(80, 105, 145) !important;
-	max-height: calc(100vh) !important; /* Why 100vh instead of 51vh like on web? Banner height on AMP is relative to a maximum of 60% of the viewport. Therefore 51vh would result in 51% of 60%. */
+	max-height: calc(51vh) !important;
 	overflow-y: scroll;
 	padding: 0.625rem 1.25rem 110px 1.25rem !important;
 	scrollbar-width: thin;
-	scrollbar-color: #052862 #CFD8DC;
+	scrollbar-color: #052962 #CFD8DC;
 }
 
 .gu-content::-webkit-scrollbar {
@@ -139,7 +169,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 .gu-content::-webkit-scrollbar-thumb {
-	background-color: #052862;
+	background-color: #052962;
 	border-radius: 6px;
 	border: 3px solid #506991;
 }
@@ -147,7 +177,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	flex-direction: row;
 }
 
-.gu-privacy-headline > p {
+.gu-privacy-headline > h1 {
 	font-family: "Guardian Titlepiece", serif !important;
 	font-size: 24px !important;
 }
@@ -169,34 +199,67 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 }
 
 .main-text .cta-description em {
-	font-style:  normal;
+	font-style: normal;
 	font-weight: bold;
 }
 
+.main-text .cta-description:focus {
+	border: none;
+	outline: unset;
+	outline: 4px solid #0077B6;
+}
+
+.main-text a:-webkit-any-link:focus-visible {
+	outline: 4px solid #0077B6;
+	outline-offset: 1px;
+}
+
 .message-stacks .accordion {
-	background: #052862;
+	background: #052962;
+}
+
+.message-stacks button:focus {
+	border: unset;
+	box-shadow: none;
+}
+
+.message-stacks:focus {
+	border: unset;
+	outline: unset;
+	outline-offset: -4px !important;
+	outline: 4px solid #0077B6 !important;
+}
+
+.message-stacks .panel {
+	background: #052962;
+	border-bottom: 0px;
 }
 
 .message-stacks .stack {
 	width: 100%;
-	background-color: #052862;
+	background-color: #052962;
+	margin-bottom: 5px; /* added */
+	padding: 4px !important;
+}
+
+.message-stacks .stack:focus,
+.message-stacks .stack:focus-within {
+	border: unset;
+	outline: unset;
+	outline: 4px solid #0077B6 !important;
+	outline-offset: -4px;
 }
 
 .message-stacks .stack:hover {
 	background-color: transparent;
 }
 
-.message-stacks button:focus {
-	box-shadow: none !important;
-}
-
-.message-stacks .panel {
-	background: #052862;
-	border-bottom: 0px;
+.stack-container {
+	overflow: visible !important;
 }
 
 .panel {
-	background: #052862;
+	background: #052962;
 	font-size: 15px !important;
 	line-height: 20px !important;
 }
@@ -209,9 +272,24 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	padding-right: 8px !important;
 }
 
+.tab-index-focus:focus-visible {
+	outline: 4px solid #0077B6;
+	outline-offset: 1px;
+}
+
+/* TEST - Added as potential fix for older Firefox lack of focus-visible */
+@supports not selector(:focus-visible) {
+	.tab-index-focus:focus {
+		/* Fallback for browsers without :focus-visible support */
+		outline: 4px solid #0077B6;
+		outline-offset: 1px;
+	}
+}
+
 @media (max-width: 375px) {
 	.btn-primary,
-	.btn-secondary {
+	.btn-secondary,
+	.btn-tertiary {
 		font-size: 15px !important;
 		padding: 8px 12px !important;
 	}
@@ -219,6 +297,26 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	.btn-secondary {
 		margin-left: 8px !important;
 	}
+
+}
+
+@media (max-width: 46.19rem) {
+
+	.cta-button-row {
+		flex-direction: column;
+	}
+
+	.btn-primary, .btn-secondary, .btn-tertiary {
+		width: 100% !important;
+		padding: 0 ;
+		margin-left: 0 !important;
+		margin-bottom: 0 !important;
+	}
+
+	.btn-secondary {
+		order: 3;
+	}
+
 }
 
 @media (min-width: 46.25rem) {
@@ -234,25 +332,25 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 		width: 100%;
 	}
 
-	.cta-container .cta-ask{
+	.cta-container .cta-ask {
 		display: block;
 	}
 
-	.cta-container .cta-description{
+	.cta-container .cta-description {
 		display: block;
 		font-family: "Guardian Text Sans Web", Arial, serif !important;
 		font-size: 15px !important;
 		line-height: 20px !important;
 	}
 
-	.gs-container {
-		max-width: 46.25rem;
-		padding: 0.5rem 1.25rem 0 1.125rem !important;
-	}
-
 	.cta-container .cta-description em {
 		font-style: normal;
 		font-weight: bold;
+	}
+
+	.gs-container {
+		max-width: 46.25rem;
+		padding: 0.5rem 1.25rem 0 1.125rem !important;
 	}
 
 	.gu-content {
@@ -278,15 +376,14 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	}
 
 	.gu-privacy-headline {
-		margin-bottom: 17px !important;
+		margin-bottom: 12px !important;
 	}
 
-	.gu-privacy-headline > p {
+	.gu-privacy-headline > h1 {
 		font-size: 42px !important;
 	}
 
-	.body-copy,
-	.gu-tcfv2-privacy-notice {
+	.body-copy {
 		font-size: 15px !important;
 		line-height: 20px !important;
 		width: 35rem;
@@ -312,7 +409,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	.main-text {
 		flex-direction: row;
 		flex-wrap: nowrap;
-		padding-bottom: 0 !important;
+		padding-bottom: 5px !important;
 	}
 }
 
@@ -388,7 +485,6 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 		-webkit-backdrop-filter: blur(8px);
 		backdrop-filter: blur(8px);
 		background: rgba(5, 41, 98, 0.7);
-
 	}
 
 	.cta-container .cta-ask,
@@ -401,7 +497,6 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 		padding-top: 0 !important;
 		position: absolute;
 		width: 100%;
-
 		left: 0;
 		bottom: 0;
 		right: 0 !important;
@@ -409,11 +504,11 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 
 	.gu-content {
 		border-top: 1px solid rgb(80, 105, 145) !important;
-		max-height: calc(100vh) !important; /* See above */
+		max-height: calc(51vh) !important;
 		overflow-y: scroll;
 		padding-bottom: 80px !important;
 		scrollbar-width: thin;
-		scrollbar-color: #052862 #CFD8DC;
+		scrollbar-color: #052962 #CFD8DC;
 	}
 
 	.gu-content::-webkit-scrollbar {
@@ -425,7 +520,7 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 	}
 
 	.gu-content::-webkit-scrollbar-thumb {
-		background-color: #052862;
+		background-color: #052962;
 		border-radius: 6px;
 		border: 3px solid #506991;
 	}
@@ -440,4 +535,3 @@ https://github.com/guardian/consent-management-platform/tree/main/sourcepoint-ui
 		scrollbar-width: none;
 	}
 }
-
