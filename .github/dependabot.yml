@@ -6,19 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-    directory: '/'
-    schedule:
-      interval: 'weekly'
-      day: 'sunday'
-    labels:
-      - 'dependencies'
-      - 'javascript'
-    groups:
-      cmp-app:
-        update-types:
-          - 'minor'
-          - 'patch'
-  - package-ecosystem: 'npm'
     directory: '/cdk'
     schedule:
       interval: 'weekly'
