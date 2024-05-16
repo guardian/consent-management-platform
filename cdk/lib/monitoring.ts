@@ -38,6 +38,8 @@ export class Monitoring extends GuStack {
 			resources: ['*'],
 		});
 
+		const runTimeManagement = `arn:aws:lambda:${region}::runtime:0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9`
+
 		const monitoringLambdaFunction = new GuLambdaFunction(
 			this,
 			lambdaBaseName,
@@ -47,7 +49,7 @@ export class Monitoring extends GuStack {
 				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
 				handler: 'index.handler',
 				runtime: Runtime.NODEJS_18_X,
-				runtimeManagementMode: RuntimeManagementMode.manual("0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9"),
+				runtimeManagementMode: RuntimeManagementMode.manual(runTimeManagement),
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
