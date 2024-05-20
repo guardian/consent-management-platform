@@ -35,6 +35,7 @@ export const ELEMENT_ID = {
 	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: 'button.sp_choice_type_SAVE_AND_EXIT',
 	TCFV2_SECOND_LAYER_HEADLINE: 'p.gu-privacy-headline',
 	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',
+	USNAT_FIRST_LAYER_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_12',
 	TCFV2_SECOND_LAYER_REJECT_ALL: 'button.sp_choice_type_REJECT_ALL',
 	TCFV2_SECOND_LAYER_ACCEPT_ALL: 'button.sp_choice_type_ACCEPT_ALL',
 };
