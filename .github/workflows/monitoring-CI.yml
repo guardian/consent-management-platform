@@ -65,6 +65,8 @@ jobs:
       - name: CDK Synth
         working-directory: './cdk'
         run: yarn synth
+        env:
+          LAMBDA_RUNTIME_ID: ${{ secrets.LAMBDA_RUNTIME_ID }}
 
       - name: ZIP Lambda files
         working-directory: './cdk'
