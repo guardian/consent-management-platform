@@ -16,7 +16,7 @@ import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Runtime, RuntimeManagementMode } from 'aws-cdk-lib/aws-lambda';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 
@@ -30,6 +30,8 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
+		const runTimeId = process.env.LAMBDA_RUNTIME_ID;
+
 		const prodDurationInMinutes = 2;
 
 		const policyStatement = new PolicyStatement({
@@ -37,6 +39,8 @@ export class Monitoring extends GuStack {
 			actions: ['cloudwatch:PutMetricData'],
 			resources: ['*'],
 		});
+
+		const runTimeManagementArn = `arn:aws:lambda:${region}::runtime:${runTimeId}`
 
 		const monitoringLambdaFunction = new GuLambdaFunction(
 			this,
@@ -47,6 +51,7 @@ export class Monitoring extends GuStack {
 				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
 				handler: 'index.handler',
 				runtime: Runtime.NODEJS_18_X,
+				runtimeManagementMode: RuntimeManagementMode.manual(runTimeManagementArn),
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
