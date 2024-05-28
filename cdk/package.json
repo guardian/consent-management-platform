@@ -30,11 +30,11 @@
 		"ts-jest": "^29.1.2",
 		"ts-node": "^10.9.2",
 		"tslib": "^2.6.2",
+		"@guardian/cdk": "53.1.0",
 		"typescript": "~5.3.3"
 	},
 	"dependencies": {
 		"npm": "^10.4.0",
-		"@guardian/cdk": "53.1.0",
 		"source-map-support": "^0.5.20"
 	},
 	"prettier": "@guardian/prettier"
