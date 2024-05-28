@@ -20,7 +20,7 @@ const clickDoNotSellMyInfo = async (config: Config, page: Page) => {
 	const openPrivacyManagerButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.USNAT_FIRST_LAYER_NOT_SELL_BUTTON);
   	await openPrivacyManagerButton.click();
 
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.US_PRIVACY_SETTINGS_CONTAINER).locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+	const acceptAllButton = page.frameLocator(ELEMENT_ID.US_PRIVACY_SETTINGS_CONTAINER).last().locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 	await acceptAllButton.click();
 
 	log_info(`Clicked on "Do not sell my personal information" on CMP`);
