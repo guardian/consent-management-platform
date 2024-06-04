@@ -184,7 +184,7 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 	): URLSearchParams | null => {
 		const url = new URL(request.url());
 		const param = url.searchParams.get(paramName);
-		if (!param) return null;
+		if (!param){return null;}
 		const paramDecoded = decodeURIComponent(param);
 		const searchParams = new URLSearchParams(paramDecoded);
 		return searchParams;
@@ -192,11 +192,11 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 
 	const assertOnSlotFromRequest = (request: Request, expectedSlot: string) => {
 		const isURL = request.url().match(gamUrl);
-		if (!isURL) return false;
+		if (!isURL){return false;}
 		const searchParams = getEncodedParamsFromRequest(request, 'prev_scp');
-		if (searchParams === null) return false;
+		if (searchParams === null){return false;}
 		const slot = searchParams.get('slot');
-		if (slot !== expectedSlot) return false;
+		if (slot !== expectedSlot) {return false;}
 		return true;
 	};
 
