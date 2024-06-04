@@ -38,9 +38,6 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         },
         "FunctionName": "cmp-monitoring-PROD",
         "Handler": "index.handler",
-        "LoggingConfig": {
-          "LogFormat": "JSON",
-        },
         "MemorySize": 2048,
         "Role": {
           "Fn::GetAtt": [
