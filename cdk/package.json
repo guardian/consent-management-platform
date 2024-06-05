@@ -8,7 +8,7 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
-		"test": "jest",
+		"test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" npx jest --detectOpenHandles --config ./jest.config.js",
 		"test:dev": "jest --watch",
 		"format": "prettier --write \"{lib,bin}/**/*.ts\"",
 		"cdk": "cdk",
