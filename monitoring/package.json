@@ -13,18 +13,18 @@
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch": "^3.588.0",
+    "@aws-sdk/client-cloudwatch": "^3.592.0",
     "commander": "^11.1.0",
     "dotenv": "^16.4.5",
     "inquirer": "^8.2.6",
     "playwright-aws-lambda": "^0.10.0",
     "playwright-core": "^1.44.1",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@aws-sdk/client-lambda": "^3.588.0",
-    "@babel/parser": "^7.24.6",
+    "@aws-sdk/client-lambda": "^3.592.0",
+    "@babel/parser": "^7.24.7",
     "@guardian/eslint-config-typescript": "^10.0.1",
     "@guardian/prettier": "^7.0.0",
     "@guardian/tsconfig": "^0.3.1",
@@ -32,7 +32,7 @@
     "@types/aws-lambda": "^8.10.138",
     "@types/inquirer": "^8.2.10",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.13.0",
+    "@types/node": "^20.14.2",
     "@vercel/ncc": "^0.38.1",
     "aws-lambda": "^1.0.7",
     "eslint": "^8.57.0",
