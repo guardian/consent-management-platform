@@ -103,6 +103,7 @@ describe('ConfigWrapper', () => {
 				jurisdiction: JURISDICTIONS.AUS,
 				frontUrl: '',
 				articleUrl: '',
+				ampArticle: '',
 				iframeDomain: '',
 				iframeDomainSecondLayer: '',
 				debugMode: true,
