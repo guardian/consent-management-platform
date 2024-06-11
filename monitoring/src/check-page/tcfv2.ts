@@ -106,7 +106,7 @@ const checkAMPPages = async (config: Config, url: string, nextUrl: string) => {
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext({
-		screen: { width: 1920, height: 1080 },
+		screen: ScreenDimensions.MOBILE,
 	});
 	const page = await makeNewPage(context);
 	await firstLayerCheck(config, url, page, context, nextUrl, true);
