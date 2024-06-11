@@ -1,9 +1,11 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
+	ScreenDimensions,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
+	checkGoogleAdManagerRequestIsMade,
 	checkPrivacySettingsPanelIsOpen,
 	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
@@ -39,17 +41,11 @@ const checkSubsequentPage = async (
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkCMPIsNotVisible(page);
 	await checkTopAdHasLoaded(page);
-	await Promise.all([
-		clearCookies(page),
-		clearLocalStorage(page)
-	]);
+	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
 	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
-	await Promise.all([
-		checkCMPIsNotVisible(page),
-		checkTopAdHasLoaded(page),
-	]);
+	await Promise.all([checkCMPIsNotVisible(page), checkTopAdHasLoaded(page)]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
@@ -71,7 +67,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await browser.newContext();
+	const context = await browser.newContext({ screen: ScreenDimensions.WEB });
 	const page = await makeNewPage(context);
 
 	await firstLayerCheck(config, url, page, context, nextUrl);
@@ -80,22 +76,43 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await browser.close();
 
 	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
-	const browserForSecondLayerCheck: Browser = await makeNewBrowser(config.debugMode);
-	const contextForSecondLayerCheck = await browserForSecondLayerCheck.newContext();
-	const pageForSecondLayerCheck = await makeNewPage(contextForSecondLayerCheck);
+	const browserForSecondLayerCheck: Browser = await makeNewBrowser(
+		config.debugMode,
+	);
+	const contextForSecondLayerCheck =
+		await browserForSecondLayerCheck.newContext();
+	const pageForSecondLayerCheck = await makeNewPage(
+		contextForSecondLayerCheck,
+	);
 	await secondLayerCheck(config, url, pageForSecondLayerCheck);
 
 	await pageForSecondLayerCheck.close();
 	await browserForSecondLayerCheck.close();
 
 	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
-	const browserForCMPLoadTime: Browser = await makeNewBrowser(config.debugMode);
+	const browserForCMPLoadTime: Browser = await makeNewBrowser(
+		config.debugMode,
+	);
 	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
 	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
 	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
 
 	await pageForCMPLoadTime.close();
 	await browserForCMPLoadTime.close();
+};
+
+const checkAMPPages = async (config: Config, url: string, nextUrl: string) => {
+	log_info(`Start checking Page URL: ${url}`);
+
+	const browser: Browser = await makeNewBrowser(config.debugMode);
+	const context = await browser.newContext({
+		screen: { width: 1920, height: 1080 },
+	});
+	const page = await makeNewPage(context);
+	await firstLayerCheck(config, url, page, context, nextUrl, true);
+
+	await page.close();
+	await browser.close();
 };
 
 /**
@@ -116,25 +133,47 @@ export const firstLayerCheck = async function (
 	page: Page,
 	context: BrowserContext,
 	nextUrl: string,
+	isAmp: boolean = false,
 ): Promise<void> {
 	log_info('Checking first layer: Start');
 
 	// Testing the Accept All button hides the CMP and loads Ads
 	await loadPage(page, url);
 
-	await checkCMPIsOnPage(page);
+	await checkCMPIsOnPage(page, isAmp);
 
 	await checkTopAdDidNotLoad(page);
 
-	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
+	await clickAcceptAllCookies(
+		config,
+		page,
+		isAmp ? 'Yes, I accept' : "Yes I'm Happy",
+		isAmp,
+	);
 
 	await checkCMPIsNotVisible(page);
 
-	await checkTopAdHasLoaded(page);
+	if (isAmp) {
+		log_info('Scrolling to load ads: Start');
+		await page.evaluate(() => {
+			window.scrollBy(0, 500);
+		});
+		log_info('Scrolling to load ads: Complete');
+	}
+
+	if (isAmp) {
+		await checkGoogleAdManagerRequestIsMade(page);
+	} else {
+		await checkTopAdHasLoaded(page);
+	}
 
 	await reloadPage(page);
 
-	await checkTopAdHasLoaded(page);
+	if (isAmp) {
+		await checkGoogleAdManagerRequestIsMade(page);
+	} else {
+		await checkTopAdHasLoaded(page);
+	}
 
 	await checkCMPIsNotVisible(page);
 
@@ -182,10 +221,7 @@ export const secondLayerCheck = async function (
 
 	log_info('Starting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
-	await Promise.all([
-		clearCookies(page),
-		clearLocalStorage(page)
-	]);
+	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
 
 	await reloadPage(page);
 
@@ -216,10 +252,16 @@ export const secondLayerCheck = async function (
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
 	// Testing the user first visits home page then an article page
-	await checkPages(
+	// await checkPages(
+	// 	config,
+	// 	`${config.frontUrl}?adtest=fixed-puppies`,
+	// 	`${config.articleUrl}?adtest=fixed-puppies`,
+	// );
+
+	await checkAMPPages(
 		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
+		`${config.ampArticle}?adtest=fixed-puppies`,
+		'',
 	);
 
 	// Testing the user first visits only an article page

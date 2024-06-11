@@ -81,11 +81,16 @@ export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
  * @param {Page} page
  * @param {string} textToPrintToConsole
  */
-export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
+export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string, isAmp: boolean = false) => {
 
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
-
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	let acceptAllButton;
+	if(isAmp){
+		acceptAllButton = page.frameLocator('.i-amphtml-consent-ui-fill').frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	} else{
+		acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	}
+	// const
   	await acceptAllButton.click();
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
@@ -210,10 +215,23 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 		page,
 		'top-above-nav',
 	);
+
 	await gamRequestPromise;
 
 	log_info(`Waiting for interaction with GAM: Complete`);
 };
+
+export const checkGoogleAdManagerRequestIsMade = async (page: Page) => {
+	log_info(`Waiting for interaction with GAM: Start`);
+	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
+
+	const request = await page.waitForRequest(gamUrl);
+	console.log(request.url());
+	log_info(`Waiting for interaction with GAM: Complete`);
+}
+
+
+
 
 /**
  * This function checks the ad is not on the page
@@ -237,6 +255,11 @@ export const checkTopAdDidNotLoad = async (page: Page) => {
 	log_info(`Checking ads do not load: Complete`);
 };
 
+export const ScreenDimensions = {
+	WEB: {width: 1920, height: 1080},
+	MOBILE: {width: 1920, height: 1080},
+}
+
 export const recordVersionOfCMP = async (page: Page) => {
 	log_info('* Getting the version of Sourcepoint CMP');
 
@@ -253,12 +276,23 @@ export const recordVersionOfCMP = async (page: Page) => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
+export const checkCMPIsOnPage = async (page: Page, isAmp: boolean = false): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 
-	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
+	let cmpl;
+
+	if(isAmp){
+		cmpl = page.frameLocator('.i-amphtml-consent-ui-fill').locator(ELEMENT_ID.CMP_CONTAINER);
+	} else {
+		cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
+	}
+
 	await cmpl.waitFor();
-	await recordVersionOfCMP(page);
+
+	if(!isAmp){
+		await recordVersionOfCMP(page);
+	}
+
 	if (!(await cmpl.isVisible())) {
 		throw Error('CMP is not present on page');
 	}
