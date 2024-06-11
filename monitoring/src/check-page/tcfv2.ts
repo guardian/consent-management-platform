@@ -1,7 +1,6 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
-	ScreenDimensions,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
@@ -20,6 +19,7 @@ import {
 	makeNewPage,
 	openPrivacySettingsPanel,
 	reloadPage,
+	ScreenDimensions,
 } from './common-functions';
 
 /**
