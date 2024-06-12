@@ -101,6 +101,13 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await browserForCMPLoadTime.close();
 };
 
+/**
+ * Checks the AMP pages using the provided configuration, URL, and next URL.
+ * @param config - The configuration object.
+ * @param url - The URL of the page to check.
+ * @param nextUrl - The next URL to navigate to after checking the page.
+ * @returns A Promise that resolves when the page checking is complete.
+ */
 const checkAMPPages = async (config: Config, url: string, nextUrl: string) => {
 	log_info(`Start checking Page URL: ${url}`);
 
@@ -113,6 +120,16 @@ const checkAMPPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await page.close();
 	await browser.close();
+
+	const browserForSecondLayerCheck: Browser = await makeNewBrowser(
+		config.debugMode,
+	);
+	const contextForSecondLayerCheck =
+		await browserForSecondLayerCheck.newContext();
+	const pageForSecondLayerCheck = await makeNewPage(
+		contextForSecondLayerCheck,
+	);
+	await secondLayerCheck(config, url, pageForSecondLayerCheck, true);
 };
 
 /**
@@ -196,6 +213,7 @@ export const secondLayerCheck = async function (
 	config: Config,
 	url: string,
 	page: Page,
+	isAmp: boolean = false,
 ): Promise<void> {
 	log_info('Checking second layer: Start');
 
@@ -205,13 +223,13 @@ export const secondLayerCheck = async function (
 
 	await loadPage(page, url);
 
-	await checkCMPIsOnPage(page);
+	await checkCMPIsOnPage(page, isAmp);
 
-	await openPrivacySettingsPanel(config, page);
+	await openPrivacySettingsPanel(config, page, isAmp);
 
-	await checkPrivacySettingsPanelIsOpen(config, page);
+	await checkPrivacySettingsPanelIsOpen(config, page, isAmp);
 
-	await clickSaveAndCloseSecondLayer(config, page);
+	await clickSaveAndCloseSecondLayer(config, page, isAmp);
 
 	await reloadPage(page);
 
@@ -225,15 +243,15 @@ export const secondLayerCheck = async function (
 
 	await reloadPage(page);
 
-	await checkCMPIsOnPage(page);
+	await checkCMPIsOnPage(page, isAmp);
 
-	await openPrivacySettingsPanel(config, page);
+	await openPrivacySettingsPanel(config, page, isAmp);
 
-	await checkPrivacySettingsPanelIsOpen(config, page);
+	await checkPrivacySettingsPanelIsOpen(config, page, isAmp);
 
-	await clickRejectAllSecondLayer(config, page);
+	await clickRejectAllSecondLayer(config, page, isAmp);
 
-	await checkCMPIsNotVisible(page);
+	await checkCMPIsNotVisible(page, isAmp);
 
 	await checkTopAdDidNotLoad(page);
 
