@@ -63,14 +63,14 @@ const checkSubsequentPage = async (
  * @param {string} url
  * @param {string} nextUrl
  */
-const checkPages = async (config: Config, url: string, nextUrl: string) => {
+const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: boolean = false) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await browser.newContext({ screen: ScreenDimensions.WEB });
 	const page = await makeNewPage(context);
 
-	await firstLayerCheck(config, url, page, context, nextUrl);
+	await firstLayerCheck(config, url, page, context, nextUrl, isAmp);
 
 	await page.close();
 	await browser.close();
@@ -84,7 +84,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	const pageForSecondLayerCheck = await makeNewPage(
 		contextForSecondLayerCheck,
 	);
-	await secondLayerCheck(config, url, pageForSecondLayerCheck);
+	await secondLayerCheck(config, url, pageForSecondLayerCheck, isAmp);
 
 	await pageForSecondLayerCheck.close();
 	await browserForSecondLayerCheck.close();
@@ -99,37 +99,6 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 	await pageForCMPLoadTime.close();
 	await browserForCMPLoadTime.close();
-};
-
-/**
- * Checks the AMP pages using the provided configuration, URL, and next URL.
- * @param config - The configuration object.
- * @param url - The URL of the page to check.
- * @param nextUrl - The next URL to navigate to after checking the page.
- * @returns A Promise that resolves when the page checking is complete.
- */
-const checkAMPPages = async (config: Config, url: string, nextUrl: string) => {
-	log_info(`Start checking Page URL: ${url}`);
-
-	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await browser.newContext({
-		screen: ScreenDimensions.MOBILE,
-	});
-	const page = await makeNewPage(context);
-	await firstLayerCheck(config, url, page, context, nextUrl, true);
-
-	await page.close();
-	await browser.close();
-
-	const browserForSecondLayerCheck: Browser = await makeNewBrowser(
-		config.debugMode,
-	);
-	const contextForSecondLayerCheck =
-		await browserForSecondLayerCheck.newContext();
-	const pageForSecondLayerCheck = await makeNewPage(
-		contextForSecondLayerCheck,
-	);
-	await secondLayerCheck(config, url, pageForSecondLayerCheck, true);
 };
 
 /**
@@ -270,18 +239,19 @@ export const secondLayerCheck = async function (
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
 	// Testing the user first visits home page then an article page
-	// await checkPages(
-	// 	config,
-	// 	`${config.frontUrl}?adtest=fixed-puppies`,
-	// 	`${config.articleUrl}?adtest=fixed-puppies`,
-	// );
-
-	await checkAMPPages(
+	await checkPages(
 		config,
-		`${config.ampArticle}?adtest=fixed-puppies`,
-		'',
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		`${config.articleUrl}?adtest=fixed-puppies`,
 	);
 
 	// Testing the user first visits only an article page
 	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+
+	await checkPages(
+		config,
+		`${config.ampArticle}?adtest=fixed-puppies`,
+		'',
+		true
+	);
 };
