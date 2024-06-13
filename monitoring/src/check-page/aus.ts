@@ -35,7 +35,7 @@ const checkSubsequentPage = async (context: BrowserContext, url: string) => {
  * the site, with respect to and interaction with the CMP.
  */
 
-const checkPages = async ({config,url, nextUrl,isAmp}: CheckPagesProps) => {
+const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
@@ -78,6 +78,7 @@ const checkPages = async ({config,url, nextUrl,isAmp}: CheckPagesProps) => {
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (aus)');
 
+	// Check the front page and subsequent article page
 	await checkPages({
 		config,
 		url: `${config.frontUrl}?adtest=fixed-puppies`,
@@ -85,12 +86,14 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		isAmp: false,
 	})
 
+	// Check the article page
 	await checkPages({
 		config,
 		url: `${config.articleUrl}?adtest=fixed-puppies`,
 		isAmp: false,
 	})
 
+	// Check the AMP article page
 	await checkPages({
 		config,
 		url: `${config.ampArticle}?adtest=fixed-puppies`,

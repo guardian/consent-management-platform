@@ -1,6 +1,8 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import { ELEMENT_ID } from '../types';
 import type { Config } from '../types';
+import type {
+	CheckPagesProps} from './common-functions';
 import {
 	checkAds,
 	checkCMPIsNotVisible,
@@ -90,12 +92,7 @@ const checkGPCRespected = async (page: Page, isAmp: boolean = false) => {
  * the site, with respect to and interaction with the CMP.
  */
 
-const checkPages = async (
-	config: Config,
-	url: string,
-	nextUrl: string,
-	isAmp: boolean = false,
-) => {
+const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
@@ -142,20 +139,24 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (ccpa)');
 
 	// Check the front page and subsequent article page
-	await checkPages(
+	await checkPages({
 		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-	);
+		url: `${config.frontUrl}?adtest=fixed-puppies`,
+		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
+		isAmp: false,
+	})
 
 	// Check the article page
-	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+	await checkPages({
+		config,
+		url: `${config.articleUrl}?adtest=fixed-puppies`,
+		isAmp: false,
+	})
 
 	// Check the AMP article page
-	await checkPages(
+	await checkPages({
 		config,
-		`${config.ampArticle}?adtest=fixed-puppies`,
-		'',
-		true
-	);
+		url: `${config.ampArticle}?adtest=fixed-puppies`,
+		isAmp: true,
+	})
 };
