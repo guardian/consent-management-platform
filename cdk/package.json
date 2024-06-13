@@ -38,6 +38,5 @@
 	"resolutions": {
 		"wrap-ansi": "7.0.0"
 	},
-	"prettier": "@guardian/prettier",
-	"packageManager": "^yarn@1.22.5"
+	"prettier": "@guardian/prettier"
 }
