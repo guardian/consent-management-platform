@@ -9,6 +9,15 @@ import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
 /**
+ * Represents the props for the checkPages.
+ */
+export interface CheckPagesProps{
+	config: Config;
+	url: string;
+	nextUrl?: string;
+	isAmp?: boolean;
+}
+/**
  * This function console logs an info message.
  *
  * @param {string} message
@@ -306,6 +315,14 @@ export const checkGoogleAdManagerRequestIsMade = async (
 	await page.waitForRequest(gamUrl);
 	log_info(`Waiting for interaction with GAM: Complete`);
 };
+
+export const checkAds = async (page: Page, isAmp: boolean = false) : Promise<void> => {
+	if (isAmp) {
+		await checkGoogleAdManagerRequestIsMade(page);
+	} else {
+		await checkTopAdHasLoaded(page);
+	}
+}
 
 /**
  * This function checks the ad is not on the page
