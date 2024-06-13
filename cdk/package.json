@@ -2,9 +2,7 @@
 	"name": "cdk",
 	"version": "0.0.0",
 	"private": true,
-	"bin": {
-		"cdk": "bin/cdk.js"
-	},
+	"bin": "bin/cdk.js",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
