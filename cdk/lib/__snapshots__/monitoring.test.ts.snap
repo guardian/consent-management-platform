@@ -264,6 +264,24 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         ],
         "Period": 120,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/consent-management-platform",
+          },
+          {
+            "Key": "Stack",
+            "Value": "cmp-monitoring",
+          },
+          {
+            "Key": "Stage",
+            "Value": "PROD",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
