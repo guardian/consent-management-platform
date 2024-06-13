@@ -35,5 +35,6 @@
 		"npm": "^10.4.0",
 		"source-map-support": "^0.5.20"
 	},
-	"prettier": "@guardian/prettier"
+	"prettier": "@guardian/prettier",
+	"packageManager": "yarn@1.22.5"
 }
