@@ -2,10 +2,10 @@ import type { Browser, BrowserContext, Page } from 'playwright-core';
 import { ELEMENT_ID } from '../types';
 import type { Config } from '../types';
 import {
+	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
-	checkGoogleAdManagerRequestIsMade,
 	checkTopAdHasLoaded,
 	loadPage,
 	log_info,
@@ -61,14 +61,6 @@ const setGPCHeader = async (page: Page, gpcHeader: boolean): Promise<void> => {
 		'Sec-GPC': gpcHeader ? '1' : '0',
 	});
 };
-
-const checkAds = async (page: Page, isAmp: boolean = false) : Promise<void> => {
-	if (isAmp) {
-		await checkGoogleAdManagerRequestIsMade(page);
-	} else {
-		await checkTopAdHasLoaded(page);
-	}
-}
 
 const checkBannerIsNotVisibleAfterSettingGPCHeader = async (
 	page: Page,
