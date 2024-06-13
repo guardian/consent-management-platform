@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"bin": "bin/cdk.js",
+	"type": "commonjs",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
@@ -15,10 +16,10 @@
 		"diff": "cdk diff --path-metadata false --version-reporting false"
 	},
 	"devDependencies": {
+		"@guardian/cdk": "^58.1.1",
 		"@guardian/eslint-config-typescript": "^9.0.3",
 		"@guardian/prettier": "^8.0.0",
 		"@guardian/tsconfig": "^0.2.0",
-		"@guardian/cdk": "53.1.0",
 		"@types/jest": "^29.5.12",
 		"@types/node": "20.11.17",
 		"aws-cdk": "2.127.0",
