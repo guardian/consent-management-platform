@@ -13,7 +13,7 @@
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch": "^3.592.0",
+    "@aws-sdk/client-cloudwatch": "^3.598.0",
     "commander": "^11.1.0",
     "dotenv": "^16.4.5",
     "inquirer": "^8.2.6",
@@ -23,7 +23,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@aws-sdk/client-lambda": "^3.592.0",
+    "@aws-sdk/client-lambda": "^3.598.0",
     "@babel/parser": "^7.24.7",
     "@guardian/eslint-config-typescript": "^10.0.1",
     "@guardian/prettier": "^7.0.0",
