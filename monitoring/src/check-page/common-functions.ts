@@ -242,10 +242,6 @@ export const clickRejectAllSecondLayer = async (config: Config, page: Page, isAm
 	} else {
 		rejectAllButton = page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 	}
-	// await page
-	// 	.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]')
-	// 	.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL)
-	// 	.click();
 
 	await rejectAllButton.click();
 
