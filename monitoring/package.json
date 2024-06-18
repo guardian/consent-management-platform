@@ -27,7 +27,7 @@
     "@babel/parser": "^7.24.7",
     "@guardian/eslint-config-typescript": "^10.0.1",
     "@guardian/prettier": "^7.0.0",
-    "@guardian/tsconfig": "^0.3.1",
+    "@guardian/tsconfig": "^1.0.0",
     "@tsconfig/node18": "^18.2.4",
     "@types/aws-lambda": "^8.10.138",
     "@types/inquirer": "^8.2.10",
