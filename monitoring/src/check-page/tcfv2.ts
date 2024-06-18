@@ -69,7 +69,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: b
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await makeNewContext(browser);
+	const context = await makeNewContext(browser, isAmp);
 	const page = await makeNewPage(context);
 
 	await firstLayerCheck(config, url, page, context, nextUrl, isAmp);
@@ -82,7 +82,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: b
 		config.debugMode,
 	);
 	const contextForSecondLayerCheck =
-		await makeNewContext(browserForSecondLayerCheck);
+		await makeNewContext(browserForSecondLayerCheck, isAmp);
 	const pageForSecondLayerCheck = await makeNewPage(
 		contextForSecondLayerCheck,
 	);

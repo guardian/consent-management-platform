@@ -97,7 +97,7 @@ const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await makeNewContext(browser);
+	const context = await makeNewContext(browser, isAmp);
 	const page = await makeNewPage(context);
 
 	await loadPage(page, url);
@@ -128,7 +128,7 @@ const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	const browserForCMPLoadTime: Browser = await makeNewBrowser(
 		config.debugMode,
 	);
-	const contextForCMPLoadTime = await makeNewContext(browserForCMPLoadTime);
+	const contextForCMPLoadTime = await makeNewContext(browserForCMPLoadTime, isAmp);
 	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
 	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
 
