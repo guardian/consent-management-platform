@@ -17,10 +17,10 @@ import {
 	loadPage,
 	log_info,
 	makeNewBrowser,
+	makeNewContext,
 	makeNewPage,
 	openPrivacySettingsPanel,
 	reloadPage,
-	ScreenDimensions,
 } from './common-functions';
 
 /**
@@ -69,7 +69,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: b
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await browser.newContext({ screen: ScreenDimensions.WEB });
+	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
 
 	await firstLayerCheck(config, url, page, context, nextUrl, isAmp);
@@ -82,7 +82,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: b
 		config.debugMode,
 	);
 	const contextForSecondLayerCheck =
-		await browserForSecondLayerCheck.newContext();
+		await makeNewContext(browserForSecondLayerCheck);
 	const pageForSecondLayerCheck = await makeNewPage(
 		contextForSecondLayerCheck,
 	);
@@ -95,7 +95,7 @@ const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: b
 	const browserForCMPLoadTime: Browser = await makeNewBrowser(
 		config.debugMode,
 	);
-	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
+	const contextForCMPLoadTime = await makeNewContext(browserForCMPLoadTime);
 	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
 	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
 

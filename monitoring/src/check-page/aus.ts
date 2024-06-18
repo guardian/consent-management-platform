@@ -12,6 +12,7 @@ import {
 	loadPage,
 	log_info,
 	makeNewBrowser,
+	makeNewContext,
 	makeNewPage,
 	reloadPage,
 } from './common-functions';
@@ -39,7 +40,7 @@ const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await browser.newContext();
+	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
 
 	await loadPage(page, url);
@@ -67,7 +68,7 @@ const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 		config.debugMode,
 	);
 
-	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
+	const contextForCMPLoadTime = await makeNewContext(browserForCMPLoadTime);
 	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
 	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
 

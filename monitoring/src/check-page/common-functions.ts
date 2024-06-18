@@ -36,7 +36,7 @@ export const log_error = (message: string): void => {
 };
 
 export const ScreenDimensions = {
-	WEB: { width: 1920, height: 1080 },
+	WEB: { width: 1280, height: 720 },
 	MOBILE: { width: 430, height: 932 },
 };
 
@@ -73,6 +73,16 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
 	const browser = await launchChromium({ headless: !debugMode });
 	return browser;
 };
+
+/**
+ * Creates a new browser context with the specified viewport dimensions.
+ * @param browser - The browser instance.
+ * @param isAmp - Indicates whether the context is for an AMP page. Default is false.
+ * @returns A promise that resolves to the newly created browser context.
+ */
+export const makeNewContext = async (browser: Browser, isAmp: boolean = false): Promise<BrowserContext> => {
+	return await browser.newContext({ viewport: !isAmp ? ScreenDimensions.WEB : ScreenDimensions.MOBILE });
+}
 
 /**
  * This function creates a new page
