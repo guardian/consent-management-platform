@@ -21,11 +21,11 @@ import {
  * when visiting the site, with respect to and interaction with the CMP.
  */
 
-const checkSubsequentPage = async (context: BrowserContext, url: string) => {
+const checkSubsequentPage = async (context: BrowserContext, url: string, isAmp: boolean = false) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await makeNewPage(context);
 	await loadPage(page, url);
-	await Promise.all([checkCMPIsNotVisible(page), checkTopAdHasLoaded(page)]);
+	await Promise.all([checkCMPIsNotVisible(page), checkAds(page, isAmp)]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };

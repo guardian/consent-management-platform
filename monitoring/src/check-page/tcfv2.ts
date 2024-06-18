@@ -1,6 +1,7 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
 import {
+	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
@@ -34,6 +35,7 @@ const checkSubsequentPage = async (
 	context: BrowserContext,
 	config: Config,
 	url: string,
+	isAmp: boolean = false,
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await makeNewPage(context);
@@ -45,7 +47,7 @@ const checkSubsequentPage = async (
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
 	await clickAcceptAllCookies(config, page, "Yes I'm Happy");
-	await Promise.all([checkCMPIsNotVisible(page), checkTopAdHasLoaded(page)]);
+	await Promise.all([checkCMPIsNotVisible(page), checkAds(page, isAmp)]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
