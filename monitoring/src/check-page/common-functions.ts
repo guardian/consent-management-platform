@@ -378,13 +378,15 @@ export const checkCMPIsOnPage = async (
 
 	if (isAmp) {
 		cmpl = page
-			.frameLocator('.i-amphtml-consent-ui-fill')
+			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
 			.locator(ELEMENT_ID.CMP_CONTAINER);
 	} else {
 		cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
 	}
 
-	await cmpl.waitFor();
+	await cmpl.waitFor({
+		state: 'visible',
+	});
 
 	if (!isAmp) {
 		await recordVersionOfCMP(page);
