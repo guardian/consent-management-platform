@@ -3,7 +3,7 @@
 
 module.exports = {
 	clearMocks: true,
-	testPathIgnorePatterns: ['cypress', 'cdk', 'monitoring'],
+	testPathIgnorePatterns: 'cdk', 'monitoring'],
 
 	// All imported modules in your tests should be mocked automatically
 	// automock: false,
