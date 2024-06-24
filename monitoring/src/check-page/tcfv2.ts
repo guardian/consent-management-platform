@@ -217,6 +217,8 @@ export const secondLayerCheck = async function (
 
 	await reloadPage(page);
 
+	await page.waitForLoadState('networkidle');
+
 	await checkCMPIsOnPage(page, isAmp);
 
 	await openPrivacySettingsPanel(config, page, isAmp);
