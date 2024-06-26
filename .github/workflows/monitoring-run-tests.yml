@@ -1,0 +1,38 @@
+name: Run tests in monitoring directory
+
+on:
+  workflow_call:
+
+jobs:
+  test-unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './monitoring/.nvmrc'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Run unit tests
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.6
+        with:
+          package-manager: yarn
+          test-script: yarn test
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
