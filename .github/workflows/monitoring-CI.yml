@@ -42,6 +42,14 @@ jobs:
         working-directory: './monitoring'
         run: yarn build
 
+      - name: Monitoring lint
+        working-directory: './monitoring'
+        run: yarn lint
+
+      - name: Monitoring Test
+        working-directory: './monitoring'
+        run: yarn test
+
       - name: CDK Install CDK dependencies
         working-directory: './cdk'
         run: yarn --frozen-lockfile
