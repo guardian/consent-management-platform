@@ -4,15 +4,18 @@ import { AWS_REGIONS, JURISDICTIONS, STAGES } from './types';
 import { ConfigHelper } from './utils/config-helper/config-helper';
 
 describe('ConfigWrapper', () => {
+	const platform = 'prod';
 	describe('Constructor', () => {
 		const awsRegion = AWS_REGIONS.US_WEST_1;
 		const stage = 'code';
 		const jurisdiction = JURISDICTIONS.AUS;
+
 		it('should assign jurisdiction, awsRegion or stage passed', () => {
 			const configWrapper = new ConfigWrapper(
 				awsRegion,
 				stage,
 				jurisdiction,
+				platform
 			);
 
 			expect(configWrapper.jurisdiction).toBe(jurisdiction);
@@ -24,6 +27,7 @@ describe('ConfigWrapper', () => {
 	describe('generateConfig', () => {
 		let awsRegion: AwsRegionOpt = AWS_REGIONS.US_WEST_1;
 		let jurisdiction: JurisdictionOpt = JURISDICTIONS.CCPA;
+
 		const stage = 'code';
 		it('should assign jurisdiction if there is an awsRegion and no jurisdiction ', () => {
 			jurisdiction = undefined;
@@ -33,6 +37,7 @@ describe('ConfigWrapper', () => {
 				awsRegion,
 				stage,
 				jurisdiction,
+				platform
 			);
 
 			expect(configWrapper.jurisdiction).toBeUndefined();
@@ -56,6 +61,7 @@ describe('ConfigWrapper', () => {
 				awsRegion,
 				stage,
 				jurisdiction,
+				platform
 			);
 
 			expect(configWrapper.awsRegion).toBeUndefined();
@@ -78,6 +84,7 @@ describe('ConfigWrapper', () => {
 				awsRegion,
 				stage,
 				jurisdiction,
+				platform
 			);
 
 			// configWrapper.generateConfig();
@@ -90,11 +97,13 @@ describe('ConfigWrapper', () => {
 		const jurisdiction: JurisdictionOpt = JURISDICTIONS.CCPA;
 		const stage = 'code';
 
+
 		it('should call config.checkFunction if config is defined', async () => {
 			const configWrapper = new ConfigWrapper(
 				awsRegion,
 				stage,
 				jurisdiction,
+				platform
 			);
 
 			const mockCheckFunction = jest.fn();

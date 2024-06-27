@@ -14,7 +14,7 @@ export const handler = async (
 	const stage: string = event.stage;
 	const region: AwsRegionOpt = event.region;
 
-	const configWrapper = new ConfigWrapper(region, stage, jurisdiction);
+	const configWrapper = new ConfigWrapper(region, stage, jurisdiction, stage );
 	configWrapper.generateConfig();
 
 	console.log(
