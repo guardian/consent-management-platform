@@ -42,6 +42,10 @@ jobs:
         working-directory: './monitoring'
         run: yarn build
 
+      - name: Lambda Build
+        working-directory: './monitoring'
+        run: yarn test
+
       - name: CDK Install CDK dependencies
         working-directory: './cdk'
         run: yarn --frozen-lockfile

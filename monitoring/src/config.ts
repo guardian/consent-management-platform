@@ -1,5 +1,4 @@
 import { log_info } from './check-page/common-functions';
-import { envAwsRegion, envJurisdiction, envPlatform, envStage } from './env';
 import type {
 	AwsRegionOpt,
 	Config,
@@ -49,10 +48,10 @@ export class ConfigWrapper {
 
 
 	constructor(
-		_envAwsRegion: AwsRegionOpt = envAwsRegion,
-		_envStage: string = envStage,
-		_envJurisdiction: JurisdictionOpt = envJurisdiction,
-		_envPlatform: string = envPlatform
+		_envAwsRegion: AwsRegionOpt,
+		_envStage: string,
+		_envJurisdiction: JurisdictionOpt,
+		_envPlatform: string
 	) {
 		this._jurisdiction = _envJurisdiction;
 		this._awsRegion = _envAwsRegion;
