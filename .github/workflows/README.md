@@ -8,3 +8,8 @@ Below are the following workflows that are triggered by specific actions i.e pus
 
 -   Trigger: Pushing to a branch
 -   Description: Initiates a series of jobs related to the `cdk` and `monitoring` app. This includes running tests and checks within the `cdk` and `monitoring` directories.
+
+2. [`snyk.yml`](snyk.yml) and  [`snyk-pr.yml`](snyk-pr.yml)
+
+-   Trigger: Pushing to a branch or main
+-   Runs snyk.yml
