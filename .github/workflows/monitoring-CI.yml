@@ -24,15 +24,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: './monitoring/.nvmrc'
           cache: yarn
           cache-dependency-path: |
-            yarn.lock
             monitoring/yarn.lock
             cdk/yarn.lock
-
-      - name: Install Root dependencies
-        run: yarn --frozen-lockfile
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
