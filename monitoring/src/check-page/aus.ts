@@ -1,6 +1,9 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
+import type {
+	CheckPagesProps} from './common-functions';
 import {
+	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCMPLoadingTimeAndVersion,
@@ -9,6 +12,7 @@ import {
 	loadPage,
 	log_info,
 	makeNewBrowser,
+	makeNewContext,
 	makeNewPage,
 	reloadPage,
 } from './common-functions';
@@ -18,14 +22,11 @@ import {
  * when visiting the site, with respect to and interaction with the CMP.
  */
 
-const checkSubsequentPage = async (context: BrowserContext, url: string) => {
+const checkSubsequentPage = async (context: BrowserContext, url: string, isAmp: boolean = false) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await makeNewPage(context);
 	await loadPage(page, url);
-	await Promise.all([
-		checkCMPIsNotVisible(page),
-		checkTopAdHasLoaded(page),
-	]);
+	await Promise.all([checkCMPIsNotVisible(page), checkAds(page, isAmp)]);
 	await page.close();
 	log_info(`Checking subsequent Page URL: ${url} Complete`);
 };
@@ -35,20 +36,25 @@ const checkSubsequentPage = async (context: BrowserContext, url: string) => {
  * the site, with respect to and interaction with the CMP.
  */
 
-const checkPages = async (config: Config, url: string, nextUrl: string) => {
+const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
-	const context = await browser.newContext();
+	const context = await makeNewContext(browser, isAmp);
 	const page = await makeNewPage(context);
 
 	await loadPage(page, url);
-	await checkTopAdHasLoaded(page);
-	await checkCMPIsOnPage(page);
-	await clickAcceptAllCookies(config, page, 'Continue');
-	await checkCMPIsNotVisible(page);
+
+	// AMP pages do not have a top ad
+	if (!isAmp) {
+		await checkTopAdHasLoaded(page);
+	}
+
+	await checkCMPIsOnPage(page, isAmp);
+	await clickAcceptAllCookies(config, page, 'Continue', isAmp);
+	await checkCMPIsNotVisible(page, isAmp);
 	await reloadPage(page);
-	await checkTopAdHasLoaded(page);
+	await checkAds(page, isAmp);
 
 	if (nextUrl) {
 		await checkSubsequentPage(context, nextUrl);
@@ -58,8 +64,11 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 	await browser.close();
 
 	//instead of clearing cookies and local storage, use a new browser and context, just using a new context did not work on lambda
-	const browserForCMPLoadTime: Browser = await makeNewBrowser(config.debugMode);
-	const contextForCMPLoadTime = await browserForCMPLoadTime.newContext();
+	const browserForCMPLoadTime: Browser = await makeNewBrowser(
+		config.debugMode,
+	);
+
+	const contextForCMPLoadTime = await makeNewContext(browserForCMPLoadTime, isAmp);
 	const pageForCMPLoadTime = await makeNewPage(contextForCMPLoadTime);
 	await checkCMPLoadingTimeAndVersion(pageForCMPLoadTime, config);
 
@@ -69,12 +78,26 @@ const checkPages = async (config: Config, url: string, nextUrl: string) => {
 
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (aus)');
-	await checkPages(
+
+	// Check the front page and subsequent article page
+	await checkPages({
 		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-	);
-	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+		url: `${config.frontUrl}?adtest=fixed-puppies`,
+		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
+		isAmp: false,
+	})
 
+	// Check the article page
+	await checkPages({
+		config,
+		url: `${config.articleUrl}?adtest=fixed-puppies`,
+		isAmp: false,
+	})
+
+	// Check the AMP article page
+	await checkPages({
+		config,
+		url: `${config.ampArticle}?adtest=fixed-puppies`,
+		isAmp: true,
+	})
 };
-

@@ -41,6 +41,8 @@ async function handleEvent(options: LocalRunCLIUserInput) {
 		stage: options.env,
 		jurisdiction: options.jurisdiction,
 	};
+
+	console.log('To run again without interactive use the following function:', `yarn start --env ${options.env} --jurisdiction ${options.jurisdiction}`);
 	await handler(event);
 	process.exit(0);
 }

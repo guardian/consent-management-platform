@@ -11,5 +11,6 @@ jobs:
     with:
       ORG: guardian-consent
       SEVERITY_THRESHOLD: critical
+      node-version-file: './monitoring/.nvmrc'
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

@@ -38,6 +38,9 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         },
         "FunctionName": "cmp-monitoring-PROD",
         "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogFormat": "JSON",
+        },
         "MemorySize": 2048,
         "Role": {
           "Fn::GetAtt": [
@@ -46,6 +49,10 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs18.x",
+        "RuntimeManagementConfig": {
+          "RuntimeVersionArn": "arn:aws:lambda:eu-west-1::runtime:0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9",
+          "UpdateRuntimeOn": "Manual",
+        },
         "Tags": [
           {
             "Key": "App",
@@ -260,6 +267,24 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
         ],
         "Period": 120,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/consent-management-platform",
+          },
+          {
+            "Key": "Stack",
+            "Value": "cmp-monitoring",
+          },
+          {
+            "Key": "Stage",
+            "Value": "PROD",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },

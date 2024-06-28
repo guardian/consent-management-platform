@@ -29,15 +29,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
-          cache: pnpm
+          node-version-file: './monitoring/.nvmrc'
+          cache: yarn
           cache-dependency-path: |
-            pnpm-lock.yaml
-            monitoring/pnpm-lock.yaml
-            cdk/pnpm-lock.yaml
-
-      - name: Install Root dependencies
-        run: pnpm install --frozen-lockfile
+            monitoring/yarn.lock
+            cdk/yarn.lock
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
@@ -45,11 +41,15 @@ jobs:
 
       - name: Lambda lint
         working-directory: './monitoring'
-        run: pnpm lint
+        run: yarn lint
 
       - name: Lambda Build
         working-directory: './monitoring'
-        run: pnpm build
+        run: yarn build
+
+      - name: Lambda Build
+        working-directory: './monitoring'
+        run: yarn test
 
       - name: CDK Install CDK dependencies
         working-directory: './cdk'

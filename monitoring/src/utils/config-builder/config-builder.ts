@@ -18,6 +18,7 @@ export class ConfigBuilder {
 			jurisdiction: jurisdiction,
 			frontUrl: this.getFrontUrl(stage),
 			articleUrl: this.getArticleUrl(stage),
+			ampArticle: this.getAmpUrl(stage),
 			iframeDomain: this.getIframeDomain(stage),
 			iframeDomainSecondLayer: this.getIframeDomainSecondLayer(stage),
 			checkFunction: this.getCheckFunction(jurisdiction),
@@ -53,6 +54,19 @@ export class ConfigBuilder {
 				return ConfigArticleUrl.LOCAL;
 			default:
 				return ConfigArticleUrl.CODE;
+		}
+	}
+
+	static getAmpUrl(stage: Stage): string {
+		switch (stage) {
+			case STAGES.PROD:
+				return ConfigAMPArticleURl.PROD;
+			case STAGES.CODE:
+				return ConfigAMPArticleURl.CODE;
+			case STAGES.LOCAL:
+				return ConfigAMPArticleURl.LOCAL;
+			default:
+				return ConfigAMPArticleURl.CODE;
 		}
 	}
 
@@ -106,6 +120,12 @@ export const ConfigFrontUrl = {
 	PROD: 'https://www.theguardian.com',
 	CODE: 'https://m.code.dev-theguardian.com',
 	LOCAL: `${localBaseURL}/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake`,
+};
+
+export const ConfigAMPArticleURl = {
+	PROD: 'https://amp.theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	CODE: 'https://amp.code.dev-theguardian.com/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake',
+	LOCAL: `${localBaseURL}/food/2020/dec/16/how-to-make-the-perfect-vegetarian-sausage-rolls-recipe-felicity-cloake?amp`,
 };
 
 export const IframeDomainUrl = {
