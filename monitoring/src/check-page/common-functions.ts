@@ -47,7 +47,13 @@ export const ScreenDimensions = {
  * @return {*}  {Promise<void>}
  */
 export const clearCookies = async (page: Page): Promise<void> => {
-	await page.context().clearCookies();
+	// await page.context().clearCookies();
+	const cookies = await page.context().cookies();
+
+	for(const cookie of cookies) {
+		console.log(cookie.name);
+		await page.context().clearCookies(cookie);
+	}
 	log_info(`Cleared Cookies`);
 };
 
