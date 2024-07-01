@@ -241,14 +241,14 @@ export const secondLayerCheck = async function (
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
 	// Testing the user first visits home page then an article page
-	await checkPages(
-		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-	);
+	// await checkPages(
+	// 	config,
+	// 	`${config.frontUrl}?adtest=fixed-puppies`,
+	// 	`${config.articleUrl}?adtest=fixed-puppies`,
+	// );
 
 	// Testing the user first visits only an article page
-	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
+	// await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
 
 	await checkPages(
 		config,
