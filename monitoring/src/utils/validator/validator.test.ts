@@ -1,5 +1,5 @@
-import { JURISDICTIONS, STAGES } from '../../types.ts';
-import { Validator } from './validator.ts';
+import { JURISDICTIONS, STAGES } from '../../types.js';
+import { Validator } from './validator.js';
 
 describe('Validator', () => {
 	describe('isStageValid', () => {

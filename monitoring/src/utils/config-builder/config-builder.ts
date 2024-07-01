@@ -1,9 +1,9 @@
-import { mainCheck as mainCheckAus } from '../../check-page/aus.ts';
-import { mainCheck as mainCheckCCPA } from '../../check-page/ccpa.ts';
-import { mainCheck as mainCheckTcfV2 } from '../../check-page/tcfv2.ts';
-import { debugMode, localBaseURL } from '../../env.ts';
-import type { AwsRegionOpt, Config, Jurisdiction, Stage } from '../../types.ts';
-import { JURISDICTIONS, STAGES } from '../../types.ts';
+import { mainCheck as mainCheckAus } from '../../check-page/aus.js';
+import { mainCheck as mainCheckCCPA } from '../../check-page/ccpa.js';
+import { mainCheck as mainCheckTcfV2 } from '../../check-page/tcfv2.js';
+import { debugMode, localBaseURL } from '../../env.js';
+import type { AwsRegionOpt, Config, Jurisdiction, Stage } from '../../types.js';
+import { JURISDICTIONS, STAGES } from '../../types.js';
 
 export class ConfigBuilder {
 	static construct(

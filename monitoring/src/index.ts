@@ -1,5 +1,5 @@
-import { ConfigWrapper } from './config.ts';
-import type { AwsRegionOpt, CheckStatus, JurisdictionOpt } from './types.ts';
+import { ConfigWrapper } from './config.js';
+import type { AwsRegionOpt, CheckStatus, JurisdictionOpt } from './types.js';
 
 
 export interface CustomScheduleEventContent {

@@ -10,7 +10,8 @@
     "lint": "eslint src/** localRun.ts",
     "start": "ts-node --esm localRun.ts",
     "remote": "ts-node --esm remoteRun.ts",
-    "validate": "npm-run-all test lint"
+		"build": "ncc build src/index.ts -o dist -e aws-sdk",
+    "validate": "npm-run-all test lint build"
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.606.0",

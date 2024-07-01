@@ -4,6 +4,6 @@
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "es6",
-		"allowImportingTsExtensions": true,
 	},
+
 }

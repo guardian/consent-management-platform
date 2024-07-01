@@ -1,4 +1,4 @@
-import { STAGES } from '../../types.ts';
+import { STAGES } from '../../types.js';
 import {
 	ConfigArticleUrl,
 	ConfigBuilder,

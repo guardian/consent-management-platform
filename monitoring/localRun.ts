@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import inquirer from 'inquirer';
-import type { CustomScheduleEventContent } from './src/index.ts';
-import { handler } from './src/index.ts';
+import type { CustomScheduleEventContent } from './src/index.js';
+import { handler } from './src/index.js';
 
 const program = new Command();
 

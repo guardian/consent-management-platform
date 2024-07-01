@@ -1,7 +1,7 @@
-import { ConfigWrapper } from './config.ts';
-import type { AwsRegionOpt, Config, JurisdictionOpt } from './types.ts';
-import { AWS_REGIONS, JURISDICTIONS, STAGES } from './types.ts';
-import { ConfigHelper } from './utils/config-helper/config-helper.ts';
+import { ConfigWrapper } from './config.js';
+import type { AwsRegionOpt, Config, JurisdictionOpt } from './types.js';
+import { AWS_REGIONS, JURISDICTIONS, STAGES } from './types.js';
+import { ConfigHelper } from './utils/config-helper/config-helper.js';
 
 describe('ConfigWrapper', () => {
 	const platform = 'prod';

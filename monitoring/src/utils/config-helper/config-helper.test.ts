@@ -1,5 +1,5 @@
-import { AWS_REGIONS, JURISDICTIONS } from '../../types.ts';
-import { ConfigHelper } from './config-helper.ts';
+import { AWS_REGIONS, JURISDICTIONS } from '../../types.js';
+import { ConfigHelper } from './config-helper.js';
 
 describe('Config Helper', () => {
 	describe('getJurisdiction', () => {
