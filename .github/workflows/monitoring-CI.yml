@@ -32,8 +32,8 @@ jobs:
           node-version-file: './monitoring/.nvmrc'
           cache: pnpm
           cache-dependency-path: |
-            monitoring/pnpm-lock.yml
-            cdk/pnpm-lock.yml
+            monitoring/pnpm-lock.yaml
+            cdk/pnpm-lock.yaml
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
