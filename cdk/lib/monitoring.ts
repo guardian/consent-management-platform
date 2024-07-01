@@ -1,6 +1,6 @@
-import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
-import { GuStack } from '@guardian/cdk/lib/constructs/core';
-import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
+import type { GuStackProps } from '@guardian/cdk/lib/constructs/core/index.js';
+import { GuStack } from '@guardian/cdk/lib/constructs/core/index.js';
+import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda/index.js';
 import type { App } from 'aws-cdk-lib';
 import { Duration } from 'aws-cdk-lib';
 import type {
