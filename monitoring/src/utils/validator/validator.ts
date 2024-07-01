@@ -1,5 +1,5 @@
-import type { JurisdictionOpt } from '../../types';
-import { JURISDICTIONS, STAGES } from '../../types';
+import type { JurisdictionOpt } from '../../types.ts';
+import { JURISDICTIONS, STAGES } from '../../types.ts';
 
 export class Validator {
 	static isStageValid = (value: string): boolean => {

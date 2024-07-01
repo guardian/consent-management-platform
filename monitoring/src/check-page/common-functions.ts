@@ -5,8 +5,8 @@ import {
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
-import type { Config } from '../types';
-import { ELEMENT_ID } from '../types';
+import type { Config } from '../types.ts';
+import { ELEMENT_ID } from '../types.ts';
 
 /**
  * Represents the props for the checkPages.

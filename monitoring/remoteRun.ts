@@ -1,7 +1,8 @@
 import type { InvokeCommandOutput } from '@aws-sdk/client-lambda';
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
-import { prompt } from 'inquirer';
-import type { CustomScheduleEventContent } from './src';
+import inquirer from 'inquirer';
+import type { CustomScheduleEventContent } from './src/index.ts';
+
 
 type RemoteRunCLIUserInput = {
 	stage: string;
@@ -45,7 +46,7 @@ async function main() {
 		'ca-central-1',
 	];
 
-	await prompt([
+	await inquirer.prompt([
 		{
 			type: 'list',
 			name: 'stage',

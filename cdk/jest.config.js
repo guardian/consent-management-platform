@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	testMatch: ['<rootDir>/lib/**/*.test.ts'],
 	transform: {
 		'^.+\\.tsx?$': 'ts-jest',

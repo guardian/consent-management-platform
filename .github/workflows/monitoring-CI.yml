@@ -21,19 +21,17 @@ jobs:
           role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
           aws-region: eu-west-1
 
-      - name: Set up pnpm 6.x
-        uses: pnpm/action-setup@v2
-        with:
-          version: 6
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: './monitoring/.nvmrc'
-          cache: yarn
+          cache: pnpm
           cache-dependency-path: |
-            monitoring/yarn.lock
-            cdk/yarn.lock
+            monitoring/pnpm-lock.yml
+            cdk/pnpm-lock.yml
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
@@ -41,15 +39,15 @@ jobs:
 
       - name: Lambda lint
         working-directory: './monitoring'
-        run: yarn lint
+        run: pnpm lint
 
       - name: Lambda Build
         working-directory: './monitoring'
-        run: yarn build
+        run: pnpm build
 
       - name: Lambda Build
         working-directory: './monitoring'
-        run: yarn test
+        run: pnpm test
 
       - name: CDK Install CDK dependencies
         working-directory: './cdk'

@@ -38,7 +38,7 @@ If you get the following error
 ║ Looks like Playwright Test or Playwright was just installed or updated. ║
 ║ Please run the following command to download new browsers:              ║
 ║                                                                         ║
-║     pnpm playwright install                                             ║
+║     pnpm exec playwright install                                             ║
 
 delete the node_modules and run  `npx playwright install chromium`.
 

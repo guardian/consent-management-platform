@@ -2,7 +2,7 @@
 	"extends": "@guardian/tsconfig",
 	"ts-node": {
 		"compilerOptions": {
-			"module": "CommonJS"
+			"module": "es6"
 		}
 	},
 	"compilerOptions": {

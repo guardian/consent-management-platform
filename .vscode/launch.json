@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "cwd": "${workspaceFolder}/monitoring",
-			"runtimeExecutable": "yarn",
+			"runtimeExecutable": "pnpm",
 			"runtimeArgs": [
 				"start",
 				"--env=prod",
@@ -29,7 +29,7 @@
                 "<node_internals>/**"
             ],
             "cwd": "${workspaceFolder}/monitoring",
-			"runtimeExecutable": "yarn",
+			"runtimeExecutable": "pnpm",
 			"runtimeArgs": [
 				"start",
 				"--env=prod",
@@ -46,7 +46,7 @@
                 "<node_internals>/**"
             ],
             "cwd": "${workspaceFolder}/monitoring",
-			"runtimeExecutable": "yarn",
+			"runtimeExecutable": "pnpm",
 			"runtimeArgs": [
 				"start",
 				"--env=prod",
