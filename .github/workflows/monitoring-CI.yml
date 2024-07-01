@@ -47,7 +47,7 @@ jobs:
         working-directory: './monitoring'
         run: pnpm build
 
-      - name: Lambda Build
+      - name: Lambda Test
         working-directory: './monitoring'
         run: pnpm test
 
