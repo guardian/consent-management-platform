@@ -50,7 +50,6 @@ export const clearCookies = async (page: Page): Promise<void> => {
 	const cookies = await page.context().cookies();
 
 	for(const cookie of cookies) {
-		console.log(cookie.name);
 		await page.context().clearCookies(cookie);
 	}
 
