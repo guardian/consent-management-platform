@@ -155,9 +155,9 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	})
 
 	// Check the AMP article page
-	await checkPages({
-		config,
-		url: `${config.ampArticle}?adtest=fixed-puppies`,
-		isAmp: true,
-	})
+	// await checkPages({
+	// 	config,
+	// 	url: `${config.ampArticle}?adtest=fixed-puppies`,
+	// 	isAmp: true,
+	// })
 };

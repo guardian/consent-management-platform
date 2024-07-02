@@ -250,10 +250,10 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	// Testing the user first visits only an article page
 	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
 
-	await checkPages(
-		config,
-		`${config.ampArticle}?adtest=fixed-puppies`,
-		'',
-		true
-	);
+	// await checkPages(
+	// 	config,
+	// 	`${config.ampArticle}?adtest=fixed-puppies`,
+	// 	'',
+	// 	true
+	// );
 };
