@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+		"preinstall": "npx only-allow pnpm",
     "test": "jest",
     "test:dev": "jest --watch",
     "lint": "eslint src/** localRun.ts --ext .ts --no-error-on-unmatched-pattern",
