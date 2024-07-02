@@ -1,5 +1,5 @@
 {
-	"app": "npx ts-node --esm bin/cdk.ts",
+	"app": "npx tsc --noEmit && node --loader ts-node/esm bin/cdk.ts",
 	"context": {
 		"aws-cdk:enableDiffNoFail": "true",
 		"@aws-cdk/core:stackRelativeExports": "true"
