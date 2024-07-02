@@ -1,6 +1,6 @@
 import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { Monitoring } from './monitoring';
+import { Monitoring } from './monitoring.js';
 
 describe('The Monitoring stack', () => {
 	it('matches the snapshot', () => {

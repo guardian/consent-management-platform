@@ -1,7 +1,7 @@
 *.js
 !jest.config.js
 !jest.setup.js
-!.eslintrc.js
+!eslint.config.js
 *.d.ts
 node_modules
 dist

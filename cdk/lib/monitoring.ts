@@ -1,6 +1,6 @@
-import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
-import { GuStack } from '@guardian/cdk/lib/constructs/core';
-import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
+import type { GuStackProps } from '@guardian/cdk/lib/constructs/core/index.js';
+import { GuStack } from '@guardian/cdk/lib/constructs/core/index.js';
+import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda/index.js';
 import type { App } from 'aws-cdk-lib';
 import { Duration } from 'aws-cdk-lib';
 import type {
@@ -85,7 +85,7 @@ export class Monitoring extends GuStack {
 
 
 		const monitoringDuration: Duration =
-			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
+			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.minutes(prodDurationInMinutes); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
 			schedule: Schedule.rate(monitoringDuration),

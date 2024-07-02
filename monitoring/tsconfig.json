@@ -3,6 +3,7 @@
 	"include": ["./**/*.ts"],
 	"compilerOptions": {
 		"moduleResolution": "node",
-		"module": "commonjs",
-	}
+		"module": "es6",
+	},
+
 }

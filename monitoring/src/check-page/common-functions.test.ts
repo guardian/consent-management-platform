@@ -6,7 +6,7 @@ import {
 } from '../utils/config-builder/config-builder';
 import { makeNewBrowser } from './common-functions';
 */
-describe('common-functions.ts', () => {
+describe('common-functions.js', () => {
 	it('should be true',  () => {
 		true;
 	});

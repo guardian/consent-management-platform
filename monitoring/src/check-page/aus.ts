@@ -1,7 +1,7 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
-import type { Config } from '../types';
+import type { Config } from '../types.js';
 import type {
-	CheckPagesProps} from './common-functions';
+	CheckPagesProps} from './common-functions.js';
 import {
 	checkAds,
 	checkCMPIsNotVisible,
@@ -15,7 +15,7 @@ import {
 	makeNewContext,
 	makeNewPage,
 	reloadPage,
-} from './common-functions';
+} from './common-functions.js';
 
 /**
  * Checks that ads load correctly for the second page a user goes to
