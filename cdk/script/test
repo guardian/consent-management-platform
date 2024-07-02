@@ -2,6 +2,6 @@
 
 set -e
 
-yarn lint
-yarn test
-yarn synth
+pnpm lint
+pnpm test
+pnpm synth

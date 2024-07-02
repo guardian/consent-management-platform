@@ -2,8 +2,8 @@
 
 set -e
 
-yarn install --frozen-lockfile
+pnpm install
 
-yarn lint
-yarn test
-yarn synth
+pnpm lint
+pnpm test
+pnpm synth
