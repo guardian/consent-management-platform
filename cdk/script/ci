@@ -2,7 +2,7 @@
 
 set -e
 
-pnpm install
+pnpm install --frozen-lockfile
 
 pnpm lint
 pnpm test
