@@ -9,8 +9,8 @@
     "test": "jest",
     "test:dev": "jest --watch",
     "lint": "eslint src/** localRun.ts",
-    "start": "ts-node --esm localRun.ts",
-    "remote": "ts-node --esm remoteRun.ts",
+    "start": "tsc --noEmit && node --loader ts-node/esm localRun.ts",
+    "remote": "tsc --noEmit && node --loader ts-node/esm remoteRun.ts",
     "build": "ncc build src/index.ts -o dist -e aws-sdk",
     "validate": "npm-run-all test lint build"
   },
