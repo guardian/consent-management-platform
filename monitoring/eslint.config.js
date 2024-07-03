@@ -1,16 +1,11 @@
 import globals from "globals";
-import path from 'path';
-import { fileURLToPath } from 'url';
 import js from "@eslint/js"
 import prettier from "eslint-config-prettier"
 import { FlatCompat } from "@eslint/eslintrc";
 //import guardianConfig from "@guardian/eslint-config-typescript"; //Use this once an es-module compatible version is available
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
+    baseDirectory: import.meta.dirname,
 	recommendedConfig: js.configs.recommended,
 });
 
@@ -26,7 +21,7 @@ export default [
 		globals: { ...globals.jest, ...globals.node },
 		parserOptions: {
 			ecmaVersion: 2022,
-			tsconfigRootDir: __dirname,
+			tsconfigRootDir: import.meta.dirname,
 			sourceType: 'module',
 			project: ['./tsconfig.eslint.json'],
 		}
