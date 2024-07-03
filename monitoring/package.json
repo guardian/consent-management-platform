@@ -12,7 +12,7 @@
     "start": "tsc --noEmit && node --loader ts-node/esm localRun.ts",
     "remote": "tsc --noEmit && node --loader ts-node/esm remoteRun.ts",
     "type-check": "tsc --noEmit",
-    "bundle": "esbuild src/index.ts --bundle --minify --outfile=dist/index.js --external:aws-sdk --platform=node",
+    "bundle": "esbuild src/index.ts --bundle --minify --outfile=dist/index.js --external:aws-sdk --external:'./chromium/appIcon.png' --external:'./loader' --platform=node",
     "build": "run-p --print-label type-check bundle",
     "validate": "npm-run-all test lint build"
   },
