@@ -1,5 +1,6 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import type { Config } from '../types';
+import type { CheckPagesProps } from './common-functions';
 import {
 	checkAds,
 	checkCMPIsNotVisible,
@@ -65,7 +66,7 @@ const checkSubsequentPage = async (
  * @param {string} url
  * @param {string} nextUrl
  */
-const checkPages = async (config: Config, url: string, nextUrl: string, isAmp: boolean = false) => {
+const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
@@ -120,7 +121,7 @@ export const firstLayerCheck = async function (
 	url: string,
 	page: Page,
 	context: BrowserContext,
-	nextUrl: string,
+	nextUrl: string | undefined,
 	isAmp: boolean = false,
 ): Promise<void> {
 	log_info('Checking first layer: Start');
@@ -241,19 +242,23 @@ export const secondLayerCheck = async function (
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage (tcfv2)');
 	// Testing the user first visits home page then an article page
-	await checkPages(
+	await checkPages({
 		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-	);
+		url: `${config.frontUrl}?adtest=fixed-puppies`,
+		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
+		isAmp: false,
+	});
 
 	// Testing the user first visits only an article page
-	await checkPages(config, `${config.articleUrl}?adtest=fixed-puppies`, '');
-
-	await checkPages(
+	await checkPages({
 		config,
-		`${config.ampArticle}?adtest=fixed-puppies`,
-		'',
-		true
-	);
+		url: `${config.articleUrl}?adtest=fixed-puppies`,
+		isAmp: false,
+	});
+
+	await checkPages({
+		config,
+		url: `${config.ampArticle}?adtest=fixed-puppies`,
+		isAmp: true
+});
 };
