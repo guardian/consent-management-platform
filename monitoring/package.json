@@ -14,8 +14,8 @@
     "type-check": "tsc --noEmit",
     "bundle": "esbuild src/index.ts --bundle --minify --outdir=dist --external:aws-sdk --external:'./chromium/appIcon.png' --external:'./loader' --platform=node",
     "copy-assets": "cp ./node_modules/.pnpm/playwright-core@1.45.1/node_modules/playwright-core/lib/server/electron/loader.js ./dist/; cp ./node_modules/.pnpm/playwright-core@1.45.1/node_modules/playwright-core/lib/server/chromium/appIcon.png ./dist/",
-		"build": "run-s --print-label type-check bundle copy-assets",
-    "buildold": "ncc build src/index.ts -o dist -e aws-sdk",
+		"buildold": "ncc build src/index.ts -o dist -e aws-sdk",
+		"build": "run-s --print-label buildold type-check bundle",
 		"validate": "npm-run-all test lint build"
   },
   "dependencies": {
