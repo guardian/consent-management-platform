@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.606.0",
-    "commander": "^11.1.0",
+    "commander": "^12.1.0",
     "dotenv": "^16.4.5",
     "inquirer": "^8.2.6",
     "playwright-aws-lambda": "^0.10.0",
