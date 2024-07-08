@@ -2,11 +2,11 @@
 
 success_count=0
 error_count=0
-iterations=10
+iterations=20
 
 for ((i=0; i<$iterations; i++))
 do
-  DEBUG_MODE=true yarn start --env prod --jurisdiction tcfv2
+  yarn start --env prod --jurisdiction tcfv2
   if [ $? -eq 0 ]
   then
     ((success_count++))
