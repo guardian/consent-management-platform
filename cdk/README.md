@@ -16,8 +16,8 @@ find useful scripts within the [`script`](./script) directory for common tasks.
 
 There are also some other commands defined in `package.json`, including:
 
--   `yarn lint --fix` attempt to autofix any linter errors
--   `yarn format` format the code using Prettier
--   `yarn watch` watch for changes and compile
+-   `pnpm lint --fix` attempt to autofix any linter errors
+-   `pnpm format` format the code using Prettier
+-   `pnpm watch` watch for changes and compile
 
 However, it's advised you configure your IDE to format on save to avoid horrible "correct linting" commits.
