@@ -28,8 +28,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.1(prettier@3.3.2)(tslib@2.6.3)
       '@guardian/tsconfig':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
@@ -295,8 +295,8 @@ packages:
       prettier: ^3.2.2
       tslib: ^2.6.2
 
-  '@guardian/tsconfig@1.0.0':
-    resolution: {integrity: sha512-xgajw/jq4lEtQoN72vnmiXeRnejUcd3DgNFmH6TfAbWV6NRK4KC4hAjzKf0H69zBSJMxEfFVfGKP9wBzGII7qg==}
+  '@guardian/tsconfig@0.2.0':
+    resolution: {integrity: sha512-RauppalK+cQZDRK6IssVmDSnU/VyqMNuVOxPxhmI03kVRxEdwcmBuRqexHwDbnClVUxW/N9hYLbFNuAb9V/p+A==}
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -2701,7 +2701,7 @@ snapshots:
       prettier: 3.3.2
       tslib: 2.6.3
 
-  '@guardian/tsconfig@1.0.0': {}
+  '@guardian/tsconfig@0.2.0': {}
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
