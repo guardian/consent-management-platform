@@ -66,7 +66,7 @@ const checkSubsequentPage = async (
  * @param {string} url
  * @param {string} nextUrl
  */
-const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
+const checkPages = async ({ config, url, nextUrl, isAmp }: CheckPagesProps) => {
 	log_info(`Start checking Page URL: ${url}`);
 
 	const browser: Browser = await makeNewBrowser(config.debugMode);
@@ -82,8 +82,10 @@ const checkPages = async ({config, url, nextUrl,isAmp}: CheckPagesProps) => {
 	const browserForSecondLayerCheck: Browser = await makeNewBrowser(
 		config.debugMode,
 	);
-	const contextForSecondLayerCheck =
-		await makeNewContext(browserForSecondLayerCheck, isAmp);
+	const contextForSecondLayerCheck = await makeNewContext(
+		browserForSecondLayerCheck,
+		isAmp,
+	);
 	const pageForSecondLayerCheck = await makeNewPage(
 		contextForSecondLayerCheck,
 	);
@@ -259,6 +261,6 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	await checkPages({
 		config,
 		url: `${config.ampArticle}?adtest=fixed-puppies`,
-		isAmp: true
-});
+		isAmp: true,
+	});
 };
