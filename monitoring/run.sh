@@ -6,7 +6,7 @@ iterations=20
 
 for ((i=0; i<$iterations; i++))
 do
-  yarn start --env prod --jurisdiction tcfv2
+  pnpm start --env prod --jurisdiction tcfv2
   if [ $? -eq 0 ]
   then
     ((success_count++))
