@@ -1,6 +1,7 @@
 import { program } from 'commander';
 import { prompt } from 'inquirer';
 import type { CustomScheduleEventContent } from './src';
+import { handler } from './src';
 
 type LocalRunCLIUserInput = {
 	env: string;
@@ -35,7 +36,6 @@ function isArgumentValid(args: LocalRunCliArguments): boolean {
 }
 
 async function handleEvent(options: LocalRunCLIUserInput) {
-	const { handler } = await import('./src');
 
 	const event: CustomScheduleEventContent = {
 		stage: options.env,
