@@ -5,7 +5,7 @@ import {
 	ConfigFrontUrl,
 	IframeDomainUrl,
 	IframeDomainUrlSecondLayer,
-} from './config-builder';
+} from './config-builder.js';
 
 describe('ConfigBuilder', () => {
 	describe('getFrontUrl', () => {

@@ -1,10 +1,6 @@
 {
-	"extends": "@guardian/tsconfig",
-	"include": ["./**/*.ts"],
-	"exclude": ["./src/cjs-shim.ts"],
+	"extends": "@tsconfig/node18",
 	"compilerOptions": {
-		"moduleResolution": "node",
-		"module": "es6",
-	},
-
+		"lib": ["ES2023", "DOM"]
+	}
 }
