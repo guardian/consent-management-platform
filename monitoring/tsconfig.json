@@ -1,6 +1,7 @@
 {
 	"extends": "@guardian/tsconfig",
 	"include": ["./**/*.ts"],
+	"exclude": ["./src/cjs-shim.ts"],
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "es6",
