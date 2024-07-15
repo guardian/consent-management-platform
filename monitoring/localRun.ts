@@ -1,7 +1,9 @@
-import { program } from 'commander';
-import { prompt } from 'inquirer';
-import type { CustomScheduleEventContent } from './src';
-import { handler } from './src';
+import { Command } from 'commander';
+import inquirer from 'inquirer';
+import type { CustomScheduleEventContent } from './src/index';
+import { handler } from './src/index';
+
+const program = new Command();
 
 type LocalRunCLIUserInput = {
 	env: string;
@@ -42,7 +44,7 @@ async function handleEvent(options: LocalRunCLIUserInput) {
 		jurisdiction: options.jurisdiction,
 	};
 
-	console.log('To run again without interactive use the following function:', `yarn start --env ${options.env} --jurisdiction ${options.jurisdiction}`);
+	console.log('To run again without interactive use the following function:', `pnpm start --env ${options.env} --jurisdiction ${options.jurisdiction}`);
 	await handler(event);
 	process.exit(0);
 }
@@ -77,7 +79,7 @@ async function interactiveCLI() {
 		},
 	];
 
-	await prompt(questions).then(handleEvent);
+	await inquirer.prompt(questions).then(handleEvent);
 }
 
 async function main() {
