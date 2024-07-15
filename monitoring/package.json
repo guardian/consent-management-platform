@@ -11,10 +11,7 @@
     "type-check": "tsc --noEmit",
     "start": "ts-node localRun.ts",
     "remote": "ts-node remoteRun.ts",
-    "bundle": "esbuild src/index.ts --bundle --format=cjs --outdir=dist --external:aws-sdk --external:'./chromium/appIcon.png' --external:'./loader' --platform=node --target=node20",
-    "copy-assets": "cp ./node_modules/.pnpm/playwright-core@1.45.1/node_modules/playwright-core/lib/server/electron/loader.js ./dist/; cp ./node_modules/.pnpm/playwright-core@1.45.1/node_modules/playwright-core/lib/server/chromium/appIcon.png ./dist/",
-		"buildold": "ncc build src/index.ts -o dist -e aws-sdk",
-		"build": "run-s --print-label type-check buildold bundle",
+		"build": "ncc build src/index.ts -o dist -e aws-sdk",
     "validate": "npm-run-all test lint build"
   },
   "dependencies": {
@@ -40,7 +37,6 @@
     "@types/node": "^20.14.10",
     "@vercel/ncc": "^0.38.1",
     "aws-lambda": "^1.0.7",
-    "esbuild": "^0.23.0",
     "eslint": "^9.7.0",
     "eslint-plugin-compat": "^6.0.0",
     "globals": "^15.8.0",
