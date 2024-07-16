@@ -22,9 +22,7 @@ then
 
 	newDir="${ROOT_DIR}/cdk/dist/"
 
-	if ! [[ -d "$newDir" ]] ; then
-		mkdir -p "$newDir"
-	fi
+	mkdir -p "$newDir"
 
 	zip -FSr "$newDir/cmp-monitoring-lambda.zip" "." # Zip the monitoring/dist folder into cdk/dist
 	echo "File was successfully zipped"
