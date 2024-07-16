@@ -1,7 +1,7 @@
 import type { InvokeCommandOutput } from '@aws-sdk/client-lambda';
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 import inquirer from 'inquirer';
-import type { CustomScheduleEventContent } from './src/index.js';
+import type { CustomScheduleEventContent } from './src/index';
 
 
 type RemoteRunCLIUserInput = {
