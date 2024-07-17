@@ -82,7 +82,7 @@ async function main() {
 		process.exit(0);
 	}
 
-	handleEvent(answers);
+	await handleEvent(answers);
 }
 
 void main();
