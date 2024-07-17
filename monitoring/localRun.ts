@@ -70,7 +70,7 @@ async function interactiveCLI() {
 		  { name: 'code', value: 'code' },
 		  { name: 'local', value: 'local' },
 		], }),
-		jurisdiction: await select({ message: 'Which environment would you like to test?',choices: [
+		jurisdiction: await select({ message: 'Which jurisdiction would you like to test?',choices: [
 		  { name: 'tcfv2', value: 'tcfv2' },
 		  { name: 'ccpa', value: 'ccpa' },
 		  { name: 'aus', value: 'aus' },

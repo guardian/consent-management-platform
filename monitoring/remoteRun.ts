@@ -39,13 +39,13 @@ function processResult(result: InvokeCommandOutput) {
 }
 
 async function main() {
-	
+
 	const answers = {
 	stage: await select({ message: "Which environment would you like to test?", choices: [
 		{ name: 'prod', value: 'prod' },
 		{ name: 'code', value: 'code' },
 	], }),
-	regions: await checkbox({ message: 'Which environment would you like to test?',
+	regions: await checkbox({ message: 'Which regions would you like to test?',
 		choices: [
 			{ name: 'us-west-1', value: 'us-west-1' },
 			{ name: 'eu-west-1', value: 'eu-west-1' },
