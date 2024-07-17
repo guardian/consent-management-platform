@@ -1,5 +1,5 @@
+import { select } from '@inquirer/prompts';
 import { Command } from 'commander';
-import inquirer from 'inquirer';
 import type { CustomScheduleEventContent } from './src/index';
 import { handler } from './src/index';
 
@@ -64,22 +64,24 @@ async function argumentBasedCLI() {
 }
 
 async function interactiveCLI() {
-	const questions = [
-		{
-			type: 'list',
-			name: 'env',
-			message: 'Which environment would you like to test?',
-			choices: stages,
-		},
-		{
-			type: 'list',
-			name: 'jurisdiction',
-			message: 'Which jurisdiction would you like to test?',
-			choices: jurisdictions,
-		},
-	];
+	const answers = {
+		env: await select({ message: "Which environment would you like to test?", choices: [
+		  { name: 'prod', value: 'prod' },
+		  { name: 'code', value: 'code' },
+		  { name: 'local', value: 'local' },
+		], }),
+		jurisdiction: await select({ message: 'Which environment would you like to test?',choices: [
+		  { name: 'tcfv2', value: 'tcfv2' },
+		  { name: 'ccpa', value: 'ccpa' },
+		  { name: 'aus', value: 'aus' },
+		], }),
+	  };
 
-	await inquirer.prompt(questions).then(handleEvent);
+
+	  console.log(answers.env);
+	  console.log(answers.jurisdiction);
+
+	  await handleEvent(answers);
 }
 
 async function main() {
