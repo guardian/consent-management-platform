@@ -43,6 +43,10 @@ jobs:
         working-directory: './monitoring'
         run: pnpm lint
 
+      - name: Lambda type-check
+        working-directory: './monitoring'
+        run: pnpm type-check
+
       - name: Lambda Build
         working-directory: './monitoring'
         run: pnpm build
