@@ -1,6 +1,6 @@
 import type { InvokeCommandOutput } from '@aws-sdk/client-lambda';
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
-import inquirer from 'inquirer';
+import { select, checkbox } from '@inquirer/prompts';
 import type { CustomScheduleEventContent } from './src/index';
 
 
@@ -39,60 +39,50 @@ function processResult(result: InvokeCommandOutput) {
 }
 
 async function main() {
-	const regionsToCheck = [
-		'us-west-1',
-		'eu-west-1',
-		'ap-southeast-2',
-		'ca-central-1',
-	];
 
-	await inquirer.prompt([
-		{
-			type: 'list',
-			name: 'stage',
-			message: 'Which environment would you like to test?',
-			choices: ['prod', 'code'],
-		},
-		{
-			type: 'checkbox',
-			name: 'regions',
-			message: 'Which environment would you like to test?',
-			choices: regionsToCheck,
-			default: regionsToCheck,
-			validate(input: string[]) {
-				if (input.length === 0) {
-					return 'Please select a region';
-				}
-				return true;
-			},
-		},
-	])
-		.then(async (userInput: RemoteRunCLIUserInput) => {
-			const invokeSettledResults = await Promise.allSettled(
-				userInput.regions.map((region) =>
-					invokeInRegion(
-						region,
-						'cmp-monitoring-CODE',
-						userInput.stage,
-					),
+	const answers = {
+	stage: await select({ message: "Which environment would you like to test?", choices: [
+		{ name: 'prod', value: 'prod' },
+		{ name: 'code', value: 'code' },
+	], }),
+	regions: await checkbox({ message: 'Which regions would you like to test?',
+		choices: [
+			{ name: 'us-west-1', value: 'us-west-1' },
+			{ name: 'eu-west-1', value: 'eu-west-1' },
+			{ name: 'ap-southeast-2', value: 'ap-southeast-2' },
+			{ name: 'ca-central-1', value: 'ca-central-1' },
+		],
+		required: true,
+	})};
+
+	console.log(answers.stage);
+	console.log(answers.regions);
+
+	async function handleEvent(userInput: RemoteRunCLIUserInput) {
+		const invokeSettledResults = await Promise.allSettled(
+			userInput.regions.map((region) =>
+				invokeInRegion(
+					region,
+					'cmp-monitoring-CODE',
+					userInput.stage,
 				),
-			);
+			),
+		);
 
-			invokeSettledResults.map((result) => {
-				if (result.status == 'fulfilled') {
-					processResult(result.value);
-				} else {
-					console.log('------------------------------------------');
-					console.log('Failed to get response: ', result.reason);
-					console.log('------------------------------------------');
-				}
-			});
-
-			process.exit(0);
-		})
-		.catch((error: Error) => {
-			process.exit(1);
+		invokeSettledResults.map((result) => {
+			if (result.status == 'fulfilled') {
+				processResult(result.value);
+			} else {
+				console.log('------------------------------------------');
+				console.log('Failed to get response: ', result.reason);
+				console.log('------------------------------------------');
+			}
 		});
+
+		process.exit(0);
+	}
+
+	await handleEvent(answers);
 }
 
 void main();
