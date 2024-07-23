@@ -1,14 +1,14 @@
-import { log_info } from './check-page/common-functions';
+import { log_info } from './check-page/common-functions.js';
 import type {
 	AwsRegionOpt,
 	Config,
 	Jurisdiction,
 	JurisdictionOpt,
 	Stage,
-} from './types';
-import { ConfigBuilder } from './utils/config-builder/config-builder';
-import { ConfigHelper } from './utils/config-helper/config-helper';
-import { Validator } from './utils/validator/validator';
+} from './types.js';
+import { ConfigBuilder } from './utils/config-builder/config-builder.js';
+import { ConfigHelper } from './utils/config-helper/config-helper.js';
+import { Validator } from './utils/validator/validator.js';
 
 export class ConfigWrapper {
 	private _jurisdiction: JurisdictionOpt;

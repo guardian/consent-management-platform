@@ -1,11 +1,11 @@
-import { STAGES } from '../../types';
+import { STAGES } from '../../types.js';
 import {
 	ConfigArticleUrl,
 	ConfigBuilder,
 	ConfigFrontUrl,
 	IframeDomainUrl,
 	IframeDomainUrlSecondLayer,
-} from './config-builder';
+} from './config-builder.js';
 
 describe('ConfigBuilder', () => {
 	describe('getFrontUrl', () => {

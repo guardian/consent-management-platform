@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"bin": "bin/cdk.js",
+	"type": "module",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"build": "tsc",

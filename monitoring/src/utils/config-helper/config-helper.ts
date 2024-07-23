@@ -1,5 +1,5 @@
-import type { AwsRegionOpt, JurisdictionOpt } from '../../types';
-import { AWS_REGIONS, JURISDICTIONS } from '../../types';
+import type { AwsRegionOpt, JurisdictionOpt } from '../../types.js';
+import { AWS_REGIONS, JURISDICTIONS } from '../../types.js';
 
 export class ConfigHelper {
 	public static getJurisdiction(awsRegion: AwsRegionOpt): JurisdictionOpt {

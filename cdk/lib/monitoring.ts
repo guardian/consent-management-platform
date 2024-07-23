@@ -1,6 +1,6 @@
-import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
-import { GuStack } from '@guardian/cdk/lib/constructs/core';
-import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
+import type { GuStackProps } from '@guardian/cdk/lib/constructs/core/index.js';
+import { GuStack } from '@guardian/cdk/lib/constructs/core/index.js';
+import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda/index.js';
 import type { App } from 'aws-cdk-lib';
 import { Duration } from 'aws-cdk-lib';
 import type {
@@ -16,7 +16,7 @@ import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Runtime, RuntimeManagementMode } from 'aws-cdk-lib/aws-lambda';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 
@@ -30,8 +30,6 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
-		const runTimeId = "0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9";
-
 		const prodDurationInMinutes = 2;
 
 		const policyStatement = new PolicyStatement({
@@ -39,8 +37,6 @@ export class Monitoring extends GuStack {
 			actions: ['cloudwatch:PutMetricData'],
 			resources: ['*'],
 		});
-
-		const runTimeManagementArn = `arn:aws:lambda:${region}::runtime:${runTimeId}`
 
 		const monitoringLambdaFunction = new GuLambdaFunction(
 			this,
@@ -50,8 +46,7 @@ export class Monitoring extends GuStack {
 				functionName: `${lambdaBaseName}-${stage}`,
 				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
 				handler: 'index.handler',
-				runtime: Runtime.NODEJS_18_X,
-				runtimeManagementMode: RuntimeManagementMode.manual(runTimeManagementArn),
+				runtime: Runtime.NODEJS_20_X,
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
@@ -85,7 +80,7 @@ export class Monitoring extends GuStack {
 
 
 		const monitoringDuration: Duration =
-			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
+			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.minutes(prodDurationInMinutes); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
 			schedule: Schedule.rate(monitoringDuration),

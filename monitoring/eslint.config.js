@@ -17,12 +17,12 @@ export default [
 
 	languageOptions: {
 		ecmaVersion: 2022,
-		sourceType: "commonjs",
+		sourceType: "module",
 		globals: { ...globals.jest, ...globals.node },
 		parserOptions: {
 			ecmaVersion: 2022,
 			tsconfigRootDir: import.meta.dirname,
-			sourceType: 'commonjs',
+			sourceType: 'module',
 			project: ['./tsconfig.eslint.json'],
 		}
 	},
