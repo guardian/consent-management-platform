@@ -1,6 +1,8 @@
 {
-	"extends": "@tsconfig/node18",
+	"extends": "@guardian/tsconfig",
+	"include": ["./**/*.ts"],
 	"compilerOptions": {
-		"lib": ["ES2023", "DOM"]
+		"moduleResolution": "node",
+		"module": "es2022",
 	}
 }

@@ -2,11 +2,11 @@
 	"extends": "@guardian/tsconfig",
 	"ts-node": {
 		"compilerOptions": {
-			"module": "es6"
+			"module": "ES2022"
 		}
 	},
 	"compilerOptions": {
-		"lib": ["ES2020"],
+		"lib": ["ES2022"],
 		"declaration": true,
 		"noImplicitAny": true,
 		"strictNullChecks": true,
