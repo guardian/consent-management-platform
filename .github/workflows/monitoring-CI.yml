@@ -80,7 +80,7 @@ jobs:
         run: ./script/export-monitoring-file
 
       - name: Upload to Riff Raff
-        uses: guardian/actions-riff-raff@v3
+        uses: guardian/actions-riff-raff@v4
         with:
           app: cmp-monitoring
           projectName: consent::cmp-monitoring
