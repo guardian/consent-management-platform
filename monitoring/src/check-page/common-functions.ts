@@ -1,15 +1,22 @@
-import type {
-	PutMetricDataCommandInput
-} from '@aws-sdk/client-cloudwatch';
+import type { PutMetricDataCommandInput } from '@aws-sdk/client-cloudwatch';
 import {
 	CloudWatchClient,
-	PutMetricDataCommand
+	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
 import type { Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
+/**
+ * Represents the props for the checkPages.
+ */
+export interface CheckPagesProps{
+	config: Config;
+	url: string;
+	nextUrl?: string;
+	isAmp?: boolean;
+}
 /**
  * This function console logs an info message.
  *
@@ -26,6 +33,11 @@ export const log_info = (message: string): void => {
  */
 export const log_error = (message: string): void => {
 	console.error(`(cmp monitoring): error: ${message}`);
+};
+
+export const ScreenDimensions = {
+	WEB: { width: 1280, height: 720 },
+	MOBILE: { width: 430, height: 932 },
 };
 
 /**
@@ -58,9 +70,19 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	const browser = await launchChromium({headless:!debugMode});
+	const browser = await launchChromium({ headless: !debugMode });
 	return browser;
 };
+
+/**
+ * Creates a new browser context with the specified viewport dimensions.
+ * @param browser - The browser instance.
+ * @param isAmp - Indicates whether the context is for an AMP page. Default is false.
+ * @returns A promise that resolves to the newly created browser context.
+ */
+export const makeNewContext = async (browser: Browser, isAmp: boolean = false): Promise<BrowserContext> => {
+	return await browser.newContext({ viewport: !isAmp ? ScreenDimensions.WEB : ScreenDimensions.MOBILE });
+}
 
 /**
  * This function creates a new page
@@ -81,12 +103,26 @@ export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
  * @param {Page} page
  * @param {string} textToPrintToConsole
  */
-export const clickAcceptAllCookies = async (config: Config, page: Page, textToPrintToConsole: string) => {
-
+export const clickAcceptAllCookies = async (
+	config: Config,
+	page: Page,
+	textToPrintToConsole: string,
+	isAmp: boolean = false,
+) => {
 	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
+	let acceptAllButton;
+	if (isAmp) {
+		acceptAllButton = page
+			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	} else {
+		acceptAllButton = page
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
+	}
 
-	const acceptAllButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL);
-  	await acceptAllButton.click();
+	await acceptAllButton.click();
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
@@ -97,12 +133,26 @@ export const clickAcceptAllCookies = async (config: Config, page: Page, textToPr
  * @param {Config} config
  * @param {Page} page
  */
-export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
+export const openPrivacySettingsPanel = async (
+	config: Config,
+	page: Page,
+	isAmp: boolean = false,
+) => {
 	log_info(`Loading privacy settings panel: Start`);
+	let manageButton;
+	if (isAmp) {
+		manageButton = page
+			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	} else {
+		manageButton = page
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+	}
 
-	const manageButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
 	await manageButton.click();
-	await checkPrivacySettingsPanelIsOpen(config, page);
+	await checkPrivacySettingsPanelIsOpen(config, page, isAmp);
 
 	log_info(`Loading privacy settings panel: Complete`);
 };
@@ -118,11 +168,22 @@ export const openPrivacySettingsPanel = async (config: Config, page: Page) => {
 export const checkPrivacySettingsPanelIsOpen = async (
 	config: Config,
 	page: Page,
+	isAmp: boolean = false,
 ): Promise<void> => {
-
 	log_info(`Waiting for Privacy Settings Panel: Start`);
+	let secondLayer;
 
-	const secondLayer =  page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	if (isAmp) {
+		secondLayer = page
+			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER).last()
+			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	} else {
+		secondLayer = page
+			.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]')
+			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	}
+
 	await secondLayer.waitFor();
 
 	if (!(await secondLayer.isVisible())) {
@@ -142,10 +203,23 @@ export const checkPrivacySettingsPanelIsOpen = async (
 export const clickSaveAndCloseSecondLayer = async (
 	config: Config,
 	page: Page,
+	isAmp: boolean = true
 ) => {
 	log_info(`Clicking on save and close button: Start`);
+	let saveAndExitButton;
+	if(isAmp) {
+		saveAndExitButton = page
+			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER).last()
+			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+	} else {
+		saveAndExitButton = page
+			.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]')
+			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+	}
 
-	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT).click();
+	await saveAndExitButton.click();
+
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -157,10 +231,19 @@ export const clickSaveAndCloseSecondLayer = async (
  * @param {Config} config
  * @param {Page} page
  */
-export const clickRejectAllSecondLayer = async (config: Config, page: Page) => {
+export const clickRejectAllSecondLayer = async (config: Config, page: Page, isAmp: boolean = false) => {
 	log_info(`Clicking on reject all button: Start`);
+	let rejectAllButton;
+	if(isAmp) {
+		rejectAllButton = page
+			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER).last()
+			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+	} else {
+		rejectAllButton = page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+	}
 
-	await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL).click();
+	await rejectAllButton.click();
 
 	log_info(`Clicking on reject all button: Complete`);
 };
@@ -184,19 +267,30 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 	): URLSearchParams | null => {
 		const url = new URL(request.url());
 		const param = url.searchParams.get(paramName);
-		if (!param) return null;
+		if (!param) {
+			return null;
+		}
 		const paramDecoded = decodeURIComponent(param);
 		const searchParams = new URLSearchParams(paramDecoded);
 		return searchParams;
 	};
 
-	const assertOnSlotFromRequest = (request: Request, expectedSlot: string) => {
+	const assertOnSlotFromRequest = (
+		request: Request,
+		expectedSlot: string,
+	) => {
 		const isURL = request.url().match(gamUrl);
-		if (!isURL) return false;
+		if (!isURL) {
+			return false;
+		}
 		const searchParams = getEncodedParamsFromRequest(request, 'prev_scp');
-		if (searchParams === null) return false;
+		if (searchParams === null) {
+			return false;
+		}
 		const slot = searchParams.get('slot');
-		if (slot !== expectedSlot) return false;
+		if (slot !== expectedSlot) {
+			return false;
+		}
 		return true;
 	};
 
@@ -206,14 +300,35 @@ export const checkTopAdHasLoaded = async (page: Page) => {
 		);
 	};
 
-	const gamRequestPromise = waitForGAMRequestForSlot(
-		page,
-		'top-above-nav',
-	);
+	const gamRequestPromise = waitForGAMRequestForSlot(page, 'top-above-nav');
 	await gamRequestPromise;
 
 	log_info(`Waiting for interaction with GAM: Complete`);
 };
+
+/**
+ * Waits for an interaction with Google Ad Manager (GAM) by monitoring the network requests.
+ *
+ * @param page - The Puppeteer page object.
+ * @returns A promise that resolves when the interaction with GAM is complete.
+ */
+export const checkGoogleAdManagerRequestIsMade = async (
+	page: Page,
+): Promise<void> => {
+	log_info(`Waiting for interaction with GAM: Start`);
+	const gamUrl = /https:\/\/securepubads.g.doubleclick.net\/gampad\/ads/;
+
+	await page.waitForRequest(gamUrl);
+	log_info(`Waiting for interaction with GAM: Complete`);
+};
+
+export const checkAds = async (page: Page, isAmp: boolean = false) : Promise<void> => {
+	if (isAmp) {
+		await checkGoogleAdManagerRequestIsMade(page);
+	} else {
+		await checkTopAdHasLoaded(page);
+	}
+}
 
 /**
  * This function checks the ad is not on the page
@@ -253,12 +368,28 @@ export const recordVersionOfCMP = async (page: Page) => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
+export const checkCMPIsOnPage = async (
+	page: Page,
+	isAmp: boolean = false,
+): Promise<void> => {
 	log_info(`Waiting for CMP: Start`);
 
-	const cmpl =  page.locator(ELEMENT_ID.CMP_CONTAINER);
+	let cmpl;
+
+	if (isAmp) {
+		cmpl = page
+			.frameLocator('.i-amphtml-consent-ui-fill')
+			.locator(ELEMENT_ID.CMP_CONTAINER);
+	} else {
+		cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
+	}
+
 	await cmpl.waitFor();
-	await recordVersionOfCMP(page);
+
+	if (!isAmp) {
+		await recordVersionOfCMP(page);
+	}
+
 	if (!(await cmpl.isVisible())) {
 		throw Error('CMP is not present on page');
 	}
@@ -272,10 +403,16 @@ export const checkCMPIsOnPage = async (page: Page): Promise<void> => {
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
+export const checkCMPIsNotVisible = async (page: Page, isAmp: boolean = false): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
-	const cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
+	let cmpl;
+	if(isAmp) {
+		cmpl = page.locator(ELEMENT_ID.AMP_CMP_CONTAINER).locator(ELEMENT_ID.CMP_CONTAINER);
+	}else {
+		cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
+	}
+
 
 	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
@@ -283,7 +420,6 @@ export const checkCMPIsNotVisible = async (page: Page): Promise<void> => {
 
 	log_info('CMP hidden or removed from page');
 };
-
 
 /**
  * This function loads a url onto a chromium page
@@ -340,7 +476,7 @@ export const reloadPage = async (page: Page) => {
 export const logCMPLoadTimeAndVersion = async (
 	loadingTime: number,
 	cmpVersion: number,
-	config: Config
+	config: Config,
 ) => {
 	log_info(`Logging Timestamp: Start`);
 	log_info(`CMP Loading Time: ${loadingTime}`);
@@ -361,7 +497,7 @@ export const logCMPLoadTimeAndVersion = async (
 export const sendMetricData = async (
 	config: Config,
 	timeToLoadInSeconds: number,
-	cmpVersion:number
+	cmpVersion: number,
 ) => {
 	log_info(`config.platform.toUpperCase() ${config.platform.toUpperCase()})`);
 	const region = config.region;
@@ -414,22 +550,26 @@ export const sendMetricData = async (
  * @param {Page} page
  * @param {Config} config
  */
-export const checkCMPLoadingTimeAndVersion = async (page: Page, config: Config) => {
-	if (!config.isRunningAdhoc){
-		log_info('Checking CMP Loading Time and CMP Version: Start')
+export const checkCMPLoadingTimeAndVersion = async (
+	page: Page,
+	config: Config,
+) => {
+	if (!config.isRunningAdhoc) {
+		log_info('Checking CMP Loading Time and CMP Version: Start');
 		const startTimeStamp = Date.now();
 		await loadPage(page, config.frontUrl);
 		await checkCMPIsOnPage(page); // Wait for CMP to appear
 		const endTimeStamp = Date.now();
-		const loadingTime = (endTimeStamp - startTimeStamp)/1000; //in seconds
+		const loadingTime = (endTimeStamp - startTimeStamp) / 1000; //in seconds
 
 		const functionToGetVersion = function () {
 			return window._sp_.version;
 		};
 		const cmpVersionString = await page.evaluate(functionToGetVersion);
-		const cmpVersionDouble = parseFloat(cmpVersionString.replace(/\./g, ''));
+		const cmpVersionDouble = parseFloat(
+			cmpVersionString.replace(/\./g, ''),
+		);
 		await logCMPLoadTimeAndVersion(loadingTime, cmpVersionDouble, config);
 		log_info('Checking CMP Loading Time and CMP Version: Finished');
 	}
 };
-

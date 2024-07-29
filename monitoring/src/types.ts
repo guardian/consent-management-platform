@@ -39,6 +39,7 @@ export const ELEMENT_ID = {
 	USNAT_FIRST_LAYER_NOT_SELL_BUTTON: 'div.message-component.message-column > button.sp_choice_type_12',
 	TCFV2_SECOND_LAYER_REJECT_ALL: 'button.sp_choice_type_REJECT_ALL',
 	TCFV2_SECOND_LAYER_ACCEPT_ALL: 'button.sp_choice_type_ACCEPT_ALL',
+	AMP_CMP_CONTAINER: '.i-amphtml-consent-ui-fill'
 };
 
 export const AWS_REGIONS = {
@@ -60,6 +61,7 @@ export type Config = {
 	jurisdiction: Jurisdiction;
 	region: AwsRegionOpt;
 	frontUrl: string;
+	ampArticle: string;
 	articleUrl: string;
 	iframeDomain: string;
 	iframeDomainSecondLayer: string;

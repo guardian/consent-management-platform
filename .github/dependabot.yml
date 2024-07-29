@@ -31,9 +31,6 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
-        exclude-patterns:
-          - 'inquirer'
-          - '@types/inquirer'
 
   - package-ecosystem: 'github-actions'
     directory: '/'

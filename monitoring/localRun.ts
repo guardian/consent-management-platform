@@ -1,6 +1,9 @@
-import { program } from 'commander';
-import { prompt } from 'inquirer';
-import type { CustomScheduleEventContent } from './src';
+import { select } from '@inquirer/prompts';
+import { Command } from 'commander';
+import type { CustomScheduleEventContent } from './src/index';
+import { handler } from './src/index';
+
+const program = new Command();
 
 type LocalRunCLIUserInput = {
 	env: string;
@@ -35,12 +38,13 @@ function isArgumentValid(args: LocalRunCliArguments): boolean {
 }
 
 async function handleEvent(options: LocalRunCLIUserInput) {
-	const { handler } = await import('./src');
 
 	const event: CustomScheduleEventContent = {
 		stage: options.env,
 		jurisdiction: options.jurisdiction,
 	};
+
+	console.log('To run again without interactive use the following function:', `pnpm start --env ${options.env} --jurisdiction ${options.jurisdiction}`);
 	await handler(event);
 	process.exit(0);
 }
@@ -60,22 +64,24 @@ async function argumentBasedCLI() {
 }
 
 async function interactiveCLI() {
-	const questions = [
-		{
-			type: 'list',
-			name: 'env',
-			message: 'Which environment would you like to test?',
-			choices: stages,
-		},
-		{
-			type: 'list',
-			name: 'jurisdiction',
-			message: 'Which jurisdiction would you like to test?',
-			choices: jurisdictions,
-		},
-	];
+	const answers = {
+		env: await select({ message: "Which environment would you like to test?", choices: [
+		  { name: 'prod', value: 'prod' },
+		  { name: 'code', value: 'code' },
+		  { name: 'local', value: 'local' },
+		], }),
+		jurisdiction: await select({ message: 'Which jurisdiction would you like to test?',choices: [
+		  { name: 'tcfv2', value: 'tcfv2' },
+		  { name: 'ccpa', value: 'ccpa' },
+		  { name: 'aus', value: 'aus' },
+		], }),
+	  };
 
-	await prompt(questions).then(handleEvent);
+
+	  console.log(answers.env);
+	  console.log(answers.jurisdiction);
+
+	  await handleEvent(answers);
 }
 
 async function main() {

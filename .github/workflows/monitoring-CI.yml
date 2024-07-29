@@ -21,50 +21,59 @@ jobs:
           role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
           aws-region: eu-west-1
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 'latest'
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
-          cache: yarn
+          node-version-file: './monitoring/.nvmrc'
+          cache: pnpm
           cache-dependency-path: |
-            yarn.lock
-            monitoring/yarn.lock
-            cdk/yarn.lock
-
-      - name: Install Root dependencies
-        run: yarn --frozen-lockfile
+            monitoring/pnpm-lock.yaml
+            cdk/pnpm-lock.yaml
 
       - name: Lambda Install CDK dependencies
         working-directory: './monitoring'
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Lambda lint
         working-directory: './monitoring'
-        run: yarn lint
+        run: pnpm lint
+
+      - name: Lambda type-check
+        working-directory: './monitoring'
+        run: pnpm type-check
 
       - name: Lambda Build
         working-directory: './monitoring'
-        run: yarn build
+        run: pnpm build
+
+      - name: Lambda Test
+        working-directory: './monitoring'
+        run: pnpm test
 
       - name: CDK Install CDK dependencies
         working-directory: './cdk'
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: CDK Test
         working-directory: './cdk'
-        run: yarn test
+        run: pnpm test
 
       - name: CDK lint
         working-directory: './cdk'
-        run: yarn lint
+        run: pnpm lint
 
       - name: CDK Build
         working-directory: './cdk'
-        run: yarn build
+        run: pnpm build
 
       - name: CDK Synth
         working-directory: './cdk'
-        run: yarn synth
+        run: pnpm synth
 
       - name: ZIP Lambda files
         working-directory: './cdk'

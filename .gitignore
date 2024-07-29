@@ -1,29 +1,8 @@
-# Rubbish
-.DS_Store
-
 # Dependency directories
 node_modules
 
 # Built files
 dist
-.dev
-.gh-pages
 /coverage
-.idea/
-test-page/dist
-tsconfig.build.tsbuildinfo
-tsconfig.tsbuildinfo
-.rollup.cache
-
-# Cypress Tests
-cypress/dist
-cypress/screenshots
-cypress/videos
 
 
-target
-.bsp
-.metals
-
-# Yarn
-.yarn/*
