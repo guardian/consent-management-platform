@@ -24,15 +24,17 @@ const clickDoNotSellMyInfo = async (
 ) => {
 	log_info(`Clicking on "Do not sell my personal information" on CMP`);
 	let acceptAllButton;
+
 	if (isAmp) {
 		acceptAllButton = page
 			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
 			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
 			.locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 	} else {
-		acceptAllButton = page
-			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
-			.locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
+		const openPrivacyManagerButton = page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.USNAT_FIRST_LAYER_NOT_SELL_BUTTON);
+		await openPrivacyManagerButton.click();
+
+		acceptAllButton = page.frameLocator(ELEMENT_ID.US_PRIVACY_SETTINGS_CONTAINER).last().locator(ELEMENT_ID.CCPA_DO_NOT_SELL_BUTTON);
 	}
 
 	await acceptAllButton.click();

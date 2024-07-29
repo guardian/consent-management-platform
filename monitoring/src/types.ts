@@ -31,10 +31,12 @@ export const ELEMENT_ID = {
 	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
 		'div.message-component.message-row > button.sp_choice_type_12',
 	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content',
-	CMP_CONTAINER: 'iframe[id*="sp_message_iframe"]',
+	CMP_CONTAINER: '[id*="sp_message_iframe"]',
+	US_PRIVACY_SETTINGS_CONTAINER: '[id*="sp_message_iframe_"]',
 	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: 'button.sp_choice_type_SAVE_AND_EXIT',
 	TCFV2_SECOND_LAYER_HEADLINE: 'p.gu-privacy-headline',
 	CCPA_DO_NOT_SELL_BUTTON: 'div.message-component > button.sp_choice_type_13',
+	USNAT_FIRST_LAYER_NOT_SELL_BUTTON: 'div.message-component.message-column > button.sp_choice_type_12',
 	TCFV2_SECOND_LAYER_REJECT_ALL: 'button.sp_choice_type_REJECT_ALL',
 	TCFV2_SECOND_LAYER_ACCEPT_ALL: 'button.sp_choice_type_ACCEPT_ALL',
 	AMP_CMP_CONTAINER: '.i-amphtml-consent-ui-fill'
