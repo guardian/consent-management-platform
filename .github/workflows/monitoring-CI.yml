@@ -8,18 +8,12 @@ jobs:
   CI:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
+      # required for guardian/actions-riff-raff
+      id-token: write
       pull-requests: write # to be able to comment on released pull requests
     steps:
       - uses: actions/checkout@v4
-
-      # Setup AWS credentials to enable uploading to S3 for Riff-Raff.
-      # See https://github.com/aws-actions/configure-aws-credentials
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
-          aws-region: eu-west-1
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -80,12 +74,13 @@ jobs:
         run: ./script/export-monitoring-file
 
       - name: Upload to Riff Raff
-        uses: guardian/actions-riff-raff@v3
+        uses: guardian/actions-riff-raff@v4
         with:
           app: cmp-monitoring
           projectName: consent::cmp-monitoring
           buildNumberOffset: 1463
           dryRun: false
+          roleArn: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           configPath: riff-raff.yaml
           contentDirectories: |
