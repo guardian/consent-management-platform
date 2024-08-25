@@ -33,7 +33,7 @@
     "@tsconfig/node18": "^18.2.4",
     "@types/aws-lambda": "^8.10.143",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.12",
+    "@types/node": "^22.5.0",
     "@vercel/ncc": "^0.38.1",
     "aws-lambda": "^1.0.7",
     "eslint": "^9.9.0",
