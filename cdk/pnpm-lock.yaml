@@ -16,8 +16,8 @@ importers:
         version: 0.5.21
     devDependencies:
       '@guardian/cdk':
-        specifier: ^58.1.4
-        version: 58.1.4(aws-cdk-lib@2.154.1(constructs@10.3.0))(aws-cdk@2.154.1)(constructs@10.3.0)
+        specifier: ^59.3.0
+        version: 59.3.0(aws-cdk-lib@2.154.1(constructs@10.3.0))(aws-cdk@2.154.1)(constructs@10.3.0)
       '@guardian/eslint-config-typescript':
         specifier: ^12.0.0
         version: 12.0.0(eslint@9.9.1)(tslib@2.7.0)(typescript@5.5.4)
@@ -280,12 +280,12 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@guardian/cdk@58.1.4':
-    resolution: {integrity: sha512-aoX1EuO1HjQm49Qy7Fx1oKpUXH60h9rU0sWX0/GV21co4RD5wm+exFTFSvJy5llzggxcnxSzvfeg23VK6FLX0A==}
+  '@guardian/cdk@59.3.0':
+    resolution: {integrity: sha512-078k/qUtEqqy5m2txDebPMzFDL5NpdRgAeSaAzL9nktRrtZIY4QZIShxITniCSAikgDtAzVz+JOdx/P/V0YQfw==}
     hasBin: true
     peerDependencies:
-      aws-cdk: 2.148.0
-      aws-cdk-lib: 2.148.0
+      aws-cdk: 2.153.0
+      aws-cdk-lib: 2.153.0
       constructs: 10.3.0
 
   '@guardian/eslint-config-typescript@12.0.0':
@@ -735,8 +735,8 @@ packages:
     engines: {node: '>= 14.15.0'}
     hasBin: true
 
-  aws-sdk@2.1659.0:
-    resolution: {integrity: sha512-WOoy5DdWW4kpQuxjWiQdoSDR+dT/HeAUwjb6b+8taEMZzvUzp3fmdDwdryUTlLWGxrnb7ru2yu5pryjhPOzANg==}
+  aws-sdk@2.1685.0:
+    resolution: {integrity: sha512-axo1by16nZXqHAFu65+/pLnqqaU3ez5ko3jTGDt0byafT7XD948z3WqqrXWT9vJTUF93DdTZ9DEcazj4Ai91cQ==}
     engines: {node: '>= 10.0.0'}
 
   babel-jest@29.7.0:
@@ -856,8 +856,8 @@ packages:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
 
-  codemaker@1.101.0:
-    resolution: {integrity: sha512-bAg+N4PA8mniJrCpTYFdaFmJA+3fE1Vjgf4o1EnPc07nw6qRcJsr/D9ZZoutEsvw7UM8OmZp4qZxVzpCqRhhQQ==}
+  codemaker@1.103.0:
+    resolution: {integrity: sha512-QNJkfWt5TFkSsjzVyG20+DxX3B8+h+8xewHxs+am9kU/AMpAbFD35LlhzFfZwBVVuRG1gZGi9dkDmZvT7auHOA==}
     engines: {node: '>= 14.17.0'}
 
   collect-v8-coverage@1.0.2:
@@ -1267,8 +1267,8 @@ packages:
   git-up@7.0.0:
     resolution: {integrity: sha512-ONdIrbBCFusq1Oy0sC71F5azx8bVkvtZtMJAsv+a6lz5YAmbNnLD6HAB4gptHZVLPR8S2/kVN6Gab7lryq5+lQ==}
 
-  git-url-parse@14.0.0:
-    resolution: {integrity: sha512-NnLweV+2A4nCvn4U/m2AoYu0pPKlsmhK9cknG7IMwsjFY1S2jxM+mAhsDxyxfCIGfGaD+dozsyX4b6vkYc83yQ==}
+  git-url-parse@14.1.0:
+    resolution: {integrity: sha512-8xg65dTxGHST3+zGpycMMFZcoTzAdZ2dOtu4vmgIfkTFnVHBxHMzBC2L1k8To7EmrSiHesT8JgPLT91VKw1B5g==}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -2657,16 +2657,16 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@guardian/cdk@58.1.4(aws-cdk-lib@2.154.1(constructs@10.3.0))(aws-cdk@2.154.1)(constructs@10.3.0)':
+  '@guardian/cdk@59.3.0(aws-cdk-lib@2.154.1(constructs@10.3.0))(aws-cdk@2.154.1)(constructs@10.3.0)':
     dependencies:
       '@oclif/core': 3.26.6
       aws-cdk: 2.154.1
       aws-cdk-lib: 2.154.1(constructs@10.3.0)
-      aws-sdk: 2.1659.0
+      aws-sdk: 2.1685.0
       chalk: 4.1.2
-      codemaker: 1.101.0
+      codemaker: 1.103.0
       constructs: 10.3.0
-      git-url-parse: 14.0.0
+      git-url-parse: 14.1.0
       js-yaml: 4.1.0
       lodash.camelcase: 4.3.0
       lodash.kebabcase: 4.1.1
@@ -3322,7 +3322,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  aws-sdk@2.1659.0:
+  aws-sdk@2.1685.0:
     dependencies:
       buffer: 4.9.2
       events: 1.1.1
@@ -3481,7 +3481,7 @@ snapshots:
 
   co@4.6.0: {}
 
-  codemaker@1.101.0:
+  codemaker@1.103.0:
     dependencies:
       camelcase: 6.3.0
       decamelize: 5.0.1
@@ -3980,7 +3980,7 @@ snapshots:
       is-ssh: 1.4.0
       parse-url: 8.1.0
 
-  git-url-parse@14.0.0:
+  git-url-parse@14.1.0:
     dependencies:
       git-up: 7.0.0
 
