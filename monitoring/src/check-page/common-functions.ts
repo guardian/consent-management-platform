@@ -441,7 +441,7 @@ export const loadPage = async (page: Page, url: string): Promise<void> => {
 	if (response != null) {
 		if (response.status() < 200 || response.status() > 299) {
 			log_error(`Loading URL: Error: Status ${response.status()}`);
-			throw 'Failed to load page!';
+			throw new Error('Failed to load page!');
 		}
 	}
 
@@ -461,7 +461,7 @@ export const reloadPage = async (page: Page) => {
 	});
 	if (!reloadResponse) {
 		log_error(`Reloading page: Failed`);
-		throw 'Failed to refresh page!';
+		throw new Error('Failed to refresh page!');
 	}
 	log_info(`Reloading page: Complete`);
 };

@@ -88,7 +88,7 @@ export class ConfigWrapper {
 		) {
 			const j = this._jurisdiction ? this._jurisdiction : 'missing';
 			const r = this._awsRegion ? this._awsRegion : 'missing';
-			throw `No config found for (env)stage: ${this._stage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`;
+			throw new Error(`No config found for (env)stage: ${this._stage}, (env)jurisdiction: ${j}, (env)aws-region: ${r}`);
 		}
 
 		// Get the appropriate config
