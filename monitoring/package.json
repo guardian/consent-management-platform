@@ -49,6 +49,10 @@
     "typescript-eslint": "^8.12.2"
   },
   "prettier": "@guardian/prettier",
+  "resolutions": {
+    "lodash": "~4.17.21",
+    "lodash-es": "~4.17.21"
+  },
   "overrides": {
     "clone-deep": "4.0.1"
   }
