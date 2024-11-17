@@ -18,8 +18,8 @@ importers:
         version: 0.5.21
     devDependencies:
       '@guardian/cdk':
-        specifier: ^59.5.6
-        version: 59.5.6(aws-cdk-lib@2.166.0(constructs@10.4.2))(aws-cdk@2.166.0)(constructs@10.4.2)
+        specifier: ^60.1.1
+        version: 60.1.1(aws-cdk-lib@2.166.0(constructs@10.4.2))(aws-cdk@2.166.0)(constructs@10.4.2)
       '@guardian/eslint-config-typescript':
         specifier: ^12.0.0
         version: 12.0.0(eslint@9.14.0)(tslib@2.8.1)(typescript@5.6.3)
@@ -289,12 +289,12 @@ packages:
     resolution: {integrity: sha512-CXtq5nR4Su+2I47WPOlWud98Y5Lv8Kyxp2ukhgFx/eW6Blm18VXJO5WuQylPugRo8nbluoi6GvvxBLqHcvqUUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@guardian/cdk@59.5.6':
-    resolution: {integrity: sha512-loGd24OlQobhxOLP+KyMs9wDEQS3RhSTqM9i+GNUcwWUIn41+gvGvzXMcXiixX0JOWG63paCEf311vVZ4dnCpw==}
+  '@guardian/cdk@60.1.1':
+    resolution: {integrity: sha512-1oa+dcEEDsTg2pjqxejIFE59goWpUH8vgFukCVFAawz/4TK6cO3T2ZGxrw6/jWKUrLSYw5695i4zSnAiTjFliA==}
     hasBin: true
     peerDependencies:
-      aws-cdk: 2.162.1
-      aws-cdk-lib: 2.162.1
+      aws-cdk: 2.166.0
+      aws-cdk-lib: 2.166.0
       constructs: 10.4.2
 
   '@guardian/eslint-config-typescript@12.0.0':
@@ -757,8 +757,8 @@ packages:
     engines: {node: '>= 14.15.0'}
     hasBin: true
 
-  aws-sdk@2.1691.0:
-    resolution: {integrity: sha512-/F2YC+DlsY3UBM2Bdnh5RLHOPNibS/+IcjUuhP8XuctyrN+MlL+fWDAiela32LTDk7hMy4rx8MTgvbJ+0blO5g==}
+  aws-sdk@2.1692.0:
+    resolution: {integrity: sha512-x511uiJ/57FIsbgUe5csJ13k3uzu25uWQE+XqfBis/sB0SFoiElJWXRkgEAUh0U6n40eT3ay5Ue4oPkRMu1LYw==}
     engines: {node: '>= 10.0.0'}
 
   babel-jest@29.7.0:
@@ -2659,12 +2659,12 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@guardian/cdk@59.5.6(aws-cdk-lib@2.166.0(constructs@10.4.2))(aws-cdk@2.166.0)(constructs@10.4.2)':
+  '@guardian/cdk@60.1.1(aws-cdk-lib@2.166.0(constructs@10.4.2))(aws-cdk@2.166.0)(constructs@10.4.2)':
     dependencies:
       '@oclif/core': 3.26.6
       aws-cdk: 2.166.0
       aws-cdk-lib: 2.166.0(constructs@10.4.2)
-      aws-sdk: 2.1691.0
+      aws-sdk: 2.1692.0
       chalk: 4.1.2
       codemaker: 1.104.0
       constructs: 10.4.2
@@ -3331,7 +3331,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  aws-sdk@2.1691.0:
+  aws-sdk@2.1692.0:
     dependencies:
       buffer: 4.9.2
       events: 1.1.1
