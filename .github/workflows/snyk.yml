@@ -13,6 +13,6 @@ jobs:
       SKIP_SBT: true
       DEBUG: true
       ORG: guardian-consent
-      node-version-file: './monitoring/.nvmrc'
+      NODE_VERSION_FILE: "./monitoring/.nvmrc"
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
