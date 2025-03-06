@@ -6,6 +6,8 @@ export class ConfigHelper {
 		switch (awsRegion) {
 			case AWS_REGIONS.EU_WEST_1:
 				return JURISDICTIONS.TCFV2;
+			case AWS_REGIONS.EU_WEST_2:
+				return JURISDICTIONS.TCFV2CORP;
 			case AWS_REGIONS.US_WEST_1:
 				return JURISDICTIONS.CCPA;
 			case AWS_REGIONS.CA_CENTRAL_1:
@@ -26,6 +28,8 @@ export class ConfigHelper {
 			case JURISDICTIONS.TCFV2:
 				// return AWS_REGIONS.CA_CENTRAL_1;
 				return AWS_REGIONS.EU_WEST_1;
+			case JURISDICTIONS.TCFV2CORP:
+				return AWS_REGIONS.EU_WEST_2;
 			default:
 				return undefined;
 		}

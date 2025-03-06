@@ -25,7 +25,7 @@ class NoArgumentsError extends Error {
 }
 
 const stages: string[] = ['local', 'code', 'prod'];
-const jurisdictions: string[] = ['aus', 'ccpa', 'tcfv2'];
+const jurisdictions: string[] = ['aus', 'ccpa', 'tcfv2', 'tcfv2_corp'];
 
 function isArgumentValid(args: LocalRunCliArguments): boolean {
 	if (!args.env || !args.jurisdiction) {
@@ -72,6 +72,7 @@ async function interactiveCLI() {
 		], }),
 		jurisdiction: await select({ message: 'Which jurisdiction would you like to test?',choices: [
 		  { name: 'tcfv2', value: 'tcfv2' },
+		  { name: 'tcfv2_corp', value: 'tcfv2_corp' },
 		  { name: 'ccpa', value: 'ccpa' },
 		  { name: 'aus', value: 'aus' },
 		], }),

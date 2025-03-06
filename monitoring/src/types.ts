@@ -15,6 +15,7 @@ export type AwsRegionOpt = string | undefined;
 
 export enum JURISDICTIONS {
 	TCFV2 = 'tcfv2',
+	TCFV2CORP = 'tcfv2_corp',
 	CCPA = 'ccpa',
 	AUS = 'aus',
 }
@@ -27,6 +28,8 @@ export enum STAGES {
 
 export const ELEMENT_ID = {
 	TCFV2_FIRST_LAYER_ACCEPT_ALL:
+		'div.message-component.message-row > button.sp_choice_type_11',
+	TCFV2_CORP_FIRST_LAYER_REJECT_SUBSCRIBE:
 		'div.message-component.message-row > button.sp_choice_type_11',
 	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
 		'div.message-component.message-row > button.sp_choice_type_12',
@@ -42,6 +45,7 @@ export const ELEMENT_ID = {
 
 export const AWS_REGIONS = {
 	EU_WEST_1: 'eu-west-1',
+	EU_WEST_2: 'eu-west-2',
 	US_WEST_1: 'us-west-1',
 	CA_CENTRAL_1: 'ca-central-1',
 	AP_SOUTHEAST_2: 'ap-southeast-2',
@@ -52,7 +56,8 @@ export type Stage = STAGES.PROD | STAGES.CODE | STAGES.LOCAL;
 export type Jurisdiction =
 	| JURISDICTIONS.AUS
 	| JURISDICTIONS.CCPA
-	| JURISDICTIONS.TCFV2;
+	| JURISDICTIONS.TCFV2
+	| JURISDICTIONS.TCFV2CORP;
 
 export type Config = {
 	stage: Stage;
