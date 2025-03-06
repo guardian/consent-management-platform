@@ -7,6 +7,7 @@ const app = new App();
 
 const regionNames = [
 	'eu-west-1',
+	'eu-west-2',
 	'us-west-1',
 	'ap-southeast-2',
 	'ca-central-1',
