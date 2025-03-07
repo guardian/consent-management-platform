@@ -17,6 +17,13 @@ type AwsRegion = (typeof regionNames)[number];
 const deployableEnvs = ['CODE', 'PROD'] as const;
 type DeployableEnvironments = (typeof deployableEnvs)[number];
 
+function toPascalCase(input: string): string {
+    return input
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join('');
+}
+
 function stackProps(
 	awsRegion: AwsRegion,
 	stage: DeployableEnvironments,
@@ -34,12 +41,12 @@ function stackProps(
 
 for (const region of regionNames) {
 	for (const stage of deployableEnvs) {
-		const zoneCode = region.substring(0, 2).toUpperCase();
+		const regionCode = toPascalCase(region);
 		const stageName = stage.charAt(0) + stage.slice(1).toLowerCase();
 
 		new Monitoring(
 			app,
-			'CmpMonitoringStack' + zoneCode + stageName,
+			'CmpMonitoringStack' + regionCode + stageName,
 			stackProps(region, stage),
 		);
 	}

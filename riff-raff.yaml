@@ -11,12 +11,33 @@ deployments:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templateStagePaths:
-                CODE: CmpMonitoringStackEUCode.template.json
-                PROD: CmpMonitoringStackEUProd.template.json
+                CODE: CmpMonitoringStackEuWest1Code.template.json
+                PROD: CmpMonitoringStackEuWest1Prod.template.json
             cloudFormationStackByTags: false
     cmp-monitoring-lambda-eu-west-1:
         dependencies: [cmp-monitoring-cdk-eu-west-1]
         regions: [eu-west-1]
+        type: aws-lambda
+        actions: [uploadLambda, updateLambda]
+        parameters:
+            prefixStack: false
+            bucketSsmLookup: true
+            fileName: cmp-monitoring-lambda.zip
+            lookupByTags: true
+    cmp-monitoring-cdk-eu-west-2:
+        regions: [eu-west-2]
+        type: cloud-formation
+        contentDirectory: 'cloud-formation'
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templateStagePaths:
+                CODE: CmpMonitoringStackEuWest2Code.template.json
+                PROD: CmpMonitoringStackEuWest2Prod.template.json
+            cloudFormationStackByTags: false
+    cmp-monitoring-lambda-eu-west-1:
+        dependencies: [cmp-monitoring-cdk-eu-west-2]
+        regions: [eu-west-2]
         type: aws-lambda
         actions: [uploadLambda, updateLambda]
         parameters:
@@ -32,8 +53,8 @@ deployments:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templateStagePaths:
-                CODE: CmpMonitoringStackUSCode.template.json
-                PROD: CmpMonitoringStackUSProd.template.json
+                CODE: CmpMonitoringStackUsWest1Code.template.json
+                PROD: CmpMonitoringStackUsWest1Prod.template.json
             cloudFormationStackByTags: false
     cmp-monitoring-lambda-us-west-1:
         dependencies: [cmp-monitoring-cdk-us-west-1]
@@ -53,8 +74,8 @@ deployments:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templateStagePaths:
-                CODE: CmpMonitoringStackAPCode.template.json
-                PROD: CmpMonitoringStackAPProd.template.json
+                CODE: CmpMonitoringStackApSoutheast2Code.template.json
+                PROD: CmpMonitoringStackApSoutheast2Prod.template.json
             cloudFormationStackByTags: false
     cmp-monitoring-lambda-ap-southeast-2:
         dependencies: [cmp-monitoring-cdk-ap-southeast-2]
@@ -74,8 +95,8 @@ deployments:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
             templateStagePaths:
-                CODE: CmpMonitoringStackCACode.template.json
-                PROD: CmpMonitoringStackCAProd.template.json
+                CODE: CmpMonitoringStackCaCentral1Code.template.json
+                PROD: CmpMonitoringStackCaCentral1Prod.template.json
             cloudFormationStackByTags: false
     cmp-monitoring-lambda-ca-central-1:
         dependencies: [cmp-monitoring-cdk-ca-central-1]

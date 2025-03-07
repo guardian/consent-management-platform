@@ -86,6 +86,8 @@ jobs:
           contentDirectories: |
             cmp-monitoring-lambda-eu-west-1:
               - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-eu-west-2:
+              - cdk/dist/cmp-monitoring-lambda.zip
             cmp-monitoring-lambda-us-west-1:
               - cdk/dist/cmp-monitoring-lambda.zip
             cmp-monitoring-lambda-ap-southeast-2:
@@ -93,11 +95,13 @@ jobs:
             cmp-monitoring-lambda-ca-central-1:
               - cdk/dist/cmp-monitoring-lambda.zip
             cloud-formation:
-              - cdk/cdk.out/CmpMonitoringStackEUCode.template.json
-              - cdk/cdk.out/CmpMonitoringStackEUProd.template.json
-              - cdk/cdk.out/CmpMonitoringStackUSCode.template.json
-              - cdk/cdk.out/CmpMonitoringStackUSProd.template.json
-              - cdk/cdk.out/CmpMonitoringStackAPCode.template.json
-              - cdk/cdk.out/CmpMonitoringStackAPProd.template.json
-              - cdk/cdk.out/CmpMonitoringStackCACode.template.json
-              - cdk/cdk.out/CmpMonitoringStackCAProd.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest1Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest2Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest2Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsWest1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsWest1Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackApSoutheast2Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackApSoutheast2Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackCaCentral1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackCaCentral1Prod.template.json
