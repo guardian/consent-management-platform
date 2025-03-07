@@ -6,7 +6,7 @@ deployments:
     cmp-monitoring-cdk-eu-west-1:
         regions: [eu-west-1]
         type: cloud-formation
-        contentDirectory: 'cloud-formation'
+        contentDirectory: "cloud-formation"
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
@@ -27,7 +27,7 @@ deployments:
     cmp-monitoring-cdk-eu-west-2:
         regions: [eu-west-2]
         type: cloud-formation
-        contentDirectory: 'cloud-formation'
+        contentDirectory: "cloud-formation"
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
@@ -35,7 +35,7 @@ deployments:
                 CODE: CmpMonitoringStackEuWest2Code.template.json
                 PROD: CmpMonitoringStackEuWest2Prod.template.json
             cloudFormationStackByTags: false
-    cmp-monitoring-lambda-eu-west-1:
+    cmp-monitoring-lambda-eu-west-2:
         dependencies: [cmp-monitoring-cdk-eu-west-2]
         regions: [eu-west-2]
         type: aws-lambda
@@ -48,7 +48,7 @@ deployments:
     cmp-monitoring-cdk-us-west-1:
         regions: [us-west-1]
         type: cloud-formation
-        contentDirectory: 'cloud-formation'
+        contentDirectory: "cloud-formation"
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
@@ -69,7 +69,7 @@ deployments:
     cmp-monitoring-cdk-ap-southeast-2:
         regions: [ap-southeast-2]
         type: cloud-formation
-        contentDirectory: 'cloud-formation'
+        contentDirectory: "cloud-formation"
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
@@ -90,7 +90,7 @@ deployments:
     cmp-monitoring-cdk-ca-central-1:
         regions: [ca-central-1]
         type: cloud-formation
-        contentDirectory: 'cloud-formation'
+        contentDirectory: "cloud-formation"
         parameters:
             prependStackToCloudFormationStackName: false
             cloudFormationStackName: cmp-monitoring
