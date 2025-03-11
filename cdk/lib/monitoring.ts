@@ -48,7 +48,7 @@ export class Monitoring extends GuStack {
 			{
 				app: `${lambdaBaseName}-lambda-${region}`,
 				functionName: `${lambdaBaseName}-${stage}`,
-				fileName: `${lambdaBaseName}-lambda-${region}.zip`,
+				fileName: `${lambdaBaseName}-lambda.zip`,
 				handler: 'index.handler',
 				runtime: Runtime.NODEJS_18_X,
 				runtimeManagementMode: RuntimeManagementMode.manual(runTimeManagementArn),
