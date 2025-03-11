@@ -27,7 +27,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
           "S3Bucket": {
             "Ref": "DistributionBucketName",
           },
-          "S3Key": "cmp-monitoring/PROD/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda-eu-west-1.zip",
+          "S3Key": "cmp-monitoring/PROD/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda.zip",
         },
         "Environment": {
           "Variables": {
@@ -176,7 +176,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
                       {
                         "Ref": "DistributionBucketName",
                       },
-                      "/cmp-monitoring/PROD/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda-eu-west-1.zip",
+                      "/cmp-monitoring/PROD/cmp-monitoring-lambda-eu-west-1/cmp-monitoring-lambda.zip",
                     ],
                   ],
                 },
