@@ -1,9 +1,9 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import {
-	BannerInteractions,
-	ELEMENT_ID,
 	type BannerInteraction,
+	BannerInteractions,
 	type Config,
+	ELEMENT_ID,
 } from '../types';
 import {
 	// checkAds,
