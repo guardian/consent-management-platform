@@ -1,5 +1,9 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
-import { BannerInteractions, type BannerInteraction, type Config } from '../types';
+import {
+	BannerInteractions,
+	type BannerInteraction,
+	type Config,
+} from '../types';
 import {
 	// checkAds,
 	checkCMPIsNotVisible,
@@ -26,8 +30,6 @@ import {
 	// openPrivacySettingsPanel,
 	reloadPage,
 } from './common-functions';
-
-
 
 const BannerType = {
 	CONSENT_OR_PAY_SIGNED_IN: 'consent_or_pay_signed_in',
@@ -59,7 +61,7 @@ const checkSubsequentPage = async (
 	context: BrowserContext,
 	config: Config,
 	url: string,
-	bannerType: Banner
+	bannerType: Banner,
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await makeNewPage(context);
@@ -67,7 +69,7 @@ const checkSubsequentPage = async (
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkCMPIsNotVisible(page);
 
-	switch(bannerType) {
+	switch (bannerType) {
 		case BannerType.CONSENT_OR_PAY_SIGNED_IN:
 			await isUsingPersonalisedAds(page);
 			break;
@@ -77,7 +79,6 @@ const checkSubsequentPage = async (
 		case BannerType.NON_ADVERTISING:
 			await isUsingNonPersonalisedAds(page);
 			break;
-
 	}
 
 	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
@@ -108,7 +109,7 @@ const setupPage = async (
 		await dropCookiesForNonAdvertisingBanner(page);
 	}
 
-	if(bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
 		dropCookiesForSignedInUser(page);
 	}
 
@@ -148,25 +149,41 @@ const checkNonAdvertisingBanner = async (
 
 	switch (bannerInteraction) {
 		case BannerInteractions.ACCEPT_ALL:
-			await clickBannerButton(page, 'Accept all', BannerInteractions.ACCEPT_ALL);
+			await clickBannerButton(
+				page,
+				'Accept all',
+				BannerInteractions.ACCEPT_ALL,
+			);
 
 			await checkCMPIsNotVisible(page);
 
 			await isUsingNonPersonalisedAds(page);
 			break;
 		case BannerInteractions.REJECT_ALL:
-			await clickBannerButton(page, 'Reject all', BannerInteractions.REJECT_ALL);
+			await clickBannerButton(
+				page,
+				'Reject all',
+				BannerInteractions.REJECT_ALL,
+			);
 			await checkCMPIsNotVisible(page);
 			await isUsingNonPersonalisedAds(page);
 			break;
 	}
 
 	if (nextUrl) {
-		await checkSubsequentPage(context, config, nextUrl, BannerType.NON_ADVERTISING,);
+		await checkSubsequentPage(
+			context,
+			config,
+			nextUrl,
+			BannerType.NON_ADVERTISING,
+		);
 	}
 
 	await page.close();
 	await browser.close();
+};
+
+const checkSignInLinkIsOnCMP = (page: Page) => {
 };
 
 /**
@@ -185,27 +202,34 @@ const checkConsentOrPayBanner = async (
 	bannerType: Banner,
 ) => {
 	log_info('checkPage Consent or Pay banner');
-	const { browser, page, context } = await setupPage(
-		config,
-		bannerType,
-	);
+	const { browser, page, context } = await setupPage(config, bannerType);
 
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
 
+	await checkSignInLinkIsOnCMP(page);
+
 	await checkTopAdDidNotLoad(page);
 
 	switch (bannerInteraction) {
 		case BannerInteractions.ACCEPT_ALL:
-			await clickBannerButton(page, 'Accept all', BannerInteractions.ACCEPT_ALL);
+			await clickBannerButton(
+				page,
+				'Accept all',
+				BannerInteractions.ACCEPT_ALL,
+			);
 
 			await checkCMPIsNotVisible(page);
 
 			await isUsingNonPersonalisedAds(page);
 			break;
 		case BannerInteractions.REJECT_AND_SUBSCRIBE:
-			await clickBannerButton(page, 'Reject and Subscribe', BannerInteractions.REJECT_AND_SUBSCRIBE);
+			await clickBannerButton(
+				page,
+				'Reject and Subscribe',
+				BannerInteractions.REJECT_AND_SUBSCRIBE,
+			);
 			// Check has redirected to guardian-lite page
 			await checkCMPIsNotVisible(page);
 			await isUsingNonPersonalisedAds(page);
@@ -238,7 +262,7 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		`${config.articleUrl}?adtest=fixed-puppies`,
 		BannerInteractions.ACCEPT_ALL,
 		BannerType.CONSENT_OR_PAY_SIGNED_IN,
-	)
+	);
 
 	await checkConsentOrPayBanner(
 		config,
@@ -246,7 +270,7 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		``,
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 		BannerType.CONSENT_OR_PAY_SIGNED_IN,
-	)
+	);
 
 	await checkNonAdvertisingBanner(
 		config,
