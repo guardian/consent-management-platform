@@ -29,8 +29,10 @@ export enum STAGES {
 export const ELEMENT_ID = {
 	TCFV2_FIRST_LAYER_ACCEPT_ALL:
 		'div.message-component.message-row > button.sp_choice_type_11',
+	TCFV2_FIRST_LAYER_REJECT_ALL:
+		'div.message-component.message-row > button.sp_choice_type_13',
 	TCFV2_CORP_FIRST_LAYER_REJECT_SUBSCRIBE:
-		'div.message-component.message-row > button.sp_choice_type_11',
+		'div.message-component.message-row > button.sp_choice_type_9',
 	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
 		'div.message-component.message-row > button.sp_choice_type_12',
 	TOP_ADVERT: '.ad-slot--top-above-nav .ad-slot__content',
@@ -92,3 +94,12 @@ export type UspData = {
 };
 
 export type CheckStatus = SuccessfulCheck | FailedCheck;
+
+export const BannerInteractions = {
+	ACCEPT_ALL: 'accept_all',
+	REJECT_AND_SUBSCRIBE: 'reject_and_subscribe',
+	REJECT_ALL: 'reject_all',
+} as const;
+
+export type BannerInteraction =
+	(typeof BannerInteractions)[keyof typeof BannerInteractions];

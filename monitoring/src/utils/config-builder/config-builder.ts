@@ -1,6 +1,6 @@
 import { mainCheck as mainCheckAus } from '../../check-page/aus';
 import { mainCheck as mainCheckCCPA } from '../../check-page/ccpa';
-import { mainCheck as mainCheckTcfV2Corp } from '../../check-page/corp-tcfv2';
+import { mainCheck as mainCheckTcfV2Corp } from '../../check-page/consent-or-pay-tcfv2';
 import { mainCheck as mainCheckTcfV2 } from '../../check-page/tcfv2';
 import { debugMode, localBaseURL } from '../../env';
 import type { AwsRegionOpt, Config, Jurisdiction, Stage } from '../../types';
