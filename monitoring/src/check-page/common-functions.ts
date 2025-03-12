@@ -26,6 +26,9 @@ export const log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
 };
 
+export const log_line = (): void => {
+	console.log('--------------------------------------------------');
+};
 /**
  * This function console logs an error message.
  *

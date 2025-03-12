@@ -1,6 +1,7 @@
 import type { Browser, BrowserContext, Page } from 'playwright-core';
 import {
 	BannerInteractions,
+	ELEMENT_ID,
 	type BannerInteraction,
 	type Config,
 } from '../types';
@@ -21,9 +22,10 @@ import {
 	// clickRejectAllSecondLayer,
 	// clickSaveAndCloseSecondLayer,
 	dropCookiesForNonAdvertisingBanner,
-	dropCookiesForSignedInUser,
+	// dropCookiesForSignedInUser,
 	loadPage,
 	log_info,
+	log_line,
 	makeNewBrowser,
 	makeNewContext,
 	makeNewPage,
@@ -109,9 +111,9 @@ const setupPage = async (
 		await dropCookiesForNonAdvertisingBanner(page);
 	}
 
-	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
-		dropCookiesForSignedInUser(page);
-	}
+	// if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
+	// 	dropCookiesForSignedInUser(page);
+	// }
 
 	return {
 		page,
@@ -183,7 +185,12 @@ const checkNonAdvertisingBanner = async (
 	await browser.close();
 };
 
-const checkSignInLinkIsOnCMP = (page: Page) => {
+const checkSignInLinkIsOnCMP = async (page: Page) => {
+	((await page.frameLocator(ELEMENT_ID.CMP_CONTAINER).locator(ELEMENT_ID.CMP_ACTIONS_ROW).allInnerTexts()).includes('sign in'))
+};
+
+const checkWasRedirectedToGuardianLite = async (page: Page) => {
+	await page.waitForURL('**/guardian-ad-lite?returnAddress=*');
 };
 
 /**
@@ -201,14 +208,23 @@ const checkConsentOrPayBanner = async (
 	bannerInteraction: BannerInteraction,
 	bannerType: Banner,
 ) => {
-	log_info('checkPage Consent or Pay banner');
+	if(bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN){
+		log_info('checkPage Consent or Pay banner (signed in)');
+	}
+
+	if(bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT){
+		log_info('checkPage Consent or Pay banner (signed out)');
+	}
+
 	const { browser, page, context } = await setupPage(config, bannerType);
 
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
 
-	await checkSignInLinkIsOnCMP(page);
+	if(bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT){
+		await checkSignInLinkIsOnCMP(page);
+	}
 
 	await checkTopAdDidNotLoad(page);
 
@@ -230,8 +246,11 @@ const checkConsentOrPayBanner = async (
 				'Reject and Subscribe',
 				BannerInteractions.REJECT_AND_SUBSCRIBE,
 			);
-			// Check has redirected to guardian-lite page
+
+			await checkWasRedirectedToGuardianLite(page);
+
 			await checkCMPIsNotVisible(page);
+
 			await isUsingNonPersonalisedAds(page);
 			break;
 	}
@@ -254,7 +273,27 @@ const checkConsentOrPayBanner = async (
  * @return {*}  {Promise<void>}
  */
 export const mainCheck = async function (config: Config): Promise<void> {
-	log_info('checkPage consent or pay (tcfv2)');
+	log_info('checkPage Consent or pay (tcfv2)');
+
+	log_line();
+
+	await checkConsentOrPayBanner(
+		config,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		`${config.articleUrl}?adtest=fixed-puppies`,
+		BannerInteractions.ACCEPT_ALL,
+		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
+	);
+	log_line();
+
+	await checkConsentOrPayBanner(
+		config,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		``,
+		BannerInteractions.REJECT_AND_SUBSCRIBE,
+		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
+	);
+	log_line();
 
 	await checkConsentOrPayBanner(
 		config,
@@ -263,6 +302,7 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		BannerInteractions.ACCEPT_ALL,
 		BannerType.CONSENT_OR_PAY_SIGNED_IN,
 	);
+	log_line();
 
 	await checkConsentOrPayBanner(
 		config,
@@ -271,6 +311,7 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 		BannerType.CONSENT_OR_PAY_SIGNED_IN,
 	);
+	log_line();
 
 	await checkNonAdvertisingBanner(
 		config,
@@ -278,6 +319,8 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		`${config.articleUrl}?adtest=fixed-puppies`,
 		BannerInteractions.ACCEPT_ALL,
 	);
+	log_line();
+
 
 	await checkNonAdvertisingBanner(
 		config,
@@ -285,4 +328,6 @@ export const mainCheck = async function (config: Config): Promise<void> {
 		`${config.articleUrl}?adtest=fixed-puppies`,
 		BannerInteractions.REJECT_ALL,
 	);
+	log_line();
+
 };
