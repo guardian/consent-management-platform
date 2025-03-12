@@ -17,6 +17,7 @@ import {
 	// clickRejectAllSecondLayer,
 	// clickSaveAndCloseSecondLayer,
 	dropCookiesForNonAdvertisingBanner,
+	dropCookiesForSignedInUser,
 	loadPage,
 	log_info,
 	makeNewBrowser,
@@ -58,7 +59,7 @@ const checkSubsequentPage = async (
 	context: BrowserContext,
 	config: Config,
 	url: string,
-	isNonAdvertisingBanner: boolean,
+	bannerType: Banner
 ) => {
 	log_info(`Start checking subsequent Page URL: ${url}`);
 	const page: Page = await makeNewPage(context);
@@ -66,10 +67,17 @@ const checkSubsequentPage = async (
 	// There is no CMP since this we have already accepted this on a previous page.
 	await checkCMPIsNotVisible(page);
 
-	if (isNonAdvertisingBanner) {
-		await isUsingNonPersonalisedAds(page);
-	} else {
-		await isUsingPersonalisedAds(page);
+	switch(bannerType) {
+		case BannerType.CONSENT_OR_PAY_SIGNED_IN:
+			await isUsingPersonalisedAds(page);
+			break;
+		case BannerType.CONSENT_OR_PAY_SIGNED_OUT:
+			await isUsingPersonalisedAds(page);
+			break;
+		case BannerType.NON_ADVERTISING:
+			await isUsingNonPersonalisedAds(page);
+			break;
+
 	}
 
 	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
@@ -88,7 +96,6 @@ const checkSubsequentPage = async (
  * Checks that ads load correctly for the first time a user goes to
  * the site, with respect to and interaction with the CMP.
  */
-
 const setupPage = async (
 	config: Config,
 	bannerType: Banner,
@@ -99,6 +106,10 @@ const setupPage = async (
 
 	if (bannerType === BannerType.NON_ADVERTISING) {
 		await dropCookiesForNonAdvertisingBanner(page);
+	}
+
+	if(bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
+		dropCookiesForSignedInUser(page);
 	}
 
 	return {
@@ -151,7 +162,7 @@ const checkNonAdvertisingBanner = async (
 	}
 
 	if (nextUrl) {
-		await checkSubsequentPage(context, config, nextUrl, true);
+		await checkSubsequentPage(context, config, nextUrl, BannerType.NON_ADVERTISING,);
 	}
 
 	await page.close();
@@ -166,47 +177,48 @@ const checkNonAdvertisingBanner = async (
  * @param {string} url
  * @param {string} nextUrl
  */
-// const checkConsentOrPaySignedOutBanner = async (
-// 	config: Config,
-// 	url: string,
-// 	nextUrl: string,
-// 	bannerInteraction: BannerInteraction,
-// ) => {
-// 	log_info('checkPage Consent or Pay Signed Out user');
-// 	// Testing the non advertising banner
-// 	const { browser, page, context } = await setupPage(
-// 		config,
-// 		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
-// 	);
+const checkConsentOrPayBanner = async (
+	config: Config,
+	url: string,
+	nextUrl: string,
+	bannerInteraction: BannerInteraction,
+	bannerType: Banner,
+) => {
+	log_info('checkPage Consent or Pay banner');
+	const { browser, page, context } = await setupPage(
+		config,
+		bannerType,
+	);
 
-// 	await loadPage(page, url);
+	await loadPage(page, url);
 
-// 	await checkCMPIsOnPage(page);
+	await checkCMPIsOnPage(page);
 
-// 	await checkTopAdDidNotLoad(page);
+	await checkTopAdDidNotLoad(page);
 
-// 	switch (bannerInteraction) {
-// 		case BannerInteractions.ACCEPT_ALL:
-// 			await clickAcceptAllCookies(config, page, 'Accept all');
+	switch (bannerInteraction) {
+		case BannerInteractions.ACCEPT_ALL:
+			await clickBannerButton(page, 'Accept all', BannerInteractions.ACCEPT_ALL);
 
-// 			await checkCMPIsNotVisible(page);
+			await checkCMPIsNotVisible(page);
 
-// 			await isUsingNonPersonalisedAds(page);
-// 			break;
-// 		case BannerInteractions.REJECT_AND_SUBSCRIBE:
-// 			await clickRejectAll(config, page, 'Reject all');
-// 			await checkCMPIsNotVisible(page);
-// 			await isUsingNonPersonalisedAds(page);
-// 			break;
-// 	}
+			await isUsingNonPersonalisedAds(page);
+			break;
+		case BannerInteractions.REJECT_AND_SUBSCRIBE:
+			await clickBannerButton(page, 'Reject and Subscribe', BannerInteractions.REJECT_AND_SUBSCRIBE);
+			// Check has redirected to guardian-lite page
+			await checkCMPIsNotVisible(page);
+			await isUsingNonPersonalisedAds(page);
+			break;
+	}
 
-// 	if (nextUrl) {
-// 		await checkSubsequentPage(context, config, nextUrl, true);
-// 	}
+	if (nextUrl) {
+		await checkSubsequentPage(context, config, nextUrl, bannerType);
+	}
 
-// 	await page.close();
-// 	await browser.close();
-// };
+	await page.close();
+	await browser.close();
+};
 
 /**
  * This is the function tests the page for two different scenarios:
@@ -219,9 +231,22 @@ const checkNonAdvertisingBanner = async (
  */
 export const mainCheck = async function (config: Config): Promise<void> {
 	log_info('checkPage consent or pay (tcfv2)');
-	// Testing the consent or pay banner
-	// Clicking accept all will do this
-	// Clicking reject and subscribe will do that
+
+	await checkConsentOrPayBanner(
+		config,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		`${config.articleUrl}?adtest=fixed-puppies`,
+		BannerInteractions.ACCEPT_ALL,
+		BannerType.CONSENT_OR_PAY_SIGNED_IN,
+	)
+
+	await checkConsentOrPayBanner(
+		config,
+		`${config.frontUrl}?adtest=fixed-puppies`,
+		``,
+		BannerInteractions.REJECT_AND_SUBSCRIBE,
+		BannerType.CONSENT_OR_PAY_SIGNED_IN,
+	)
 
 	await checkNonAdvertisingBanner(
 		config,

@@ -214,6 +214,17 @@ export const dropCookiesForNonAdvertisingBanner = async (page: Page) => {
 	]);
 };
 
+export const dropCookiesForSignedInUser = async (page: Page) => {
+	await page.context().addCookies([
+		{
+			name: 'GU_U',
+			value: 'ABCDEFGHIJKLMONPQRSTUVWXYZ',
+			domain: '.theguardian.com',
+			path: '/',
+		},
+	]);
+};
+
 /**
  * This function waits for the page to load
  * clicks the manage cookies button to open the privacy settings panel
