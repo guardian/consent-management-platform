@@ -14,6 +14,7 @@ import {
 	clearLocalStorage,
 	clickAcceptAllCookies,
 	clickBannerButton,
+	clickSaveAndCloseSecondLayer,
 	dropCookiesForNonAdvertisingBanner,
 	loadPage,
 	log_info,
@@ -49,6 +50,83 @@ const isUsingPersonalisedAds = async (page: Page): Promise<void> => {
 	// TODO: Check opt out is not loaded.
 };
 
+const openReducedPrivacySettingsPanel = async (page: Page, config: Config) => {
+	log_info(`Loading reduced privacy settings panel: Start`);
+	const privacySettingsLink = await page
+		.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+		.locator('p.gu-partners-link-wrapper u a')
+		.first();
+
+	await privacySettingsLink.waitFor({ state: 'visible' });
+
+	await privacySettingsLink.click();
+
+	log_info(`Loading reduced privacy settings panel: Complete`);
+};
+
+const checkReducedPrivacySettingsPanelIsOpen = async (
+	page: Page,
+	config: Config,
+) => {
+	log_info(`Checking that the reduced privacy settings panel is open: Start`);
+	page.frameLocator(
+		'[src*="' + config.iframeDomainSecondLayer + '"]',
+	).locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	log_info(
+		`Checking that the reduced privacy settings panel is open: Complete`,
+	);
+};
+
+// gu-partners-link-wrapper
+export type UserFeaturesResponse = {
+	userId: string;
+	tier?: string;
+	recurringContributionPaymentPlan?: string;
+	alertAvailableFor?: string;
+
+	showSupportMessaging: boolean;
+
+	contentAccess: {
+		member: boolean;
+		paidMember: boolean;
+		recurringContributor: boolean;
+		digitalPack: boolean;
+		paperSubscriber: boolean;
+		guardianWeeklySubscriber: boolean;
+		guardianAdLite: boolean;
+	};
+};
+
+// const setupFakeLogin = async (page: Page) => {
+// 	log_info('Setting up fake login: Start');
+// 	const bodyOverride: UserFeaturesResponse = {
+// 		userId: '107421393',
+// 		showSupportMessaging: false, // true for subscriber
+// 		contentAccess: {
+// 			member: false,
+// 			paidMember: false,
+// 			recurringContributor: false,
+// 			digitalPack: false, // true for subscriber
+// 			paperSubscriber: false,
+// 			guardianWeeklySubscriber: false,
+// 			guardianAdLite: true,
+// 		},
+// 	};
+
+// 	await page.route(
+// 		'https://members-data-api.theguardian.com/user-attributes/me**',
+// 		(route) => {
+// 			return route.fulfill({
+// 				body: JSON.stringify(bodyOverride),
+// 			});
+// 		},
+// 		{ times: 1 },
+// 	);
+
+// 	log_info('Setting up fake login: Complete');
+
+// };
+
 /**
  * Checks that ads load correctly for the first time a user goes to
  * the site, with respect to and interaction with the CMP.
@@ -65,9 +143,10 @@ const setupPage = async (
 		await dropCookiesForNonAdvertisingBanner(page);
 	}
 
-	// if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
-	// 	dropCookiesForSignedInUser(page);
-	// }
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
+		// dropCookiesForSignedInUser(page);
+		// await setupFakeLogin(page);
+	}
 
 	return {
 		page,
@@ -96,7 +175,13 @@ const checkSignInLinkIsOnCMP = async (page: Page) => {
  * @param {Page} page
  */
 const checkWasRedirectedToGuardianLite = async (page: Page) => {
+	log_info(
+		'Checking that the user was redirected to the guardian ad lite page',
+	);
 	await page.waitForURL('**/guardian-ad-lite?returnAddress=*');
+	log_info(
+		'Checked that the user was redirected to the guardian ad lite page',
+	);
 };
 
 /**
@@ -114,12 +199,64 @@ const checkConsentOrPayBanner = async (
 	bannerInteraction: BannerInteraction,
 	bannerType: Banner,
 ) => {
+	await checkConsentOrPayFirstLayer(
+		config,
+		url,
+		nextUrl,
+		bannerInteraction,
+		bannerType,
+	);
+
+	await checkConsentOrPaySecondLayer(config, url, bannerType);
+};
+
+const acceptAllInReducedPrivacySettingsPanel = async (
+	page: Page,
+	config: Config,
+) => {
+	log_info('Accepting all in reduced privacy settings panel: Start');
+	// const storeAccessInformationButton = await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator("div.type-box  div.stack-row  div.tcfv2-stack  div.pur-buttons-container button:first-child");
+
+	const buttons = await page
+		.frameLocator(`[src*="${config.iframeDomainSecondLayer}"]`)
+		.locator(
+			'div.type-box div.stack-row div.pur-buttons-container button:first-child',
+		);
+	const count = 3;
+	for (let i = 0; i < count; i++) {
+		await buttons.nth(i).waitFor({ state: 'visible' });
+		await buttons.nth(i).click();
+	}
+
+	log_info('Accepting all in reduced privacy settings panel: Complete');
+};
+
+/**
+ *
+ *
+ * @param {Config} config
+ * @param {string} url
+ * @param {string} nextUrl
+ * @param {BannerInteraction} bannerInteraction
+ * @param {Banner} bannerType
+ */
+const checkConsentOrPayFirstLayer = async (
+	config: Config,
+	url: string,
+	nextUrl: string,
+	bannerInteraction: BannerInteraction,
+	bannerType: Banner,
+) => {
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
-		log_info('checking pages for Consent or Pay banner (signed in)');
+		log_info(
+			'Checking first layer - Consent or Pay banner (signed in): Start',
+		);
 	}
 
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
-		log_info('checking pages for Consent or Pay banner (signed out)');
+		log_info(
+			'Checking first layer - Consent or Pay banner (signed out): Start',
+		);
 	}
 
 	const { browser, page, context } = await setupPage(config, bannerType);
@@ -163,6 +300,82 @@ const checkConsentOrPayBanner = async (
 
 	await page.close();
 	await browser.close();
+
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
+		log_info(
+			'Checking first layer - Consent or Pay banner (signed in): Complete',
+		);
+	}
+
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
+		log_info(
+			'Checking first layer - Consent or Pay banner (signed out): Complete',
+		);
+	}
+};
+
+/**
+ *
+ *
+ * @param {Config} config
+ * @param {string} url
+ * @param {string} nextUrl
+ * @param {BannerInteraction} bannerInteraction
+ * @param {Banner} bannerType
+ */
+const checkConsentOrPaySecondLayer = async (
+	config: Config,
+	url: string,
+	bannerType: Banner,
+) => {
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
+		log_info('checking second layer: Consent or Pay banner (signed in)');
+	}
+
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
+		log_info('checking second layer:  Consent or Pay banner (signed out)');
+	}
+
+	const { browser, page } = await setupPage(config, bannerType);
+
+	await loadPage(page, url);
+
+	await checkCMPIsOnPage(page);
+
+	await openReducedPrivacySettingsPanel(page, config);
+
+	await checkReducedPrivacySettingsPanelIsOpen(page, config);
+
+	// await clickSaveAndCloseSecondLayer(config, page);
+
+	await checkReducedPrivacySettingsPanelIsOpen(page, config);
+
+	await acceptAllInReducedPrivacySettingsPanel(page, config);
+
+	await clickSaveAndCloseSecondLayer(config, page);
+
+	await isUsingPersonalisedAds(page);
+
+	await reloadPage(page);
+
+	await checkCMPIsNotVisible(page);
+
+	await isUsingPersonalisedAds(page);
+
+	await page.close();
+	await browser.close();
+
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
+		log_info(
+			'Checking second layer - Consent or Pay banner (signed in): Complete',
+		);
+	}
+
+	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
+		log_info(
+			'Checking second layer - Consent or Pay banner (signed out): Complete',
+		);
+	}
 };
 
 /**
@@ -300,22 +513,22 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	);
 	log_line();
 
-	await checkConsentOrPayBanner(
-		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-		BannerInteractions.ACCEPT_ALL,
-		BannerType.CONSENT_OR_PAY_SIGNED_IN,
-	);
-	log_line();
+	// await checkConsentOrPayBanner(
+	// 	config,
+	// 	`${config.frontUrl}?adtest=fixed-puppies`,
+	// 	`${config.articleUrl}?adtest=fixed-puppies`,
+	// 	BannerInteractions.ACCEPT_ALL,
+	// 	BannerType.CONSENT_OR_PAY_SIGNED_IN,
+	// );
+	// log_line();
 
-	await checkConsentOrPayBanner(
-		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		``,
-		BannerInteractions.REJECT_AND_SUBSCRIBE,
-		BannerType.CONSENT_OR_PAY_SIGNED_IN,
-	);
+	// await checkConsentOrPayBanner(
+	// 	config,
+	// 	`${config.articleUrl}?adtest=fixed-puppies`,
+	// 	``,
+	// 	BannerInteractions.REJECT_AND_SUBSCRIBE,
+	// 	BannerType.CONSENT_OR_PAY_SIGNED_IN,
+	// );
 	log_line();
 
 	await checkNonAdvertisingBanner(

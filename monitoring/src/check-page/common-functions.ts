@@ -305,7 +305,7 @@ export const checkPrivacySettingsPanelIsOpen = async (
 export const clickSaveAndCloseSecondLayer = async (
 	config: Config,
 	page: Page,
-	isAmp: boolean = true,
+	isAmp: boolean = false,
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 	let saveAndExitButton;
@@ -320,6 +320,8 @@ export const clickSaveAndCloseSecondLayer = async (
 			.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]')
 			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 	}
+
+	console.log('saveAndExitButton', saveAndExitButton);
 
 	await saveAndExitButton.click();
 
