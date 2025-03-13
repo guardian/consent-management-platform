@@ -33,23 +33,45 @@ const BannerType = {
 
 type Banner = (typeof BannerType)[keyof typeof BannerType];
 
+/**
+ * Checks that the optout ads request is made
+ *
+ * @param {Page} page
+ */
 const checkOptOutLoads = async (page: Page) => {
-	log_info('Checking opt out loads');
+	log_info('Checking opt out loads: start');
 	await page.waitForRequest(/cdn\.optoutadvertising\.com/);
-	log_info('Checked opt out loads');
+	log_info('Checked opt out loads: complete');
 };
 
+/**
+ * Checks that only optout ads load on the page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 const isUsingNonPersonalisedAds = async (page: Page): Promise<void> => {
 	await checkTopAdDidNotLoad(page);
-	// TODO: Check the optout advertising url is called
 	await checkOptOutLoads(page);
 };
 
+/**
+ * Checks that personalised ads load on the page
+ *
+ * @param {Page} page
+ * @return {*}  {Promise<void>}
+ */
 const isUsingPersonalisedAds = async (page: Page): Promise<void> => {
 	await checkTopAdHasLoaded(page);
 	// TODO: Check opt out is not loaded.
 };
 
+/**
+ * Opens privacy settings panel for Consent or Pay users
+ *
+ * @param {Page} page
+ * @param {Config} config
+ */
 const openReducedPrivacySettingsPanel = async (page: Page, config: Config) => {
 	log_info(`Loading reduced privacy settings panel: Start`);
 	const privacySettingsLink = await page
@@ -64,6 +86,12 @@ const openReducedPrivacySettingsPanel = async (page: Page, config: Config) => {
 	log_info(`Loading reduced privacy settings panel: Complete`);
 };
 
+/**
+ * Checks that the privacy settings panel is open
+ *
+ * @param {Page} page
+ * @param {Config} config
+ */
 const checkReducedPrivacySettingsPanelIsOpen = async (
 	page: Page,
 	config: Config,
@@ -77,56 +105,6 @@ const checkReducedPrivacySettingsPanelIsOpen = async (
 	);
 };
 
-// gu-partners-link-wrapper
-export type UserFeaturesResponse = {
-	userId: string;
-	tier?: string;
-	recurringContributionPaymentPlan?: string;
-	alertAvailableFor?: string;
-
-	showSupportMessaging: boolean;
-
-	contentAccess: {
-		member: boolean;
-		paidMember: boolean;
-		recurringContributor: boolean;
-		digitalPack: boolean;
-		paperSubscriber: boolean;
-		guardianWeeklySubscriber: boolean;
-		guardianAdLite: boolean;
-	};
-};
-
-// const setupFakeLogin = async (page: Page) => {
-// 	log_info('Setting up fake login: Start');
-// 	const bodyOverride: UserFeaturesResponse = {
-// 		userId: '107421393',
-// 		showSupportMessaging: false, // true for subscriber
-// 		contentAccess: {
-// 			member: false,
-// 			paidMember: false,
-// 			recurringContributor: false,
-// 			digitalPack: false, // true for subscriber
-// 			paperSubscriber: false,
-// 			guardianWeeklySubscriber: false,
-// 			guardianAdLite: true,
-// 		},
-// 	};
-
-// 	await page.route(
-// 		'https://members-data-api.theguardian.com/user-attributes/me**',
-// 		(route) => {
-// 			return route.fulfill({
-// 				body: JSON.stringify(bodyOverride),
-// 			});
-// 		},
-// 		{ times: 1 },
-// 	);
-
-// 	log_info('Setting up fake login: Complete');
-
-// };
-
 /**
  * Checks that ads load correctly for the first time a user goes to
  * the site, with respect to and interaction with the CMP.
@@ -135,6 +113,7 @@ const setupPage = async (
 	config: Config,
 	bannerType: Banner,
 ): Promise<{ page: Page; browser: Browser; context: BrowserContext }> => {
+	log_info('Setting up page: Start');
 	const browser: Browser = await makeNewBrowser(config.debugMode);
 	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
@@ -145,8 +124,9 @@ const setupPage = async (
 
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
 		// dropCookiesForSignedInUser(page);
-		// await setupFakeLogin(page);
 	}
+
+	log_info('Setting up page: Complete');
 
 	return {
 		page,
@@ -161,12 +141,15 @@ const setupPage = async (
  * @param {Page} page
  */
 const checkSignInLinkIsOnCMP = async (page: Page) => {
+	log_info('Checking that the sign in link is on the CMP: Start');
 	(
 		await page
 			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
 			.locator(ELEMENT_ID.CMP_ACTIONS_ROW)
 			.allInnerTexts()
 	).includes('sign in');
+	log_info('Checking that the sign in link is on the CMP: Complete');
+
 };
 
 /**
@@ -176,11 +159,11 @@ const checkSignInLinkIsOnCMP = async (page: Page) => {
  */
 const checkWasRedirectedToGuardianLite = async (page: Page) => {
 	log_info(
-		'Checking that the user was redirected to the guardian ad lite page',
+		'Checking that the user was redirected to the guardian ad lite page: Start',
 	);
 	await page.waitForURL('**/guardian-ad-lite?returnAddress=*');
 	log_info(
-		'Checked that the user was redirected to the guardian ad lite page',
+		'Checked that the user was redirected to the guardian ad lite page: Complete',
 	);
 };
 
@@ -210,6 +193,12 @@ const checkConsentOrPayBanner = async (
 	await checkConsentOrPaySecondLayer(config, url, bannerType);
 };
 
+/**
+ * Accepts all in the reduced privacy settings panel
+ *
+ * @param {Page} page
+ * @param {Config} config
+ */
 const acceptAllInReducedPrivacySettingsPanel = async (
 	page: Page,
 	config: Config,
@@ -232,7 +221,7 @@ const acceptAllInReducedPrivacySettingsPanel = async (
 };
 
 /**
- *
+ * Checks the first layer of the Consent or Pay banner
  *
  * @param {Config} config
  * @param {string} url
@@ -315,7 +304,7 @@ const checkConsentOrPayFirstLayer = async (
 };
 
 /**
- *
+ * Checks the second layer of the Consent or Pay banner
  *
  * @param {Config} config
  * @param {string} url
@@ -392,8 +381,8 @@ const checkNonAdvertisingBanner = async (
 	nextUrl: string,
 	bannerInteraction: BannerInteraction,
 ) => {
-	log_info('checkPage non advertising banner');
-	// Testing the non advertising banner
+	log_info('Checking non advertising banner: Start');
+
 	const { browser, page, context } = await setupPage(
 		config,
 		BannerType.NON_ADVERTISING,
@@ -439,6 +428,8 @@ const checkNonAdvertisingBanner = async (
 
 	await page.close();
 	await browser.close();
+	log_info('Checking non advertising banner: Complete');
+
 };
 
 /**
