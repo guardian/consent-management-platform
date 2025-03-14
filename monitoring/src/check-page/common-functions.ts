@@ -221,7 +221,13 @@ export const dropCookiesForSignedInUser = async (page: Page) => {
 	await page.context().addCookies([
 		{
 			name: 'GU_U',
-			value: 'ABCDEFGHIJKLMONPQRSTUVWXYZ',
+			value: 'WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg',
+			domain: '.theguardian.com',
+			path: '/',
+		},
+		{
+			name: 'SC_GU_U',
+			value: 'WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg',
 			domain: '.theguardian.com',
 			path: '/',
 		},
