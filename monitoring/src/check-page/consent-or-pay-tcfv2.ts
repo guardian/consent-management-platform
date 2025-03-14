@@ -63,8 +63,8 @@ const loginUser = async (page: Page) => {
 
 	await page.route(
 		'**/user/me/identifiers',
-		(route) => {
-			route.fulfill({
+		async (route) => {
+			await route.fulfill({
 				status: 200,
 				body: JSON.stringify(idapiIdentifiersResponse),
 			});
@@ -73,18 +73,18 @@ const loginUser = async (page: Page) => {
 
 	await page.route(
 		'**/profile/me?strict_sanctions_check=false',
-		(route) => {
-			route.fulfill({
+		async (route) => {
+			await route.fulfill({
 				status: 200,
 				body: JSON.stringify(profileResponse),
 			});
 		},
 	)
 
-	page.route(
+	await page.route(
 		'**/signin',
-		(route) => {
-			route.abort();
+		async (route) => {
+			await route.abort();
 		}
 	);
 
