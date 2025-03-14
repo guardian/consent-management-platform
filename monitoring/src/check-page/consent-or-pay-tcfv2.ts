@@ -16,6 +16,7 @@ import {
 	clickBannerButton,
 	clickSaveAndCloseSecondLayer,
 	dropCookiesForNonAdvertisingBanner,
+	dropCookiesForSignedInUser,
 	loadPage,
 	log_info,
 	log_line,
@@ -32,6 +33,63 @@ const BannerType = {
 } as const;
 
 type Banner = (typeof BannerType)[keyof typeof BannerType];
+
+const loginUser = async (page: Page) => {
+	log_info('Logging in user: Start');
+	const profileResponse = {
+		status: 'ok',
+		userProfile: {
+			userId: '102309223',
+			displayName: 'Guardian User',
+			webUrl: 'https://profile.theguardian.com/user/id/102309223',
+			apiUrl: 'https://discussion.guardianapis.com/discussion-api/profile/102309223',
+			avatar: 'https://avatar.guim.co.uk/user/102309223',
+			secureAvatarUrl: 'https://avatar.guim.co.uk/user/102309223',
+			badge: [],
+			privateFields: {
+				canPostComment: true,
+				isPremoderated: false,
+				hasCommented: false,
+			},
+		},
+	};
+
+	const idapiIdentifiersResponse = {
+		id: '000000000',
+		brazeUuid: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+		puzzleUuid: 'aaaaaaaaaaaa',
+		googleTagId: 'aaaaaaaaaaaa',
+	};
+
+	await page.route(
+		'**/user/me/identifiers',
+		(route) => {
+			route.fulfill({
+				status: 200,
+				body: JSON.stringify(idapiIdentifiersResponse),
+			});
+		},
+	)
+
+	await page.route(
+		'**/profile/me?strict_sanctions_check=false',
+		(route) => {
+			route.fulfill({
+				status: 200,
+				body: JSON.stringify(profileResponse),
+			});
+		},
+	)
+
+	page.route(
+		'**/signin',
+		(route) => {
+			route.abort();
+		}
+	);
+
+	log_info('Logging in user: Complete');
+};
 
 /**
  * Checks that the optout ads request is made
@@ -123,7 +181,8 @@ const setupPage = async (
 	}
 
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
-		// dropCookiesForSignedInUser(page);
+		await dropCookiesForSignedInUser(page);
+		await loginUser(page);
 	}
 
 	log_info('Setting up page: Complete');
@@ -520,7 +579,7 @@ export const mainCheck = async function (config: Config): Promise<void> {
 	// 	BannerInteractions.REJECT_AND_SUBSCRIBE,
 	// 	BannerType.CONSENT_OR_PAY_SIGNED_IN,
 	// );
-	log_line();
+	// log_line();
 
 	await checkNonAdvertisingBanner(
 		config,
