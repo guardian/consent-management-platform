@@ -72,9 +72,9 @@ const isUsingPersonalisedAds = async (page: Page): Promise<void> => {
  * @param {Page} page
  * @param {Config} config
  */
-const openReducedPrivacySettingsPanel = async (page: Page, config: Config) => {
+const openReducedPrivacySettingsPanel = async (page: Page) => {
 	log_info(`Loading reduced privacy settings panel: Start`);
-	const privacySettingsLink = await page
+	const privacySettingsLink = page
 		.frameLocator(ELEMENT_ID.CMP_CONTAINER)
 		.locator('p.gu-partners-link-wrapper u a')
 		.first();
@@ -92,7 +92,7 @@ const openReducedPrivacySettingsPanel = async (page: Page, config: Config) => {
  * @param {Page} page
  * @param {Config} config
  */
-const checkReducedPrivacySettingsPanelIsOpen = async (
+const checkReducedPrivacySettingsPanelIsOpen = (
 	page: Page,
 	config: Config,
 ) => {
@@ -206,7 +206,7 @@ const acceptAllInReducedPrivacySettingsPanel = async (
 	log_info('Accepting all in reduced privacy settings panel: Start');
 	// const storeAccessInformationButton = await page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator("div.type-box  div.stack-row  div.tcfv2-stack  div.pur-buttons-container button:first-child");
 
-	const buttons = await page
+	const buttons = page
 		.frameLocator(`[src*="${config.iframeDomainSecondLayer}"]`)
 		.locator(
 			'div.type-box div.stack-row div.pur-buttons-container button:first-child',
@@ -331,13 +331,13 @@ const checkConsentOrPaySecondLayer = async (
 
 	await checkCMPIsOnPage(page);
 
-	await openReducedPrivacySettingsPanel(page, config);
+	await openReducedPrivacySettingsPanel(page);
 
-	await checkReducedPrivacySettingsPanelIsOpen(page, config);
+	checkReducedPrivacySettingsPanelIsOpen(page, config);
 
 	// await clickSaveAndCloseSecondLayer(config, page);
 
-	await checkReducedPrivacySettingsPanelIsOpen(page, config);
+	checkReducedPrivacySettingsPanelIsOpen(page, config);
 
 	await acceptAllInReducedPrivacySettingsPanel(page, config);
 
