@@ -327,8 +327,6 @@ export const clickSaveAndCloseSecondLayer = async (
 			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 	}
 
-	console.log('saveAndExitButton', saveAndExitButton);
-
 	await saveAndExitButton.click();
 
 	log_info(`Clicking on save and exit button: Complete`);
