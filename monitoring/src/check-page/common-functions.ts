@@ -5,13 +5,13 @@ import {
 } from '@aws-sdk/client-cloudwatch';
 import { launchChromium } from 'playwright-aws-lambda';
 import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
-import type { Config } from '../types';
+import type { BannerInteraction, Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
 /**
  * Represents the props for the checkPages.
  */
-export interface CheckPagesProps{
+export interface CheckPagesProps {
 	config: Config;
 	url: string;
 	nextUrl?: string;
@@ -26,6 +26,9 @@ export const log_info = (message: string): void => {
 	console.log(`(cmp monitoring) info: ${message}`);
 };
 
+export const log_line = (): void => {
+	console.log('--------------------------------------------------');
+};
 /**
  * This function console logs an error message.
  *
@@ -80,9 +83,14 @@ export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
  * @param isAmp - Indicates whether the context is for an AMP page. Default is false.
  * @returns A promise that resolves to the newly created browser context.
  */
-export const makeNewContext = async (browser: Browser, isAmp: boolean = false): Promise<BrowserContext> => {
-	return await browser.newContext({ viewport: !isAmp ? ScreenDimensions.WEB : ScreenDimensions.MOBILE });
-}
+export const makeNewContext = async (
+	browser: Browser,
+	isAmp: boolean = false,
+): Promise<BrowserContext> => {
+	return await browser.newContext({
+		viewport: !isAmp ? ScreenDimensions.WEB : ScreenDimensions.MOBILE,
+	});
+};
 
 /**
  * This function creates a new page
@@ -93,6 +101,64 @@ export const makeNewContext = async (browser: Browser, isAmp: boolean = false): 
 export const makeNewPage = async (context: BrowserContext): Promise<Page> => {
 	const page = await context.newPage();
 	return page;
+};
+
+/**
+ * This function waits for the page to load
+ * clicks the reject all button
+ * @param {Config} config
+ * @param {Page} page
+ * @param {string} textToPrintToConsole
+ */
+export const clickRejectAll = async (
+	config: Config,
+	page: Page,
+	textToPrintToConsole: string,
+) => {
+	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
+	const rejectAllButton = page
+		.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+		.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_REJECT_ALL);
+
+	await rejectAllButton.click();
+	log_info(`Clicked on "${textToPrintToConsole}"`);
+};
+
+/**
+ *
+ *
+ * @param {Page} page
+ * @param {string} textToPrintToConsole
+ * @param {string} buttonId
+ */
+export const clickBannerButton = async (
+	page: Page,
+	textToPrintToConsole: string,
+	bannerInteraction: BannerInteraction,
+) => {
+	log_info(`Clicking on "${textToPrintToConsole}" on CMP`);
+
+	let buttonId;
+	switch (bannerInteraction) {
+		case 'accept_all':
+			buttonId = ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL;
+			break;
+		case 'reject_and_subscribe':
+			buttonId = ELEMENT_ID.TCFV2_CORP_FIRST_LAYER_REJECT_SUBSCRIBE;
+			break;
+		case 'reject_all':
+			buttonId = ELEMENT_ID.TCFV2_FIRST_LAYER_REJECT_ALL;
+			break;
+		default:
+			throw new Error('Invalid banner interaction');
+	}
+
+	const button = page
+		.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+		.locator(buttonId);
+	await button.click();
+
+	log_info(`Clicked on "${textToPrintToConsole}"`);
 };
 
 /**
@@ -125,6 +191,47 @@ export const clickAcceptAllCookies = async (
 	await acceptAllButton.click();
 
 	log_info(`Clicked on "${textToPrintToConsole}"`);
+};
+
+export const dropCookiesForNonAdvertisingBanner = async (page: Page) => {
+	const sevenDaysLater = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+	await page.context().addCookies([
+		{
+			name: 'gu_allow_reject_all',
+			value: sevenDaysLater.toUTCString(),
+			domain: '.theguardian.com',
+			path: '/',
+		},
+		{
+			name: 'gu_hide_support_messaging',
+			value: sevenDaysLater.toUTCString(),
+			domain: '.theguardian.com',
+			path: '/',
+		},
+		{
+			name: 'gu_user_benefits_expiry',
+			value: sevenDaysLater.toUTCString(),
+			domain: '.theguardian.com',
+			path: '/',
+		},
+	]);
+};
+
+export const dropCookiesForSignedInUser = async (page: Page) => {
+	await page.context().addCookies([
+		{
+			name: 'GU_U',
+			value: 'WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg',
+			domain: '.theguardian.com',
+			path: '/',
+		},
+		{
+			name: 'SC_GU_U',
+			value: 'WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg',
+			domain: '.theguardian.com',
+			path: '/',
+		},
+	]);
 };
 
 /**
@@ -176,7 +283,8 @@ export const checkPrivacySettingsPanelIsOpen = async (
 	if (isAmp) {
 		secondLayer = page
 			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
-			.frameLocator(ELEMENT_ID.CMP_CONTAINER).last()
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.last()
 			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
 	} else {
 		secondLayer = page
@@ -203,14 +311,15 @@ export const checkPrivacySettingsPanelIsOpen = async (
 export const clickSaveAndCloseSecondLayer = async (
 	config: Config,
 	page: Page,
-	isAmp: boolean = true
+	isAmp: boolean = false,
 ) => {
 	log_info(`Clicking on save and close button: Start`);
 	let saveAndExitButton;
-	if(isAmp) {
+	if (isAmp) {
 		saveAndExitButton = page
 			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
-			.frameLocator(ELEMENT_ID.CMP_CONTAINER).last()
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.last()
 			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
 	} else {
 		saveAndExitButton = page
@@ -219,7 +328,6 @@ export const clickSaveAndCloseSecondLayer = async (
 	}
 
 	await saveAndExitButton.click();
-
 
 	log_info(`Clicking on save and exit button: Complete`);
 };
@@ -231,16 +339,23 @@ export const clickSaveAndCloseSecondLayer = async (
  * @param {Config} config
  * @param {Page} page
  */
-export const clickRejectAllSecondLayer = async (config: Config, page: Page, isAmp: boolean = false) => {
+export const clickRejectAllSecondLayer = async (
+	config: Config,
+	page: Page,
+	isAmp: boolean = false,
+) => {
 	log_info(`Clicking on reject all button: Start`);
 	let rejectAllButton;
-	if(isAmp) {
+	if (isAmp) {
 		rejectAllButton = page
 			.frameLocator(ELEMENT_ID.AMP_CMP_CONTAINER)
-			.frameLocator(ELEMENT_ID.CMP_CONTAINER).last()
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.last()
 			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 	} else {
-		rejectAllButton = page.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]').locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
+		rejectAllButton = page
+			.frameLocator('[src*="' + config.iframeDomainSecondLayer + '"]')
+			.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_REJECT_ALL);
 	}
 
 	await rejectAllButton.click();
@@ -322,13 +437,16 @@ export const checkGoogleAdManagerRequestIsMade = async (
 	log_info(`Waiting for interaction with GAM: Complete`);
 };
 
-export const checkAds = async (page: Page, isAmp: boolean = false) : Promise<void> => {
+export const checkAds = async (
+	page: Page,
+	isAmp: boolean = false,
+): Promise<void> => {
 	if (isAmp) {
 		await checkGoogleAdManagerRequestIsMade(page);
 	} else {
 		await checkTopAdHasLoaded(page);
 	}
-}
+};
 
 /**
  * This function checks the ad is not on the page
@@ -403,16 +521,20 @@ export const checkCMPIsOnPage = async (
  * @param {Page} page
  * @return {*}  {Promise<void>}
  */
-export const checkCMPIsNotVisible = async (page: Page, isAmp: boolean = false): Promise<void> => {
+export const checkCMPIsNotVisible = async (
+	page: Page,
+	isAmp: boolean = false,
+): Promise<void> => {
 	log_info(`Checking CMP is Hidden: Start`);
 
 	let cmpl;
-	if(isAmp) {
-		cmpl = page.locator(ELEMENT_ID.AMP_CMP_CONTAINER).locator(ELEMENT_ID.CMP_CONTAINER);
-	}else {
+	if (isAmp) {
+		cmpl = page
+			.locator(ELEMENT_ID.AMP_CMP_CONTAINER)
+			.locator(ELEMENT_ID.CMP_CONTAINER);
+	} else {
 		cmpl = page.locator(ELEMENT_ID.CMP_CONTAINER);
 	}
-
 
 	if (await cmpl.isVisible()) {
 		throw Error('CMP still present on page');
