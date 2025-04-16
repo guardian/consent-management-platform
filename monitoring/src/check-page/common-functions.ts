@@ -3,8 +3,8 @@ import {
 	CloudWatchClient,
 	PutMetricDataCommand,
 } from '@aws-sdk/client-cloudwatch';
-import { launchChromium } from 'playwright-aws-lambda';
-import type { Browser, BrowserContext, Page, Request } from 'playwright-core';
+import type { Browser, BrowserContext, Page, Request} from 'playwright-core';
+import { chromium } from 'playwright-core';
 import type { BannerInteraction, Config } from '../types';
 import { ELEMENT_ID } from '../types';
 
@@ -73,7 +73,11 @@ export const clearLocalStorage = async (page: Page): Promise<void> => {
  * @return {*}  {Promise<Browser>}
  */
 export const makeNewBrowser = async (debugMode: boolean): Promise<Browser> => {
-	const browser = await launchChromium({ headless: !debugMode });
+	// const browser = await launchChromium({ headless: !debugMode });
+
+	const browser = chromium.launch({
+		headless: !debugMode,
+	});
 	return browser;
 };
 
