@@ -30,7 +30,7 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
-		const runTimeId = "0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9";
+		// const runTimeId = "0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9";
 
 		const prodDurationInMinutes = 2;
 
@@ -40,7 +40,7 @@ export class Monitoring extends GuStack {
 			resources: ['*'],
 		});
 
-		const runTimeManagementArn = `arn:aws:lambda:${region}::runtime:${runTimeId}`
+		// const runTimeManagementArn = `arn:aws:lambda:${region}::runtime:${runTimeId}`
 
 		const monitoringLambdaFunction = new GuLambdaFunction(
 			this,
@@ -50,8 +50,8 @@ export class Monitoring extends GuStack {
 				functionName: `${lambdaBaseName}-${stage}`,
 				fileName: `${lambdaBaseName}-lambda.zip`,
 				handler: 'index.handler',
-				runtime: Runtime.NODEJS_18_X,
-				runtimeManagementMode: RuntimeManagementMode.manual(runTimeManagementArn),
+				runtime: Runtime.NODEJS_20_X,
+				runtimeManagementMode: RuntimeManagementMode.FUNCTION_UPDATE,
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
