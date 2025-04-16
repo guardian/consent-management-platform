@@ -208,7 +208,7 @@ export const secondLayerCheck = async function (
 
 	await checkTopAdDidNotLoad(page);
 
-	log_info('Starting Reject All check');
+	log_info('ReStarting Reject All check');
 	// Testing the Reject All button hides the CMP and does not load Ads
 	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
 
