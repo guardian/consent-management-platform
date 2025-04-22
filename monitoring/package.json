@@ -7,15 +7,16 @@
     "preinstall": "npx only-allow pnpm",
     "test": "jest",
     "test:dev": "jest --watch",
-    "lint": "eslint src/** localRun.ts",
+    "lint": "eslint src/**/* localRun.ts",
     "type-check": "tsc --noEmit",
     "start": "ts-node localRun.ts",
     "remote": "ts-node remoteRun.ts",
-    "build": "ncc build src/index.ts -o dist -e aws-sdk",
+    "build": "mkdir dist/ && cp src/index.js dist/",
     "validate": "npm-run-all test lint type-check build"
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.787.0",
+    "@aws-sdk/client-synthetics": "^3.787.0",
     "@inquirer/prompts": "^7.4.1",
     "commander": "^13.1.0",
     "dotenv": "^16.5.0",
