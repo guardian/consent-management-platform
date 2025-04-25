@@ -1,5 +1,5 @@
-import { ConfigWrapper } from './config';
-import type { AwsRegionOpt, CheckStatus, JurisdictionOpt } from './types';
+// import { ConfigWrapper } from './config';
+import type { CheckStatus } from './types';
 
 export interface CustomScheduleEventContent {
 	jurisdiction?: string;
@@ -10,23 +10,27 @@ export interface CustomScheduleEventContent {
 export const handler = async (
 	event: CustomScheduleEventContent,
 ): Promise<CheckStatus> => {
-	const jurisdiction: JurisdictionOpt = event.jurisdiction;
-	const stage: string = event.stage;
-	const region: AwsRegionOpt = event.region;
+	// const jurisdiction: JurisdictionOpt = event.jurisdiction;
+	// const stage: string = event.stage;
+	// const region: AwsRegionOpt = event.region;
+	console.log('PROCESS:', process.env);
+	console.log('-----------------------------');
+	console.log('EVENT:', event);
 
-	const configWrapper = new ConfigWrapper(region, stage, jurisdiction, stage );
-	configWrapper.generateConfig();
+	// const configWrapper = new ConfigWrapper(region, stage, jurisdiction, stage );
+	// configWrapper.generateConfig();
 
-	console.log(
-		`(cmp monitoring) Starting cmp-monitoring for stage: ${
-			configWrapper.stage
-		}, jurisdiction: ${
-			configWrapper.jurisdiction ? configWrapper.jurisdiction : 'missing '
-		}`,
-	);
+	// console.log(
+	// 	`(cmp monitoring) Starting cmp-monitoring for stage: ${
+	// 		configWrapper.stage
+	// 	}, jurisdiction: ${
+	// 		configWrapper.jurisdiction ? configWrapper.jurisdiction : 'missing '
+	// 	}`,
+	// );
 
 	try {
-		await configWrapper.run();
+		// await configWrapper.run();
+		await new Promise((resolve) => setTimeout(resolve, 2000));
 		console.log('(cmp monitoring) Finished successfully :)');
 
 		return {
