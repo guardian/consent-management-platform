@@ -1,0 +1,102 @@
+name: Canary CI
+on:
+  push:
+    branches-ignore:
+      - "gh-pages"
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # required for guardian/actions-riff-raff
+      id-token: write
+      pull-requests: write # to be able to comment on released pull requests
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          package_json_file: "synthetics/package.json"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: "./synthetics/.nvmrc"
+          cache: pnpm
+          cache-dependency-path: |
+            synthetics/pnpm-lock.yaml
+            cdk/pnpm-lock.yaml
+
+      - name: Synthetics Install CDK dependencies
+        working-directory: "./synthetics"
+        run: pnpm install --frozen-lockfile
+
+      - name: Synthetics lint
+        working-directory: "./synthetics"
+        run: pnpm lint
+
+      - name: Lambda Build
+        working-directory: "./synthetics"
+        run: pnpm build
+
+      - name: Lambda Test
+        working-directory: "./synthetics"
+        run: pnpm test
+
+      - name: CDK Install CDK dependencies
+        working-directory: "./cdk"
+        run: pnpm install --frozen-lockfile
+
+      - name: CDK Test
+        working-directory: "./cdk"
+        run: pnpm test
+
+      - name: CDK lint
+        working-directory: "./cdk"
+        run: pnpm lint
+
+      - name: CDK Build
+        working-directory: "./cdk"
+        run: pnpm build
+
+      - name: CDK Synth
+        working-directory: "./cdk"
+        run: pnpm synth
+      - name: ZIP Lambda files
+        working-directory: "./cdk"
+        run: ./script/export-synthetics-file
+
+      - name: Upload to Riff Raff
+        uses: guardian/actions-riff-raff@v4
+        with:
+          app: cmp-monitoring
+          projectName: consent::cmp-monitoring
+          buildNumberOffset: 1463
+          dryRun: false
+          roleArn: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          configPath: riff-raff.yaml
+          contentDirectories: |
+            cmp-monitoring-canary-eu-west-1:
+              - cdk/dist/cmp-monitoring-canary.zip
+            cmp-monitoring-canary-eu-west-2:
+              - cdk/dist/cmp-monitoring-canary.zip
+            cmp-monitoring-canary-us-west-1:
+              - cdk/dist/cmp-monitoring-canary.zip
+            cmp-monitoring-canary-ap-southeast-2:
+              - cdk/dist/cmp-monitoring-canary.zip
+            cmp-monitoring-canary-ca-central-1:
+              - cdk/dist/cmp-monitoring-canary.zip
+            cloud-formation:
+              - cdk/cdk.out/CmpMonitoringStackEuWest1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest1Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest2Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackEuWest2Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsWest1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsWest1Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackApSoutheast2Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackApSoutheast2Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackCaCentral1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackCaCentral1Prod.template.json

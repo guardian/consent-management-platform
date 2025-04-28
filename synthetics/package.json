@@ -1,0 +1,32 @@
+{
+	"name": "cmp-monitoring-synthetics",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest --passWithNoTests",
+		"lint": "eslint src/**",
+		"test:dev": "jest --watch",
+		"preinstall": "npx only-allow pnpm",
+		"build": "ncc build src/index.js -o dist -e aws-sdk"
+	},
+	"devDependencies": {
+		"@guardian/eslint-config": "11.0.0",
+		"@guardian/prettier": "8.0.1",
+		"@types/jest": "29.5.14",
+		"@types/node": "22.13.11",
+		"@vercel/ncc": "^0.38.3",
+		"aws-cdk": "2.1007.0",
+		"aws-cdk-lib": "2.189.0",
+		"eslint": "9.22.0",
+		"jest": "29.7.0",
+		"prettier": "3.5.3",
+		"ts-jest": "^29.3.1",
+		"ts-node": "10.9.2",
+		"typescript": "5.8.3"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.8.0"
+}

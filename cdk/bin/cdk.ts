@@ -2,6 +2,7 @@ import 'source-map-support/register';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { App } from 'aws-cdk-lib';
 import { Monitoring } from '../lib/monitoring';
+// import { Canary } from '../lib/canary';
 
 const app = new App();
 
@@ -49,5 +50,11 @@ for (const region of regionNames) {
 			'CmpMonitoringStack' + regionCode + stageName,
 			stackProps(region, stage),
 		);
+
+		// new Canary(
+		// 	app,
+		// 	'CmpMonitoringCanaryStack' + regionCode + stageName,
+		// 	stackProps(region, stage),
+		// );
 	}
 }
