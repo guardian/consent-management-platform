@@ -1,8 +1,8 @@
 import 'source-map-support/register';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { App } from 'aws-cdk-lib';
-import { Monitoring } from '../lib/monitoring';
 // import { Canary } from '../lib/canary';
+import { Monitoring } from '../lib/monitoring';
 
 const app = new App();
 
@@ -19,10 +19,13 @@ const deployableEnvs = ['CODE', 'PROD'] as const;
 type DeployableEnvironments = (typeof deployableEnvs)[number];
 
 function toPascalCase(input: string): string {
-    return input
-        .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join('');
+	return input
+		.split('-')
+		.map(
+			(word) =>
+				word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+		)
+		.join('');
 }
 
 function stackProps(

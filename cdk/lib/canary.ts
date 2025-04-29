@@ -1,8 +1,13 @@
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack, GuStringParameter } from '@guardian/cdk/lib/constructs/core';
 import type { App } from 'aws-cdk-lib';
-import { CfnParameter, Size, Tags } from 'aws-cdk-lib';
-import { Duration, aws_synthetics as synthetics } from 'aws-cdk-lib';
+import {
+	CfnParameter,
+	Duration,
+	Size,
+	aws_synthetics as synthetics,
+	Tags,
+} from 'aws-cdk-lib';
 import type { IAlarmAction } from 'aws-cdk-lib/aws-cloudwatch';
 import {
 	Alarm,
@@ -43,7 +48,7 @@ export class Canary extends GuStack {
 					'artifacts-bucket',
 					bucketName,
 				),
-				prefix: `${canaryBaseName}/${stage}/artifacts`, // TO CHANGE
+				prefix: `cmp-monitoring/${stage}/${canaryBaseName}-${region}/artifacts`,
 			},
 			environmentVariables: {
 				stage,
@@ -53,7 +58,8 @@ export class Canary extends GuStack {
 				handler: 'index.handler',
 				code: synthetics.Code.fromBucket(
 					Bucket.fromBucketName(this, 'BucketName', bucketName),
-					`${canaryBaseName}/${stage}/${canaryBaseName}-${region}/${canaryBaseName}.zip`,
+					`${stage}/${canaryBaseName}-${region}/nodejs.zip`,
+					// `cmp-monitoring/${stage}/${canaryBaseName}-${region}/nodejs.zip`,
 				),
 			}),
 			runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PLAYWRIGHT_1_0,

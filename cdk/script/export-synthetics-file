@@ -5,30 +5,28 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ROOT_DIR="${DIR}/../.."
 INDEX_JS_BUILT_FILE="${ROOT_DIR}/synthetics/dist/index.js"
+DEST_DIR="${ROOT_DIR}/cdk/dist/"
 
 get_absolute_path_directory() {
-  # $1 : relative filename
-  absolute_src_file_path="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"  # Gets the absolute path of the index.js file
-  echo $(dirname "$absolute_src_file_path") # Get directory name
+  local file="$1"
+  local abs_path="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+  dirname "$abs_path"
 }
 
-if test -f "${INDEX_JS_BUILT_FILE}"; # Check if index js file is in the synthetics file
-then
-	src_file=$(find $INDEX_JS_BUILT_FILE) # Gets the index.js file generated in the synthetics/dist. Throws error if it doesn't exist
-	absolute_src_directory=$(get_absolute_path_directory "$src_file") # Gets the directory of the index.js file synthetics/dist
+if [[ -f "${INDEX_JS_BUILT_FILE}" ]]; then
+  absolute_src_directory=$(get_absolute_path_directory "$INDEX_JS_BUILT_FILE")
 
-	echo "Zipping Built Files"
-	cd "${absolute_src_directory}" # Go to synthetics/dist folder
+  echo "Zipping built files from: $absolute_src_directory"
+  mkdir -p "$DEST_DIR"
+  cp -r "${absolute_src_directory}/." "$DEST_DIR"
 
-	newDir="${ROOT_DIR}/cdk/dist/"
+  cd "${ROOT_DIR}/cdk/dist"
+  zip -FSr nodejs.zip .
+#   rm -r nodejs
 
-	mkdir -p "$newDir"
-
-	zip -FSr "$newDir/cmp-monitoring-canary.zip" "." # Zip the synthetics/dist folder into cdk/dist
-	echo "File was successfully zipped"
-
-	exit 0 # Success
+  echo "✅ File successfully zipped to nodejs.zip"
+  exit 0
 else
-	echo "Error: The synthetics/dist directory is empty"
-	exit 1 # Error
+  echo "❌ Error: ${INDEX_JS_BUILT_FILE} not found"
+  exit 1
 fi

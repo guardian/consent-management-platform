@@ -37,11 +37,28 @@ jobs:
         working-directory: "./synthetics"
         run: pnpm lint
 
-      - name: Lambda Build
+      - name: Synthetics Build
         working-directory: "./synthetics"
         run: pnpm build
 
-      - name: Lambda Test
+      - name: Setup Lambda Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: "./monitoring/.nvmrc"
+          cache: pnpm
+          cache-dependency-path: |
+            monitoring/pnpm-lock.yaml
+            cdk/pnpm-lock.yaml
+
+      - name: Lambda Install CDK dependencies
+        working-directory: "./monitoring"
+        run: pnpm install --frozen-lockfile
+
+      - name: Lambda Build
+        working-directory: "./monitoring"
+        run: pnpm build
+
+      - name: Synthetics Test
         working-directory: "./synthetics"
         run: pnpm test
 
@@ -64,31 +81,46 @@ jobs:
       - name: CDK Synth
         working-directory: "./cdk"
         run: pnpm synth
-      - name: ZIP Lambda files
+
+      - name: ZIP Synthetics files
         working-directory: "./cdk"
         run: ./script/export-synthetics-file
+
+      - name: ZIP Lambda files
+        working-directory: "./cdk"
+        run: ./script/export-monitoring-file
 
       - name: Upload to Riff Raff
         uses: guardian/actions-riff-raff@v4
         with:
           app: cmp-monitoring
           projectName: consent::cmp-monitoring
-          buildNumberOffset: 1463
+          buildNumberOffset: 2627
           dryRun: false
           roleArn: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           configPath: riff-raff.yaml
           contentDirectories: |
             cmp-monitoring-canary-eu-west-1:
-              - cdk/dist/cmp-monitoring-canary.zip
+              - cdk/dist/nodejs.zip
             cmp-monitoring-canary-eu-west-2:
-              - cdk/dist/cmp-monitoring-canary.zip
+              - cdk/dist/nodejs.zip
             cmp-monitoring-canary-us-west-1:
-              - cdk/dist/cmp-monitoring-canary.zip
+              - cdk/dist/nodejs.zip
             cmp-monitoring-canary-ap-southeast-2:
-              - cdk/dist/cmp-monitoring-canary.zip
+              - cdk/dist/nodejs.zip
             cmp-monitoring-canary-ca-central-1:
-              - cdk/dist/cmp-monitoring-canary.zip
+              - cdk/dist/nodejs.zip
+            cmp-monitoring-lambda-eu-west-1:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-eu-west-2:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-us-west-1:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-ap-southeast-2:
+              - cdk/dist/cmp-monitoring-lambda.zip
+            cmp-monitoring-lambda-ca-central-1:
+              - cdk/dist/cmp-monitoring-lambda.zip
             cloud-formation:
               - cdk/cdk.out/CmpMonitoringStackEuWest1Code.template.json
               - cdk/cdk.out/CmpMonitoringStackEuWest1Prod.template.json
