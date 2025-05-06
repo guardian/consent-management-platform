@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@amzn/synthetics-playwright':
+        specifier: file:./local-pkg/synthetics-playwright
+        version: file:local-pkg/synthetics-playwright
+      playwright-core:
+        specifier: ^1.51.1
+        version: 1.52.0
     devDependencies:
       '@guardian/eslint-config':
         specifier: 11.0.0
@@ -14,6 +21,9 @@ importers:
       '@guardian/prettier':
         specifier: 8.0.1
         version: 8.0.1(prettier@3.5.3)(tslib@2.8.1)
+      '@guardian/tsconfig':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@types/jest':
         specifier: 29.5.14
         version: 29.5.14
@@ -53,6 +63,9 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@amzn/synthetics-playwright@file:local-pkg/synthetics-playwright':
+    resolution: {directory: local-pkg/synthetics-playwright, type: directory}
 
   '@aws-cdk/asset-awscli-v1@2.2.233':
     resolution: {integrity: sha512-OH5ZN1F/0wwOUwzVUSvE0/syUOi44H9the6IG16anlSptfeQ1fvduJazZAKRuJLtautPbiqxllyOrtWh6LhX8A==}
@@ -294,6 +307,9 @@ packages:
     peerDependencies:
       prettier: ^3.2.2
       tslib: ^2.6.2
+
+  '@guardian/tsconfig@1.0.0':
+    resolution: {integrity: sha512-xgajw/jq4lEtQoN72vnmiXeRnejUcd3DgNFmH6TfAbWV6NRK4KC4hAjzKf0H69zBSJMxEfFVfGKP9wBzGII7qg==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1855,6 +1871,11 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
+  playwright-core@1.52.0:
+    resolution: {integrity: sha512-l2osTgLXSMeuLZOML9qYODUQoPPnUsKsb5/P6LJ2e6uPKXUdPK5WYhN4z03G+YNbWmGDY4YENauNu4ZKczreHg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
@@ -2318,6 +2339,10 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
+  '@amzn/synthetics-playwright@file:local-pkg/synthetics-playwright':
+    dependencies:
+      playwright-core: 1.52.0
+
   '@aws-cdk/asset-awscli-v1@2.2.233': {}
 
   '@aws-cdk/asset-node-proxy-agent-v6@2.1.0': {}
@@ -2596,6 +2621,8 @@ snapshots:
     dependencies:
       prettier: 3.5.3
       tslib: 2.8.1
+
+  '@guardian/tsconfig@1.0.0': {}
 
   '@humanfs/core@0.19.1': {}
 
@@ -4640,6 +4667,8 @@ snapshots:
   pkg-dir@4.2.0:
     dependencies:
       find-up: 4.1.0
+
+  playwright-core@1.52.0: {}
 
   possible-typed-array-names@1.1.0: {}
 

@@ -1,0 +1,10 @@
+{
+	"extends": "@guardian/tsconfig",
+	"include": ["./src/*.ts", "./**/*.d.ts"],
+	"exclude": ["local-pkg"],
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"module": "commonjs",
+		"esModuleInterop": true
+	}
+}

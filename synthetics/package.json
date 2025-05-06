@@ -7,12 +7,20 @@
 		"test": "jest --passWithNoTests",
 		"lint": "eslint src/**",
 		"test:dev": "jest --watch",
+		"type-check": "tsc --noEmit",
 		"preinstall": "npx only-allow pnpm",
-		"build": "ncc build src/index.js -o dist -e aws-sdk"
+		"build": "ncc build src/index.ts -o dist -e aws-sdk",
+		"start": "node src/index.js"
 	},
+	"dependencies": {
+		"playwright-core": "^1.51.1",
+		"@amzn/synthetics-playwright": "file:./local-pkg/synthetics-playwright"
+	},
+	"imports": {},
 	"devDependencies": {
 		"@guardian/eslint-config": "11.0.0",
 		"@guardian/prettier": "8.0.1",
+		"@guardian/tsconfig": "^1.0.0",
 		"@types/jest": "29.5.14",
 		"@types/node": "22.13.11",
 		"@vercel/ncc": "^0.38.3",
