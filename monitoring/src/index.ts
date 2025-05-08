@@ -18,7 +18,7 @@ export const handler = async (
 	configWrapper.generateConfig();
 
 	console.log(
-		`(cmp monitoring) Starting cmp-monitoring for stages: ${
+		`(cmp monitoring) Starting cmp-monitoring for stage: ${
 			configWrapper.stage
 		}, jurisdiction: ${
 			configWrapper.jurisdiction ? configWrapper.jurisdiction : 'missing '

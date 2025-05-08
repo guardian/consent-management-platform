@@ -4,7 +4,7 @@ set -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ROOT_DIR="${DIR}/../.."
-INDEX_JS_BUILT_FILE="${ROOT_DIR}/synthetics/dist/index.js"
+INDEX_JS_BUILT_FILE="${ROOT_DIR}/synthetics/dist/index.mjs"
 DEST_DIR="${ROOT_DIR}/cdk/dist/"
 
 get_absolute_path_directory() {
