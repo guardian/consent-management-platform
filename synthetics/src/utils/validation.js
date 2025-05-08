@@ -1,48 +1,58 @@
-import { regionToJurisdictionMap } from "./helper";
+import { AWS_REGIONS, JURISDICTIONS, STAGES } from "./constants.js";
 
-const isRegionValid = (region) => {
-	const validRegions = Object.keys(regionToJurisdictionMap);
+export class Validation {
+	static isJurisdictionValid(jurisdiction) {
+		const validJurisdictions = Object.values(JURISDICTIONS);
 
-	if (!validRegions.includes(region)) {
-		throw new Error(
-			`Invalid region: ${region}. Valid regions are: ${validRegions.join(", ")}`,
-		);
-	}
-
-	return true;
-};
-
-const isStageValid = (stage) => {
-	const validStages = ["CODE", "PROD"];
-
-	if (!validStages.includes(stage)) {
-		throw new Error(
-			`Invalid stage: ${stage}. Valid stages are: ${validStages.join(", ")}`,
-		);
-	}
-
-	return true;
-};
-
-const hasCorrectEnvironmentVariables = () => {
-	const requiredEnvVars = ["region", "stage"];
-
-	for (const envVar of requiredEnvVars) {
-		if (!process.env[envVar]) {
-			throw new Error(`Missing environment variable: ${envVar}`);
+		if (!validJurisdictions.includes(jurisdiction)) {
+			throw new Error(
+				`Invalid jurisdiction: ${jurisdiction}. Valid JURISDICTIONS are: ${validJurisdictions.join(
+					", ",
+				)}`,
+			);
 		}
+
+		return true;
 	}
 
-	if (!isRegionValid(process.env.region)) {
-		throw new Error(`Invalid region: ${process.env.region}`);
-	}
-	if (!isStageValid(process.env.stage)) {
-		throw new Error(`Invalid stage: ${process.env.stage}`);
-	}
+	static isRegionValid(region) {
+		const validRegions = Object.values(AWS_REGIONS);
 
-	return true;
-};
+		if (!validRegions.includes(region)) {
+			throw new Error(
+				`Invalid region: ${region}. Valid regions are: ${validRegions.join(", ")}`,
+			);
+		}
 
-module.exports = {
-	hasCorrectEnvironmentVariables,
-};
+		return true;
+	}
+	static isStageValid(stage) {
+		const validStages = Object.values(STAGES);
+
+		if (!validStages.includes(stage)) {
+			throw new Error(
+				`Invalid stage: ${stage}. Valid stages are: ${validStages.join(", ")}`,
+			);
+		}
+
+		return true;
+	}
+	static hasCorrectEnvironmentVariables() {
+		const requiredEnvVars = ["region", "stage"];
+
+		for (const envVar of requiredEnvVars) {
+			if (!process.env[envVar]) {
+				throw new Error(`Missing environment variable: ${envVar}`);
+			}
+		}
+
+		if (!this.isRegionValid(process.env.region.toLowerCase())) {
+			throw new Error(`Invalid region: ${process.env.region}`);
+		}
+		if (!this.isStageValid(process.env.stage.toLowerCase())) {
+			throw new Error(`Invalid stage: ${process.env.stage}`);
+		}
+
+		return true;
+	}
+}

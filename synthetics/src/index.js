@@ -1,22 +1,42 @@
-const { synthetics } = require("@amzn/synthetics-playwright");
-const { hasCorrectEnvironmentVariables } = require("./utils/validation");
+// eslint-disable-next-line import/no-unresolved -- This library is notavailable in npm
+import { synthetics } from "@amzn/synthetics-playwright";
+import { ConfigWrapper } from "./utils/config/config-wrapper";
+import { Validation } from "./utils/validation";
 
-exports.handler = async () => {
+
+export const handler = async () => {
 	try {
 		// Validate the input event
-		hasCorrectEnvironmentVariables();
+		Validation.hasCorrectEnvironmentVariables();
 
 		const { region, stage } = process.env;
 		console.log(`Region: ${region}, Stage: ${stage}`);
 
-		// Launch a browser
-		const browser = await synthetics.launch();
+		const configWrapper = new ConfigWrapper(
+			region.toLowerCase(),
+			stage.toLowerCase(),
+			null,
+		);
+		configWrapper.generateConfig();
+		console.log("Config generated:", configWrapper.config);
 
-		// Create a new page
-		const page = await synthetics.newPage(browser);
-		console.log("Page created");
-		// Navigate to a website
-		await page.goto("https://www.theguardian.com/", { timeout: 10000 });
+
+		try {
+			await configWrapper.run();
+		} catch (error) {
+			let errorMessage = 'Unknown Error!';
+
+			if (typeof error === 'string') {
+				errorMessage = error;
+			} else if (error instanceof Error) {
+				errorMessage = error.message;
+			}
+
+			console.log(`(cmp monitoring) Finished with failure: ${errorMessage}`);
+
+			throw new Error(errorMessage);
+		}
+
 	} catch (error) {
 		console.error("Error in handler:", error);
 		throw error; // Rethrow the error to ensure the Lambda function fails
