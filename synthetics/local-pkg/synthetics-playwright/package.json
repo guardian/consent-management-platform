@@ -1,0 +1,9 @@
+{
+	"name": "@amzn/synthetics-playwright",
+	"version": "1.0.0",
+	"main": "index.js",
+	"types": "index.d.ts",
+	"dependencies": {
+		"playwright-core": "^1.51.1"
+	}
+}
