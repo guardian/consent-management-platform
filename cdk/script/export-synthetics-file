@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+ROOT_DIR="${DIR}/../.."
+INDEX_JS_BUILT_FILE="${ROOT_DIR}/synthetics/dist/index.mjs"
+DEST_DIR="${ROOT_DIR}/cdk/dist/"
+
+get_absolute_path_directory() {
+  local file="$1"
+  local abs_path="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+  dirname "$abs_path"
+}
+
+if [[ -f "${INDEX_JS_BUILT_FILE}" ]]; then
+  absolute_src_directory=$(get_absolute_path_directory "$INDEX_JS_BUILT_FILE")
+
+  echo "Zipping built files from: $absolute_src_directory"
+  mkdir -p "$DEST_DIR"
+  cp -r "${absolute_src_directory}/." "$DEST_DIR"
+
+  cd "${ROOT_DIR}/cdk/dist"
+  zip -FSr nodejs.zip .
+
+  echo "✅ File successfully zipped to nodejs.zip"
+  exit 0
+else
+  echo "❌ Error: ${INDEX_JS_BUILT_FILE} not found"
+  exit 1
+fi
