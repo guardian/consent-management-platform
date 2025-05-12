@@ -22,6 +22,8 @@ export class ConfigHelper {
 		switch (jurisdiction) {
 			case JURISDICTIONS.TCFV2:
 				return AWS_REGIONS.EU_WEST_1;
+			case JURISDICTIONS.TCFV2CORP:
+				return AWS_REGIONS.EU_WEST_2;
 			case JURISDICTIONS.USNAT:
 				return AWS_REGIONS.US_WEST_1;
 			case JURISDICTIONS.AUS:

@@ -1,13 +1,7 @@
 import { ConfigWrapper } from "./utils/config/config-wrapper.js";
-import { Validation } from "./utils/validation.js";
 
-export const main = async (browserType) => {
+export const main = async (browserType, region, stage) => {
 	try {
-		// Validate the input event
-		Validation.hasCorrectEnvironmentVariables();
-
-		const { region, stage } = process.env;
-		console.log(`Region: ${region}, Stage: ${stage}`);
 
 		const configWrapper = new ConfigWrapper(
 			region.toLowerCase(),

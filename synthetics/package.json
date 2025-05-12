@@ -10,7 +10,7 @@
 		"test:dev": "jest --watch",
 		"preinstall": "npx only-allow pnpm",
 		"build": "esbuild src/index.js --bundle --platform=node --target=node20 --format=esm --external:@amzn/synthetics-playwright --outfile=dist/index.mjs",
-		"start": "region=eu-west-2 stage=prod node src/localRun.js"
+		"start": "node src/localRun.js"
 	},
 	"dependencies": {
 		"@aws-sdk/client-cloudwatch": "^3.804.0",
@@ -18,6 +18,8 @@
 	},
 	"imports": {},
 	"devDependencies": {
+		"@inquirer/prompts": "^7.5.1",
+		"commander": "^13.1.0",
 		"@guardian/eslint-config": "11.0.0",
 		"@guardian/prettier": "8.0.1",
 		"@guardian/tsconfig": "^1.0.0",
