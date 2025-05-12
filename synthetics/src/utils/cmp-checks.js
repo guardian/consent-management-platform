@@ -1,6 +1,6 @@
-import { reloadPage } from "./browser-utils";
-import { ELEMENT_ID, STAGES } from "./constants";
-import { Log } from "./log";
+import { reloadPage } from "./browser-utils.js";
+import { ELEMENT_ID, STAGES } from "./constants.js";
+import { Log } from "./log.js";
 
 /**
  * @summary Record the version of the Sourcepoint CMP
@@ -149,7 +149,7 @@ const checkOptOutLoads = async (page) => {
  */
 export const isUsingNonPersonalisedAds = async (page, stage) => {
 	await checkTopAdDidNotLoad(page);
-	if(stage === STAGES.PROD){
+	if (stage === STAGES.PROD) {
 		await checkOptOutLoads(page);
 	}
 };

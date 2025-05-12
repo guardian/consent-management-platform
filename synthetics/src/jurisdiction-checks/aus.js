@@ -4,18 +4,22 @@ import {
 	makeNewContext,
 	makeNewPage,
 	reloadPage,
-} from "../utils/browser-utils";
-import { clickBannerButton } from "../utils/cmp-actions";
-import { checkAds, checkCMPIsNotVisible, checkCMPIsOnPage } from "../utils/cmp-checks";
-import { BannerInteractions } from "../utils/constants";
-import { Log } from "../utils/log";
+} from "../utils/browser-utils.js";
+import { clickBannerButton } from "../utils/cmp-actions.js";
+import {
+	checkAds,
+	checkCMPIsNotVisible,
+	checkCMPIsOnPage,
+} from "../utils/cmp-checks.js";
+import { BannerInteractions } from "../utils/constants.js";
+import { Log } from "../utils/log.js";
 
-
-export const mainCheck = async (config) => {
+export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for AUS: Start");
 
 	// Check the front page and subsequent article page
 	await checkPages({
+		browserType,
 		config,
 		url: `${config.frontUrl}?adtest=fixed-puppies`,
 		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
@@ -23,6 +27,7 @@ export const mainCheck = async (config) => {
 
 	// Check the article page
 	await checkPages({
+		browserType,
 		config,
 		url: `${config.articleUrl}?adtest=fixed-puppies`,
 	});
@@ -61,8 +66,8 @@ const checkSubsequentPage = async (context, url) => {
  *
  * @param {*} { config, url, nextUrl }
  */
-const checkPages = async ({ config, url, nextUrl }) => {
-	const browser = await makeNewBrowser(config.debugMode);
+const checkPages = async ({ browserType, config, url, nextUrl }) => {
+	const browser = await makeNewBrowser(browserType, config.debugMode);
 	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
 

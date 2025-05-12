@@ -1,7 +1,7 @@
-import { Log } from "../log";
-import { Validation } from "../validation";
-import { ConfigBuilder } from "./config-builder";
-import { ConfigHelper } from "./config-helper";
+import { Log } from "../log.js";
+import { Validation } from "../validation.js";
+import { ConfigBuilder } from "./config-builder.js";
+import { ConfigHelper } from "./config-helper.js";
 
 export class ConfigWrapper {
 	_jurisdiction;
@@ -33,9 +33,9 @@ export class ConfigWrapper {
 		this._awsRegion = _envAwsRegion;
 	}
 
-	async run() {
+	async run(browserType) {
 		if (this._config) {
-			await this._config.checkFunction(this._config);
+			await this._config.checkFunction(browserType, this._config);
 		}
 	}
 

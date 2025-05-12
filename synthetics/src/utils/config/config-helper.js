@@ -1,4 +1,4 @@
-import { AWS_REGIONS, JURISDICTIONS } from "../constants";
+import { AWS_REGIONS, JURISDICTIONS } from "../constants.js";
 
 export class ConfigHelper {
 	static getJurisdiction(region) {

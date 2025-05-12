@@ -8,20 +8,20 @@ import {
 	makeNewContext,
 	makeNewPage,
 	reloadPage,
-} from "../utils/browser-utils";
+} from "../utils/browser-utils.js";
 import {
 	clickBannerButton,
 	clickSaveAndCloseSecondLayer,
-} from "../utils/cmp-actions";
+} from "../utils/cmp-actions.js";
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkTopAdDidNotLoad,
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
-} from "../utils/cmp-checks";
-import { BannerInteractions, ELEMENT_ID } from "../utils/constants";
-import { Log } from "../utils/log";
+} from "../utils/cmp-checks.js";
+import { BannerInteractions, ELEMENT_ID } from "../utils/constants.js";
+import { Log } from "../utils/log.js";
 
 const BannerType = {
 	CONSENT_OR_PAY_SIGNED_IN: "consent_or_pay_signed_in",
@@ -29,9 +29,10 @@ const BannerType = {
 	NON_ADVERTISING: "non_advertising",
 };
 
-export const mainCheck = async (config) => {
+export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for TCFV2: Start");
 	await checkConsentOrPayBanner(
+		browserType,
 		config,
 		`${config.frontUrl}?adtest=fixed-puppies`,
 		`${config.articleUrl}?adtest=fixed-puppies`,
@@ -41,6 +42,7 @@ export const mainCheck = async (config) => {
 	Log.line();
 
 	await checkConsentOrPayBanner(
+		browserType,
 		config,
 		`${config.frontUrl}?adtest=fixed-puppies`,
 		``,
@@ -50,6 +52,7 @@ export const mainCheck = async (config) => {
 	Log.line();
 
 	await checkNonAdvertisingBanner(
+		browserType,
 		config,
 		`${config.frontUrl}?adtest=fixed-puppies`,
 		`${config.articleUrl}?adtest=fixed-puppies`,
@@ -58,6 +61,7 @@ export const mainCheck = async (config) => {
 	Log.line();
 
 	await checkNonAdvertisingBanner(
+		browserType,
 		config,
 		`${config.frontUrl}?adtest=fixed-puppies`,
 		`${config.articleUrl}?adtest=fixed-puppies`,
@@ -76,6 +80,7 @@ export const mainCheck = async (config) => {
  * @param {string} nextUrl
  */
 const checkConsentOrPayBanner = async (
+	browserType,
 	config,
 	url,
 	nextUrl,
@@ -83,6 +88,7 @@ const checkConsentOrPayBanner = async (
 	bannerType,
 ) => {
 	await checkConsentOrPayFirstLayer(
+		browserType,
 		config,
 		url,
 		nextUrl,
@@ -90,7 +96,7 @@ const checkConsentOrPayBanner = async (
 		bannerType,
 	);
 
-	await checkConsentOrPaySecondLayer(config, url, bannerType);
+	await checkConsentOrPaySecondLayer(browserType, config, url, bannerType);
 };
 
 /**
@@ -103,6 +109,7 @@ const checkConsentOrPayBanner = async (
  * @param {Banner} bannerType
  */
 const checkConsentOrPayFirstLayer = async (
+	browserType,
 	config,
 	url,
 	nextUrl,
@@ -121,7 +128,11 @@ const checkConsentOrPayFirstLayer = async (
 		);
 	}
 
-	const { browser, page, context } = await setupPage(config, bannerType);
+	const { browser, page, context } = await setupPage(
+		browserType,
+		config,
+		bannerType,
+	);
 
 	await loadPage(page, url);
 
@@ -183,7 +194,12 @@ const checkConsentOrPayFirstLayer = async (
  * @param {*} url
  * @param {*} bannerType
  */
-const checkConsentOrPaySecondLayer = async (config, url, bannerType) => {
+const checkConsentOrPaySecondLayer = async (
+	browserType,
+	config,
+	url,
+	bannerType,
+) => {
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN) {
 		Log.info("checking second layer: Consent or Pay banner (signed in)");
 	}
@@ -192,7 +208,7 @@ const checkConsentOrPaySecondLayer = async (config, url, bannerType) => {
 		Log.info("checking second layer:  Consent or Pay banner (signed out)");
 	}
 
-	const { browser, page } = await setupPage(config, bannerType);
+	const { browser, page } = await setupPage(browserType, config, bannerType);
 
 	await loadPage(page, url);
 
@@ -233,6 +249,7 @@ const checkConsentOrPaySecondLayer = async (config, url, bannerType) => {
 };
 
 const checkNonAdvertisingBanner = async (
+	browserType,
 	config,
 	url,
 	nextUrl,
@@ -241,6 +258,7 @@ const checkNonAdvertisingBanner = async (
 	Log.info("Checking non advertising banner: Start");
 
 	const { browser, page, context } = await setupPage(
+		browserType,
 		config,
 		BannerType.NON_ADVERTISING,
 	);
@@ -352,9 +370,9 @@ const checkSubsequentPage = async (context, config, url, bannerType) => {
  * Checks that ads load correctly for the first time a user goes to
  * the site, with respect to and interaction with the CMP.
  */
-const setupPage = async (config, bannerType) => {
+const setupPage = async (browserType, config, bannerType) => {
 	Log.info("Setting up page: Start");
-	const browser = await makeNewBrowser(config.debugMode);
+	const browser = await makeNewBrowser(browserType, config.debugMode);
 	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
 

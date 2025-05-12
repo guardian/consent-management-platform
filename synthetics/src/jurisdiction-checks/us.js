@@ -1,14 +1,24 @@
-import { loadPage, makeNewBrowser, makeNewContext, makeNewPage } from "../utils/browser-utils";
-import { clickBannerButton } from "../utils/cmp-actions";
-import { checkAds, checkCMPIsNotVisible, checkCMPIsOnPage, checkGPCRespected } from "../utils/cmp-checks";
-import { BannerInteractions } from "../utils/constants";
-import { Log } from "../utils/log";
+import {
+	loadPage,
+	makeNewBrowser,
+	makeNewContext,
+	makeNewPage,
+} from "../utils/browser-utils.js";
+import { clickBannerButton } from "../utils/cmp-actions.js";
+import {
+	checkAds,
+	checkCMPIsNotVisible,
+	checkCMPIsOnPage,
+	checkGPCRespected,
+} from "../utils/cmp-checks.js";
+import { BannerInteractions } from "../utils/constants.js";
+import { Log } from "../utils/log.js";
 
-
-export const mainCheck = async (config) => {
+export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for US: Start");
 	// Check the front page and subsequent article page
 	await checkPages({
+		browserType,
 		config,
 		url: `${config.frontUrl}?adtest=fixed-puppies`,
 		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
@@ -17,6 +27,7 @@ export const mainCheck = async (config) => {
 
 	// Check the article page
 	await checkPages({
+		browserType,
 		config,
 		url: `${config.articleUrl}?adtest=fixed-puppies`,
 		isAmp: false,
@@ -56,8 +67,8 @@ const checkSubsequentPage = async (context, url) => {
  *
  * @param {*} { config, url, nextUrl }
  */
-const checkPages = async ({ config, url, nextUrl }) => {
-	const browser = await makeNewBrowser(config.debugMode);
+const checkPages = async ({ browserType, config, url, nextUrl }) => {
+	const browser = await makeNewBrowser(browserType, config.debugMode);
 	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
 
@@ -67,7 +78,11 @@ const checkPages = async ({ config, url, nextUrl }) => {
 
 	await checkCMPIsOnPage(page);
 
-	await clickBannerButton(page, "Do not sell or share my personal information", BannerInteractions.DO_NOT_SELL);
+	await clickBannerButton(
+		page,
+		"Do not sell or share my personal information",
+		BannerInteractions.DO_NOT_SELL,
+	);
 
 	if (nextUrl) {
 		await checkSubsequentPage(context, nextUrl);

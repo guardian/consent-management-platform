@@ -1,5 +1,5 @@
-import { BannerInteractions, ELEMENT_ID } from "./constants";
-import { Log } from "./log";
+import { BannerInteractions, ELEMENT_ID } from "./constants.js";
+import { Log } from "./log.js";
 
 /**
  * @summary Click on the "Save and Close" button in the second layer of the CMP

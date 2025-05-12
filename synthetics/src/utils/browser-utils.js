@@ -1,15 +1,14 @@
-// eslint-disable-next-line import/no-unresolved -- This library is not available in npm
-import { synthetics } from "@amzn/synthetics-playwright";
-import { Log } from "./log";
+import { Log } from "./log.js";
 
 /**
  * @summary Create a new playwright browser
+ * Using chromium as the default browser
  *
  * @param {*} debugMode
  * @return {*}
  */
-export const makeNewBrowser = async (debugMode) => {
-	const browser = await synthetics.launch({
+export const makeNewBrowser = async (browserType, debugMode) => {
+	const browser = await browserType.launch({
 		headless: !debugMode,
 	});
 	return browser;
@@ -20,9 +19,7 @@ export const makeNewBrowser = async (debugMode) => {
  * @param browser - The browser instance.
  * @returns A promise that resolves to the newly created browser context.
  */
-export const makeNewContext = async (
-	browser,
-) => {
+export const makeNewContext = async (browser) => {
 	return await browser.newContext();
 };
 
@@ -62,7 +59,6 @@ export const clearLocalStorage = async (page) => {
 	Log.info(`Cleared LocalStorage`);
 };
 
-
 /**
  * @summary This function will drop the cookies for a non-advertising banner
  *
@@ -72,22 +68,22 @@ export const dropCookiesForNonAdvertisingBanner = async (page) => {
 	const sevenDaysLater = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 	await page.context().addCookies([
 		{
-			name: 'gu_allow_reject_all',
+			name: "gu_allow_reject_all",
 			value: sevenDaysLater.toUTCString(),
-			domain: '.theguardian.com',
-			path: '/',
+			domain: ".theguardian.com",
+			path: "/",
 		},
 		{
-			name: 'gu_hide_support_messaging',
+			name: "gu_hide_support_messaging",
 			value: sevenDaysLater.toUTCString(),
-			domain: '.theguardian.com',
-			path: '/',
+			domain: ".theguardian.com",
+			path: "/",
 		},
 		{
-			name: 'gu_user_benefits_expiry',
+			name: "gu_user_benefits_expiry",
 			value: sevenDaysLater.toUTCString(),
-			domain: '.theguardian.com',
-			path: '/',
+			domain: ".theguardian.com",
+			path: "/",
 		},
 	]);
 };
@@ -100,16 +96,16 @@ export const dropCookiesForNonAdvertisingBanner = async (page) => {
 export const dropCookiesForSignedInUser = async (page) => {
 	await page.context().addCookies([
 		{
-			name: 'GU_U',
-			value: 'WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg',
-			domain: '.theguardian.com',
-			path: '/',
+			name: "GU_U",
+			value: "WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg",
+			domain: ".theguardian.com",
+			path: "/",
 		},
 		{
-			name: 'SC_GU_U',
-			value: 'WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg',
-			domain: '.theguardian.com',
-			path: '/',
+			name: "SC_GU_U",
+			value: "WyIzMjc5Nzk0IiwiIiwiSmFrZTkiLCIiLDE2NjA4MzM3NTEyMjcsMCwxMjEyNjgzMTQ3MDAwLHRydWVd.MC0CFQCIbpFtd0J5IqK946U1vagzLgCBkwIUUN3UOkNfNN8jwNE3scKfrcvoRSg",
+			domain: ".theguardian.com",
+			path: "/",
 		},
 	]);
 };
@@ -138,7 +134,6 @@ export const loadPage = async (page, url) => {
 
 	Log.info(`Loading page: Complete`);
 };
-
 
 /**
  * @summary Reload the page

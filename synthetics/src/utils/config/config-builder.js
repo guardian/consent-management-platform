@@ -1,8 +1,8 @@
-import { mainCheck as mainCheckAus } from "../../jurisdiction-checks/aus";
-import { mainCheck as mainCheckTCFV2 } from "../../jurisdiction-checks/tcfv2-basic";
-import { mainCheck as mainCheckTCFV2ConsentOrPay } from "../../jurisdiction-checks/tcfv2-consent-or-pay";
-import { mainCheck as mainCheckUS } from "../../jurisdiction-checks/us";
-import { JURISDICTIONS, STAGES } from "../constants";
+import { mainCheck as mainCheckAus } from "../../jurisdiction-checks/aus.js";
+import { mainCheck as mainCheckTCFV2 } from "../../jurisdiction-checks/tcfv2-basic.js";
+import { mainCheck as mainCheckTCFV2ConsentOrPay } from "../../jurisdiction-checks/tcfv2-consent-or-pay.js";
+import { mainCheck as mainCheckUS } from "../../jurisdiction-checks/us.js";
+import { JURISDICTIONS, STAGES } from "../constants.js";
 
 export class ConfigBuilder {
 	static construct(stage, jurisdiction, region, isRunningAdhoc) {

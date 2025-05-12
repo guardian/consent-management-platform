@@ -6,34 +6,36 @@ import {
 	makeNewContext,
 	makeNewPage,
 	reloadPage,
-} from "../utils/browser-utils";
+} from "../utils/browser-utils.js";
 import {
 	checkPrivacySettingsPanelIsOpen,
 	clickBannerButton,
 	clickSaveAndCloseSecondLayer,
 	openPrivacySettingsPanel,
-} from "../utils/cmp-actions";
+} from "../utils/cmp-actions.js";
 import {
 	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
-} from "../utils/cmp-checks";
-import { BannerInteractions } from "../utils/constants";
-import { Log } from "../utils/log";
+} from "../utils/cmp-checks.js";
+import { BannerInteractions } from "../utils/constants.js";
+import { Log } from "../utils/log.js";
 
-export const mainCheck = async (config) => {
+export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for TCFV2: Start");
 
 	// Check the front page and subsequent article page
 	await checkPages({
+		browserType,
 		config,
 		url: `${config.frontUrl}?adtest=fixed-puppies`,
 		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
 	});
 	// Check the article page
 	await checkPages({
+		browserType,
 		config,
 		url: `${config.articleUrl}?adtest=fixed-puppies`,
 	});
@@ -41,10 +43,10 @@ export const mainCheck = async (config) => {
 	Log.info("Main check for TCFV2: Complete");
 };
 
-const checkPages = async ({ config, url, nextUrl }) => {
+const checkPages = async ({ browserType, config, url, nextUrl }) => {
 	Log.info("Main check for TCFV2: Start");
 
-	const browser = await makeNewBrowser(config.debugMode);
+	const browser = await makeNewBrowser(browserType, config.debugMode);
 	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
 
@@ -186,4 +188,4 @@ const rejectAllCheck = async ({ url, page }) => {
 	await checkCMPIsNotVisible(page);
 
 	Log.info(`Reject all check: Complete`);
-}
+};
