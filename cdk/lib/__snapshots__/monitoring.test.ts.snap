@@ -54,6 +54,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Arn",
           ],
         },
+        "FailureRetentionPeriod": 31,
         "Name": "cmp-monitoring-canary-eu-west-1-prod",
         "ProvisionedResourceCleanup": "AUTOMATIC",
         "RunConfig": {
@@ -62,13 +63,15 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "stage": "PROD",
           },
           "MemoryInMB": 2048,
+          "TimeoutInSeconds": 120,
         },
         "RuntimeVersion": "syn-nodejs-playwright-1.0",
         "Schedule": {
           "DurationInSeconds": "0",
-          "Expression": "rate(5 minutes)",
+          "Expression": "rate(2 minutes)",
         },
         "StartCanaryAfterCreation": true,
+        "SuccessRetentionPeriod": 7,
         "Tags": [
           {
             "Key": "buildId",

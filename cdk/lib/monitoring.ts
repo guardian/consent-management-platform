@@ -167,9 +167,17 @@ export class Monitoring extends GuStack {
 			}),
 			provisionedResourceCleanup: true,
 			runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PLAYWRIGHT_1_0,
-			schedule: synthetics.Schedule.rate(Duration.minutes(5)),
+			schedule:
+				stage === 'PROD'
+					? synthetics.Schedule.rate(Duration.minutes(2))
+					: synthetics.Schedule.rate(Duration.minutes(5)),
 			timeToLive: stage === 'PROD' ? undefined : Duration.minutes(30),
+			successRetentionPeriod: Duration.days(7),
+			failureRetentionPeriod: Duration.days(31),
 			memory: Size.mebibytes(2048),
+			startAfterCreation: true,
+			timeout: Duration.minutes(2),
+
 		});
 
 		const buildId = new CfnParameter(this, 'BuildId', {
