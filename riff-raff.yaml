@@ -14,6 +14,16 @@ deployments:
                 CODE: CmpMonitoringStackEuWest1Code.template.json
                 PROD: CmpMonitoringStackEuWest1Prod.template.json
             cloudFormationStackByTags: false
+    cmp-monitoring-canary-eu-west-1:
+        type: aws-s3
+        regions: [eu-west-1]
+        parameters:
+            bucketSsmKey: /account/services/artifact.bucket
+            bucketSsmLookup: true
+            publicReadAcl: false
+            cacheControl: private
+            prefixStack: false
+        contentDirectory: cmp-monitoring-canary-eu-west-1
     cmp-monitoring-lambda-eu-west-1:
         dependencies: [cmp-monitoring-cdk-eu-west-1]
         regions: [eu-west-1]
@@ -35,6 +45,16 @@ deployments:
                 CODE: CmpMonitoringStackEuWest2Code.template.json
                 PROD: CmpMonitoringStackEuWest2Prod.template.json
             cloudFormationStackByTags: false
+    cmp-monitoring-canary-eu-west-2:
+        type: aws-s3
+        regions: [eu-west-2]
+        parameters:
+            bucketSsmKey: /account/services/artifact.bucket
+            bucketSsmLookup: true
+            publicReadAcl: false
+            cacheControl: private
+            prefixStack: false
+        contentDirectory: cmp-monitoring-canary-eu-west-2
     cmp-monitoring-lambda-eu-west-2:
         dependencies: [cmp-monitoring-cdk-eu-west-2]
         regions: [eu-west-2]
@@ -56,6 +76,16 @@ deployments:
                 CODE: CmpMonitoringStackUsWest1Code.template.json
                 PROD: CmpMonitoringStackUsWest1Prod.template.json
             cloudFormationStackByTags: false
+    cmp-monitoring-canary-us-west-1:
+        type: aws-s3
+        regions: [us-west-1]
+        parameters:
+            bucketSsmKey: /account/services/artifact.bucket
+            bucketSsmLookup: true
+            publicReadAcl: false
+            cacheControl: private
+            prefixStack: false
+        contentDirectory: cmp-monitoring-canary-us-west-1
     cmp-monitoring-lambda-us-west-1:
         dependencies: [cmp-monitoring-cdk-us-west-1]
         regions: [us-west-1]
@@ -77,6 +107,16 @@ deployments:
                 CODE: CmpMonitoringStackApSoutheast2Code.template.json
                 PROD: CmpMonitoringStackApSoutheast2Prod.template.json
             cloudFormationStackByTags: false
+    cmp-monitoring-canary-ap-southeast-2:
+        type: aws-s3
+        regions: [ap-southeast-2]
+        parameters:
+            bucketSsmKey: /account/services/artifact.bucket
+            bucketSsmLookup: true
+            publicReadAcl: false
+            cacheControl: private
+            prefixStack: false
+        contentDirectory: cmp-monitoring-canary-ap-southeast-2
     cmp-monitoring-lambda-ap-southeast-2:
         dependencies: [cmp-monitoring-cdk-ap-southeast-2]
         regions: [ap-southeast-2]
@@ -98,6 +138,16 @@ deployments:
                 CODE: CmpMonitoringStackCaCentral1Code.template.json
                 PROD: CmpMonitoringStackCaCentral1Prod.template.json
             cloudFormationStackByTags: false
+    cmp-monitoring-canary-ca-central-1:
+        type: aws-s3
+        regions: [ca-central-1]
+        parameters:
+            bucketSsmKey: /account/services/artifact.bucket
+            bucketSsmLookup: true
+            publicReadAcl: false
+            cacheControl: private
+            prefixStack: false
+        contentDirectory: cmp-monitoring-canary-ca-central-1
     cmp-monitoring-lambda-ca-central-1:
         dependencies: [cmp-monitoring-cdk-ca-central-1]
         regions: [ca-central-1]
