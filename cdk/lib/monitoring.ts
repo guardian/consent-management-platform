@@ -1,22 +1,28 @@
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
-import { GuStack } from '@guardian/cdk/lib/constructs/core';
+import { GuStack, GuStringParameter } from '@guardian/cdk/lib/constructs/core';
 import { GuLambdaFunction } from '@guardian/cdk/lib/constructs/lambda';
 import type { App } from 'aws-cdk-lib';
-import { Duration } from 'aws-cdk-lib';
-import type {
-	IAlarmAction} from 'aws-cdk-lib/aws-cloudwatch';
+import {
+	CfnParameter,
+	Duration,
+	Size,
+	aws_synthetics as synthetics,
+	Tags,
+} from 'aws-cdk-lib';
+import type { IAlarmAction } from 'aws-cdk-lib/aws-cloudwatch';
 import {
 	Alarm,
 	ComparisonOperator,
 	Metric,
 	TreatMissingData,
-	Unit
+	Unit,
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Runtime, RuntimeManagementMode } from 'aws-cdk-lib/aws-lambda';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 
@@ -30,7 +36,8 @@ export class Monitoring extends GuStack {
 
 		const lambdaBaseName = 'cmp-monitoring';
 
-		const runTimeId = "0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9";
+		const runTimeId =
+			'0cdcfbdefbc5e7d3343f73c2e2dd3cba17d61dea0686b404502a0c9ce83931b9';
 
 		const prodDurationInMinutes = 2;
 
@@ -40,7 +47,7 @@ export class Monitoring extends GuStack {
 			resources: ['*'],
 		});
 
-		const runTimeManagementArn = `arn:aws:lambda:${region}::runtime:${runTimeId}`
+		const runTimeManagementArn = `arn:aws:lambda:${region}::runtime:${runTimeId}`;
 
 		const monitoringLambdaFunction = new GuLambdaFunction(
 			this,
@@ -51,7 +58,8 @@ export class Monitoring extends GuStack {
 				fileName: `${lambdaBaseName}-lambda.zip`,
 				handler: 'index.handler',
 				runtime: Runtime.NODEJS_18_X,
-				runtimeManagementMode: RuntimeManagementMode.manual(runTimeManagementArn),
+				runtimeManagementMode:
+					RuntimeManagementMode.manual(runTimeManagementArn),
 				timeout: Duration.seconds(300),
 				memorySize: 2048,
 				initialPolicy: [policyStatement],
@@ -83,15 +91,15 @@ export class Monitoring extends GuStack {
 			}),
 		});
 
-
 		const monitoringDuration: Duration =
-			stage === 'PROD' ? Duration.minutes(prodDurationInMinutes) : Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
+			stage === 'PROD'
+				? Duration.minutes(prodDurationInMinutes)
+				: Duration.days(1); // Every day for CODE; Every 2 minutes for PROD.
 
 		new Rule(this, 'cmp monitoring schedule', {
 			schedule: Schedule.rate(monitoringDuration),
 			targets: [lambdaEventTarget],
 		});
-
 
 		// Error Alarm
 		const alarm = new Alarm(this, 'cmp-monitoring-alarms', {
@@ -104,23 +112,79 @@ export class Monitoring extends GuStack {
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 			metric: errorMetric,
 			alarmName: `CMP Monitoring - ${stage} - ${region}`,
-			alarmDescription:
-				`This alarm is triggered if 4 out of 5 lambda executions fail in ${region}`,
+			alarmDescription: `This alarm is triggered if 4 out of 5 lambda executions fail in ${region}`,
 		});
 
-		if(this.stage === "PROD"){
+		if (this.stage === 'PROD') {
 			const emailSubscription = new EmailSubscription(
-				"transparency.and.consent@guardian.co.uk"
+				'transparency.and.consent@guardian.co.uk',
 			);
 
-			const internalEmailMessaging = new Topic(this, "internalEmailRecipient");
+			const internalEmailMessaging = new Topic(
+				this,
+				'internalEmailRecipient',
+			);
 			internalEmailMessaging.addSubscription(emailSubscription);
 
-			const alarmAction: IAlarmAction = new SnsAction(internalEmailMessaging);
+			const alarmAction: IAlarmAction = new SnsAction(
+				internalEmailMessaging,
+			);
 
-			alarm.addAlarmAction(alarmAction)
-			alarm.addOkAction(alarmAction)
+			alarm.addAlarmAction(alarmAction);
+			alarm.addOkAction(alarmAction);
 		}
 
+		const canaryBaseName = 'cmp-monitoring-canary';
+
+		const bucketName = new GuStringParameter(this, 'S3BucketName', {
+			description: 'The name of the S3 bucket to store artifacts',
+			default: `/account/services/artifact.bucket`,
+			fromSSM: true,
+		}).valueAsString;
+
+		const canaryName = `${canaryBaseName}-${region}-${stage.toLowerCase()}`;
+
+		const canary = new synthetics.Canary(this, 'CmpMonitoringCanary', {
+			canaryName: canaryName,
+			artifactsBucketLocation: {
+				bucket: Bucket.fromBucketName(
+					this,
+					'artifacts-bucket',
+					bucketName,
+				),
+				prefix: `cmp-monitoring/${stage}/${canaryBaseName}-${region}/artifacts`,
+			},
+			environmentVariables: {
+				stage,
+				region,
+			},
+			test: synthetics.Test.custom({
+				handler: 'index.handler',
+				code: synthetics.Code.fromBucket(
+					Bucket.fromBucketName(this, 'BucketName', bucketName),
+					`${stage}/${canaryBaseName}-${region}/nodejs.zip`,
+				),
+			}),
+			provisionedResourceCleanup: true,
+			runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PLAYWRIGHT_1_0,
+			schedule:
+				stage === 'PROD'
+					? synthetics.Schedule.rate(Duration.minutes(2))
+					: synthetics.Schedule.rate(Duration.minutes(5)),
+			timeToLive: stage === 'PROD' ? undefined : Duration.minutes(30),
+			successRetentionPeriod: Duration.days(7),
+			failureRetentionPeriod: Duration.days(31),
+			memory: Size.mebibytes(2048),
+			startAfterCreation: true,
+			timeout: Duration.minutes(2),
+
+		});
+
+		const buildId = new CfnParameter(this, 'BuildId', {
+			type: 'String',
+			description:
+				'The riff-raff build id, automatically generated and provided by riff-raff',
+		});
+		Tags.of(canary).add('buildId', buildId.valueAsString);
 	}
 }

@@ -6,17 +6,232 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
     "gu:cdk:constructs": [
       "GuDistributionBucketParameter",
       "GuLambdaFunction",
+      "GuStringParameter",
     ],
     "gu:cdk:version": "TEST",
   },
   "Parameters": {
+    "BuildId": {
+      "Description": "The riff-raff build id, automatically generated and provided by riff-raff",
+      "Type": "String",
+    },
     "DistributionBucketName": {
       "Default": "/account/services/artifact.bucket",
       "Description": "SSM parameter containing the S3 bucket name holding distribution artifacts",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
+    "S3BucketName": {
+      "Default": "/account/services/artifact.bucket",
+      "Description": "The name of the S3 bucket to store artifacts",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
   },
   "Resources": {
+    "CmpMonitoringCanary43DD134C": {
+      "Properties": {
+        "ArtifactS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "S3BucketName",
+              },
+              "/cmp-monitoring/PROD/cmp-monitoring-canary-eu-west-1/artifacts",
+            ],
+          ],
+        },
+        "Code": {
+          "Handler": "index.handler",
+          "S3Bucket": {
+            "Ref": "S3BucketName",
+          },
+          "S3Key": "PROD/cmp-monitoring-canary-eu-west-1/nodejs.zip",
+        },
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "CmpMonitoringCanaryServiceRole29D2BEB7",
+            "Arn",
+          ],
+        },
+        "FailureRetentionPeriod": 31,
+        "Name": "cmp-monitoring-canary-eu-west-1-prod",
+        "ProvisionedResourceCleanup": "AUTOMATIC",
+        "RunConfig": {
+          "EnvironmentVariables": {
+            "region": "eu-west-1",
+            "stage": "PROD",
+          },
+          "MemoryInMB": 2048,
+          "TimeoutInSeconds": 120,
+        },
+        "RuntimeVersion": "syn-nodejs-playwright-1.0",
+        "Schedule": {
+          "DurationInSeconds": "0",
+          "Expression": "rate(2 minutes)",
+        },
+        "StartCanaryAfterCreation": true,
+        "SuccessRetentionPeriod": 7,
+        "Tags": [
+          {
+            "Key": "buildId",
+            "Value": {
+              "Ref": "BuildId",
+            },
+          },
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/consent-management-platform",
+          },
+          {
+            "Key": "Stack",
+            "Value": "cmp-monitoring",
+          },
+          {
+            "Key": "Stage",
+            "Value": "PROD",
+          },
+        ],
+      },
+      "Type": "AWS::Synthetics::Canary",
+    },
+    "CmpMonitoringCanaryServiceRole29D2BEB7": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "s3:ListAllMyBuckets",
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "s3:GetBucketLocation",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":s3:::",
+                        {
+                          "Ref": "S3BucketName",
+                        },
+                      ],
+                    ],
+                  },
+                },
+                {
+                  "Action": "s3:PutObject",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":s3:::",
+                        {
+                          "Ref": "S3BucketName",
+                        },
+                        "/cmp-monitoring/PROD/cmp-monitoring-canary-eu-west-1/artifacts/*",
+                      ],
+                    ],
+                  },
+                },
+                {
+                  "Action": "cloudwatch:PutMetricData",
+                  "Condition": {
+                    "StringEquals": {
+                      "cloudwatch:namespace": "CloudWatchSynthetics",
+                    },
+                  },
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup",
+                    "logs:PutLogEvents",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":logs:",
+                        {
+                          "Ref": "AWS::Region",
+                        },
+                        ":",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":log-group:/aws/lambda/cwsyn-*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "canaryPolicy",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "buildId",
+            "Value": {
+              "Ref": "BuildId",
+            },
+          },
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/consent-management-platform",
+          },
+          {
+            "Key": "Stack",
+            "Value": "cmp-monitoring",
+          },
+          {
+            "Key": "Stage",
+            "Value": "PROD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "cmpmonitoring2CD05B94": {
       "DependsOn": [
         "cmpmonitoringServiceRoleDefaultPolicy19C1C252",
