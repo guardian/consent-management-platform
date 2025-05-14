@@ -20,7 +20,7 @@ if [[ -f "${INDEX_JS_BUILT_FILE}" ]]; then
   mkdir -p "$DEST_DIR"
   cp -r "${absolute_src_directory}/." "$DEST_DIR"
 
-  cd "${ROOT_DIR}/cdk/dist"
+  cd "${DEST_DIR}"
   zip -FSr nodejs.zip .
 
   echo "✅ File successfully zipped to nodejs.zip"

@@ -28,6 +28,7 @@ jobs:
           cache-dependency-path: |
             monitoring/pnpm-lock.yaml
             cdk/pnpm-lock.yaml
+            synthetics/pnpm-lock.yaml
 
       - name: Lambda Install CDK dependencies
         working-directory: "./monitoring"
@@ -53,15 +54,6 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           package_json_file: "synthetics/package.json"
-
-      - name: Setup synthetics node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: "./synthetics/.nvmrc"
-          cache: pnpm
-          cache-dependency-path: |
-            synthetics/pnpm-lock.yaml
-            cdk/pnpm-lock.yaml
 
       - name: Synthetics Install CDK dependencies
         working-directory: "./synthetics"
