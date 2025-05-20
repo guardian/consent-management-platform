@@ -18,42 +18,15 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
-          package_json_file: "monitoring/package.json"
+          package_json_file: "synthetics/package.json"
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: "./monitoring/.nvmrc"
+          node-version-file: "./synthetics/.nvmrc"
           cache: pnpm
-          cache-dependency-path: |
-            monitoring/pnpm-lock.yaml
-            cdk/pnpm-lock.yaml
+          cache-dependency-path: cdk/pnpm-lock.yaml
             synthetics/pnpm-lock.yaml
-
-      - name: Lambda Install CDK dependencies
-        working-directory: "./monitoring"
-        run: pnpm install --frozen-lockfile
-
-      - name: Lambda lint
-        working-directory: "./monitoring"
-        run: pnpm lint
-
-      - name: Lambda type-check
-        working-directory: "./monitoring"
-        run: pnpm type-check
-
-      - name: Lambda Build
-        working-directory: "./monitoring"
-        run: pnpm build
-
-      - name: Lambda Test
-        working-directory: "./monitoring"
-        run: pnpm test
-
-      - name: Set up synthetics pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: "synthetics/package.json"
 
       - name: Synthetics Install CDK dependencies
         working-directory: "./synthetics"
@@ -91,10 +64,6 @@ jobs:
         working-directory: "./cdk"
         run: pnpm synth
 
-      - name: ZIP Lambda files
-        working-directory: "./cdk"
-        run: ./script/export-monitoring-file
-
       - name: ZIP Synthetics files
         working-directory: "./cdk"
         run: ./script/export-synthetics-file
@@ -120,16 +89,6 @@ jobs:
               - cdk/dist/nodejs.zip
             cmp-monitoring-canary-ca-central-1:
               - cdk/dist/nodejs.zip
-            cmp-monitoring-lambda-eu-west-1:
-              - cdk/dist/cmp-monitoring-lambda.zip
-            cmp-monitoring-lambda-eu-west-2:
-              - cdk/dist/cmp-monitoring-lambda.zip
-            cmp-monitoring-lambda-us-west-1:
-              - cdk/dist/cmp-monitoring-lambda.zip
-            cmp-monitoring-lambda-ap-southeast-2:
-              - cdk/dist/cmp-monitoring-lambda.zip
-            cmp-monitoring-lambda-ca-central-1:
-              - cdk/dist/cmp-monitoring-lambda.zip
             cloud-formation:
               - cdk/cdk.out/CmpMonitoringStackEuWest1Code.template.json
               - cdk/cdk.out/CmpMonitoringStackEuWest1Prod.template.json
