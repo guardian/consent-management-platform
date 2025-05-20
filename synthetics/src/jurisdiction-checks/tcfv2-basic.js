@@ -61,7 +61,7 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 	await page.close();
 	await browser.close();
 
-	const browserForSecondLayer = await makeNewBrowser(config.debugMode);
+	const browserForSecondLayer = await makeNewBrowser(browserType, config.debugMode);
 	const contextForSecondLayer = await makeNewContext(browserForSecondLayer);
 	const pageForSecondLayer = await makeNewPage(contextForSecondLayer);
 
