@@ -1,5 +1,5 @@
 import { reloadPage } from "./browser-utils.js";
-import { ELEMENT_ID, STAGES } from "./constants.js";
+import { ELEMENT_ID } from "./constants.js";
 import { Log } from "./log.js";
 
 /**
@@ -136,7 +136,7 @@ export const checkTopAdDidNotLoad = async (page) => {
  *
  * @param {Page} page
  */
-const checkOptOutLoads = async (page) => {
+export const checkOptOutLoads = async (page) => {
 	Log.info("Checking opt out loads: start");
 	await page.waitForRequest(/cdn\.optoutadvertising\.com/);
 	Log.info("Checked opt out loads: complete");
@@ -147,11 +147,8 @@ const checkOptOutLoads = async (page) => {
  *
  * @param  page
  */
-export const isUsingNonPersonalisedAds = async (page, stage) => {
+export const isUsingNonPersonalisedAds = async (page) => {
 	await checkTopAdDidNotLoad(page);
-	if (stage === STAGES.PROD) {
-		await checkOptOutLoads(page);
-	}
 };
 
 /**

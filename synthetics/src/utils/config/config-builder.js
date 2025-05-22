@@ -93,7 +93,7 @@ export class ConfigBuilder {
 		switch (jurisdiction) {
 			case JURISDICTIONS.TCFV2:
 				return mainCheckTCFV2;
-			case JURISDICTIONS.CCPA:
+			case JURISDICTIONS.USNAT:
 				return mainCheckUS;
 			case JURISDICTIONS.AUS:
 				return mainCheckAus;
