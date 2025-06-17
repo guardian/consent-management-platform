@@ -70,10 +70,6 @@ jobs:
         working-directory: "./cdk"
         run: pnpm synth
 
-      - name: ZIP Lambda files
-        working-directory: "./cdk"
-        run: ./script/export-monitoring-file
-
       - name: ZIP Synthetics files
         working-directory: "./cdk"
         run: ./script/export-synthetics-file
