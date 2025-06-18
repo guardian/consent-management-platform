@@ -108,7 +108,7 @@ export class Monitoring extends GuStack {
 		});
 
 
-		// if (this.stage === 'PROD') {
+		if (this.stage === 'PROD') {
 			const emailSubscription = new EmailSubscription(
 				'transparency.and.consent@guardian.co.uk',
 			);
@@ -125,7 +125,7 @@ export class Monitoring extends GuStack {
 
 			alarm.addAlarmAction(alarmAction);
 			alarm.addOkAction(alarmAction);
-		// }
+		}
 
 
 		const buildId = new CfnParameter(this, 'BuildId', {
