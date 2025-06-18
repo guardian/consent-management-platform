@@ -1,8 +1,0 @@
-{
-	"extends": "@guardian/tsconfig",
-	"include": ["./**/*.ts"],
-	"compilerOptions": {
-		"moduleResolution": "node",
-		"module": "commonjs",
-	}
-}
