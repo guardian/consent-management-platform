@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-pnpm lint
-pnpm test
-pnpm synth
