@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-pnpm install --frozen-lockfile
-
-pnpm lint
-pnpm test
-pnpm synth

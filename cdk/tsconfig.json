@@ -1,36 +1,12 @@
 {
-	"extends": "@guardian/tsconfig",
-	"ts-node": {
-		"compilerOptions": {
-			"module": "CommonJS"
-		}
-	},
-	"compilerOptions": {
-		"lib": ["ES2020"],
-		"declaration": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"noImplicitThis": true,
-		"alwaysStrict": true,
-		"noUnusedParameters": false,
-		"noFallthroughCasesInSwitch": false,
-		"inlineSourceMap": true,
-		"inlineSources": true,
-		"experimentalDecorators": true,
-		"strictPropertyInitialization": false,
-		"typeRoots": ["./node_modules/@types"],
-		"outDir": "dist",
-		"allowJs": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"removeComments": true,
-	},
-	"include": ["lib/**/*", "bin/**/*"],
-	"exclude": [
-		"node_modules",
-		"cdk.out",
-		"lib/**/*.test.ts",
-		"lib/**/__snapshots__/**",
-		"**/*.d.ts"
-	]
+  "extends": "@guardian/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS"
+  },
+  "include": ["lib/**/*", "bin/**/*"],
+  "exclude": [
+    "node_modules",
+    "cdk.out",
+    "lib/**/__snapshots__/**"
+  ]
 }

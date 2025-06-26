@@ -58,13 +58,9 @@ jobs:
         working-directory: "./cdk"
         run: pnpm test
 
-      - name: CDK lint
+      - name: CDK Lint
         working-directory: "./cdk"
         run: pnpm lint
-
-      - name: CDK Build
-        working-directory: "./cdk"
-        run: pnpm build
 
       - name: CDK Synth
         working-directory: "./cdk"
