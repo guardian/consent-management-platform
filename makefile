@@ -61,6 +61,8 @@ help:
 	@echo "make cdk-clean"
 	@echo "make cdk-update"
 	@echo "make clean"
+	@echo "make update"
+	@echo "make validate"
 
 define log
 		@node scripts/log $(1)
@@ -69,7 +71,6 @@ endef
 # Synthetics targets
 synthetics-install:
 	$(call log, "Installing synthetics dependencies...")
-	cd synthetics && pnpm test
 	cd synthetics && pnpm install
 
 synthetics-test:
@@ -103,6 +104,8 @@ synthetics-update:
 	$(call log, "Updating synthetics dependencies...")
 	cd synthetics && pnpm update -L -i
 
+synthetics-validate: synthetics-install synthetics-test synthetics-lint synthetics-build
+	$(call log, "All synthetics tasks completed successfully.")
 
 
 # CDK targets
@@ -151,9 +154,15 @@ cdk-clean:
 	$(call log, "Cleaning CDK...")
 	cd cdk && rm -rf node_modules dist coverage cdk.out
 
+cdk-validate: cdk-install cdk-test cdk-lint
+	$(call log, "All CDK tasks completed successfully.")
+
 clean: synthetics-clean cdk-clean
 	$(call log, "Cleaning all artifacts...")
 
 update: synthetics-update cdk-update
 	$(call log, "Updating all dependencies...")
 	$(call log, "All dependencies updated successfully.")
+
+validate: cdk-validate synthetics-validate
+	$(call log, "All validations completed successfully.")
