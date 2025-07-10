@@ -12,6 +12,8 @@ export const main = async (browserType, region, stage) => {
 		Log.info("Config generated:", configWrapper.config);
 
 		await configWrapper.run(browserType);
+		
+		Log.info("Tests completed successfully");
 	} catch (error) {
 		let errorMessage = "Unknown Error!";
 
@@ -24,8 +26,5 @@ export const main = async (browserType, region, stage) => {
 		Log.error(`Finished with failure: ${errorMessage}`);
 		console.error("Error in handler:", error);
 		throw error; // Rethrow the error to ensure the Lambda function fails
-	} finally {
-		// Ensure browser is closed
-		await browserType.close();
 	}
 };

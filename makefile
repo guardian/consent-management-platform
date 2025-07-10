@@ -67,41 +67,43 @@ define log
 endef
 
 # Synthetics targets
+# These targets automatically use the Node version specified in synthetics/.nvmrc
+# via the reusable scripts/with-node-version.sh script
 synthetics-install:
 	$(call log, "Installing synthetics dependencies...")
-	cd synthetics && pnpm test
-	cd synthetics && pnpm install
+	@./scripts/with-node-version.sh synthetics "pnpm install && npx playwright install chromium"
 
 synthetics-test:
 	$(call log, "Running synthetics tests...")
-	cd synthetics && pnpm test
+	@./scripts/with-node-version.sh synthetics "pnpm test"
 
 synthetics-test-dev:
 	$(call log, "Running synthetics tests in watch mode...")
-	cd synthetics && pnpm run test:dev
+	@./scripts/with-node-version.sh synthetics "pnpm run test:dev"
 
 synthetics-lint:
 	$(call log, " Running synthetics lint....")
-	cd synthetics && pnpm run lint
+	@./scripts/with-node-version.sh synthetics "pnpm run lint"
 
 synthetics-build:
 	$(call log, "Building synthetics project...")
-	cd synthetics && pnpm run build
+	@./scripts/with-node-version.sh synthetics "pnpm run build"
 
 synthetics-start:
 	$(call log, "Run synthetics locally...")
-	cd synthetics && pnpm start
+	@./scripts/with-node-version.sh synthetics "pnpm start"
 
 synthetics-start-debug:
 	$(call log, "Run synthetics locally...")
-	cd synthetics && DEBUG_MODE=true pnpm start
+	@./scripts/with-node-version.sh synthetics "DEBUG_MODE=true pnpm start"
 
 synthetics-clean:
 	$(call log, "Cleaning synthetics...")
 	cd synthetics && rm -rf node_modules dist coverage
+
 synthetics-update:
 	$(call log, "Updating synthetics dependencies...")
-	cd synthetics && pnpm update -L -i
+	@./scripts/with-node-version.sh synthetics "pnpm update -L -i"
 
 
 

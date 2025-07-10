@@ -61,7 +61,10 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 	await page.close();
 	await browser.close();
 
-	const browserForSecondLayer = await makeNewBrowser(browserType, config.debugMode);
+	const browserForSecondLayer = await makeNewBrowser(
+		browserType,
+		config.debugMode,
+	);
 	const contextForSecondLayer = await makeNewContext(browserForSecondLayer);
 	const pageForSecondLayer = await makeNewPage(contextForSecondLayer);
 
@@ -106,11 +109,7 @@ const checkSubsequentPage = async (context, config, url) => {
 	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
-	await clickBannerButton(
-		page,
-		"Yes I'm Happy",
-		BannerInteractions.ACCEPT_ALL,
-	);
+	await clickBannerButton(page, "Accept all", BannerInteractions.ACCEPT_ALL);
 
 	await Promise.all([checkCMPIsNotVisible(page), checkAds(page)]);
 	await page.close();
