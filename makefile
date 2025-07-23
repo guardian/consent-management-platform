@@ -61,7 +61,6 @@ help:
 	@echo "make cdk-clean"
 	@echo "make cdk-update"
 	@echo "make clean"
-	@echo "make set-stack-policy STACK_NAME=cmp-monitoring-CODE/PROD"
 
 define log
 		@node scripts/log $(1)
@@ -160,7 +159,3 @@ clean: synthetics-clean cdk-clean
 update: synthetics-update cdk-update
 	$(call log, "Updating all dependencies...")
 	$(call log, "All dependencies updated successfully.")
-
-# Set stack policy
-set-stack-policy:
-	aws cloudformation set-stack-policy --stack-name $(STACK_NAME) --stack-policy-body file://cdk/stack-policy.json --profile frontend
