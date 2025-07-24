@@ -353,11 +353,7 @@ const checkSubsequentPage = async (context, config, url, bannerType) => {
 	await Promise.all([clearCookies(page), clearLocalStorage(page)]);
 	await reloadPage(page);
 	await checkTopAdDidNotLoad(page);
-	await clickBannerButton(
-		page,
-		"Yes I'm Happy",
-		BannerInteractions.ACCEPT_ALL,
-	);
+	await clickBannerButton(page, "Accept all", BannerInteractions.ACCEPT_ALL);
 	await Promise.all([
 		checkCMPIsNotVisible(page),
 		isUsingPersonalisedAds(page),
