@@ -50,14 +50,11 @@ export const checkCMPIsNotVisible = async (page) => {
 
 	try {
 		// Wait for the CMP to become hidden with a timeout
-		await cmpl.waitFor({ state: 'hidden', timeout: 10000 });
+		await cmpl.waitFor({ state: "hidden", timeout: 10000 });
 	} catch (error) {
-		if (error.name === 'TimeoutError') {
-			// If it times out, check one more time if it's visible
-			if (await cmpl.isVisible()) {
-				Log.error("CMP is still visible after timeout");
-				throw Error("CMP still present on page");
-			}
+		if (error.name === "TimeoutError") {
+			Log.error("CMP is still visible after timeout");
+			throw Error("CMP still present on page");
 		} else {
 			throw error;
 		}
