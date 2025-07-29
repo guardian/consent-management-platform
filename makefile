@@ -110,43 +110,43 @@ synthetics-update:
 # CDK targets
 cdk-install:
 	$(call log, "Installing CDK dependencies...")
-	cd cdk && pnpm install
+	@./scripts/with-node-version.sh cdk "pnpm install"
 
 cdk-build:
 	$(call log, "Building CDK project...")
-	cd cdk && pnpm run build
+	@./scripts/with-node-version.sh cdk "pnpm run build"
 
 cdk-watch:
 	$(call log, "Building CDK project in watch mode...")
-	cd cdk && pnpm run watch
+	@./scripts/with-node-version.sh cdk "pnpm run watch"
 
 cdk-test:
 	$(call log, "Running CDK tests...")
-	cd cdk && pnpm test
+	@./scripts/with-node-version.sh cdk "pnpm test"
 
 cdk-test-dev:
 	$(call log, "Running CDK tests in watch mode...")
-	cd cdk && pnpm run test:dev
+	@./scripts/with-node-version.sh cdk "pnpm run test:dev"
 
 cdk-format:
 	$(call log, "Formatting CDK code...")
-	cd cdk && pnpm run format
+	@./scripts/with-node-version.sh cdk "pnpm run format"
 
 cdk-lint:
 	$(call log, "Running CDK lint...")
-	cd cdk && pnpm run lint
+	@./scripts/with-node-version.sh cdk "pnpm run lint"
 
 cdk-synth:
 	$(call log, "Synthesizing CDK stack...")
-	cd cdk && pnpm run synth
+	@./scripts/with-node-version.sh cdk "pnpm run synth"
 
 cdk-diff:
 	$(call log, "Showing CDK diff...")
-	cd cdk && pnpm run diff
+	@./scripts/with-node-version.sh cdk "pnpm run diff"
 
 cdk-update:
 	$(call log, "Updating cdk dependencies...")
-	cd cdk && pnpm update -L -i
+	@./scripts/with-node-version.sh cdk "pnpm update -L -i"
 
 # Clean CDK artifacts
 cdk-clean:
