@@ -31,6 +31,7 @@
 #   cdk-diff: Show the CDK diff
 #   cdk-update: Update dependencies for the CDK project
 #   cdk-clean: Clean the CDK project artifacts
+#   install: Install dependencies for both projects
 #   clean: Clean all artifacts from both projects
 #   update: Update all dependencies for both projects
 #   help: Show this help message
@@ -62,6 +63,7 @@ help:
 	@echo "make cdk-diff"
 	@echo "make cdk-update"
 	@echo "make cdk-clean"
+	@echo "make install"
 	@echo "make clean"
 	@echo "make update"
 
@@ -70,8 +72,6 @@ define log
 endef
 
 # Synthetics targets
-# These targets automatically use the Node version specified in synthetics/.nvmrc
-# via the reusable scripts/with-node-version.sh script
 synthetics-install:
 	$(call log, "Installing synthetics dependencies...")
 	cd synthetics && pnpm install
@@ -166,8 +166,15 @@ cdk-clean:
 	$(call log, "Cleaning CDK...")
 	cd cdk && rm -rf node_modules dist coverage cdk.out
 
+
+# Targets for managing both projects
+install: synthetics-install cdk-install
+	$(call log, "Installing all dependencies...")
+	$(call log, "All dependencies installed successfully.")
+
 clean: synthetics-clean cdk-clean
 	$(call log, "Cleaning all artifacts...")
+	$(call log, "All artifacts cleaned successfully.")
 
 update: synthetics-update cdk-update
 	$(call log, "Updating all dependencies...")
