@@ -71,31 +71,32 @@ endef
 # via the reusable scripts/with-node-version.sh script
 synthetics-install:
 	$(call log, "Installing synthetics dependencies...")
-	@./scripts/with-node-version.sh synthetics "pnpm install && npx playwright install chromium"
+	cd synthetics && pnpm install
+	cd synthetics && npx playwright install chromium
 
 synthetics-test:
 	$(call log, "Running synthetics tests...")
-	@./scripts/with-node-version.sh synthetics "pnpm test"
+	cd synthetics && pnpm test
 
 synthetics-test-dev:
 	$(call log, "Running synthetics tests in watch mode...")
-	@./scripts/with-node-version.sh synthetics "pnpm run test:dev"
+	cd synthetics && pnpm run test:dev
 
 synthetics-lint:
 	$(call log, " Running synthetics lint....")
-	@./scripts/with-node-version.sh synthetics "pnpm run lint"
+	cd synthetics && pnpm run lint
 
 synthetics-build:
 	$(call log, "Building synthetics project...")
-	@./scripts/with-node-version.sh synthetics "pnpm run build"
+	cd synthetics && pnpm run build
 
 synthetics-start:
 	$(call log, "Run synthetics locally...")
-	@./scripts/with-node-version.sh synthetics "pnpm start"
+	cd synthetics && pnpm start
 
 synthetics-start-debug:
 	$(call log, "Run synthetics locally...")
-	@./scripts/with-node-version.sh synthetics "DEBUG_MODE=true pnpm start"
+	cd synthetics && DEBUG_MODE=true pnpm start
 
 synthetics-clean:
 	$(call log, "Cleaning synthetics...")
@@ -103,50 +104,50 @@ synthetics-clean:
 
 synthetics-update:
 	$(call log, "Updating synthetics dependencies...")
-	@./scripts/with-node-version.sh synthetics "pnpm update -L -i"
+	cd synthetics && pnpm update -L -i
 
 
 
 # CDK targets
 cdk-install:
 	$(call log, "Installing CDK dependencies...")
-	@./scripts/with-node-version.sh cdk "pnpm install"
+	cd cdk && pnpm install
 
 cdk-build:
 	$(call log, "Building CDK project...")
-	@./scripts/with-node-version.sh cdk "pnpm run build"
+	cd cdk && pnpm run build
 
 cdk-watch:
 	$(call log, "Building CDK project in watch mode...")
-	@./scripts/with-node-version.sh cdk "pnpm run watch"
+	cd cdk && pnpm run watch
 
 cdk-test:
 	$(call log, "Running CDK tests...")
-	@./scripts/with-node-version.sh cdk "pnpm test"
+	cd cdk && pnpm test
 
 cdk-test-dev:
 	$(call log, "Running CDK tests in watch mode...")
-	@./scripts/with-node-version.sh cdk "pnpm run test:dev"
+	cd cdk && pnpm run test:dev
 
 cdk-format:
 	$(call log, "Formatting CDK code...")
-	@./scripts/with-node-version.sh cdk "pnpm run format"
+	cd cdk && pnpm run format
 
 cdk-lint:
 	$(call log, "Running CDK lint...")
-	@./scripts/with-node-version.sh cdk "pnpm run lint"
+	cd cdk && pnpm run lint
 
 cdk-synth:
 	$(call log, "Synthesizing CDK stack...")
-	@./scripts/with-node-version.sh cdk "pnpm run synth"
+	cd cdk && pnpm run synth
 
 cdk-diff:
 	$(call log, "Showing CDK diff...")
-	@./scripts/with-node-version.sh cdk "pnpm run diff"
+	cd cdk && pnpm run diff
 
 cdk-update:
 	$(call log, "Updating cdk dependencies...")
-	@./scripts/with-node-version.sh cdk "pnpm update -L -i"
+	cd cdk && pnpm update -L -i
 
 # Clean CDK artifacts
 cdk-clean:
