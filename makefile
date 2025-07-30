@@ -123,11 +123,15 @@ cdk-watch:
 
 cdk-test:
 	$(call log, "Running CDK tests...")
-	cd cdk && pnpm test
+	cd cdk && pnpm run test
 
 cdk-test-dev:
 	$(call log, "Running CDK tests in watch mode...")
 	cd cdk && pnpm run test:dev
+
+cdk-test-update:
+	$(call log, "Running CDK tests and updating snapshot files...")
+	cd cdk && pnpm run test-update
 
 cdk-format:
 	$(call log, "Formatting CDK code...")
