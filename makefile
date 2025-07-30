@@ -149,7 +149,12 @@ cdk-synth:
 
 cdk-diff:
 	$(call log, "Showing CDK diff...")
-	cd cdk && pnpm run diff
+	@if [ -z "$$AWS_PROFILE" ]; then \
+		echo "Error: AWS_PROFILE is not set - please run 'export AWS_PROFILE=<profile>' before running this command."; \
+    	exit 1; \
+	else \
+		cd cdk && pnpm run diff; \
+	fi
 
 cdk-update:
 	$(call log, "Updating cdk dependencies...")
