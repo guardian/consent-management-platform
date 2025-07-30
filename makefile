@@ -24,6 +24,7 @@
 #   cdk-watch: Build the CDK project in watch mode
 #   cdk-test: Run tests for the CDK project
 #   cdk-test-dev: Run tests for the CDK project in watch mode
+#   cdk-test-update: Run tests for the CDK project and update snapshot files
 #   cdk-format: Format the CDK code
 #   cdk-lint: Run linting for the CDK project
 #   cdk-synth: Synthesize the CDK stack
@@ -54,6 +55,7 @@ help:
 	@echo "make cdk-watch"
 	@echo "make cdk-test"
 	@echo "make cdk-test-dev"
+	@echo "make cdk-test-update"
 	@echo "make cdk-format"
 	@echo "make cdk-lint"
 	@echo "make cdk-synth"
