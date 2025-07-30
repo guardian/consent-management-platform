@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "test-update": "jest -u",
     "format": "prettier --write \"{lib,bin}/**/*.ts\"",
