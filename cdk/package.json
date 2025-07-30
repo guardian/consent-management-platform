@@ -8,7 +8,7 @@
 		"test:dev": "jest --watch",
 		"test-update": "jest -u",
 		"format": "prettier --write \"{lib,bin}/**/*.ts\"",
-		"lint": "eslint lib/** bin/** --no-error-on-unmatched-pattern",
+		"lint": "eslint \"lib/**/*.ts\" \"bin/**/*.ts\" --no-error-on-unmatched-pattern",
 		"synth": "cdk synth --path-metadata false --version-reporting false",
 		"diff": "cdk diff --path-metadata false --version-reporting false",
 		"watch": "tsc -p tsconfig.build.json --watch"
