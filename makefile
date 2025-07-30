@@ -29,8 +29,8 @@
 #   cdk-lint: Run linting for the CDK project
 #   cdk-synth: Synthesize the CDK stack
 #   cdk-diff: Show the CDK diff
-#   cdk-clean: Clean the CDK project artifacts
 #   cdk-update: Update dependencies for the CDK project
+#   cdk-clean: Clean the CDK project artifacts
 #   clean: Clean all artifacts from both projects
 #   update: Update all dependencies for both projects
 #   help: Show this help message
@@ -60,9 +60,10 @@ help:
 	@echo "make cdk-lint"
 	@echo "make cdk-synth"
 	@echo "make cdk-diff"
-	@echo "make cdk-clean"
 	@echo "make cdk-update"
+	@echo "make cdk-clean"
 	@echo "make clean"
+	@echo "make update"
 
 define log
 		@node scripts/log $(1)
