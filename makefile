@@ -1,8 +1,9 @@
-.PHONY: help clean
+.PHONY: help clean update install
 .PHONY: synthetics-install synthetics-test synthetics-test-dev synthetics-lint
 .PHONY: synthetics-build synthetics-start synthetics-clean synthetics-update
 .PHONY: synthetics-start-debug
-.PHONY: cdk-install cdk-build cdk-watch cdk-test cdk-test-dev cdk-format cdk-lint cdk-synth cdk-diff cdk-clean cdk-update
+.PHONY: cdk-install cdk-build cdk-test cdk-test-dev cdk-test-update cdk-format
+.PHONY: cdk-lint cdk-synth cdk-diff cdk-clean cdk-update
 # Makefile for managing synthetics and CDK projects
 # This Makefile provides a set of commands to manage the synthetics and CDK projects
 # including installation, testing, linting, building, and cleaning.
@@ -21,7 +22,6 @@
 #   synthetics-update: Update dependencies for the synthetics project
 #   cdk-install: Install dependencies for the CDK project
 #   cdk-build: Build the CDK project
-#   cdk-watch: Build the CDK project in watch mode
 #   cdk-test: Run tests for the CDK project
 #   cdk-test-dev: Run tests for the CDK project in watch mode
 #   cdk-test-update: Run tests for the CDK project and update snapshot files
@@ -53,7 +53,6 @@ help:
 	@echo "make synthetics-update"
 	@echo "make cdk-install"
 	@echo "make cdk-build"
-	@echo "make cdk-watch"
 	@echo "make cdk-test"
 	@echo "make cdk-test-dev"
 	@echo "make cdk-test-update"
@@ -119,10 +118,6 @@ cdk-install:
 cdk-build:
 	$(call log, "Building CDK project...")
 	cd cdk && pnpm run build
-
-cdk-watch:
-	$(call log, "Building CDK project in watch mode...")
-	cd cdk && pnpm run watch
 
 cdk-test:
 	$(call log, "Running CDK tests...")
