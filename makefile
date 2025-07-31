@@ -1,8 +1,9 @@
-.PHONY: help clean
+.PHONY: help clean update install
 .PHONY: synthetics-install synthetics-test synthetics-test-dev synthetics-lint
 .PHONY: synthetics-build synthetics-start synthetics-clean synthetics-update
 .PHONY: synthetics-start-debug
-.PHONY: cdk-install cdk-build cdk-watch cdk-test cdk-test-dev cdk-format cdk-lint cdk-synth cdk-diff cdk-clean cdk-update
+.PHONY: cdk-install cdk-build cdk-test cdk-test-dev cdk-test-update cdk-format
+.PHONY: cdk-lint cdk-synth cdk-diff cdk-clean cdk-update
 # Makefile for managing synthetics and CDK projects
 # This Makefile provides a set of commands to manage the synthetics and CDK projects
 # including installation, testing, linting, building, and cleaning.
@@ -21,15 +22,16 @@
 #   synthetics-update: Update dependencies for the synthetics project
 #   cdk-install: Install dependencies for the CDK project
 #   cdk-build: Build the CDK project
-#   cdk-watch: Build the CDK project in watch mode
 #   cdk-test: Run tests for the CDK project
 #   cdk-test-dev: Run tests for the CDK project in watch mode
+#   cdk-test-update: Run tests for the CDK project and update snapshot files
 #   cdk-format: Format the CDK code
 #   cdk-lint: Run linting for the CDK project
 #   cdk-synth: Synthesize the CDK stack
 #   cdk-diff: Show the CDK diff
-#   cdk-clean: Clean the CDK project artifacts
 #   cdk-update: Update dependencies for the CDK project
+#   cdk-clean: Clean the CDK project artifacts
+#   install: Install dependencies for both projects
 #   clean: Clean all artifacts from both projects
 #   update: Update all dependencies for both projects
 #   help: Show this help message
@@ -51,24 +53,24 @@ help:
 	@echo "make synthetics-update"
 	@echo "make cdk-install"
 	@echo "make cdk-build"
-	@echo "make cdk-watch"
 	@echo "make cdk-test"
 	@echo "make cdk-test-dev"
+	@echo "make cdk-test-update"
 	@echo "make cdk-format"
 	@echo "make cdk-lint"
 	@echo "make cdk-synth"
 	@echo "make cdk-diff"
-	@echo "make cdk-clean"
 	@echo "make cdk-update"
+	@echo "make cdk-clean"
+	@echo "make install"
 	@echo "make clean"
+	@echo "make update"
 
 define log
 		@node scripts/log $(1)
 endef
 
 # Synthetics targets
-# These targets automatically use the Node version specified in synthetics/.nvmrc
-# via the reusable scripts/with-node-version.sh script
 synthetics-install:
 	$(call log, "Installing synthetics dependencies...")
 	cd synthetics && pnpm install
@@ -117,17 +119,17 @@ cdk-build:
 	$(call log, "Building CDK project...")
 	cd cdk && pnpm run build
 
-cdk-watch:
-	$(call log, "Building CDK project in watch mode...")
-	cd cdk && pnpm run watch
-
 cdk-test:
 	$(call log, "Running CDK tests...")
-	cd cdk && pnpm test
+	cd cdk && pnpm run test
 
 cdk-test-dev:
 	$(call log, "Running CDK tests in watch mode...")
 	cd cdk && pnpm run test:dev
+
+cdk-test-update:
+	$(call log, "Running CDK tests and updating snapshot files...")
+	cd cdk && pnpm run test-update
 
 cdk-format:
 	$(call log, "Formatting CDK code...")
@@ -143,7 +145,7 @@ cdk-synth:
 
 cdk-diff:
 	$(call log, "Showing CDK diff...")
-	cd cdk && pnpm run diff
+	cd cdk && AWS_PROFILE=frontend pnpm run diff
 
 cdk-update:
 	$(call log, "Updating cdk dependencies...")
@@ -154,8 +156,15 @@ cdk-clean:
 	$(call log, "Cleaning CDK...")
 	cd cdk && rm -rf node_modules dist coverage cdk.out
 
+
+# Targets for managing both projects
+install: synthetics-install cdk-install
+	$(call log, "Installing all dependencies...")
+	$(call log, "All dependencies installed successfully.")
+
 clean: synthetics-clean cdk-clean
 	$(call log, "Cleaning all artifacts...")
+	$(call log, "All artifacts cleaned successfully.")
 
 update: synthetics-update cdk-update
 	$(call log, "Updating all dependencies...")
