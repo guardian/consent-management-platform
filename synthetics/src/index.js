@@ -7,5 +7,6 @@ export const handler = async () => {
 	// Validate the input event
 	Validation.hasCorrectEnvironmentVariables();
 	const { region, stage } = process.env;
-	await main(synthetics, region, stage);
+	const spEnv = process.env.SOURCEPOINT_ENVIRONMENT || "prod";
+	await main(synthetics, region, stage, spEnv);
 };
