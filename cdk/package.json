@@ -19,17 +19,17 @@
 		"@guardian/prettier": "8.0.1",
 		"@guardian/tsconfig": "^1.0.0",
 		"@types/jest": "^30.0.0",
-		"@types/node": "24.1.0",
-		"aws-cdk": "2.1022.0",
-		"aws-cdk-lib": "2.207.0",
+		"@types/node": "24.2.0",
+		"aws-cdk": "2.1024.0",
+		"aws-cdk-lib": "2.209.1",
 		"constructs": "10.4.2",
 		"eslint": "^9.32.0",
 		"jest": "^30.0.5",
 		"prettier": "^3.6.2",
 		"source-map-support": "^0.5.20",
-		"ts-jest": "^29.3.4",
+		"ts-jest": "^29.4.1",
 		"ts-node": "^10.9.2",
-		"typescript": "5.8.3"
+		"typescript": "5.9.2"
 	},
 	"prettier": "@guardian/prettier",
 	"jest": {
