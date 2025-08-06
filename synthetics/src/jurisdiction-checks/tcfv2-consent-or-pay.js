@@ -20,9 +20,13 @@ import {
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
 } from "../utils/cmp-checks.js";
-import { BannerInteractions, ELEMENT_ID } from "../utils/constants.js";
+import {
+	BannerInteractions,
+	ELEMENT_ID,
+	JURISDICTIONS,
+} from "../utils/constants.js";
 import { Log } from "../utils/log.js";
-import { appendQueryParams } from "../utils/url-builder.js";
+import { appendQueryParams, constructFrontsUrl } from "../utils/url-builder.js";
 
 const BannerType = {
 	CONSENT_OR_PAY_SIGNED_IN: "consent_or_pay_signed_in",
@@ -35,7 +39,11 @@ export const mainCheck = async (browserType, config) => {
 	await checkConsentOrPayBanner(
 		browserType,
 		config,
-		appendQueryParams(config.frontUrl, config),
+		appendQueryParams(
+			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
+			config,
+			false,
+		),
 		appendQueryParams(config.articleUrl, config),
 		BannerInteractions.ACCEPT_ALL,
 		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
@@ -45,7 +53,11 @@ export const mainCheck = async (browserType, config) => {
 	await checkConsentOrPayBanner(
 		browserType,
 		config,
-		appendQueryParams(config.frontUrl, config),
+		appendQueryParams(
+			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
+			config,
+			false,
+		),
 		``,
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
@@ -55,7 +67,11 @@ export const mainCheck = async (browserType, config) => {
 	await checkNonAdvertisingBanner(
 		browserType,
 		config,
-		appendQueryParams(config.frontUrl, config),
+		appendQueryParams(
+			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
+			config,
+			false,
+		),
 		appendQueryParams(config.articleUrl, config),
 		BannerInteractions.ACCEPT_ALL,
 	);
@@ -64,7 +80,11 @@ export const mainCheck = async (browserType, config) => {
 	await checkNonAdvertisingBanner(
 		browserType,
 		config,
-		appendQueryParams(config.frontUrl, config),
+		appendQueryParams(
+			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
+			config,
+			false,
+		),
 		appendQueryParams(config.articleUrl, config),
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 	);

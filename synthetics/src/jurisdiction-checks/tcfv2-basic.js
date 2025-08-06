@@ -20,9 +20,9 @@ import {
 	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
 } from "../utils/cmp-checks.js";
-import { BannerInteractions } from "../utils/constants.js";
+import { BannerInteractions, JURISDICTIONS } from "../utils/constants.js";
 import { Log } from "../utils/log.js";
-import { appendQueryParams } from "../utils/url-builder.js";
+import { appendQueryParams, constructFrontsUrl } from "../utils/url-builder.js";
 
 export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for TCFV2: Start");
@@ -31,7 +31,11 @@ export const mainCheck = async (browserType, config) => {
 	await checkPages({
 		browserType,
 		config,
-		url: appendQueryParams(config.frontUrl, config),
+		url: appendQueryParams(
+			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2),
+			config,
+			false,
+		),
 		nextUrl: appendQueryParams(config.articleUrl, config),
 	});
 	// Check the article page
