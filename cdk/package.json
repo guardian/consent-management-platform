@@ -1,45 +1,47 @@
 {
-  "name": "cdk",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "build": "tsc",
-    "test": "jest",
-    "test-update": "jest -u",
-    "format": "prettier --write \"{lib,bin}/**/*.ts\"",
-    "lint": "eslint lib/** bin/** --no-error-on-unmatched-pattern",
-    "synth": "cdk synth --path-metadata false --version-reporting false",
-    "diff": "cdk diff --path-metadata false --version-reporting false"
-  },
-  "devDependencies": {
-    "@guardian/cdk": "61.10.1",
-    "@guardian/eslint-config": "^11.0.0",
-    "@guardian/prettier": "8.0.1",
-    "@guardian/tsconfig": "^1.0.0",
-    "@types/jest": "^30.0.0",
-    "@types/node": "24.1.0",
-    "aws-cdk": "2.1022.0",
-    "aws-cdk-lib": "2.207.0",
-    "constructs": "10.4.2",
-    "eslint": "^9.32.0",
-    "jest": "^30.0.5",
-    "prettier": "^3.6.2",
-    "source-map-support": "^0.5.20",
-    "ts-jest": "^29.3.4",
-    "ts-node": "^10.9.2",
-    "typescript": "5.8.3"
-  },
-  "prettier": "@guardian/prettier",
-  "jest": {
-    "testMatch": [
-      "<rootDir>/lib/**/*.test.ts"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ]
-  },
-  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af"
+	"name": "cdk",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"test": "jest",
+		"test:dev": "jest --watch",
+		"test-update": "jest -u",
+		"format": "prettier --write \"{lib,bin}/**/*.ts\"",
+		"lint": "eslint \"lib/**/*.ts\" \"bin/**/*.ts\" --no-error-on-unmatched-pattern",
+		"synth": "cdk synth --path-metadata false --version-reporting false",
+		"diff": "cdk diff --path-metadata false --version-reporting false",
+		"watch": "tsc -p tsconfig.build.json --watch"
+	},
+	"devDependencies": {
+		"@guardian/cdk": "61.10.1",
+		"@guardian/eslint-config": "^11.0.0",
+		"@guardian/prettier": "8.0.1",
+		"@guardian/tsconfig": "^1.0.0",
+		"@types/jest": "^30.0.0",
+		"@types/node": "24.1.0",
+		"aws-cdk": "2.1022.0",
+		"aws-cdk-lib": "2.207.0",
+		"constructs": "10.4.2",
+		"eslint": "^9.32.0",
+		"jest": "^30.0.5",
+		"prettier": "^3.6.2",
+		"source-map-support": "^0.5.20",
+		"ts-jest": "^29.3.4",
+		"ts-node": "^10.9.2",
+		"typescript": "5.8.3"
+	},
+	"prettier": "@guardian/prettier",
+	"jest": {
+		"testMatch": [
+			"<rootDir>/lib/**/*.test.ts"
+		],
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"setupFilesAfterEnv": [
+			"./jest.setup.js"
+		]
+	},
+	"packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af"
 }

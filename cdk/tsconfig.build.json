@@ -1,0 +1,8 @@
+{
+	"extends": "@guardian/tsconfig/tsconfig.json",
+	"include": ["lib/**/*", "bin/**/*"],
+	"exclude": ["node_modules", "cdk.out", "lib/**/__snapshots__/**"],
+	"compilerOptions": {
+		"outDir": "dist"
+	}
+}
