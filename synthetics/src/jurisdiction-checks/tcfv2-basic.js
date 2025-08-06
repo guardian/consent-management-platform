@@ -31,11 +31,7 @@ export const mainCheck = async (browserType, config) => {
 	await checkPages({
 		browserType,
 		config,
-		url: appendQueryParams(
-			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2),
-			config,
-			false,
-		),
+		url: constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2, config),
 		nextUrl: appendQueryParams(config.articleUrl, config),
 	});
 	// Check the article page

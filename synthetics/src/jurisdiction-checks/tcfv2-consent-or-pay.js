@@ -39,11 +39,7 @@ export const mainCheck = async (browserType, config) => {
 	await checkConsentOrPayBanner(
 		browserType,
 		config,
-		appendQueryParams(
-			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
-			config,
-			false,
-		),
+		constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP, config),
 		appendQueryParams(config.articleUrl, config),
 		BannerInteractions.ACCEPT_ALL,
 		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
@@ -53,11 +49,7 @@ export const mainCheck = async (browserType, config) => {
 	await checkConsentOrPayBanner(
 		browserType,
 		config,
-		appendQueryParams(
-			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
-			config,
-			false,
-		),
+		constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP, config),
 		``,
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
@@ -67,11 +59,7 @@ export const mainCheck = async (browserType, config) => {
 	await checkNonAdvertisingBanner(
 		browserType,
 		config,
-		appendQueryParams(
-			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
-			config,
-			false,
-		),
+		constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP, config),
 		appendQueryParams(config.articleUrl, config),
 		BannerInteractions.ACCEPT_ALL,
 	);
@@ -80,11 +68,7 @@ export const mainCheck = async (browserType, config) => {
 	await checkNonAdvertisingBanner(
 		browserType,
 		config,
-		appendQueryParams(
-			constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP),
-			config,
-			false,
-		),
+		constructFrontsUrl(config.frontUrl, JURISDICTIONS.TCFV2CORP, config),
 		appendQueryParams(config.articleUrl, config),
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 	);

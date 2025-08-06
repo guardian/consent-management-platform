@@ -1,4 +1,4 @@
-import { JURISDICTIONS } from "./constants.js";
+import { JURISDICTIONS, STAGES } from "./constants.js";
 
 const getQueryParams = (config, includeAdTest) => {
 	const queryParams = new URLSearchParams();
@@ -13,25 +13,37 @@ const getQueryParams = (config, includeAdTest) => {
 	return queryParams.toString() ? `?${queryParams.toString()}` : "";
 };
 
-export const constructFrontsUrl = (url, jurisdiction) => {
-	let framework;
+export const constructFrontsUrl = (url, jurisdiction, config) => {
+	if (config.stage === STAGES.LOCAL) {
+		url = appendQueryParams(url, config, false);
+		url = appendRegionToUrl(url, jurisdiction);
+	} else {
+		url = appendRegionToUrl(url, jurisdiction);
+		url = appendQueryParams(url, config, false);
+	}
+
+	return url;
+};
+
+const appendRegionToUrl = (url, jurisdiction) => {
+	let region;
 
 	switch (jurisdiction) {
 		case JURISDICTIONS.AUS:
-			framework = "au";
+			region = "au";
 			break;
 		case JURISDICTIONS.USNAT:
-			framework = "us";
+			region = "us";
 			break;
 		case JURISDICTIONS.TCFV2:
-			framework = "europe";
+			region = "europe";
 			break;
 		case JURISDICTIONS.TCFV2CORP:
-			framework = "uk";
+			region = "uk";
 			break;
 	}
 
-	return `${url}/${framework}`;
+	return `${url}/${region}`;
 };
 
 export const appendQueryParams = (url, config, includeAdTest = true) => {
