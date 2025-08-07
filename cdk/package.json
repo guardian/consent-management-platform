@@ -3,14 +3,14 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"build": "tsc -p tsconfig.build.json",
+		"build": "tsc --outDir dist",
 		"test": "jest",
 		"test:dev": "jest --watch",
 		"test-update": "jest -u",
 		"format": "prettier --write \"{lib,bin}/**/*.ts\"",
 		"lint": "eslint \"lib/**/*.ts\" \"bin/**/*.ts\" --no-error-on-unmatched-pattern",
-		"synth": "cdk synth --path-metadata false --version-reporting false",
-		"diff": "cdk diff --path-metadata false --version-reporting false",
+		"synth": "tsc --outDir dist && cdk synth --app dist/bin/cdk.js --path-metadata false --version-reporting false",
+		"diff": "tsc --outDir dist && cdk diff --app dist/bin/cdk.js --path-metadata false --version-reporting false",
 		"watch": "tsc -p tsconfig.build.json --watch"
 	},
 	"devDependencies": {
