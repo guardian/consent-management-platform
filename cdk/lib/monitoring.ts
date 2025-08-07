@@ -1,5 +1,8 @@
-import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
-import { GuStack, GuStringParameter } from '@guardian/cdk/lib/constructs/core';
+import type { GuStackProps } from '@guardian/cdk/lib/constructs/core/index.js';
+import {
+	GuStack,
+	GuStringParameter,
+} from '@guardian/cdk/lib/constructs/core/index.js';
 import type { App } from 'aws-cdk-lib';
 import {
 	CfnParameter,
