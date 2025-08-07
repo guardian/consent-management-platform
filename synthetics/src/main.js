@@ -1,18 +1,19 @@
 import { ConfigWrapper } from "./utils/config/config-wrapper.js";
 import { Log } from "./utils/log.js";
 
-export const main = async (browserType, region, stage) => {
+export const main = async (browserType, region, stage, spEnv) => {
 	try {
 		const configWrapper = new ConfigWrapper(
 			region.toLowerCase(),
 			stage.toLowerCase(),
 			null,
+			spEnv.toLowerCase(),
 		);
 		configWrapper.generateConfig();
 		Log.info("Config generated:", configWrapper.config);
 
 		await configWrapper.run(browserType);
-		
+
 		Log.info("Tests completed successfully");
 	} catch (error) {
 		let errorMessage = "Unknown Error!";

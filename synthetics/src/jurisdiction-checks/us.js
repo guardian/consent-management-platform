@@ -11,25 +11,36 @@ import {
 	checkCMPIsOnPage,
 	checkGPCRespected,
 } from "../utils/cmp-checks.js";
-import { BannerInteractions } from "../utils/constants.js";
+import {
+	BannerInteractions,
+	JURISDICTIONS,
+	STAGES,
+} from "../utils/constants.js";
 import { Log } from "../utils/log.js";
+import { appendQueryParams, constructFrontsUrl } from "../utils/url-builder.js";
 
 export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for US: Start");
-	// Check the front page and subsequent article page
-	await checkPages({
-		browserType,
-		config,
-		url: `${config.frontUrl}?adtest=fixed-puppies`,
-		nextUrl: `${config.articleUrl}?adtest=fixed-puppies`,
-		isAmp: false,
-	});
+	// Check the front page and subsequent article page for CODE and PROD
+	if (config.stage !== STAGES.LOCAL) {
+		await checkPages({
+			browserType,
+			config,
+			url: constructFrontsUrl(
+				config.frontUrl,
+				JURISDICTIONS.USNAT,
+				config,
+			),
+			nextUrl: appendQueryParams(config.articleUrl, config),
+			isAmp: false,
+		});
+	}
 
 	// Check the article page
 	await checkPages({
 		browserType,
 		config,
-		url: `${config.articleUrl}?adtest=fixed-puppies`,
+		url: appendQueryParams(config.articleUrl, config),
 		isAmp: false,
 	});
 

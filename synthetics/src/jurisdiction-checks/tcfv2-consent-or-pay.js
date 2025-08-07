@@ -20,8 +20,14 @@ import {
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
 } from "../utils/cmp-checks.js";
-import { BannerInteractions, ELEMENT_ID } from "../utils/constants.js";
+import {
+	BannerInteractions,
+	ELEMENT_ID,
+	JURISDICTIONS,
+	STAGES,
+} from "../utils/constants.js";
 import { Log } from "../utils/log.js";
+import { appendQueryParams, constructFrontsUrl } from "../utils/url-builder.js";
 
 const BannerType = {
 	CONSENT_OR_PAY_SIGNED_IN: "consent_or_pay_signed_in",
@@ -31,44 +37,67 @@ const BannerType = {
 
 export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for TCFV2: Start");
-	await checkConsentOrPayBanner(
-		browserType,
-		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-		BannerInteractions.ACCEPT_ALL,
-		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
-	);
-	Log.line();
 
+	// Check the front page and subsequent article page for signed out users in CODE and PROD
+	if (config.stage !== STAGES.LOCAL) {
+		await checkConsentOrPayBanner(
+			browserType,
+			config,
+			constructFrontsUrl(
+				config.frontUrl,
+				JURISDICTIONS.TCFV2CORP,
+				config,
+			),
+			appendQueryParams(config.articleUrl, config),
+			BannerInteractions.ACCEPT_ALL,
+			BannerType.CONSENT_OR_PAY_SIGNED_OUT,
+		);
+		Log.line();
+	}
+
+	// Check only the article page for signed out users
 	await checkConsentOrPayBanner(
 		browserType,
 		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
+		appendQueryParams(config.articleUrl, config),
 		``,
 		BannerInteractions.REJECT_AND_SUBSCRIBE,
 		BannerType.CONSENT_OR_PAY_SIGNED_OUT,
 	);
 	Log.line();
 
-	await checkNonAdvertisingBanner(
-		browserType,
-		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-		BannerInteractions.ACCEPT_ALL,
-	);
-	Log.line();
+	// Check the front page and subsequent article page for non advertising banner in CODE and PROD
+	if (config.stage !== STAGES.LOCAL) {
+		await checkNonAdvertisingBanner(
+			browserType,
+			config,
+			constructFrontsUrl(
+				config.frontUrl,
+				JURISDICTIONS.TCFV2CORP,
+				config,
+			),
+			appendQueryParams(config.articleUrl, config),
+			BannerInteractions.ACCEPT_ALL,
+		);
+		Log.line();
+	}
 
-	await checkNonAdvertisingBanner(
-		browserType,
-		config,
-		`${config.frontUrl}?adtest=fixed-puppies`,
-		`${config.articleUrl}?adtest=fixed-puppies`,
-		BannerInteractions.REJECT_AND_SUBSCRIBE,
-	);
+	// Check the front page and subsequent article page for non advertising banner in CODE and PROD
+	if (config.stage !== STAGES.LOCAL) {
+		await checkNonAdvertisingBanner(
+			browserType,
+			config,
+			constructFrontsUrl(
+				config.frontUrl,
+				JURISDICTIONS.TCFV2CORP,
+				config,
+			),
+			appendQueryParams(config.articleUrl, config),
+			BannerInteractions.REJECT_AND_SUBSCRIBE,
+		);
 
-	Log.info("Main check for TCFV2: Complete");
+		Log.info("Main check for TCFV2: Complete");
+	}
 };
 
 /**
