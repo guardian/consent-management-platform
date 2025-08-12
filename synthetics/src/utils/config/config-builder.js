@@ -5,11 +5,12 @@ import { mainCheck as mainCheckUS } from "../../jurisdiction-checks/us.js";
 import { JURISDICTIONS, STAGES } from "../constants.js";
 
 export class ConfigBuilder {
-	static construct(stage, jurisdiction, region, isRunningAdhoc) {
+	static construct(stage, jurisdiction, region, isRunningAdhoc, spEnv) {
 		const config = {
 			stage: stage,
 			jurisdiction: jurisdiction,
 			region: region,
+			sourcepointEnvironment: spEnv,
 			isRunningAdhoc: isRunningAdhoc,
 			debugMode: process.env["DEBUG_MODE"] == "true",
 			frontUrl: this.getFrontUrl(stage),

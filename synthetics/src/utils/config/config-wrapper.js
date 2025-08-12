@@ -6,6 +6,7 @@ import { ConfigHelper } from "./config-helper.js";
 export class ConfigWrapper {
 	_jurisdiction;
 	_stage;
+	_spEnv;
 	_awsRegion;
 	_config;
 	_isRunningAdhoc;
@@ -27,10 +28,11 @@ export class ConfigWrapper {
 		return this._isRunningAdhoc;
 	}
 
-	constructor(_envAwsRegion, _envStage, _envJurisdiction) {
+	constructor(_envAwsRegion, _envStage, _envJurisdiction, _envSpEnv) {
 		this._jurisdiction = _envJurisdiction;
 		this._stage = _envStage;
 		this._awsRegion = _envAwsRegion;
+		this._spEnv = _envSpEnv;
 	}
 
 	async run(browserType) {
@@ -68,6 +70,7 @@ export class ConfigWrapper {
 			this._jurisdiction,
 			this._awsRegion,
 			this._isRunningAdhoc,
+			this._spEnv,
 		);
 	}
 }
