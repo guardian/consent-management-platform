@@ -6,7 +6,6 @@ import { ConfigHelper } from "./utils/config/config-helper.js";
 import { JURISDICTIONS, STAGES } from "./utils/constants.js";
 import { Log } from "./utils/log.js";
 
-
 const YELLOW = "\x1b[33m";
 const RESET = "\x1b[0m";
 /**
@@ -43,6 +42,11 @@ const argumentBasedCLI = async () => {
 	const program = new Command();
 
 	program
+		.option(
+			"--sp-env, --sp_env <sourcepoint_environment>",
+			"Specify the sourcepoint environment",
+			"prod",
+		)
 		.option("-s, --stage <stage>", "Specify the stage")
 		.option("-j, --jurisdiction <jurisdiction>", "Specify the jurisdiction")
 		.parse(process.argv);
@@ -50,9 +54,14 @@ const argumentBasedCLI = async () => {
 	const options = program.opts();
 
 	if (isArgumentValid(options)) {
-		const { stage, jurisdiction } = options;
+		const { stage, jurisdiction, sourcepoint_environment } = options;
 		const region = ConfigHelper.getRegion(jurisdiction);
-		await main(chromium, region.toLowerCase(), stage.toLowerCase());
+		await main(
+			chromium,
+			region.toLowerCase(),
+			stage.toLowerCase(),
+			sourcepoint_environment.toLowerCase(),
+		);
 	} else {
 		throw new NoArgumentsError();
 	}
@@ -70,6 +79,12 @@ const interactiveCLI = async () => {
 				return { name: val, value: val };
 			}),
 		}),
+		sourcepoint_environment: await select({
+			message: "Which Sourcepoint environment would you like to test?",
+			choices: ["prod", "stage"].map((val) => {
+				return { name: val, value: val };
+			}),
+		}),
 		jurisdiction: await select({
 			message: "Which jurisdiction would you like to test?",
 			choices: Object.values(JURISDICTIONS).map((val) => {
@@ -78,15 +93,20 @@ const interactiveCLI = async () => {
 		}),
 	};
 
-	const { stage, jurisdiction } = answers;
+	const { stage, jurisdiction, sourcepoint_environment } = answers;
 	Log.line();
 	console.log(
 		"To run again without interactive use the following function:",
-		`${YELLOW} pnpm start --stage ${stage} --jurisdiction ${jurisdiction} ${RESET}`,
+		`${YELLOW} pnpm start --stage ${stage} --jurisdiction ${jurisdiction} --sp_env ${sourcepoint_environment} ${RESET}`,
 	);
 	const region = ConfigHelper.getRegion(jurisdiction);
 
-	await main(chromium, region.toLowerCase(), stage.toLowerCase());
+	await main(
+		chromium,
+		region.toLowerCase(),
+		stage.toLowerCase(),
+		sourcepoint_environment.toLowerCase(),
+	);
 };
 
 const handler = async () => {
