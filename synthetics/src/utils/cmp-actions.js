@@ -26,6 +26,8 @@ export const clickSaveAndCloseSecondLayer = async (config, page) => {
  */
 export const openPrivacySettingsPanel = async (page, manageCookiesId) => {
 	Log.info(`Loading privacy settings panel: Start`);
+	// Wait for the CMP iframe to appear
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, { timeout: 10000 });
 
 	let manageButton = page
 		.frameLocator(ELEMENT_ID.CMP_CONTAINER)

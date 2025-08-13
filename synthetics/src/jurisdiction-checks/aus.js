@@ -5,7 +5,11 @@ import {
 	makeNewPage,
 	reloadPage,
 } from "../utils/browser-utils.js";
-import { clickBannerButton } from "../utils/cmp-actions.js";
+import {
+	checkPrivacySettingsPanelIsOpen,
+	clickBannerButton,
+	openPrivacySettingsPanel,
+} from "../utils/cmp-actions.js";
 import {
 	checkAds,
 	checkCMPIsNotVisible,
@@ -13,6 +17,7 @@ import {
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
 } from "../utils/constants.js";
@@ -38,6 +43,9 @@ export const mainCheck = async (browserType, config) => {
 		config,
 		url: appendQueryParams(config.articleUrl, config),
 	});
+
+	// check the privacy manager
+	await testPrivacyManager(browserType, config);
 
 	Log.info("Main check for AUS: Complete");
 };
@@ -92,4 +100,43 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 
 	await page.close();
 	await browser.close();
+};
+
+/**
+ * @summary The testPrivacyManagerPanel launches a new browser and checks
+ * that clicking 'Privacy settings' opens the privacy manager panel and
+ * closes the cookie banner
+ *
+ * @param {*} browserType
+ * @param {*} config
+ */
+export const testPrivacyManager = async (browserType, config) => {
+	Log.info("Test privacy manager: Start");
+	const browser = await makeNewBrowser(browserType, config.debugMode);
+	const context = await makeNewContext(browser);
+	const page = await makeNewPage(context);
+	const url = appendQueryParams(config.frontUrl, config);
+	await loadPage(page, url);
+
+	// Clear cookies and storage to ensure the banner is shown
+	await context.clearCookies();
+	await page.evaluate(() => {
+		localStorage.clear();
+		sessionStorage.clear();
+	});
+
+	await openPrivacySettingsPanel(
+		page,
+		ELEMENT_ID.AUS_FIRST_LAYER_PRIVACY_SETTINGS,
+	);
+	await checkCMPIsNotVisible(page);
+	await checkPrivacySettingsPanelIsOpen(
+		config,
+		page,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+	);
+
+	await page.close();
+	await browser.close();
+	Log.info("Test privacy manager: Complete");
 };
