@@ -33,6 +33,8 @@ export const ELEMENT_ID = {
 	CMP_ACTIONS_ROW: ".gu-actions-row",
 	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: "button.sp_choice_type_SAVE_AND_EXIT",
 	TCFV2_SECOND_LAYER_HEADLINE: "p.gu-privacy-headline",
+	SECOND_LAYER_TITLE: "SP Consent Message",
+	TCFV2_SECOND_LAYER_SRC: "privacy-manager",
 	CCPA_DO_NOT_SELL_BUTTON: "div.message-component > button.sp_choice_type_13",
 	TCFV2_SECOND_LAYER_REJECT_ALL: "button.sp_choice_type_REJECT_ALL",
 	TCFV2_SECOND_LAYER_ACCEPT_ALL: "button.sp_choice_type_ACCEPT_ALL",

@@ -22,6 +22,7 @@ import {
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
 } from "../utils/constants.js";
@@ -168,8 +169,15 @@ const secondLayerCheck = async ({ config, url, page }) => {
 	Log.info(`Second layer check: Start`);
 	await loadPage(page, url);
 	await checkCMPIsOnPage(page);
-	await openPrivacySettingsPanel(page);
-	await checkPrivacySettingsPanelIsOpen(config, page);
+	await openPrivacySettingsPanel(
+		page,
+		ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES,
+	);
+	await checkPrivacySettingsPanelIsOpen(
+		config,
+		page,
+		ELEMENT_ID.TCFV2_SECOND_LAYER_SRC,
+	);
 	await clickSaveAndCloseSecondLayer(config, page);
 
 	await reloadPage(page);

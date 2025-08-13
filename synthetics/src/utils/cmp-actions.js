@@ -24,11 +24,12 @@ export const clickSaveAndCloseSecondLayer = async (config, page) => {
  * @param {*} config
  * @param {*} page
  */
-export const openPrivacySettingsPanel = async (page) => {
+export const openPrivacySettingsPanel = async (page, manageCookiesId) => {
 	Log.info(`Loading privacy settings panel: Start`);
+
 	let manageButton = page
 		.frameLocator(ELEMENT_ID.CMP_CONTAINER)
-		.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+		.locator(manageCookiesId);
 
 	await manageButton.click();
 
@@ -41,11 +42,10 @@ export const openPrivacySettingsPanel = async (page) => {
  * @param {*} config
  * @param {*} page
  */
-export const checkPrivacySettingsPanelIsOpen = async (config, page) => {
+export const checkPrivacySettingsPanelIsOpen = async (config, page, src) => {
 	Log.info(`Waiting for Privacy Settings Panel: Start`);
-	const secondLayer = page
-		.frameLocator('[src*="' + config.iframeDomainUrlSecondLayer + '"]')
-		.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
+	const frameLocator = `iframe[src*='${src}'][title="${ELEMENT_ID.SECOND_LAYER_TITLE}"]`;
+	const secondLayer = page.locator(frameLocator);
 
 	await secondLayer.waitFor();
 
