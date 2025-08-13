@@ -6,14 +6,16 @@ import {
 	reloadPage,
 } from "../utils/browser-utils.js";
 import {
-	checkPrivacySettingsPanelIsOpen,
 	clickBannerButton,
+	clickCancelSecondLayer,
 	openPrivacySettingsPanel,
 } from "../utils/cmp-actions.js";
 import {
 	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkPrivacySettingsPanelIsClosed,
+	checkPrivacySettingsPanelIsOpen,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
@@ -125,13 +127,26 @@ export const testPrivacyManager = async (browserType, config) => {
 		sessionStorage.clear();
 	});
 
+	// Open Privacy Manager: check that CMP is not visible and Pricacy Manager is visible
 	await openPrivacySettingsPanel(
 		page,
 		ELEMENT_ID.AUS_FIRST_LAYER_PRIVACY_SETTINGS,
 	);
 	await checkCMPIsNotVisible(page);
 	await checkPrivacySettingsPanelIsOpen(
-		config,
+		page,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+	);
+
+	// Cancel Privacy Manager: check that CMP is visible and Privacy Manager is not visible
+	await clickCancelSecondLayer(
+		page,
+		config.iframeDomainUrl,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+		ELEMENT_ID.AUS_SECOND_LAYER_CANCEL,
+	);
+	await checkCMPIsOnPage(page);
+	await checkPrivacySettingsPanelIsClosed(
 		page,
 		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
 	);

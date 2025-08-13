@@ -195,3 +195,51 @@ export const checkBannerIsNotVisibleAfterSettingGPCHeader = async (page) => {
 export const checkGPCRespected = async (page) => {
 	await checkBannerIsNotVisibleAfterSettingGPCHeader(page);
 };
+
+/**
+ * @summary Check if the privacy settings panel is open
+ *
+ * @param {*} config
+ * @param {*} page
+ * @param {*} src
+ */
+export const checkPrivacySettingsPanelIsOpen = async (page, src) => {
+	Log.info(`Check Privacy Settings Panel is open: Start`);
+	const frameLocator = `iframe[src*='${src}'][title="${ELEMENT_ID.SECOND_LAYER_TITLE}"]`;
+	const secondLayer = page.locator(frameLocator);
+
+	await secondLayer.waitFor();
+
+	if (!(await secondLayer.isVisible())) {
+		throw Error("Second Layer is not present on page");
+	}
+
+	Log.info(`Check Privacy Settings Panel is open: Complete`);
+};
+
+/**
+ * @summary Check if the privacy settings panel is closed
+ *
+ * @param {*} config
+ * @param {*} page
+ * @param {*} src
+ */
+export const checkPrivacySettingsPanelIsClosed = async (page, src) => {
+	Log.info(`Check Privacy Settings Panel is not open: Start`);
+	const frameLocator = `iframe[src*='${src}'][title="${ELEMENT_ID.SECOND_LAYER_TITLE}"]`;
+	const secondLayer = page.locator(frameLocator);
+
+	try {
+		// Wait for the privacy manager iframe to be detached/removed from DOM
+		await secondLayer.waitFor({ state: "detached", timeout: 10000 });
+	} catch (error) {
+		if (error.name === "TimeoutError") {
+			Log.error("Privacy Settings Panel is still present after timeout");
+			throw Error("Privacy Settings Panel still present on page");
+		} else {
+			throw error;
+		}
+	}
+
+	Log.info(`Check Privacy Settings Panel is not open: Complete`);
+};

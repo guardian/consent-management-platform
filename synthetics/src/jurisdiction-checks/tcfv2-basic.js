@@ -8,7 +8,6 @@ import {
 	reloadPage,
 } from "../utils/browser-utils.js";
 import {
-	checkPrivacySettingsPanelIsOpen,
 	clickBannerButton,
 	clickSaveAndCloseSecondLayer,
 	openPrivacySettingsPanel,
@@ -17,6 +16,7 @@ import {
 	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkPrivacySettingsPanelIsOpen,
 	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
 } from "../utils/cmp-checks.js";
@@ -174,7 +174,6 @@ const secondLayerCheck = async ({ config, url, page }) => {
 		ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES,
 	);
 	await checkPrivacySettingsPanelIsOpen(
-		config,
 		page,
 		ELEMENT_ID.TCFV2_SECOND_LAYER_SRC,
 	);

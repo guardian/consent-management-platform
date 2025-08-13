@@ -40,6 +40,7 @@ export const ELEMENT_ID = {
 	CCPA_DO_NOT_SELL_BUTTON: "div.message-component > button.sp_choice_type_13",
 	TCFV2_SECOND_LAYER_REJECT_ALL: "button.sp_choice_type_REJECT_ALL",
 	TCFV2_SECOND_LAYER_ACCEPT_ALL: "button.sp_choice_type_ACCEPT_ALL",
+	AUS_SECOND_LAYER_CANCEL: "button.sp_choice_type_2",
 	AMP_CMP_CONTAINER: ".i-amphtml-consent-ui-fill",
 };
 

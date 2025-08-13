@@ -19,10 +19,36 @@ export const clickSaveAndCloseSecondLayer = async (config, page) => {
 };
 
 /**
+ * @summary Click on the "Cancel" button in the second layer of the CMP
+ *
+ * @param {*} page
+ * @param {*} domainUrl
+ * @param {*} messageId
+ * @param {*} cancelButtonId
+ */
+export const clickCancelSecondLayer = async (
+	page,
+	domainUrl,
+	messageId,
+	cancelButtonId,
+) => {
+	Log.info(`Clicking on cancel button: Start`);
+	const frameLocator = `iframe[src*='${domainUrl}'][src*='${messageId}']`;
+
+	const cancelButton = page
+		.frameLocator(frameLocator)
+		.locator(cancelButtonId);
+
+	await cancelButton.click();
+
+	Log.info(`Clicking on cancel button: Complete`);
+};
+
+/**
  * @summary Open the privacy settings panel
  *
- * @param {*} config
  * @param {*} page
+ * @param {*} manageCookiesId
  */
 export const openPrivacySettingsPanel = async (page, manageCookiesId) => {
 	Log.info(`Loading privacy settings panel: Start`);
@@ -39,31 +65,11 @@ export const openPrivacySettingsPanel = async (page, manageCookiesId) => {
 };
 
 /**
- * @summary Check if the privacy settings panel is open
- *
- * @param {*} config
- * @param {*} page
- */
-export const checkPrivacySettingsPanelIsOpen = async (config, page, src) => {
-	Log.info(`Waiting for Privacy Settings Panel: Start`);
-	const frameLocator = `iframe[src*='${src}'][title="${ELEMENT_ID.SECOND_LAYER_TITLE}"]`;
-	const secondLayer = page.locator(frameLocator);
-
-	await secondLayer.waitFor();
-
-	if (!(await secondLayer.isVisible())) {
-		throw Error("Second Layer is not present on page");
-	}
-
-	Log.info(`Waiting for Privacy Settings Panel: Complete`);
-};
-
-/**
  * @summary Click on the button in the CMP banner
  *
  * @param {Page} page
  * @param {string} textToPrintToConsole
- * @param {string} buttonId
+ * @param {string} bannerInteraction
  */
 export const clickBannerButton = async (
 	page,
