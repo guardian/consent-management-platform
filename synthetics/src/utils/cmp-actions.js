@@ -6,12 +6,18 @@ import { Log } from "./log.js";
  *
  * @param {*} config
  * @param {*} page
+ * @param {*} buttonId
  */
-export const clickSaveAndCloseSecondLayer = async (config, page) => {
+export const clickSaveAndCloseSecondLayer = async (
+	config,
+	page,
+	frameSrc,
+	buttonId,
+) => {
 	Log.info(`Clicking on save and close button: Start`);
 	const saveAndExitButton = page
-		.frameLocator('[src*="' + config.iframeDomainUrlSecondLayer + '"]')
-		.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+		.frameLocator('[src*="' + frameSrc + '"]')
+		.locator(buttonId);
 
 	await saveAndExitButton.click();
 
@@ -42,6 +48,30 @@ export const clickCancelSecondLayer = async (
 	await cancelButton.click();
 
 	Log.info(`Clicking on cancel button: Complete`);
+};
+
+/**
+ * @summary Click on the "Cancel" button in the second layer of the CMP
+ *
+ * @param {*} page
+ * @param {*} domainUrl
+ * @param {*} messageId
+ * @param {*} currentToggleSetting - "on" or "off"
+ */
+export const clickToggleSecondLayer = async (
+	page,
+	domainUrl,
+	messageId,
+	requiredToggleSetting,
+) => {
+	Log.info(`Clicking on toggle button: Start`);
+	const frameLocator = `iframe[src*='${domainUrl}'][src*='${messageId}']`;
+	const toggle = page
+		.frameLocator(frameLocator)
+		.locator(`button[role="switch"] span.${requiredToggleSetting}`);
+	await toggle.waitFor({ state: "visible" });
+	await toggle.click();
+	Log.info(`Clicking on toggle button: Complete`);
 };
 
 /**

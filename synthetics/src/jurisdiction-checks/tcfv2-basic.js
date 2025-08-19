@@ -177,7 +177,12 @@ const secondLayerCheck = async ({ config, url, page }) => {
 		page,
 		ELEMENT_ID.TCFV2_SECOND_LAYER_SRC,
 	);
-	await clickSaveAndCloseSecondLayer(config, page);
+	await clickSaveAndCloseSecondLayer(
+		config,
+		page,
+		config.iframeDomainUrlSecondLayer,
+		ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT,
+	);
 
 	await reloadPage(page);
 

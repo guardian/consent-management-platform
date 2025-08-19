@@ -8,6 +8,8 @@ import {
 import {
 	clickBannerButton,
 	clickCancelSecondLayer,
+	clickSaveAndCloseSecondLayer,
+	clickToggleSecondLayer,
 	openPrivacySettingsPanel,
 } from "../utils/cmp-actions.js";
 import {
@@ -16,6 +18,7 @@ import {
 	checkCMPIsOnPage,
 	checkPrivacySettingsPanelIsClosed,
 	checkPrivacySettingsPanelIsOpen,
+	checkTopAdDidNotLoad,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
@@ -150,6 +153,27 @@ export const testPrivacyManager = async (browserType, config) => {
 		page,
 		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
 	);
+
+	// Open Privacy Manager, change toggle and click Save and Close
+	await openPrivacySettingsPanel(
+		page,
+		ELEMENT_ID.AUS_FIRST_LAYER_PRIVACY_SETTINGS,
+	);
+	await clickToggleSecondLayer(
+		page,
+		config.iframeDomainUrl,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+		"off",
+	);
+	await clickSaveAndCloseSecondLayer(
+		config,
+		page,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+		ELEMENT_ID.AUS_SECOND_LAYER_SAVE_AND_EXIT,
+	);
+	await reloadPage(page);
+	await checkCMPIsNotVisible(page);
+	await checkTopAdDidNotLoad(page);
 
 	await page.close();
 	await browser.close();
