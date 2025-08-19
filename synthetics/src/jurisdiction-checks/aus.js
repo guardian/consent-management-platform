@@ -120,17 +120,22 @@ export const testPrivacyManager = async (browserType, config) => {
 	const browser = await makeNewBrowser(browserType, config.debugMode);
 	const context = await makeNewContext(browser);
 	const page = await makeNewPage(context);
-	const url = appendQueryParams(config.frontUrl, config);
-	await loadPage(page, url);
+	const url =
+		config.stage === STAGES.LOCAL
+			? appendQueryParams(config.articleUrl, config)
+			: constructFrontsUrl(config.frontUrl, JURISDICTIONS.AUS, config);
 
 	// Clear cookies and storage to ensure the banner is shown
 	await context.clearCookies();
+	await loadPage(page, url);
 	await page.evaluate(() => {
 		localStorage.clear();
 		sessionStorage.clear();
 	});
+	await reloadPage(page);
+	await checkCMPIsOnPage(page);
 
-	// Open Privacy Manager: check that CMP is not visible and Pricacy Manager is visible
+	// Open Privacy Manager: check that CMP is not visible and Privacy Manager is visible
 	await openPrivacySettingsPanel(
 		page,
 		ELEMENT_ID.AUS_FIRST_LAYER_PRIVACY_SETTINGS,
