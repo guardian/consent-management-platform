@@ -251,7 +251,12 @@ const checkConsentOrPaySecondLayer = async (
 
 	await acceptAllInReducedPrivacySettingsPanel(page, config);
 
-	await clickSaveAndCloseSecondLayer(config, page);
+	await clickSaveAndCloseSecondLayer(
+		config,
+		page,
+		config.iframeDomainUrlSecondLayer,
+		ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT,
+	);
 
 	await isUsingPersonalisedAds(page);
 
