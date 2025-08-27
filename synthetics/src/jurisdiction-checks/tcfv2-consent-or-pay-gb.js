@@ -45,7 +45,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
@@ -73,7 +73,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
@@ -89,7 +89,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),

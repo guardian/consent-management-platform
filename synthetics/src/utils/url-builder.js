@@ -38,7 +38,7 @@ const appendRegionToUrl = (url, jurisdiction) => {
 		case JURISDICTIONS.TCFV2:
 			region = "europe";
 			break;
-		case JURISDICTIONS.TCFV2CORP:
+		case JURISDICTIONS.TCFV2CORP_GB:
 			region = "uk";
 			break;
 	}

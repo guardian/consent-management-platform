@@ -1,6 +1,6 @@
 export const JURISDICTIONS = {
 	TCFV2: "tcfv2",
-	TCFV2CORP: "tcfv2_corp",
+	TCFV2CORP_GB: "tcfv2_corp_gb",
 	USNAT: "usnat",
 	AUS: "aus",
 };
@@ -24,7 +24,7 @@ export const ELEMENT_ID = {
 		"div.message-component.message-row > button.sp_choice_type_11",
 	TCFV2_FIRST_LAYER_REJECT_ALL:
 		"div.message-component.message-row > button.sp_choice_type_13",
-	TCFV2_CORP_FIRST_LAYER_REJECT_SUBSCRIBE:
+	TCFV2_CORP_GB_FIRST_LAYER_REJECT_SUBSCRIBE:
 		"div.message-component.gu-cta-row-flex > button.sp_choice_type_9",
 	TCFV2_FIRST_LAYER_MANAGE_COOKIES:
 		"div.message-component.message-row > button.sp_choice_type_12",

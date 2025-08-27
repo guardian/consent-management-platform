@@ -11,7 +11,7 @@ describe("Config Helper", () => {
 
 		it("should return TCFV2 for EU_WEST_2", () => {
 			expect(ConfigHelper.getJurisdiction(AWS_REGIONS.EU_WEST_2)).toBe(
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 			);
 		});
 
