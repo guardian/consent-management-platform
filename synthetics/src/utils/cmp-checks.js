@@ -1,5 +1,5 @@
 import { reloadPage } from "./browser-utils.js";
-import { ELEMENT_ID } from "./constants.js";
+import { CURRENCY_SYMBOLS, ELEMENT_ID } from "./constants.js";
 import { Log } from "./log.js";
 
 /**
@@ -194,4 +194,46 @@ export const checkBannerIsNotVisibleAfterSettingGPCHeader = async (page) => {
 
 export const checkGPCRespected = async (page) => {
 	await checkBannerIsNotVisibleAfterSettingGPCHeader(page);
+};
+
+export const checkCurrencyInBanner = async (page, expectedCurrency) => {
+	Log.info(
+		`Validating ${expectedCurrency} currency symbol found in banner: Start`,
+	);
+
+	try {
+		const bannerText = await page
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator("body")
+			.allInnerTexts();
+		const fullText = bannerText.join(" ");
+
+		if (!fullText.includes(expectedCurrency)) {
+			throw new Error(
+				`Expected currency symbol "${expectedCurrency}" not found in banner`,
+			);
+		}
+
+		// For extra validation, check that the opposite currency is NOT present
+		const oppositeCurrency =
+			expectedCurrency === CURRENCY_SYMBOLS.GBP
+				? CURRENCY_SYMBOLS.EUR
+				: CURRENCY_SYMBOLS.GBP;
+		if (fullText.includes(oppositeCurrency)) {
+			Log.info(
+				`Warning: Found unexpected currency symbol "${oppositeCurrency}" in banner`,
+			);
+		}
+
+		Log.info(
+			`Confirmed ${expectedCurrency} currency symbol is present in  banner`,
+		);
+	} catch (error) {
+		Log.info(`Currency validation failed for banner: ${error.message}`);
+		throw error;
+	}
+
+	Log.info(
+		`Validating ${expectedCurrency} currency symbol found in banner: Complete`,
+	);
 };

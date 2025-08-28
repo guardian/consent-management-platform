@@ -16,12 +16,14 @@ import {
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCurrencyInBanner,
 	checkTopAdDidNotLoad,
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	CURRENCY_SYMBOLS,
 	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
@@ -166,6 +168,13 @@ const checkConsentOrPayFirstLayer = async (
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
+
+	if (
+		bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT ||
+		bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN
+	) {
+		await checkCurrencyInBanner(page, CURRENCY_SYMBOLS.GBP);
+	}
 
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
 		await checkSignInLinkIsOnCMP(page);

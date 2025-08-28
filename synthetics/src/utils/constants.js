@@ -20,6 +20,11 @@ export const AWS_REGIONS = {
 	AP_SOUTHEAST_2: "ap-southeast-2", // Sydney
 };
 
+export const CURRENCY_SYMBOLS = {
+	GBP: "£",
+	EUR: "€",
+};
+
 export const ELEMENT_ID = {
 	TCFV2_FIRST_LAYER_ACCEPT_ALL:
 		"div.message-component.message-row > button.sp_choice_type_11",
