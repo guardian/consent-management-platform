@@ -430,6 +430,7 @@ const checkWasRedirectedToGuardianLite = async (page) => {
 	);
 	// ********************* THE EURO AD-LITE PAGE DOESN'T YET EXIST
 	// await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
+	Log.info(page); // temporarily included to remove the lint error
 	Log.info(
 		"Checked that the user was redirected to the guardian ad lite page: Complete",
 	);
