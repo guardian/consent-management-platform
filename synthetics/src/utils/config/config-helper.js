@@ -4,7 +4,7 @@ export class ConfigHelper {
 	static getJurisdiction(region) {
 		switch (region) {
 			case AWS_REGIONS.EU_WEST_1:
-				return JURISDICTIONS.TCFV2;
+				return JURISDICTIONS.TCFV2CORP_EU;
 			case AWS_REGIONS.EU_WEST_2:
 				return JURISDICTIONS.TCFV2CORP_GB;
 			case AWS_REGIONS.CA_CENTRAL_1:
@@ -21,6 +21,8 @@ export class ConfigHelper {
 	static getRegion(jurisdiction) {
 		switch (jurisdiction) {
 			case JURISDICTIONS.TCFV2:
+				return AWS_REGIONS.CA_CENTRAL_1;
+			case JURISDICTIONS.TCFV2CORP_EU:
 				return AWS_REGIONS.EU_WEST_1;
 			case JURISDICTIONS.TCFV2CORP_GB:
 				return AWS_REGIONS.EU_WEST_2;
