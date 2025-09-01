@@ -13,28 +13,28 @@
 		"start": "node src/localRun.js"
 	},
 	"dependencies": {
-		"@aws-sdk/client-cloudwatch": "^3.804.0",
-		"playwright-core": "^1.53.2"
+		"@aws-sdk/client-cloudwatch": "^3.879.0",
+		"playwright-core": "^1.55.0"
 	},
 	"imports": {},
 	"devDependencies": {
-		"@inquirer/prompts": "^7.5.1",
-		"commander": "^13.1.0",
 		"@guardian/eslint-config": "11.0.0",
 		"@guardian/prettier": "8.0.1",
 		"@guardian/tsconfig": "^1.0.0",
+		"@inquirer/prompts": "^7.8.4",
 		"@types/jest": "29.5.14",
 		"@types/node": "22.13.11",
-		"aws-cdk": "2.1007.0",
-		"aws-cdk-lib": "2.189.1",
+		"aws-cdk": "2.1027.0",
+		"aws-cdk-lib": "2.213.0",
+		"commander": "^13.1.0",
 		"esbuild": "0.25.4",
-		"eslint": "9.22.0",
+		"eslint": "9.34.0",
 		"jest": "29.7.0",
-		"playwright": "^1.53.2",
-		"prettier": "3.5.3",
-		"ts-jest": "^29.3.1",
+		"playwright": "^1.55.0",
+		"prettier": "3.6.2",
+		"ts-jest": "^29.4.1",
 		"ts-node": "10.9.2",
-		"typescript": "5.8.3"
+		"typescript": "5.9.2"
 	},
 	"keywords": [],
 	"author": "",
