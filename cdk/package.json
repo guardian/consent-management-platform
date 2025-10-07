@@ -14,7 +14,7 @@
 		"watch": "tsc -p tsconfig.build.json --watch"
 	},
 	"devDependencies": {
-		"@guardian/cdk": "61.11.1",
+		"@guardian/cdk": "62.0.0",
 		"@guardian/eslint-config": "^11.0.0",
 		"@guardian/prettier": "8.0.1",
 		"@guardian/tsconfig": "^1.0.0",
