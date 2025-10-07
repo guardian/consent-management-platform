@@ -1,7 +1,7 @@
 import { mainCheck as mainCheckAus } from "../../jurisdiction-checks/aus.js";
-import { mainCheck as mainCheckTCFV2 } from "../../jurisdiction-checks/tcfv2-basic.js";
 import { mainCheck as mainCheckTCFV2ConsentOrPayEU } from "../../jurisdiction-checks/tcfv2-consent-or-pay-eu.js";
 import { mainCheck as mainCheckTCFV2ConsentOrPayGB } from "../../jurisdiction-checks/tcfv2-consent-or-pay-gb.js";
+import { mainCheck as mainCheckTCFV2Row } from "../../jurisdiction-checks/tcfv2-row.js";
 import { mainCheck as mainCheckUS } from "../../jurisdiction-checks/us.js";
 import { JURISDICTIONS, STAGES } from "../constants.js";
 
@@ -93,8 +93,8 @@ export class ConfigBuilder {
 
 	static getCheckFunctionForJurisdiction(jurisdiction) {
 		switch (jurisdiction) {
-			case JURISDICTIONS.TCFV2:
-				return mainCheckTCFV2;
+			case JURISDICTIONS.TCFV2_ROW:
+				return mainCheckTCFV2Row;
 			case JURISDICTIONS.USNAT:
 				return mainCheckUS;
 			case JURISDICTIONS.AUS:
@@ -104,7 +104,7 @@ export class ConfigBuilder {
 			case JURISDICTIONS.TCFV2CORP_EU:
 				return mainCheckTCFV2ConsentOrPayEU;
 			default:
-				return mainCheckTCFV2;
+				return mainCheckTCFV2Row;
 		}
 	}
 }

@@ -17,7 +17,7 @@ describe("Config Helper", () => {
 
 		it("should return TCFV2 for CA_CENTRAL_1", () => {
 			expect(ConfigHelper.getJurisdiction(AWS_REGIONS.CA_CENTRAL_1)).toBe(
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2_ROW,
 			);
 		});
 
@@ -35,14 +35,14 @@ describe("Config Helper", () => {
 
 		it("should throw an error for an invalid region", () => {
 			expect(ConfigHelper.getJurisdiction("invalid-region")).toBe(
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2_ROW,
 			);
 		});
 	});
 
 	describe("getRegion", () => {
 		it("should return CA_CENTRAL_1 for TCFV2", () => {
-			expect(ConfigHelper.getRegion(JURISDICTIONS.TCFV2)).toBe(
+			expect(ConfigHelper.getRegion(JURISDICTIONS.TCFV2_ROW)).toBe(
 				AWS_REGIONS.CA_CENTRAL_1,
 			);
 		});
