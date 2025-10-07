@@ -1,5 +1,5 @@
 export const JURISDICTIONS = {
-	TCFV2: "tcfv2",
+	TCFV2_ROW: "tcfv2_row",
 	TCFV2CORP_GB: "tcfv2_corp_gb",
 	TCFV2CORP_EU: "tcfv2_corp_eu",
 	USNAT: "usnat",

@@ -35,7 +35,7 @@ const appendRegionToUrl = (url, jurisdiction) => {
 		case JURISDICTIONS.USNAT:
 			region = "us";
 			break;
-		case JURISDICTIONS.TCFV2:
+		case JURISDICTIONS.TCFV2_ROW:
 			region = "international";
 			break;
 		case JURISDICTIONS.TCFV2CORP_EU:
