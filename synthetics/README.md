@@ -4,11 +4,11 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
 
 ## Useful commands
 
--   make sure you've run `pnpm install` in the parent directory!
--   `pnpm install` to install dependencies
--   `pnpm run test` to run the Jest unit tests in watch mode
--   `pnpm run lint` to lint the code using ESLint
--   `pnpm start` to run handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
+- make sure you've run `pnpm install` in the parent directory!
+- `pnpm install` to install dependencies
+- `pnpm run test` to run the Jest unit tests in watch mode
+- `pnpm run lint` to lint the code using ESLint
+- `pnpm start` to run handler logic locally. This is an interactive CLI which permits the user to select the Jurisdiction and Environment/Stage.
 
 ### Local Run Command
 
@@ -17,7 +17,7 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
 ```
 
 where STAGE = local, code or prod
-and JURISDICTION = aus, usnat, tcfv2, tcfv2_corp
+and JURISDICTION = aus, usnat, tcfv2, tcfv2_corp_gb, tcfv2_corp_eu
 
 e.g.
 
@@ -34,12 +34,11 @@ This CLI tool falls back to an interactive tool if any of the parameters passed 
 If you get the following error
 
 ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-║ Please run the following command to download new browsers:              ║
-║                                                                         ║
-║     pnpm exec playwright install                                             ║
+║ Please run the following command to download new browsers: ║
+║ ║
+║ pnpm exec playwright install ║
 
-delete the node_modules and run  `npx playwright install chromium`.
-
+delete the node_modules and run `npx playwright install chromium`.
 
 To run 'local' environment, frontend and dotcom-rendering must be setup and running on your local machine. The defined url for a local instance of frontend is <http://localhost:9000>. If you'd like to change this base url, update the localBaseURL variable in src/env.ts.
 

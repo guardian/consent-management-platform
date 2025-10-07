@@ -3,15 +3,15 @@ import { ConfigHelper } from "./config-helper";
 
 describe("Config Helper", () => {
 	describe("getJurisdiction", () => {
-		it("should return TCFV2 for EU_WEST_1", () => {
+		it("should return TCFV2CORP_EU for EU_WEST_1", () => {
 			expect(ConfigHelper.getJurisdiction(AWS_REGIONS.EU_WEST_1)).toBe(
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2CORP_EU,
 			);
 		});
 
-		it("should return TCFV2 for EU_WEST_2", () => {
+		it("should return TCFV2CORP_GB for EU_WEST_2", () => {
 			expect(ConfigHelper.getJurisdiction(AWS_REGIONS.EU_WEST_2)).toBe(
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 			);
 		});
 
@@ -41,8 +41,20 @@ describe("Config Helper", () => {
 	});
 
 	describe("getRegion", () => {
-		it("should return EU_WEST_1 for TCFV2", () => {
+		it("should return CA_CENTRAL_1 for TCFV2", () => {
 			expect(ConfigHelper.getRegion(JURISDICTIONS.TCFV2)).toBe(
+				AWS_REGIONS.CA_CENTRAL_1,
+			);
+		});
+
+		it("should return EU_WEST_2 for TCFV2CORP_GB", () => {
+			expect(ConfigHelper.getRegion(JURISDICTIONS.TCFV2CORP_GB)).toBe(
+				AWS_REGIONS.EU_WEST_2,
+			);
+		});
+
+		it("should return EU_WEST_1 for TCFV2CORP_EU", () => {
+			expect(ConfigHelper.getRegion(JURISDICTIONS.TCFV2CORP_EU)).toBe(
 				AWS_REGIONS.EU_WEST_1,
 			);
 		});
