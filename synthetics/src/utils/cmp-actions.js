@@ -76,7 +76,7 @@ export const clickBannerButton = async (
 			buttonId = ELEMENT_ID.TCFV2_FIRST_LAYER_ACCEPT_ALL;
 			break;
 		case BannerInteractions.REJECT_AND_SUBSCRIBE:
-			buttonId = ELEMENT_ID.TCFV2_CORP_FIRST_LAYER_REJECT_SUBSCRIBE;
+			buttonId = ELEMENT_ID.TCFV2_CORP_GB_FIRST_LAYER_REJECT_SUBSCRIBE;
 			break;
 		case BannerInteractions.REJECT_ALL:
 			buttonId = ELEMENT_ID.TCFV2_FIRST_LAYER_REJECT_ALL;

@@ -16,12 +16,14 @@ import {
 import {
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCurrencyInBanner,
 	checkTopAdDidNotLoad,
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	CURRENCY_SYMBOLS,
 	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
@@ -36,7 +38,7 @@ const BannerType = {
 };
 
 export const mainCheck = async (browserType, config) => {
-	Log.info("Main check for TCFV2: Start");
+	Log.info("Main check for TCFV2CORP_GB: Start");
 
 	// Check the front page and subsequent article page for signed out users in CODE and PROD
 	if (config.stage !== STAGES.LOCAL) {
@@ -45,7 +47,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
@@ -73,7 +75,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
@@ -89,14 +91,14 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
 			BannerInteractions.REJECT_AND_SUBSCRIBE,
 		);
 
-		Log.info("Main check for TCFV2: Complete");
+		Log.info("Main check for TCFV2CORP_GB: Complete");
 	}
 };
 
@@ -166,6 +168,13 @@ const checkConsentOrPayFirstLayer = async (
 	await loadPage(page, url);
 
 	await checkCMPIsOnPage(page);
+
+	if (
+		bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT ||
+		bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN
+	) {
+		await checkCurrencyInBanner(page, CURRENCY_SYMBOLS.GBP);
+	}
 
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
 		await checkSignInLinkIsOnCMP(page);

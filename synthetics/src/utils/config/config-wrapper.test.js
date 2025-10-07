@@ -18,7 +18,7 @@ describe("ConfigWrapper", () => {
 			const configWrapper = new ConfigWrapper(
 				null,
 				STAGES.CODE,
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2_ROW,
 			);
 			configWrapper.generateConfig();
 			expect(configWrapper.config).toBeDefined();

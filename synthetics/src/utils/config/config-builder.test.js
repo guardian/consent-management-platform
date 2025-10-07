@@ -125,7 +125,7 @@ describe("ConfigBuilder", () => {
 		it("should return the correct isRunningAdhoc value", () => {
 			const config = ConfigBuilder.construct(
 				STAGES.CODE,
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2_ROW,
 				AWS_REGIONS.EU_WEST_1,
 				true,
 			);
@@ -135,7 +135,7 @@ describe("ConfigBuilder", () => {
 		it("should return the correct isRunningAdhoc value", () => {
 			const config = ConfigBuilder.construct(
 				STAGES.CODE,
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2_ROW,
 				AWS_REGIONS.EU_WEST_1,
 				false,
 			);
