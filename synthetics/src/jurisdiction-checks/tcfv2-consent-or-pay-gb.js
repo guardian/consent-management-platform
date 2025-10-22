@@ -14,10 +14,12 @@ import {
 	clickSaveAndCloseSecondLayer,
 } from "../utils/cmp-actions.js";
 import {
+	checkBannerReappearsWhenBackingInBrowser,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
 	checkCurrencyInBanner,
 	checkTopAdDidNotLoad,
+	checkWasRedirectedToGuardianLite,
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
 } from "../utils/cmp-checks.js";
@@ -202,6 +204,7 @@ const checkConsentOrPayFirstLayer = async (
 			);
 
 			await checkWasRedirectedToGuardianLite(page);
+			await checkBannerReappearsWhenBackingInBrowser(page);
 			break;
 	}
 
@@ -426,21 +429,6 @@ const setupPage = async (browserType, config, bannerType) => {
 		browser,
 		context,
 	};
-};
-
-/**
- * @summary This checks that the user was redirected to the guardian ad lite page
- *
- * @param  page
- */
-const checkWasRedirectedToGuardianLite = async (page) => {
-	Log.info(
-		"Checking that the user was redirected to the guardian ad lite page: Start",
-	);
-	await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
-	Log.info(
-		"Checked that the user was redirected to the guardian ad lite page: Complete",
-	);
 };
 
 const loginUser = async (page) => {
