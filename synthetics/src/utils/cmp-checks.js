@@ -18,6 +18,40 @@ export const recordVersionOfCMP = async (page) => {
 };
 
 /**
+ * @summary This checks that the user was redirected to the guardian ad lite page
+ *
+ * @param  page
+ */
+export const checkWasRedirectedToGuardianLite = async (page) => {
+	Log.info(
+		"Checking that the user was redirected to the guardian ad lite page: Start",
+	);
+	// ********************* THE EURO AD-LITE PAGE DOESN'T YET EXIST
+	await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
+	Log.info(page); // temporarily included to remove the lint error
+	Log.info(
+		"Checked that the user was redirected to the guardian ad lite page: Complete",
+	);
+};
+
+/**
+ * @summary This checks the banner reappears when using the browser back button
+ *
+ * @param {*} page
+ */
+export const checkBannerReappearsWhenBackingInBrowser = async (page) => {
+	Log.info(
+		"Checking that the banner reappears when navigating back in the browser: Start",
+	);
+	await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
+	await page.goBack();
+	await checkCMPIsOnPage(page);
+	Log.info(
+		"Checked that the banner reappears when navigating back in the browser: Complete",
+	);
+};
+
+/**
  * @summary Check if the CMP is present on the page
  *
  * @param {*} page
