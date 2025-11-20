@@ -6,12 +6,18 @@ import { Log } from "./log.js";
  *
  * @param {*} config
  * @param {*} page
+ * @param {*} buttonId
  */
-export const clickSaveAndCloseSecondLayer = async (config, page) => {
+export const clickSaveAndCloseSecondLayer = async (
+	config,
+	page,
+	frameSrc,
+	buttonId,
+) => {
 	Log.info(`Clicking on save and close button: Start`);
 	const saveAndExitButton = page
-		.frameLocator('[src*="' + config.iframeDomainUrlSecondLayer + '"]')
-		.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT);
+		.frameLocator('[src*="' + frameSrc + '"]')
+		.locator(buttonId);
 
 	await saveAndExitButton.click();
 
@@ -19,16 +25,69 @@ export const clickSaveAndCloseSecondLayer = async (config, page) => {
 };
 
 /**
+ * @summary Click on the "Cancel" button in the second layer of the CMP
+ *
+ * @param {*} page
+ * @param {*} domainUrl
+ * @param {*} messageId
+ * @param {*} cancelButtonId
+ */
+export const clickCancelSecondLayer = async (
+	page,
+	domainUrl,
+	messageId,
+	cancelButtonId,
+) => {
+	Log.info(`Clicking on cancel button: Start`);
+	const frameLocator = `iframe[src*='${domainUrl}'][src*='${messageId}']`;
+
+	const cancelButton = page
+		.frameLocator(frameLocator)
+		.locator(cancelButtonId);
+
+	await cancelButton.click();
+
+	Log.info(`Clicking on cancel button: Complete`);
+};
+
+/**
+ * @summary Click on the "Cancel" button in the second layer of the CMP
+ *
+ * @param {*} page
+ * @param {*} domainUrl
+ * @param {*} messageId
+ * @param {*} currentToggleSetting - "on" or "off"
+ */
+export const clickToggleSecondLayer = async (
+	page,
+	domainUrl,
+	messageId,
+	requiredToggleSetting,
+) => {
+	Log.info(`Clicking on toggle button: Start`);
+	const frameLocator = `iframe[src*='${domainUrl}'][src*='${messageId}']`;
+	const toggle = page
+		.frameLocator(frameLocator)
+		.locator(`button[role="switch"] span.${requiredToggleSetting}`);
+	await toggle.waitFor({ state: "visible" });
+	await toggle.click();
+	Log.info(`Clicking on toggle button: Complete`);
+};
+
+/**
  * @summary Open the privacy settings panel
  *
- * @param {*} config
  * @param {*} page
+ * @param {*} manageCookiesId
  */
-export const openPrivacySettingsPanel = async (page) => {
+export const openPrivacySettingsPanel = async (page, manageCookiesId) => {
 	Log.info(`Loading privacy settings panel: Start`);
+	// Wait for the CMP iframe to appear
+	await page.waitForSelector(ELEMENT_ID.CMP_CONTAINER, { timeout: 10000 });
+
 	let manageButton = page
 		.frameLocator(ELEMENT_ID.CMP_CONTAINER)
-		.locator(ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES);
+		.locator(manageCookiesId);
 
 	await manageButton.click();
 
@@ -36,32 +95,11 @@ export const openPrivacySettingsPanel = async (page) => {
 };
 
 /**
- * @summary Check if the privacy settings panel is open
- *
- * @param {*} config
- * @param {*} page
- */
-export const checkPrivacySettingsPanelIsOpen = async (config, page) => {
-	Log.info(`Waiting for Privacy Settings Panel: Start`);
-	const secondLayer = page
-		.frameLocator('[src*="' + config.iframeDomainUrlSecondLayer + '"]')
-		.locator(ELEMENT_ID.TCFV2_SECOND_LAYER_HEADLINE);
-
-	await secondLayer.waitFor();
-
-	if (!(await secondLayer.isVisible())) {
-		throw Error("Second Layer is not present on page");
-	}
-
-	Log.info(`Waiting for Privacy Settings Panel: Complete`);
-};
-
-/**
  * @summary Click on the button in the CMP banner
  *
  * @param {Page} page
  * @param {string} textToPrintToConsole
- * @param {string} buttonId
+ * @param {string} bannerInteraction
  */
 export const clickBannerButton = async (
 	page,
