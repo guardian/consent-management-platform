@@ -1,5 +1,5 @@
 import { reloadPage } from "./browser-utils.js";
-import { ELEMENT_ID } from "./constants.js";
+import { CURRENCY_SYMBOLS, ELEMENT_ID } from "./constants.js";
 import { Log } from "./log.js";
 
 /**
@@ -15,6 +15,40 @@ export const recordVersionOfCMP = async (page) => {
 	};
 
 	Log.info(await page.evaluate(functionToGetVersion));
+};
+
+/**
+ * @summary This checks that the user was redirected to the guardian ad lite page
+ *
+ * @param  page
+ */
+export const checkWasRedirectedToGuardianLite = async (page) => {
+	Log.info(
+		"Checking that the user was redirected to the guardian ad lite page: Start",
+	);
+	// ********************* THE EURO AD-LITE PAGE DOESN'T YET EXIST
+	await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
+	Log.info(page); // temporarily included to remove the lint error
+	Log.info(
+		"Checked that the user was redirected to the guardian ad lite page: Complete",
+	);
+};
+
+/**
+ * @summary This checks the banner reappears when using the browser back button
+ *
+ * @param {*} page
+ */
+export const checkBannerReappearsWhenBackingInBrowser = async (page) => {
+	Log.info(
+		"Checking that the banner reappears when navigating back in the browser: Start",
+	);
+	await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
+	await page.goBack();
+	await checkCMPIsOnPage(page);
+	Log.info(
+		"Checked that the banner reappears when navigating back in the browser: Complete",
+	);
 };
 
 /**
@@ -194,6 +228,48 @@ export const checkBannerIsNotVisibleAfterSettingGPCHeader = async (page) => {
 
 export const checkGPCRespected = async (page) => {
 	await checkBannerIsNotVisibleAfterSettingGPCHeader(page);
+};
+
+export const checkCurrencyInBanner = async (page, expectedCurrency) => {
+	Log.info(
+		`Validating ${expectedCurrency} currency symbol found in banner: Start`,
+	);
+
+	try {
+		const bannerText = await page
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator("body")
+			.allInnerTexts();
+		const fullText = bannerText.join(" ");
+
+		if (!fullText.includes(expectedCurrency)) {
+			throw new Error(
+				`Expected currency symbol "${expectedCurrency}" not found in banner`,
+			);
+		}
+
+		// For extra validation, check that the opposite currency is NOT present
+		const oppositeCurrency =
+			expectedCurrency === CURRENCY_SYMBOLS.GBP
+				? CURRENCY_SYMBOLS.EUR
+				: CURRENCY_SYMBOLS.GBP;
+		if (fullText.includes(oppositeCurrency)) {
+			Log.info(
+				`Warning: Found unexpected currency symbol "${oppositeCurrency}" in banner`,
+			);
+		}
+
+		Log.info(
+			`Confirmed ${expectedCurrency} currency symbol is present in  banner`,
+		);
+	} catch (error) {
+		Log.info(`Currency validation failed for banner: ${error.message}`);
+		throw error;
+	}
+
+	Log.info(
+		`Validating ${expectedCurrency} currency symbol found in banner: Complete`,
+	);
 };
 
 /**

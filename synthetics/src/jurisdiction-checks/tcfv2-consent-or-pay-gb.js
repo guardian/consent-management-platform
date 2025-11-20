@@ -14,14 +14,18 @@ import {
 	clickSaveAndCloseSecondLayer,
 } from "../utils/cmp-actions.js";
 import {
+	checkBannerReappearsWhenBackingInBrowser,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkCurrencyInBanner,
 	checkTopAdDidNotLoad,
+	checkWasRedirectedToGuardianLite,
 	isUsingNonPersonalisedAds,
 	isUsingPersonalisedAds,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	CURRENCY_SYMBOLS,
 	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
@@ -36,7 +40,7 @@ const BannerType = {
 };
 
 export const mainCheck = async (browserType, config) => {
-	Log.info("Main check for TCFV2: Start");
+	Log.info("Main check for TCFV2CORP_GB: Start");
 
 	// Check the front page and subsequent article page for signed out users in CODE and PROD
 	if (config.stage !== STAGES.LOCAL) {
@@ -45,7 +49,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
@@ -73,7 +77,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
@@ -89,14 +93,14 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2CORP,
+				JURISDICTIONS.TCFV2CORP_GB,
 				config,
 			),
 			appendQueryParams(config.articleUrl, config),
 			BannerInteractions.REJECT_AND_SUBSCRIBE,
 		);
 
-		Log.info("Main check for TCFV2: Complete");
+		Log.info("Main check for TCFV2CORP_GB: Complete");
 	}
 };
 
@@ -167,6 +171,13 @@ const checkConsentOrPayFirstLayer = async (
 
 	await checkCMPIsOnPage(page);
 
+	if (
+		bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT ||
+		bannerType === BannerType.CONSENT_OR_PAY_SIGNED_IN
+	) {
+		await checkCurrencyInBanner(page, CURRENCY_SYMBOLS.GBP);
+	}
+
 	if (bannerType === BannerType.CONSENT_OR_PAY_SIGNED_OUT) {
 		await checkSignInLinkIsOnCMP(page);
 	}
@@ -193,6 +204,7 @@ const checkConsentOrPayFirstLayer = async (
 			);
 
 			await checkWasRedirectedToGuardianLite(page);
+			await checkBannerReappearsWhenBackingInBrowser(page);
 			break;
 	}
 
@@ -422,21 +434,6 @@ const setupPage = async (browserType, config, bannerType) => {
 		browser,
 		context,
 	};
-};
-
-/**
- * @summary This checks that the user was redirected to the guardian ad lite page
- *
- * @param  page
- */
-const checkWasRedirectedToGuardianLite = async (page) => {
-	Log.info(
-		"Checking that the user was redirected to the guardian ad lite page: Start",
-	);
-	await page.waitForURL("**/guardian-ad-lite?returnAddress=*");
-	Log.info(
-		"Checked that the user was redirected to the guardian ad lite page: Complete",
-	);
 };
 
 const loginUser = async (page) => {

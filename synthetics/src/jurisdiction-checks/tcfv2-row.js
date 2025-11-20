@@ -30,7 +30,7 @@ import { Log } from "../utils/log.js";
 import { appendQueryParams, constructFrontsUrl } from "../utils/url-builder.js";
 
 export const mainCheck = async (browserType, config) => {
-	Log.info("Main check for TCFV2: Start");
+	Log.info("Main check for TCFV2 ROW: Start");
 
 	// Check the front page and subsequent article page for CODE and PROD
 	if (config.stage !== STAGES.LOCAL) {
@@ -39,7 +39,7 @@ export const mainCheck = async (browserType, config) => {
 			config,
 			url: constructFrontsUrl(
 				config.frontUrl,
-				JURISDICTIONS.TCFV2,
+				JURISDICTIONS.TCFV2_ROW,
 				config,
 			),
 			nextUrl: appendQueryParams(config.articleUrl, config),
@@ -52,11 +52,11 @@ export const mainCheck = async (browserType, config) => {
 		url: appendQueryParams(config.articleUrl, config),
 	});
 
-	Log.info("Main check for TCFV2: Complete");
+	Log.info("Main check for TCFV2 ROW: Complete");
 };
 
 const checkPages = async ({ browserType, config, url, nextUrl }) => {
-	Log.info("Main check for TCFV2: Start");
+	Log.info("Main check for TCFV2 ROW: Start");
 
 	const browser = await makeNewBrowser(browserType, config.debugMode);
 	const context = await makeNewContext(browser);
@@ -94,7 +94,7 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 
 	await pageForSecondLayer.close();
 	await browserForSecondLayer.close();
-	Log.info("Main check for TCFV2: Complete");
+	Log.info("Main check for TCFV2 ROW: Complete");
 };
 
 /**
