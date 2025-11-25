@@ -13,7 +13,7 @@ jobs:
       id-token: write
       pull-requests: write # to be able to comment on released pull requests
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
