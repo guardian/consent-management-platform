@@ -74,7 +74,7 @@ export class Monitoring extends GuStack {
 				),
 			}),
 			provisionedResourceCleanup: true,
-			runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PLAYWRIGHT_1_0,
+			runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PLAYWRIGHT_3_0,
 			schedule:
 				stage === 'PROD'
 					? synthetics.Schedule.rate(Duration.minutes(2))
