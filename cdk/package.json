@@ -14,14 +14,14 @@
 		"watch": "tsc -p tsconfig.build.json --watch"
 	},
 	"devDependencies": {
-		"@guardian/cdk": "62.2.1",
+		"@guardian/cdk": "62.3.0",
 		"@guardian/eslint-config": "^13.0.2",
 		"@guardian/prettier": "9.0.0",
 		"@guardian/tsconfig": "^1.0.1",
 		"@types/jest": "^30.0.0",
 		"@types/node": "25.0.9",
 		"aws-cdk": "2.1101.0",
-		"aws-cdk-lib": "2.235.0",
+		"aws-cdk-lib": "2.235.1",
 		"constructs": "10.4.5",
 		"eslint": "^9.39.2",
 		"jest": "^30.2.0",
