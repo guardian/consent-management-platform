@@ -22,8 +22,8 @@ importers:
         specifier: ^13.0.2
         version: 13.0.2(@typescript-eslint/utils@8.52.0(eslint@9.39.2)(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)
       '@guardian/prettier':
-        specifier: 9.0.0
-        version: 9.0.0(prettier@3.8.1)(tslib@2.8.1)
+        specifier: 10.0.0
+        version: 10.0.0(prettier@3.8.1)(tslib@2.8.1)
       '@guardian/tsconfig':
         specifier: ^1.0.1
         version: 1.0.1
@@ -656,10 +656,10 @@ packages:
     peerDependencies:
       eslint: ^9.39.1
 
-  '@guardian/prettier@9.0.0':
-    resolution: {integrity: sha512-iAiNWPW0RAVKmUbMEzvANsYU5sskyi045PG+nH4/I7yGWMEdSmrnytbuaFNnSg/Ug77EZxdWXShvgPNd7qtTAQ==}
+  '@guardian/prettier@10.0.0':
+    resolution: {integrity: sha512-b/ITMGfAxL5Rz+HZqmn5AGTI/Bb7Ep50SmRvcDo0QqahTmeAneiWOc1eFBA3pFRkMCR2UwU79v7kDXaMQwS2DQ==}
     peerDependencies:
-      prettier: ^3.6.2
+      prettier: ^3.7.4
       tslib: ^2.8.1
 
   '@guardian/tsconfig@1.0.1':
@@ -4650,7 +4650,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@guardian/prettier@9.0.0(prettier@3.8.1)(tslib@2.8.1)':
+  '@guardian/prettier@10.0.0(prettier@3.8.1)(tslib@2.8.1)':
     dependencies:
       prettier: 3.8.1
       tslib: 2.8.1
