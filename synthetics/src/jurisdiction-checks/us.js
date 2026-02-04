@@ -3,6 +3,7 @@ import {
 	makeNewBrowser,
 	makeNewContext,
 	makeNewPage,
+	makePlaywrightResources,
 } from "../utils/browser-utils.js";
 import { clickBannerButton } from "../utils/cmp-actions.js";
 import {
@@ -13,6 +14,7 @@ import {
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
 } from "../utils/constants.js";
@@ -21,6 +23,11 @@ import { appendQueryParams, constructFrontsUrl } from "../utils/url-builder.js";
 
 export const mainCheck = async (browserType, config) => {
 	Log.info("Main check for US: Start");
+	await checkGPCBanner(
+		browserType,
+		config,
+		constructFrontsUrl(config.frontUrl, JURISDICTIONS.USNAT, config),
+	);
 	// Check the front page and subsequent article page for CODE and PROD
 	if (config.stage !== STAGES.LOCAL) {
 		await checkPages({
@@ -103,4 +110,46 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 
 	await page.close();
 	await browser.close();
+};
+
+const checkGPCBanner = async (browserType, config, url) => {
+	Log.info("Checking GPC banner is present: Start");
+	const optionHeaders = {
+		extraHTTPHeaders: {
+			"Sec-GPC": "1",
+		},
+	};
+	const { browser, context, page } = await makePlaywrightResources(
+		browserType,
+		config,
+		optionHeaders,
+		optionHeaders,
+	);
+
+	await loadPage(page, url);
+	await checkCMPIsOnPage(page);
+	await checkGPCBannerIsPresent(page);
+
+	Log.info("Checking GPC banner is present: Complete");
+
+	await page.close();
+	await context.close();
+	await browser.close();
+};
+
+const checkGPCBannerIsPresent = async (page) => {
+	Log.info("Check GPC Banner Is Present: Start");
+
+	const isGPCBannerPresent = (
+		await page
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator("body")
+			.allInnerTexts()
+	).includes("Global Privacy Control Signal Detected");
+
+	if (!isGPCBannerPresent) {
+		throw new Error("GPC Banner is not present when GPC header is set");
+	}
+
+	Log.info("Check GPC Banner Is Present: Complete");
 };
