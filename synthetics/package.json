@@ -13,7 +13,7 @@
 		"start": "node src/localRun.js"
 	},
 	"dependencies": {
-		"@aws-sdk/client-cloudwatch": "^3.879.0",
+		"@aws-sdk/client-cloudwatch": "^3.988.0",
 		"playwright-core": "^1.56.1"
 	},
 	"imports": {},
