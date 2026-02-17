@@ -8,7 +8,6 @@ import {
 	reloadPage,
 } from "../utils/browser-utils.js";
 import {
-	checkPrivacySettingsPanelIsOpen,
 	clickBannerButton,
 	clickSaveAndCloseSecondLayer,
 	openPrivacySettingsPanel,
@@ -17,11 +16,13 @@ import {
 	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkPrivacySettingsPanelIsOpen,
 	checkTopAdDidNotLoad,
 	checkTopAdHasLoaded,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
 } from "../utils/constants.js";
@@ -168,9 +169,20 @@ const secondLayerCheck = async ({ config, url, page }) => {
 	Log.info(`Second layer check: Start`);
 	await loadPage(page, url);
 	await checkCMPIsOnPage(page);
-	await openPrivacySettingsPanel(page);
-	await checkPrivacySettingsPanelIsOpen(config, page);
-	await clickSaveAndCloseSecondLayer(config, page);
+	await openPrivacySettingsPanel(
+		page,
+		ELEMENT_ID.TCFV2_FIRST_LAYER_MANAGE_COOKIES,
+	);
+	await checkPrivacySettingsPanelIsOpen(
+		page,
+		ELEMENT_ID.TCFV2_SECOND_LAYER_SRC,
+	);
+	await clickSaveAndCloseSecondLayer(
+		config,
+		page,
+		config.iframeDomainUrlSecondLayer,
+		ELEMENT_ID.TCFV2_SECOND_LAYER_SAVE_AND_EXIT,
+	);
 
 	await reloadPage(page);
 

@@ -5,14 +5,24 @@ import {
 	makeNewPage,
 	reloadPage,
 } from "../utils/browser-utils.js";
-import { clickBannerButton } from "../utils/cmp-actions.js";
+import {
+	clickBannerButton,
+	clickCancelSecondLayer,
+	clickSaveAndCloseSecondLayer,
+	clickToggleSecondLayer,
+	openPrivacySettingsPanel,
+} from "../utils/cmp-actions.js";
 import {
 	checkAds,
 	checkCMPIsNotVisible,
 	checkCMPIsOnPage,
+	checkPrivacySettingsPanelIsClosed,
+	checkPrivacySettingsPanelIsOpen,
+	checkTopAdDidNotLoad,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
+	ELEMENT_ID,
 	JURISDICTIONS,
 	STAGES,
 } from "../utils/constants.js";
@@ -38,6 +48,9 @@ export const mainCheck = async (browserType, config) => {
 		config,
 		url: appendQueryParams(config.articleUrl, config),
 	});
+
+	// check the privacy manager
+	await testPrivacyManager(browserType, config);
 
 	Log.info("Main check for AUS: Complete");
 };
@@ -92,4 +105,82 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 
 	await page.close();
 	await browser.close();
+};
+
+/**
+ * @summary The testPrivacyManagerPanel launches a new browser and checks
+ * that clicking 'Privacy settings' opens the privacy manager panel and
+ * closes the cookie banner
+ *
+ * @param {*} browserType
+ * @param {*} config
+ */
+export const testPrivacyManager = async (browserType, config) => {
+	Log.info("Test privacy manager: Start");
+	const browser = await makeNewBrowser(browserType, config.debugMode);
+	const context = await makeNewContext(browser);
+	const page = await makeNewPage(context);
+	const url =
+		config.stage === STAGES.LOCAL
+			? appendQueryParams(config.articleUrl, config)
+			: constructFrontsUrl(config.frontUrl, JURISDICTIONS.AUS, config);
+
+	// Clear cookies and storage to ensure the banner is shown
+	await context.clearCookies();
+	await loadPage(page, url);
+	await page.evaluate(() => {
+		localStorage.clear();
+		sessionStorage.clear();
+	});
+	await reloadPage(page);
+	await checkCMPIsOnPage(page);
+
+	// Open Privacy Manager: check that CMP is not visible and Privacy Manager is visible
+	await openPrivacySettingsPanel(
+		page,
+		ELEMENT_ID.AUS_FIRST_LAYER_PRIVACY_SETTINGS,
+	);
+	await checkCMPIsNotVisible(page);
+	await checkPrivacySettingsPanelIsOpen(
+		page,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+	);
+
+	// Cancel Privacy Manager: check that CMP is visible and Privacy Manager is not visible
+	await clickCancelSecondLayer(
+		page,
+		config.iframeDomainUrl,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+		ELEMENT_ID.AUS_SECOND_LAYER_CANCEL,
+	);
+	await checkCMPIsOnPage(page);
+	await checkPrivacySettingsPanelIsClosed(
+		page,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+	);
+
+	// Open Privacy Manager, change toggle and click Save and Close
+	await openPrivacySettingsPanel(
+		page,
+		ELEMENT_ID.AUS_FIRST_LAYER_PRIVACY_SETTINGS,
+	);
+	await clickToggleSecondLayer(
+		page,
+		config.iframeDomainUrl,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+		"off",
+	);
+	await clickSaveAndCloseSecondLayer(
+		config,
+		page,
+		ELEMENT_ID.AUS_SECOND_LAYER_SRC,
+		ELEMENT_ID.AUS_SECOND_LAYER_SAVE_AND_EXIT,
+	);
+	await reloadPage(page);
+	await checkCMPIsNotVisible(page);
+	await checkTopAdDidNotLoad(page);
+
+	await page.close();
+	await browser.close();
+	Log.info("Test privacy manager: Complete");
 };
