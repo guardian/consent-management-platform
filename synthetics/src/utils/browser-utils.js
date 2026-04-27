@@ -19,8 +19,8 @@ export const makeNewBrowser = async (browserType, debugMode) => {
  * @param browser - The browser instance.
  * @returns A promise that resolves to the newly created browser context.
  */
-export const makeNewContext = async (browser) => {
-	return await browser.newContext();
+export const makeNewContext = async (browser, options = {}) => {
+	return await browser.newContext(options);
 };
 
 /**
@@ -29,9 +29,28 @@ export const makeNewContext = async (browser) => {
  * @param {*} browser
  * @return {*}
  */
-export const makeNewPage = async (context) => {
-	const page = await context.newPage();
+export const makeNewPage = async (context, options = {}) => {
+	const page = await context.newPage(options);
 	return page;
+};
+
+/**
+ * @summary Create playwright resources: browser, context, page
+ *
+ * @param {*} browserType
+ * @param {*} config
+ * @return {*}
+ */
+export const makePlaywrightResources = async (
+	browserType,
+	config,
+	contextOptions = {},
+	pageOptions = {},
+) => {
+	const browser = await makeNewBrowser(browserType, config.debugMode);
+	const context = await makeNewContext(browser, contextOptions);
+	const page = await makeNewPage(context, pageOptions);
+	return { browser, context, page };
 };
 
 /**

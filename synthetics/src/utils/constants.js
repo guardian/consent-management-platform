@@ -38,6 +38,7 @@ export const ELEMENT_ID = {
 	TOP_ADVERT: ".ad-slot--top-above-nav .ad-slot__content",
 	CMP_CONTAINER: 'iframe[id*="sp_message_iframe"]',
 	CMP_ACTIONS_ROW: ".gu-actions-row",
+	CMP_CONTENT: ".gu-content",
 	TCFV2_SECOND_LAYER_SAVE_AND_EXIT: "button.sp_choice_type_SAVE_AND_EXIT",
 	TCFV2_SECOND_LAYER_HEADLINE: "p.gu-privacy-headline",
 	SECOND_LAYER_TITLE: "SP Consent Message",
