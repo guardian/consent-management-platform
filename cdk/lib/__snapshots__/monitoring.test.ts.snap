@@ -233,10 +233,10 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             "Ref": "internalEmailRecipientA4594AC9",
           },
         ],
-        "AlarmDescription": "This alarm is triggered if 4 out of 5 lambda executions fail in eu-west-1",
+        "AlarmDescription": "This alarm is triggered if 8 out of 10 lambda executions fail in eu-west-1",
         "AlarmName": "CMP Monitoring - PROD - eu-west-1",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "DatapointsToAlarm": 4,
+        "DatapointsToAlarm": 8,
         "Dimensions": [
           {
             "Name": "CanaryName",
@@ -245,7 +245,7 @@ exports[`The Monitoring stack matches the snapshot 1`] = `
             },
           },
         ],
-        "EvaluationPeriods": 5,
+        "EvaluationPeriods": 10,
         "MetricName": "Failed",
         "Namespace": "CloudWatchSynthetics",
         "OKActions": [

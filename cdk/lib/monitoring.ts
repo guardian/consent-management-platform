@@ -101,13 +101,13 @@ export class Monitoring extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			threshold: 1,
-			evaluationPeriods: 5, // This value is the number of periods to watch. Here, we're evaluating 5 executions of the lambda. The lambda is triggered every 2minutes so it's check over a 10 minute timeframe.
+			evaluationPeriods: 10, // This value is the number of periods to watch. Here, we're evaluating 10 executions of the lambda. The lambda is triggered every 2minutes so it's check over a 20 minute timeframe.
 			actionsEnabled: true,
-			datapointsToAlarm: 4, // This value is the number of failed data-points/executions that will trigger the alarm. so 4 out of 5
+			datapointsToAlarm: 8, // This value is the number of failed data-points/executions that will trigger the alarm. so 8 out of 10
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 			metric: errorMetric,
 			alarmName: `CMP Monitoring - ${stage} - ${region}`,
-			alarmDescription: `This alarm is triggered if 4 out of 5 lambda executions fail in ${region}`,
+			alarmDescription: `This alarm is triggered if 8 out of 10 lambda executions fail in ${region}`,
 		});
 
 		if (this.stage === 'PROD') {
