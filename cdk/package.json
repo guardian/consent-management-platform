@@ -14,18 +14,18 @@
 		"watch": "tsc -p tsconfig.build.json --watch"
 	},
 	"devDependencies": {
-		"@guardian/cdk": "63.6.1",
+		"@guardian/cdk": "63.6.2",
 		"@guardian/eslint-config": "^16.0.0",
 		"@guardian/prettier": "11.0.0",
 		"@guardian/tsconfig": "^2.0.0",
 		"@types/jest": "^30.0.0",
-		"@types/node": "26.0.0",
-		"aws-cdk": "2.1126.0",
-		"aws-cdk-lib": "2.259.0",
+		"@types/node": "26.1.0",
+		"aws-cdk": "2.1129.0",
+		"aws-cdk-lib": "2.261.0",
 		"constructs": "10.6.0",
 		"eslint": "^9.39.2",
 		"jest": "^30.4.2",
-		"prettier": "^3.8.4",
+		"prettier": "^3.9.4",
 		"source-map-support": "^0.5.21",
 		"ts-jest": "^29.4.11",
 		"ts-node": "^10.9.2",
@@ -53,6 +53,6 @@
 	"packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
 	"dependencies": {
 		"eslint-plugin-import": "2.32.0",
-		"storybook": "^10.4.4"
+		"storybook": "^10.4.6"
 	}
 }
