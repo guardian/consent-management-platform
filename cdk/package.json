@@ -15,21 +15,21 @@
 	},
 	"devDependencies": {
 		"@guardian/cdk": "64.1.0",
-		"@guardian/eslint-config": "^16.0.0",
-		"@guardian/prettier": "11.0.0",
-		"@guardian/tsconfig": "^2.0.0",
-		"@types/jest": "^30.0.0",
-		"@types/node": "26.1.1",
+		"@guardian/eslint-config": "catalog:",
+		"@guardian/prettier": "catalog:",
+		"@guardian/tsconfig": "catalog:",
+		"@types/jest": "catalog:",
+		"@types/node": "catalog:",
 		"aws-cdk": "2.1132.1",
 		"aws-cdk-lib": "2.262.0",
 		"constructs": "10.7.1",
-		"eslint": "^9.39.2",
-		"jest": "^30.4.2",
-		"prettier": "^3.9.6",
+		"eslint": "catalog:",
+		"jest": "catalog:",
+		"prettier": "catalog:",
 		"source-map-support": "^0.5.21",
-		"ts-jest": "^29.4.12",
-		"ts-node": "^10.9.2",
-		"typescript": "5.9.3"
+		"ts-jest": "catalog:",
+		"ts-node": "catalog:",
+		"typescript": "catalog:"
 	},
 	"pnpm": {
 		"overrides": {
