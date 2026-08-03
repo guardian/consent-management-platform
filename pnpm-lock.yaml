@@ -40,6 +40,9 @@ catalogs:
       specifier: 5.9.3
       version: 5.9.3
 
+overrides:
+  brace-expansion: 5.0.8
+
 importers:
 
   .: {}
@@ -55,7 +58,7 @@ importers:
     devDependencies:
       '@guardian/cdk':
         specifier: 64.1.0
-        version: 64.1.0(aws-cdk-lib@2.262.0(constructs@10.7.1))(aws-cdk@2.1132.1)(constructs@10.7.1)
+        version: 64.1.0(aws-cdk-lib@2.246.0(constructs@10.7.1))(aws-cdk@2.1132.1)(constructs@10.7.1)
       '@guardian/eslint-config':
         specifier: 'catalog:'
         version: 16.0.0(@typescript-eslint/utils@8.59.3(eslint@9.39.5)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.59.3(eslint@9.39.5)(typescript@5.9.3))(eslint@9.39.5))(eslint@9.39.5)(typescript@5.9.3)
@@ -75,8 +78,8 @@ importers:
         specifier: 2.1132.1
         version: 2.1132.1
       aws-cdk-lib:
-        specifier: 2.262.0
-        version: 2.262.0(constructs@10.7.1)
+        specifier: 2.246.0
+        version: 2.246.0(constructs@10.7.1)
       constructs:
         specifier: 10.7.1
         version: 10.7.1
@@ -133,8 +136,8 @@ importers:
         specifier: 2.1027.0
         version: 2.1027.0
       aws-cdk-lib:
-        specifier: 2.213.0
-        version: 2.213.0(constructs@10.7.1)
+        specifier: 2.246.0
+        version: 2.246.0(constructs@10.7.1)
       commander:
         specifier: ^13.1.0
         version: 13.1.0
@@ -168,24 +171,14 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@aws-cdk/asset-awscli-v1@2.2.242':
-    resolution: {integrity: sha512-4c1bAy2ISzcdKXYS1k4HYZsNrgiwbiDzj36ybwFVxEWZXVAP0dimQTCaB9fxu7sWzEjw3d+eaw6Fon+QTfTIpQ==}
-
-  '@aws-cdk/asset-awscli-v1@2.2.282':
-    resolution: {integrity: sha512-7hKMi5tTxDcKGIMIOq14PnY0GBcugW33Uh/2YHDZiEwSxLeFOCYBwhR+BFXONb/EJeVI3RETFgailNZbkcKF6g==}
+  '@aws-cdk/asset-awscli-v1@2.2.263':
+    resolution: {integrity: sha512-X9JvcJhYcb7PHs8R7m4zMablO5C9PGb/hYfLnxds9h/rKJu6l7MiXE/SabCibuehxPnuO/vk+sVVJiUWrccarQ==}
 
   '@aws-cdk/asset-node-proxy-agent-v6@2.1.2':
     resolution: {integrity: sha512-pDiuqH+qY3zM9lhhLjbKJ1tnKOHzQ2V4Wr/3qsxyKeKAkuPMI/BVGvZG1PbrikUw949cGVTfVEt4ETKKYnrj0Q==}
 
-  '@aws-cdk/cloud-assembly-schema@48.20.0':
-    resolution: {integrity: sha512-+eeiav9LY4wbF/EFuCt/vfvi/Zoxo8bf94PW5clbMraChEliq83w4TbRVy0jB9jE0v1ooFTtIjSQkowSPkfISg==}
-    engines: {node: '>= 18.0.0'}
-    bundledDependencies:
-      - jsonschema
-      - semver
-
-  '@aws-cdk/cloud-assembly-schema@54.14.0':
-    resolution: {integrity: sha512-JCZCzgp3SuXQVljaKqXnttHzcezEHt9Ag/YipK0XwUFD+Iz2T4jY7gUc3pA25Uq6pzY2n9DvO/nEU++dPXW4Rw==}
+  '@aws-cdk/cloud-assembly-schema@53.28.0':
+    resolution: {integrity: sha512-pZS+9bLGv2tCqcgxfA0WD3XjcqT3yE4ICvKeJEicw6aTdCxBl8FQ/AUsorY/6f2JrMS3kUQgvhXxA30MWcji0A==}
     engines: {node: '>= 18.0.0'}
     bundledDependencies:
       - jsonschema
@@ -1687,31 +1680,12 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  aws-cdk-lib@2.213.0:
-    resolution: {integrity: sha512-U6/1RnVu9R7bpb9gJoEl0tie4+f7/5MIWkolWhsoaaEjQ3XwKicaLxzGPZaU4hShDOG+pp6+1Lp9pofOdV0t8A==}
-    engines: {node: '>= 18.0.0'}
-    peerDependencies:
-      constructs: ^10.0.0
-    bundledDependencies:
-      - '@balena/dockerignore'
-      - case
-      - fs-extra
-      - ignore
-      - jsonschema
-      - minimatch
-      - punycode
-      - semver
-      - table
-      - yaml
-      - mime-types
-
-  aws-cdk-lib@2.262.0:
-    resolution: {integrity: sha512-6zRVoWRd8kQs9ZZ9xhERSm36W8uWS2vW3/g9Zx0xlhvRRiUwTc80bzfJkohKGdT/5AOW+wy6fSDvohavG94pcA==}
+  aws-cdk-lib@2.246.0:
+    resolution: {integrity: sha512-7OtF95mss9dWohopCNQKAlNFrMJwgOIvNTNgoOWWcKhULBf6UxKCaf6ATlnuysIWRGf2DHgcval/4+yySOKRBw==}
     engines: {node: '>= 20.0.0'}
     peerDependencies:
       constructs: ^10.5.0
     bundledDependencies:
-      - '@aws/cloudformation-validate'
       - '@balena/dockerignore'
       - '@aws-cdk/cloud-assembly-api'
       - case
@@ -1721,6 +1695,7 @@ packages:
       - minimatch
       - punycode
       - semver
+      - table
       - yaml
       - mime-types
 
@@ -1767,9 +1742,6 @@ packages:
     peerDependencies:
       '@babel/core': ^7.11.0 || ^8.0.0-beta.1
 
-  balanced-match@1.0.2:
-    resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
-
   balanced-match@4.0.4:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
@@ -1781,12 +1753,6 @@ packages:
 
   bowser@2.14.1:
     resolution: {integrity: sha512-tzPjzCxygAKWFOJP011oxFHs57HzIhOEracIgAePE4pqB3LikALKnSzUyU4MGs9/iCEUuHlAJTjTc5M+u7YEGg==}
-
-  brace-expansion@1.1.17:
-    resolution: {integrity: sha512-w+aeW/mkgM4PyRMOJCgi3fOrTm5Q8QY1OSfn2TO2iuDj3ezIHqejmuxbjfPrqUkgqRew1iqkyAn0tr0ZwHD9+w==}
-
-  brace-expansion@2.1.3:
-    resolution: {integrity: sha512-DRdx5neNsG/QXbniLFWi2YmC/68oeOOmKz6zOjVk6ZS1ZLXgLIKqVEc6hWsmkjBbgii0SwaBTcJ5XKj5gzY/4A==}
 
   brace-expansion@5.0.8:
     resolution: {integrity: sha512-JZyDyq3D4AUifKTPOB7DELf6XsB3WdPuNxCtob1vFXPsSXhdAiHBWJ/tJ8HAc9aH84BK+5JFZLNkJKx3G9kzQg==}
@@ -1897,9 +1863,6 @@ packages:
   comment-parser@1.4.7:
     resolution: {integrity: sha512-0h+uSNtQGW3D98eQt3jJ8L06Fves8hncB4V/PKdw/Qb8Hnk19VaKuTr55UNRYiSoVa7WwrFls+rh3ux9agmkeQ==}
     engines: {node: '>= 12.0.0'}
-
-  concat-map@0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   constructs@10.7.1:
     resolution: {integrity: sha512-ulK25Sg2Nv1jW+A9VeV7fu9GFN9KdVTNWdXMoapNRwqkQzSdToro/Tttk3Ak5BGI80NRA/d2nSzKnoZ27LizLw==}
@@ -3754,15 +3717,11 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@aws-cdk/asset-awscli-v1@2.2.242': {}
-
-  '@aws-cdk/asset-awscli-v1@2.2.282': {}
+  '@aws-cdk/asset-awscli-v1@2.2.263': {}
 
   '@aws-cdk/asset-node-proxy-agent-v6@2.1.2': {}
 
-  '@aws-cdk/cloud-assembly-schema@48.20.0': {}
-
-  '@aws-cdk/cloud-assembly-schema@54.14.0': {}
+  '@aws-cdk/cloud-assembly-schema@53.28.0': {}
 
   '@aws-sdk/client-cloudwatch@3.1097.0':
     dependencies:
@@ -4360,13 +4319,13 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@guardian/cdk@64.1.0(aws-cdk-lib@2.262.0(constructs@10.7.1))(aws-cdk@2.1132.1)(constructs@10.7.1)':
+  '@guardian/cdk@64.1.0(aws-cdk-lib@2.246.0(constructs@10.7.1))(aws-cdk@2.1132.1)(constructs@10.7.1)':
     dependencies:
       '@aws-sdk/client-ec2': 3.1097.0
       '@aws-sdk/client-ssm': 3.1097.0
       '@aws-sdk/credential-providers': 3.1097.0
       aws-cdk: 2.1132.1
-      aws-cdk-lib: 2.262.0(constructs@10.7.1)
+      aws-cdk-lib: 2.246.0(constructs@10.7.1)
       chalk: 4.1.2
       codemaker: 1.139.0
       constructs: 10.7.1
@@ -5500,18 +5459,11 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  aws-cdk-lib@2.213.0(constructs@10.7.1):
+  aws-cdk-lib@2.246.0(constructs@10.7.1):
     dependencies:
-      '@aws-cdk/asset-awscli-v1': 2.2.242
+      '@aws-cdk/asset-awscli-v1': 2.2.263
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.2
-      '@aws-cdk/cloud-assembly-schema': 48.20.0
-      constructs: 10.7.1
-
-  aws-cdk-lib@2.262.0(constructs@10.7.1):
-    dependencies:
-      '@aws-cdk/asset-awscli-v1': 2.2.282
-      '@aws-cdk/asset-node-proxy-agent-v6': 2.1.2
-      '@aws-cdk/cloud-assembly-schema': 54.14.0
+      '@aws-cdk/cloud-assembly-schema': 53.28.0
       constructs: 10.7.1
 
   aws-cdk@2.1027.0:
@@ -5576,22 +5528,11 @@ snapshots:
       babel-plugin-jest-hoist: 30.4.0
       babel-preset-current-node-syntax: 1.2.0(@babel/core@7.29.7)
 
-  balanced-match@1.0.2: {}
-
   balanced-match@4.0.4: {}
 
   baseline-browser-mapping@2.11.6: {}
 
   bowser@2.14.1: {}
-
-  brace-expansion@1.1.17:
-    dependencies:
-      balanced-match: 1.0.2
-      concat-map: 0.0.1
-
-  brace-expansion@2.1.3:
-    dependencies:
-      balanced-match: 1.0.2
 
   brace-expansion@5.0.8:
     dependencies:
@@ -5694,8 +5635,6 @@ snapshots:
   commander@13.1.0: {}
 
   comment-parser@1.4.7: {}
-
-  concat-map@0.0.1: {}
 
   constructs@10.7.1: {}
 
@@ -7211,11 +7150,11 @@ snapshots:
 
   minimatch@3.1.5:
     dependencies:
-      brace-expansion: 1.1.17
+      brace-expansion: 5.0.8
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 2.1.3
+      brace-expansion: 5.0.8
 
   minimist@1.2.8: {}
 

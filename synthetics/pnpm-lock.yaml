@@ -42,7 +42,7 @@ importers:
         version: 2.1027.0
       aws-cdk-lib:
         specifier: 2.213.0
-        version: 2.213.0(constructs@10.4.2)
+        version: 2.246.0(constructs@10.4.2)
       commander:
         specifier: ^13.1.0
         version: 13.1.0
@@ -1103,7 +1103,7 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  aws-cdk-lib@2.213.0:
+  aws-cdk-lib@2.246.0:
     resolution: {integrity: sha512-U6/1RnVu9R7bpb9gJoEl0tie4+f7/5MIWkolWhsoaaEjQ3XwKicaLxzGPZaU4hShDOG+pp6+1Lp9pofOdV0t8A==}
     engines: {node: '>= 18.0.0'}
     peerDependencies:
@@ -4112,7 +4112,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  aws-cdk-lib@2.213.0(constructs@10.4.2):
+  aws-cdk-lib@2.246.0(constructs@10.4.2):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.242
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.0
