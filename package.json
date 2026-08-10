@@ -2,6 +2,16 @@
 	"name": "consent-management-platform",
 	"private": true,
 	"packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
+	"pnpm": {
+		"overrides": {
+			"minimatch@^3.0.0": "3.1.5",
+			"minimatch@^9.0.0": "9.0.9",
+			"minimatch@^10.0.0": "10.2.6",
+			"brace-expansion@^1.0.0": "1.1.18",
+			"brace-expansion@^2.0.0": "2.1.4",
+			"brace-expansion@^5.0.0": "5.0.9"
+		}
+	},
 	"scripts": {
 		"build": "pnpm -r run build",
 		"lint": "pnpm -r run lint",
