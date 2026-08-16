@@ -13,4 +13,4 @@ catalog:
     ts-node: ^10.9.2
     jest: ^30.4.2
     "@types/jest": ^30.0.0
-    "@types/node": 26.1.1
+    "@types/node": 26.2.0
