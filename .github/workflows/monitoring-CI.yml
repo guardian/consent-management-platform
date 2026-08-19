@@ -25,9 +25,7 @@ jobs:
         with:
           node-version-file: "./.nvmrc"
           cache: pnpm
-          cache-dependency-path: |
-            cdk/pnpm-lock.yaml
-            synthetics/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Set up synthetics pnpm
         uses: pnpm/action-setup@v6
