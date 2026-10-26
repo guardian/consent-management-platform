@@ -11,6 +11,8 @@ export class ConfigHelper {
 				return JURISDICTIONS.TCFV2_ROW;
 			case AWS_REGIONS.US_WEST_1:
 				return JURISDICTIONS.USNAT;
+			case AWS_REGIONS.US_EAST_1:
+				return JURISDICTIONS.USNAT;
 			case AWS_REGIONS.AP_SOUTHEAST_2:
 				return JURISDICTIONS.AUS;
 			default:

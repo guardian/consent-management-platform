@@ -89,6 +89,8 @@ jobs:
               - cdk/dist/nodejs.zip
             cmp-monitoring-canary-ca-central-1:
               - cdk/dist/nodejs.zip
+            cmp-monitoring-canary-us-east-1:
+              - cdk/dist/nodejs.zip
             cloud-formation:
               - cdk/cdk.out/CmpMonitoringStackEuWest1Code.template.json
               - cdk/cdk.out/CmpMonitoringStackEuWest1Prod.template.json
@@ -100,3 +102,5 @@ jobs:
               - cdk/cdk.out/CmpMonitoringStackApSoutheast2Prod.template.json
               - cdk/cdk.out/CmpMonitoringStackCaCentral1Code.template.json
               - cdk/cdk.out/CmpMonitoringStackCaCentral1Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsEast1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsEast1Prod.template.json
