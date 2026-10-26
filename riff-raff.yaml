@@ -66,6 +66,27 @@ deployments:
             cacheControl: private
             prefixStack: false
         contentDirectory: cmp-monitoring-canary-us-west-1
+    cmp-monitoring-cdk-us-east-1:
+        regions: [us-east-1]
+        type: cloud-formation
+        contentDirectory: "cloud-formation"
+        parameters:
+            prependStackToCloudFormationStackName: false
+            cloudFormationStackName: cmp-monitoring
+            templateStagePaths:
+                CODE: CmpMonitoringStackUsEast1Code.template.json
+                PROD: CmpMonitoringStackUsEast1Prod.template.json
+            cloudFormationStackByTags: false
+    cmp-monitoring-canary-us-east-1:
+        type: aws-s3
+        regions: [us-east-1]
+        parameters:
+            bucketSsmKey: /account/services/artifact.bucket
+            bucketSsmLookup: true
+            publicReadAcl: false
+            cacheControl: private
+            prefixStack: false
+        contentDirectory: cmp-monitoring-canary-us-east-1
     cmp-monitoring-cdk-ap-southeast-2:
         regions: [ap-southeast-2]
         type: cloud-formation

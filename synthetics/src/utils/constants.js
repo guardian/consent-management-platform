@@ -15,6 +15,7 @@ export const STAGES = {
 export const AWS_REGIONS = {
 	EU_WEST_1: "eu-west-1", // Ireland
 	EU_WEST_2: "eu-west-2", // London
+	US_EAST_1: "us-east-1", // N. Virginia
 	US_WEST_1: "us-west-1", // N. California
 	CA_CENTRAL_1: "ca-central-1", // Canada
 	AP_SOUTHEAST_2: "ap-southeast-2", // Sydney
