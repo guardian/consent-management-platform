@@ -2,7 +2,8 @@ import { mainCheck as mainCheckAus } from "../../jurisdiction-checks/aus.js";
 import { mainCheck as mainCheckTCFV2ConsentOrPayEU } from "../../jurisdiction-checks/tcfv2-consent-or-pay-eu.js";
 import { mainCheck as mainCheckTCFV2ConsentOrPayGB } from "../../jurisdiction-checks/tcfv2-consent-or-pay-gb.js";
 import { mainCheck as mainCheckTCFV2Row } from "../../jurisdiction-checks/tcfv2-row.js";
-import { mainCheck as mainCheckUS } from "../../jurisdiction-checks/us.js";
+import { mainCheck as mainCheckUSCIPA } from "../../jurisdiction-checks/us_cipa.js";
+import { mainCheck as mainCheckUSNoCIPA } from "../../jurisdiction-checks/us_no_cipa.js";
 import { JURISDICTIONS, STAGES } from "../constants.js";
 
 export class ConfigBuilder {
@@ -95,8 +96,10 @@ export class ConfigBuilder {
 		switch (jurisdiction) {
 			case JURISDICTIONS.TCFV2_ROW:
 				return mainCheckTCFV2Row;
-			case JURISDICTIONS.USNAT:
-				return mainCheckUS;
+			case JURISDICTIONS.USNAT_CIPA:
+				return mainCheckUSCIPA;
+			case JURISDICTIONS.USNAT_NO_CIPA:
+				return mainCheckUSNoCIPA;
 			case JURISDICTIONS.AUS:
 				return mainCheckAus;
 			case JURISDICTIONS.TCFV2CORP_GB:

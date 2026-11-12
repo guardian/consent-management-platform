@@ -1,4 +1,8 @@
-import { reloadPage } from "./browser-utils.js";
+import {
+	loadPage,
+	makePlaywrightResources,
+	reloadPage,
+} from "./browser-utils.js";
 import { CURRENCY_SYMBOLS, ELEMENT_ID } from "./constants.js";
 import { Log } from "./log.js";
 
@@ -15,6 +19,48 @@ export const recordVersionOfCMP = async (page) => {
 	};
 
 	Log.info(await page.evaluate(functionToGetVersion));
+};
+
+export const checkGPCBanner = async (browserType, config, url) => {
+	Log.info("Checking GPC banner is present: Start");
+	const optionHeaders = {
+		extraHTTPHeaders: {
+			"Sec-GPC": "1",
+		},
+	};
+	const { browser, context, page } = await makePlaywrightResources(
+		browserType,
+		config,
+		optionHeaders,
+		optionHeaders,
+	);
+
+	await loadPage(page, url);
+	await checkCMPIsOnPage(page);
+	await checkGPCBannerIsPresent(page);
+
+	Log.info("Checking GPC banner is present: Complete");
+
+	await page.close();
+	await context.close();
+	await browser.close();
+};
+
+const checkGPCBannerIsPresent = async (page) => {
+	Log.info("Check GPC Banner Is Present: Start");
+
+	const isGPCBannerPresent = (
+		await page
+			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
+			.locator(ELEMENT_ID.CMP_CONTENT)
+			.allInnerTexts()
+	).some((text) => text.includes("Global Privacy Control Signal Detected"));
+
+	if (!isGPCBannerPresent) {
+		throw new Error("GPC Banner is not present when GPC header is set");
+	}
+
+	Log.info("Check GPC Banner Is Present: Complete");
 };
 
 /**

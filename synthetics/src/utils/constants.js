@@ -2,7 +2,8 @@ export const JURISDICTIONS = {
 	TCFV2_ROW: "tcfv2_row",
 	TCFV2CORP_GB: "tcfv2_corp_gb",
 	TCFV2CORP_EU: "tcfv2_corp_eu",
-	USNAT: "usnat",
+	USNAT_CIPA: "usnat_cipa",
+	USNAT_NO_CIPA: "usnat_no_cipa",
 	AUS: "aus",
 };
 
@@ -16,6 +17,7 @@ export const AWS_REGIONS = {
 	EU_WEST_1: "eu-west-1", // Ireland
 	EU_WEST_2: "eu-west-2", // London
 	US_WEST_1: "us-west-1", // N. California
+	US_EAST_1: "us-east-1", // Ohio
 	CA_CENTRAL_1: "ca-central-1", // Canada
 	AP_SOUTHEAST_2: "ap-southeast-2", // Sydney
 };

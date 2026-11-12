@@ -85,6 +85,8 @@ jobs:
               - cdk/dist/nodejs.zip
             cmp-monitoring-canary-us-west-1:
               - cdk/dist/nodejs.zip
+            cmp-monitoring-canary-us-east-1:
+              - cdk/dist/nodejs.zip
             cmp-monitoring-canary-ap-southeast-2:
               - cdk/dist/nodejs.zip
             cmp-monitoring-canary-ca-central-1:
@@ -96,6 +98,8 @@ jobs:
               - cdk/cdk.out/CmpMonitoringStackEuWest2Prod.template.json
               - cdk/cdk.out/CmpMonitoringStackUsWest1Code.template.json
               - cdk/cdk.out/CmpMonitoringStackUsWest1Prod.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsEast1Code.template.json
+              - cdk/cdk.out/CmpMonitoringStackUsEast1Prod.template.json
               - cdk/cdk.out/CmpMonitoringStackApSoutheast2Code.template.json
               - cdk/cdk.out/CmpMonitoringStackApSoutheast2Prod.template.json
               - cdk/cdk.out/CmpMonitoringStackCaCentral1Code.template.json

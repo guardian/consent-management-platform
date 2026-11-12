@@ -10,7 +10,9 @@ export class ConfigHelper {
 			case AWS_REGIONS.CA_CENTRAL_1:
 				return JURISDICTIONS.TCFV2_ROW;
 			case AWS_REGIONS.US_WEST_1:
-				return JURISDICTIONS.USNAT;
+				return JURISDICTIONS.USNAT_CIPA;
+			case AWS_REGIONS.US_EAST_1:
+				return JURISDICTIONS.USNAT_NO_CIPA;
 			case AWS_REGIONS.AP_SOUTHEAST_2:
 				return JURISDICTIONS.AUS;
 			default:
@@ -26,8 +28,10 @@ export class ConfigHelper {
 				return AWS_REGIONS.EU_WEST_1;
 			case JURISDICTIONS.TCFV2CORP_GB:
 				return AWS_REGIONS.EU_WEST_2;
-			case JURISDICTIONS.USNAT:
+			case JURISDICTIONS.USNAT_CIPA:
 				return AWS_REGIONS.US_WEST_1;
+			case JURISDICTIONS.USNAT_NO_CIPA:
+				return AWS_REGIONS.US_EAST_1;
 			case JURISDICTIONS.AUS:
 				return AWS_REGIONS.AP_SOUTHEAST_2;
 			default:
