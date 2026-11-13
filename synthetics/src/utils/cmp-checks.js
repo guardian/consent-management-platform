@@ -54,7 +54,7 @@ const checkGPCBannerIsPresent = async (page) => {
 			.frameLocator(ELEMENT_ID.CMP_CONTAINER)
 			.locator(ELEMENT_ID.CMP_CONTENT)
 			.allInnerTexts()
-	).some((text) => text.includes("Global Privacy Control Signal Detected"));
+	).some((text) => text.includes("Global Privacy Control signal detected"));
 
 	if (!isGPCBannerPresent) {
 		throw new Error("GPC Banner is not present when GPC header is set");
