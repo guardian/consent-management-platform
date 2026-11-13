@@ -95,11 +95,7 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 
 	await checkCMPIsOnPage(page);
 
-	await clickBannerButton(
-		page,
-		"Do not sell or share my personal information",
-		BannerInteractions.DO_NOT_SELL,
-	);
+	await clickBannerButton(page, "Continue", BannerInteractions.CONTINUE);
 
 	if (nextUrl) {
 		await checkSubsequentPage(context, nextUrl);
