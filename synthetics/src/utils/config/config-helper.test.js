@@ -21,9 +21,9 @@ describe("Config Helper", () => {
 			);
 		});
 
-		it("should return USNAT for US_WEST_1", () => {
+		it("should return USNAT_CIPA for US_WEST_1", () => {
 			expect(ConfigHelper.getJurisdiction(AWS_REGIONS.US_WEST_1)).toBe(
-				JURISDICTIONS.USNAT,
+				JURISDICTIONS.USNAT_CIPA,
 			);
 		});
 
@@ -59,9 +59,15 @@ describe("Config Helper", () => {
 			);
 		});
 
-		it("should return US_WEST_1 for USNAT", () => {
-			expect(ConfigHelper.getRegion(JURISDICTIONS.USNAT)).toBe(
+		it("should return US_WEST_1 for USNAT_CIPA", () => {
+			expect(ConfigHelper.getRegion(JURISDICTIONS.USNAT_CIPA)).toBe(
 				AWS_REGIONS.US_WEST_1,
+			);
+		});
+
+		it("should return US_EAST_1 for USNAT_NO_CIPA", () => {
+			expect(ConfigHelper.getRegion(JURISDICTIONS.USNAT_NO_CIPA)).toBe(
+				AWS_REGIONS.US_EAST_1,
 			);
 		});
 

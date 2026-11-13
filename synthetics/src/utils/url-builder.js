@@ -32,7 +32,10 @@ const appendRegionToUrl = (url, jurisdiction) => {
 		case JURISDICTIONS.AUS:
 			region = "au";
 			break;
-		case JURISDICTIONS.USNAT:
+		case JURISDICTIONS.USNAT_CIPA:
+			region = "us";
+			break;
+		case JURISDICTIONS.USNAT_NO_CIPA:
 			region = "us";
 			break;
 		case JURISDICTIONS.TCFV2_ROW:

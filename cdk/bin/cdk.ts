@@ -9,6 +9,7 @@ const regionNames = [
 	'eu-west-1',
 	'eu-west-2',
 	'us-west-1',
+	'us-east-1',
 	'ap-southeast-2',
 	'ca-central-1',
 ] as const;

@@ -17,12 +17,12 @@ This directory contains the logic to monitor the CMP banner in different jurisdi
 ```
 
 where STAGE = local, code or prod
-and JURISDICTION = aus, usnat, tcfv2, tcfv2_corp_gb, tcfv2_corp_eu
+and JURISDICTION = aus, usnat_cipa, usnat_no_cipa, tcfv2, tcfv2_corp_gb, tcfv2_corp_eu
 
 e.g.
 
 ```sh
-    pnpm start --env=code --jurisdiction=usnat
+    pnpm start --env=code --jurisdiction=usnat_cipa
 ```
 
 This CLI tool falls back to an interactive tool if any of the parameters passed are incorrect or if the user runs
