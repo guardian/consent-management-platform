@@ -47,6 +47,7 @@ export const ELEMENT_ID = {
 	TCFV2_SECOND_LAYER_SRC: "message_id=106842",
 	AUS_SECOND_LAYER_SRC: "message_id=1349649",
 	CCPA_DO_NOT_SELL_BUTTON: "div.message-component > button.sp_choice_type_13",
+	US_CONFIRM: "div.message-component > button.sp_choice_type_11",
 	TCFV2_SECOND_LAYER_REJECT_ALL: "button.sp_choice_type_REJECT_ALL",
 	TCFV2_SECOND_LAYER_ACCEPT_ALL: "button.sp_choice_type_ACCEPT_ALL",
 	AUS_SECOND_LAYER_SAVE_AND_EXIT: "button.sp_choice_type_SE",
@@ -60,4 +61,5 @@ export const BannerInteractions = {
 	REJECT_ALL: "reject_all",
 	MANAGE_COOKIES: "manage_cookies",
 	DO_NOT_SELL: "do_not_sell",
+	CONTINUE: "continue",
 };
