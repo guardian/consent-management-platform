@@ -11,6 +11,7 @@ import {
 	checkCMPIsOnPage,
 	checkGPCBanner,
 	checkGPCRespected,
+	checkTopAdDidNotLoad,
 } from "../utils/cmp-checks.js";
 import {
 	BannerInteractions,
@@ -91,11 +92,13 @@ const checkPages = async ({ browserType, config, url, nextUrl }) => {
 
 	await loadPage(page, url);
 
-	await checkAds(page);
-
 	await checkCMPIsOnPage(page);
 
+	await checkTopAdDidNotLoad(page);
+
 	await clickBannerButton(page, "Continue", BannerInteractions.CONTINUE);
+
+	await checkAds(page);
 
 	if (nextUrl) {
 		await checkSubsequentPage(context, nextUrl);
